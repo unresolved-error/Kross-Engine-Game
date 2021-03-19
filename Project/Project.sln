@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kross-Engine", "Kross-Engine\Kross-Engine.vcxproj", "{592AE78A-9233-480B-A2B8-E9141E584878}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Platformer-Game", "Platformer\Platformer.vcxproj", "{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{592AE78A-9233-480B-A2B8-E9141E584878}.Debug|x64.ActiveCfg = Debug|x64
+		{592AE78A-9233-480B-A2B8-E9141E584878}.Debug|x64.Build.0 = Debug|x64
+		{592AE78A-9233-480B-A2B8-E9141E584878}.Debug|x86.ActiveCfg = Debug|x64
+		{592AE78A-9233-480B-A2B8-E9141E584878}.Release|x64.ActiveCfg = Release|x64
+		{592AE78A-9233-480B-A2B8-E9141E584878}.Release|x64.Build.0 = Release|x64
+		{592AE78A-9233-480B-A2B8-E9141E584878}.Release|x86.ActiveCfg = Release|x64
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Debug|x64.ActiveCfg = Debug|x64
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Debug|x64.Build.0 = Debug|x64
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Debug|x86.ActiveCfg = Debug|Win32
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Debug|x86.Build.0 = Debug|Win32
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Release|x64.ActiveCfg = Release|x64
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Release|x64.Build.0 = Release|x64
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Release|x86.ActiveCfg = Release|Win32
+		{48AE8E7D-5CE2-42D9-A3FC-4F6425B18D80}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {778EB64F-7B51-48E4-B652-A0E1209564C5}
+	EndGlobalSection
+EndGlobal
