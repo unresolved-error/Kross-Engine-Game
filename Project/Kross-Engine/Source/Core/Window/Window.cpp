@@ -81,12 +81,44 @@ namespace Kross
 		int Width, Height;
 		glfwGetWindowSize(p_GLFWWindow, &Width, &Height);
 
+		/* If the current width or height doesn't match the set width and height */
 		if (Width != GetWidth() || Height != GetHeight())
 		{
 			/* Set Everything to the new Width and Height */
 			glViewport(0, 0, Width, Height);
 			SetWidth(Width);
 			SetHeight(Height);
+		}
+
+		/* Retrieves the Primary Monitor */
+		GLFWmonitor* mainMonitor = glfwGetPrimaryMonitor();
+
+		/* Grab the Monitor Size */
+		glfwGetMonitorWorkarea(mainMonitor, NULL, NULL, &Width, &Height);
+
+		/* If we haven't changed the Window mode */
+		if (p_Properties->GetChangedWindowModeStatus() == false)
+		{
+			/* Change the Window Mode based on the fullscreen flag */
+			switch (GetFullscreen())
+			{
+				case 0:
+				{
+					/* Set the window to the middle of the screen */
+					glfwSetWindowMonitor(p_GLFWWindow, NULL, (int)(((float)GetWidth() / (float)Width) * GetWidth()) - (int)(GetWidth() / 2), (int)(((float)GetHeight() / (float)Height) * GetHeight()) - (int)(GetHeight() / 2), GetWidth(), GetHeight(), GLFW_DONT_CARE);
+					break;
+				}
+
+				case 1:
+				{
+					/* Set the window to the top left of the screen */
+					glfwSetWindowMonitor(p_GLFWWindow, mainMonitor, 0, 0, Width, Height, GLFW_DONT_CARE);
+					break;
+				}
+			}
+			
+			/* Initiate that we have changed the window mode */
+			p_Properties->SetChangedWindowModeStatusDefault();
 		}
 
 		/* Poll the Events */

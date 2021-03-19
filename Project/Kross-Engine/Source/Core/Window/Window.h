@@ -40,6 +40,9 @@ namespace Kross
 		// Sets the VSync.
 		void SetVSync(int vSync) { p_Properties->SetVSync(vSync); };
 
+		// Set the window to fullscreen borderless.
+		void SetFullscreen(int fullscreen) { p_Properties->SetFullscreen(fullscreen); };
+
 		// The Initialise of the window. For creating OpenGL Contexts.
 		void OnInitialise();
 
@@ -68,6 +71,9 @@ namespace Kross
 
 		// Gets the VSync of the Window.
 		const int GetVSync() const { return p_Properties->GetVSync(); };
+
+		// Gets the Fullscreen Mode of the Window.
+		const int GetFullscreen() const { return p_Properties->GetFullscreen(); };
 
 		// Gets the Aspect Ratio of the Window.
 		float GetApsectRatio() const { return (float)p_Properties->GetWidth() / (float)p_Properties->GetHeight(); };
