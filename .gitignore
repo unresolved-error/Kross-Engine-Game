@@ -23,6 +23,7 @@ mono_crash.*
 [Bb]inaries-[Ii]ntermediate/
 
 [Vv]endor/
+[Ww]orking/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
