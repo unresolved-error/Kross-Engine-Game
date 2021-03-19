@@ -2,6 +2,8 @@
 
 #include "Core.h"
 
+#include "Window/Window.h"
+
 namespace Kross
 {
 	class KROSS_API Application
@@ -11,6 +13,7 @@ namespace Kross
 		~Application();
 
 		static Application* s_Instance;
+		static Window* s_Window;
 
 	protected:
 

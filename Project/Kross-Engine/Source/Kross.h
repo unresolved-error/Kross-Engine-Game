@@ -8,4 +8,5 @@
 
 #include "Core/Application.h"
 
-//#include "Core/Window/Window.h"
+#include "Core/Window/Window.h"
+#include "Core/Window/WindowProperties.h"

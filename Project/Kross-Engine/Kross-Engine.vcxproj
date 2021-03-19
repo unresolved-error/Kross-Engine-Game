@@ -44,13 +44,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)binaries\$(Platform)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Binaries-intermediate\$(Platform)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64); $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)binaries\$(Platform)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Binaries-intermediate\$(Platform)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64); $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -58,10 +60,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Vendor/glfw/lib/; $(SolutionDir)Vendor/glew/lib/;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -72,22 +78,30 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Vendor/glfw/lib/; $(SolutionDir)Vendor/glew/lib/;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Core.h" />
+    <ClInclude Include="Source\Core\Window\Window.h" />
+    <ClInclude Include="Source\Core\Window\WindowProperties.h" />
     <ClInclude Include="Source\Kross.h" />
     <ClInclude Include="Source\Reference\Dummy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
+    <ClCompile Include="Source\Core\Window\Window.cpp" />
+    <ClCompile Include="Source\Reference\Dummy.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

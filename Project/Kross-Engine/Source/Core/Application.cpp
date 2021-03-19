@@ -3,16 +3,19 @@
 namespace Kross
 {
 	Application*	Application::s_Instance =	nullptr;
+	Window*			Application::s_Window =		nullptr;
 
 	Application::Application(const std::string& title, int width, int height)
 	{
-		// Do Something Eventually...
+		s_Window = new Window();
+
+		s_Window->SetWidth(width);
+		s_Window->SetHeight(height);
+		s_Window->SetTitle(title);
 	}
 
 	Application::~Application()
-	{
-		// Do Something Eventually...
-	}
+	{}
 
 	void Application::OnCreate(const std::string& title, int width, int height)
 	{
@@ -22,22 +25,33 @@ namespace Kross
 
 	void Application::OnStart()
 	{
-		// Do Something Eventually...
+		s_Window->OnInitialise();
 	}
 
 	void Application::OnUpdate()
 	{
-		std::cout << "Kross Engine Running..." << std::endl;
-
-		while (true)
+		// If the window was successfully Started. Run the Application.
+		if (s_Window->GetInitialiseStatus() == true)
 		{
-			// Do Something Eventually...
+			std::cout << "Kross Engine Running..." << std::endl;
+
+			/* While the window isn't closed */
+			while (s_Window->GetClosedStatus() == false)
+			{
+				s_Window->OnStart();
+
+				// Do other Stuff...
+
+				s_Window->OnPollEvents();
+			}
 		}
+
+		return;
 	}
 
 	void Application::OnShutdown()
 	{
-		// Do Something Eventually...
+		s_Window->OnShutdown();
 	}
 
 	void Application::OnDestroy()
