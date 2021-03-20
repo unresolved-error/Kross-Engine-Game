@@ -30,7 +30,7 @@ namespace Kross
 
 	void Application::OnUpdate()
 	{
-		// If the window was successfully Started. Run the Application.
+		/* If the window was successfully Started. Run the Application. */
 		if (s_Window->GetInitialiseStatus() == true)
 		{
 			std::cout << "Kross Engine Running..." << std::endl;

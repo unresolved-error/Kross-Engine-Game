@@ -12,10 +12,11 @@ namespace Dummy
 	/* Variables are always private, unless it is a hastle editing or retrieving via function */
 	private:
 		/* Variable Naming Conventions */
-		static int s_Dummy;
-		int m_Dummy;
-		const int c_Dummy = 3;
-		bool* p_Dummy;
+
+		static int s_Dummy; // Static Variable
+		int m_Dummy; // Standard Variable
+		const int c_Dummy = 3; // Constant Variable
+		bool* p_Dummy; // Pointer Variable
 
 	protected:
 
@@ -28,8 +29,8 @@ namespace Dummy
 		/* --- Getters --- */
 		// Gets the m_Dummy Variable.
 		int GetDummy() const { return m_Dummy; };
-		/* Getters can be defined in the header file  
-		 * if you wish, not a functional advantage but...
+		/* Getters can be defined in the header file if you wish,
+		 * not a functional advantage but...
 		 * a read and search advantage. 
 		 */
 
@@ -47,7 +48,7 @@ namespace Dummy
 		// When you wish to reset the dummy.
 		void OnReset();
 
-		/* Adding and Removing  Functions */
+		/* Adding and Removing Functions */
 		// Adding a dummy to the current dummy's Child List.
 		void AttachDummy(Dummy* dummy);
 

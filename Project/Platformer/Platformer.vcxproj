@@ -100,13 +100,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Kross-Engine\Vendor\glew\include\; $(SolutionDir)Kross-Engine\Vendor\glfw\include\; $(SolutionDir)Kross-Engine\Vendor\glm\include\; $(SolutionDir)Kross-Engine\Vendor\stb_image\include\;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Vendor/glfw/lib/; $(SolutionDir)Vendor/glew/lib/;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Kross-Engine\Vendor\glfw\lib\; $(SolutionDir)Kross-Engine\Vendor\glew\lib\;</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Kross-Engine\Vendor\glew\include\; $(SolutionDir)Kross-Engine\Vendor\glfw\include\; $(SolutionDir)Kross-Engine\Vendor\glm\include\; $(SolutionDir)Kross-Engine\Vendor\stb_image\include\;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -156,7 +156,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Vendor/glfw/lib/; $(SolutionDir)Vendor/glew/lib/;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Kross-Engine\Vendor\glfw\lib\; $(SolutionDir)Kross-Engine\Vendor\glew\lib\;</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
