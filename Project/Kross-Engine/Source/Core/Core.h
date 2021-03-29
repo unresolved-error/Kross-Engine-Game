@@ -1,3 +1,9 @@
+/*
+    Author: Deklyn Palmer.
+    Editors:
+        - Deklyn Palmer.
+*/
+
 #pragma once
 
 /* --- Global Header --- */
@@ -20,7 +26,12 @@ template<typename Type>
 using List = std::vector<Type>;
 
 #include <iostream>
+
 #include <string>
+#include <sstream>
+
+#include <unordered_map>
+#include <fstream>
 
 /* --- Testing Ground --- */
 /*class Test

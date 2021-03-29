@@ -1,3 +1,9 @@
+/*
+	Author: Deklyn Palmer.
+	Editors:
+		- Deklyn Palmer.
+*/
+
 #include "Window.h"
 
 namespace Kross
@@ -67,6 +73,10 @@ namespace Kross
 		/* Enable Pixel Blending */
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		/* Enable Front and Back Face Culling. */
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_FRONT_AND_BACK);
 
 		/* VSync Switch */
 		glfwSwapInterval(p_Properties->GetVSync());

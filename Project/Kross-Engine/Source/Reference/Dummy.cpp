@@ -1,4 +1,13 @@
+/*
+	Author: Deklyn Palmer.
+	Editors:
+		- Deklyn Palmer.
+*/
+
 #include "Dummy.h"
+
+/* --- NO FUNCTIONALITY INTENDED WITH THIS FILE --- */
+/* ------  PURELY FOR DEMONSTRATION PURPOSES ------ */
 
 namespace Dummy
 {

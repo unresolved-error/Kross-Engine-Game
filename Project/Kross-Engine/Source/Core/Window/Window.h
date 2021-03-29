@@ -1,3 +1,9 @@
+/*
+	Author: Deklyn Palmer.
+	Editors:
+		- Deklyn Palmer.
+*/
+
 #pragma once
 
 #include "../Core.h"
@@ -37,12 +43,6 @@ namespace Kross
 		// Sets the Height.
 		void SetHeight(int height) { p_Properties->SetHeight(height); };
 
-		// Sets the VSync.
-		void SetVSync(int vSync) { p_Properties->SetVSync(vSync); };
-
-		// Set the window to fullscreen borderless.
-		void SetFullscreen(int fullscreen) { p_Properties->SetFullscreen(fullscreen); };
-
 		// The Initialise of the window. For creating OpenGL Contexts.
 		void OnInitialise();
 
@@ -77,6 +77,12 @@ namespace Kross
 
 		// Gets the Aspect Ratio of the Window.
 		float GetApsectRatio() const { return (float)p_Properties->GetWidth() / (float)p_Properties->GetHeight(); };
+
+		// Sets the VSync.
+		void SetVSync(int vSync) { p_Properties->SetVSync(vSync); };
+
+		// Set the window to fullscreen borderless.
+		void SetFullscreen(int fullscreen) { p_Properties->SetFullscreen(fullscreen); };
 
 		// Grabs the OpenGL Window. (USE IF YOU KNOW WHAT YOUR DOING WITH IT)
 		GLFWwindow* GetGLFWWindow() const { return p_GLFWWindow; };

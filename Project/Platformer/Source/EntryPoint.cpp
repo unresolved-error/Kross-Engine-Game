@@ -4,7 +4,7 @@ using namespace Kross;
 
 int main(int argc, char** argv)
 {
-	Application::OnCreate("Platform Game");
+	Application::OnCreate();
 	Application::OnStart();
 
 	/* Create all Assets, Objects, Scenes etc. Bellow Start.*/
@@ -13,5 +13,6 @@ int main(int argc, char** argv)
 	Application::OnUpdate();
 	Application::OnShutdown();
 	Application::OnDestroy();
+
 	return 0;
 }

@@ -93,6 +93,15 @@
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Core.h" />
+    <ClInclude Include="Source\Core\FileSystem.h" />
+    <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
+    <ClInclude Include="Source\Core\Renderer\Geometry.h" />
+    <ClInclude Include="Source\Core\Renderer\Image\Sprite.h" />
+    <ClInclude Include="Source\Core\Renderer\Image\Texture.h" />
+    <ClInclude Include="Source\Core\Renderer\IndexBuffer.h" />
+    <ClInclude Include="Source\Core\Renderer\Shader\Shader.h" />
+    <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
+    <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Core\Window\WindowProperties.h" />
@@ -384,6 +393,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
+    <ClCompile Include="Source\Core\FileSystem.cpp" />
+    <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Geometry.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Image\Sprite.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Image\Texture.cpp" />
+    <ClCompile Include="Source\Core\Renderer\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Shader\Shader.cpp" />
+    <ClCompile Include="Source\Core\Renderer\VertexArray.cpp" />
+    <ClCompile Include="Source\Core\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
     <ClCompile Include="Source\Reference\Dummy.cpp" />
     <ClCompile Include="Vendor\glm\include\glm\detail\glm.cpp" />
