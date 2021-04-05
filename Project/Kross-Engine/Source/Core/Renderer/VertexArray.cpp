@@ -1,8 +1,8 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #include "VertexArray.h"
 

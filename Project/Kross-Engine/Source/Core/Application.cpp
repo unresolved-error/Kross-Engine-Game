@@ -1,14 +1,16 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
-#include "Application.h"\
+#include "Application.h"
+
+#include "Manager/ShaderManager.h"
+#include "Manager/ResourceManager.h"
 
 /* --- TESTING --- */
 #include "Renderer/Image/Sprite.h"
-#include "Renderer/Shader/Shader.h"
 /* --------------- */
 
 namespace Kross
@@ -37,6 +39,8 @@ namespace Kross
 	void Application::OnStart()
 	{
 		s_Window->OnInitialise();
+		ShaderManager::OnCreate();
+		ResourceManager::OnCreate();
 	}
 
 	void Application::OnUpdate()
@@ -46,9 +50,12 @@ namespace Kross
 		{
 			std::cout << "Kross Engine Running..." << std::endl;
 
-			Shader* shader = Shader::OnCreate("standard.vert", "standard.frag", "Shader");
-			Texture* texture = Texture::OnCreate("Default.png", "Default");
-			Sprite* sprite = Sprite::OnCreate(texture, 32, 32, "Default");
+			Shader* shader = Shader::OnCreate("Resources/Shaders/standard.vert", "Resources/Shaders/standard.frag", "Shader");
+
+			//Texture* texture = Texture::OnCreate("Resources/Textures/TileDefault.png", "Default");
+			Texture* texture = Texture::OnCreate(196, 196, 1234334, 100, 8, 0.5f, 0.5f, Vector2(0.0f), PerlinNormaliseMode::Global, "NoiseMap");
+			Sprite* sprite = Sprite::OnCreate(texture, 196, 196, Vector2(0.0f, 0.0f), "Default");
+			//Sprite* sprite = Sprite::OnCreate(texture, 32, 32, "Default");
 
 			shader->SetUniform("u_Texture", texture);
 			shader->SetUniform("u_UVRatio", sprite->GetUVRatio());
@@ -62,14 +69,15 @@ namespace Kross
 				// Do other Stuff...
 				texture->SetSlot(0);
 				texture->Attach();
+
 				shader->Attach();
 				sprite->OnRender();
-				texture->Detach();
+
+				Texture::Detach();
 
 				s_Window->OnPollEvents();
 			}
 
-			Shader::OnDestroy(shader);
 			Sprite::OnDestroy(sprite);
 		}
 
@@ -79,6 +87,8 @@ namespace Kross
 	void Application::OnShutdown()
 	{
 		s_Window->OnShutdown();
+		ShaderManager::OnDestroy();
+		ResourceManager::OnDestroy();
 	}
 
 	void Application::OnDestroy()

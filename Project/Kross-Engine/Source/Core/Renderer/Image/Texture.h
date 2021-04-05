@@ -1,20 +1,34 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #pragma once
 
 #include "../../Core.h"
 
+#include "../../Math/Math.h"
 #include "GL/glew.h"
 
 namespace Kross
 {
+	// Used EXPLICITLY for the creation of a Perlin Noise Texture.
+	enum class KROSS_API PerlinNormaliseMode
+	{
+		Local,
+		Global,
+	};
+
 	class KROSS_API Texture
 	{
 	private:
+		// Used for the creation of Perlin Noise.
+		struct KROSS_API Pixel
+		{
+			unsigned char r, g, b, a;
+		};
+
 		Texture();
 		~Texture();
 
@@ -23,12 +37,13 @@ namespace Kross
 
 		int m_Width, m_Height;
 
-		/*	Bits per Pixel.
-			 - Never really used only for the creation of Textures.
+		/**	
+			Bits per Pixel.
+			 - Never really used. Only for the creation of Textures.
 		*/
 		int m_BPP;
 
-		unsigned char* m_PixelData;
+		void* m_PixelData;
 
 		std::string m_Name, m_Filepath;
 
@@ -39,7 +54,7 @@ namespace Kross
 		inline const unsigned int GetTextureID() const { return m_TextureID; };
 
 		// Gets the Texture PixelData.
-		inline unsigned char* GetPixelData() const { return m_PixelData; };
+		inline void* GetPixelData() const { return m_PixelData; };
 
 		// Sets the Texture Name.
 		void SetName(const std::string& name) { m_Name = name; };
@@ -57,7 +72,7 @@ namespace Kross
 		void SetBitsPerPixel(int bpp) {m_BPP = bpp; };
 
 		// Sets the Texture Pixel Data.
-		void SetPixelData(unsigned char* data) { m_PixelData = data; };
+		void SetPixelData(void* data) { m_PixelData = data; };
 		
 	public:
 		
@@ -85,7 +100,22 @@ namespace Kross
 		// Creates a Texture through file location.
 		static Texture* OnCreate(const std::string& filepath, const std::string& name);
 
-		/*
+		/** 
+			Creates a Texture based on custom parameters. (PERLIN NOISE)
+			 - width: Sets the Width of the Texture.
+			 - height: Sets the Height of the Texture.
+			 - seed: The seed used to generate perlin noise.
+			 - scale: Sets the Scale of the perlin noise. (LOWER = LARGER, LARGER = SMALLER)
+			 - octaves: Number of Layers.
+			 - persistance: (BROKEN)
+			 - lacunarity: How important later values are weighted.
+			 - offset: Offsets the perlin noise generation.
+			 - mode: (BROKEN)
+			 - name: Name of the Texture.
+		*/
+		static Texture* OnCreate(int width, int height, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset, PerlinNormaliseMode mode, const std::string& name);
+
+		/**
 			Creates a Texture based on custom parameters. (FRAMEBUFFER USE ONLY)
 			 - width: Sets the Width of the Texture.
 			 - height: Sets the Height of the Texture.

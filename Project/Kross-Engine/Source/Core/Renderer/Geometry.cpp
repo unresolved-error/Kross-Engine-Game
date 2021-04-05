@@ -1,8 +1,8 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #include "Geometry.h"
 
@@ -13,11 +13,11 @@ namespace Kross
 	Geometry::~Geometry()
 	{
 		/* Clean up internal data. */
-		m_Geometry.clear();
-		m_Geometry.~vector();
+		//m_Geometry.clear();
+		//m_Geometry.~vector();
 
-		m_Indicies.clear();
-		m_Indicies.~vector();
+		//m_Indicies.clear();
+		//m_Indicies.~vector();
 
 		/* Clean up external data. */
 		delete m_IndexBuffer;

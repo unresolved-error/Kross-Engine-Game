@@ -1,10 +1,12 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #include "Window.h"
+
+#include "../Manager/ShaderManager.h"
 
 namespace Kross
 {
@@ -98,6 +100,9 @@ namespace Kross
 			glViewport(0, 0, Width, Height);
 			SetWidth(Width);
 			SetHeight(Height);
+
+			/* Update all Shader Aspect Ratios. */
+			ShaderManager::OnUpdateShaderAspectRatio(GetApsectRatio());
 		}
 
 		/* Retrieves the Primary Monitor */
@@ -138,6 +143,6 @@ namespace Kross
 
 	void Window::OnShutdown()
 	{
-		this->~Window();
+		delete this;
 	}
 }

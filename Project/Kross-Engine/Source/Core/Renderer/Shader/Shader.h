@@ -1,8 +1,8 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #pragma once
 
@@ -26,6 +26,8 @@ namespace Kross
 		std::string m_Name, m_VertexFilepath, m_FragmentFilepath;
 
 	protected:
+		friend class ResourceManager;
+
 		// Gets the Vertex Shader Filepath.
 		const std::string GetVertexFilepath() const { return m_VertexFilepath; };
 

@@ -1,8 +1,8 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #pragma once
 
@@ -73,7 +73,7 @@ namespace Kross
 		{};
 		~Geometry();
 
-		//Adds a Vertex to the Geometry Data.
+		// Adds a Vertex to the Geometry Data.
 		void AttachVertex(Vertex vertex);
 
 		// Sets the Geometry Render Mode.

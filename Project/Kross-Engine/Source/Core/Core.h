@@ -1,8 +1,8 @@
 /*
-    Author: Deklyn Palmer.
-    Editors:
-        - Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #pragma once
 
@@ -20,10 +20,22 @@
  * Do Not include API FILES HERE, bad times lie ahead if you do.
  */
 
+/* Memory Leak detection. */
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <vector>
 template<typename Type>
 // Renaming of std::vector.
 using List = std::vector<Type>;
+
+/* --- Random --- */
+#include <random>
+#include <time.h>
+#include <stdlib.h> /* srand, rand */
+
+/* -------------- */
 
 #include <iostream>
 

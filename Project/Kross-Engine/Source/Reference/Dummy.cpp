@@ -1,8 +1,8 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #include "Dummy.h"
 
@@ -27,26 +27,26 @@ namespace Dummy
 
 	void Dummy::OnStart()
 	{
-		// Do stuff...
+		/* Do stuff... */
 	}
 
 	void Dummy::OnDelete()
 	{
-		// Do stuff...
+		/* Do stuff... */
 	}
 
 	void Dummy::OnReset()
 	{
-		// Do stuff...
+		/* Do stuff... */
 	}
 
 	void Dummy::AttachDummy(Dummy* dummy)
 	{
-		// Do stuff...
+		/* Do stuff... */
 	}
 
 	void Dummy::DetachDummy(int index)
 	{
-		// Do stuff...
+		/* Do stuff... */
 	}
 }

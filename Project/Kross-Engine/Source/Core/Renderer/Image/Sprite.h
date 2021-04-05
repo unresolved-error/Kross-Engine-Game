@@ -1,8 +1,8 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #pragma once
 
@@ -52,6 +52,12 @@ namespace Kross
 		// Sets the Sprite Texture.
 		void SetTexture(Texture* texture) { m_Texture = texture; };
 
+		// Set the Sprite UV Ratio. (SHADER USE ONLY)
+		void SetUVRatio(const Vector2 ratio) { m_UVRatio = ratio; };
+
+		// Set the Sprite UV Offset. (SHADER USE ONLY)
+		void SetUVOffset(const Vector2 offset) { m_UVOffset = offset; };
+
 		// Sets the Sprite Geometry Data.
 		void AttachGeometryData();
 
@@ -61,6 +67,16 @@ namespace Kross
 	public:
 		// Creates a Sprite from a Texture.
 		static Sprite* OnCreate(Texture* texture, int width, int height, const std::string& name);
+
+		/** 
+			Creates a Sprite from a Texture with specific co-ordinates. (USE IF YOU KNOW WHAT YOUR DOING)
+			 - texture: The Texture that will be used for the Sprite.
+			 - width: Width of the Sprite.
+			 - height: Height of the Sprite.
+			 - offset: The Offset in PIXELS to the section of the Texture you wish to render. (ORIGIN IS AT TOP LEFT OF TEXTURE)
+			 - name: Name of the Sprite.
+		*/
+		static Sprite* OnCreate(Texture* texture, int width, int height, Vector2 offset, const std::string& name);
 
 		// Destroys the Sprite Specified.
 		static void OnDestroy(Sprite* sprite);

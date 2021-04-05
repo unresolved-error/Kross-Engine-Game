@@ -1,10 +1,12 @@
 /*
-	Author: Deklyn Palmer.
-	Editors:
-		- Deklyn Palmer.
-*/
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
 
 #include "Shader.h"
+
+#include "../../Manager/ShaderManager.h"
 
 #include "GL/glew.h"
 #include "../../FileSystem.h"
@@ -38,7 +40,7 @@ namespace Kross
 
 	Shader* Shader::OnCreate(const std::string& vertexFilepath, const std::string& fragmentFilepath, const std::string& name)
 	{
-		/* Create the shader. */
+		/* Create the Shader. */
 		Shader* shader = new Shader();
 		shader->SetName(name);
 		shader->SetVertexFilepath(vertexFilepath);
@@ -48,14 +50,17 @@ namespace Kross
 		std::string vSource = FileSystem::GetFileContents(vertexFilepath);
 		std::string fSource = FileSystem::GetFileContents(fragmentFilepath);
 
-		/* Compile the shaders. */
+		/* Compile the Shaders. */
 		unsigned int vShader = Shader::GetShaderCompileStatus(vSource, GL_VERTEX_SHADER);
 		unsigned int fShader = Shader::GetShaderCompileStatus(fSource, GL_FRAGMENT_SHADER);
 
-		/* Attach them to the overall shader. */
+		/* Attach them to the overall Shader. */
 		shader->AttachShaders(vShader, fShader);
 
-		/* Return the created shader. */
+		/* Add Shader to the Shader Manager. */
+		ShaderManager::AttachShader(shader);
+
+		/* Return the created Shader. */
 		return shader;
 	}
 
@@ -89,7 +94,7 @@ namespace Kross
 	{
 		/* Safe programming, not needed but good to have. */
 		if(shader)
-			shader->~Shader();
+			delete shader;
 	}
 
 	unsigned int Shader::GetShaderCompileStatus(std::string source, int type)

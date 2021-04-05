@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\; $(ProjectDir)Vendor\glfw\include\; $(ProjectDir)Vendor\glm\include\; $(ProjectDir)Vendor\stb_image\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\; $(ProjectDir)Vendor\glfw\include\; $(ProjectDir)Vendor\glm\include\; $(ProjectDir)Vendor\stb_image\include\; $(ProjectDir)Vendor\fnl\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,7 +79,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\; $(ProjectDir)Vendor\glfw\include\; $(ProjectDir)Vendor\glm\include\; $(ProjectDir)Vendor\stb_image\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\; $(ProjectDir)Vendor\glfw\include\; $(ProjectDir)Vendor\glm\include\; $(ProjectDir)Vendor\stb_image\include\; $(ProjectDir)Vendor\fnl\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,8 +92,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
+    <ClInclude Include="Source\Core\Component\Component.h" />
+    <ClInclude Include="Source\Core\Component\Transform2D.h" />
     <ClInclude Include="Source\Core\Core.h" />
     <ClInclude Include="Source\Core\FileSystem.h" />
+    <ClInclude Include="Source\Core\Manager\ResourceManager.h" />
+    <ClInclude Include="Source\Core\Manager\ShaderManager.h" />
+    <ClInclude Include="Source\Core\Math\Random.h" />
+    <ClInclude Include="Source\Core\Object\GameObject.h" />
+    <ClInclude Include="Source\Core\Object\Object.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />
     <ClInclude Include="Source\Core\Renderer\Image\Sprite.h" />
@@ -103,10 +110,12 @@
     <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
+    <ClInclude Include="Source\Core\Scene.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Core\Window\WindowProperties.h" />
     <ClInclude Include="Source\Kross.h" />
     <ClInclude Include="Source\Reference\Dummy.h" />
+    <ClInclude Include="Vendor\fnl\include\fnl\FastNoiseLite.h" />
     <ClInclude Include="Vendor\glm\include\glm\common.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\detail\compute_common.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\detail\compute_vector_relational.hpp" />
@@ -393,7 +402,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
+    <ClCompile Include="Source\Core\Component\Transform2D.cpp" />
     <ClCompile Include="Source\Core\FileSystem.cpp" />
+    <ClCompile Include="Source\Core\Manager\ResourceManager.cpp" />
+    <ClCompile Include="Source\Core\Manager\ShaderManager.cpp" />
+    <ClCompile Include="Source\Core\Math\Random.cpp" />
+    <ClCompile Include="Source\Core\Object\Object.cpp" />
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Geometry.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Sprite.cpp" />
@@ -402,6 +416,7 @@
     <ClCompile Include="Source\Core\Renderer\Shader\Shader.cpp" />
     <ClCompile Include="Source\Core\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Core\Renderer\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Core\Scene.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
     <ClCompile Include="Source\Reference\Dummy.cpp" />
     <ClCompile Include="Vendor\glm\include\glm\detail\glm.cpp" />
