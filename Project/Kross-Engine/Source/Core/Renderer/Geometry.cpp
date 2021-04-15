@@ -12,13 +12,6 @@ namespace Kross
 {
 	Geometry::~Geometry()
 	{
-		/* Clean up internal data. */
-		//m_Geometry.clear();
-		//m_Geometry.~vector();
-
-		//m_Indicies.clear();
-		//m_Indicies.~vector();
-
 		/* Clean up external data. */
 		delete m_IndexBuffer;
 		delete m_VertexArray;

@@ -92,15 +92,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
+    <ClInclude Include="Source\Core\Component\Camera.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
+    <ClInclude Include="Source\Core\Component\Script.h" />
+    <ClInclude Include="Source\Core\Component\SpriteRenderer.h" />
     <ClInclude Include="Source\Core\Component\Transform2D.h" />
     <ClInclude Include="Source\Core\Core.h" />
     <ClInclude Include="Source\Core\FileSystem.h" />
+    <ClInclude Include="Source\Core\Input.h" />
     <ClInclude Include="Source\Core\Manager\ResourceManager.h" />
+    <ClInclude Include="Source\Core\Manager\SceneManager.h" />
     <ClInclude Include="Source\Core\Manager\ShaderManager.h" />
     <ClInclude Include="Source\Core\Math\Random.h" />
-    <ClInclude Include="Source\Core\Object\GameObject.h" />
-    <ClInclude Include="Source\Core\Object\Object.h" />
+    <ClInclude Include="Source\Core\Object.h" />
+    <ClInclude Include="Source\Core\Renderer\Font\Font.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />
     <ClInclude Include="Source\Core\Renderer\Image\Sprite.h" />
@@ -113,7 +118,8 @@
     <ClInclude Include="Source\Core\Scene.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Core\Window\WindowProperties.h" />
-    <ClInclude Include="Source\Kross.h" />
+    <ClInclude Include="Source\Include\Kross-Engine.h" />
+    <ClInclude Include="Source\Include\Kross.h" />
     <ClInclude Include="Source\Reference\Dummy.h" />
     <ClInclude Include="Vendor\fnl\include\fnl\FastNoiseLite.h" />
     <ClInclude Include="Vendor\glm\include\glm\common.hpp" />
@@ -402,12 +408,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
+    <ClCompile Include="Source\Core\Component\Camera.cpp" />
+    <ClCompile Include="Source\Core\Component\Script.cpp" />
+    <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
     <ClCompile Include="Source\Core\Component\Transform2D.cpp" />
     <ClCompile Include="Source\Core\FileSystem.cpp" />
+    <ClCompile Include="Source\Core\Input.cpp" />
     <ClCompile Include="Source\Core\Manager\ResourceManager.cpp" />
+    <ClCompile Include="Source\Core\Manager\SceneManager.cpp" />
     <ClCompile Include="Source\Core\Manager\ShaderManager.cpp" />
     <ClCompile Include="Source\Core\Math\Random.cpp" />
-    <ClCompile Include="Source\Core\Object\Object.cpp" />
+    <ClCompile Include="Source\Core\Object.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Font\Font.cpp" />
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Geometry.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Sprite.cpp" />

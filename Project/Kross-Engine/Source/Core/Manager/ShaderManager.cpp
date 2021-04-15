@@ -79,17 +79,13 @@ namespace Kross
 		shader = Shader::OnReload(shader);
 	}
 
-	void ShaderManager::OnUpdateShaderAspectRatio(float aspectRatio)
+	void ShaderManager::OnUpdateShaderVPMatrix(Matrix4 viewMatrix, Matrix4 projectionMatrix)
 	{
-		/* Update all Shaders Apsect Ratio. */
+		/* Update all Shaders View and Projection Matrix. */
 		for (int i = 0; i < s_Shaders.size(); i++)
-			s_Shaders[i]->SetUniform("u_AspectRatio", aspectRatio);
-	}
-
-	void ShaderManager::OnUpdateShaderMVPMatrix(Matrix4 MVPMatrix)
-	{
-		/* Update all Shaders Model View Projection Matrix. */
-		for (int i = 0; i < s_Shaders.size(); i++)
-			s_Shaders[i]->SetUniform("u_MVPMatrix", MVPMatrix);
+		{
+			s_Shaders[i]->SetUniform("u_View", viewMatrix);
+			s_Shaders[i]->SetUniform("u_Projection", projectionMatrix);
+		}
 	}
 }

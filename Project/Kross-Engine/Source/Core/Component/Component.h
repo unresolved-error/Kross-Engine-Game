@@ -8,7 +8,7 @@
 
 #include "../Core.h"
 
-#include "../Object/Object.h"
+#include "../Object.h"
 
 namespace Kross
 {
@@ -35,7 +35,7 @@ namespace Kross
 		void SetNextComponent(Component* component) { p_NextComponent = component; };
 
 		// Sets the Object that the Component will be linked to.
-		void AttachObject(Object* object) { p_Object = object; };
+		void SetObject(Object* object) { p_Object = object; };
 
 	public:
 		Component()
@@ -61,7 +61,10 @@ namespace Kross
 		// Component Render Method.
 		virtual void OnRender() = 0;
 
-		// Component Shutdown Method.
-		virtual void OnShutdown() = 0;
 	};
 }
+
+#include "Transform2D.h"
+#include "Script.h"
+#include "Camera.h"
+#include "SpriteRenderer.h"

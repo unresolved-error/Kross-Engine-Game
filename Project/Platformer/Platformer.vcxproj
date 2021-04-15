@@ -74,7 +74,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath); $(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath); $(SolutionDir)Kross-Engine\Source\Include\; $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -92,7 +92,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath); $(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath); $(SolutionDir)Kross-Engine\Source\Include\; $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -100,7 +100,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Kross-Engine\Vendor\glew\include\; $(SolutionDir)Kross-Engine\Vendor\glfw\include\; $(SolutionDir)Kross-Engine\Vendor\glm\include\; $(SolutionDir)Kross-Engine\Vendor\stb_image\include\; $(SolutionDir)Kross-Engine\Vendor\fnl\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\; $(SolutionDir)Kross-Engine\Vendor\glew\include\; $(SolutionDir)Kross-Engine\Vendor\glfw\include\; $(SolutionDir)Kross-Engine\Vendor\glm\include\; $(SolutionDir)Kross-Engine\Vendor\stb_image\include\; $(SolutionDir)Kross-Engine\Vendor\fnl\include\;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Kross-Engine\Vendor\glew\include\; $(SolutionDir)Kross-Engine\Vendor\glfw\include\; $(SolutionDir)Kross-Engine\Vendor\glm\include\; $(SolutionDir)Kross-Engine\Vendor\stb_image\include\; $(SolutionDir)Kross-Engine\Vendor\fnl\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\; $(SolutionDir)Kross-Engine\Vendor\glew\include\; $(SolutionDir)Kross-Engine\Vendor\glfw\include\; $(SolutionDir)Kross-Engine\Vendor\glm\include\; $(SolutionDir)Kross-Engine\Vendor\stb_image\include\; $(SolutionDir)Kross-Engine\Vendor\fnl\include\;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -167,6 +167,9 @@
     <ProjectReference Include="..\Kross-Engine\Kross-Engine.vcxproj">
       <Project>{592ae78a-9233-480b-a2b8-e9141e584878}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\PlayerMovement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

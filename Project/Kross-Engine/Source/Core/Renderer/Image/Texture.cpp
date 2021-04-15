@@ -8,6 +8,8 @@
 
 #include "stb_image/stb_image.h"
 
+#include "../../Manager/ResourceManager.h"
+
 #include "../../Math/Random.h"
 
 #include "fnl/FastNoiseLite.h"
@@ -82,6 +84,9 @@ namespace Kross
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData());
 
 			texture->Detach();
+
+			/* Add it to the  Resource Manager. */
+			ResourceManager::AttachResource<Texture>(texture);
 
 			/* Return the created texture. */
 			return texture;
@@ -160,6 +165,9 @@ namespace Kross
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData());
 
 			texture->Detach();
+
+			/* Add it to the  Resource Manager. */
+			ResourceManager::AttachResource<Texture>(texture);
 
 			/* Return the created texture. */
 			return texture;

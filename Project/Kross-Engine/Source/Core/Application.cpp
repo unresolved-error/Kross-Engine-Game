@@ -8,10 +8,9 @@
 
 #include "Manager/ShaderManager.h"
 #include "Manager/ResourceManager.h"
+#include "Manager/SceneManager.h"
 
-/* --- TESTING --- */
-#include "Renderer/Image/Sprite.h"
-/* --------------- */
+#include "Input.h"
 
 namespace Kross
 {
@@ -41,6 +40,12 @@ namespace Kross
 		s_Window->OnInitialise();
 		ShaderManager::OnCreate();
 		ResourceManager::OnCreate();
+		SceneManager::OnCreate();
+		Input::OnCreate();
+		Input::SetWindow(s_Window);
+
+		Shader* shader = Shader::OnCreate("Resources/Shaders/standard.vert", "Resources/Shaders/standard.frag", "StandardShader");
+		ResourceManager::AttachResource<Shader>(shader);
 	}
 
 	void Application::OnUpdate()
@@ -49,36 +54,22 @@ namespace Kross
 		if (s_Window->GetInitialiseStatus() == true)
 		{
 			std::cout << "Kross Engine Running..." << std::endl;
-
-			Shader* shader = Shader::OnCreate("Resources/Shaders/standard.vert", "Resources/Shaders/standard.frag", "Shader");
-
-			//Texture* texture = Texture::OnCreate("Resources/Textures/TileDefault.png", "Default");
-			Texture* texture = Texture::OnCreate(196, 196, 1234334, 100, 8, 0.5f, 0.5f, Vector2(0.0f), PerlinNormaliseMode::Global, "NoiseMap");
-			Sprite* sprite = Sprite::OnCreate(texture, 196, 196, Vector2(0.0f, 0.0f), "Default");
-			//Sprite* sprite = Sprite::OnCreate(texture, 32, 32, "Default");
-
-			shader->SetUniform("u_Texture", texture);
-			shader->SetUniform("u_UVRatio", sprite->GetUVRatio());
-			shader->SetUniform("u_UVOffset", sprite->GetUVOffset());
+			
+			SceneManager::OnStart();
 
 			/* While the window isn't closed */
 			while (s_Window->GetClosedStatus() == false)
 			{
 				s_Window->OnStart();
 
-				// Do other Stuff...
-				texture->SetSlot(0);
-				texture->Attach();
+				SceneManager::OnUpdateSceneCameraAspectRatio(s_Window->GetApsectRatio());
 
-				shader->Attach();
-				sprite->OnRender();
-
-				Texture::Detach();
+				SceneManager::OnUpdate();
+				SceneManager::OnPhysicsUpdate();
+				SceneManager::OnRender();
 
 				s_Window->OnPollEvents();
 			}
-
-			Sprite::OnDestroy(sprite);
 		}
 
 		return;
@@ -89,6 +80,8 @@ namespace Kross
 		s_Window->OnShutdown();
 		ShaderManager::OnDestroy();
 		ResourceManager::OnDestroy();
+		SceneManager::OnDestroy();
+		Input::OnDestoy();
 	}
 
 	void Application::OnDestroy()

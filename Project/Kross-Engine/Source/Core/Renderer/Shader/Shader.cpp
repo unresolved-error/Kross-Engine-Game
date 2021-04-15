@@ -6,6 +6,7 @@
 
 #include "Shader.h"
 
+#include "../../Manager/ResourceManager.h"
 #include "../../Manager/ShaderManager.h"
 
 #include "GL/glew.h"
@@ -14,16 +15,13 @@
 namespace Kross
 {
 	Shader::Shader()
-		: m_ShaderID(0), m_UniformCache(std::unordered_map<std::string, int>()), m_Name(""), m_VertexFilepath(""), m_FragmentFilepath("")
+		: m_ShaderID(0), m_Name(""), m_VertexFilepath(""), m_FragmentFilepath("")
 	{
 		m_ShaderID = glCreateProgram();
 	}
 
 	Shader::~Shader()
 	{
-		/* Clean up the cache. */
-		m_UniformCache.clear();
-
 		if(m_ShaderID != NULL)
 			glDeleteProgram(m_ShaderID);
 	}
@@ -57,9 +55,6 @@ namespace Kross
 		/* Attach them to the overall Shader. */
 		shader->AttachShaders(vShader, fShader);
 
-		/* Add Shader to the Shader Manager. */
-		ShaderManager::AttachShader(shader);
-
 		/* Return the created Shader. */
 		return shader;
 	}
@@ -83,8 +78,8 @@ namespace Kross
 		/* Attach them to the overall shader. */
 		reloadedShader->AttachShaders(vShader, fShader);
 
-		/* Delete the old one as that is no longer needed. */
-		delete shader;
+		/* Remove the old Shader from the Resource Manager. */
+		ResourceManager::DetachResource<Shader>(shader);
 
 		/* Return the created shader. */
 		return reloadedShader;

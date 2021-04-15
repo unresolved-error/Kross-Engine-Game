@@ -8,6 +8,22 @@
 
 namespace Kross
 {
+	Object::Object()
+		: m_Name("GameObject"), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_NextObject(nullptr), p_NextRenderObject(nullptr), p_ParentObject(nullptr)
+	{
+		/* First Component is the Transform Component. */
+		AttachComponent<Transform2D>();
+		p_Transform = GetComponent<Transform2D>();
+	}
+
+	Object::Object(const std::string& name)
+		: m_Name(name), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_NextObject(nullptr), p_NextRenderObject(nullptr), p_ParentObject(nullptr)
+	{
+		/* First Component is the Transform Component. */
+		AttachComponent<Transform2D>();
+		p_Transform = GetComponent<Transform2D>();
+	}
+
 	Object::~Object()
 	{
 		/* Clean up the Components from the heap. */
@@ -16,6 +32,22 @@ namespace Kross
 			delete m_Components[i];
 			m_Components[i] = nullptr;
 		}
+	}
+
+	Object* Object::OnCreate(const std::string& name)
+	{
+		/* Create a new Object. */
+		Object* object = new Object(name);
+
+		/* Return the new Object. */
+		return object;
+	}
+
+	void Object::OnDestroy(Object* object)
+	{
+		/* Safe programming, not really needed but good to have. */
+		if (object)
+			delete object;
 	}
 
 	void Object::OnStart()
@@ -72,16 +104,8 @@ namespace Kross
 		p_StartComponent->OnRender();
 
 		/* Render the Next Object. */
-		if (p_NextRenderObject)
-			p_NextRenderObject->OnRender();
-
-		return;
-	}
-
-	void Object::OnShutdown()
-	{
-		/* Shutdown Components. */
-		p_StartComponent->OnShutdown();
+		if (p_NextObject)
+			p_NextObject->OnRender();
 
 		return;
 	}

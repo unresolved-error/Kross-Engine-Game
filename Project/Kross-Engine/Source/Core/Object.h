@@ -6,40 +6,48 @@
 
 #pragma once
 
-#include "../Core.h"
+#include "Core.h"
 
-#include "../Component/Component.h"
+#include "Component/Component.h"
 
 namespace Kross
 {
-	// Used for Rendering Objects. (FIRST TO LAST. NOTE! THESE ARE ADDED ENGINE SIDE!) 
+	// Used for Rendering Objects. (LAST TO FIRST. NOTE! THESE ARE ADDED ENGINE SIDE!) 
 	enum class Layer
 	{
 		/* Layers. */
 
 		Default, 
+		Light,
 		Player,
 		Environment,
-		Light,
+		Background,
 
 		/* Layer Count. */
 
 		Count,
 	};
 
-	/* Forward declare the Component Class. */
+	/* Forward declare the Component and Transform Class. */
 
 	class KROSS_API Component;
+	class KROSS_API Transform2D;
 
 	class KROSS_API Object
 	{
 	private:
+		Object();
+		Object(const std::string& name);
+		~Object();
+
 		std::string m_Name;
 		bool m_Static, m_Enable;
 
 		List<Component*> m_Components;
 
 		Component* p_StartComponent;
+
+		Transform2D* p_Transform;
 
 		// Used for displaying its children and storing them.
 		List<Object*> m_Children;
@@ -70,9 +78,6 @@ namespace Kross
 		// Object Render Method.
 		void OnRender();
 
-		// Object Shutdown Method.
-		void OnShutdown();
-
 		// Adds a Child Object.
 		void AttachChildObject(Object* object);
 
@@ -101,13 +106,11 @@ namespace Kross
 		void SetParentObject(Object* object) { p_ParentObject = object; };
 
 	public:
-		Object()
-			: m_Name("GameObject"), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), m_Children(List<Object*>()), p_NextObject(nullptr), p_NextRenderObject(nullptr), p_ParentObject(nullptr)
-		{};
-		Object(const std::string& name)
-			: m_Name(name), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), m_Children(List<Object*>()), p_NextObject(nullptr), p_NextRenderObject(nullptr), p_ParentObject(nullptr)
-		{};
-		~Object();
+		// Creates a Blank Object.
+		static Object* OnCreate(const std::string& name = "GameObject");
+
+		// Destroys a specified object.
+		static void OnDestroy(Object* object);
 
 		// Gets the Object Name.
 		const std::string GetName() const { return m_Name; };
@@ -120,6 +123,9 @@ namespace Kross
 
 		// Gets the Object Parent.
 		Object* GetParentObject() const { return p_ParentObject; };
+
+		// Gets the Object Transform.
+		Transform2D* GetTransform() const { return p_Transform; };
 
 		// Gets all of the Object's Children.
 		const List<Object*> GetChildObjects() const { return m_Children; };
@@ -152,7 +158,7 @@ namespace Kross
 			/* Set up of the new Component. */
 			Component* component = new Type();
 			component->SetNextComponent(p_StartComponent);
-			component->AttachObject(this);
+			component->SetObject(this);
 
 			/* Set it as the Start Component. */
 			p_StartComponent = component;

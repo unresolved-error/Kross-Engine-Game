@@ -19,6 +19,8 @@ namespace Kross
 	private:
 
 	protected:
+		friend class SpriteRenderer;
+
 		// Transform2D Start Method.
 		void OnStart() override;
 
@@ -26,19 +28,16 @@ namespace Kross
 		void OnUpdate() override;
 
 		// Transform2D Collision Enter Method.
-		void OnCollisionEnter() override { return; };
+		void OnCollisionEnter() override;
 
 		// Transform2D Collision Stay Method.
-		void OnCollisionStay() override { return; };
+		void OnCollisionStay() override;
 
 		// Transform2D Collision Exit Method.
-		void OnCollisionExit() override { return; };
+		void OnCollisionExit() override;
 
 		// Transform2D Render Method.
 		void OnRender() override;
-
-		// Transform2D Shutdown Method.
-		void OnShutdown() override;
 
 		// Gets the Model Matrix.
 		const Matrix4 GetModelMatrix() const { return m_Model; };

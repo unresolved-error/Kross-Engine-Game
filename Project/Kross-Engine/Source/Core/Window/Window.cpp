@@ -100,9 +100,6 @@ namespace Kross
 			glViewport(0, 0, Width, Height);
 			SetWidth(Width);
 			SetHeight(Height);
-
-			/* Update all Shader Aspect Ratios. */
-			ShaderManager::OnUpdateShaderAspectRatio(GetApsectRatio());
 		}
 
 		/* Retrieves the Primary Monitor */

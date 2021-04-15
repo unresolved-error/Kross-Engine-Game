@@ -17,11 +17,11 @@ namespace Kross
 	{
 	private:
 		Sprite()
-			:m_Texture(nullptr), m_Width(0), m_Height(0), m_UVOffset(Vector2(0.0f,0.0f)), m_UVRatio(Vector2(1.0f, 1.0f)), m_Name(""), m_Geometry(new Geometry())
+			: p_Texture(nullptr), m_Width(0), m_Height(0), m_UVOffset(Vector2(0.0f,0.0f)), m_UVRatio(Vector2(1.0f, 1.0f)), m_Name(""), m_Geometry(new Geometry())
 		{};
 		~Sprite();
 
-		Texture* m_Texture;
+		Texture* p_Texture;
 		int m_Width, m_Height;
 		
 		// (SHADER USE ONLY)
@@ -32,7 +32,7 @@ namespace Kross
 		Geometry* m_Geometry;
 
 	protected:
-		friend class Application;
+		friend class SpriteRenderer;
 
 		// Get the Sprite UV Ratio. (SHADER USE ONLY)
 		const Vector2 GetUVRatio() const { return m_UVRatio; };
@@ -50,7 +50,7 @@ namespace Kross
 		void SetHeight(int height) { m_Height = height; };
 
 		// Sets the Sprite Texture.
-		void SetTexture(Texture* texture) { m_Texture = texture; };
+		void SetTexture(Texture* texture) { p_Texture = texture; };
 
 		// Set the Sprite UV Ratio. (SHADER USE ONLY)
 		void SetUVRatio(const Vector2 ratio) { m_UVRatio = ratio; };
@@ -78,6 +78,14 @@ namespace Kross
 		*/
 		static Sprite* OnCreate(Texture* texture, int width, int height, Vector2 offset, const std::string& name);
 
+		/**
+			Creates a Sprite Set from a Texture with a fixed width and height. (FONT USE ONLY)
+			 - texture: The Texture that the Font will be using.
+			 - width: The Width of the Font Characters.
+			 - height: The Height of the Font Characters.
+		*/
+		static List<Sprite*> OnCreate(Texture* texture, int width, int height);
+
 		// Destroys the Sprite Specified.
 		static void OnDestroy(Sprite* sprite);
 
@@ -89,6 +97,9 @@ namespace Kross
 
 		// Gets the Sprite Height.
 		const int GetHeight() const { return m_Height; };
+
+		// Gets the  Sprite Texture.
+		Texture* GetTexture() const { return p_Texture; };
 
 	};
 }

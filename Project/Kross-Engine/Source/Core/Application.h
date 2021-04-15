@@ -40,6 +40,7 @@ namespace Kross
 		// Destroying Everything. (CALL LAST)
 		static void OnDestroy();
 
-		//const std::string& GetTitle() const {return}
+		// Gets the Window of the Application.
+		static Window* GetWindow() { return s_Window; };
 	};
 }

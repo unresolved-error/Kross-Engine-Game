@@ -39,10 +39,7 @@ namespace Kross
 		// Reloads the Shader specified.
 		static void OnReloadShader(Shader* shader);
 
-		// Updates all the Shaders Aspect Ratios.
-		static void OnUpdateShaderAspectRatio(float apsectRatio);
-
 		// Updates all the Shaders Model View Projection Matrixes.
-		static void OnUpdateShaderMVPMatrix(Matrix4 MVPMatrix);
+		static void OnUpdateShaderVPMatrix(Matrix4 viewMatrix, Matrix4 projectionMatrix);
 	};
 }
