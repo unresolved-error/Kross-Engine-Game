@@ -28,9 +28,6 @@ namespace Kross
 		// Gets the Next Component.
 		Component* GetNextComponent() const { return p_NextComponent; };
 
-		// Gets the Object that the Component is linked to.
-		Object* GetObject() const { return p_Object; };
-
 		// Sets the Next Component.
 		void SetNextComponent(Component* component) { p_NextComponent = component; };
 
@@ -44,22 +41,25 @@ namespace Kross
 		virtual ~Component() {};
 
 		// Component Start Method.
-		virtual void OnStart() = 0;
+		virtual void OnStart();
 
 		// Component Update Method.
-		virtual void OnUpdate() = 0;
+		virtual void OnUpdate();
 
 		// Component Collision Enter Method.
-		virtual void OnCollisionEnter() = 0;
+		virtual void OnCollisionEnter();
 
 		// Component Collision Stay Method.
-		virtual void OnCollisionStay() = 0;
+		virtual void OnCollisionStay();
 
 		// Component Collision Exit Method.
-		virtual void OnCollisionExit() = 0;
+		virtual void OnCollisionExit();
 
 		// Component Render Method.
-		virtual void OnRender() = 0;
+		virtual void OnRender();
+
+		// Gets the Object that the Component is linked to.
+		Object* GetObject() const { return p_Object; };
 
 	};
 }
@@ -68,3 +68,4 @@ namespace Kross
 #include "Script.h"
 #include "Camera.h"
 #include "SpriteRenderer.h"
+#include "TextRenderer.h"

@@ -27,18 +27,6 @@ namespace Kross
 		// Transform2D Update Method.
 		void OnUpdate() override;
 
-		// Transform2D Collision Enter Method.
-		void OnCollisionEnter() override;
-
-		// Transform2D Collision Stay Method.
-		void OnCollisionStay() override;
-
-		// Transform2D Collision Exit Method.
-		void OnCollisionExit() override;
-
-		// Transform2D Render Method.
-		void OnRender() override;
-
 		// Gets the Model Matrix.
 		const Matrix4 GetModelMatrix() const { return m_Model; };
 

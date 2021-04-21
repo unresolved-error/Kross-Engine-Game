@@ -29,18 +29,6 @@ namespace Kross
         // Camera Update Method.
         void OnUpdate() override;
 
-        // Camera Collision Enter Method.
-        void OnCollisionEnter() override;
-
-        // Camera Collision Stay Method.
-        void OnCollisionStay() override;
-
-        // Camera Collision Exit Method.
-        void OnCollisionExit() override;
-
-        // Camera Render Method.
-        void OnRender() override;
-
         // Sets the Camera Aspect Ratio.
         void SetAspectRatio(float aspectRatio) { m_AspectRatio = aspectRatio; };
 

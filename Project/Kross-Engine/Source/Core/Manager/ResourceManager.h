@@ -11,6 +11,7 @@
 #include "../Renderer/Image/Sprite.h"
 #include "../Renderer/Image/Texture.h"
 #include "../Renderer/Shader/Shader.h"
+#include "../Renderer/Text/Font.h"
 
 #include "ShaderManager.h"
 
@@ -28,6 +29,7 @@ namespace Kross
 		static List<Shader*> s_Shaders;
 		static List<Sprite*> s_Sprites;
 		static List<Texture*> s_Textures;
+		static List<Font*> s_Fonts;
 
 	public:
 		// Creates an Instance of the Manager.
@@ -243,6 +245,60 @@ namespace Kross
 				{
 					Texture::OnDestroy(s_Textures[i]);
 					s_Textures.erase(s_Textures.begin() + i);
+				}
+			}
+		}
+
+		/* -------------------- */
+
+		/* ------- FONTS ------ */
+
+		// Gets Font by name from Resource Manager.
+		template<>
+		static Font* GetResource<Font>(const std::string& name)
+		{
+			for (int i = 0; i < s_Fonts.size(); i++)
+			{
+				/* If the name of the Font matches the name requested, return that Font. */
+				if (s_Fonts[i]->GetName() == name)
+					return s_Fonts[i];
+			}
+
+			/* If nothing was found. */
+			return nullptr;
+		}
+
+		// Gets Font by name from Resource Manager.
+		template<>
+		static Font* GetResource<Font>(int index)
+		{
+			/* If the Index is in the bounds of the List. */
+			if (index >= 0 && index < s_Fonts.size())
+				return s_Fonts[index];
+
+			/* If not, return null. */
+			return nullptr;
+		}
+
+		// Adds Font to the Resource Manager.
+		template<>
+		static void AttachResource<Font>(Font* font)
+		{
+			s_Fonts.push_back(font);
+		}
+
+		// Removes a Font from the  Resource Manager.
+		template<>
+		static void DetachResource<Font>(Font* font)
+		{
+			/* Go through the Font List. */
+			for (int i = 0; i < s_Fonts.size(); i++)
+			{
+				/* if the Font is the same as the one specified. Remove it.*/
+				if (s_Fonts[i] == font)
+				{
+					Font::OnDestroy(s_Fonts[i]);
+					s_Fonts.erase(s_Fonts.begin() + i);
 				}
 			}
 		}

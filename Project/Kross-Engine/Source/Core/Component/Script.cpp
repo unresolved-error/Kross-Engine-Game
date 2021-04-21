@@ -13,14 +13,8 @@ namespace Kross
         /* Call Start Method. */
         Start();
 
-        /* Get the Next Component. */
-        Component* nextComponent = GetNextComponent();
-
-        /* Start the Next Component. */
-        if (nextComponent)
-            nextComponent->OnStart();
-
-        return;
+        /* Call Base Component Function. */
+        Component::OnStart();
     }
 
     void Script::OnUpdate()
@@ -28,14 +22,8 @@ namespace Kross
         /* Call Update Method. */
         Update();
 
-        /* Get the Next Component. */
-        Component* nextComponent = GetNextComponent();
-
-        /* Update the Next Component. */
-        if (nextComponent)
-            nextComponent->OnUpdate();
-
-        return;
+        /* Call Base Component Function. */
+        Component::OnUpdate();
     }
 
     void Script::OnCollisionEnter()
@@ -43,14 +31,8 @@ namespace Kross
         /* Call Collision Enter Method. */
         CollisionEnter();
 
-        /* Get the Next Component. */
-        Component* nextComponent = GetNextComponent();
-
-        /* Enter the Next Component. */
-        if (nextComponent)
-            nextComponent->OnCollisionEnter();
-
-        return;
+        /* Call Base Component Function. */
+        Component::OnCollisionEnter();
     }
 
     void Script::OnCollisionStay()
@@ -58,14 +40,8 @@ namespace Kross
         /* Call Collision Stay Method. */
         CollisionStay();
 
-        /* Get the Next Component. */
-        Component* nextComponent = GetNextComponent();
-
-        /* Enter the Next Component. */
-        if (nextComponent)
-            nextComponent->OnCollisionStay();
-
-        return;
+        /* Call Base Component Function. */
+        Component::OnCollisionStay();
     }
 
     void Script::OnCollisionExit()
@@ -73,25 +49,7 @@ namespace Kross
         /* Call Collision Exit Method. */
         CollisionExit();
 
-        /* Get the Next Component. */
-        Component* nextComponent = GetNextComponent();
-
-        /* Enter the Next Component. */
-        if (nextComponent)
-            nextComponent->OnCollisionExit();
-
-        return;
-    }
-
-    void Script::OnRender()
-    {
-        /* Get the Next Component. */
-        Component* nextComponent = GetNextComponent();
-
-        /* Render the Next Component. */
-        if (nextComponent)
-            nextComponent->OnRender();
-
-        return;
+        /* Call Base Component Function. */
+        Component::OnCollisionExit();
     }
 }

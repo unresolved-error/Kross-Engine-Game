@@ -83,7 +83,7 @@ namespace Kross
 		int maxHorizontalSprites = texture->GetWidth() / width;
 		int maxVerticalSprites = texture->GetHeight() / height;
 
-		unsigned int charIndex = 0;
+		int charIndex = 0;
 
 		/* Create the Sprites. */
 		for(int y = 0; y < maxVerticalSprites; y++)
@@ -91,7 +91,7 @@ namespace Kross
 			{
 				/* Sprite Creation. */
 				Sprite* sprite = new Sprite();
-				std::string name = std::to_string((unsigned char)(charIndex));
+				std::string name(1, char(charIndex));
 
 				sprite->SetName(name);
 				sprite->SetWidth(width);
@@ -104,21 +104,24 @@ namespace Kross
 				ratio.y = (float)height / (float)texture->GetHeight();
 
 				/* Set UV Ratio Data. */
-				sprite->SetUVRatio(Vector2((float)ratio.x, (float)ratio.y));
+				sprite->SetUVRatio(Vector2(ratio.x, ratio.y));
 
 				/* UV Offset Variable. */
 				Vector2 offset = Vector2(0.0f);
 				offset.x = (float)(x * width) / (float)texture->GetWidth();
-				offset.y = (float)(texture->GetHeight() - height - (int)(y * width)) / (float)texture->GetHeight();
+				offset.y = (float)(texture->GetHeight() - height - (int)(y * height)) / (float)texture->GetHeight();
 
 				/* Set UV Offset Data. */
-				sprite->SetUVOffset(Vector2((float)offset.x, (float)offset.y));
+				sprite->SetUVOffset(Vector2(offset.x, offset.y));
 
 				/* Add all of the Geometry Data needed. */
 				sprite->AttachGeometryData();
 
 				/* Add it to the List. */
 				spriteList.push_back(sprite);
+
+				/* Up the Character Index. */
+				charIndex++;
 			}
 
 		/* Once Finished return the list. */
@@ -126,7 +129,7 @@ namespace Kross
 	}
 
 	void Sprite::OnDestroy(Sprite* sprite)
-	{
+	{ 
 		/* Safe programming, not really needed but good to have. */
 		if (sprite)
 			delete sprite;
@@ -134,9 +137,6 @@ namespace Kross
 
 	void Sprite::AttachGeometryData()
 	{
-		/* Base Sprite Width and Height. */
-		const int baseSWH = 128;
-
 		/* Get the name of the Geometry. */
 		std::string name = std::to_string(m_Width) + "x" + std::to_string(m_Height);
 
@@ -159,8 +159,8 @@ namespace Kross
 		m_Geometry->SetRenderMode(RenderMode::Solid);
 
 		/* Get the Width and Height in World Space. */
-		float width = ((float)m_Width / (float)baseSWH) / 2.0f;
-		float height = ((float)m_Height / (float)baseSWH) / 2.0f;
+		float width = ((float)m_Width / (float)BASE_SPRITE_WIDTH_AND_HEIGHT) / 2.0f;
+		float height = ((float)m_Height / (float)BASE_SPRITE_WIDTH_AND_HEIGHT) / 2.0f;
 
 		/* Add Vertexes. */
 		m_Geometry->AttachVertex(Vertex(Vector2( width,  height), Vector2(1.0f, 1.0f), Colour(1.0f)));

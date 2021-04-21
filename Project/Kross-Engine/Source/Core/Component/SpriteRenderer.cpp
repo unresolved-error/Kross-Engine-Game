@@ -68,63 +68,9 @@ namespace Kross
 		p_Shader->SetUniform("u_Colour", m_Colour);
 		p_Shader->SetUniform("u_FlipX", m_FlipX);
 		p_Shader->SetUniform("u_FlipY", m_FlipY);
-
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Start the Next Component. */
-		if (nextComponent)
-			nextComponent->OnStart();
-
-		return;
-	}
-
-	void SpriteRenderer::OnUpdate()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Update the Next Component. */
-		if (nextComponent)
-			nextComponent->OnUpdate();
-
-		return;
-	}
-
-	void SpriteRenderer::OnCollisionEnter()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Enter the Next Component. */
-		if (nextComponent)
-			nextComponent->OnCollisionEnter();
-
-		return;
-	}
-
-	void SpriteRenderer::OnCollisionStay()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Enter the Next Component. */
-		if (nextComponent)
-			nextComponent->OnCollisionStay();
-
-		return;
-	}
-
-	void SpriteRenderer::OnCollisionExit()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Enter the Next Component. */
-		if (nextComponent)
-			nextComponent->OnCollisionExit();
-
-		return;
+			    
+		/* Call Base Component Function. */
+		Component::OnStart();
 	}
 
 	void SpriteRenderer::OnRender()
@@ -152,13 +98,7 @@ namespace Kross
 			Texture::Detach();
 		}
 
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Render the Next Component. */
-		if (nextComponent)
-			nextComponent->OnRender();
-
-		return;
+		/* Call Base Component Function. */
+		Component::OnRender();
 	}
 }

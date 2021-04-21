@@ -32,18 +32,6 @@ namespace Kross
 		// Sprite Renderer Start Method.
 		void OnStart() override;
 
-		// Sprite Renderer Update Method.
-		void OnUpdate() override;
-
-		// Sprite Renderer Collision Enter Method.
-		void OnCollisionEnter() override;
-
-		// Sprite Renderer Collision Stay Method.
-		void OnCollisionStay() override;
-
-		// Sprite Renderer Collision Exit Method.
-		void OnCollisionExit() override;
-
 		// Sprite Renderer Render Method.
 		void OnRender() override;
 

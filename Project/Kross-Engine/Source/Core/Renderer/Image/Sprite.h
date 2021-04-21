@@ -4,6 +4,10 @@
  *      - Deklyn Palmer.
  */
 
+#ifndef BASE_SPRITE_WIDTH_AND_HEIGHT
+#define BASE_SPRITE_WIDTH_AND_HEIGHT 128
+#endif // Base Sprite Width and Height.
+
 #pragma once
 
 #include "../../Core.h"
@@ -33,6 +37,7 @@ namespace Kross
 
 	protected:
 		friend class SpriteRenderer;
+		friend class Character;
 
 		// Get the Sprite UV Ratio. (SHADER USE ONLY)
 		const Vector2 GetUVRatio() const { return m_UVRatio; };

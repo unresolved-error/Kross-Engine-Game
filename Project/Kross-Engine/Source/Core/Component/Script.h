@@ -33,9 +33,6 @@ namespace Kross
         // Script Collision Exit Method.
         void OnCollisionExit() override;
 
-        // Script Render Method.
-        void OnRender() override;
-
     public:
         Script() {};
         ~Script() {};

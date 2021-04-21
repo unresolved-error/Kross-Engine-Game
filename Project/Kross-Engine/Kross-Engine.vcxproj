@@ -96,6 +96,7 @@
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\Script.h" />
     <ClInclude Include="Source\Core\Component\SpriteRenderer.h" />
+    <ClInclude Include="Source\Core\Component\TextRenderer.h" />
     <ClInclude Include="Source\Core\Component\Transform2D.h" />
     <ClInclude Include="Source\Core\Core.h" />
     <ClInclude Include="Source\Core\FileSystem.h" />
@@ -105,13 +106,15 @@
     <ClInclude Include="Source\Core\Manager\ShaderManager.h" />
     <ClInclude Include="Source\Core\Math\Random.h" />
     <ClInclude Include="Source\Core\Object.h" />
-    <ClInclude Include="Source\Core\Renderer\Font\Font.h" />
+    <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />
     <ClInclude Include="Source\Core\Renderer\Image\Sprite.h" />
     <ClInclude Include="Source\Core\Renderer\Image\Texture.h" />
     <ClInclude Include="Source\Core\Renderer\IndexBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Shader\Shader.h" />
+    <ClInclude Include="Source\Core\Renderer\Text\Font.h" />
+    <ClInclude Include="Source\Core\Renderer\Text\Text.h" />
     <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
@@ -409,8 +412,10 @@
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
+    <ClCompile Include="Source\Core\Component\Component.cpp" />
     <ClCompile Include="Source\Core\Component\Script.cpp" />
     <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
+    <ClCompile Include="Source\Core\Component\TextRenderer.cpp" />
     <ClCompile Include="Source\Core\Component\Transform2D.cpp" />
     <ClCompile Include="Source\Core\FileSystem.cpp" />
     <ClCompile Include="Source\Core\Input.cpp" />
@@ -419,13 +424,15 @@
     <ClCompile Include="Source\Core\Manager\ShaderManager.cpp" />
     <ClCompile Include="Source\Core\Math\Random.cpp" />
     <ClCompile Include="Source\Core\Object.cpp" />
-    <ClCompile Include="Source\Core\Renderer\Font\Font.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Text\Character.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Text\Font.cpp" />
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Geometry.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Sprite.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Texture.cpp" />
     <ClCompile Include="Source\Core\Renderer\IndexBuffer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Shader\Shader.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Text\Text.cpp" />
     <ClCompile Include="Source\Core\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Core\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="Source\Core\Scene.cpp" />

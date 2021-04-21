@@ -30,7 +30,9 @@ public:
 
 		Vector2 mousePos = Input::GetMousePosition();
 
-		Vector2 mousePoint = Vector2((mousePos.x / window->GetWidth()) * 4.0f - 2.0f, ((mousePos.y / window->GetHeight()) * 2.0f - 1.0f));
+		Vector2 mousePoint = Vector2((mousePos.x / window->GetWidth()) * 2.0f - 1.0f, ((mousePos.y / window->GetHeight()) * 2.0f - 1.0f));
+		float aspect = window->GetApsectRatio();
+		//mousePoint.x *= aspect;
 
 		float angle = glm::degrees(std::atan2(mousePoint.y - -transform->m_Position.y, mousePoint.x - transform->m_Position.x));
 

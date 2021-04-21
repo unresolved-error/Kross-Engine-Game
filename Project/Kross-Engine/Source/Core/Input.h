@@ -158,11 +158,30 @@ namespace Kross
 		static void SetWindow(Window* window) { p_window = window; };
 
 	public:
+		/* ---- AXIS ---- */
+
 		// Gets the Input Read from the Axis.
 		static float GetAxis(Axis axis);
 
-		// Gets whether or not the Key is Down.
+		// Gets the Input Read from the Controller Axis.
+		static float GetControllerAxis(int controllerID, Controller axis, float deadZone);
+
+		/* -------------- */
+
+		/* ---- KEYS ---- */
+
+		// Gets whether or not the Key is Down. 
 		static bool GetKeyDown(Key key);
+
+		// Gets whether or not the Key is Pressed. (NOT DONE)
+		static bool GetKeyPressed(Key key);
+
+		// Gets whether or not the Key is Released. (NOT DONE)
+		static bool GetKeyReleased(Key key);
+
+		/* -------------- */
+
+		/* --- MOUSE ---- */
 
 		// Gets whether or not the Mouse Button is Down.
 		static bool GetMouseButtonDown(Mouse mouse);
@@ -170,8 +189,9 @@ namespace Kross
 		// Gets the Mouse Position.
 		static Vector2 GetMousePosition();
 
-		// Gets the Input Read from the Controller Axis.
-		static float GetControllerAxis(int controllerID, Controller axis, float deadZone);
+		/* -------------- */
+
+		/* - CONTROLLER - */
 
 		// Gets whether or not the Controller Button is Down.
 		static inline bool GetControllerButtonDown(int controllerID, Controller button);
@@ -184,5 +204,7 @@ namespace Kross
 
 		// Gets the Max Number of Controller Slots.
 		static inline int MaxControllerSlots() { return GLFW_JOYSTICK_16 + 1; };
+
+		/* -------------- */
 	};
 }

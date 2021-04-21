@@ -14,6 +14,7 @@ namespace Kross
 	List<Shader*>		ResourceManager::s_Shaders =		List<Shader*>();
 	List<Sprite*>		ResourceManager::s_Sprites =		List<Sprite*>();
 	List<Texture*>		ResourceManager::s_Textures =		List<Texture*>();
+	List<Font*>			ResourceManager::s_Fonts =			List<Font*>();
 
 	ResourceManager::~ResourceManager()
 	{
@@ -60,6 +61,17 @@ namespace Kross
 		/* Clean up the list. */
 		s_Textures.clear();
 		s_Textures.~vector();
+
+		/* Clean up all the Fonts from memory. */
+		for (int i = 0; i < s_Fonts.size(); i++)
+		{
+			Font::OnDestroy(s_Fonts[i]);
+			s_Fonts[i] = nullptr;
+		}
+
+		/* Clean up the list. */
+		s_Fonts.clear();
+		s_Fonts.~vector();
 	}
 
 	void ResourceManager::OnCreate()

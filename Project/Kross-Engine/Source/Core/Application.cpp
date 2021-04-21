@@ -44,8 +44,17 @@ namespace Kross
 		Input::OnCreate();
 		Input::SetWindow(s_Window);
 
-		Shader* shader = Shader::OnCreate("Resources/Shaders/standard.vert", "Resources/Shaders/standard.frag", "StandardShader");
-		ResourceManager::AttachResource<Shader>(shader);
+		/* Add the Standard Shaders. */
+		Shader* standardShader = Shader::OnCreate("Resources/Shaders/standard.vert", "Resources/Shaders/standard.frag", "StandardShader");
+		ResourceManager::AttachResource<Shader>(standardShader);
+
+		Shader* textShader = Shader::OnCreate("Resources/Shaders/text.vert", "Resources/Shaders/text.frag", "TextShader");
+		ResourceManager::AttachResource<Shader>(textShader);
+
+		Texture* fontTexture = Texture::OnCreate("Resources/Font/FontSheet.png", "FontTexture");
+
+		Font* standardFont = Font::OnCreate(fontTexture, 16, 16, "StandardFont");
+		ResourceManager::AttachResource<Font>(standardFont);
 	}
 
 	void Application::OnUpdate()

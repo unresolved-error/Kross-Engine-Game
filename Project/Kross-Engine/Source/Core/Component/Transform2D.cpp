@@ -18,14 +18,8 @@ namespace Kross
 		/* Apply the Matrixes to the Model. */
 		m_Model = translation * rotation * scale;
 
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Start the Next Component. */
-		if (nextComponent)
-			nextComponent->OnStart();
-
-		return;
+		/* Call Base Component Function. */
+		Component::OnStart();
 	}
 
 	void Transform2D::OnUpdate()
@@ -38,61 +32,7 @@ namespace Kross
 		/* Apply the Matrixes to the Model. */
 		m_Model = translation * rotation * scale;
 
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Update the Next Component. */
-		if (nextComponent)
-			nextComponent->OnUpdate();
-
-		return;
-	}
-
-	void Transform2D::OnCollisionEnter()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Enter the Next Component. */
-		if (nextComponent)
-			nextComponent->OnCollisionEnter();
-
-		return;
-	}
-
-	void Transform2D::OnCollisionStay()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Enter the Next Component. */
-		if (nextComponent)
-			nextComponent->OnCollisionStay();
-
-		return;
-	}
-
-	void Transform2D::OnCollisionExit()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Enter the Next Component. */
-		if (nextComponent)
-			nextComponent->OnCollisionExit();
-
-		return;
-	}
-
-	void Transform2D::OnRender()
-	{
-		/* Get the Next Component. */
-		Component* nextComponent = GetNextComponent();
-
-		/* Render the Next Component. */
-		if (nextComponent)
-			nextComponent->OnRender();
-
-		return;
+		/* Call Base Component Function. */
+		Component::OnUpdate();
 	}
 }
