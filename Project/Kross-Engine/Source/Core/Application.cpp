@@ -53,6 +53,9 @@ namespace Kross
 
 		Texture* fontTexture = Texture::OnCreate("Resources/Font/FontSheet.png", "FontTexture");
 
+		Texture* debugCircleTexture = Texture::OnCreate("Resources/Textures/DebugCircle.png", "DebugCircle");
+		Texture* debugBoxTexture = Texture::OnCreate("Resources/Textures/DebugBox.png", "DebugBox");
+
 		Font* standardFont = Font::OnCreate(fontTexture, 16, 16, "StandardFont");
 		ResourceManager::AttachResource<Font>(standardFont);
 	}
@@ -75,6 +78,7 @@ namespace Kross
 
 				SceneManager::OnUpdate();
 				SceneManager::OnPhysicsUpdate();
+
 				SceneManager::OnRender();
 
 				s_Window->OnPollEvents();
