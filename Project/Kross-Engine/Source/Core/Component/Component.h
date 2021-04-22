@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *		- Jake Warren.
  */
 
 #pragma once
@@ -69,3 +70,5 @@ namespace Kross
 #include "Camera.h"
 #include "SpriteRenderer.h"
 #include "TextRenderer.h"
+#include "Rigidbody2D.h"
+#include "PhysicsScene.h"

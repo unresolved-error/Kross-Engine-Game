@@ -11,6 +11,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Box2D/Box2D.h"
+
 namespace Kross
 {
 	typedef glm::vec1 Vector1;
@@ -22,4 +24,12 @@ namespace Kross
 	typedef glm::mat2 Matrix2;
 	typedef glm::mat3 Matrix3;
 	typedef glm::mat4 Matrix4;
+
+	
+}
+
+void operator =(b2Vec2& lhs, Kross::Vector2& rhs)
+{
+	lhs.x = rhs.x;
+	lhs.y = rhs.y;
 }
