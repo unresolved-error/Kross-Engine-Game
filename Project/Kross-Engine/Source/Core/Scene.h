@@ -16,14 +16,24 @@ namespace Kross
 	{
 	private:
 		Scene(const std::string& name)
-			: m_Name(name), m_Objects(List<Object*>()), p_StartObject(nullptr), p_Camera(nullptr)
-		{};
+			: m_Name(name), m_Started(false), m_Objects(List<Object*>()), m_StaticObjects(List<Object*>()), p_Camera(nullptr)
+		{
+			/* Add lists on every Layer for Rendering. */
+			for (int i = 0; i < (int)Layer::Count; i++)
+				m_RenderList.push_back(List<Object*>());
+		};
 		~Scene();
 
 		std::string m_Name;
 
+		bool m_Started;
+
 		List<Object*> m_Objects;
-		Object* p_StartObject;
+		List<Object*> m_StaticObjects;
+
+		// List of Layer Groups.
+		List<List<Object*>> m_RenderList; /* | Layer | Object | */
+
 		Object* p_Camera;
 		
 	protected:
@@ -43,6 +53,15 @@ namespace Kross
 
 		// Updates the Primary Camera Aspect Ratio.
 		void OnUpdateCameraAspectRatio(float aspectRatio);
+
+		// Places an object in the Render Queue.
+		int AttachObjectToRenderQueue(Object* object);
+
+		// Removes an Object from the Render Queue. (BY OBJECT)
+		void DetachObjectFromRenderQueue(Layer layer, Object* object);
+
+		// Removes an Object from the Render Queue. (BY INDEX)
+		void DetachObjectFromRenderQueue(Layer layer, int index);
 
 	public:
 		// Creates an Empty Scene.
@@ -69,14 +88,29 @@ namespace Kross
 		// Removes a Object from the Scene. (BY INDEX)
 		void DetachObject(int index);
 
+		// Gets the total Number of Objects in the Scene.
+		const int GetObjectCount() const { return m_Objects.size(); }
+
+		// Gets the Main Camera of the Scene.
+		Object* GetCamera() const { return p_Camera; };
+
 	};
 
-	//// Creates a Object and attaches a name to it. (NOTHING YET)
-	//Object* OnCreateObject(const std::string& name) { return nullptr; };
+	// Creates an Empty object and assigns a name to it.
+	Object* OnCreateObject(const std::string& name);
+
+	// Creates an Empty object.
+	Object* OnCreateObject(const std::string& name, Vector2 position);
+
+	// Creates an Empty object.
+	Object* OnCreateObject(const std::string& name, Vector2 position, float rotation);
+
+	// Creates an Empty object.
+	Object* OnCreateObject(const std::string& name, Vector2 position, float rotation, Vector2 scale);
+	
+	//// Creates a clone of the Object passed in.
+	//Object* OnCreateObject(Object* object);
 	//
-	//// Creates a clone of the Object passed in. (NOTHING YET)
-	//Object* OnCreateObject(Object* object) { return nullptr;  };
-	//
-	//// Destroys the Object passed in. (NOTHING YET)
-	//void OnDestroyObject(Object* object) {};
+	//// Destroys the Object passed in.
+	//void OnDestroyObject(Object* object);
 }

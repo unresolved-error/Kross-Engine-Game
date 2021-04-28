@@ -95,6 +95,7 @@
     <ClInclude Include="Source\Core\Audio\AudioTemp.h" />
     <ClInclude Include="Source\Core\Component\Camera.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
+    <ClInclude Include="Source\Core\Component\Renderer.h" />
     <ClInclude Include="Source\Core\Component\Script.h" />
     <ClInclude Include="Source\Core\Component\SpriteRenderer.h" />
     <ClInclude Include="Source\Core\Component\TextRenderer.h" />

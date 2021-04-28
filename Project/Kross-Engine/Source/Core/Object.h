@@ -31,6 +31,7 @@ namespace Kross
 	/* Forward declare the Component and Transform Class. */
 
 	class KROSS_API Component;
+	class KROSS_API Renderer;
 	class KROSS_API Transform2D;
 
 	class KROSS_API Object
@@ -49,11 +50,10 @@ namespace Kross
 
 		Transform2D* p_Transform;
 
+		Layer m_Layer;
+
 		// Used for displaying its children and storing them.
 		List<Object*> m_Children;
-
-		Object* p_NextObject;
-		Object* p_NextRenderObject;
 
 		Object* p_ParentObject;
 
@@ -90,20 +90,11 @@ namespace Kross
 		// Removes a Child Object. (BY OBJECT)
 		void DetachChildObject(Object* object);
 
-		// Gets the Next Object in Scene List.
-		Object* GetNextObject() const { return p_NextObject; };
-
-		// Gets the Next Object in the Render Queue.
-		Object* GetNextRenderObject() const { return p_NextRenderObject; };
-
-		// Sets the Next Object.
-		void SetNextObject(Object* object) { p_NextObject = object; };
-
-		// Sets the Next Object in the Render Queue.
-		void SetNextRenderObject(Object* object) { p_NextRenderObject = object; };
-
 		// Sets the Object Parent.
 		void SetParentObject(Object* object) { p_ParentObject = object; };
+
+		// Gets a Renderer Component.
+		Renderer* GetRendererComponent();
 
 	public:
 		// Creates a Blank Object.
@@ -114,6 +105,9 @@ namespace Kross
 
 		// Gets the Object Name.
 		const std::string GetName() const { return m_Name; };
+
+		// Gets the Object Layer.
+		const Layer GetLayer() const { return m_Layer; };
 
 		// Gets the Object Static Status.
 		const bool GetStaticStatus() const { return m_Static; };
@@ -141,6 +135,9 @@ namespace Kross
 
 		// Sets the Object Name.
 		void SetName(const std::string& name) { m_Name = name; };
+
+		// Sets the Object Layer.
+		void SetLayer(Layer layer) { m_Layer = layer; };
 
 		// Sets the Object Static Status.
 		void SetStaticStatus(bool value) { m_Static = value; };

@@ -55,5 +55,14 @@ namespace Kross
 
         // Sets the Far Plane.
         void SetFar(float value) { m_Far = value; };
+
+        // Gets the Size of the Camera.
+        float GetSize() const { return m_Size; };
+
+        // Gets the Near Plane.
+        float GetNear() const { return m_Near; };
+
+        // Gets the Far Plane.
+        float GetFar() const { return m_Far; };
     };
 }

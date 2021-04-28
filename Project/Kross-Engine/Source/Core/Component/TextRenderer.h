@@ -8,7 +8,7 @@
 
 #include "../Core.h"
 
-#include "Component.h"
+#include "Renderer.h"
 
 #include "../Renderer/Text/Text.h"
 
@@ -17,7 +17,7 @@ namespace Kross
 	/* Forward Declaration. */
 	class KROSS_API Text;
 
-	class KROSS_API TextRenderer : public Component
+	class KROSS_API TextRenderer : public Renderer
 	{
 	private:
 		Text m_Text;

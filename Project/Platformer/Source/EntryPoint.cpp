@@ -16,11 +16,12 @@ int main(int argc, char** argv)
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
-	camera->GetComponent<Camera>()->SetSize(2.0f);
+	camera->GetComponent<Camera>()->SetSize(3.0f);
 
 	Object* player = Object::OnCreate("Player");
 	player->AttachComponent<SpriteRenderer>();
 	player->AttachComponent<PlayerMovement>();
+	player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
 
 	Object* textExample = Object::OnCreate("Text");
 	textExample->AttachComponent<TextRenderer>();
@@ -28,8 +29,10 @@ int main(int argc, char** argv)
 	TextRenderer* textRenderer = textExample->GetComponent<TextRenderer>();
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
 	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
-	textRenderer->SetTextSize(2.0f);
-	textRenderer->SetText("!@#$&*^ DFG0099--+");
+	textRenderer->SetTextSize(1.2f);
+	textRenderer->SetText("Inventory");
+
+	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
 	renderer->SetSprite(sprite);

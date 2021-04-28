@@ -44,3 +44,57 @@
 
 #include "../Core/Window/Window.h"
 #include "../Core/Window/WindowProperties.h"
+
+Kross::Object* Kross::OnCreateObject(const std::string& name)
+{
+	/* Create an Empty Object with a name. */
+	Kross::Object* object = Kross::Object::OnCreate(name);
+
+	/* Attach it to the Current Scene. */
+	Kross::SceneManager::GetCurrentScene()->AttachObject(object);
+
+	/* Retutn the Object. */
+	return object;
+};
+
+Kross::Object* Kross::OnCreateObject(const std::string& name, Kross::Vector2 position)
+{
+	/* Create an Empty Object with a name. */
+	Kross::Object* object = Kross::Object::OnCreate(name);
+	object->GetTransform()->m_Position = position;
+
+	/* Attach it to the Current Scene. */
+	Kross::SceneManager::GetCurrentScene()->AttachObject(object);
+
+	/* Retutn the Object. */
+	return object;
+};
+
+Kross::Object* Kross::OnCreateObject(const std::string& name, Kross::Vector2 position, float rotation)
+{
+	/* Create an Empty Object with a name. */
+	Kross::Object* object = Kross::Object::OnCreate(name);
+	object->GetTransform()->m_Position = position;
+	object->GetTransform()->m_Rotation = rotation;
+
+	/* Attach it to the Current Scene. */
+	Kross::SceneManager::GetCurrentScene()->AttachObject(object);
+
+	/* Retutn the Object. */
+	return object;
+};
+
+Kross::Object* Kross::OnCreateObject(const std::string& name, Kross::Vector2 position, float rotation, Kross::Vector2 scale)
+{
+	/* Create an Empty Object with a name. */
+	Kross::Object* object = Kross::Object::OnCreate(name);
+	object->GetTransform()->m_Position = position;
+	object->GetTransform()->m_Rotation = rotation;
+	object->GetTransform()->m_Scale = scale;
+
+	/* Attach it to the Current Scene. */
+	Kross::SceneManager::GetCurrentScene()->AttachObject(object);
+
+	/* Retutn the Object. */
+	return object;
+};

@@ -142,8 +142,12 @@ namespace Kross
 		Input() {}
 		~Input() {}
 
-		static Input* p_instance;
-		static Window* p_window;
+		static Input* s_Instance;
+		static Window* s_Window;
+
+		static std::unordered_map<Key, int> s_KeyStateCache;
+		static std::unordered_map<Controller, int> s_ControllerStateCache;
+		static std::unordered_map<Mouse, int> s_MouseStateCache;
 
 	protected:
 		friend class Application;
@@ -155,7 +159,7 @@ namespace Kross
 		static void OnDestoy();
 
 		// Sets the Input Window, to grab events from the Window.
-		static void SetWindow(Window* window) { p_window = window; };
+		static void SetWindow(Window* window) { s_Window = window; };
 
 	public:
 		/* ---- AXIS ---- */
@@ -171,20 +175,26 @@ namespace Kross
 		/* ---- KEYS ---- */
 
 		// Gets whether or not the Key is Down. 
-		static bool GetKeyDown(Key key);
+		static inline bool GetKeyDown(Key key);
 
-		// Gets whether or not the Key is Pressed. (NOT DONE)
-		static bool GetKeyPressed(Key key);
+		// Gets whether or not the Key is Pressed.
+		static inline bool GetKeyPressed(Key key);
 
-		// Gets whether or not the Key is Released. (NOT DONE)
-		static bool GetKeyReleased(Key key);
+		// Gets whether or not the Key is Released.
+		static inline bool GetKeyReleased(Key key);
 
 		/* -------------- */
 
 		/* --- MOUSE ---- */
 
 		// Gets whether or not the Mouse Button is Down.
-		static bool GetMouseButtonDown(Mouse mouse);
+		static inline bool GetMouseButtonDown(Mouse mouse);
+
+		// Gets whether or not the Mouse Button is Pressed.
+		static inline bool GetMouseButtonPressed(Mouse mouse);
+
+		// Gets whether or not the Mouse Button is Released.
+		static inline bool GetMouseButtonReleased(Mouse mouse);
 
 		// Gets the Mouse Position.
 		static Vector2 GetMousePosition();
@@ -195,6 +205,12 @@ namespace Kross
 
 		// Gets whether or not the Controller Button is Down.
 		static inline bool GetControllerButtonDown(int controllerID, Controller button);
+
+		// Gets whether or not the Controller Button is Pressed.
+		static inline bool GetControllerButtonPressed(int controllerID, Controller button);
+
+		// Gets whether or not the Controller Button is Released.
+		static inline bool GetControllerButtonReleased(int controllerID, Controller button);
 
 		// Gets if the  Controller Slot is Connected.
 		static inline bool ControllerConnected(int controllerID) { return (bool)glfwJoystickIsGamepad(controllerID); };

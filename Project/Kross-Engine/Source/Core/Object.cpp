@@ -6,10 +6,12 @@
 
 #include "Object.h"
 
+#include "Manager/SceneManager.h"
+
 namespace Kross
 {
 	Object::Object()
-		: m_Name("GameObject"), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_NextObject(nullptr), p_NextRenderObject(nullptr), p_ParentObject(nullptr)
+		: m_Name("GameObject"), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -17,7 +19,7 @@ namespace Kross
 	}
 
 	Object::Object(const std::string& name)
-		: m_Name(name), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_NextObject(nullptr), p_NextRenderObject(nullptr), p_ParentObject(nullptr)
+		: m_Name(name), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -32,6 +34,26 @@ namespace Kross
 			delete m_Components[i];
 			m_Components[i] = nullptr;
 		}
+	}
+
+	Renderer* Object::GetRendererComponent()
+	{
+		/* Trial the Sprite Renderer First. */
+		Renderer* renderer = GetComponent<SpriteRenderer>();
+
+		/* If successfull return it. */
+		if (renderer)
+			return renderer;
+
+		/* Trial the Text Renderer Next. */
+		renderer = GetComponent<TextRenderer>();
+
+		/* If successfull return it. */
+		if (renderer)
+			return renderer;
+
+		/* If all else fails, return nothing. */
+		return nullptr;
 	}
 
 	Object* Object::OnCreate(const std::string& name)
@@ -54,58 +76,75 @@ namespace Kross
 	{
 		/* Start up Components. */
 		p_StartComponent->OnStart();
-
-		/* Start the Next Object. */
-		if (p_NextObject)
-			p_NextObject->OnStart();
-
-		return;
 	}
 
 	void Object::OnUpdate()
 	{
-		/* Update Components. */
-		p_StartComponent->OnUpdate();
-
-		/* Update the Next Object. */
-		if (p_NextObject)
-			p_NextObject->OnUpdate();
+		if (!m_Static && m_Enable)
+		{
+			/* Update Components. */
+			p_StartComponent->OnUpdate();
+		}
 
 		return;
 	}
 
 	void Object::OnCollisionEnter()
 	{
-		/* Call Collision Enter on Components. */
-		p_StartComponent->OnCollisionEnter();
+		if (!m_Static && m_Enable)
+		{
+			/* Enter Components Collision. */
+			p_StartComponent->OnCollisionEnter();
+		}
 
 		return;
 	}
 
 	void Object::OnCollisionStay()
 	{
-		/* Call Collision Stay on Components. */
-		p_StartComponent->OnCollisionStay();
+		if (!m_Static && m_Enable)
+		{
+			/* Stay Components Collision. */
+			p_StartComponent->OnCollisionStay();
+		}
 
 		return;
 	}
 
 	void Object::OnCollisionExit()
 	{
-		/* Call Collision Exit on Components. */
-		p_StartComponent->OnCollisionExit();
+		if (!m_Static && m_Enable)
+		{
+			/* Exit Components Collision. */
+			p_StartComponent->OnCollisionExit();
+		}
 
 		return;
 	}
 
 	void Object::OnRender()
 	{
-		/* Render Components. */
-		p_StartComponent->OnRender();
+		/* Variables for Camera View Checking. */
+		Object* camera = SceneManager::GetCurrentScene()->GetCamera();
+		Camera* cameraComponent = camera->GetComponent<Camera>();
 
-		/* Render the Next Object. */
-		if (p_NextObject)
-			p_NextObject->OnRender();
+		float cameraSize = (cameraComponent->GetSize() / 2.0f) + 1.0f;
+
+		Vector2 cameraPosition = camera->GetTransform()->m_Position;
+		Vector2 position = GetTransform()->m_Position;
+
+		/* If the Object is outside of camera View. Don't Render Anything. */
+		if (cameraPosition.x + cameraSize < position.x || cameraPosition.x - cameraSize > position.x)
+			return;
+
+		else if (cameraPosition.y + cameraSize < position.y || cameraPosition.y - cameraSize > position.y)
+			return;
+
+		if (m_Enable)
+		{
+			/* Render Components. */
+			p_StartComponent->OnRender();
+		}
 
 		return;
 	}

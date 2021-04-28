@@ -12,13 +12,13 @@
 #include "../Renderer/Shader/Shader.h"
 #include "../Math/Math.h"
 
-#include "Component.h"
+#include "Renderer.h"
 
 #include "Camera.h"
 
 namespace Kross
 {
-	class KROSS_API SpriteRenderer : public Component
+	class KROSS_API SpriteRenderer : public Renderer
 	{
 	private:
 		Sprite* p_Sprite;
