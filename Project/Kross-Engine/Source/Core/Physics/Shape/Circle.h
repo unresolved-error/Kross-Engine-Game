@@ -20,7 +20,7 @@ namespace Kross
 
 	public:
 
-		Circle(float radius, b2Body* body, float offset);
+		Circle(float radius, b2Body* body, Vector2 offset);
 	
 		ShapeType GetShapeType() const override { return ShapeType::Circle; }
 

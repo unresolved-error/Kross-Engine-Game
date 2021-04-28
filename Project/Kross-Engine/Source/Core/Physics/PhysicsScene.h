@@ -38,7 +38,6 @@ namespace Kross
 		PhysicsScene() { p_PhysicsWorld = nullptr; }
 		~PhysicsScene();
 
-		//new b2World({ 0.0f, -9.81f })
 		b2World* GetPhysicsWorld() { return p_PhysicsWorld; }
 
 	};

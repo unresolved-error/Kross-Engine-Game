@@ -15,7 +15,7 @@ namespace Kross
 
 	Circle* PhysicsScene::CreateCircleBody(float radius, b2Body* body)
 	{
-		Circle* circle = new Circle(radius, body, 0.0f);
+		Circle* circle = new Circle(radius, body, Vector2(0,0));
 		AttachBody(body);
 
 		return circle;
@@ -23,7 +23,7 @@ namespace Kross
 
 	Box* PhysicsScene::CreateBoxBody(Vector2 dimensions, b2Body* body)
 	{
-		Box* box = new Box(dimensions, body, 0.0f);
+		Box* box = new Box(dimensions, body, Vector2(0, 0));;
 		AttachBody(body);
 		
 		return box;

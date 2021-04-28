@@ -35,7 +35,7 @@ namespace Kross
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(pos.x, pos.y);
-
+        
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
 
         p_Shape = p_PhysicsScene->CreateCircleBody(radius, p_Body);
@@ -82,13 +82,7 @@ namespace Kross
 
     void Rigidbody2D::OnStart()
     {       
-        //m_Pos.x = GetPosition().x;
-        //m_Pos.y = GetPosition().y;
         p_Body = GetBody();
-
-        //p_MassData = new b2MassData();
-        //p_MassData->mass = 1.0f;
-        //p_MassData->center = { m_Pos.x, m_Pos.y };
 
         p_PhysicsScene = GetPhysicsScene();
 
@@ -102,19 +96,6 @@ namespace Kross
     {
         if (p_Body->GetType() != b2_staticBody)
         {
-            p_PhysicsScene->GetPhysicsWorld();
-            //m_ForceAccumulator = m_ForceAccumulator;
-            //m_Acceleration = m_ForceAccumulator / 1;
-            //
-            //m_ForceAccumulator = { 0, 0 };
-            //
-            //m_Velocity += { m_Acceleration.x* Time::GetDeltaTime(), m_Acceleration.y* Time::GetDeltaTime() };
-            //m_Pos += m_Velocity * Time::GetDeltaTime();
-            //std::cout << "Pos: " << p_Body->GetPosition().y << std::endl;
-
-
-            //GetObject()->GetTransform()->m_Position = Vector2(m_Pos.x * Time::GetDeltaTime(), m_Pos.y * Time::GetDeltaTime() );
-
             GetObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
         }
         /* Call Base Component Function. */
@@ -150,16 +131,29 @@ namespace Kross
             Matrix4 scale;
             if (m_ShapeType == ShapeType::Box)
             {
-                Box* box = (Box*)p_Shape;
-                Vector2 boxDim = Vector2(box->GetWidth(), box->GetHeight());
-                scale = glm::scale(Matrix4(1.0f), Vector3((transform->m_Scale * boxDim), 1.0f));
+
+                if (p_Body->GetType() != b2_staticBody)
+                {
+                    Box* box = (Box*)p_Shape;
+                    Vector2 boxDim = Vector2(box->GetWidth(), box->GetHeight());
+                    scale = glm::scale(Matrix4(1.0f), Vector3((transform->m_Scale * boxDim), 1.0f));
+                }
+                else
+                {
+                    Box* box = (Box*)p_Shape;
+                    Vector2 boxDim = Vector2(box->GetWidth(), box->GetHeight());
+                    scale = glm::scale(Matrix4(1.0f), Vector3((transform->m_Scale * boxDim), 1.0f));
+                }
             }
 
             else if (m_ShapeType == ShapeType::Circle)
             {
-                Circle* circle = (Circle*)p_Shape;
-                float radius = circle->GetRadius();
-                scale = glm::scale(Matrix4(1.0f), Vector3((transform->m_Scale * radius), 1.0f));
+                if (p_Body->GetType() != b2_staticBody)
+                {
+                    Circle* circle = (Circle*)p_Shape;
+                    float radius = circle->GetRadius();
+                    scale = glm::scale(Matrix4(1.0f), Vector3((transform->m_Scale * radius), 1.0f));
+                }
             }
 
             /* Apply the Matrixes to the Model. */

@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
-	camera->GetComponent<Camera>()->SetSize(2.0f);
+	camera->GetComponent<Camera>()->SetSize(3.0f);
 
 	Object* player = Object::OnCreate("Player");
 	player->AttachComponent<Rigidbody2D>();
@@ -49,22 +49,61 @@ int main(int argc, char** argv)
 	scene->AttachObject(player);
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox({1, 1}, player->GetTransform()->m_Position);
+	rigidBody->CreateDynamicBox(Vector2(1.0f, 1.0f), player->GetTransform()->m_Position);
 	rigidBody->SetSprite(debugBoxSprite);
+
 
 	Object* ground = Object::OnCreate("Ground");
 	ground->AttachComponent<Rigidbody2D>();
 
-	ground->GetTransform()->m_Position = Vector2(0, -1.0f);
+	ground->GetTransform()->m_Position = Vector2(0.0f, -1.0f);
 
 	scene->AttachObject(ground);
 
 	Rigidbody2D* grb = ground->GetComponent<Rigidbody2D>();
-
-	grb->CreateWorldBox(Vector2(6.0f, 2.0f), ground->GetTransform()->m_Position);
+	
+	grb->CreateWorldBox(Vector2(16.5f, 0.5f), ground->GetTransform()->m_Position);
 	grb->SetSprite(debugBoxSprite);
-	//rigidBody->CreateWorldBox({ 5,1 }, { 0,-1.0f });
-	//rigidBody->SetSprite(debugBoxSprite);
+	
+
+	Object* roof = Object::OnCreate("Roof");
+	roof->AttachComponent<Rigidbody2D>();
+	
+	roof->GetTransform()->m_Position = Vector2(0, 1.0f);
+	
+	scene->AttachObject(roof);
+	
+	Rigidbody2D* rfb = roof->GetComponent<Rigidbody2D>();
+	
+	rfb->CreateWorldBox(Vector2(16.5f, -0.5f), roof->GetTransform()->m_Position);
+	rfb->SetSprite(debugBoxSprite);
+	
+	
+	Object* rightWall = Object::OnCreate("RightWall");
+	rightWall->AttachComponent<Rigidbody2D>();
+	
+	rightWall->GetTransform()->m_Position = Vector2(2.0f, 0.0f);
+	
+	scene->AttachObject(rightWall);
+	
+	Rigidbody2D* rwb = rightWall->GetComponent<Rigidbody2D>();
+	
+	rwb->CreateWorldBox(Vector2(-0.5f, 8.0f), rightWall->GetTransform()->m_Position);
+	rwb->SetSprite(debugBoxSprite);
+	
+	
+	Object* leftWall = Object::OnCreate("LeftWall");
+	leftWall->AttachComponent<Rigidbody2D>();
+	
+	leftWall->GetTransform()->m_Position = Vector2(-2.0f, 0.0f);
+	
+	scene->AttachObject(leftWall);
+	
+	Rigidbody2D* lwb = leftWall->GetComponent<Rigidbody2D>();
+	
+	lwb->CreateWorldBox(Vector2(-0.5f, 8.0f), leftWall->GetTransform()->m_Position);
+	lwb->SetSprite(debugBoxSprite);
+
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 

@@ -19,7 +19,7 @@ namespace Kross
 		Scene(const std::string& name)
 			: m_Name(name), m_Objects(List<Object*>()), p_StartObject(nullptr), p_Camera(nullptr), p_Physics(new PhysicsScene())
 		{
-			b2World* world = new b2World({ 0.0f, -9.81f });
+			b2World* world = new b2World({ 0.0f, -0.5f });
 
 
 			p_Physics->SetPhysicsWorld(world);

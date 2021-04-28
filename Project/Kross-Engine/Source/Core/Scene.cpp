@@ -44,9 +44,9 @@ namespace Kross
         p_Physics->GetPhysicsWorld()->Step(0.01f, 8, 3, 1);
 
         b2World* worldPointer = p_Physics->GetPhysicsWorld();
-        b2Body* bodyPointer = worldPointer->GetBodyList()->GetNext();
+        //b2Body* bodyPointer = worldPointer->GetBodyList()->GetNext();
 
-        bodyPointer->ApplyForce({ 1,1 }, { 1,0 }, true);
+        //bodyPointer->ApplyForce({ 1,1 }, { 1,0 }, true);
 
         //b2World* world = p_Physics->GetPhysicsWorld();
 

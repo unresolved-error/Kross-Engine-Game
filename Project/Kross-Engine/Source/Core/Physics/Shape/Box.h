@@ -21,7 +21,7 @@ namespace Kross
 
 	public:
 
-		Box(Vector2 dimensions, b2Body* body, float offset);
+		Box(Vector2 dimensions, b2Body* body, Vector2 offset);
 
 		ShapeType GetShapeType() const override { return ShapeType::Box; }
 

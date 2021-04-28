@@ -8,7 +8,7 @@
 
 namespace Kross
 {
-	Circle::Circle(float radius, b2Body* body, float offset) : m_radius(radius)
+	Circle::Circle(float radius, b2Body* body, Vector2 offset) : m_radius(radius)
 	{
 		b2CircleShape circleShape;
 		circleShape.m_radius = radius;

@@ -17,7 +17,7 @@ public:
 
 	TextRenderer* rend;
 
-	float moveSpeed = 1;
+	float moveSpeed = 5;
 	float previousTime = 0.0f;
 	float actualTime;
 
@@ -35,7 +35,7 @@ public:
 	void Update() override
 	{
 		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		rigidBody->OnApplyForce(input * Time::GetDeltaTime());
+		rigidBody->OnApplyForce(input);
 
 
 		Vector2 mousePos = Input::GetMousePosition();
@@ -50,6 +50,8 @@ public:
 		{
 			std::cout << mousePoint.x << "," << mousePoint.y << std::endl;
 			std::cout << transform->m_Position.x << "," << transform->m_Position.y << std::endl;
+			std::cout << "Current X pos: " << rigidBody->GetPosition().x << std::endl;
+			std::cout << "Current Y pos: " << rigidBody->GetPosition().y << std::endl;
 			std::cout << "Applied X force: " << input.x << std::endl;
 			std::cout << "Applied Y force: " << input.y << std::endl;
 		}
@@ -68,7 +70,7 @@ public:
 		}
 
 		rigidBody->GetObject()->GetTransform()->m_Rotation = -angle;
-		
+	
 
 		//if (input.x > 0)
 		//	renderer->SetFlipX(false);
