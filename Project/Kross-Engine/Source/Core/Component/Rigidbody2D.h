@@ -9,8 +9,8 @@
 
 #include "Component.h"
 #include "Box2D/Box2D.h"
-
-#include "../Physics/Shape/Shape.h"
+#include "../Physics/PhysicsScene.h"
+#include "SpriteRenderer.h"
 
 namespace Kross
 {
@@ -18,51 +18,60 @@ namespace Kross
 
     class KROSS_API Rigidbody2D : public Component
     {
-    protected:
-        // template<typename Type>
-        // void OnCreate(Type* shape)
-        // {
-        //     static_assert<false, "Type must be of Type Shape!">();
-        // }
-        //
-        // template<>
-        // void OnCreate<float>(float* shape)
-        // {
-        //     
-        // }
-
-        Shape* p_CollisionShape = nullptr;
-
-        b2Body* p_Body = nullptr;
-
+    private:
+        Shape* p_Shape;
+        b2Body* p_Body;
         b2MassData* p_MassData;
-
-        b2Vec2 m_Velocity = { 0, 0 };
-        b2Vec2 m_Acceleration = { 0, 0 };
-        b2Vec2 m_ForceAccumulator = { 0, 0 };
+        PhysicsScene* p_PhysicsScene;
 
 
+        #ifdef KROSS_DEBUG
+        Shader* p_DebugShader;
+        #endif
+
+        ShapeType m_ShapeType;
+
+        Sprite* p_Sprite = nullptr;
+    protected:
+        friend class PhysicsScene;
+
+
+        void OnStart() override;
+
+        void OnUpdate() override;
+
+        #ifdef KROSS_DEBUG
+        void OnRender() override;
+        #endif
 
     public:
 
         Rigidbody2D();
         ~Rigidbody2D();
 
-        void OnApplyForce();
-        void OnApplyImpulse();
+        void SetPhysicsScene(PhysicsScene* scene) { p_PhysicsScene = scene; }
+        PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
 
-        void OnStart() override;
+        void SetBody(b2Body* body) { p_Body = body; }
 
-        void OnUpdate() override;
+        void OnApplyForce(Vector2 force);
+        void OnApplyImpulse(Vector2 impulse);
 
-        void OnRender() override;
+        void CreateDynamicCircle(float radius, Vector2 pos);
+        void CreateDynamicBox(Vector2 Dimensions, Vector2 pos);
+
+        void CreateWorldCircle(float radius, Vector2 pos);
+        void CreateWorldBox(Vector2 Dimensions, Vector2 pos);
+        void SetMass(float mass) { p_MassData->mass = mass; }
 
         // Gets the Objects Position. 
         Vector2 GetPosition() const;
-        Vector2 GetVelocity() const{ return Vector2(m_Velocity.x, m_Velocity.y); }
-        Vector2 GetAcceleration() const{ return Vector2(m_Acceleration.x, m_Acceleration.y); }
+        Vector2 GetVelocity() const{ return Vector2(p_Body->GetLinearVelocity().x , p_Body->GetLinearVelocity().y); }
 
-        void SetMass(float mass) { p_MassData->mass = mass; }
+        void SetSprite(Sprite* sprite);
+
+
+        b2Body* GetBody() const { return p_Body; }
 
     };
 }

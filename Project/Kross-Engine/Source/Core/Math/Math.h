@@ -28,8 +28,8 @@ namespace Kross
 	
 }
 
-void operator =(b2Vec2& lhs, Kross::Vector2& rhs)
-{
-	lhs.x = rhs.x;
-	lhs.y = rhs.y;
-}
+//void operator =(b2Vec2& lhs, Kross::Vector2& rhs)
+//{
+//	lhs.x = rhs.x;
+//	lhs.y = rhs.y;
+//}

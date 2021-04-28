@@ -9,7 +9,7 @@
 
 #include "../../Core.h"
 
-#include "../Shape/Shape.h"
+#include "../../Component/Rigidbody2D.h"
 
 namespace Kross
 {
@@ -25,5 +25,4 @@ namespace Kross
 
 		void ResolveCollision();
 	};
-
 }

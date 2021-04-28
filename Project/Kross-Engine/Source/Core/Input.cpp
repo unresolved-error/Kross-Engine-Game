@@ -55,12 +55,12 @@ namespace Kross
 				}
 
 				return 0.0f;
-			}
+			} 
 
 			default:
 			{
 				return 0.0f;
-			}
+			} 
 		}
 	}
 

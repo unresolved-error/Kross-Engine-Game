@@ -21,11 +21,10 @@ namespace Kross
 
 	public:
 
-		Plane(Vector2 normal, float distanceToOrigin);
+		//Plane(Vector2 normal, float distanceToOrigin);
 
 		ShapeType GetShapeType() const override { return ShapeType::Plane; }
 
-		Vector2 GetCenter() const { return m_RigidBody->GetPosition(); }
 		float GetDistanceToOrigin() const { return m_DistanceToOrigin; }
 	};
 }

@@ -4,8 +4,12 @@
  *      - Jake Warren.
  */
 
-#include "Plane.h"
+#include "../../Core.h"
+
+#include "Shape.h"
 
 namespace Kross
 {
 }
+
+

@@ -9,6 +9,7 @@
 #include "Manager/ShaderManager.h"
 #include "Manager/ResourceManager.h"
 #include "Manager/SceneManager.h"
+#include "Manager/Time.h"
 
 #include "Input.h"
 
@@ -24,6 +25,7 @@ namespace Kross
 		s_Window->SetWidth(width);
 		s_Window->SetHeight(height);
 		s_Window->SetTitle(title);
+		s_Window->SetVSync(0);
 	}
 
 	Application::~Application()
@@ -41,6 +43,7 @@ namespace Kross
 		ShaderManager::OnCreate();
 		ResourceManager::OnCreate();
 		SceneManager::OnCreate();
+		Time::OnCreate();
 		Input::OnCreate();
 		Input::SetWindow(s_Window);
 
@@ -71,6 +74,7 @@ namespace Kross
 			{
 				s_Window->OnStart();
 
+				Time::OnUpdateDeltaTime();
 				SceneManager::OnUpdateSceneCameraAspectRatio(s_Window->GetApsectRatio());
 
 				SceneManager::OnUpdate();
@@ -90,7 +94,9 @@ namespace Kross
 		ShaderManager::OnDestroy();
 		ResourceManager::OnDestroy();
 		SceneManager::OnDestroy();
+		Time::OnDestroy();
 		Input::OnDestoy();
+		
 	}
 
 	void Application::OnDestroy()

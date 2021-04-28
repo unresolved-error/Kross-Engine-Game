@@ -106,8 +106,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Kross-Engine\Vendor\glfw\lib\; $(SolutionDir)Kross-Engine\Vendor\glew\lib\; $(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\Box2D\lib\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib; liquidfun.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Kross-Engine\Vendor\glfw\lib\;$(SolutionDir)Kross-Engine\Vendor\glew\lib\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -156,8 +156,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Kross-Engine\Vendor\glfw\lib\; $(SolutionDir)Kross-Engine\Vendor\glew\lib\; $(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\Box2D\lib\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib; liquidfun.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Kross-Engine\Vendor\glfw\lib\;$(SolutionDir)Kross-Engine\Vendor\glew\lib\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

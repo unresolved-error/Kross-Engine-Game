@@ -2,12 +2,15 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Jake Warren.
  */
 
 #include "Scene.h"
 
 #include "Component/Camera.h"
 #include "Manager/ShaderManager.h"
+#include "Manager/Time.h"
+
 
 namespace Kross
 {
@@ -23,6 +26,7 @@ namespace Kross
 
     void Scene::OnStart()
     {
+        
         /* Start all Game Objects. */
         if (p_StartObject)
             p_StartObject->OnStart();
@@ -33,6 +37,19 @@ namespace Kross
         /* Update all Game Objects. */
         if (p_StartObject)
             p_StartObject->OnUpdate();
+    }
+
+    void Scene::OnPhysicsUpdate()
+    {
+        p_Physics->GetPhysicsWorld()->Step(0.01f, 8, 3, 1);
+
+        b2World* worldPointer = p_Physics->GetPhysicsWorld();
+        b2Body* bodyPointer = worldPointer->GetBodyList()->GetNext();
+
+        bodyPointer->ApplyForce({ 1,1 }, { 1,0 }, true);
+
+        //b2World* world = p_Physics->GetPhysicsWorld();
+
     }
 
     void Scene::OnRender()
@@ -84,6 +101,13 @@ namespace Kross
             /* If we have no Camera, set it. */
             if (!p_Camera)
                 p_Camera = object;
+        }
+
+        Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
+
+        if (body)
+        {
+            body->SetPhysicsScene(p_Physics);
         }
 
         /* Place the Object inside of the list and link it to the last Object. */

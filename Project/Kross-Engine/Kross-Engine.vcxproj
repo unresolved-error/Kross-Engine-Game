@@ -67,7 +67,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Vendor/glfw/lib/;$(ProjectDir)Vendor/glew/lib/;$(ProjectDir)Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib; liquidfun.lib;</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -87,14 +87,16 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Vendor/glfw/lib/;$(ProjectDir)Vendor/glew/lib/;$(ProjectDir)Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib; liquidfun.lib;</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Component\Camera.h" />
+    <ClInclude Include="Source\Core\Component\Collider2D.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
-    <ClInclude Include="Source\Core\Component\PhysicsScene.h" />
+    <ClInclude Include="Source\Core\Manager\Time.h" />
+    <ClInclude Include="Source\Core\Physics\PhysicsScene.h" />
     <ClInclude Include="Source\Core\Component\Rigidbody2D.h" />
     <ClInclude Include="Source\Core\Component\Script.h" />
     <ClInclude Include="Source\Core\Component\SpriteRenderer.h" />
@@ -478,8 +480,10 @@
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
+    <ClCompile Include="Source\Core\Component\Collider2D.cpp" />
     <ClCompile Include="Source\Core\Component\Component.cpp" />
-    <ClCompile Include="Source\Core\Component\PhysicsScene.cpp" />
+    <ClCompile Include="Source\Core\Manager\Time.cpp" />
+    <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />
     <ClCompile Include="Source\Core\Component\Rigidbody2D.cpp" />
     <ClCompile Include="Source\Core\Component\Script.cpp" />
     <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
@@ -495,6 +499,7 @@
     <ClCompile Include="Source\Core\Physics\Shape\Box.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Circle.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Plane.cpp" />
+    <ClCompile Include="Source\Core\Physics\Shape\Shape.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Character.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Font.cpp" />
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />

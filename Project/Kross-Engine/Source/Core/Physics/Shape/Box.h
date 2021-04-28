@@ -21,11 +21,10 @@ namespace Kross
 
 	public:
 
-		Box(Vector2 dimensions);
+		Box(Vector2 dimensions, b2Body* body, float offset);
 
 		ShapeType GetShapeType() const override { return ShapeType::Box; }
 
-		Vector2 GetCenter() const { return m_RigidBody->GetPosition(); }
 		float GetHeight() const { return m_height; }
 		float GetWidth() const { return m_width; }
 

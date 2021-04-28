@@ -20,11 +20,11 @@ namespace Kross
 
 	public:
 
-		Circle(float radius);
+		Circle(float radius, b2Body* body, float offset);
 	
 		ShapeType GetShapeType() const override { return ShapeType::Circle; }
 
-		Vector2 GetCenter() const { return m_RigidBody->GetPosition(); }
 		float GetRadius() const { return m_radius; }
+		
 };
 }
