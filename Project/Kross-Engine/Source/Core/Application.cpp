@@ -54,6 +54,9 @@ namespace Kross
 		Shader* textShader = Shader::OnCreate("Resources/Shaders/text.vert", "Resources/Shaders/text.frag", "TextShader");
 		ResourceManager::AttachResource<Shader>(textShader);
 
+		Shader* lineShader = Shader::OnCreate("Resources/Shaders/line.vert", "Resources/Shaders/line.frag", "LineShader");
+		ResourceManager::AttachResource<Shader>(lineShader);
+
 		Texture* fontTexture = Texture::OnCreate("Resources/Font/FontSheet.png", "FontTexture");
 
 		Font* standardFont = Font::OnCreate(fontTexture, 16, 16, "StandardFont");

@@ -95,7 +95,11 @@
     <ClInclude Include="Source\Core\Component\Camera.h" />
     <ClInclude Include="Source\Core\Component\Collider2D.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
+    <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Physics.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsScene.h" />
     <ClInclude Include="Source\Core\Component\Rigidbody2D.h" />
     <ClInclude Include="Source\Core\Component\Script.h" />
@@ -115,6 +119,7 @@
     <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Plane.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Shape.h" />
+    <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />
@@ -482,7 +487,9 @@
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\Collider2D.cpp" />
     <ClCompile Include="Source\Core\Component\Component.cpp" />
+    <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
+    <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />
     <ClCompile Include="Source\Core\Component\Rigidbody2D.cpp" />
     <ClCompile Include="Source\Core\Component\Script.cpp" />
@@ -500,6 +507,7 @@
     <ClCompile Include="Source\Core\Physics\Shape\Circle.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Plane.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Shape.cpp" />
+    <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Character.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Font.cpp" />
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />

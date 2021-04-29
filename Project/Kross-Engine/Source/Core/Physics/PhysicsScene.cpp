@@ -10,10 +10,15 @@ namespace Kross
 {
 	PhysicsScene::~PhysicsScene()
 	{
+		for (int i = 0; i < p_ParticleSystem->GetParticleCount(); i++)
+		{
+			p_ParticleSystem->DestroyParticle(i);
+		}
 		delete p_PhysicsWorld;
+
 	}
 
-	Circle* PhysicsScene::CreateCircleBody(float radius, b2Body* body)
+	Circle* PhysicsScene::CreateCircleBody(float radius, Body* body)
 	{
 		Circle* circle = new Circle(radius, body, Vector2(0,0));
 		AttachBody(body);
@@ -21,15 +26,15 @@ namespace Kross
 		return circle;
 	}
 
-	Box* PhysicsScene::CreateBoxBody(Vector2 dimensions, b2Body* body)
+	Box* PhysicsScene::CreateBoxBody(Vector2 dimensions, Body* body)
 	{
-		Box* box = new Box(dimensions, body, Vector2(0, 0));;
+		Box* box = new Box(dimensions, body, Vector2(0, 0));
 		AttachBody(body);
 		
 		return box;
 	}
 
-	void PhysicsScene::CreatePlane(Vector2 normal, float distance, b2Body* body)
+	void PhysicsScene::CreatePlane(Vector2 normal, float distance, Body* body)
 	{
 		/* Not a real thing yet */
 		/* Plane(normal, distance); */

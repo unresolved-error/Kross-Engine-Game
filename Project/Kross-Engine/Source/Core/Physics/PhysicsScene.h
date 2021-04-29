@@ -10,35 +10,42 @@
 
 #include "../Core.h"
 
+#include "Physics.h"
+
 #include "Shape/Shape.h"
 #include "Shape/Circle.h"
 #include "Shape/Box.h"
 #include "Shape/Plane.h"
+
+#include "Particles/Particle.h"
 
 namespace Kross
 {
 	class KROSS_API PhysicsScene
 	{
 	private:
-		b2World* p_PhysicsWorld;
+		World* p_PhysicsWorld;
+		ParticleSystem* p_ParticleSystem;
 
-		List<b2Body*> m_bodies;
+		List<Body*> m_bodies;
 
 	protected:
 		friend class Scene;
-		void SetPhysicsWorld(b2World* world) { p_PhysicsWorld = world; }
+		void SetPhysicsWorld(World* world) { p_PhysicsWorld = world; }
+		void SetParticleSystem(ParticleSystem* particleSystem) { p_ParticleSystem = particleSystem; }
 
 	public:
-		Circle* CreateCircleBody(float radius, b2Body* body);
-		Box* CreateBoxBody(Vector2 dimensions, b2Body* body);
-		void CreatePlane(Vector2 normal, float distance, b2Body* body);
+		Circle* CreateCircleBody(float radius, Body* body);
+		Box* CreateBoxBody(Vector2 dimensions, Body* body);
+		void CreatePlane(Vector2 normal, float distance, Body* body);
 
-		void AttachBody(b2Body* body) { m_bodies.push_back(body); }
+		void AttachBody(Body* body) { m_bodies.push_back(body); }
 
-		PhysicsScene() { p_PhysicsWorld = nullptr; }
+		PhysicsScene() : p_PhysicsWorld(nullptr), p_ParticleSystem(nullptr) {};
 		~PhysicsScene();
 
-		b2World* GetPhysicsWorld() { return p_PhysicsWorld; }
+		World* GetPhysicsWorld() { return p_PhysicsWorld; }
+		ParticleSystem* GetParticleSystem() { return p_ParticleSystem; }
 
 	};
 }

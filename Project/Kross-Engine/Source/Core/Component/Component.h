@@ -72,3 +72,4 @@ namespace Kross
 #include "TextRenderer.h"
 #include "Rigidbody2D.h"
 #include "Collider2D.h"
+#include "ParticleEmitter.h"

@@ -23,7 +23,7 @@ namespace Kross
 
 		//Plane(Vector2 normal, float distanceToOrigin);
 
-		ShapeType GetShapeType() const override { return ShapeType::Plane; }
+		ShapeType GetShapeType() const { return ShapeType::Plane; }
 
 		float GetDistanceToOrigin() const { return m_DistanceToOrigin; }
 	};

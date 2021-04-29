@@ -35,7 +35,7 @@ public:
 	void Update() override
 	{
 		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		rigidBody->OnApplyForce(input);
+		rigidBody->OnApplyForce(input * 8.0f);
 
 
 		Vector2 mousePos = Input::GetMousePosition();
@@ -69,7 +69,7 @@ public:
 			actualTime = 0.0f;
 		}
 
-		rigidBody->GetObject()->GetTransform()->m_Rotation = -angle;
+		//rigidBody->GetObject()->GetTransform()->m_Rotation = -angle;
 	
 
 		//if (input.x > 0)

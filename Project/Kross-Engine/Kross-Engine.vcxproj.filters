@@ -1170,6 +1170,21 @@
     <ClInclude Include="Source\Core\Manager\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Renderer\LineRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\Particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Component\ParticleEmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp">
@@ -1446,6 +1461,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Manager\Time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

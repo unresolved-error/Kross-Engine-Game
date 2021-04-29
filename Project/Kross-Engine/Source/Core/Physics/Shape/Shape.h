@@ -10,7 +10,7 @@
 #include "../../Core.h"
 
 #include "../../Math/Math.h"
-#include "Box2D/Box2D.h"
+#include "../Physics.h"
 
 namespace Kross
 {

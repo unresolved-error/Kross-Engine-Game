@@ -43,12 +43,7 @@ namespace Kross
     {
         p_Physics->GetPhysicsWorld()->Step(0.01f, 8, 3, 1);
 
-        b2World* worldPointer = p_Physics->GetPhysicsWorld();
-        //b2Body* bodyPointer = worldPointer->GetBodyList()->GetNext();
-
-        //bodyPointer->ApplyForce({ 1,1 }, { 1,0 }, true);
-
-        //b2World* world = p_Physics->GetPhysicsWorld();
+        World* worldPointer = p_Physics->GetPhysicsWorld();
 
     }
 
@@ -108,6 +103,13 @@ namespace Kross
         if (body)
         {
             body->SetPhysicsScene(p_Physics);
+        }
+
+        ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
+
+        if (emitter)
+        {
+            emitter->SetPhysicsScene(p_Physics);
         }
 
         /* Place the Object inside of the list and link it to the last Object. */

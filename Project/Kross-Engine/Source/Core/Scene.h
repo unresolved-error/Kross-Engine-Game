@@ -19,10 +19,14 @@ namespace Kross
 		Scene(const std::string& name)
 			: m_Name(name), m_Objects(List<Object*>()), p_StartObject(nullptr), p_Camera(nullptr), p_Physics(new PhysicsScene())
 		{
-			b2World* world = new b2World({ 0.0f, -0.5f });
-
-
+			/* Sets the physics world for Box2D */
+			World* world = new World({ 0.0f, -0.5f });
 			p_Physics->SetPhysicsWorld(world);
+
+			/* Sets a default particle system */
+			ParticleSystemDef particleSystemDef;
+			ParticleSystem* particleSystem = world->CreateParticleSystem(&particleSystemDef);
+			p_Physics->SetParticleSystem(particleSystem);
 		};
 		~Scene();
 

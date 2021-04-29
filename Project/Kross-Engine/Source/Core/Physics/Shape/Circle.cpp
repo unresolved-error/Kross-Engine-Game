@@ -8,14 +8,14 @@
 
 namespace Kross
 {
-	Circle::Circle(float radius, b2Body* body, Vector2 offset) : m_radius(radius)
+	Circle::Circle(float radius, Body* body, Vector2 offset) : m_radius(radius)
 	{
-		b2CircleShape circleShape;
+		CircleShape circleShape;
 		circleShape.m_radius = radius;
 
-		b2FixtureDef fixtureDef;
+		FixtureDef fixtureDef;
 		fixtureDef.shape = &circleShape;
-		fixtureDef.density = 1.0f;
+		fixtureDef.density = 0.5f;
 		fixtureDef.friction = 0.6f;
 
 		body->CreateFixture(&fixtureDef);
