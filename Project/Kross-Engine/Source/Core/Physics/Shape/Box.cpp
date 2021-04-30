@@ -20,7 +20,7 @@ namespace Kross
 		FixtureDef fixtureDef;
 		fixtureDef.shape = &dynamicBox;
 		fixtureDef.density = 1.0f;
-		fixtureDef.friction = 0.6f;
+		fixtureDef.friction = 0.1f;
 		
 		body->CreateFixture(&fixtureDef);
 	}

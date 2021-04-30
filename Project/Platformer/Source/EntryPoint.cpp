@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
-	camera->GetComponent<Camera>()->SetSize(5.0f);
+	camera->GetComponent<Camera>()->SetSize(6.0f);
 
 	Object* player = Object::OnCreate("Player");
 	player->AttachComponent<SpriteRenderer>();
@@ -41,8 +41,8 @@ int main(int argc, char** argv)
 	TextRenderer* textRenderer = textExample->GetComponent<TextRenderer>();
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
 	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
-	textRenderer->SetTextSize(1.2f);
-	textRenderer->SetText("Inventory");
+	textRenderer->SetTextSize(3.0f);
+	textRenderer->SetText("Hello AIE!");
 
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 	particle->GetParticle()->SetPosition({ particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y });
 	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
 	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	particle->SetParticleCount(200);
+	particle->SetParticleCount(100);
 
 
 	Object* platform = Object::OnCreate("Platform");
@@ -126,7 +126,7 @@ int main(int argc, char** argv)
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
 	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position, true);
-	//rigidBody->SetMass(1.25f);
+	rigidBody->SetMass(0.25f);
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 

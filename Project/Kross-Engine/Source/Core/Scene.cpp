@@ -57,7 +57,7 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         /* Update the physics step */
-        p_Physics->GetPhysicsWorld()->Step(1.0f / 240.0f, 8, 3, 2);
+        p_Physics->GetPhysicsWorld()->Step(1.0f / 240.0f, 8, 3, 3);
         //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
 
     }

@@ -22,6 +22,8 @@ public:
 
 	float moveSpeed = 5;
 
+	int controllerID;
+
 	float previousTime = 0.0f;
 	float actualTime;
 
@@ -33,16 +35,23 @@ public:
 		renderer = GetObject()->GetComponent<SpriteRenderer>();
 		window = Application::GetWindow();
 
+		controllerID = Input::GetAvalibleController();
+
 		previousTime = Time::GetDeltaTime();
 	}
 
 	void Update() override
 	{
-		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		rigidBody->OnApplyForce(input * 0.25f);
+		//Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
+		//Input::GetControllerAxis()
+		Vector2 input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), Input::GetControllerAxis(controllerID, Controller::LeftStickVertical, 0.2f));
+		rigidBody->OnApplyForce(input * 2.5f);
 
-		if (Input::GetKeyPressed(Key::Space))
-			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.5f);
+		//if (Input::GetKeyPressed(Key::Space))
+		//	rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.75f);
+
+		if (Input::GetControllerButtonPressed(controllerID, Controller::A))
+			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.75f);
 
 		if (Input::GetKeyDown(Key::Backspace))
 			textObj->SetText("Deklyn");
@@ -52,10 +61,17 @@ public:
 			std::cout << SceneManager::GetCurrentScene()->GetObjectCount() << std::endl;
 		}
 
-		if (Input::GetKeyPressed(Key::E))
-		{
+		//if (Input::GetKeyPressed(Key::E))
+		//	followPlayer = !followPlayer;
+
+		if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))
 			followPlayer = !followPlayer;
-		}
+
+		if (Input::GetControllerButtonPressed(controllerID, Controller::X))
+			textObj->SetFont(ResourceManager::GetResource<Font>(0));
+
+		else if (Input::GetControllerButtonPressed(controllerID, Controller::Y))
+			textObj->SetFont(ResourceManager::GetResource<Font>(1));
 
 		if (Input::GetKeyDown(Key::Enter))
 		{

@@ -129,7 +129,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; </PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\; $(SolutionDir)Kross-Engine\Vendor\fnl\include\;</AdditionalIncludeDirectories>
     </ClCompile>
@@ -146,7 +146,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; </PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Kross-Engine\Vendor\glew\include\;$(SolutionDir)Kross-Engine\Vendor\glfw\include\;$(SolutionDir)Kross-Engine\Vendor\glm\include\;$(SolutionDir)Kross-Engine\Vendor\stb_image\include\;$(SolutionDir)Kross-Engine\Vendor\fnl\include\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>

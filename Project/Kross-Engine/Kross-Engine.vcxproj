@@ -76,7 +76,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</AdditionalIncludeDirectories>

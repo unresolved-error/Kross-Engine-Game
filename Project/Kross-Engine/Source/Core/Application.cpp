@@ -57,12 +57,15 @@ namespace Kross
 		Shader* lineShader = Shader::OnCreate("Resources/Shaders/line.vert", "Resources/Shaders/line.frag", "LineShader");
 		ResourceManager::AttachResource<Shader>(lineShader);
 
-		Texture* fontTexture = Texture::OnCreate("Resources/Font/FontSheet.png", "FontTexture");
+		Texture* fontTexture = Texture::OnCreate("Resources/Font/KrossFont.png", "KrossFontTexture");
+		Texture* fontSheetTexture = Texture::OnCreate("Resources/Font/FontSheet.png", "FontTexture");
 
 		Texture* debugCircleTexture = Texture::OnCreate("Resources/Textures/DebugCircle.png", "DebugCircle");
 		Texture* debugBoxTexture = Texture::OnCreate("Resources/Textures/DebugBox.png", "DebugBox");
 
-		Font* standardFont = Font::OnCreate(fontTexture, 16, 16, "StandardFont");
+		Font* krossFont = Font::OnCreate(fontTexture, 10, 16, "KrossFont");
+		Font* standardFont = Font::OnCreate(fontSheetTexture, 16, 16, "Font");
+		ResourceManager::AttachResource<Font>(krossFont);
 		ResourceManager::AttachResource<Font>(standardFont);
 	}
 

@@ -29,6 +29,7 @@ namespace Kross
 		std::string m_Text, m_PreviousText;
 
 		Font* p_Font;
+		Font* p_PreviousFont;
 		List<Character*> m_TextCharacters;
 
 		TextRenderer* p_TextRenderer;
@@ -52,7 +53,7 @@ namespace Kross
 
 	public:
 		Text()
-			: m_Text(std::string()), m_PreviousText(std::string()), p_Font(nullptr), m_TextCharacters(List<Character*>()), p_TextRenderer(nullptr), m_Alignment(TextAlignment::Center), m_Colour(Colour(1.0f)), m_Size(1.0f)
+			: m_Text(std::string()), m_PreviousText(std::string()), p_Font(nullptr), p_PreviousFont(nullptr), m_TextCharacters(List<Character*>()), p_TextRenderer(nullptr), m_Alignment(TextAlignment::Center), m_Colour(Colour(1.0f)), m_Size(1.0f)
 		{};
 		~Text();
 

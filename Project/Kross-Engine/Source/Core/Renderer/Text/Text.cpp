@@ -35,7 +35,7 @@ namespace Kross
 			return;
 
 		/* We have different text so create Characters for it. */
-		if (m_PreviousText != m_Text)
+		if (m_PreviousText != m_Text || p_PreviousFont != p_Font)
 		{
 			/* If there are non-existing characters in the Text. */
 			if (m_TextCharacters.size() == 0)
@@ -71,6 +71,7 @@ namespace Kross
 			}
 
 			m_PreviousText = m_Text;
+			p_PreviousFont = p_Font;
 		}
 
 		/* Get the Alignment and Size Variables. */
