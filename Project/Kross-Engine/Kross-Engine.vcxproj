@@ -93,12 +93,10 @@
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Component\Camera.h" />
-    <ClInclude Include="Source\Core\Component\Collider2D.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
     <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h" />
     <ClInclude Include="Source\Core\Physics\Physics.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsScene.h" />
     <ClInclude Include="Source\Core\Component\Rigidbody2D.h" />
@@ -485,7 +483,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
-    <ClCompile Include="Source\Core\Component\Collider2D.cpp" />
     <ClCompile Include="Source\Core\Component\Component.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />

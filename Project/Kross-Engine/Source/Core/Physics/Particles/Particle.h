@@ -13,14 +13,12 @@
 
 namespace Kross
 {
-	class KROSS_API ParticleEmitter;
 
 	class KROSS_API Particle
 	{
 	private:
-
 	protected:
-		int m_ParticleID;
+		int m_ParticleID = 0;
 
 		int m_Flags = 0;
 		int m_GroupFlags = 0;
@@ -34,30 +32,68 @@ namespace Kross
 		float m_Strength = 0.0f;
 		const b2Shape* m_Shape = NULL;
 
+		b2ParticleDef m_ParticleDef;
+
 	public:
 		/* The group bool is to determine where values need to be assigned */
-		Particle() : m_ParticleID(-1) {}
+		Particle()	{}
 
+		ParticleDef GetParticleDef() { return m_ParticleDef; }
 
-		ParticleDef CreateParticle();
-		ParticleGroupDef CreateParticleGroup();
+		void CreateParticle(ParticleSystem* particleSystem);
+		/* Creates a particle def with the supplied information */
+		ParticleDef CreateParticleDef();
 
+		void CreateParticleGroup(ParticleSystem* particleSystem);
+		/* Creates a particle group def with the supplied information */
+		ParticleGroupDef CreateParticleGroupDef();
+
+		/* Adds a particle flag by combining the enum */
 		void AddParticleFlag(ParticleFlag flag) { m_Flags += flag; }
+		int GetParticleFlag() { return m_Flags; }
 
+		/* Adds a particle group flag by combining the enum */
 		void AddParticleGroupFlag(ParticleGroupFlag flag) { m_GroupFlags += flag; }
+		int GetParticleGroupFlag() { return m_GroupFlags; }
 
+		/* Sets the position of the particle */
 		void SetPosition(Vector2 pos) { m_Position = pos; }
+		Vector2 GetPosition() { return m_Position; }
 
+		/* Sets the color of the particle */
 		void SetColor(Vector4 color) { m_Color = color; }
+		Vector4 GetColor() { return m_Color; }
 
+		/* Sets the lifetime of the particle */
 		void SetLifetime(float lifetime) { m_Lifetime = lifetime; }
+		float GetLifetime() { return m_Lifetime; }
 
-		void SetShape(PolygonShape shape) { m_Shape = &shape; }
-		void SetShape(CircleShape shape) { m_Shape = &shape; }
+		/* Sets the shape of the particle as a polygon */
+		void SetShape(Vector2 dim) 
+		{ 
+			PolygonShape shape;
+			shape.SetAsBox(dim.x, dim.y);
+			m_Shape = &shape;
+		}
+		/* Sets the shape of the particle as a circle */
+		void SetShape(float radius) 
+		{
+			CircleShape shape;
+			shape.m_radius = radius;
+			m_Shape = &shape;
+		}
+		const b2Shape* GetShape() { return m_Shape; }
 
+		/* Sets the angle of the particle group */
 		void SetAngle(float angle) { m_Angle = angle; }
+		float GetAngle() { return m_Angle; }
 
+		void SetAngularVelocity(float angularVelocity) { m_AngularVelocity = angularVelocity; }
+		float GetAngularVelocity() { return m_AngularVelocity; }
+
+		/* Sets the strength of the particle group */
 		void SetStrength(float strength) { m_Strength = strength; }
+		float GetStrength() { return m_Strength; }
 
 	};
 }

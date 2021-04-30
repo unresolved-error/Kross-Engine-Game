@@ -35,7 +35,7 @@ public:
 	void Update() override
 	{
 		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		rigidBody->OnApplyForce(input * 8.0f);
+		rigidBody->OnApplyForce(input);
 
 
 		Vector2 mousePos = Input::GetMousePosition();
@@ -48,12 +48,13 @@ public:
 
 		if (Input::GetKeyDown(Key::Space))
 		{
-			std::cout << mousePoint.x << "," << mousePoint.y << std::endl;
-			std::cout << transform->m_Position.x << "," << transform->m_Position.y << std::endl;
-			std::cout << "Current X pos: " << rigidBody->GetPosition().x << std::endl;
-			std::cout << "Current Y pos: " << rigidBody->GetPosition().y << std::endl;
-			std::cout << "Applied X force: " << input.x << std::endl;
-			std::cout << "Applied Y force: " << input.y << std::endl;
+			rigidBody->OnApplyImpulse(Vector2(0.0f, 0.1f));
+			//std::cout << mousePoint.x << "," << mousePoint.y << std::endl;
+			//std::cout << transform->m_Position.x << "," << transform->m_Position.y << std::endl;
+			//std::cout << "Current X pos: " << rigidBody->GetPosition().x << std::endl;
+			//std::cout << "Current Y pos: " << rigidBody->GetPosition().y << std::endl;
+			//std::cout << "Applied X force: " << input.x << std::endl;
+			//std::cout << "Applied Y force: " << input.y << std::endl;
 		}
 
 		actualTime += Time::GetDeltaTime();

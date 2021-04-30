@@ -1164,9 +1164,6 @@
     <ClInclude Include="Source\Core\Physics\PhysicsScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Component\Collider2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Manager\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1174,9 +1171,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Particles\Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h">
@@ -1455,9 +1449,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Shape\Shape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\Collider2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Manager\Time.cpp">

@@ -30,6 +30,7 @@ namespace Kross
         Vector2 m_offset;
 
     public:
+        /* Gets the shape of the object */
         virtual ShapeType GetShapeType() const = 0;
     };
 }

@@ -16,6 +16,7 @@ namespace Kross
     Rigidbody2D::Rigidbody2D()
         : p_Shape(nullptr), m_ShapeType(ShapeType::Count), p_Body(nullptr), p_PhysicsScene(nullptr)
     {
+        /* When in debug set up the shader and renderer */
         #ifdef KROSS_DEBUG
         p_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
         lines = new LineRenderer();
@@ -28,77 +29,102 @@ namespace Kross
         p_PhysicsScene = nullptr;
     }
 
-    void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos)
+    void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation)
     {
+        /* Sets the shape type */
         m_ShapeType = ShapeType::Circle;
 
+        /* Create a bodyDef and set the variables */
         BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(pos.x, pos.y);
         
+        /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+        p_Body->SetFixedRotation(fixedRotation);
 
+        /* Assigns the shape to the pointer */
         p_Shape = p_PhysicsScene->CreateCircleBody(radius, p_Body);
     }
 
-    void Rigidbody2D::CreateDynamicBox(Vector2 Dimensions, Vector2 pos)
+    void Rigidbody2D::CreateDynamicBox(Vector2 Dimensions, Vector2 pos, bool fixedRotation)
     {
+        /* Sets the shape type */
         m_ShapeType = ShapeType::Box;
 
+        /* Create a bodyDef and set the variables */
         BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(pos.x, pos.y);
 
+        /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+        p_Body->SetFixedRotation(fixedRotation);
 
+        /* Assigns the shape to the pointer */
         p_Shape = p_PhysicsScene->CreateBoxBody(Dimensions, p_Body);
     }
 
     void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos)
     {
+        /* Sets the shape type */
         m_ShapeType = ShapeType::Circle;
 
+        /* Create a bodyDef and set the variables */
         BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
         bodyDef.position.Set(pos.x, pos.y);
 
+        /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
 
+        /* Assigns the shape to the pointer */
         p_Shape = p_PhysicsScene->CreateCircleBody(radius, p_Body);
     }
 
     void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, Vector2 pos)
     {
+        /* Sets the shape type */
         m_ShapeType = ShapeType::Box;
 
+        /* Create a bodyDef and set the variables */
         BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
         bodyDef.position.Set(pos.x, pos.y);
 
+        /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
 
+        /* Assigns the shape to the pointer */
         p_Shape = p_PhysicsScene->CreateBoxBody(Dimensions, p_Body);
     }
 
     void Rigidbody2D::OnStart()
     {
+        /* Gets the body */
         p_Body = GetBody();
 
+        /* Gets the physics scene */
         p_PhysicsScene = GetPhysicsScene();
 
+        /* When in debug the line renderer is initialised */
         #ifdef KROSS_DEBUG
-        //p_DebugShader->SetUniform("u_Colour", Colour(1.0f, 0.5f, 0.0f, 1.0f));
         lines->Initialise();
         #endif
     }
 
     void Rigidbody2D::OnUpdate()
     {
+        /* Checks if the object is not static */
         if (p_Body->GetType() != b2_staticBody)
         {
+            /* Gets the object position and updates it with the position of the body */
             GetObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
+
+            /* Gets the object rotation and updates it with the angle of the body */
             GetObject()->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
         }
+
         /* Call Base Component Function. */
         Component::OnUpdate();
     }
@@ -121,30 +147,22 @@ namespace Kross
     {
         lines->SetColour(Vector3(1.0f, 0.0f, 0.0f));
 
+        /* Checks the shape type of the body */
         if (m_ShapeType == ShapeType::Box)
         {
-            if (p_Body->GetType() != b2_staticBody)
-            {
-                lines->DrawRigidBody(p_Body);
-            }
-            else
-            {
-                lines->DrawRigidBody(p_Body);
-            }
+            /* Draws the rigid body */
+            lines->DrawRigidBody(p_Body);            
         }
         else if (m_ShapeType == ShapeType::Circle)
         {
-            if (p_Body->GetType() != b2_staticBody)
-            {
-                lines->DrawRigidBody(p_Body);
-            }
-            else
-            {
-                lines->DrawRigidBody(p_Body);
-            }
+            /* Draws the rigid body */
+            lines->DrawRigidBody(p_Body);            
         }
 
+        /* Attatches the shader */
         p_DebugShader->Attach();
+
+        /* Updates the line renderer */
         lines->UpdateFrame();
 
         /* Call Base Component Function. */

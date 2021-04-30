@@ -31,20 +31,32 @@ namespace Kross
 
 	protected:
 		friend class Scene;
+		/* Sets the Physics World */
 		void SetPhysicsWorld(World* world) { p_PhysicsWorld = world; }
+
+		/* Sets the Particle System */
 		void SetParticleSystem(ParticleSystem* particleSystem) { p_ParticleSystem = particleSystem; }
 
 	public:
-		Circle* CreateCircleBody(float radius, Body* body);
-		Box* CreateBoxBody(Vector2 dimensions, Body* body);
-		void CreatePlane(Vector2 normal, float distance, Body* body);
-
-		void AttachBody(Body* body) { m_bodies.push_back(body); }
-
 		PhysicsScene() : p_PhysicsWorld(nullptr), p_ParticleSystem(nullptr) {};
 		~PhysicsScene();
 
+		/* Takes the radius and body, creating a new Circle */
+		Circle* CreateCircleBody(float radius, Body* body);
+
+		/* Takes the dimensions and body, creating a new Box */
+		Box* CreateBoxBody(Vector2 dimensions, Body* body);
+
+		/* Takes a normal, distance and body, creating a new Plane */
+		void CreatePlane(Vector2 normal, float distance, Body* body);
+
+		/* Adds the Body to a list of bodies */
+		void AttachBody(Body* body) { m_bodies.push_back(body); }
+
+		/* Returns the Physics World */
 		World* GetPhysicsWorld() { return p_PhysicsWorld; }
+
+		/* Return the Particle System */
 		ParticleSystem* GetParticleSystem() { return p_ParticleSystem; }
 
 	};

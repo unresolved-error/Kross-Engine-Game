@@ -41,9 +41,8 @@ namespace Kross
 
     void Scene::OnPhysicsUpdate()
     {
-        p_Physics->GetPhysicsWorld()->Step(0.01f, 8, 3, 1);
-
-        World* worldPointer = p_Physics->GetPhysicsWorld();
+        /* Update the physics step */
+        p_Physics->GetPhysicsWorld()->Step(1.0f / 60.0f, 8, 3, 2);
 
     }
 
@@ -98,15 +97,19 @@ namespace Kross
                 p_Camera = object;
         }
 
+        /* Check if the object is type RigidBody2D */
         Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
 
+        /* If the object is a RigidBody the physics scene is set */
         if (body)
         {
             body->SetPhysicsScene(p_Physics);
         }
 
+        /* Check if the object is type Particleemitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
 
+        /* If the object is a ParticleEmitter the physics scene is set */
         if (emitter)
         {
             emitter->SetPhysicsScene(p_Physics);

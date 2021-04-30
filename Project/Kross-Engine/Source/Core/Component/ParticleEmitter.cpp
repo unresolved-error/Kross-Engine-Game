@@ -10,19 +10,23 @@ namespace Kross
 {
 	void ParticleEmitter::OnStart()
 	{
+		p_PhysicsScene = GetPhysicsScene();
+
 		/* set the world and the particle system */
 		p_World = p_PhysicsScene->GetPhysicsWorld();
-		p_ParticleSystem = p_PhysicsScene->GetParticleSystem();
+		//p_ParticleSystem = p_PhysicsScene->GetParticleSystem();
 
 		/* Creates the particle system */
 		OnCreateParticleSystem();
 
+		p_ParticleSystem;
+
 		/* Creates all of the particles */
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < m_ParticleCount; i++)
 		{
-			for (int j = 0; j < 10; j++)
+			for (int j = 0; j < m_ParticleCount; j++)
 			{
-				p_Particle->SetPosition(Vector2(-7.9f + 0.03f * i, 3.0f - 0.02f * j));
+				p_Particle->SetPosition(Vector2(-7.9f + 0.01f * i, 3.0f - 0.002f + 0.01f * j));
 				OnCreateParticle();
 			}
 		}
@@ -33,11 +37,9 @@ namespace Kross
 		/* Initialise the line renderer */
 		p_Lines->Initialise();
 
-		
-		SetRadius(0.1f);
+		SetRadius(0.025f);
+		p_Lines->SetColour(Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f));
 
-		b2ParticleColor* particleColor = p_ParticleSystem->GetColorBuffer();
-		p_Lines->SetColour({ particleColor[0].r, particleColor[0].g, particleColor[0].b });
 		Component::OnStart();
 	}
 
@@ -48,10 +50,12 @@ namespace Kross
 
 	void ParticleEmitter::OnRender()
 	{
+		//b2ParticleColor* particleColor = p_ParticleSystem->GetColorBuffer();
 		b2Vec2* particlePositions = p_ParticleSystem->GetPositionBuffer();
 		for (int i = 0; i < p_ParticleSystem->GetParticleCount(); i++)
 		{
-			p_Lines->DrawCircle({ particlePositions[i].x, particlePositions[i].y }, p_ParticleSystem->GetRadius(), 8);
+			//p_Lines->SetColour({ particleColor[i].r, particleColor[i].g, particleColor[i].b });
+			p_Lines->DrawCross({ particlePositions[i].x, particlePositions[i].y }, p_ParticleSystem->GetRadius());
 		}
 		
 		p_DebugShader->Attach();
@@ -67,12 +71,32 @@ namespace Kross
 
 	void ParticleEmitter::OnCreateParticleSystem()
 	{
-		p_ParticleSystem = p_World->CreateParticleSystem(&m_ParticleSystemDef);
+		ParticleSystemDef particleSystemDef;
+		p_ParticleSystem = p_PhysicsScene->GetParticleSystem();
 	}
 
 	void ParticleEmitter::OnCreateParticle()
 	{
-		p_ParticleSystem->CreateParticle(p_Particle->CreateParticle());
+		if (!p_World)
+		{
+			p_PhysicsScene = GetPhysicsScene();
+			p_PhysicsScene->GetPhysicsWorld();
+			OnCreateParticleSystem();
+			GetParticleSystem()->CreateParticle(p_Particle->CreateParticleDef());
+		}
+		GetParticleSystem()->CreateParticle(p_Particle->CreateParticleDef());
+	}
+
+	void ParticleEmitter::OnCreateParticleGroup()
+	{
+		if (!p_World)
+		{
+			p_PhysicsScene = GetPhysicsScene();
+			p_PhysicsScene->GetPhysicsWorld();
+			OnCreateParticleSystem();
+			p_ParticleSystem->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
+		}
+		p_ParticleSystem->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
 	}
 
 }

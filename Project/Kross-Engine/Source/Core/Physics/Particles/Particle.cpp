@@ -4,27 +4,40 @@
 
 namespace Kross
 {
-	ParticleDef Particle::CreateParticle()
+	void Particle::CreateParticle(ParticleSystem* particleSystem)
 	{
-		ParticleDef particleDef;
-		particleDef.flags = m_Flags;
+		particleSystem->CreateParticle(CreateParticleDef());
+	}
 
-		particleDef.position.Set(m_Position.x, m_Position.y);
-		particleDef.color.Set(m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+	ParticleDef Particle::CreateParticleDef()
+	{
+		/* Creates the particleDef and assigns all avaliable variables */
+		ParticleDef particleDef;
+		particleDef.flags = GetParticleFlag();
+
+		particleDef.position.Set(GetPosition().x, GetPosition().y);
+		particleDef.color.Set(GetColor().r, GetColor().g, GetColor().b, GetColor().a);
 
 		return particleDef;
 	}
 
-	ParticleGroupDef Particle::CreateParticleGroup()
+	void Particle::CreateParticleGroup(ParticleSystem* particleSystem)
 	{
+		particleSystem->CreateParticleGroup(CreateParticleGroupDef());
+	}
+
+	ParticleGroupDef Particle::CreateParticleGroupDef()
+	{
+		/* Creates the particleGroupDef and assigns all avaliable variables */
 		ParticleGroupDef particleDef;
-		particleDef.flags = m_Flags;
-		particleDef.groupFlags = m_GroupFlags;
+		particleDef.flags = GetParticleFlag();
+		particleDef.groupFlags = GetParticleGroupFlag();
 
-		particleDef.shape = m_Shape;
-
-		particleDef.position.Set(m_Position.x, m_Position.y);
-		particleDef.color.Set(m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+		particleDef.shape = GetShape();
+		particleDef.angle = GetAngle();
+		particleDef.angularVelocity = GetAngularVelocity();
+		particleDef.position.Set(GetPosition().x, GetPosition().y);
+		particleDef.color.Set(GetColor().r, GetColor().g, GetColor().b, GetColor().a);
 
 		return particleDef;
 	}

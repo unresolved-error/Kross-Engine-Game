@@ -33,6 +33,7 @@ namespace Kross
         static void OnUpdateDeltaTime();
 
     public:
+        /* Returns the current delta time */
         static const float GetDeltaTime() { return s_DeltaTime; };
     };
 }

@@ -19,11 +19,13 @@ namespace Kross
 		float m_radius;
 
 	public:
-
+		/* Creates a circle using the radius and body */
 		Circle(float radius, Body* body, Vector2 offset);
 	
+		/* Returns the shape type */
 		ShapeType GetShapeType() const override { return ShapeType::Circle; }
 
+		/* Returns the radius */
 		float GetRadius() const { return m_radius; }
 		
 };

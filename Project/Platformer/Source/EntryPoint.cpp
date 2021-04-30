@@ -32,6 +32,7 @@ int main(int argc, char** argv)
 
 	player->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
 	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
+	player->GetTransform()->m_Rotation = 0.0f;
 
 	Object* textExample = Object::OnCreate("Text");
 	textExample->AttachComponent<TextRenderer>();
@@ -49,26 +50,29 @@ int main(int argc, char** argv)
 
 	scene->AttachObject(player);
 
-	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position);
-	rigidBody->SetMass(8.0f);
-
-
 
 	Object* particleEmitter = Object::OnCreate("Emitter");
 	particleEmitter->AttachComponent<ParticleEmitter>();
-
+	particleEmitter->GetTransform()->m_Position = Vector2(2.0f, 2.0f);
 
 	scene->AttachObject(particleEmitter);
-	particleEmitter->GetTransform()->m_Position = Vector2(2.0f, 2.0f);
-	
-	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
-	
-	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
-	particle->GetParticle()->AddParticleFlag(b2_colorMixingParticle);
-	particle->GetParticle()->SetPosition(particleEmitter->GetTransform()->m_Position);
-	particle->GetParticle()->SetColor(Vector4(128, 0, 128, 255));
 
+	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
+	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
+	particle->GetParticle()->SetPosition({ particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y });
+	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
+	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
+	particle->SetParticleCount(30);
+
+
+	Object* platform = Object::OnCreate("Platform");
+	platform->AttachComponent<Rigidbody2D>();
+	platform->GetTransform()->m_Position = Vector2(0.0f, -2.5f);
+
+	scene->AttachObject(platform);
+
+	Rigidbody2D* prb = platform->GetComponent<Rigidbody2D>();
+	prb->CreateWorldBox(Vector2(2.0f, 0.5f), platform->GetTransform()->m_Position);
 
 
 	Object* ground = Object::OnCreate("Ground");
@@ -117,6 +121,10 @@ int main(int argc, char** argv)
 	
 	lwrb->CreateWorldBox(Vector2(1.0f, 9.0f), leftWall->GetTransform()->m_Position);
 
+
+	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
+	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position, true);
+	//rigidBody->SetMass(0.125f);
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 
