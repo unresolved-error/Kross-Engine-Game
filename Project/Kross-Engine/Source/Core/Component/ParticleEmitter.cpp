@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *		- Deklyn Palmer.
  */
 
 #include "ParticleEmitter.h"
@@ -26,7 +27,7 @@ namespace Kross
 		{
 			for (int j = 0; j < m_ParticleCount; j++)
 			{
-				p_Particle->SetPosition(Vector2(-7.9f + 0.01f * i, 3.0f - 0.002f + 0.01f * j));
+				p_Particle->SetPosition(Vector2(-7.9f + 0.01f * i, 3.0f - 0.002f - 0.01f * j));
 				OnCreateParticle();
 			}
 		}
@@ -39,13 +40,6 @@ namespace Kross
 
 		SetRadius(0.025f);
 		p_Lines->SetColour(Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f));
-
-		Component::OnStart();
-	}
-
-	void ParticleEmitter::OnUpdate()
-	{
-		Component::OnUpdate();
 	}
 
 	void ParticleEmitter::OnRender()
@@ -60,8 +54,6 @@ namespace Kross
 		
 		p_DebugShader->Attach();
 		p_Lines->UpdateFrame();
-
-		Component::OnRender();
 	}
 
 	ParticleEmitter::~ParticleEmitter()

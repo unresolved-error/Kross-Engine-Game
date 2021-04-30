@@ -20,44 +20,37 @@ namespace Kross
 	class KROSS_API Component
 	{
 	private:
-		Component* p_NextComponent;
 		Object* p_Object;
 
 	protected:
 		friend class Object;
-
-		// Gets the Next Component.
-		Component* GetNextComponent() const { return p_NextComponent; };
-
-		// Sets the Next Component.
-		void SetNextComponent(Component* component) { p_NextComponent = component; };
 
 		// Sets the Object that the Component will be linked to.
 		void SetObject(Object* object) { p_Object = object; };
 
 	public:
 		Component()
-			: p_NextComponent(nullptr), p_Object(nullptr)
+			: p_Object(nullptr)
 		{};
 		virtual ~Component() {};
 
 		// Component Start Method.
-		virtual void OnStart();
+		virtual void OnStart() { return; };
 
 		// Component Update Method.
-		virtual void OnUpdate();
+		virtual void OnUpdate() { return; };
 
 		// Component Collision Enter Method.
-		virtual void OnCollisionEnter();
+		virtual void OnCollisionEnter() { return; };
 
 		// Component Collision Stay Method.
-		virtual void OnCollisionStay();
+		virtual void OnCollisionStay() { return; };
 
 		// Component Collision Exit Method.
-		virtual void OnCollisionExit();
+		virtual void OnCollisionExit() { return; };
 
 		// Component Render Method.
-		virtual void OnRender();
+		virtual void OnRender() { return; };
 
 		// Gets the Object that the Component is linked to.
 		Object* GetObject() const { return p_Object; };
@@ -68,7 +61,5 @@ namespace Kross
 #include "Transform2D.h"
 #include "Script.h"
 #include "Camera.h"
-#include "SpriteRenderer.h"
-#include "TextRenderer.h"
-#include "Rigidbody2D.h"
-#include "ParticleEmitter.h"
+
+#include "Renderer.h"

@@ -2,21 +2,23 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *      - Deklyn Palmer.
  */
 #pragma once
 
 #include "../Core.h"
 
-#include "Component.h"
+#include "Renderer.h"
 #include "../Physics/PhysicsScene.h"
+
+#include "../Renderer/Shader/Shader.h"
 #include "../Renderer/LineRenderer.h"
-#include "SpriteRenderer.h"
 
 namespace Kross
 {
     class KROSS_API Shape;
 
-    class KROSS_API Rigidbody2D : public Component
+    class KROSS_API Rigidbody2D : public Renderer
     {
     private:
         Shape* p_Shape;
@@ -30,7 +32,6 @@ namespace Kross
         #endif
 
         ShapeType m_ShapeType;
-        Sprite* p_Sprite = nullptr;
 
     protected:
         friend class PhysicsScene;
@@ -93,9 +94,5 @@ namespace Kross
         Vector2 GetPosition() const;
         /* Gets the Objects velocity */
         Vector2 GetVelocity() const{ return Vector2(p_Body->GetLinearVelocity().x , p_Body->GetLinearVelocity().y); }
-
-        /* Sets the sprite */
-        void SetSprite(Sprite* sprite);
-
     };
 }

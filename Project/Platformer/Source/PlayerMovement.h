@@ -20,9 +20,8 @@ public:
 
 	bool followPlayer = false;
 
-	float moveSpeed;
-
 	float moveSpeed = 5;
+
 	float previousTime = 0.0f;
 	float actualTime;
 
@@ -40,10 +39,10 @@ public:
 	void Update() override
 	{
 		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		rigidBody->OnApplyForce(input);
+		rigidBody->OnApplyForce(input * 0.25f);
 
-		if (Input::GetKeyDown(Key::Space))
-			textObj->SetText("Screw AMD!");
+		if (Input::GetKeyPressed(Key::Space))
+			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.5f);
 
 		if (Input::GetKeyDown(Key::Backspace))
 			textObj->SetText("Deklyn");
@@ -82,29 +81,6 @@ public:
 			Vector2 directionNorm = glm::normalize(transform->m_Position - cameraTransform->m_Position);
 			
 			float actualDistance = sqrt((distance.x * distance.x) + (distance.y * distance.y));
-			
-			//if (glm::abs(cameraTransform->m_Position.x - transform->m_Position.x) > speed)
-			//{
-			//	if (cameraTransform->m_Position.x < transform->m_Position.x)
-			//		cameraTransform->m_Position.x += speed;
-			//
-			//	if (cameraTransform->m_Position.x > transform->m_Position.x)
-			//		cameraTransform->m_Position.x -= speed;
-			//}
-			//else
-			//	cameraTransform->m_Position.x = transform->m_Position.x;
-			//
-			//if (glm::abs(cameraTransform->m_Position.y - transform->m_Position.y) > speed)
-			//{
-			//
-			//	if (cameraTransform->m_Position.y < transform->m_Position.y)
-			//		cameraTransform->m_Position.y += speed;
-			//
-			//	if (cameraTransform->m_Position.y > transform->m_Position.y)
-			//		cameraTransform->m_Position.y -= speed;
-			//}
-			//else
-			//	cameraTransform->m_Position.y = transform->m_Position.y;
 
 			if(actualDistance > speed)
 				cameraTransform->m_Position += directionNorm * speed;

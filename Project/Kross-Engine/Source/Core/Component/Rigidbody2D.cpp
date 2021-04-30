@@ -3,6 +3,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *      - Deklyn Palmer.
  */
 
 #include "../Manager/SceneManager.h"
@@ -124,9 +125,6 @@ namespace Kross
             /* Gets the object rotation and updates it with the angle of the body */
             GetObject()->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
         }
-
-        /* Call Base Component Function. */
-        Component::OnUpdate();
     }
 
     void Rigidbody2D::OnApplyForce(Vector2 force)
@@ -151,29 +149,24 @@ namespace Kross
         if (m_ShapeType == ShapeType::Box)
         {
             /* Draws the rigid body */
-            lines->DrawRigidBody(p_Body);            
+            lines->DrawRigidBody(p_Body);
         }
         else if (m_ShapeType == ShapeType::Circle)
         {
             /* Draws the rigid body */
-            lines->DrawRigidBody(p_Body);            
+            lines->DrawRigidBody(p_Body);
         }
+
+        else
+            lines->DrawCross(Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y), 5.0f);
 
         /* Attatches the shader */
         p_DebugShader->Attach();
 
         /* Updates the line renderer */
         lines->UpdateFrame();
-
-        /* Call Base Component Function. */
-        Component::OnRender();
     }
     #endif
-
-    void Rigidbody2D::SetSprite(Sprite* sprite)
-    {
-        p_Sprite = sprite;
-    }
 
     Vector2 Rigidbody2D::GetPosition() const
     {

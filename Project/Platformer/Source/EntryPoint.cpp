@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
-	camera->GetComponent<Camera>()->SetSize(3.0f);
+	camera->GetComponent<Camera>()->SetSize(5.0f);
 
 	Object* player = Object::OnCreate("Player");
 	player->AttachComponent<SpriteRenderer>();
@@ -60,10 +60,11 @@ int main(int argc, char** argv)
 
 	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
 	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
+	particle->GetParticle()->AddParticleFlag(b2_staticPressureParticle);
 	particle->GetParticle()->SetPosition({ particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y });
 	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
 	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	particle->SetParticleCount(30);
+	particle->SetParticleCount(200);
 
 
 	Object* platform = Object::OnCreate("Platform");
@@ -125,7 +126,7 @@ int main(int argc, char** argv)
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
 	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position, true);
-	//rigidBody->SetMass(0.125f);
+	//rigidBody->SetMass(1.25f);
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 

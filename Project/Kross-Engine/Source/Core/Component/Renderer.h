@@ -38,5 +38,7 @@ namespace Kross
     };
 }
 
-#include "SpriteRenderer.h"
 #include "TextRenderer.h"
+#include "SpriteRenderer.h"
+#include "Rigidbody2D.h"
+#include "ParticleEmitter.h"

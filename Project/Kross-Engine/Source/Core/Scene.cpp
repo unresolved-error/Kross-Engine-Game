@@ -10,7 +10,7 @@
 #include "Component/Camera.h"
 #include "Manager/ShaderManager.h"
 #include "Manager/SceneManager.h"
-
+#include "Manager/Time.h"
 
 namespace Kross
 {
@@ -57,7 +57,8 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         /* Update the physics step */
-        p_Physics->GetPhysicsWorld()->Step(1.0f / 60.0f, 8, 3, 2);
+        p_Physics->GetPhysicsWorld()->Step(1.0f / 240.0f, 8, 3, 2);
+        //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
 
     }
 
@@ -219,33 +220,32 @@ namespace Kross
             AttachObjectToRenderQueue(object);
             m_StaticObjects.push_back(object);
         }
+
         /* Check if the object is type RigidBody2D */
         Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
 
         /* If the object is a RigidBody the physics scene is set */
         if (body)
-        {
             body->SetPhysicsScene(p_Physics);
-        }
 
         /* Check if the object is type Particleemitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
 
         /* If the object is a ParticleEmitter the physics scene is set */
         if (emitter)
-        {
             emitter->SetPhysicsScene(p_Physics);
-        }
 
-        /* Place the Object inside of the list and link it to the last Object. */
-        if (m_Objects.size() > 0)
-            m_Objects[m_Objects.size() - 1]->SetNextObject(object);
-
-        else
+        /* Check if the Object is Static. */
+        if (object->GetStaticStatus() == true)
         {
-            /* Attach the Object to the Dynamic list. */
-            m_Objects.push_back(object);
+            /* Attach it to the Render Queue. */
+            AttachObjectToRenderQueue(object);
+            m_StaticObjects.push_back(object);
         }
+
+        /* If it's not. */
+        else
+            m_Objects.push_back(object); /* Attach the Object to the Dynamic List. */
     }
 
     void Scene::DetachObject(const std::string& name)

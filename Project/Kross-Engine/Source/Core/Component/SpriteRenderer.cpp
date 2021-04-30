@@ -68,9 +68,6 @@ namespace Kross
 		p_Shader->SetUniform("u_Colour", m_Colour);
 		p_Shader->SetUniform("u_FlipX", m_FlipX);
 		p_Shader->SetUniform("u_FlipY", m_FlipY);
-			    
-		/* Call Base Component Function. */
-		Component::OnStart();
 	}
 
 	void SpriteRenderer::OnRender()
@@ -97,8 +94,5 @@ namespace Kross
 			/* Un Bind all Textures. */
 			Texture::Detach();
 		}
-
-		/* Call Base Component Function. */
-		Component::OnRender();
 	}
 }

@@ -1,6 +1,7 @@
 /*
  *  Author: Deklyn Palmer.
  *  Editors:
+ *		- Jake Warren.
  *      - Deklyn Palmer.
  */
 
@@ -17,7 +18,7 @@ namespace Kross
 	{
 	private:
 		Scene(const std::string& name)
-			: m_Name(name), m_Objects(List<Object*>()), p_StartObject(nullptr), p_Camera(nullptr), p_Physics(new PhysicsScene())
+			: m_Name(name), m_Started(false), m_Objects(List<Object*>()), m_StaticObjects(List<Object*>()), p_Camera(nullptr), p_Physics(new PhysicsScene())
 		{
 			/* Sets the physics world for Box2D */
 			World* world = new World({ 0.0f, -9.5f });
@@ -27,6 +28,7 @@ namespace Kross
 			ParticleSystemDef particleSystemDef;
 			ParticleSystem* particleSystem = world->CreateParticleSystem(&particleSystemDef);
 			p_Physics->SetParticleSystem(particleSystem);
+
 			/* Add lists on every Layer for Rendering. */
 			for (int i = 0; i < (int)Layer::Count; i++)
 				m_RenderList.push_back(List<Object*>());

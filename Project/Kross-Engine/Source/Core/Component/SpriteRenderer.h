@@ -8,16 +8,18 @@
 
 #include "../Core.h"
 
+#include "Renderer.h"
+
 #include "../Renderer/Image/Sprite.h"
 #include "../Renderer/Shader/Shader.h"
 #include "../Math/Math.h"
-
-#include "Renderer.h"
 
 #include "Camera.h"
 
 namespace Kross
 {
+	//class KROSS_API Renderer;
+
 	class KROSS_API SpriteRenderer : public Renderer
 	{
 	private:

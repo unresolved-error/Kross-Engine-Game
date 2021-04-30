@@ -12,17 +12,11 @@ namespace Kross
     {
         /* Update the Text. */
         m_Text.OnUpdate();
-
-        /* Call Base Component Function. */
-        Component::OnUpdate();
     }
 
     void TextRenderer::OnRender()
     {
         /* Render the Text. */
         m_Text.OnRender();
-
-        /* Call Base Component Function. */
-        Component::OnRender();
     }
 }

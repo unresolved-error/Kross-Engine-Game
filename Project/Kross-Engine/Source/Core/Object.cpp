@@ -11,7 +11,7 @@
 namespace Kross
 {
 	Object::Object()
-		: m_Name("GameObject"), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
+		: m_Name("GameObject"), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -19,7 +19,7 @@ namespace Kross
 	}
 
 	Object::Object(const std::string& name)
-		: m_Name(name), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_StartComponent(nullptr), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
+		: m_Name(name), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -52,6 +52,20 @@ namespace Kross
 		if (renderer)
 			return renderer;
 
+		/* Trial the Rigidbody2D Next. */
+		renderer = GetComponent<Rigidbody2D>();
+
+		/* If successfull return it. */
+		if (renderer)
+			return renderer;
+
+		/* Trial the Particle Emitter Next. */
+		renderer = GetComponent<ParticleEmitter>();
+
+		/* If successfull return it. */
+		if (renderer)
+			return renderer;
+
 		/* If all else fails, return nothing. */
 		return nullptr;
 	}
@@ -75,7 +89,8 @@ namespace Kross
 	void Object::OnStart()
 	{
 		/* Start up Components. */
-		p_StartComponent->OnStart();
+		for (int i = 0; i < m_Components.size(); i++)
+			m_Components[i]->OnStart();
 	}
 
 	void Object::OnUpdate()
@@ -83,7 +98,8 @@ namespace Kross
 		if (!m_Static && m_Enable)
 		{
 			/* Update Components. */
-			p_StartComponent->OnUpdate();
+			for (int i = 0; i < m_Components.size(); i++)
+				m_Components[i]->OnUpdate();
 		}
 
 		return;
@@ -94,7 +110,8 @@ namespace Kross
 		if (!m_Static && m_Enable)
 		{
 			/* Enter Components Collision. */
-			p_StartComponent->OnCollisionEnter();
+			for (int i = 0; i < m_Components.size(); i++)
+				m_Components[i]->OnCollisionEnter();
 		}
 
 		return;
@@ -105,7 +122,8 @@ namespace Kross
 		if (!m_Static && m_Enable)
 		{
 			/* Stay Components Collision. */
-			p_StartComponent->OnCollisionStay();
+			for (int i = 0; i < m_Components.size(); i++)
+				m_Components[i]->OnCollisionStay();
 		}
 
 		return;
@@ -116,7 +134,8 @@ namespace Kross
 		if (!m_Static && m_Enable)
 		{
 			/* Exit Components Collision. */
-			p_StartComponent->OnCollisionExit();
+			for (int i = 0; i < m_Components.size(); i++)
+				m_Components[i]->OnCollisionExit();
 		}
 
 		return;
@@ -128,7 +147,7 @@ namespace Kross
 		Object* camera = SceneManager::GetCurrentScene()->GetCamera();
 		Camera* cameraComponent = camera->GetComponent<Camera>();
 
-		float cameraSize = (cameraComponent->GetSize() / 2.0f) + 1.0f;
+		float cameraSize = (cameraComponent->GetSize() / 2.0f) + 3.0f;
 
 		Vector2 cameraPosition = camera->GetTransform()->m_Position;
 		Vector2 position = GetTransform()->m_Position;
@@ -143,7 +162,8 @@ namespace Kross
 		if (m_Enable)
 		{
 			/* Render Components. */
-			p_StartComponent->OnRender();
+			for (int i = 0; i < m_Components.size(); i++)
+				m_Components[i]->OnRender();
 		}
 
 		return;

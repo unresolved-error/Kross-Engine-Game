@@ -2,12 +2,14 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *      - Deklyn Palmer.
  */
 #pragma once
 
 #include "../Core.h"
 
-#include "Component.h"
+#include "Renderer.h"
+
 #include "../Physics/Physics.h"
 #include "../Physics/PhysicsScene.h"
 #include "../Physics/Particles/Particle.h"
@@ -18,7 +20,7 @@
 namespace Kross
 {
 
-    class KROSS_API ParticleEmitter : public Component
+    class KROSS_API ParticleEmitter : public Renderer
     {
     private:
         ParticleSystem* p_ParticleSystem;
@@ -35,9 +37,6 @@ namespace Kross
         friend class Particle;
         /* ParticleEmitter start method */
         void OnStart() override;
-
-        /* ParticleEmitter update method */
-        void OnUpdate() override;
 
         /* ParticleEmitter render method */
         void OnRender() override;

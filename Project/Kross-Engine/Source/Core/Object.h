@@ -32,6 +32,7 @@ namespace Kross
 
 	class KROSS_API Component;
 	class KROSS_API Renderer;
+
 	class KROSS_API Transform2D;
 
 	class KROSS_API Object
@@ -45,8 +46,6 @@ namespace Kross
 		bool m_Static, m_Enable;
 
 		List<Component*> m_Components;
-
-		Component* p_StartComponent;
 
 		Transform2D* p_Transform;
 
@@ -154,11 +153,7 @@ namespace Kross
 
 			/* Set up of the new Component. */
 			Component* component = new Type();
-			component->SetNextComponent(p_StartComponent);
 			component->SetObject(this);
-
-			/* Set it as the Start Component. */
-			p_StartComponent = component;
 
 			/* Add it to the list. */
 			m_Components.push_back(component);

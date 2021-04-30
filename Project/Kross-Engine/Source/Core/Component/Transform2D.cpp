@@ -17,9 +17,6 @@ namespace Kross
 
 		/* Apply the Matrixes to the Model. */
 		m_Model = translation * rotation * scale;
-
-		/* Call Base Component Function. */
-		Component::OnStart();
 	}
 
 	void Transform2D::OnUpdate()
@@ -31,8 +28,5 @@ namespace Kross
 
 		/* Apply the Matrixes to the Model. */
 		m_Model = translation * rotation * scale;
-
-		/* Call Base Component Function. */
-		Component::OnUpdate();
 	}
 }
