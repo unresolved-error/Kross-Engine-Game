@@ -26,6 +26,17 @@ namespace Kross
 
 		m_VertexArray->Attach();
 
+		/* Set Data.*/
+		m_VertexBuffer->AttachVertexData(m_Geometry.data(), m_Geometry.size() * sizeof(Vertex));
+		m_IndexBuffer->AttachIndexData(m_Indicies.data(), m_Indicies.size());
+
+		/* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
+		m_IndexBuffer->Attach();
+		m_VertexArray->AttachVertexBufferToLayout(*m_VertexBuffer);
+		m_VertexArray->Detach();
+
+		m_VertexArray->Attach();
+
 		/* Render the Geometry based on the Render Mode. */
 		if (m_RenderMode == RenderMode::Solid)
 			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
@@ -35,6 +46,7 @@ namespace Kross
 
 		else if (m_RenderMode == RenderMode::Line)
 			glDrawElements(GL_LINE_STRIP, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 	}
 
 	void Geometry::AttachVertex(Vertex vertex)

@@ -13,6 +13,7 @@ public:
 	Transform2D* transform;
 	SpriteRenderer* renderer;
 	Window* window;
+	Rigidbody2D* rigidBody;
 
 	Camera* camera;
 	TextRenderer* textObj;
@@ -21,17 +22,25 @@ public:
 
 	float moveSpeed;
 
+	float moveSpeed = 5;
+	float previousTime = 0.0f;
+	float actualTime;
+
+	int frameCount;
+
 	void Start() override
 	{
 		transform = GetObject()->GetTransform();
 		renderer = GetObject()->GetComponent<SpriteRenderer>();
 		window = Application::GetWindow();
+
+		previousTime = Time::GetDeltaTime();
 	}
 
 	void Update() override
 	{
 		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		transform->m_Position += input * 0.017f;
+		rigidBody->OnApplyForce(input);
 
 		if (Input::GetKeyDown(Key::Space))
 			textObj->SetText("Screw AMD!");

@@ -46,13 +46,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64); $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64); $(SolutionDir)Vendor\glew\include\; $(SolutionDir)Vendor\glfw\include\;</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -61,13 +61,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\; $(ProjectDir)Vendor\glfw\include\; $(ProjectDir)Vendor\glm\include\; $(ProjectDir)Vendor\stb_image\include\; $(ProjectDir)Vendor\fnl\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Vendor/glfw/lib/; $(ProjectDir)Vendor/glew/lib/;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Vendor/glfw/lib/;$(ProjectDir)Vendor/glew/lib/;$(ProjectDir)Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -79,15 +79,15 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\; $(ProjectDir)Vendor\glfw\include\; $(ProjectDir)Vendor\glm\include\; $(ProjectDir)Vendor\stb_image\include\; $(ProjectDir)Vendor\fnl\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Vendor/glfw/lib/; $(ProjectDir)Vendor/glew/lib/;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies); glfw3.lib; glew32.lib; opengl32.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Vendor/glfw/lib/;$(ProjectDir)Vendor/glew/lib/;$(ProjectDir)Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -95,7 +95,12 @@
     <ClInclude Include="Source\Core\Audio\AudioTemp.h" />
     <ClInclude Include="Source\Core\Component\Camera.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
-    <ClInclude Include="Source\Core\Component\Renderer.h" />
+    <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
+    <ClInclude Include="Source\Core\Manager\Time.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
+    <ClInclude Include="Source\Core\Physics\Physics.h" />
+    <ClInclude Include="Source\Core\Physics\PhysicsScene.h" />
+    <ClInclude Include="Source\Core\Component\Rigidbody2D.h" />
     <ClInclude Include="Source\Core\Component\Script.h" />
     <ClInclude Include="Source\Core\Component\SpriteRenderer.h" />
     <ClInclude Include="Source\Core\Component\TextRenderer.h" />
@@ -108,6 +113,12 @@
     <ClInclude Include="Source\Core\Manager\ShaderManager.h" />
     <ClInclude Include="Source\Core\Math\Random.h" />
     <ClInclude Include="Source\Core\Object.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\CollisionData.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Box.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Plane.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Shape.h" />
+    <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />
@@ -409,12 +420,76 @@
     <ClInclude Include="Vendor\glm\include\glm\vec3.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\vec4.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\vector_relational.hpp" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Box2D.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Collision.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Distance.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2DynamicTree.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2BlockAllocator.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Draw.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2FreeList.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2GrowableBuffer.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2GrowableStack.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2IntrusiveList.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Math.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Settings.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2SlabAllocator.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2StackAllocator.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Stat.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Timer.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2TrackedBlock.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Body.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Fixture.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Island.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2World.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2Particle.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleAssembly.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleGroup.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleSystem.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2StackQueue.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.h" />
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\Component.cpp" />
+    <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Core\Manager\Time.cpp" />
+    <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
+    <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />
+    <ClCompile Include="Source\Core\Component\Rigidbody2D.cpp" />
     <ClCompile Include="Source\Core\Component\Script.cpp" />
     <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
     <ClCompile Include="Source\Core\Component\TextRenderer.cpp" />
@@ -426,6 +501,11 @@
     <ClCompile Include="Source\Core\Manager\ShaderManager.cpp" />
     <ClCompile Include="Source\Core\Math\Random.cpp" />
     <ClCompile Include="Source\Core\Object.cpp" />
+    <ClCompile Include="Source\Core\Physics\Shape\Box.cpp" />
+    <ClCompile Include="Source\Core\Physics\Shape\Circle.cpp" />
+    <ClCompile Include="Source\Core\Physics\Shape\Plane.cpp" />
+    <ClCompile Include="Source\Core\Physics\Shape\Shape.cpp" />
+    <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Character.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Font.cpp" />
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />
@@ -441,6 +521,60 @@
     <ClCompile Include="Source\Core\Window\Window.cpp" />
     <ClCompile Include="Source\Reference\Dummy.cpp" />
     <ClCompile Include="Vendor\glm\include\glm\detail\glm.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Collision.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Distance.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Draw.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2FreeList.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Math.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Settings.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Stat.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Timer.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2TrackedBlock.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Body.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Island.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2World.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2Particle.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleAssembly.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleGroup.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleSystem.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.cpp" />
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>

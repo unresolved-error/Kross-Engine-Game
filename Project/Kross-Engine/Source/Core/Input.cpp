@@ -71,14 +71,14 @@ namespace Kross
 				}
 
 				return 0.0f;
-			}
+			} 
 
 			/* If something random has been specified. */
 			default:
 			{
 				/* Return Zero. */
 				return 0.0f;
-			}
+			} 
 		}
 	}
 

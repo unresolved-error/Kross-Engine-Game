@@ -9,6 +9,7 @@
 #include "Core.h"
 
 #include "Object.h"
+#include "Physics/PhysicsScene.h"
 
 namespace Kross
 {
@@ -16,8 +17,16 @@ namespace Kross
 	{
 	private:
 		Scene(const std::string& name)
-			: m_Name(name), m_Started(false), m_Objects(List<Object*>()), m_StaticObjects(List<Object*>()), p_Camera(nullptr)
+			: m_Name(name), m_Objects(List<Object*>()), p_StartObject(nullptr), p_Camera(nullptr), p_Physics(new PhysicsScene())
 		{
+			/* Sets the physics world for Box2D */
+			World* world = new World({ 0.0f, -9.5f });
+			p_Physics->SetPhysicsWorld(world);
+
+			/* Sets a default particle system */
+			ParticleSystemDef particleSystemDef;
+			ParticleSystem* particleSystem = world->CreateParticleSystem(&particleSystemDef);
+			p_Physics->SetParticleSystem(particleSystem);
 			/* Add lists on every Layer for Rendering. */
 			for (int i = 0; i < (int)Layer::Count; i++)
 				m_RenderList.push_back(List<Object*>());
@@ -35,6 +44,7 @@ namespace Kross
 		List<List<Object*>> m_RenderList; /* | Layer | Object | */
 
 		Object* p_Camera;
+		PhysicsScene* p_Physics;
 		
 	protected:
 		friend class SceneManager;
@@ -46,7 +56,7 @@ namespace Kross
 		void OnUpdate();
 
 		// Physics Checks.
-		void OnPhysicsUpdate() { return; };
+		void OnPhysicsUpdate();
 
 		// Renders the Objects.
 		void OnRender();

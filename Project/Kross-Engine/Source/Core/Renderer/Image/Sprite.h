@@ -38,6 +38,7 @@ namespace Kross
 	protected:
 		friend class SpriteRenderer;
 		friend class Character;
+		friend class Rigidbody2D;
 
 		// Get the Sprite UV Ratio. (SHADER USE ONLY)
 		const Vector2 GetUVRatio() const { return m_UVRatio; };

@@ -20,6 +20,7 @@ namespace Kross
 
 	protected:
 		friend class SpriteRenderer;
+		friend class Rigidbody2D;
 
 		// Transform2D Start Method.
 		void OnStart() override;

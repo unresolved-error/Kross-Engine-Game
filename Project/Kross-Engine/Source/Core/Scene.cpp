@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Jake Warren.
  */
 
 #include "Scene.h"
@@ -9,6 +10,7 @@
 #include "Component/Camera.h"
 #include "Manager/ShaderManager.h"
 #include "Manager/SceneManager.h"
+
 
 namespace Kross
 {
@@ -50,6 +52,13 @@ namespace Kross
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
             m_Objects[i]->OnUpdate();
+    }
+
+    void Scene::OnPhysicsUpdate()
+    {
+        /* Update the physics step */
+        p_Physics->GetPhysicsWorld()->Step(1.0f / 60.0f, 8, 3, 2);
+
     }
 
     void Scene::OnRender()
@@ -210,6 +219,27 @@ namespace Kross
             AttachObjectToRenderQueue(object);
             m_StaticObjects.push_back(object);
         }
+        /* Check if the object is type RigidBody2D */
+        Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
+
+        /* If the object is a RigidBody the physics scene is set */
+        if (body)
+        {
+            body->SetPhysicsScene(p_Physics);
+        }
+
+        /* Check if the object is type Particleemitter */
+        ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
+
+        /* If the object is a ParticleEmitter the physics scene is set */
+        if (emitter)
+        {
+            emitter->SetPhysicsScene(p_Physics);
+        }
+
+        /* Place the Object inside of the list and link it to the last Object. */
+        if (m_Objects.size() > 0)
+            m_Objects[m_Objects.size() - 1]->SetNextObject(object);
 
         else
         {

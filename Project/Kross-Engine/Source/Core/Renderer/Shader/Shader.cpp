@@ -156,6 +156,9 @@ namespace Kross
 			if (location != -1)
 				m_UniformCache[variable] = location; /* Cache the location for next time it is searched. */
 
+			else
+				std::cout << " Error Finding Variable " << variable << "!" << " In shader " << m_Name << "!" << std::endl;
+
 			/* Return the search result. */
 			return location;
 		}
