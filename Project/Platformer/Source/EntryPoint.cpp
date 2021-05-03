@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 
 	TextRenderer* textRenderer = textExample->GetComponent<TextRenderer>();
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
-	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
+	textRenderer->SetColour(Colour(0.0f, 1.0f, 0.5f, 1.0f));
 	textRenderer->SetTextSize(3.0f);
 	textRenderer->SetText("Hello AIE!");
 
