@@ -42,7 +42,7 @@ public:
 		rigidBody->OnApplyForce(input * 0.25f);
 
 		if (Input::GetKeyPressed(Key::Space))
-			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.5f);
+			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.35f);
 
 		if (Input::GetKeyDown(Key::Backspace))
 			textObj->SetText("Deklyn");

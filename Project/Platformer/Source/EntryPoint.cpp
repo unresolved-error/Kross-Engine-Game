@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
-	camera->GetComponent<Camera>()->SetSize(5.0f);
+	camera->GetComponent<Camera>()->SetSize(8.0f);
 
 	Object* player = Object::OnCreate("Player");
 	player->AttachComponent<SpriteRenderer>();
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 	particle->GetParticle()->SetPosition({ particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y });
 	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
 	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	particle->SetParticleCount(200);
+	particle->SetParticleCount(10);
 
 
 	Object* platform = Object::OnCreate("Platform");
