@@ -57,7 +57,7 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         /* Update the physics step */
-        p_Physics->GetPhysicsWorld()->Step(1.0f / 240.0f, 8, 3, 2);
+        p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 1, 2);
         //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
 
     }
@@ -211,14 +211,6 @@ namespace Kross
             /* If we have no Camera, set it. */
             if (!p_Camera)
                 p_Camera = object;
-        }
-
-        /* If the Object is Static. */
-        if (object->GetStaticStatus() == true)
-        {
-            /* Attach the Object to the Static list and place it in the render Queue. */
-            AttachObjectToRenderQueue(object);
-            m_StaticObjects.push_back(object);
         }
 
         /* Check if the object is type RigidBody2D */

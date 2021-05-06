@@ -41,13 +41,13 @@ namespace Kross
 		virtual void OnUpdate() { return; };
 
 		// Component Collision Enter Method.
-		virtual void OnCollisionEnter() { return; };
+		virtual void OnCollisionEnter(Object* other) { return; };
 
 		// Component Collision Stay Method.
-		virtual void OnCollisionStay() { return; };
+		virtual void OnCollisionStay(Object* other) { return; };
 
 		// Component Collision Exit Method.
-		virtual void OnCollisionExit() { return; };
+		virtual void OnCollisionExit(Object* other) { return; };
 
 		// Component Render Method.
 		virtual void OnRender() { return; };

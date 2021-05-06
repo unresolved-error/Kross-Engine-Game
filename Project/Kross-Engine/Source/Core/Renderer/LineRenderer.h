@@ -13,8 +13,8 @@
 #include "../Math/Math.h"
 #include <vector>
 #include "GL/glew.h"
-
 #include "../Physics/Physics.h"
+
 
 namespace Kross
 {
@@ -69,7 +69,7 @@ namespace Kross
 		void DrawRawShape(float* data, unsigned int pointCount, glm::vec3 colour);
 
 
-		void DrawRigidBody(Body* body);
+		void DrawRigidBody(b2Body* body);
 
 		void UpdateFrame();
 

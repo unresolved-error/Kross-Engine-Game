@@ -25,13 +25,13 @@ namespace Kross
         void OnUpdate() override;
 
         // Script Collision Enter Method.
-        void OnCollisionEnter() override;
+        void OnCollisionEnter(Object* other) override;
 
         // Script Collision Stay Method.
-        void OnCollisionStay() override;
+        void OnCollisionStay(Object* other) override;
 
         // Script Collision Exit Method.
-        void OnCollisionExit() override;
+        void OnCollisionExit(Object* other) override;
 
     public:
         Script() {};
@@ -39,9 +39,9 @@ namespace Kross
 
         virtual void Start() {};
         virtual void Update() {};
-        virtual void CollisionEnter() {};
-        virtual void CollisionStay() {};
-        virtual void CollisionExit() {};
+        virtual void CollisionEnter(Object* other) {};
+        virtual void CollisionStay(Object* other) {};
+        virtual void CollisionExit(Object* other) {};
 
     };
 }

@@ -39,7 +39,7 @@ public:
 	void Update() override
 	{
 		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		rigidBody->OnApplyForce(input * 0.25f);
+		rigidBody->OnApplyForce(input * 0.5f);
 
 		if (Input::GetKeyPressed(Key::Space))
 			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.35f);
@@ -66,6 +66,7 @@ public:
 
 			SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
 			ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
+			ren->SetDepth(20);
 		}
 
 		textObj->GetObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.25f);
@@ -95,4 +96,9 @@ public:
 			renderer->SetFlipX(true);
 	}
 
+	void OnCollisionEnter(Object* other)
+	{
+		if (other->GetLayer() == Layer::Environment)
+			bool grounded = true;
+	}
 };

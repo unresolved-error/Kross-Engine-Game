@@ -8,6 +8,8 @@
 #include "LineRenderer.h"
 #include <iostream>
 
+//#include "../Physics/Physics.h"
+
 namespace Kross
 {
 	void LineRenderer::Initialise()
@@ -143,7 +145,7 @@ namespace Kross
 		colours.push_back(colour);
 	}
 
-	void LineRenderer::DrawRigidBody(Body* body)
+	void LineRenderer::DrawRigidBody(b2Body* body)
 	{
 		Transform bodyTransform = body->GetTransform();
 		Fixture* thisFixture = body->GetFixtureList();

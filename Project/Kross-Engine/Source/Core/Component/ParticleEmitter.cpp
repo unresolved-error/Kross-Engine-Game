@@ -20,14 +20,14 @@ namespace Kross
 		/* Creates the particle system */
 		OnCreateParticleSystem();
 
-		p_ParticleSystem;
+		
 
 		/* Creates all of the particles */
 		for (int i = 0; i < m_ParticleCount; i++)
 		{
 			for (int j = 0; j < m_ParticleCount; j++)
 			{
-				p_Particle->SetPosition(Vector2(-7.9f + 0.01f * i, 3.0f - 0.002f - 0.01f * j));
+				p_Particle->SetPosition(Vector2(-6.9f + 0.01f * i, 3.0f - 0.002f - 0.01f * j));
 				OnCreateParticle();
 			}
 		}
