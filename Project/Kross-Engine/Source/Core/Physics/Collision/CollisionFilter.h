@@ -22,6 +22,24 @@ namespace Kross
 
     class KROSS_API CollisionFilter
     {
+    private:
+        b2ContactFilter* p_ContactFilter;
 
+    public:
+        CollisionFilter() : p_ContactFilter(new b2ContactFilter()) {}
+        ~CollisionFilter()
+        {
+            delete p_ContactFilter;
+        }
+
+        void SetParticleContactFilter(b2Fixture* fixture, b2ParticleSystem* particleSystem, int index)
+        {
+            p_ContactFilter->ShouldCollide(fixture, particleSystem, index);
+        }
+
+        void SetFixtureContactFilter(b2Fixture* fixtureA, b2Fixture* fixtureB)
+        {
+            p_ContactFilter->ShouldCollide(fixtureA, fixtureB);
+        }
     };
 }

@@ -24,6 +24,8 @@ namespace Kross
 		Environment,
 		Background,
 		Fluids,
+		Wall,
+		Ground,
 		
 
 		/* Layer Count. */

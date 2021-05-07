@@ -56,9 +56,30 @@ namespace Kross
 
     void Scene::OnPhysicsUpdate()
     {
+
         /* Update the physics step */
-        p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 1, 2);
+        p_Physics->GetPhysicsWorld()->Step(1.0f / 240.0f, 8, 1, 2);
         //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
+
+         /* Update all Dynamic Objects. */
+        for (int i = 0; i < m_Objects.size(); i++)
+        {
+            Rigidbody2D* body = m_Objects[i]->GetComponent<Rigidbody2D>();
+            if (body)
+            {
+                if (body->GetRayCollisionBody())
+                {
+                    if (body->GetCollision() == CollisionState::Enter)
+                        m_Objects[i]->OnCollisionEnter((Object*)body->GetRayCollisionBody()->GetUserData());
+
+                    else if (body->GetCollision() == CollisionState::Stay)
+                        m_Objects[i]->OnCollisionStay((Object*)body->GetRayCollisionBody()->GetUserData());
+
+                    else if (body->GetCollision() == CollisionState::Exit)
+                        m_Objects[i]->OnCollisionExit((Object*)body->GetRayCollisionBody()->GetUserData());
+                }
+            }
+        }
 
     }
 

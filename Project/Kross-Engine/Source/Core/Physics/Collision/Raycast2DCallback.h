@@ -28,33 +28,36 @@ namespace Kross
         float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point,
             const b2Vec2& normal, float32 fraction) override
         {
+            p_RayData->hit = true;
+            p_RayData->fixture = fixture;
             p_RayData->body = fixture->GetBody();
-
-            if (fixture != nullptr)
-            {
-                p_RayData->hit = true;
-            }
-            else
-            {
-                p_RayData->body = nullptr;
-                p_RayData->hit = false;
-            }
+            p_RayData->closestFraction = fraction;
+            p_RayData->intersectionPoint = Vector2(point.x, point.y);
+            p_RayData->intersectionNormal = Vector2(normal.x, normal.y);
 
 
-            if (p_RayData->hit == true)
-            {
-                p_RayData->intersectionPoint = Vector2(point.x, point.y);
-                p_RayData->intersectionNormal = Vector2(normal.x, normal.y);
 
-            }
 
-            if (fraction < p_RayData->closestFraction)
-            {
-                p_RayData->closestFraction = fraction;
-            }
-            
+            //if (fixture != nullptr)
+            //{
+            //    p_RayData->body = fixture->GetBody();
+            //    p_RayData->hit = true;
+            //}
+            //else
+            //{
+            //    p_RayData->body = nullptr;
+            //    p_RayData->hit = false;
+            //}
+            //
+            //if (fraction < p_RayData->closestFraction)
+            //{
+            //    p_RayData->closestFraction = fraction;
+            //    p_RayData->intersectionNormal = Vector2(normal.x, normal.y);
+            //}
+            //
+            //p_RayData->intersectionPoint = Vector2(point.x, point.y);
 
-            return fraction;
+            return p_RayData->closestFraction;
         }
 
         RaycastData* GetRayData() { return p_RayData; }

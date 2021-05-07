@@ -40,6 +40,7 @@ namespace Kross
 
 		SetRadius(0.025f);
 		p_Lines->SetColour(Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f));
+
 	}
 
 	void ParticleEmitter::OnRender()

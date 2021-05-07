@@ -20,8 +20,8 @@ namespace Kross
 	protected:
 		int m_ParticleID = 0;
 
-		int m_Flags = 0;
-		int m_GroupFlags = 0;
+		uint32 m_Flags = 0;
+		uint32 m_GroupFlags = 0;
 		Vector2 m_Position = Vector2(0,0);
 		Vector4 m_Color = Vector4(255, 0, 0, 255);
 		float m_Lifetime = 0.0f;
@@ -49,11 +49,11 @@ namespace Kross
 		ParticleGroupDef CreateParticleGroupDef();
 
 		/* Adds a particle flag by combining the enum */
-		void AddParticleFlag(ParticleFlag flag) { m_Flags += flag; }
+		void AddParticleFlag(uint32 flag) { m_Flags = flag; }
 		int GetParticleFlag() { return m_Flags; }
 
 		/* Adds a particle group flag by combining the enum */
-		void AddParticleGroupFlag(ParticleGroupFlag flag) { m_GroupFlags += flag; }
+		void AddParticleGroupFlag(uint32 flag) { m_GroupFlags = flag; }
 		int GetParticleGroupFlag() { return m_GroupFlags; }
 
 		/* Sets the position of the particle */

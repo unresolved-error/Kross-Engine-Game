@@ -12,6 +12,7 @@
 #include "Box2D/Box2D.h"
 #include "../Renderer/LineRenderer.h"
 #include "Collision/CollisionData.h"
+#include "Collision/CollisionFilter.h"
 #include "Collision/Raycast2DCallback.h"
 
 namespace Kross

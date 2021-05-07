@@ -29,6 +29,7 @@ namespace Kross
         World* p_World;
         LineRenderer* p_Lines;
         Shader* p_DebugShader;
+        CollisionFilter* p_CollisionFilter;
 
         int m_ParticleCount;
 
@@ -43,7 +44,7 @@ namespace Kross
 
     public:
 
-        ParticleEmitter() : p_Particle(new Particle()), p_Lines(new LineRenderer()) {};
+        ParticleEmitter() : p_Particle(new Particle()), p_Lines(new LineRenderer()), p_CollisionFilter(new CollisionFilter()) {};
         ~ParticleEmitter();
 
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }

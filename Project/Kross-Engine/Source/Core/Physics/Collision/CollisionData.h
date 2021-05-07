@@ -26,13 +26,15 @@ namespace Kross
 	{
 		bool hit = false;
 		float closestFraction = 1.0f;
+		float maxFraction = 1.0f;
 	
 		Vector2 pos = Vector2(0, 0);
 		Vector2 direction = Vector2(0, 0);
 
-		Vector2 intersectionPoint = Vector2(pos.x + direction.x * closestFraction, pos.y + direction.y * closestFraction);
+		Vector2 intersectionPoint = pos + maxFraction * direction;
 		Vector2 intersectionNormal = Vector2(0, 0);
 
+		b2Fixture* fixture = nullptr;
 		b2Body* body = nullptr;
 };
 

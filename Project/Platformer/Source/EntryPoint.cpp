@@ -36,6 +36,7 @@ int main(int argc, char** argv)
 	player->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
 	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
 	player->GetTransform()->m_Rotation = 0.0f;
+	
 
 	Object* textExample = Object::OnCreate("Text");
 	textExample->AttachComponent<TextRenderer>();
@@ -64,16 +65,16 @@ int main(int argc, char** argv)
 		platform->AttachComponent<SpriteRenderer>();
 		platform->AttachComponent<Rigidbody2D>();
 		platform->GetTransform()->m_Position = Vector2(-3.0f, -2.75f) + Vector2(i, 0.0f);
-		platform->SetLayer(Layer::Background);
+		platform->SetLayer(Layer::Ground);
 		scene->AttachObject(platform);
-
+	
 		platforms[i] = platform;
 	}
 	for (int i = 0; i < 6; i++)
 	{
 		Rigidbody2D* prb = platforms[i]->GetComponent<Rigidbody2D>();
-		prb->CreateWorldBox(Vector2(1.0f, 1.0f), platforms[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
-
+		prb->CreateWorldBox(Vector2(1.0f, 1.0f), platforms[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
+	
 		SpriteRenderer* renderer = platforms[i]->GetComponent<SpriteRenderer>();
 		renderer->SetSprite(wallSprite);
 	}
@@ -87,6 +88,7 @@ int main(int argc, char** argv)
 		ground->AttachComponent<SpriteRenderer>();
 		ground->AttachComponent<Rigidbody2D>();
 		ground->GetTransform()->m_Position = Vector2(-7.0f, -4.0f) + Vector2(i, 0.0f);
+		ground->SetLayer(Layer::Ground);
 		scene->AttachObject(ground);
 
 		grounds[i] = ground;
@@ -131,6 +133,7 @@ int main(int argc, char** argv)
 		rightWall->AttachComponent<SpriteRenderer>();
 		rightWall->AttachComponent<Rigidbody2D>();
 		rightWall->GetTransform()->m_Position = Vector2(8.0f, -4.0f) + Vector2(0.0f, i);
+		rightWall->SetLayer(Layer::Wall);
 		scene->AttachObject(rightWall);
 
 		rightWalls[i] = rightWall;
@@ -153,6 +156,7 @@ int main(int argc, char** argv)
 		leftWall->AttachComponent<SpriteRenderer>();
 		leftWall->AttachComponent<Rigidbody2D>();
 		leftWall->GetTransform()->m_Position = Vector2(-8.0f, -4.0f) + Vector2(0.0f, i);
+		leftWall->SetLayer(Layer::Wall);
 		scene->AttachObject(leftWall);
 
 		leftWalls[i] = leftWall;
@@ -162,14 +166,13 @@ int main(int argc, char** argv)
 		Rigidbody2D* lwrb = leftWalls[i]->GetComponent<Rigidbody2D>();
 		lwrb->CreateWorldBox(Vector2(1.0f, 1.0f), 0.0f, leftWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
 
-
 		SpriteRenderer* renderer = leftWalls[i]->GetComponent<SpriteRenderer>();
 		renderer->SetSprite(wallSprite);
 	}
 
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment);
+	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position,  true, ColliderFilters::Player, ColliderFilters::Environment);
 	//rigidBody->SetMass(1.25f);
 
 
@@ -182,13 +185,11 @@ int main(int argc, char** argv)
 	scene->AttachObject(particleEmitter);
 	
 	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
-	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
-	particle->GetParticle()->AddParticleFlag(b2_staticPressureParticle);
+	particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_fixtureContactListenerParticle);
 	particle->GetParticle()->SetPosition({ particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y });
 	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
 	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	particle->SetParticleCount(10);
-
+	particle->SetParticleCount(25);
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 

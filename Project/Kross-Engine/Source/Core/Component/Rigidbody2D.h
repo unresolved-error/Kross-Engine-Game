@@ -20,7 +20,15 @@ namespace Kross
     class KROSS_API Shape;
     class KROSS_API Object;
 
-    enum ColliderFilters
+    enum class KROSS_API CollisionState
+    {
+        None,
+        Enter,
+        Stay,
+        Exit,
+    };
+
+    enum KROSS_API ColliderFilters
     {
         Default = 0x0000,
         Player = 0x0001,
@@ -43,6 +51,8 @@ namespace Kross
         FixtureDef* p_FixtureDef;
         b2MassData* p_MassData;
 
+        CollisionState m_CollisionState;
+
         #ifdef KROSS_DEBUG
         Shader* p_DebugShader;
         LineRenderer* lines;
@@ -52,6 +62,7 @@ namespace Kross
 
     protected:
         friend class PhysicsScene;
+        friend class Scene;
 
         /* Rigidbody2D start method */
         void OnStart() override;
@@ -63,6 +74,8 @@ namespace Kross
         #ifdef KROSS_DEBUG
         void OnRender() override;
         #endif
+
+        Body* GetRayCollisionBody() const { return p_RayData->body; };
 
     public:
 
@@ -116,9 +129,13 @@ namespace Kross
         /* Gets the Objects velocity */
         Vector2 GetVelocity() const{ return Vector2(p_Body->GetLinearVelocity().x , p_Body->GetLinearVelocity().y); }
 
-        /* Sets the friction of an object */
-        void SetFriction(float friction);
         /* Gets the friction of a specified object */
-        float GetFriction(Object* target);
+        float GetFriction();
+
+        Vector2 SpringCalculation(Body* body1, Body* body2, float distance);
+
+        Vector2 SpringUpdate(Vector2 force, float mass);
+
+        CollisionState GetCollision() const { return m_CollisionState; }    
     };
 }

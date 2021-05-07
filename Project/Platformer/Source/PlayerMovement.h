@@ -20,6 +20,9 @@ public:
 
 	bool followPlayer = false;
 
+	bool isGrounded = false;
+	int jumpCount = 0;
+
 	float moveSpeed = 5;
 
 	float previousTime = 0.0f;
@@ -42,7 +45,13 @@ public:
 		rigidBody->OnApplyForce(input * 0.5f);
 
 		if (Input::GetKeyPressed(Key::Space))
-			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.35f);
+		{
+			if (jumpCount < 2)
+			{
+				rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.325f);
+				jumpCount++;
+			}
+		}
 
 		if (Input::GetKeyDown(Key::Backspace))
 			textObj->SetText("Deklyn");
@@ -98,7 +107,27 @@ public:
 
 	void OnCollisionEnter(Object* other)
 	{
-		if (other->GetLayer() == Layer::Environment)
-			bool grounded = true;
+		//isGrounded = true;
+		
+		if (other->GetLayer() == Layer::Ground)
+			jumpCount = 0;
+
+		std::cout << "Entered collision with " << other->GetName() << std::endl;
+	}
+
+	void OnCollisionStay(Object* other)
+	{
+		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
+	}
+	
+	void OnCollisionExit(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			if (jumpCount == 0)
+				jumpCount++;
+		}
+
+		std::cout << "Exited collision with " << other->GetName() << std::endl;
 	}
 };
