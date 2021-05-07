@@ -36,40 +36,6 @@ namespace Kross
 		}
 	}
 
-	Renderer* Object::GetRendererComponent()
-	{
-		/* Trial the Sprite Renderer First. */
-		Renderer* renderer = GetComponent<SpriteRenderer>();
-
-		/* If successfull return it. */
-		if (renderer)
-			return renderer;
-
-		/* Trial the Text Renderer Next. */
-		renderer = GetComponent<TextRenderer>();
-
-		/* If successfull return it. */
-		if (renderer)
-			return renderer;
-
-		/* Trial the Rigidbody2D Next. */
-		renderer = GetComponent<Rigidbody2D>();
-
-		/* If successfull return it. */
-		if (renderer)
-			return renderer;
-
-		/* Trial the Particle Emitter Next. */
-		renderer = GetComponent<ParticleEmitter>();
-
-		/* If successfull return it. */
-		if (renderer)
-			return renderer;
-
-		/* If all else fails, return nothing. */
-		return nullptr;
-	}
-
 	Object* Object::OnCreate(const std::string& name)
 	{
 		/* Create a new Object. */
@@ -141,33 +107,33 @@ namespace Kross
 		return;
 	}
 
-	void Object::OnRender()
-	{
-		/* Variables for Camera View Checking. */
-		Object* camera = SceneManager::GetCurrentScene()->GetCamera();
-		Camera* cameraComponent = camera->GetComponent<Camera>();
-
-		float cameraSize = (cameraComponent->GetSize() / 2.0f) + 3.0f;
-
-		Vector2 cameraPosition = camera->GetTransform()->m_Position;
-		Vector2 position = GetTransform()->m_Position;
-
-		/* If the Object is outside of camera View. Don't Render Anything. */
-		if (cameraPosition.x + cameraSize < position.x || cameraPosition.x - cameraSize > position.x)
-			return;
-
-		else if (cameraPosition.y + cameraSize < position.y || cameraPosition.y - cameraSize > position.y)
-			return;
-
-		if (m_Enable)
-		{
-			/* Render Components. */
-			for (int i = 0; i < m_Components.size(); i++)
-				m_Components[i]->OnRender();
-		}
-
-		return;
-	}
+	//void Object::OnRender()
+	//{
+	//	/* Variables for Camera View Checking. */
+	//	Object* camera = SceneManager::GetCurrentScene()->GetCamera();
+	//	Camera* cameraComponent = camera->GetComponent<Camera>();
+	//
+	//	float cameraSize = (cameraComponent->GetSize() / 2.0f) + 3.0f;
+	//
+	//	Vector2 cameraPosition = camera->GetTransform()->m_Position;
+	//	Vector2 position = GetTransform()->m_Position;
+	//
+	//	/* If the Object is outside of camera View. Don't Render Anything. */
+	//	if (cameraPosition.x + cameraSize < position.x || cameraPosition.x - cameraSize > position.x)
+	//		return;
+	//
+	//	else if (cameraPosition.y + cameraSize < position.y || cameraPosition.y - cameraSize > position.y)
+	//		return;
+	//
+	//	if (m_Enable)
+	//	{
+	//		/* Render Components. */
+	//		for (int i = 0; i < m_RenderComponents.size(); i++)
+	//			m_RenderComponents[i]->OnRender();
+	//	}
+	//
+	//	return;
+	//}
 
 	void Object::AttachChildObject(Object* object)
 	{

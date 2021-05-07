@@ -12,22 +12,26 @@ int main(int argc, char** argv)
 	/* Until a manifest file is introduced. */
 	int renderMode = 0;
 
+#pragma region Engine Stuff
+
 	Scene* scene = Scene::OnCreate("Main");
 
 	Texture* texture = Texture::OnCreate("Resources/Textures/Default.png", "Default");
-	Texture* debugBoxTexture = Texture::OnCreate("Resources/Textures/DebugBox.png", "Box");
-	Texture* debugCircleTexture = Texture::OnCreate("Resources/Textures/DebugCircle.png", "Circle");
+	Texture* textureTile = Texture::OnCreate("Resources/Textures/TileDefault.png", "TileDefault");
+	//Texture* debugBoxTexture = Texture::OnCreate("Resources/Textures/DebugBox.png", "Box");
+	//Texture* debugCircleTexture = Texture::OnCreate("Resources/Textures/DebugCircle.png", "Circle");
+
 	Sprite* sprite = Sprite::OnCreate(texture, 32, 32, "Default");
-	Sprite* debugBoxSprite = Sprite::OnCreate(debugBoxTexture, 32, 32, "Box");
-	Sprite* debugCircleSprite = Sprite::OnCreate(debugCircleTexture, 32, 32, "Circle");
+	//Sprite* debugBoxSprite = Sprite::OnCreate(debugBoxTexture, 32, 32, "Box");
+	//Sprite* debugCircleSprite = Sprite::OnCreate(debugCircleTexture, 32, 32, "Circle");
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
 	camera->GetComponent<Camera>()->SetSize(6.0f);
 
 	Object* player = Object::OnCreate("Player");
-	player->AttachComponent<SpriteRenderer>();
 	player->AttachComponent<Rigidbody2D>();
+	player->AttachComponent<SpriteRenderer>();
 	player->AttachComponent<PlayerMovement>();
 	player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
 
@@ -132,6 +136,10 @@ int main(int argc, char** argv)
 
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
+
+#pragma endregion
+
+	Atlas* atlas = Atlas::OnCreate();
 
 	SceneManager::AttachScene(scene);
 	SceneManager::SetCurrentScene(0);

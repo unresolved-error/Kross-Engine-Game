@@ -31,7 +31,7 @@ namespace Kross
 
 			/* Add lists on every Layer for Rendering. */
 			for (int i = 0; i < (int)Layer::Count; i++)
-				m_RenderList.push_back(List<Object*>());
+				m_RenderList.push_back(List<Renderer*>());
 		};
 		~Scene();
 
@@ -43,7 +43,7 @@ namespace Kross
 		List<Object*> m_StaticObjects;
 
 		// List of Layer Groups.
-		List<List<Object*>> m_RenderList; /* | Layer | Object | */
+		List<List<Renderer*>> m_RenderList; /* | Layer | Object | */
 
 		Object* p_Camera;
 		PhysicsScene* p_Physics;
@@ -67,7 +67,10 @@ namespace Kross
 		void OnUpdateCameraAspectRatio(float aspectRatio);
 
 		// Places an object in the Render Queue.
-		int AttachObjectToRenderQueue(Object* object);
+		List<int> AttachObjectToRenderQueue(Object* object);
+
+		// Checks if the Object is a Camera Object and sets the Camera.
+		void SetCamera(Object* object);
 
 		// Removes an Object from the Render Queue. (BY OBJECT)
 		void DetachObjectFromRenderQueue(Layer layer, Object* object);

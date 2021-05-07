@@ -46,6 +46,7 @@ namespace Kross
 		bool m_Static, m_Enable;
 
 		List<Component*> m_Components;
+		List<Renderer*> m_RenderComponents;
 
 		Transform2D* p_Transform;
 
@@ -75,7 +76,7 @@ namespace Kross
 		void OnCollisionExit();
 
 		// Object Render Method.
-		void OnRender();
+		//void OnRender();
 
 		// Adds a Child Object.
 		void AttachChildObject(Object* object);
@@ -92,8 +93,11 @@ namespace Kross
 		// Sets the Object Parent.
 		void SetParentObject(Object* object) { p_ParentObject = object; };
 
-		// Gets a Renderer Component.
-		Renderer* GetRendererComponent();
+		// Checks if the Object has a Render Component.
+		const bool GetRenderableStatus() const { return (m_RenderComponents.size() > 0); };
+
+		// Gets all the Renderer Components on the Object.
+		List<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
 
 	public:
 		// Creates a Blank Object.
@@ -154,6 +158,10 @@ namespace Kross
 			/* Set up of the new Component. */
 			Component* component = new Type();
 			component->SetObject(this);
+
+			/* Then Check if the Component is a Renderer. */
+			if (std::is_convertible<Type*, Renderer*>::value)
+				m_RenderComponents.push_back((Renderer*)component);
 
 			/* Add it to the list. */
 			m_Components.push_back(component);

@@ -42,6 +42,7 @@
 #include "../Core/Renderer/VertexArray.h"
 #include "../Core/Renderer/VertexBuffer.h"
 
+#include "../Core/Renderer/Image/Atlas.h"
 #include "../Core/Renderer/Image/Sprite.h"
 #include "../Core/Renderer/Image/Texture.h"
 

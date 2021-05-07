@@ -31,6 +31,9 @@ namespace Kross
 		// (SHADER USE ONLY)
 		Vector2 m_UVOffset, m_UVRatio;
 
+		// (FOR THE ATLAS)
+		Vector2 m_PixelOffset;
+
 		std::string m_Name;
 
 		Geometry* m_Geometry;
@@ -38,13 +41,16 @@ namespace Kross
 	protected:
 		friend class SpriteRenderer;
 		friend class Character;
-		friend class Rigidbody2D;
+		friend class Atlas;
 
 		// Get the Sprite UV Ratio. (SHADER USE ONLY)
 		const Vector2 GetUVRatio() const { return m_UVRatio; };
 
 		// Get the Sprite UV Offset. (SHADER USE ONLY)
 		const Vector2 GetUVOffset() const { return m_UVOffset; };
+
+		// Get the Pixel Offset of the Orignial Texture. (ATLAS USE ONLY)
+		const Vector2 GetPixelOffset() const { return m_PixelOffset; }
 
 		// Sets the Sprite Name.
 		void SetName(const std::string& name) { m_Name = name; };
@@ -57,6 +63,9 @@ namespace Kross
 
 		// Sets the Sprite Texture.
 		void SetTexture(Texture* texture) { p_Texture = texture; };
+
+		// Sets the Pixel Offset. (ATLAS USE ONLY)
+		void SetPixelOffset(Vector2 offset) { m_PixelOffset = offset; };
 
 		// Set the Sprite UV Ratio. (SHADER USE ONLY)
 		void SetUVRatio(const Vector2 ratio) { m_UVRatio = ratio; };

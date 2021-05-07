@@ -43,18 +43,22 @@ namespace Kross
 		*/
 		int m_BPP;
 
-		void* m_PixelData;
+		unsigned char* p_PixelData;
 
 		std::string m_Name, m_Filepath;
 
 	protected:
 		friend class FrameBuffer;
+		friend class Atlas;
+
+		/* Creates a Blank Texture. (ATLAS) */
+		static Texture* OnCreateAtlas();
 
 		// Gets the Texture ID.
 		inline const unsigned int GetTextureID() const { return m_TextureID; };
 
 		// Gets the Texture PixelData.
-		inline void* GetPixelData() const { return m_PixelData; };
+		inline unsigned char* GetPixelData() const { return p_PixelData; };
 
 		// Sets the Texture Name.
 		void SetName(const std::string& name) { m_Name = name; };
@@ -72,7 +76,19 @@ namespace Kross
 		void SetBitsPerPixel(int bpp) {m_BPP = bpp; };
 
 		// Sets the Texture Pixel Data.
-		void SetPixelData(void* data) { m_PixelData = data; };
+		void SetPixelData(unsigned char* data) { p_PixelData = data; };
+
+		// Gets a Colour of the Pixel at a given co-ordinate.
+		Colour GetPixel(int x, int y);
+
+		// Sets the Pixel Colour at a given co-ordinate.
+		void SetPixel(int x, int y, Colour colour);
+
+		// Creates a Canvas for the Data to be placed in. (ATLAS)
+		void OnCreateImageCanvas(int width, int height, int bpp = 4);
+
+		// Finalises the Data for the Graphics Card. (ATLAS)
+		void OnFinalise();
 		
 	public:
 		

@@ -80,11 +80,13 @@ namespace Kross
         for (int i = 0; i < m_Objects.size(); i++)
         {
             /* If the Obejct is Enabled. Add it.*/
-            if (m_Objects[i]->GetEnableStatus() == true)
+            if (m_Objects[i]->GetEnableStatus() == true && m_Objects[i]->GetRenderableStatus())
             {
                 /* Keep Record of the index, so we know where in the list it is to remove it. */
-                int index = AttachObjectToRenderQueue(m_Objects[i]);
-                dynamicRenderQueueReferencePoints.push_back(index);
+                List<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
+
+                for(int j = 0; j < indexes.size(); j++)
+                    dynamicRenderQueueReferencePoints.push_back(indexes[j]);
             }
         }
 
@@ -108,14 +110,14 @@ namespace Kross
             p_Camera->GetComponent<Camera>()->SetAspectRatio(aspectRatio);
     }
 
-    int Scene::AttachObjectToRenderQueue(Object* object)
+    List<int> Scene::AttachObjectToRenderQueue(Object* object)
     {
-        /* Early out if the Object doesn't have a renderer of any sort. */
-        Renderer* renderer = object->GetRendererComponent();
+        /* List of all the indexes Recorded on this Object. */
+        List<int> indexes = List<int>();
 
         /* If there is no renderer on the object. */
-        if (!renderer)
-            return -1; /* Return null. */
+        if (!object->GetRenderableStatus())
+            return indexes; /* Return Empty. */
 
         /* This is to return where abouts the Object sits in the Render Queue. */
         int index = 0;
@@ -123,54 +125,88 @@ namespace Kross
         /* The Layer ID. */
         int layer = (int)object->GetLayer();
 
-        /* If the Object's layer list is larger than zero. */
-        if (m_RenderList[layer].size() > 0)
+        /* Renderer Component List. */
+        List<Renderer*> objectRenderList = object->GetRendererComponents();
+
+        /* Go through the Object Render List. */
+        for (int j = 0; j < objectRenderList.size(); j++)
         {
-            /* Run through the Layer List. */
-            for (int i = 0; i < m_RenderList[layer].size(); i++)
+            /* If the Scenes's layer list is larger than zero. */
+            if (m_RenderList[layer].size() > 0)
             {
-                /* Grab the Render Component of the Object. */
-                Renderer* rendererInList = m_RenderList[layer][i]->GetRendererComponent();
+                /* Run through the Layer List. */
+                for (int i = 0; i < m_RenderList[layer].size(); i++)
+                {
+                    /* Check if the Depth of the object is larger than the one currently being checked in the list. */
+                    if (objectRenderList[j]->GetDepth() > m_RenderList[layer][i]->GetDepth())
+                        index++; /* Keep going down the list. */
 
-                /* Check if the Depth of the object is larger than the one currently being checked in the list. */
-                if (renderer->GetDepth() > rendererInList->GetDepth())
-                    index++; /* Keep going down the list. */
+                    /* We have found a spot in the Render Queue. */
+                    else
+                        break; /* Stop the Search. */
+                }
 
-                /* We have found a spot in the Render Queue. */
-                else
-                    break; /* Stop the Search. */
+                /* Add the Object to the Render Queue. */
+                m_RenderList[layer].emplace(m_RenderList[layer].begin() + index, objectRenderList[j]);
+
+                /* Add the Indexes as well. */
+                indexes.push_back(index);
+
+                /* Reset Index. */
+                index = 0;
             }
 
-            /* Add the Object to the Render Queue. */
-            m_RenderList[layer].emplace(m_RenderList[layer].begin() + index, object);
-        }
+            /* If not... */
+            else
+            {
+                /* Attach as the First one. */
+                m_RenderList[layer].push_back(objectRenderList[j]);
 
-        /* If not... */
-        else
-        {
-            /* Attach as the First one. */
-            m_RenderList[layer].push_back(object);
+                /* Add the Indexes as well. */
+                indexes.push_back(index);
+
+                /* Reset Index. */
+                index = 0;
+            }
         }
 
         /* Return the Index. */
-        return index;
+        return indexes;
+    }
+
+    void Scene::SetCamera(Object* object)
+    {
+        /* Check if the Object is of type Camera. */
+        Camera* camera = object->GetComponent<Camera>();
+
+        /* if the Object is a Camera. */
+        if (camera)
+        {
+            /* If we have no Camera, set it. */
+            if (!p_Camera)
+                p_Camera = object;
+        }
+
+        return;
     }
 
     void Scene::DetachObjectFromRenderQueue(Layer layer, Object* object)
     {
-        /* Early out if the Object doesn't have a renderer of any sort. */
-        Renderer* renderer = object->GetRendererComponent();
-
         /* Early out if there is no renderer on the object. */
-        if (!renderer)
+        if (!object->GetRenderableStatus())
             return;
 
-        /* Go through Layer Objects. */
-        for (int i = 0; i < m_RenderList[(int)layer].size(); i++)
+        List<Renderer*> objectRenderList = object->GetRendererComponents();
+
+        for (int j = 0; j < objectRenderList.size(); j++)
         {
-            /* If this is the Object we are looking for. */
-            if (m_RenderList[(int)layer][i] == object)
-                DetachObjectFromRenderQueue(layer, i); /* Remove it. */
+            /* Go through Layer Objects. */
+            for (int i = 0; i < m_RenderList[(int)layer].size(); i++)
+            {
+                /* If this is the Component we are looking for. */
+                if (m_RenderList[(int)layer][i] == objectRenderList[j])
+                    DetachObjectFromRenderQueue(layer, i); /* Remove it. */
+            }
         }
     }
 
@@ -202,24 +238,8 @@ namespace Kross
         if (m_Started)
             object->OnStart();
 
-        /* Check if the Object is of type Camera. */
-        Camera* camera = object->GetComponent<Camera>();
-
-        /* if the Object is a Camera. */
-        if (camera)
-        {
-            /* If we have no Camera, set it. */
-            if (!p_Camera)
-                p_Camera = object;
-        }
-
-        /* If the Object is Static. */
-        if (object->GetStaticStatus() == true)
-        {
-            /* Attach the Object to the Static list and place it in the render Queue. */
-            AttachObjectToRenderQueue(object);
-            m_StaticObjects.push_back(object);
-        }
+        /* Checks if the Object has a Camera. */
+        SetCamera(object);
 
         /* Check if the object is type RigidBody2D */
         Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
@@ -235,10 +255,10 @@ namespace Kross
         if (emitter)
             emitter->SetPhysicsScene(p_Physics);
 
-        /* Check if the Object is Static. */
+        /* If the Object is Static. */
         if (object->GetStaticStatus() == true)
         {
-            /* Attach it to the Render Queue. */
+            /* Attach the Object to the Static list and place it in the render Queue. */
             AttachObjectToRenderQueue(object);
             m_StaticObjects.push_back(object);
         }

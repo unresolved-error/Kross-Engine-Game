@@ -49,9 +49,6 @@ namespace Kross
 		// Component Collision Exit Method.
 		virtual void OnCollisionExit() { return; };
 
-		// Component Render Method.
-		virtual void OnRender() { return; };
-
 		// Gets the Object that the Component is linked to.
 		Object* GetObject() const { return p_Object; };
 
