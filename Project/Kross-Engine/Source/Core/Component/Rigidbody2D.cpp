@@ -475,7 +475,7 @@ namespace Kross
         float distance = glm::length(pos2 - pos1);
 
         float distanceScale = 10.0f;
-        float springConstant = 1.0f;
+        float springConstant = 0.9f;
         float dampingConstant = 7.5f;
         float restLength = 0.75f;
         float size = 0.5f;

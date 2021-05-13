@@ -12,134 +12,189 @@ int main(int argc, char** argv)
 	/* Until a manifest file is introduced. */
 	int renderMode = 0;
 
-#pragma region Engine Stuff
-
 	Scene* scene = Scene::OnCreate("Main");
 
 	Texture* texture = Texture::OnCreate("Resources/Textures/Default.png", "Default");
-	Texture* textureTile = Texture::OnCreate("Resources/Textures/TileDefault.png", "TileDefault");
-	//Texture* debugBoxTexture = Texture::OnCreate("Resources/Textures/DebugBox.png", "Box");
-	//Texture* debugCircleTexture = Texture::OnCreate("Resources/Textures/DebugCircle.png", "Circle");
-
+	Texture* wallTexture = Texture::OnCreate("Resources/Textures/TempWall.png", "Wall");
 	Sprite* sprite = Sprite::OnCreate(texture, 32, 32, "Default");
-	//Sprite* debugBoxSprite = Sprite::OnCreate(debugBoxTexture, 32, 32, "Box");
-	//Sprite* debugCircleSprite = Sprite::OnCreate(debugCircleTexture, 32, 32, "Circle");
+	Sprite* wallSprite = Sprite::OnCreate(wallTexture, 128,128, "Wall");
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
-	camera->GetComponent<Camera>()->SetSize(6.0f);
+	camera->GetComponent<Camera>()->SetSize(8.0f);
 
 	Object* player = Object::OnCreate("Player");
-	player->AttachComponent<Rigidbody2D>();
 	player->AttachComponent<SpriteRenderer>();
+	player->AttachComponent<Rigidbody2D>();
 	player->AttachComponent<PlayerMovement>();
 	player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
-
+	
 	player->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
 	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
 	player->GetTransform()->m_Rotation = 0.0f;
+	
 
 	Object* textExample = Object::OnCreate("Text");
 	textExample->AttachComponent<TextRenderer>();
 
 	TextRenderer* textRenderer = textExample->GetComponent<TextRenderer>();
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
-	textRenderer->SetColour(Colour(0.0f, 1.0f, 0.5f, 1.0f));
+	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
 	textRenderer->SetTextSize(3.0f);
 	textRenderer->SetText("Hello AIE!");
-
+	
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
-
+	player->SetLayer(Layer::Background);
+	
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
 	renderer->SetSprite(sprite);
 
 	scene->AttachObject(player);
 
 
-	Object* particleEmitter = Object::OnCreate("Emitter");
-	particleEmitter->AttachComponent<ParticleEmitter>();
-	particleEmitter->GetTransform()->m_Position = Vector2(2.0f, 2.0f);
 
-	scene->AttachObject(particleEmitter);
+	Object* platforms[6];
+	for (int i = 0; i < 6; i++)
+	{
+		Object* platform = Object::OnCreate("Platform");
+		platform->SetStaticStatus(true);
+		platform->AttachComponent<SpriteRenderer>();
+		platform->AttachComponent<Rigidbody2D>();
+		platform->GetTransform()->m_Position = Vector2(-3.0f, -2.75f) + Vector2(i, 0.0f);
+		platform->SetLayer(Layer::Ground);
+		scene->AttachObject(platform);
+	
+		platforms[i] = platform;
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Rigidbody2D* prb = platforms[i]->GetComponent<Rigidbody2D>();
+		prb->CreateWorldBox(Vector2(1.0f, 1.0f), platforms[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
+	
+		SpriteRenderer* renderer = platforms[i]->GetComponent<SpriteRenderer>();
+		renderer->SetSprite(wallSprite);
+	}
 
-	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
-	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
-	particle->GetParticle()->AddParticleFlag(b2_staticPressureParticle);
-	particle->GetParticle()->SetPosition({ particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y });
-	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
-	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	particle->SetParticleCount(100);
+
+	Object* grounds[15];
+	for (int i = 0; i < 15; i++)
+	{
+		Object* ground = Object::OnCreate("Ground");
+		ground->SetStaticStatus(true);
+		ground->AttachComponent<SpriteRenderer>();
+		ground->AttachComponent<Rigidbody2D>();
+		ground->GetTransform()->m_Position = Vector2(-7.0f, -4.0f) + Vector2(i, 0.0f);
+		ground->SetLayer(Layer::Ground);
+		scene->AttachObject(ground);
+
+		grounds[i] = ground;
+	}
+	for (int i = 0; i < 15; i++)
+	{
+		Rigidbody2D* grb = grounds[i]->GetComponent<Rigidbody2D>();
+		grb->CreateWorldBox(Vector2(1.0f, 1.0f), grounds[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
+
+		SpriteRenderer* renderer = grounds[i]->GetComponent<SpriteRenderer>();
+		renderer->SetSprite(wallSprite);
+	}
 
 
-	Object* platform = Object::OnCreate("Platform");
-	platform->AttachComponent<Rigidbody2D>();
-	platform->GetTransform()->m_Position = Vector2(0.0f, -2.5f);
+	Object* roofs[15];
+	for (int i = 0; i < 15; i++)
+	{
+		Object* roof = Object::OnCreate("Roof");
+		roof->SetStaticStatus(true);
+		roof->AttachComponent<SpriteRenderer>();
+		roof->AttachComponent<Rigidbody2D>();
+		roof->GetTransform()->m_Position = Vector2(-7.0f, 4.0f) + Vector2(i, 0.0f);
+		scene->AttachObject(roof);
 
-	scene->AttachObject(platform);
+		roofs[i] = roof;
+	}
+	for (int i = 0; i < 15; i++)
+	{
+		Rigidbody2D* rrb = roofs[i]->GetComponent<Rigidbody2D>();
+		rrb->CreateWorldBox(Vector2(1.0f, 1.0f), roofs[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
 
-	Rigidbody2D* prb = platform->GetComponent<Rigidbody2D>();
-	prb->CreateWorldBox(Vector2(2.0f, 0.5f), platform->GetTransform()->m_Position);
+		SpriteRenderer* renderer = roofs[i]->GetComponent<SpriteRenderer>();
+		renderer->SetSprite(wallSprite);
+	}
 
 
-	Object* ground = Object::OnCreate("Ground");
-	ground->AttachComponent<Rigidbody2D>();
+	Object* rightWalls[9];
+	for (int i = 0; i < 9; i++)
+	{
+		Object* rightWall = Object::OnCreate("RightWall");
+		rightWall->SetStaticStatus(true);
+		rightWall->AttachComponent<SpriteRenderer>();
+		rightWall->AttachComponent<Rigidbody2D>();
+		rightWall->GetTransform()->m_Position = Vector2(8.0f, -4.0f) + Vector2(0.0f, i);
+		rightWall->SetLayer(Layer::Wall);
+		scene->AttachObject(rightWall);
 
-	ground->GetTransform()->m_Position = Vector2(0.0f, -4.0f);
-	
-	scene->AttachObject(ground);
+		rightWalls[i] = rightWall;
+	}
+	for (int i = 0; i < 9; i++)
+	{
+		Rigidbody2D* rwrb = rightWalls[i]->GetComponent<Rigidbody2D>();
+		rwrb->CreateWorldBox(Vector2(1.0f, 1.0f), 0.0f, rightWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
 
-	Rigidbody2D* grb = ground->GetComponent<Rigidbody2D>();
-	grb->CreateWorldBox(Vector2(17.0f, 1.0f), ground->GetTransform()->m_Position);
-	
+		SpriteRenderer* renderer = rightWalls[i]->GetComponent<SpriteRenderer>();
+		renderer->SetSprite(wallSprite);
+	}
 
-	Object* roof = Object::OnCreate("Roof");
-	roof->AttachComponent<Rigidbody2D>();
-	
-	roof->GetTransform()->m_Position = Vector2(0, 4.0f);
-	
-	scene->AttachObject(roof);
-	
-	Rigidbody2D* rrb = roof->GetComponent<Rigidbody2D>();
-	
-	rrb->CreateWorldBox(Vector2(17.0f, 1.0f), roof->GetTransform()->m_Position);
-	
-	
-	Object* rightWall = Object::OnCreate("RightWall");
-	rightWall->AttachComponent<Rigidbody2D>();
-	
-	rightWall->GetTransform()->m_Position = Vector2(8.0f, 0.0f);
-	
-	scene->AttachObject(rightWall);
-	
-	Rigidbody2D* rwrb = rightWall->GetComponent<Rigidbody2D>();
-	
-	rwrb->CreateWorldBox(Vector2(1.0f, 9.0f), rightWall->GetTransform()->m_Position);
-	
-	
-	Object* leftWall = Object::OnCreate("LeftWall");
-	leftWall->AttachComponent<Rigidbody2D>();
-	
-	leftWall->GetTransform()->m_Position = Vector2(-8.0f, 0.0f);
-	
-	scene->AttachObject(leftWall);
-	
-	Rigidbody2D* lwrb = leftWall->GetComponent<Rigidbody2D>();
-	
-	lwrb->CreateWorldBox(Vector2(1.0f, 9.0f), leftWall->GetTransform()->m_Position);
+
+	Object* leftWalls[9];
+	for (int i = 0; i < 9; i++)
+	{
+		Object* leftWall = Object::OnCreate("LeftWall");
+		leftWall->SetStaticStatus(true);
+		leftWall->AttachComponent<SpriteRenderer>();
+		leftWall->AttachComponent<Rigidbody2D>();
+		leftWall->GetTransform()->m_Position = Vector2(-8.0f, -4.0f) + Vector2(0.0f, i);
+		leftWall->SetLayer(Layer::Wall);
+		scene->AttachObject(leftWall);
+
+		leftWalls[i] = leftWall;
+	}
+	for (int i = 0; i < 9; i++)
+	{
+		Rigidbody2D* lwrb = leftWalls[i]->GetComponent<Rigidbody2D>();
+		lwrb->CreateWorldBox(Vector2(1.0f, 1.0f), 0.0f, leftWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
+
+		SpriteRenderer* renderer = leftWalls[i]->GetComponent<SpriteRenderer>();
+		renderer->SetSprite(wallSprite);
+	}
 
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position, true);
-	rigidBody->SetMass(0.25f);
+	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position,  true, ColliderFilters::Player, ColliderFilters::Environment);
+	//rigidBody->SetMass(1.25f);
+
+
+	Object* particleEmitter = Object::OnCreate("Emitter");
+	particleEmitter->SetStaticStatus(true);
+	particleEmitter->AttachComponent<ParticleEmitter>();
+	particleEmitter->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
+	particleEmitter->SetLayer(Layer::Fluids);
+	
+	scene->AttachObject(particleEmitter);
+
+	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
+	particle->SetParticleType(ParticleType::ParticleGroup);
+	
+	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
+	particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
+	particle->GetParticle()->SetShape(0.75f);
+	//particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
+	//particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
+	particle->SetMaxCount(0);
+	particle->SetGroupCount(1);
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
-
-#pragma endregion
-
-	Atlas* atlas = Atlas::OnCreate();
 
 	SceneManager::AttachScene(scene);
 	SceneManager::SetCurrentScene(0);

@@ -12,6 +12,8 @@
 #include "Manager/SceneManager.h"
 #include "Manager/Time.h"
 
+#include "Application.h"
+
 namespace Kross
 {
     Scene::~Scene()
@@ -57,8 +59,47 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         /* Update the physics step */
-        p_Physics->GetPhysicsWorld()->Step(1.0f / 240.0f, 8, 3, 3);
-        //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
+        switch (Application::GetWindow()->GetVSync())
+        {
+            case 0:
+            {
+                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 3, 3);
+                break;
+            }
+            case 1:
+            {
+                p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 3);
+                break;
+            }
+
+            default:
+            {
+                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 3, 3);
+                break;
+            }
+        }
+
+        //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); / Not recommended. /
+
+        /* Update all Dynamic Objects. */
+        for (int i = 0; i < m_Objects.size(); i++)
+        {
+            Rigidbody2D* body = m_Objects[i]->GetComponent<Rigidbody2D>();
+            if (body)
+            {
+                if (body->GetRayCollisionBody())
+                {
+                    if (body->GetCollision() == CollisionState::Enter)
+                        m_Objects[i]->OnCollisionEnter((Object*)body->GetRayCollisionBody()->GetUserData());
+
+                    else if (body->GetCollision() == CollisionState::Stay)
+                        m_Objects[i]->OnCollisionStay((Object*)body->GetRayCollisionBody()->GetUserData());
+
+                    else if (body->GetCollision() == CollisionState::Exit)
+                        m_Objects[i]->OnCollisionExit((Object*)body->GetRayCollisionBody()->GetUserData());
+                }
+            }
+        }
 
     }
 

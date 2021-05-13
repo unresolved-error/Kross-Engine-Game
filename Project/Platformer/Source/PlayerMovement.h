@@ -69,7 +69,7 @@ public:
 			std::cout << SceneManager::GetCurrentScene()->GetObjectCount() << std::endl;
 		}
 
-		//if (Input::GetKeyPressed(Key::E))
+		//if (Input::GetKeyPressed(Key::E))dddddddddddddd
 		//	followPlayer = !followPlayer;
 
 		if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))

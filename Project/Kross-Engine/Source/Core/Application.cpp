@@ -12,6 +12,8 @@
 #include "Manager/Time.h"
 #include "Physics/Physics.h"
 
+#include "Renderer/Image/Atlas.h"
+
 #include "Input.h"
 
 namespace Kross
@@ -71,6 +73,9 @@ namespace Kross
 		if (s_Window->GetInitialiseStatus() == true)
 		{
 			std::cout << "Kross Engine Running..." << std::endl;
+
+			std::cout << "Creating Atlas..." << std::endl;
+			Atlas* atlas = Atlas::OnCreate();
 			
 			SceneManager::OnStart();
 
