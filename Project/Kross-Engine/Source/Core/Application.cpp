@@ -28,7 +28,6 @@ namespace Kross
 		s_Window->SetWidth(width);
 		s_Window->SetHeight(height);
 		s_Window->SetTitle(title);
-		s_Window->SetVSync(1);
 	}
 
 	Application::~Application()
@@ -78,6 +77,7 @@ namespace Kross
 			Atlas* atlas = Atlas::OnCreate();
 			
 			SceneManager::OnStart();
+			std::cout << "Starting Main Loop..." << std::endl;
 
 			/* While the window isn't closed */
 			while (s_Window->GetClosedStatus() == false)

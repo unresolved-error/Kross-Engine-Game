@@ -46,54 +46,67 @@ public:
 
 	void Update() override
 	{
-		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		rigidBody->OnApplyForce(input * 0.5f);
+		Vector2 input = Vector2(0.0f);
 
-		if (Input::GetKeyPressed(Key::Space))
+		if (Input::ControllerConnected(controllerID))
 		{
-			if (jumpCount < 2)
+			input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), Input::GetControllerAxis(controllerID, Controller::LeftStickVertical, 0.2f));
+
+			if (Input::GetControllerButtonPressed(controllerID, Controller::A))
+				if (jumpCount < 2)
+				{
+					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.35f);
+					jumpCount++;
+				}
+
+			if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))
+				followPlayer = !followPlayer;
+
+			if (Input::GetControllerAxis(controllerID, Controller::LeftTrigger, 0.9f) > 0.9f)
 			{
-				rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.35f);
-				jumpCount++;
+				Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
+				newbie->AttachComponent<SpriteRenderer>();
+
+				newbie->SetStaticStatus(true);
+
+				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
+				ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
+				ren->SetDepth(20);
 			}
 		}
 
-		if (Input::GetControllerButtonPressed(controllerID, Controller::A))
-			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.75f);
-
-		if (Input::GetKeyDown(Key::Backspace))
-			textObj->SetText("Deklyn");
-
-		if (Input::GetKeyDown(Key::Q))
+		else
 		{
-			std::cout << SceneManager::GetCurrentScene()->GetObjectCount() << std::endl;
+			controllerID = Input::GetAvalibleController();
+
+			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
+
+			if (Input::GetKeyPressed(Key::Space))
+				if (jumpCount < 2)
+				{
+					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.35f);
+					jumpCount++;
+				}
+
+			if (Input::GetKeyPressed(Key::E))
+				followPlayer = !followPlayer;
+
+			if (Input::GetKeyDown(Key::Enter))
+			{
+				Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
+				newbie->AttachComponent<SpriteRenderer>();
+
+				newbie->SetStaticStatus(true);
+
+				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
+				ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
+				ren->SetDepth(20);
+			}
 		}
 
-		//if (Input::GetKeyPressed(Key::E))dddddddddddddd
-		//	followPlayer = !followPlayer;
+		rigidBody->OnApplyForce(input * 0.5f);
 
-		if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))
-			followPlayer = !followPlayer;
-
-		if (Input::GetControllerButtonPressed(controllerID, Controller::X))
-			textObj->SetFont(ResourceManager::GetResource<Font>(0));
-
-		else if (Input::GetControllerButtonPressed(controllerID, Controller::Y))
-			textObj->SetFont(ResourceManager::GetResource<Font>(1));
-
-		if (Input::GetKeyDown(Key::Enter))
-		{
-			Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
-			newbie->AttachComponent<SpriteRenderer>();
-
-			newbie->SetStaticStatus(true);
-
-			SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
-			ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
-			ren->SetDepth(20);
-		}
-
-		textObj->GetObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.25f);
+		textObj->GetObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
 
 		if (followPlayer)
 		{

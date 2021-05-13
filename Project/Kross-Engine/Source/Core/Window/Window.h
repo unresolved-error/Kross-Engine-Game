@@ -77,6 +77,9 @@ namespace Kross
 
 		// Gets the Aspect Ratio of the Window.
 		float GetApsectRatio() const { return (float)p_Properties->GetWidth() / (float)p_Properties->GetHeight(); };
+		
+		// Gets the Refresh Rate of the Screen.
+		const int GetScreenRefreshRate() const;
 
 		// Sets the VSync.
 		void SetVSync(int vSync) { p_Properties->SetVSync(vSync); };
