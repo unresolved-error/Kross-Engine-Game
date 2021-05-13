@@ -43,6 +43,7 @@ namespace Kross
 
 	protected:
 		friend class Sprite;
+		friend class Batch;
 
 		// Sets the Geometry Name.
 		void SetName(const std::string& name) { m_Name = name; };
