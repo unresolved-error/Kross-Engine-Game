@@ -433,6 +433,8 @@ namespace Kross
     {
         //lines->SetColour(Vector3(1.0f, 0.0f, 0.0f));
 
+        GetObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
+
         /* Checks the shape type of the body */
         if (m_ShapeType == ShapeType::Box)
         {

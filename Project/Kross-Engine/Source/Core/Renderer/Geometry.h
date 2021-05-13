@@ -13,27 +13,10 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
+#include "Vertex/Vertex.h"
 
 namespace Kross
 {
-	struct KROSS_API Vertex
-	{
-	private:
-		
-	protected:
-
-	public:
-		Vertex()
-			: m_Position(Vector2(0.0f)), m_UVs(Vector2(0.0f)), m_Colour(Colour(1.0f))
-		{};
-		Vertex(Vector2 position, Vector2 uvs, Colour colour)
-			: m_Position(position), m_UVs(uvs), m_Colour(colour)
-		{};
-
-		Vector2 m_Position, m_UVs;
-		Colour m_Colour;
-	};
-
 	// This is used inside of Geomtry, to determain the way it is drawn.
 	enum class KROSS_API RenderMode
 	{

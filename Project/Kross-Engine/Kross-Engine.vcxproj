@@ -76,7 +76,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</AdditionalIncludeDirectories>
@@ -121,6 +121,9 @@
     <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Plane.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Shape.h" />
+    <ClInclude Include="Source\Core\Renderer\Batch\Batch.h" />
+    <ClInclude Include="Source\Core\Renderer\Batch\BatchRenderer.h" />
+    <ClInclude Include="Source\Core\Renderer\Image\Atlas.h" />
     <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
@@ -134,6 +137,7 @@
     <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\Vertex.h" />
     <ClInclude Include="Source\Core\Scene.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Core\Window\WindowProperties.h" />
@@ -141,6 +145,8 @@
     <ClInclude Include="Source\Include\Kross.h" />
     <ClInclude Include="Source\Reference\Dummy.h" />
     <ClInclude Include="Vendor\fnl\include\fnl\FastNoiseLite.h" />
+    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3native.h" />
     <ClInclude Include="Vendor\glm\include\glm\common.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\detail\compute_common.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\detail\compute_vector_relational.hpp" />
@@ -483,6 +489,7 @@
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.h" />
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.h" />
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image.h" />
+    <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp" />
@@ -508,6 +515,7 @@
     <ClCompile Include="Source\Core\Physics\Shape\Circle.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Plane.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Shape.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp" />
     <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Character.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Font.cpp" />
@@ -579,6 +587,7 @@
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.cpp" />
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.cpp" />
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image.cpp" />
+    <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

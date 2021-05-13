@@ -308,6 +308,7 @@ namespace Kross
 	/* ------ Protected has been moved down here due to this function overload. ------ */
 	protected:
 		friend class Sprite;
+		friend class Atlas;
 
 		/* ----- GEOMETRY ----- */
 
@@ -362,5 +363,11 @@ namespace Kross
 		}
 
 		/* -------------------- */
+
+		// Grabs all of the Textures loaded.
+		static List<Texture*> GetTextures() { return s_Textures; };
+
+		// Grabs all of the Sprites Created.
+		static List<Sprite*> GetSprites() { return s_Sprites; };
 	};
 }
