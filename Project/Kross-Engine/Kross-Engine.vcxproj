@@ -143,6 +143,8 @@
     <ClInclude Include="Source\Include\Kross.h" />
     <ClInclude Include="Source\Reference\Dummy.h" />
     <ClInclude Include="Vendor\fnl\include\fnl\FastNoiseLite.h" />
+    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3native.h" />
     <ClInclude Include="Vendor\glm\include\glm\common.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\detail\compute_common.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\detail\compute_vector_relational.hpp" />

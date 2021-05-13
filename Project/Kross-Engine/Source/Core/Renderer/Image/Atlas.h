@@ -8,7 +8,7 @@
 
 #include "../../Core.h"
 
-#include "Texture.h"
+#include "Sprite.h"
 
 namespace Kross
 {
