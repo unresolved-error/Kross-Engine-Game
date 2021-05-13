@@ -41,15 +41,6 @@ namespace Kross
 		PhysicsScene() : p_PhysicsWorld(nullptr), p_ParticleSystem(nullptr) {};
 		~PhysicsScene();
 
-		/* Takes the radius and body, creating a new Circle */
-		Circle* CreateCircleBody(float radius, Body* body);
-
-		/* Takes the dimensions and body, creating a new Box */
-		Box* CreateBoxBody(Vector2 dimensions, Body* body);
-
-		/* Takes a normal, distance and body, creating a new Plane */
-		void CreatePlane(Vector2 normal, float distance, Body* body);
-
 		/* Adds the Body to a list of bodies */
 		void AttachBody(Body* body) { m_bodies.push_back(body); }
 

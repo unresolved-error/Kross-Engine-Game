@@ -29,6 +29,16 @@ class b2Body;
 class b2BroadPhase;
 class b2Fixture;
 
+//Added by Finn. A way of offering some mild type safety for userdata hooks, rather than void*.
+//You have to define the b2HitObjectType enum yourself somewhere in your game.
+enum class b2HitObjectType;
+
+class b2CollideableHook
+{
+public:
+	virtual b2HitObjectType GetObjectType() const = 0;
+};
+
 /// This holds contact filtering data.
 struct b2Filter
 {
@@ -72,7 +82,7 @@ struct b2FixtureDef
 	const b2Shape* shape;
 
 	/// Use this to store application specific fixture data.
-	void* userData;
+	b2CollideableHook* userData;
 
 	/// The friction coefficient, usually in the range [0,1].
 	float32 friction;
@@ -148,10 +158,10 @@ public:
 
 	/// Get the user data that was assigned in the fixture definition. Use this to
 	/// store your application specific data.
-	void* GetUserData() const;
+	b2CollideableHook* GetUserData() const;
 
 	/// Set the user data. Use this to store your application specific data.
-	void SetUserData(void* data);
+	void SetUserData(b2CollideableHook* data);
 
 	/// Test a point for containment in this fixture.
 	/// @param p a point in world coordinates.
@@ -165,6 +175,11 @@ public:
 	/// @param output the ray-cast results.
 	/// @param input the ray-cast input parameters.
 	bool RayCast(b2RayCastOutput* output, const b2RayCastInput& input, int32 childIndex) const;
+
+	/// Cast a circle against this shape. Added by Finn M.
+	/// @param output the ray-cast results.
+	/// @param input the ray-cast input parameters.
+	bool CircleCast(b2RayCastOutput* output, const b2RayCastInput& input, float32 radius, int32 childIndex) const;
 
 	/// Get the mass data for this fixture. The mass data is based on the density and
 	/// the shape. The rotational inertia is about the shape's origin. This operation
@@ -237,7 +252,7 @@ protected:
 
 	bool m_isSensor;
 
-	void* m_userData;
+	b2CollideableHook* m_userData;
 };
 
 inline b2Shape::Type b2Fixture::GetType() const
@@ -265,12 +280,12 @@ inline const b2Filter& b2Fixture::GetFilterData() const
 	return m_filter;
 }
 
-inline void* b2Fixture::GetUserData() const
+inline b2CollideableHook* b2Fixture::GetUserData() const
 {
 	return m_userData;
 }
 
-inline void b2Fixture::SetUserData(void* data)
+inline void b2Fixture::SetUserData(b2CollideableHook* data)
 {
 	m_userData = data;
 }
@@ -331,14 +346,19 @@ inline bool b2Fixture::TestPoint(const b2Vec2& p) const
 	return m_shape->TestPoint(m_body->GetTransform(), p);
 }
 
-inline void b2Fixture::ComputeDistance(const b2Vec2& p, float32* d, b2Vec2* n, int32 childIndex) const
-{
-	m_shape->ComputeDistance(m_body->GetTransform(), p, d, n, childIndex);
-}
-
 inline bool b2Fixture::RayCast(b2RayCastOutput* output, const b2RayCastInput& input, int32 childIndex) const
 {
 	return m_shape->RayCast(output, input, m_body->GetTransform(), childIndex);
+}
+
+inline bool b2Fixture::CircleCast(b2RayCastOutput* output, const b2RayCastInput& input, float32 radius, int32 childIndex) const
+{
+	return m_shape->CircleCast(output, input, m_body->GetTransform(), radius, childIndex);
+}
+
+inline void b2Fixture::ComputeDistance(const b2Vec2& p, float32* d, b2Vec2* n, int32 childIndex) const
+{
+	m_shape->ComputeDistance(m_body->GetTransform(), p, d, n, childIndex);
 }
 
 inline void b2Fixture::GetMassData(b2MassData* massData) const

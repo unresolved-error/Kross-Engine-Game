@@ -143,6 +143,12 @@ bool b2EdgeShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
 	return true;
 }
 
+bool b2EdgeShape::CircleCast(b2RayCastOutput * output, const b2RayCastInput & input, const b2Transform & transform, float32 radius, int32 childIndex) const
+{
+	//Stub! Not planning to fix this, since Sun Shy doesn't use edge shapes.
+	return false;
+}
+
 void b2EdgeShape::ComputeAABB(b2AABB* aabb, const b2Transform& xf, int32 childIndex) const
 {
 	B2_NOT_USED(childIndex);

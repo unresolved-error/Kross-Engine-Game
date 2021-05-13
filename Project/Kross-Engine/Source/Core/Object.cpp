@@ -105,37 +105,37 @@ namespace Kross
 		return;
 	}
 
-	void Object::OnCollisionEnter()
+	void Object::OnCollisionEnter(Object* other)
 	{
 		if (!m_Static && m_Enable)
 		{
 			/* Enter Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
-				m_Components[i]->OnCollisionEnter();
+				m_Components[i]->OnCollisionEnter(other);
 		}
 
 		return;
 	}
 
-	void Object::OnCollisionStay()
+	void Object::OnCollisionStay(Object* other)
 	{
 		if (!m_Static && m_Enable)
 		{
 			/* Stay Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
-				m_Components[i]->OnCollisionStay();
+				m_Components[i]->OnCollisionStay(other);
 		}
 
 		return;
 	}
 
-	void Object::OnCollisionExit()
+	void Object::OnCollisionExit(Object* other)
 	{
 		if (!m_Static && m_Enable)
 		{
 			/* Exit Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
-				m_Components[i]->OnCollisionExit();
+				m_Components[i]->OnCollisionExit(other);
 		}
 
 		return;

@@ -20,21 +20,21 @@ namespace Kross
         Update();
     }
 
-    void Script::OnCollisionEnter()
+    void Script::OnCollisionEnter(Object* other)
     {
         /* Call Collision Enter Method. */
-        CollisionEnter();
+        CollisionEnter(other);
     }
 
-    void Script::OnCollisionStay()
+    void Script::OnCollisionStay(Object* other)
     {
         /* Call Collision Stay Method. */
-        CollisionStay();
+        CollisionStay(other);
     }
 
-    void Script::OnCollisionExit()
+    void Script::OnCollisionExit(Object* other)
     {
         /* Call Collision Exit Method. */
-        CollisionExit();
+        CollisionExit(other);
     }
 }

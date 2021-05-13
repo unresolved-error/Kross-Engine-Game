@@ -175,6 +175,12 @@ bool b2ChainShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
 	return edgeShape.RayCast(output, input, xf, 0);
 }
 
+bool b2ChainShape::CircleCast(b2RayCastOutput * output, const b2RayCastInput & input, const b2Transform & transform, float32 radius, int32 childIndex) const
+{
+	//Stub! Not implemented. No plans to do this, since we don't use chain shapes in Sun Shy.
+	return false;
+}
+
 void b2ChainShape::ComputeAABB(b2AABB* aabb, const b2Transform& xf, int32 childIndex) const
 {
 	b2Assert(childIndex < m_count);

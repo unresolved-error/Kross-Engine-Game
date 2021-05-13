@@ -53,6 +53,7 @@ namespace Kross
 
 		/* if we do have a Current Scene. Update it. */
 		s_CurrentScene->OnUpdate();
+
 	}
 
 	void SceneManager::OnPhysicsUpdate()

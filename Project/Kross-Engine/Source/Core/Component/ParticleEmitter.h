@@ -19,6 +19,12 @@
 
 namespace Kross
 {
+    enum class KROSS_API ParticleType
+    {
+        Particle,
+        ParticleGroup,
+    };
+
 
     class KROSS_API ParticleEmitter : public Renderer
     {
@@ -29,8 +35,13 @@ namespace Kross
         World* p_World;
         LineRenderer* p_Lines;
         Shader* p_DebugShader;
+        Shader* p_GeometryShader;
+        CollisionFilter* p_CollisionFilter;
 
-        int m_ParticleCount;
+        ParticleType m_ParticleType;
+
+        int m_ParticleCount = 50;
+        int m_GroupCount = 5;
 
     protected:
         friend class PhyscisScene;
@@ -43,13 +54,17 @@ namespace Kross
 
     public:
 
-        ParticleEmitter() : p_Particle(new Particle()), p_Lines(new LineRenderer()) {};
+        ParticleEmitter() : p_Particle(new Particle()), p_Lines(new LineRenderer()), p_CollisionFilter(new CollisionFilter()) {}
         ~ParticleEmitter();
 
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
         ParticleSystem* GetParticleSystem() { return p_ParticleSystem; }
 
-        void SetParticleCount(int count) { m_ParticleCount = count; };
+        void SetMaxParticleCount(int count) { p_ParticleSystem->SetMaxParticleCount(count); }
+        int GetMaxParticleCount() { return p_ParticleSystem->GetMaxParticleCount(); }
+
+        void SetGroupCount(int count) { m_GroupCount = count; }
+        int GetGroupCount() { return m_GroupCount; }
 
         /* This is to create the particle system which is used to create the particles */
         void OnCreateParticleSystem();
@@ -79,9 +94,9 @@ namespace Kross
 
         /* Sets the maximum number of particles */
         /* A value of 0 means there is no maximum */
-        void SetMaxCount(int max) { p_ParticleSystem->SetMaxParticleCount(max); }
+        void SetMaxCount(int max) { m_ParticleCount = max; }
         /* Returns the max particle count of the particle system */
-        float GetMaxCount() { return p_ParticleSystem->GetMaxParticleCount(); }
+        float GetMaxCount() { return m_ParticleCount; }
 
         /* Enable / disable destruction of particles in CreateParticle() */
         /* when no more particles can be created due to a prior call to SetMaxParticleCount() */
@@ -128,5 +143,9 @@ namespace Kross
         /* Sets the physics scene */
         void SetPhysicsScene(PhysicsScene* physicsScene) { p_PhysicsScene = physicsScene; }
 
+        /* Sets the Particle type */
+        void SetParticleType(ParticleType type) { m_ParticleType = type; }
+        /* Gets the particle type */
+        ParticleType GetParticleType() { return m_ParticleType; }
     };
 }

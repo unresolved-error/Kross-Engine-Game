@@ -20,6 +20,9 @@ public:
 
 	bool followPlayer = false;
 
+	bool isGrounded = false;
+	int jumpCount = 0;
+
 	float moveSpeed = 5;
 
 	int controllerID;
@@ -40,15 +43,20 @@ public:
 		previousTime = Time::GetDeltaTime();
 	}
 
+
 	void Update() override
 	{
-		//Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-		//Input::GetControllerAxis()
-		Vector2 input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), Input::GetControllerAxis(controllerID, Controller::LeftStickVertical, 0.2f));
-		rigidBody->OnApplyForce(input * 2.5f);
+		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
+		rigidBody->OnApplyForce(input * 0.5f);
 
-		//if (Input::GetKeyPressed(Key::Space))
-		//	rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.75f);
+		if (Input::GetKeyPressed(Key::Space))
+		{
+			if (jumpCount < 2)
+			{
+				rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.35f);
+				jumpCount++;
+			}
+		}
 
 		if (Input::GetControllerButtonPressed(controllerID, Controller::A))
 			rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.75f);
@@ -82,6 +90,7 @@ public:
 
 			SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
 			ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
+			ren->SetDepth(20);
 		}
 
 		textObj->GetObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.25f);
@@ -111,4 +120,29 @@ public:
 			renderer->SetFlipX(true);
 	}
 
+	void OnCollisionEnter(Object* other)
+	{
+		//isGrounded = true;
+		
+		if (other->GetLayer() == Layer::Ground)
+			jumpCount = 0;
+
+		std::cout << "Entered collision with " << other->GetName() << std::endl;
+	}
+
+	void OnCollisionStay(Object* other)
+	{
+		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
+	}
+	
+	void OnCollisionExit(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			if (jumpCount == 0)
+				jumpCount++;
+		}
+
+		std::cout << "Exited collision with " << other->GetName() << std::endl;
+	}
 };

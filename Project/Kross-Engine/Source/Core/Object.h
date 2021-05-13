@@ -13,15 +13,20 @@
 namespace Kross
 {
 	// Used for Rendering Objects. (LAST TO FIRST. NOTE! THESE ARE ADDED ENGINE SIDE!) 
-	enum class Layer
+	enum class KROSS_API Layer
 	{
 		/* Layers. */
 
-		Default, 
+		None,
+		Default,
 		Light,
 		Player,
 		Environment,
 		Background,
+		Fluids,
+		Wall,
+		Ground,
+		
 
 		/* Layer Count. */
 
@@ -66,13 +71,13 @@ namespace Kross
 		void OnUpdate();
 
 		// Object Collision Enter Method.
-		void OnCollisionEnter();
+		void OnCollisionEnter(Object* other);
 
 		// Object Collision Stay Method.
-		void OnCollisionStay();
+		void OnCollisionStay(Object* other);
 
 		// Object Collision Exit Method.
-		void OnCollisionExit();
+		void OnCollisionExit(Object* other);
 
 		// Object Render Method.
 		void OnRender();

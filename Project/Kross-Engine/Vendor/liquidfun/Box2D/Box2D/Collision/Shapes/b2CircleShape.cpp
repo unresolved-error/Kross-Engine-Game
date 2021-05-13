@@ -92,6 +92,46 @@ bool b2CircleShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input
 	return false;
 }
 
+bool b2CircleShape::CircleCast(b2RayCastOutput * output, const b2RayCastInput & input, const b2Transform & transform, float32 radius, int32 childIndex) const
+{
+	//This is just the same as a ray cast but with the radius of the cast in the circle added to the radius of the circle we're casting against.
+	//So this function was 'added by Finn' but the code is basically nicked from above.
+	B2_NOT_USED(childIndex);
+
+	float32 summedRadii = m_radius + radius;
+
+	b2Vec2 position = transform.p + b2Mul(transform.q, m_p);
+	b2Vec2 s = input.p1 - position;
+	float32 b = b2Dot(s, s) - summedRadii * summedRadii;
+
+	// Solve quadratic equation.
+	b2Vec2 r = input.p2 - input.p1;
+	float32 c = b2Dot(s, r);
+	float32 rr = b2Dot(r, r);
+	float32 sigma = c * c - rr * b;
+
+	// Check for negative discriminant and short segment.
+	if (sigma < 0.0f || rr < b2_epsilon)
+	{
+		return false;
+	}
+
+	// Find the point of intersection of the line with the circle.
+	float32 a = -(c + b2Sqrt(sigma));
+
+	// Is the intersection point on the segment?
+	if (0.0f <= a && a <= input.maxFraction * rr)
+	{
+		a /= rr;
+		output->fraction = a;
+		output->normal = s + a * r;
+		output->normal.Normalize();
+		return true;
+	}
+
+	return false;
+}
+
 void b2CircleShape::ComputeAABB(b2AABB* aabb, const b2Transform& transform, int32 childIndex) const
 {
 	B2_NOT_USED(childIndex);

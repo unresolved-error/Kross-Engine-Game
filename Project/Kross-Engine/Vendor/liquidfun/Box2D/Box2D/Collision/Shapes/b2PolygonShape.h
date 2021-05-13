@@ -66,6 +66,10 @@ public:
 	bool RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
 					const b2Transform& transform, int32 childIndex) const;
 
+	/// Implement b2Shape but not really (not implemented for chains, since they're not used in Sun Shy).
+	bool CircleCast(b2RayCastOutput* output, const b2RayCastInput& input,
+		const b2Transform& transform, float32 radius, int32 childIndex) const;
+
 	/// @see b2Shape::ComputeAABB
 	void ComputeAABB(b2AABB* aabb, const b2Transform& transform, int32 childIndex) const;
 

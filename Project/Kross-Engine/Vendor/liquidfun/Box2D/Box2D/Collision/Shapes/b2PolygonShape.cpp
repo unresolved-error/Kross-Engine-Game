@@ -372,6 +372,118 @@ bool b2PolygonShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& inpu
 
 	return false;
 }
+#include <iostream>
+bool b2PolygonShape::CircleCast(b2RayCastOutput * output, const b2RayCastInput & input, const b2Transform & xf, float32 radius, int32 childIndex) const
+{
+	//This is modified from the above raycast code by Finn to account for the circle's radius.
+	//This means that first, we have to ray cast against the edges but with them moved along their normal by a distance equal to the radius of the circle.
+	//We also have to ray cast against each vertex as though it's a circle, which will be cribbed from the circle shape raycast code.
+	B2_NOT_USED(childIndex);
+
+	// Put the ray into the polygon's frame of reference.
+	b2Vec2 p1 = b2MulT(xf.q, input.p1 - xf.p);
+	b2Vec2 p2 = b2MulT(xf.q, input.p2 - xf.p);
+	b2Vec2 d = p2 - p1;
+
+	float32 lower = 0.0f, upper = input.maxFraction;
+
+	bool hit = false;
+	output->fraction = 2.0f;
+
+	for (int32 i = 0; i < m_count; ++i)
+	{
+		b2Vec2 normal = m_normals[i];
+		b2Vec2 v1 = m_vertices[i] + radius * normal;
+		b2Vec2 v2 = m_vertices[(i + 1) % m_count] + radius * normal;
+		b2Vec2 e = v2 - v1;
+	
+		// q = p1 + t * d
+		// dot(normal, q - v1) = 0
+		// dot(normal, p1 - v1) + t * dot(normal, d) = 0
+		float32 numerator = b2Dot(normal, v1 - p1);
+		float32 denominator = b2Dot(normal, d);
+		if (numerator > 0.0f)
+		{
+			continue;	//If the normal points away from the trace direction, we don't count it.
+		}
+		if (denominator == 0.0f)
+		{
+			continue;
+		}
+	
+		float32 t = numerator / denominator;
+		if (t < 0.0f || input.maxFraction < t)
+		{
+			continue;
+		}
+	
+		b2Vec2 q = p1 + t * d;
+	
+		// q = v1 + s * r
+		// s = dot(q - v1, r) / dot(r, r)
+		b2Vec2 r = v2 - v1;
+		float32 rr = b2Dot(r, r);
+		if (rr == 0.0f)
+		{
+			continue;
+		}
+	
+		float32 s = b2Dot(q - v1, r) / rr;
+		if (s < 0.0f || 1.0f < s)
+		{
+			continue;
+		}
+	
+		if (t < output->fraction)
+		{
+			output->fraction = t;
+			output->normal = normal;
+			hit = true;
+		}
+	}
+
+
+	//This is testing the circle against the poly vertices.
+	for (int32 i = 0; i < m_count; ++i)
+	{
+		b2Vec2 position = m_vertices[i];
+		b2Vec2 s = p1 - position;
+		float32 b = b2Dot(s, s) - radius * radius;
+
+		// Solve quadratic equation.
+		b2Vec2 r = p2 - p1;
+		float32 c = b2Dot(s, r);
+		float32 rr = b2Dot(r, r);
+		float32 sigma = c * c - rr * b;
+
+		// Check for negative discriminant and short segment.
+		if (sigma < 0.0f || rr < b2_epsilon)
+		{
+			continue;
+		}
+
+		// Find the point of intersection of the line with the circle.
+		float32 a = -(c + b2Sqrt(sigma));
+
+		// Is the intersection point on the segment?
+		if (0.0f <= a && a <= input.maxFraction * rr)
+		{
+			a /= rr;
+			if (a < output->fraction)
+			{
+				output->fraction = a;
+				output->normal = s + a * r;
+				output->normal = b2Mul(xf.q, output->normal);	//Put the normal back into world space.
+				output->normal.Normalize();
+				hit = true;
+			}
+		}
+	}
+
+	b2Assert(0.0f <= lower && lower <= input.maxFraction);
+	return hit;
+
+}
 
 void b2PolygonShape::ComputeAABB(b2AABB* aabb, const b2Transform& xf, int32 childIndex) const
 {

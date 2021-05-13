@@ -23,7 +23,7 @@
 #include <Box2D/Particle/b2Particle.h>
 #include <Box2D/Dynamics/b2TimeStep.h>
 
-#if LIQUIDFUN_UNIT_TESTS
+#ifdef LIQUIDFUN_UNIT_TESTS
 #include <gtest/gtest.h>
 #endif // LIQUIDFUN_UNIT_TESTS
 
@@ -281,6 +281,8 @@ struct b2ParticleSystemDef
 class b2ParticleSystem
 {
 public:
+	bool foreground;//Added by Finn - is this system in the foreground? Used for collision filtering.
+
 	/// Create a particle whose properties have been defined.
 	/// No reference to the definition is retained.
 	/// A simulation step must occur before it's possible to interact with a
@@ -462,6 +464,10 @@ public:
 	/// @return the pointer to the head of the particle velocities array.
 	b2Vec2* GetVelocityBuffer();
 	const b2Vec2* GetVelocityBuffer() const;
+
+	///Get the pressure of each particle. Added by Finn. Might not actually work, who knows.
+	float32* GetPressureBuffer();
+	const float32* GetPressureBuffer() const;
 
 	/// Get the color of each particle
 	/// Array is length GetParticleCount()
@@ -1376,6 +1382,16 @@ inline b2Vec2* b2ParticleSystem::GetPositionBuffer()
 inline b2Vec2* b2ParticleSystem::GetVelocityBuffer()
 {
 	return m_velocityBuffer.data;
+}
+
+inline float32* b2ParticleSystem::GetPressureBuffer()
+{
+	return this->m_staticPressureBuffer;
+}
+
+inline const float32* b2ParticleSystem::GetPressureBuffer() const
+{
+	return this->m_staticPressureBuffer;
 }
 
 inline float32* b2ParticleSystem::GetWeightBuffer()
