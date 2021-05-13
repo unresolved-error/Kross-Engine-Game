@@ -20,15 +20,30 @@ namespace Kross
 		/* Creates the particle system */
 		OnCreateParticleSystem();
 
-		
+		//SetMaxParticleCount(m_ParticleCount);
+
+		SetRadius(0.025f);
+
+		//p_ParticleSystem->SetDensity(2.0f);
 
 		/* Creates all of the particles */
-		for (int i = 0; i < m_ParticleCount; i++)
+		if (m_ParticleType == ParticleType::Particle)
 		{
-			for (int j = 0; j < m_ParticleCount; j++)
+			for (int i = 0; i < 20; i++)
 			{
-				p_Particle->SetPosition(Vector2(-6.9f + 0.01f * i, 3.0f - 0.002f - 0.01f * j));
-				OnCreateParticle();
+				for (int j = 0; j < 20; j++)
+				{
+					p_Particle->SetPosition(Vector2(-5.9f + 0.01f * i, 3.0f + 0.01f * j));
+					OnCreateParticle();
+				}
+			}
+		}
+		else if (m_ParticleType == ParticleType::ParticleGroup)
+		{
+			for (int i = 0; i < GetGroupCount(); i++)
+			{
+				p_Particle->SetPosition(Vector2(-6.75f + 1.5f * i, 1.5f));
+				OnCreateParticleGroup();
 			}
 		}
 
@@ -38,8 +53,7 @@ namespace Kross
 		/* Initialise the line renderer */
 		p_Lines->Initialise();
 
-		SetRadius(0.025f);
-		p_Lines->SetColour(Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f));
+		//p_Lines->SetColour(Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f));
 
 	}
 
@@ -60,6 +74,7 @@ namespace Kross
 	ParticleEmitter::~ParticleEmitter()
 	{
 		delete p_Particle;
+		delete p_Lines;
 	}
 
 	void ParticleEmitter::OnCreateParticleSystem()
@@ -77,7 +92,10 @@ namespace Kross
 			OnCreateParticleSystem();
 			GetParticleSystem()->CreateParticle(p_Particle->CreateParticleDef());
 		}
-		GetParticleSystem()->CreateParticle(p_Particle->CreateParticleDef());
+		else
+		{
+			GetParticleSystem()->CreateParticle(p_Particle->CreateParticleDef());
+		}
 	}
 
 	void ParticleEmitter::OnCreateParticleGroup()
@@ -87,9 +105,12 @@ namespace Kross
 			p_PhysicsScene = GetPhysicsScene();
 			p_PhysicsScene->GetPhysicsWorld();
 			OnCreateParticleSystem();
-			p_ParticleSystem->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
+			GetParticleSystem()->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
 		}
-		p_ParticleSystem->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
+		else
+		{
+			GetParticleSystem()->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
+		}
 	}
 
 }

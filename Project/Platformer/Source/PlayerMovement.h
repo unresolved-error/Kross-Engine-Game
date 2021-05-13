@@ -39,6 +39,7 @@ public:
 		previousTime = Time::GetDeltaTime();
 	}
 
+
 	void Update() override
 	{
 		Vector2 input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
@@ -48,7 +49,7 @@ public:
 		{
 			if (jumpCount < 2)
 			{
-				rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * 0.325f);
+				rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.35f);
 				jumpCount++;
 			}
 		}

@@ -35,28 +35,6 @@ namespace Kross
             p_RayData->intersectionPoint = Vector2(point.x, point.y);
             p_RayData->intersectionNormal = Vector2(normal.x, normal.y);
 
-
-
-
-            //if (fixture != nullptr)
-            //{
-            //    p_RayData->body = fixture->GetBody();
-            //    p_RayData->hit = true;
-            //}
-            //else
-            //{
-            //    p_RayData->body = nullptr;
-            //    p_RayData->hit = false;
-            //}
-            //
-            //if (fraction < p_RayData->closestFraction)
-            //{
-            //    p_RayData->closestFraction = fraction;
-            //    p_RayData->intersectionNormal = Vector2(normal.x, normal.y);
-            //}
-            //
-            //p_RayData->intersectionPoint = Vector2(point.x, point.y);
-
             return p_RayData->closestFraction;
         }
 

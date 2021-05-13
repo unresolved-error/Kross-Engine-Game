@@ -183,13 +183,17 @@ int main(int argc, char** argv)
 	particleEmitter->SetLayer(Layer::Fluids);
 
 	scene->AttachObject(particleEmitter);
-	
+
 	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
-	particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_fixtureContactListenerParticle);
-	particle->GetParticle()->SetPosition({ particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y });
+	particle->SetParticleType(ParticleType::ParticleGroup);
+
+	particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_staticPressureParticle);
+	particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
+	particle->GetParticle()->SetShape(0.75f);
 	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
 	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	particle->SetParticleCount(25);
+	particle->SetMaxCount(0);
+	particle->SetGroupCount(1);
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 

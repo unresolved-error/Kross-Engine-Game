@@ -367,7 +367,9 @@ namespace Kross
                     OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
 
 
+                    #ifdef KROSS_DEBUG
                     lines->SetColour(Vector3(1, 0, 0));
+                    #endif
                     p_RayData->hit = false;
                 }
                 else
@@ -380,7 +382,10 @@ namespace Kross
                     else if (m_CollisionState == CollisionState::Exit)
                         m_CollisionState = CollisionState::None;
 
+                    #ifdef Kross_DEBUG
                     lines->SetColour(Vector3(0, 1, 0));
+                    #endif // Kross_DEBUG
+
                 }
 
                 #ifdef KROSS_DEBUG
@@ -469,7 +474,7 @@ namespace Kross
 
         float distanceScale = 10.0f;
         float springConstant = 1.0f;
-        float dampingConstant = 3.25f;
+        float dampingConstant = 7.5f;
         float restLength = 0.75f;
         float size = 0.5f;
 
@@ -497,12 +502,6 @@ namespace Kross
         
 
         return (springConstant * (size - distance)) * force;
-
-        //acceleration = force;// / mass;
-        //
-        //velocity = velocity + acceleration;
-        //
-        //return velocity;// *distanceScale* mass;
 
     }
 

@@ -12,6 +12,8 @@
 #include "Manager/SceneManager.h"
 #include "Manager/Time.h"
 
+#include "Application.h"
+
 namespace Kross
 {
     Scene::~Scene()
@@ -56,9 +58,27 @@ namespace Kross
 
     void Scene::OnPhysicsUpdate()
     {
-
         /* Update the physics step */
-        p_Physics->GetPhysicsWorld()->Step(1.0f / 240.0f, 8, 1, 2);
+        switch (Application::GetWindow()->GetVSync())
+        {
+            case 0:
+            {
+                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 1, 2);
+                break;
+            }
+            case 1:
+            {
+                p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 1, 2);
+                break;
+            }
+
+            default:
+            {
+                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 1, 2);
+                break;
+            }
+        }
+        
         //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
 
          /* Update all Dynamic Objects. */
