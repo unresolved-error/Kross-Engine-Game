@@ -22,7 +22,6 @@ mono_crash.*
 [Bb]inaries/
 [Bb]inaries-[Ii]ntermediate/
 
-[Vv]endor/
 [Ww]orking/
 
 *.zip
