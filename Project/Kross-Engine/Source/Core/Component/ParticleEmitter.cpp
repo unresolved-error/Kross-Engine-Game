@@ -42,7 +42,8 @@ namespace Kross
 		{
 			for (int i = 0; i < GetGroupCount(); i++)
 			{
-				p_Particle->SetPosition(Vector2(-6.75f + 1.5f * i, 1.5f));
+				p_Particle->SetPosition(Vector2(-6.75f + 6.0f * i, 1.5f));
+				p_Particle->SetColor(Vector4(1.0f - 0.1f * i, 1.0f - 0.05f * i, 1.0f - 0.2f * i, 1.0f));
 				OnCreateParticleGroup();
 			}
 		}
@@ -59,11 +60,11 @@ namespace Kross
 
 	void ParticleEmitter::OnRender()
 	{
-		//b2ParticleColor* particleColor = p_ParticleSystem->GetColorBuffer();
+		b2ParticleColor* particleColor = p_ParticleSystem->GetColorBuffer();
 		b2Vec2* particlePositions = p_ParticleSystem->GetPositionBuffer();
 		for (int i = 0; i < p_ParticleSystem->GetParticleCount(); i++)
 		{
-			//p_Lines->SetColour({ particleColor[i].r, particleColor[i].g, particleColor[i].b });
+			p_Lines->SetColour({ particleColor[i].r, particleColor[i].g, particleColor[i].b });
 			p_Lines->DrawCross({ particlePositions[i].x, particlePositions[i].y }, p_ParticleSystem->GetRadius());
 		}
 		

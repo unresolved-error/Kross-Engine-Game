@@ -63,18 +63,18 @@ namespace Kross
         {
             case 0:
             {
-                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 1, 2);
+                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 3, 3);
                 break;
             }
             case 1:
             {
-                p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 1, 2);
+                p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 3);
                 break;
             }
 
             default:
             {
-                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 1, 2);
+                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 3, 3);
                 break;
             }
         }

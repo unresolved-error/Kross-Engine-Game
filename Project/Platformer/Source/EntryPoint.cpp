@@ -27,15 +27,15 @@ int main(int argc, char** argv)
 	camera->AttachComponent<Camera>();
 	camera->GetComponent<Camera>()->SetSize(8.0f);
 
-	Object* player = Object::OnCreate("Player");
-	player->AttachComponent<SpriteRenderer>();
-	player->AttachComponent<Rigidbody2D>();
-	player->AttachComponent<PlayerMovement>();
-	player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
-
-	player->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
-	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
-	player->GetTransform()->m_Rotation = 0.0f;
+	//Object* player = Object::OnCreate("Player");
+	//player->AttachComponent<SpriteRenderer>();
+	//player->AttachComponent<Rigidbody2D>();
+	//player->AttachComponent<PlayerMovement>();
+	//player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
+	//
+	//player->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
+	//player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
+	//player->GetTransform()->m_Rotation = 0.0f;
 	
 
 	Object* textExample = Object::OnCreate("Text");
@@ -47,13 +47,13 @@ int main(int argc, char** argv)
 	textRenderer->SetTextSize(1.2f);
 	textRenderer->SetText("Inventory");
 
-	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
-	player->SetLayer(Layer::Background);
+	//player->GetComponent<PlayerMovement>()->textObj = textRenderer;
+	//player->SetLayer(Layer::Background);
+	//
+	//SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
+	//renderer->SetSprite(sprite);
 
-	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
-	renderer->SetSprite(sprite);
-
-	scene->AttachObject(player);
+	//scene->AttachObject(player);
 
 
 
@@ -171,8 +171,8 @@ int main(int argc, char** argv)
 	}
 
 
-	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position,  true, ColliderFilters::Player, ColliderFilters::Environment);
+	//Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
+	//rigidBody->CreateDynamicBox(Vector2(0.25, 0.25f), player->GetTransform()->m_Position,  true, ColliderFilters::Player, ColliderFilters::Environment);
 	//rigidBody->SetMass(1.25f);
 
 
@@ -187,15 +187,15 @@ int main(int argc, char** argv)
 	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
 	particle->SetParticleType(ParticleType::ParticleGroup);
 
-	particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_staticPressureParticle);
+	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
 	particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
 	particle->GetParticle()->SetShape(0.75f);
-	particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
-	particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
+	//particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
+	//particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
 	particle->SetMaxCount(0);
-	particle->SetGroupCount(1);
+	particle->SetGroupCount(3);
 
-	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
+	//player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
