@@ -20,20 +20,24 @@ namespace Kross
 		/* Creates the particle system */
 		OnCreateParticleSystem();
 
-		//SetMaxParticleCount(m_ParticleCount);
+		SetRadius(0.075f);
 
-		SetRadius(0.025f);
+		SetMaxParticleCount(10000);
 
-		//p_ParticleSystem->SetDensity(2.0f);
+		//SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment | ColliderFilters::Fluid);
+		SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
+		b2Filter* filter = GetColliderFilters();
 
 		/* Creates all of the particles */
 		if (m_ParticleType == ParticleType::Particle)
 		{
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 75; i++)
 			{
-				for (int j = 0; j < 20; j++)
+				for (int j = 0; j < 75; j++)
 				{
-					p_Particle->SetPosition(Vector2(-5.9f + 0.01f * i, 3.0f + 0.01f * j));
+					p_Particle->SetCollisionFilter(filter);
+
+					p_Particle->SetPosition(Vector2(-5.0f + 0.005f * i, 3.0f - 0.005f * j));
 					OnCreateParticle();
 				}
 			}
@@ -42,8 +46,10 @@ namespace Kross
 		{
 			for (int i = 0; i < GetGroupCount(); i++)
 			{
-				p_Particle->SetPosition(Vector2(-6.75f + 6.0f * i, 1.5f));
-				p_Particle->SetColor(Vector4(1.0f - 0.1f * i, 1.0f - 0.05f * i, 1.0f - 0.2f * i, 1.0f));
+				p_Particle->SetCollisionFilter(GetColliderFilters());
+
+				p_Particle->SetPosition(Vector2(0.0f + 1.5f * i, 1.5f));
+				//p_Particle->SetColor(Vector4((127.0f + 2.0f * i) / 255.0f, (175.0f + 8.0f * i) / 255.0f, 25.0f / 255.0f, 255.0f / 255.0f));
 				OnCreateParticleGroup();
 			}
 		}
@@ -54,18 +60,18 @@ namespace Kross
 		/* Initialise the line renderer */
 		p_Lines->Initialise();
 
-		//p_Lines->SetColour(Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f));
-
+		p_Lines->SetColour(Vector3(0.28f, 0.71f, 0.9f));
+		
 	}
 
 	void ParticleEmitter::OnRender()
 	{
-		b2ParticleColor* particleColor = p_ParticleSystem->GetColorBuffer();
+		//b2ParticleColor* particleColor = p_ParticleSystem->GetColorBuffer();
 		b2Vec2* particlePositions = p_ParticleSystem->GetPositionBuffer();
 		for (int i = 0; i < p_ParticleSystem->GetParticleCount(); i++)
 		{
-			p_Lines->SetColour({ particleColor[i].r, particleColor[i].g, particleColor[i].b });
-			p_Lines->DrawCross({ particlePositions[i].x, particlePositions[i].y }, p_ParticleSystem->GetRadius());
+			//p_Lines->SetColour(Vector3(particleColor[i].r, particleColor[i].g, particleColor[i].b));
+			p_Lines->DrawCross(Vector2(particlePositions[i].x, particlePositions[i].y), p_ParticleSystem->GetRadius());
 		}
 		
 		p_DebugShader->Attach();
@@ -113,5 +119,4 @@ namespace Kross
 			GetParticleSystem()->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
 		}
 	}
-
 }

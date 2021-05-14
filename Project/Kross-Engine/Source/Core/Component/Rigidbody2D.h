@@ -14,6 +14,8 @@
 #include "../Renderer/Shader/Shader.h"
 #include "../Renderer/LineRenderer.h"
 #include "../Physics/Collision/CollisionData.h"
+#include "../Physics/Collision/ContactFilter.h"
+#include "../Physics/Collision/PhysicsCallbacks.h"
 
 namespace Kross
 {
@@ -52,6 +54,10 @@ namespace Kross
         b2MassData* p_MassData;
 
         CollisionState m_CollisionState;
+
+        ContactFilter* p_Filter;
+        FluidCollisionData* p_FluidData;
+        FluidCollisionCallback* p_FluidCallback;
 
         #ifdef KROSS_DEBUG
         Shader* p_DebugShader;
@@ -137,5 +143,7 @@ namespace Kross
         Vector2 SpringUpdate(Vector2 force, float mass);
 
         CollisionState GetCollision() const { return m_CollisionState; }    
+
+        Vector2 CollideParticles();
     };
 }

@@ -28,7 +28,7 @@ namespace Kross
 		s_Window->SetWidth(width);
 		s_Window->SetHeight(height);
 		s_Window->SetTitle(title);
-		s_Window->SetVSync(1);
+		//s_Window->SetVSync(1);
 	}
 
 	Application::~Application()

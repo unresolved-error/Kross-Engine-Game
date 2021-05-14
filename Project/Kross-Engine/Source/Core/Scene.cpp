@@ -34,6 +34,7 @@ namespace Kross
 
         /* Clear the Render Queue. */
         m_RenderList.clear();
+        delete p_WorldFilter;
     }
 
     void Scene::OnStart()
@@ -47,6 +48,7 @@ namespace Kross
 
         /* Scene has Started. */
         m_Started = true;
+
     }
 
     void Scene::OnUpdate()
@@ -58,26 +60,8 @@ namespace Kross
 
     void Scene::OnPhysicsUpdate()
     {
-        /* Update the physics step */
-        switch (Application::GetWindow()->GetVSync())
-        {
-            case 0:
-            {
-                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 3, 3);
-                break;
-            }
-            case 1:
-            {
-                p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 3);
-                break;
-            }
 
-            default:
-            {
-                p_Physics->GetPhysicsWorld()->Step(1.0f / 120.0f, 8, 3, 3);
-                break;
-            }
-        }
+        p_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), 8, 3, 3);
 
         //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); / Not recommended. /
 

@@ -142,4 +142,13 @@ namespace Kross
 	{
 		delete this;
 	}
+	const int Window::GetScreenRefreshRate() const
+	{
+		/* Grab the main Monitor and the Video Mode. */
+		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* videoMode = glfwGetVideoMode(monitor);
+
+		/* Return the Refresh Rate. */
+		return videoMode->refreshRate;
+	}
 }

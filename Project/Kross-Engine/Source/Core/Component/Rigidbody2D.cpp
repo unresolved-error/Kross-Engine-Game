@@ -17,8 +17,9 @@
 namespace Kross
 {
     Rigidbody2D::Rigidbody2D()
-        : m_ShapeType(ShapeType::Count), p_Body(nullptr), p_PhysicsScene(nullptr),
-        p_Box(nullptr), p_Circle(nullptr), p_RayData(new RaycastData()), p_FixtureDef(new FixtureDef()), p_MassData(new b2MassData())
+        : m_ShapeType(ShapeType::Count), p_Body(nullptr), p_PhysicsScene(nullptr), p_Filter(new ContactFilter()),
+        p_Box(nullptr), p_Circle(nullptr), p_RayData(new RaycastData()), p_FixtureDef(new FixtureDef()),
+        p_MassData(new b2MassData()), p_FluidCallback(new FluidCollisionCallback()), p_FluidData(new FluidCollisionData())
     {
         /* When in debug set up the shader and renderer */
         #ifdef KROSS_DEBUG
@@ -339,10 +340,17 @@ namespace Kross
     {
         if (p_Box != nullptr)
         {
-
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
+                Vector2 particleForce = CollideParticles();
+
+                if (p_FluidData->m_Collision)
+                {
+                    // player is swimming
+                    OnApplyForce(particleForce * (p_Body->GetMass() * 0.5f));
+                }
+
                 float footSpringLength = 0.5f;
 
                 p_RayData->maxFraction = 1.0f;
@@ -355,9 +363,6 @@ namespace Kross
 
                 if (p_RayData->hit)
                 {
-                    //float targetHeight = 0.49f;
-                    //float springConstant = 2.5f;
-
                     if (m_CollisionState == CollisionState::None)
                         m_CollisionState = CollisionState::Enter;
 
@@ -365,7 +370,6 @@ namespace Kross
                         m_CollisionState = CollisionState::Stay;
 
                     OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
-
 
                     #ifdef KROSS_DEBUG
                     lines->SetColour(Vector3(1, 0, 0));
@@ -406,6 +410,8 @@ namespace Kross
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
+                CollideParticles();
+
                 /* Gets the object position and updates it with the position of the body */
                 GetObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
             
@@ -475,10 +481,10 @@ namespace Kross
         float distance = glm::length(pos2 - pos1);
 
         float distanceScale = 10.0f;
-        float springConstant = 0.9f;
-        float dampingConstant = 7.5f;
-        float restLength = 0.75f;
-        float size = 0.5f;
+        float springConstant = 1.5f;
+        float dampingConstant = 11.0f;
+        float restLength = 0.55f;
+        float size = 0.35f;
 
         float scalar = distanceScale * springConstant * (size - restLength);
         Vector2 direction = p_RayData->intersectionNormal;
@@ -510,10 +516,51 @@ namespace Kross
     Vector2 Rigidbody2D::SpringUpdate(Vector2 force, float mass)
     {
         Vector2 acceleration = force / mass;
-
+        
         Vector2 velocity = velocity + acceleration;
-
+        
         return velocity;// *distanceScale;
+    }
+
+    Vector2 Rigidbody2D::CollideParticles()
+    {
+        Vector2 totalVelocity(0, 0);
+        Vector2 averageVelocity(0, 0);
+        int particleCount = 0;
+
+        p_FluidCallback->SetFluidCollisionData(p_FluidData);
+        const b2Shape* shape = p_Body->GetFixtureList()->GetShape();
+
+        p_PhysicsScene->GetParticleSystem()->QueryShapeAABB(p_FluidCallback, *(b2Shape*)shape, p_Body->GetTransform());
+        p_FluidData = p_FluidCallback->GetFluidCollisionData();
+
+        particleCount = p_FluidData->m_ParticleIndexs.size();
+
+        if (particleCount != 0)
+        {
+            p_FluidData->m_Collision = true;
+
+            averageVelocity = Vector2(0, 0);
+            totalVelocity = Vector2(0, 0);
+
+            for (int i = 0; i < p_FluidData->m_ParticleIndexs.size(); i++)
+            {
+                Vector2 particleVelocity = Vector2(p_FluidData->p_ParticleSystem->GetVelocityBuffer()[p_FluidData->m_ParticleIndexs[i]].x, p_FluidData->p_ParticleSystem->GetVelocityBuffer()[p_FluidData->m_ParticleIndexs[i]].y);
+
+                totalVelocity += particleVelocity;
+            }
+
+            p_FluidData->m_ParticleIndexs.clear();
+            averageVelocity = glm::normalize(Vector2(totalVelocity.x / particleCount, totalVelocity.y / particleCount));
+            particleCount = 0;
+        }
+        else
+        {
+            p_FluidData->m_Collision = false;
+            averageVelocity = Vector2(0, 0);
+        }
+        
+        return averageVelocity;
     }
 
     float Rigidbody2D::GetFriction()
