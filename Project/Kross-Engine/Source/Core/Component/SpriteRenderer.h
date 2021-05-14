@@ -60,7 +60,7 @@ namespace Kross
 		Colour GetColour() const { return m_Colour; };
 
 		// Gets the X Flip.
-		inline bool GetFilpX() const { return m_FlipX; };
+		inline bool GetFlipX() const { return m_FlipX; };
 
 		// Gets the Y Flip.
 		inline bool GetFlipY() const { return m_FlipY; };

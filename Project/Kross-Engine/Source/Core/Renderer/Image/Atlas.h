@@ -52,5 +52,14 @@ namespace Kross
 
 		// Destroys the Atlas specified.
 		static void OnDestroy(Atlas* atlas);
+
+		// Gets the data for where abouts the Sprite sits on the Atlas.
+		AtlasSpriteData GetSpriteData(Sprite* sprite) { return m_SpriteAtlasUVs[sprite]; };
+
+		// Binds the Atlas.
+		void Attach() const;
+
+		// UnBinds the Atlas.
+		static void Detach() const;
 	};
 }

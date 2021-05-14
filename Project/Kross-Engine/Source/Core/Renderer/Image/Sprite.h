@@ -42,6 +42,7 @@ namespace Kross
 		friend class SpriteRenderer;
 		friend class Character;
 		friend class Atlas;
+		friend class Batch;
 
 		// Get the Sprite UV Ratio. (SHADER USE ONLY)
 		const Vector2 GetUVRatio() const { return m_UVRatio; };
@@ -51,6 +52,9 @@ namespace Kross
 
 		// Get the Pixel Offset of the Orignial Texture. (ATLAS USE ONLY)
 		const Vector2 GetPixelOffset() const { return m_PixelOffset; }
+
+		// Gets the Sprite Geometry.
+		Geometry* GetGeometry() const { return m_Geometry; };
 
 		// Sets the Sprite Name.
 		void SetName(const std::string& name) { m_Name = name; };

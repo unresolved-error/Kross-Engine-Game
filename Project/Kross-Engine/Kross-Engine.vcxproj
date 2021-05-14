@@ -146,6 +146,10 @@
     <ClInclude Include="Source\Include\Kross.h" />
     <ClInclude Include="Source\Reference\Dummy.h" />
     <ClInclude Include="Vendor\fnl\include\fnl\FastNoiseLite.h" />
+    <ClInclude Include="Vendor\glew\include\GL\eglew.h" />
+    <ClInclude Include="Vendor\glew\include\GL\glew.h" />
+    <ClInclude Include="Vendor\glew\include\GL\glxew.h" />
+    <ClInclude Include="Vendor\glew\include\GL\wglew.h" />
     <ClInclude Include="Vendor\glfw\include\GLFW\glfw3.h" />
     <ClInclude Include="Vendor\glfw\include\GLFW\glfw3native.h" />
     <ClInclude Include="Vendor\glm\include\glm\common.hpp" />
@@ -728,6 +732,7 @@
     <None Include="Vendor\glm\include\glm\gtx\vector_angle.inl" />
     <None Include="Vendor\glm\include\glm\gtx\vector_query.inl" />
     <None Include="Vendor\glm\include\glm\gtx\wrap.inl" />
+    <None Include="Vendor\liquidfun\Box2D\Box2D\Documentation\footer.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

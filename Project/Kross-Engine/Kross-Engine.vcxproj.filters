@@ -1191,6 +1191,9 @@
     <ClInclude Include="Source\Core\Renderer\Batch\Batch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Renderer\Batch\Batch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Core\Renderer\Batch\BatchRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1209,10 +1212,16 @@
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h">
+    <ClInclude Include="Vendor\glew\include\GL\eglew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\PhysicsCallbacks.h">
+    <ClInclude Include="Vendor\glew\include\GL\glew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vendor\glew\include\GL\glxew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vendor\glew\include\GL\wglew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1503,9 +1512,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Collision\PhysicsCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1918,5 +1924,6 @@
     <None Include="Vendor\glm\include\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Vendor\liquidfun\Box2D\Box2D\Documentation\footer.html" />
   </ItemGroup>
 </Project>
