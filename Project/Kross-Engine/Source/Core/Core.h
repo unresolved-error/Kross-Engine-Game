@@ -63,7 +63,7 @@ using List = std::vector<Type>;
     // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
     // allocations to be of _CLIENT_BLOCK type
 #else
-    #define DBG_NEW new
+    #define KROSS_NEW new
 #endif
 
 /* --- DLL Export and Import Functionality --- */

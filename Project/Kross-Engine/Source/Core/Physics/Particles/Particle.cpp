@@ -6,8 +6,12 @@ namespace Kross
 {
 	Particle::~Particle()
 	{
-		delete p_Box;
-		delete p_Circle;
+		if (p_Circle)
+			delete p_Circle;
+
+		if (p_Box)
+			delete p_Box;
+
 		delete p_Filter;
 	}
 	void Particle::CreateParticle(ParticleSystem* particleSystem)
