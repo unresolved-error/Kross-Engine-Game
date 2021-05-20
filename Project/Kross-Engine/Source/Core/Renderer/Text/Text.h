@@ -53,8 +53,16 @@ namespace Kross
 		void OnRender();
 
 	public:
-		Text()
-			: m_Text(std::string()), m_PreviousText(std::string()), p_Font(nullptr), p_PreviousFont(nullptr), m_TextCharacters(List<Character*>()), p_TextRenderer(nullptr), m_Alignment(TextAlignment::Center), m_Colour(Colour(1.0f)), m_Size(1.0f)
+		Text() : 
+			m_Colour			(Colour(1.0f)),
+			m_Size				(1.0f),
+			p_Font				(nullptr), 
+			p_PreviousFont		(nullptr),
+			p_TextRenderer		(nullptr), 
+			m_Text				(std::string()),
+			m_PreviousText		(std::string()),
+			m_TextCharacters	(List<Character*>()), 
+			m_Alignment			(TextAlignment::Center)
 		{};
 		~Text();
 

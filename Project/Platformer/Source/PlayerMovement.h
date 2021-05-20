@@ -7,7 +7,14 @@ using namespace Kross;
 class PlayerMovement : public Script
 {
 public:
-	PlayerMovement() {};
+	PlayerMovement() :
+		transform	(nullptr),
+		renderer	(nullptr),
+		window		(nullptr),
+		rigidBody	(nullptr),
+		camera		(nullptr),
+		textObj		(nullptr)
+	{};
 	~PlayerMovement() {};
 
 	Transform2D* transform;
@@ -25,12 +32,12 @@ public:
 
 	float moveSpeed = 5;
 
-	int controllerID;
+	int controllerID = 0;
 
 	float previousTime = 0.0f;
-	float actualTime;
+	float actualTime = 0.0f;
 
-	int frameCount;
+	int frameCount = 0;
 
 	void Start() override
 	{

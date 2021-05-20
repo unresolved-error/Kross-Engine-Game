@@ -21,6 +21,7 @@ namespace Kross
 {
     enum class KROSS_API ParticleType
     {
+        None,
         Particle,
         ParticleGroup,
     };
@@ -36,7 +37,8 @@ namespace Kross
         LineRenderer* p_Lines;
         Shader* p_DebugShader;
         Shader* p_GeometryShader;
-        CollisionFilter* p_CollisionFilter;
+
+        b2Filter* p_Filter;
 
         ParticleType m_ParticleType;
 
@@ -54,7 +56,17 @@ namespace Kross
 
     public:
 
-        ParticleEmitter() : p_Particle(KROSS_NEW Particle()), p_Lines(KROSS_NEW LineRenderer()), p_CollisionFilter(KROSS_NEW CollisionFilter()) {}
+        ParticleEmitter() : 
+            p_ParticleSystem    (nullptr), 
+            p_PhysicsScene      (nullptr),
+            p_World             (nullptr), 
+            p_DebugShader       (nullptr), 
+            p_GeometryShader    (nullptr),
+            m_ParticleType      (ParticleType::None),
+            p_Lines             (KROSS_NEW LineRenderer()), 
+            p_Particle          (KROSS_NEW Particle()), 
+            p_Filter            (KROSS_NEW b2Filter())
+        {}
         ~ParticleEmitter();
 
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
@@ -147,5 +159,15 @@ namespace Kross
         void SetParticleType(ParticleType type) { m_ParticleType = type; }
         /* Gets the particle type */
         ParticleType GetParticleType() { return m_ParticleType; }
+
+        /* Sets the particles collision filters */
+        void SetColliderFilters(uint16 catagoryBits, uint16 maskBits)
+        {
+            p_Filter->categoryBits = catagoryBits;
+            p_Filter->maskBits = maskBits;
+        }
+
+        /* Gets the filter */
+        b2Filter* GetColliderFilters() { return p_Filter; }
     };
 }

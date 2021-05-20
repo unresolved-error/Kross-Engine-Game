@@ -60,6 +60,9 @@ namespace Kross
 		Shader* lineShader = Shader::OnCreate("Resources/Shaders/line.vert", "Resources/Shaders/line.frag", "LineShader");
 		ResourceManager::AttachResource<Shader>(lineShader);
 
+		//Shader* fluidShader = Shader::OnCreate("Resources/Shaders/.vert", "Resources/Shaders/.frag", "GeometryShader");
+		//ResourceManager::AttachResource<Shader>(fluidShader);
+
 		Shader* batchShader = Shader::OnCreate("Resources/Shaders/batch.vert", "Resources/Shaders/batch.frag", "BatchShader");
 		ResourceManager::AttachResource<Shader>(batchShader);
 

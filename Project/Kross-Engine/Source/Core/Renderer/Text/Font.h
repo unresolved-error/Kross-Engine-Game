@@ -15,8 +15,11 @@ namespace Kross
 	class KROSS_API Font
 	{
 	private:
-		Font()
-			: m_Name(""), p_Texture(nullptr), m_Characters(List<Character*>()), m_Sprites(List<Sprite*>())
+		Font() : 
+			m_Name			(""), 
+			p_Texture		(nullptr), 
+			m_Characters	(List<Character*>()),
+			m_Sprites		(List<Sprite*>())
 		{};
 		~Font();
 

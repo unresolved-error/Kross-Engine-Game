@@ -15,18 +15,11 @@ namespace Kross
 
 		/* set the world and the particle system */
 		p_World = p_PhysicsScene->GetPhysicsWorld();
-		//p_ParticleSystem = p_PhysicsScene->GetParticleSystem();
 
 		/* Creates the particle system */
 		OnCreateParticleSystem();
 
 		SetRadius(0.025f);
-
-		SetRadius(0.025f);
-
-		//p_ParticleSystem->SetDensity(2.0f);
-		SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
-		b2Filter* filter = GetColliderFilters();
 
 		/* Creates all of the particles */
 		if (m_ParticleType == ParticleType::Particle)
@@ -35,7 +28,7 @@ namespace Kross
 			{
 				for (int j = 0; j < 20; j++)
 				{
-					p_Particle->SetPosition(Vector2(-5.9f + 0.01f * i, 3.0f + 0.01f * j));
+					p_Particle->SetCollisionFilter(p_Filter);
 
 					p_Particle->SetPosition(Vector2(-5.0f + 0.005f * i, 3.0f - 0.005f * j));
 					OnCreateParticle();
@@ -46,7 +39,7 @@ namespace Kross
 		{
 			for (int i = 0; i < GetGroupCount(); i++)
 			{
-				p_Particle->SetCollisionFilter(filter);
+				p_Particle->SetCollisionFilter(p_Filter);
 
 				p_Particle->SetPosition(Vector2(0.0f + 1.5f * i, 1.5f));
 				OnCreateParticleGroup();
@@ -59,7 +52,8 @@ namespace Kross
 		/* Initialise the line renderer */
 		p_Lines->Initialise();
 
-		//p_Lines->SetColour(Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f));
+		/* Good blue */
+		/* Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f) */
 
 	}
 
@@ -79,9 +73,8 @@ namespace Kross
 
 	ParticleEmitter::~ParticleEmitter()
 	{
-		delete p_Particle;
 		delete p_Lines;
-		delete p_CollisionFilter;
+		delete p_Filter;
 	}
 
 	void ParticleEmitter::OnCreateParticleSystem()

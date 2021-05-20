@@ -56,8 +56,10 @@ namespace Kross
 		void OnShutdown();
 
 	public:
-		Window()
-			: p_Properties(KROSS_NEW WindowProperties()), p_GLFWWindow(nullptr), m_Initialised(false)
+		Window() :
+			p_Properties	(KROSS_NEW WindowProperties()), 
+			p_GLFWWindow	(nullptr), 
+			m_Initialised	(false)
 		{};
 		
 		// Gets the Title of the Window.

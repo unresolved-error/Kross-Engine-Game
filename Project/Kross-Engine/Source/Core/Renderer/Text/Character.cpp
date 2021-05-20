@@ -12,8 +12,12 @@
 
 namespace Kross
 {
-	Character::Character()
-		: p_Shader(nullptr), p_Sprite(nullptr), m_Position(Vector2(0.0f)), m_Scale(Vector2(1.0f)), u_Model(Matrix4(1.0f))
+	Character::Character() : 
+		p_Shader	(nullptr), 
+		p_Sprite	(nullptr), 
+		m_Position	(Vector2(0.0f)),
+		m_Scale		(Vector2(1.0f)), 
+		u_Model		(Matrix4(1.0f))
 	{
 		/* Grab the Text Shader. */
 		p_Shader = ResourceManager::GetResource<Shader>("TextShader");
