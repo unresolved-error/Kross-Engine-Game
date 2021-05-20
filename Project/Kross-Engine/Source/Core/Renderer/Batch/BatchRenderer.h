@@ -17,8 +17,10 @@ namespace Kross
     class KROSS_API BatchRenderer
     {
     private:
-        BatchRenderer(Atlas* atlas)
-            : p_Shader(ResourceManager::GetResource<Shader>("BatchShader")), p_Atlas(atlas), p_Batch(KROSS_NEW Batch(atlas))
+        BatchRenderer(Atlas* atlas) : 
+            p_Atlas     (atlas), 
+            p_Batch     (KROSS_NEW Batch(atlas)),
+            p_Shader    (ResourceManager::GetResource<Shader>("BatchShader"))
         {};
         ~BatchRenderer();
 

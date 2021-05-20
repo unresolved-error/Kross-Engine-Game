@@ -42,8 +42,13 @@ namespace Kross
         const Matrix4 GetView() const { return m_View; };
 
     public:
-        Camera() 
-            : m_Size(2.0f), m_Near(-1.0f), m_Far(1.0f), m_AspectRatio(16.0f / 9.0f), m_Projection(Matrix4(1.0f)), m_View(Matrix4(1.0f))
+        Camera() : 
+            m_Size          (2.0f),
+            m_Near          (-1.0f),
+            m_Far           (1.0f), 
+            m_AspectRatio   (16.0f / 9.0f),
+            m_Projection    (Matrix4(1.0f)),
+            m_View          (Matrix4(1.0f))
         {};
         ~Camera() {};
 

@@ -10,8 +10,12 @@
 
 namespace Kross
 {
-	SpriteRenderer::SpriteRenderer()
-		: p_Sprite(nullptr), p_Shader(nullptr), m_Colour(1.0f), m_FlipX(false), m_FlipY(false)
+	SpriteRenderer::SpriteRenderer() : 
+		p_Sprite	(nullptr),
+		p_Shader	(nullptr), 
+		m_FlipX		(false),
+		m_FlipY		(false),
+		m_Colour	(1.0f)
 	{
 		/* Get an already preloaded shader. */
 		p_Shader = ResourceManager::GetResource<Shader>("StandardShader");

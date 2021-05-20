@@ -20,15 +20,15 @@ namespace Kross
 	class KROSS_API Sprite
 	{
 	private:
-		Sprite()
-			: p_Texture(nullptr), 
-			m_Width(0), 
-			m_Height(0), 
-			m_UVOffset(Vector2(0.0f,0.0f)),
-			m_UVRatio(Vector2(1.0f, 1.0f)),
-			m_Name(""),
-			m_Geometry(KROSS_NEW Geometry()),
-			m_PixelOffset(Vector2(0.0f))
+		Sprite() : 
+			m_Width			(0), 
+			m_Height		(0), 
+			m_Name			(""),
+			p_Texture		(nullptr), 
+			m_Geometry		(KROSS_NEW Geometry()),
+			m_UVOffset		(Vector2(0.0f,0.0f)),
+			m_UVRatio		(Vector2(1.0f, 1.0f)),
+			m_PixelOffset	(Vector2(0.0f))
 		{
 			static int count = 0;
 			std::cout << "Creating sprite " << count << std::endl;

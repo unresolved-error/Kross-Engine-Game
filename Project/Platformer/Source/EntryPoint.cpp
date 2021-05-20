@@ -106,7 +106,7 @@ int main(int argc, char** argv)
 	for (int i = 0; i < 31; i++)
 	{
 		Rigidbody2D* grb = grounds[i]->GetComponent<Rigidbody2D>();
-		grb->CreateWorldBox(Vector2(0.5f, 0.5f), grounds[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
+		grb->CreateWorldBox(Vector2(0.5f, 0.5f), grounds[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = grounds[i]->GetComponent<SpriteRenderer>();
 		renderer->SetSprite(wallSprite);
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 	for (int i = 0; i < 31; i++)
 	{
 		Rigidbody2D* rrb = roofs[i]->GetComponent<Rigidbody2D>();
-		rrb->CreateWorldBox(Vector2(0.5f, 0.5f), roofs[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
+		rrb->CreateWorldBox(Vector2(0.5f, 0.5f), roofs[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = roofs[i]->GetComponent<SpriteRenderer>();
 		renderer->SetSprite(wallSprite);
@@ -152,7 +152,7 @@ int main(int argc, char** argv)
 	for (int i = 0; i < 17; i++)
 	{
 		Rigidbody2D* rwrb = rightWalls[i]->GetComponent<Rigidbody2D>();
-		rwrb->CreateWorldBox(Vector2(0.5f, 0.5f), 0.0f, rightWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
+		rwrb->CreateWorldBox(Vector2(0.5f, 0.5f), 0.0f, rightWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = rightWalls[i]->GetComponent<SpriteRenderer>();
 		renderer->SetSprite(wallSprite);
@@ -175,12 +175,11 @@ int main(int argc, char** argv)
 	for (int i = 0; i < 17; i++)
 	{
 		Rigidbody2D* lwrb = leftWalls[i]->GetComponent<Rigidbody2D>();
-		lwrb->CreateWorldBox(Vector2(0.5f, 0.5f), 0.0f, leftWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player);
+		lwrb->CreateWorldBox(Vector2(0.5f, 0.5f), 0.0f, leftWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = leftWalls[i]->GetComponent<SpriteRenderer>();
 		renderer->SetSprite(wallSprite);
 	}
-
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
 	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.33f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment);
@@ -197,8 +196,9 @@ int main(int argc, char** argv)
 
 	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
 	particle->SetParticleType(ParticleType::ParticleGroup);
+	particle->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
 	
-	particle->GetParticle()->AddParticleFlag(b2_waterParticle);
+	particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_fixtureContactFilterParticle);
 	particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
 	particle->GetParticle()->SetShape(1.5f);
 	//particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });

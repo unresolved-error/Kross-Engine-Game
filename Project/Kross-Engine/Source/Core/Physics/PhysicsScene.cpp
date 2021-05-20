@@ -8,6 +8,7 @@
 
 namespace Kross
 {
+
 	PhysicsScene::~PhysicsScene()
 	{
 		delete p_PhysicsWorld;

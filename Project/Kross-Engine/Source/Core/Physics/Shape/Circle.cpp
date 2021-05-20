@@ -8,7 +8,8 @@
 
 namespace Kross
 {
-	Circle::Circle(float radius, Vector2 offset) : m_radius(radius)
+	Circle::Circle(float radius, Vector2 offset) : 
+        m_radius(radius)
 	{
 	}
 }

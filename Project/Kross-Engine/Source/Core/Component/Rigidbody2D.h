@@ -44,27 +44,28 @@ namespace Kross
     class KROSS_API Rigidbody2D : public Renderer
     {
     private:
-        Box* p_Box;
-        Circle* p_Circle;
         Body* p_Body;
         PhysicsScene* p_PhysicsScene;
-        RaycastData* p_RayData;
+        Box* p_Box;
+        Circle* p_Circle;
+
+        ShapeType m_ShapeType;
+        CollisionState m_CollisionState;
 
         FixtureDef* p_FixtureDef;
         b2MassData* p_MassData;
-
-        CollisionState m_CollisionState;
-
+        RaycastData* p_RayData;
         ContactFilter* p_Filter;
         FluidCollisionData* p_FluidData;
         FluidCollisionCallback* p_FluidCallback;
+
+
+
 
         #ifdef KROSS_DEBUG
         Shader* p_DebugShader;
         LineRenderer* lines;
         #endif
-
-        ShapeType m_ShapeType;
 
     protected:
         friend class PhysicsScene;
@@ -81,7 +82,7 @@ namespace Kross
         void OnRender() override;
         #endif
 
-        Body* GetRayCollisionBody() const { return p_RayData->body; };
+        Body* GetRayCollisionBody() const { return p_RayData->body; }
 
     public:
 
@@ -135,12 +136,13 @@ namespace Kross
         /* Gets the friction of a specified object */
         float GetFriction();
 
+        /* Calculates the spring under the player */
         Vector2 SpringCalculation(Body* body1, Body* body2, float distance);
 
-        Vector2 SpringUpdate(Vector2 force, float mass);
-
+        /* Returns the current collision state */
         CollisionState GetCollision() const { return m_CollisionState; }    
 
+        /* Collides dynamic bodies with particles */
         Vector2 CollideParticles();
     };
 }

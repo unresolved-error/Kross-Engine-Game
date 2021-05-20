@@ -41,8 +41,15 @@ namespace Kross
         void OnRender();
 
     public:
-        Batch(Atlas* atlas)
-            : m_Data(List<Vertex>()), m_Indicies(List<unsigned int>()), p_Atlas(atlas), m_IndexBuffer(KROSS_NEW IndexBuffer()), m_VertexArray(KROSS_NEW VertexArray()), m_VertexBuffer(KROSS_NEW VertexBuffer()), m_MaxBatchSize(MAX_BATCH_SIZE), m_BatchSize(0)
+        Batch(Atlas* atlas) :
+            m_Data(List<Vertex>()),
+            m_Indicies(List<unsigned int>()), 
+            p_Atlas(atlas), 
+            m_IndexBuffer(KROSS_NEW IndexBuffer()),
+            m_VertexArray(KROSS_NEW VertexArray()), 
+            m_VertexBuffer(KROSS_NEW VertexBuffer()), 
+            m_MaxBatchSize(MAX_BATCH_SIZE),
+            m_BatchSize(0)
         {};
 
         ~Batch();
@@ -56,12 +63,12 @@ namespace Kross
         template<>
         void Attach<SpriteRenderer>(SpriteRenderer* renderer)
         {
-            Sprite* sprite = renderer->GetSprite();
-            Matrix4 model = renderer->GetObject()->GetTransform()->GetModelMatrix();
-            AtlasSpriteData spriteData = p_Atlas->GetSpriteData(sprite);
+            Sprite*             sprite =            renderer->GetSprite();
+            Matrix4             model =             renderer->GetObject()->GetTransform()->GetModelMatrix();
+            AtlasSpriteData     spriteData =        p_Atlas->GetSpriteData(sprite);
 
-            List<Vertex> geometryVertexes = sprite->GetGeometry()->m_Geometry;
-            List<Vector2> uvs = List<Vector2>(4);
+            List<Vertex>        geometryVertexes =  sprite->GetGeometry()->m_Geometry;
+            List<Vector2>       uvs =               List<Vector2>(4);
 
             if (renderer->GetFlipX()) 
             {

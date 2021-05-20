@@ -2,8 +2,8 @@
 
 namespace Kross
 {
-	Window* Input::s_Window = nullptr;
-	Input* Input::s_Instance = nullptr;
+	Window*									Input::s_Window =					nullptr;
+	Input*									Input::s_Instance =					nullptr;
 
 	std::unordered_map<Key, int>			Input::s_KeyStateCache =			std::unordered_map<Key, int>();
 	std::unordered_map<Controller, int>		Input::s_ControllerStateCache =		std::unordered_map<Controller, int>();

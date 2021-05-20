@@ -21,8 +21,9 @@ namespace Kross
 	protected:
 
 	public:
-		FrameBuffer()
-			: m_FrameBufferID(0), m_WindowFrameTexture(nullptr)
+		FrameBuffer() : 
+			m_FrameBufferID			(0),
+			m_WindowFrameTexture	(nullptr)
 		{};
 		FrameBuffer(int width, int height);
 		~FrameBuffer();

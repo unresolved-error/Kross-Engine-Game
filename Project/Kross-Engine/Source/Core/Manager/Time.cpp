@@ -8,10 +8,10 @@
 
 namespace Kross
 {
-	float Time::s_DeltaTime = 0.0f;
-	float Time::s_PreviousTime = 0.0f;
+	Time*	Time::s_Instance =		nullptr;
 
-	Time* Time::s_Instance = nullptr;
+	float	Time::s_DeltaTime =		0.0f;
+	float	Time::s_PreviousTime =	0.0f;
 
 	void Time::OnCreate()
 	{

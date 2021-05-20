@@ -124,6 +124,7 @@
     <ClInclude Include="Source\Core\Physics\Shape\Shape.h" />
     <ClInclude Include="Source\Core\Renderer\Batch\Batch.h" />
     <ClInclude Include="Source\Core\Renderer\Batch\BatchRenderer.h" />
+    <ClInclude Include="Source\Core\Renderer\Fluids\Fluids.h" />
     <ClInclude Include="Source\Core\Renderer\Image\Atlas.h" />
     <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />

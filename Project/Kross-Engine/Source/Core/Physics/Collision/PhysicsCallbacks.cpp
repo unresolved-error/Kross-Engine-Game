@@ -8,7 +8,8 @@
 
 namespace Kross
 {
-    FluidCollisionCallback::FluidCollisionCallback() : p_Data(nullptr)
+    FluidCollisionCallback::FluidCollisionCallback() : 
+        p_Data(nullptr)
     {
     }
 

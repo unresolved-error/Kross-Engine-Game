@@ -45,8 +45,8 @@ namespace Kross
         }
 
         bool ShouldCollide(b2Fixture* fixture,
-            b2ParticleSystem* particleSystem,
-            int32 particleIndex) override
+                           b2ParticleSystem* particleSystem,
+                           int32 particleIndex) override
         {
             //if (fixture->GetBody()->GetType() == b2_dynamicBody)
             //{
@@ -61,7 +61,7 @@ namespace Kross
         }
 
         bool ShouldCollide(b2ParticleSystem* particleSystem,
-            int32 particleIndexA, int32 particleIndexB) override
+                           int32 particleIndexA, int32 particleIndexB) override
         {
             const b2Filter& filterA = *(b2Filter*)particleSystem->GetUserDataBuffer()[particleIndexA];
             const b2Filter& filterB = *(b2Filter*)particleSystem->GetUserDataBuffer()[particleIndexB];

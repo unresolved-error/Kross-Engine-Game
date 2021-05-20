@@ -12,8 +12,8 @@
 
 namespace Kross
 {
-	VertexArray::VertexArray()
-		: m_VertexArrayID(0)
+	VertexArray::VertexArray() :
+		m_VertexArrayID(0)
 	{
 		glGenVertexArrays(1, &m_VertexArrayID);
 	}
