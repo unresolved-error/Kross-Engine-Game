@@ -39,7 +39,7 @@ namespace Kross
 	Shader* Shader::OnCreate(const std::string& vertexFilepath, const std::string& fragmentFilepath, const std::string& name)
 	{
 		/* Create the Shader. */
-		Shader* shader = new Shader();
+		Shader* shader = KROSS_NEW Shader();
 		shader->SetName(name);
 		shader->SetVertexFilepath(vertexFilepath);
 		shader->SetFragmentFilepath(fragmentFilepath);
@@ -62,7 +62,7 @@ namespace Kross
 	Shader* Shader::OnReload(Shader* shader)
 	{
 		/* Create the shader. */
-		Shader* reloadedShader = new Shader();
+		Shader* reloadedShader = KROSS_NEW Shader();
 		reloadedShader->SetName(shader->GetName());
 		reloadedShader->SetVertexFilepath(shader->GetVertexFilepath());
 		reloadedShader->SetFragmentFilepath(shader->GetFragmentFilepath());

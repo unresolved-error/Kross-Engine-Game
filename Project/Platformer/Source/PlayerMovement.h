@@ -55,7 +55,7 @@ public:
 			if (Input::GetControllerButtonPressed(controllerID, Controller::A))
 				if (jumpCount < 2)
 				{
-					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.35f);
+					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.25f);
 					jumpCount++;
 				}
 
@@ -73,6 +73,15 @@ public:
 				ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
 				ren->SetDepth(20);
 			}
+
+			if (Input::GetControllerButtonPressed(controllerID, Controller::DPadUp))
+			{
+				Window* window = Application::GetWindow();
+				if (window->GetFullscreen() == 0)
+					window->SetFullscreen(1);
+				else
+					window->SetFullscreen(0);
+			}
 		}
 
 		else
@@ -84,7 +93,7 @@ public:
 			if (Input::GetKeyPressed(Key::Space))
 				if (jumpCount < 2)
 				{
-					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.35f);
+					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.25f);
 					jumpCount++;
 				}
 
@@ -102,30 +111,42 @@ public:
 				ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
 				ren->SetDepth(20);
 			}
+
+			if (Input::GetKeyPressed(Key::F11))
+			{
+				Window* window = Application::GetWindow();
+				if (window->GetFullscreen() == 0)
+					window->SetFullscreen(1);
+				else
+					window->SetFullscreen(0);
+			}
 		}
 
 		rigidBody->OnApplyForce(input * 0.5f);
 
 		textObj->GetObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
 
-		if (followPlayer)
-		{
-			Transform2D* cameraTransform = camera->GetObject()->GetTransform();
+		//if (followPlayer)
+		//{
+		//	Transform2D* cameraTransform = camera->GetObject()->GetTransform();
+		//
+		//	Vector2 direction = Vector2(0.0f);
+		//	float speed = 0.5f;
+		//
+		//	Vector2 distance = (cameraTransform->m_Position - transform->m_Position);
+		//	Vector2 directionNorm = glm::normalize(transform->m_Position - cameraTransform->m_Position);
+		//	
+		//	float actualDistance = sqrt((distance.x * distance.x) + (distance.y * distance.y));
+		//
+		//	if(actualDistance > speed)
+		//		cameraTransform->m_Position += directionNorm * speed;
+		//
+		//	else
+		//		cameraTransform->m_Position = transform->m_Position;
+		//}
 
-			Vector2 direction = Vector2(0.0f);
-			float speed = 0.05f;
-
-			Vector2 distance = (cameraTransform->m_Position - transform->m_Position);
-			Vector2 directionNorm = glm::normalize(transform->m_Position - cameraTransform->m_Position);
-			
-			float actualDistance = sqrt((distance.x * distance.x) + (distance.y * distance.y));
-
-			if(actualDistance > speed)
-				cameraTransform->m_Position += directionNorm * speed;
-
-			else
-				cameraTransform->m_Position = transform->m_Position;
-		}
+		Transform2D* cameraTransform = camera->GetObject()->GetTransform();
+		cameraTransform->m_Position = transform->m_Position;
 
 		if (input.x > 0)
 			renderer->SetFlipX(false);

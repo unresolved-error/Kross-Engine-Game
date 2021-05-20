@@ -1224,6 +1224,9 @@
     <ClInclude Include="Vendor\glew\include\GL\wglew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Renderer\Vertex\BatchVertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp">
@@ -1512,6 +1515,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Renderer\Batch\Batch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1925,5 +1934,8 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Vendor\liquidfun\Box2D\Box2D\Documentation\footer.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Source\Core\Text.txt" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
 
 #include "../Core.h"
 
+#include "../Renderer/Image/Atlas.h"
 #include "../Renderer/Image/Sprite.h"
 #include "../Renderer/Image/Texture.h"
 #include "../Renderer/Shader/Shader.h"
@@ -31,12 +32,13 @@ namespace Kross
 		static List<Texture*> s_Textures;
 		static List<Font*> s_Fonts;
 
+		static Atlas* s_Atlas;
+
 	public:
 		// Creates an Instance of the Manager.
 		static void OnCreate();
 
 		// Destroys an Instance of the Manager.
-
 		static void OnDestroy();
 
 		// Base Template Class. (DO NOT USE)
@@ -305,10 +307,15 @@ namespace Kross
 
 		/* -------------------- */
 
+		// Gets the Atlas.
+		static Atlas* GetAtlas() { return s_Atlas; };
+
 	/* ------ Protected has been moved down here due to this function overload. ------ */
 	protected:
 		friend class Sprite;
 		friend class Atlas;
+
+		friend class Application;
 
 		/* ----- GEOMETRY ----- */
 
@@ -369,5 +376,17 @@ namespace Kross
 
 		// Grabs all of the Sprites Created.
 		static List<Sprite*> GetSprites() { return s_Sprites; };
+
+		// Adds a Atlas to the Resource Manager.
+		template<>
+		static void AttachResource<Atlas>(Atlas* atlas)
+		{
+			/* If we already have an Atlas. */
+			//if (s_Atlas)
+			//	Atlas::OnDestroy(s_Atlas);
+
+			/* Set the New One. */
+			s_Atlas = atlas;
+		}
 	};
 }

@@ -16,7 +16,7 @@ namespace Kross
 	void Time::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = new Time();
+			s_Instance = KROSS_NEW Time();
 	}
 
 	void Time::OnDestroy()

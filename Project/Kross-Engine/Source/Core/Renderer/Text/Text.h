@@ -41,6 +41,7 @@ namespace Kross
 
 	protected:
 		friend class TextRenderer;
+		friend class Batch;
 
 		// Sets the Text Renderer that the Text is attached to.
 		void SetTextRenderer(TextRenderer* renderer) { p_TextRenderer = renderer; };

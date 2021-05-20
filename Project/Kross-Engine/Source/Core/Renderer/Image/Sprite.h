@@ -5,7 +5,7 @@
  */
 
 #ifndef BASE_SPRITE_WIDTH_AND_HEIGHT
-#define BASE_SPRITE_WIDTH_AND_HEIGHT 128
+#define BASE_SPRITE_WIDTH_AND_HEIGHT 64
 #endif // Base Sprite Width and Height.
 
 #pragma once
@@ -21,8 +21,19 @@ namespace Kross
 	{
 	private:
 		Sprite()
-			: p_Texture(nullptr), m_Width(0), m_Height(0), m_UVOffset(Vector2(0.0f,0.0f)), m_UVRatio(Vector2(1.0f, 1.0f)), m_Name(""), m_Geometry(new Geometry())
-		{};
+			: p_Texture(nullptr), 
+			m_Width(0), 
+			m_Height(0), 
+			m_UVOffset(Vector2(0.0f,0.0f)),
+			m_UVRatio(Vector2(1.0f, 1.0f)),
+			m_Name(""),
+			m_Geometry(KROSS_NEW Geometry()),
+			m_PixelOffset(Vector2(0.0f))
+		{
+			static int count = 0;
+			std::cout << "Creating sprite " << count << std::endl;
+			count++;
+		};
 		~Sprite();
 
 		Texture* p_Texture;

@@ -37,7 +37,18 @@ namespace Kross
 
 	public:
 		/* The group bool is to determine where values need to be assigned */
-		Particle()	{}
+		Particle()
+			: p_Circle(nullptr), p_Box(nullptr)
+		{};
+		~Particle()
+		{
+			if(p_Circle)
+				delete p_Circle;
+
+			if (p_Box)
+				delete p_Box;
+
+		};
 
 		ParticleDef GetParticleDef() { return m_ParticleDef; }
 
@@ -72,14 +83,14 @@ namespace Kross
 		/* Sets the shape of the particle as a polygon */
 		void SetShape(Vector2 dim) 
 		{ 
-			PolygonShape* shape = new PolygonShape();
+			PolygonShape* shape = KROSS_NEW PolygonShape();
 			shape->SetAsBox(dim.x, dim.y);
 			p_Box = shape;
 		}
 		/* Sets the shape of the particle as a circle */
 		void SetShape(float radius) 
 		{
-			CircleShape* shape = new CircleShape();
+			CircleShape* shape = KROSS_NEW CircleShape();
 			shape->m_radius = radius;
 			p_Circle = shape;
 		}
