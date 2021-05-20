@@ -20,7 +20,7 @@ namespace Kross
 		/* Creates the particle system */
 		OnCreateParticleSystem();
 
-		SetRadius(0.075f);
+		SetRadius(0.025f);
 
 		SetMaxParticleCount(10000);
 
@@ -46,10 +46,9 @@ namespace Kross
 		{
 			for (int i = 0; i < GetGroupCount(); i++)
 			{
-				p_Particle->SetCollisionFilter(GetColliderFilters());
+				p_Particle->SetCollisionFilter(filter);
 
 				p_Particle->SetPosition(Vector2(0.0f + 1.5f * i, 1.5f));
-				//p_Particle->SetColor(Vector4((127.0f + 2.0f * i) / 255.0f, (175.0f + 8.0f * i) / 255.0f, 25.0f / 255.0f, 255.0f / 255.0f));
 				OnCreateParticleGroup();
 			}
 		}

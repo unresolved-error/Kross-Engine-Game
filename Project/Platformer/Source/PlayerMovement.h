@@ -145,6 +145,8 @@ public:
 
 	void OnCollisionStay(Object* other)
 	{
+		if (other->GetLayer() == Layer::Ground)
+			jumpCount = 0;
 		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
 	}
 	
