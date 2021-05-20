@@ -26,6 +26,12 @@ namespace Kross
         ParticleGroup,
     };
 
+    struct KROSS_API Metaball
+    {
+        Vector4 m_Colour;
+        Vector2 m_Position;
+        float m_Radius;
+    };
 
     class KROSS_API ParticleEmitter : public Renderer
     {
@@ -44,6 +50,8 @@ namespace Kross
 
         int m_ParticleCount = 50;
         int m_GroupCount = 5;
+
+        Metaball* p_Metaballs[];
 
     protected:
         friend class PhyscisScene;
@@ -169,5 +177,6 @@ namespace Kross
 
         /* Gets the filter */
         b2Filter* GetColliderFilters() { return p_Filter; }
+
     };
 }

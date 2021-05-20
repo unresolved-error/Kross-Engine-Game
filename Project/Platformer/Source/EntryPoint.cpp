@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 {
 	_CrtMemState* memState = KROSS_NEW _CrtMemState();
 
-	Application::OnCreate("Rolly Polly Boi");
+	Application::OnCreate("Not So Rolly Polly Boi");
 	Application::OnStart();
 
 	/* Create all Assets, Objects, Scenes etc. Bellow Start.*/
@@ -206,6 +206,7 @@ int main(int argc, char** argv)
 	particle->SetMaxCount(0);
 	particle->SetGroupCount(1);
 
+
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 
 	scene->AttachObject(camera);
@@ -213,7 +214,6 @@ int main(int argc, char** argv)
 
 	SceneManager::AttachScene(scene);
 	SceneManager::SetCurrentScene(0);
-
 
 	Application::OnUpdate();
 	Application::OnShutdown();
@@ -224,7 +224,6 @@ int main(int argc, char** argv)
 
 	delete memState;
 	_CrtDumpMemoryLeaks();
-	
 
 	return 0;
 }
