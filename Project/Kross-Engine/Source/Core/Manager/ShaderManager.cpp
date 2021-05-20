@@ -28,7 +28,7 @@ namespace Kross
 	void ShaderManager::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_NEW ShaderManager();
+			s_Instance = new ShaderManager();
 	}
 
 	void ShaderManager::OnDestroy()

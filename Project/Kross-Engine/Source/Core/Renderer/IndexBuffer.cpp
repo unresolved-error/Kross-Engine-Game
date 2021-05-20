@@ -18,7 +18,8 @@ namespace Kross
 
 	IndexBuffer::~IndexBuffer()
 	{
-		glDeleteBuffers(1, &m_IndexBufferID);
+		if(m_IndexBufferID != NULL)
+			glDeleteBuffers(1, &m_IndexBufferID);
 	}
 
 	void IndexBuffer::Attach()

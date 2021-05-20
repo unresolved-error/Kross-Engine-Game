@@ -39,7 +39,7 @@ namespace Kross
 	Object* Object::OnCreate(const std::string& name)
 	{
 		/* Create a new Object. */
-		Object* object = KROSS_NEW Object(name);
+		Object* object = new Object(name);
 
 		/* Return the new Object. */
 		return object;

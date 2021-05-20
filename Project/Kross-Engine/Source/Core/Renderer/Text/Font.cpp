@@ -33,7 +33,7 @@ namespace Kross
 	Font* Font::OnCreate(Texture* texture, int width, int height, const std::string& name)
 	{
 		/* Create the Font. */
-		Font* font = KROSS_NEW Font;
+		Font* font = new Font;
 		font->SetName(name);
 		font->SetTexture(texture);
 
@@ -44,7 +44,7 @@ namespace Kross
 		for (int i = 0; i < characters.size(); i++)
 		{
 			/* Create a Character and Assign the Sprite. */
-			Character* character = KROSS_NEW Character();
+			Character* character = new Character();
 			character->SetSprite(characters[i]);
 
 			/* Add the Character to the Font. */
@@ -68,7 +68,7 @@ namespace Kross
 	Character* Font::GetCharacter(unsigned char character) const
 	{
 		/* Create a Character Copy. */
-		Character* characterCopy = KROSS_NEW Character();
+		Character* characterCopy = new Character();
 		
 		/* Get the possible character index. */
 		int index = (int)character;
@@ -91,7 +91,7 @@ namespace Kross
 	Character* Font::GetCharacter(const std::string& character) const
 	{
 		/* Create a Character Copy. */
-		Character* characterCopy = KROSS_NEW Character();
+		Character* characterCopy = new Character();
 
 		/* Get the possible first character index. */
 		int index = (int)(unsigned char)character[0];
@@ -114,7 +114,7 @@ namespace Kross
 	Character* Font::GetCharacter(int index) const
 	{
 		/* Create a Character Copy. */
-		Character* characterCopy = KROSS_NEW Character();
+		Character* characterCopy = new Character();
 
 		/* Chech if the index is within the bounds of the Array. */
 		if (index >= 0 && index < m_Characters.size())

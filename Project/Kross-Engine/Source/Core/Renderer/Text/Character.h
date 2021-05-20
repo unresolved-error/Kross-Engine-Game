@@ -32,7 +32,6 @@ namespace Kross
 	protected:
 		friend class Font;
 		friend class Text;
-		friend class Batch;
 
 		// Sets the position in World Space or Screen Space of the Character. (TEXT USE)
 		void SetPosition(Vector2 position);

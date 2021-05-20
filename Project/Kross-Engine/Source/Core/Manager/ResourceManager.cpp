@@ -15,7 +15,6 @@ namespace Kross
 	List<Sprite*>		ResourceManager::s_Sprites =		List<Sprite*>();
 	List<Texture*>		ResourceManager::s_Textures =		List<Texture*>();
 	List<Font*>			ResourceManager::s_Fonts =			List<Font*>();
-	Atlas*				ResourceManager::s_Atlas =			nullptr;
 
 	ResourceManager::~ResourceManager()
 	{
@@ -73,15 +72,12 @@ namespace Kross
 		/* Clean up the list. */
 		s_Fonts.clear();
 		s_Fonts.~vector();
-
-		/* Destroy the Atlas. */
-		Atlas::OnDestroy(s_Atlas);
 	}
 
 	void ResourceManager::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_NEW ResourceManager();
+			s_Instance = new ResourceManager();
 	}
 
 	void ResourceManager::OnDestroy()

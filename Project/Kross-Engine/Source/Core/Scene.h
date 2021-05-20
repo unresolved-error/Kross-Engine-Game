@@ -11,7 +11,6 @@
 
 #include "Object.h"
 #include "Physics/PhysicsScene.h"
-#include "Renderer/Batch/BatchRenderer.h"
 
 namespace Kross
 {
@@ -20,10 +19,10 @@ namespace Kross
 	private:
 		Scene(const std::string& name)
 			: m_Name(name), m_Started(false), m_Objects(List<Object*>()), m_StaticObjects(List<Object*>()),
-			p_Camera(nullptr), p_Physics(KROSS_NEW PhysicsScene()), p_CollisionFilter(KROSS_NEW CollisionFilter())
+			p_Camera(nullptr), p_Physics(new PhysicsScene()), p_CollisionFilter(new CollisionFilter())
 		{
 			/* Sets the physics world for Box2D */
-			World* world = KROSS_NEW World({ 0.0f, -9.8f });
+			World* world = new World({ 0.0f, -9.8f });
 			p_Physics->SetPhysicsWorld(world);
 
 			/* Sets a default particle system */
@@ -36,10 +35,7 @@ namespace Kross
 
 			/* Add lists on every Layer for Rendering. */
 			for (int i = 0; i < (int)Layer::Count; i++)
-			{
 				m_RenderList.push_back(List<Renderer*>());
-				m_BatchRenderers.push_back(BatchRenderer::OnCreate());
-			}
 		};
 		~Scene();
 
@@ -52,8 +48,6 @@ namespace Kross
 
 		// List of Layer Groups.
 		List<List<Renderer*>> m_RenderList; /* | Layer | Object | */
-
-		List<BatchRenderer*> m_BatchRenderers;
 
 		Object* p_Camera;
 		PhysicsScene* p_Physics;

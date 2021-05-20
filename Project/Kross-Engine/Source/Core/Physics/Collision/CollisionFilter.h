@@ -26,7 +26,7 @@ namespace Kross
         b2ContactFilter* p_ContactFilter;
 
     public:
-        CollisionFilter() : p_ContactFilter(KROSS_NEW b2ContactFilter()) {}
+        CollisionFilter() : p_ContactFilter(new b2ContactFilter()) {}
         ~CollisionFilter()
         {
             delete p_ContactFilter;

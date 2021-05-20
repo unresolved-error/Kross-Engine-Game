@@ -18,7 +18,8 @@ namespace Kross
 
 	VertexBuffer::~VertexBuffer()
 	{
-		glDeleteBuffers(1, &m_VertexBufferID);
+		if(m_VertexBufferID != NULL)
+			glDeleteBuffers(1, &m_VertexBufferID);
 	}
 
 	void VertexBuffer::Attach()

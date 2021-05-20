@@ -23,8 +23,6 @@ namespace Kross
 		Text m_Text;
 
 	protected:
-		friend class Batch;
-
 		// Text Renderer Update Method.
 		void OnUpdate() override;
 

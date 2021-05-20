@@ -53,13 +53,7 @@ namespace Kross
 
 	public:
 		Geometry()
-			: m_Geometry(List<Vertex>()), 
-			m_Indicies(List<unsigned int>()), 
-			m_Name(""), 
-			m_IndexBuffer(KROSS_NEW IndexBuffer()), 
-			m_VertexArray(KROSS_NEW VertexArray()), 
-			m_VertexBuffer(KROSS_NEW VertexBuffer()), 
-			m_MemorySize(0), m_RenderMode(RenderMode::None)
+			: m_Geometry(List<Vertex>()), m_Indicies(List<unsigned int>()), m_Name(""), m_IndexBuffer(new IndexBuffer()), m_VertexArray(new VertexArray()), m_VertexBuffer(new VertexBuffer()), m_MemorySize(0), m_RenderMode(RenderMode::None)
 		{};
 		~Geometry();
 

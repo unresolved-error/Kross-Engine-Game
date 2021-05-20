@@ -1,3 +1,4 @@
+
 /*
  *  Author: Jake Warren.
  *  Editors:
@@ -16,19 +17,13 @@
 namespace Kross
 {
     Rigidbody2D::Rigidbody2D()
-        : m_ShapeType(ShapeType::Count), 
-        p_Body(nullptr), 
-        p_PhysicsScene(nullptr), //p_Filter(new ContactFilter()),
-        p_Box(nullptr), 
-        p_Circle(nullptr), 
-        p_RayData(KROSS_NEW RaycastData()), 
-        p_FixtureDef(KROSS_NEW FixtureDef()), 
-        p_MassData(KROSS_NEW b2MassData())
+        : m_ShapeType(ShapeType::Count), p_Body(nullptr), p_PhysicsScene(nullptr),
+        p_Box(nullptr), p_Circle(nullptr), p_RayData(new RaycastData()), p_FixtureDef(new FixtureDef()), p_MassData(new b2MassData())
     {
         /* When in debug set up the shader and renderer */
         #ifdef KROSS_DEBUG
         p_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
-        lines = KROSS_NEW LineRenderer();
+        lines = new LineRenderer();
         #endif
 
         m_CollisionState = CollisionState::None;
@@ -38,20 +33,13 @@ namespace Kross
     {
         p_Body = nullptr;
         p_PhysicsScene = nullptr;
-
+        delete p_FixtureDef;
         if (p_Circle)
             delete p_Circle;
-
         if (p_Box)
             delete p_Box;
-
         delete p_MassData;
         delete p_RayData;
-        delete p_FixtureDef;
-
-        #ifdef KROSS_DEBUG
-            delete lines;
-        #endif
     }
 
     void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits)
@@ -87,7 +75,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+        p_Circle = new Circle(radius, Vector2(0, 0));
     }
 
     void Rigidbody2D::CreateDynamicCircle(float radius, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits)
@@ -123,7 +111,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+        p_Circle = new Circle(radius, Vector2(0, 0));
     }
 
     void Rigidbody2D::CreateDynamicBox(Vector2 Dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits)
@@ -159,7 +147,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Box = KROSS_NEW Box(Dimensions, Vector2(0, 0));
+        p_Box = new Box(Dimensions, Vector2(0, 0));
     }
 
     void Rigidbody2D::CreateDynamicBox(Vector2 Dimensions, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits)
@@ -195,7 +183,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Box = KROSS_NEW Box(Dimensions, Vector2(0, 0));
+        p_Box = new Box(Dimensions, Vector2(0, 0));
     }
 
     void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits)
@@ -229,7 +217,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+        p_Circle = new Circle(radius, Vector2(0, 0));
     }
 
     void Rigidbody2D::CreateWorldCircle(float radius, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits)
@@ -263,7 +251,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+        p_Circle = new Circle(radius, Vector2(0, 0));
     }
 
     void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits)
@@ -297,7 +285,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Box = KROSS_NEW Box(Dimensions, Vector2(0, 0));
+        p_Box = new Box(Dimensions, Vector2(0, 0));
     }
 
     void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits)
@@ -330,7 +318,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Box = KROSS_NEW Box(Dimensions, Vector2(0, 0));
+        p_Box = new Box(Dimensions, Vector2(0, 0));
     }
 
     void Rigidbody2D::OnStart()
@@ -351,6 +339,7 @@ namespace Kross
     {
         if (p_Box != nullptr)
         {
+
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
@@ -366,6 +355,9 @@ namespace Kross
 
                 if (p_RayData->hit)
                 {
+                    //float targetHeight = 0.49f;
+                    //float springConstant = 2.5f;
+
                     if (m_CollisionState == CollisionState::None)
                         m_CollisionState = CollisionState::Enter;
 
@@ -373,6 +365,7 @@ namespace Kross
                         m_CollisionState = CollisionState::Stay;
 
                     OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
+
 
                     #ifdef KROSS_DEBUG
                     lines->SetColour(Vector3(1, 0, 0));
@@ -482,10 +475,10 @@ namespace Kross
         float distance = glm::length(pos2 - pos1);
 
         float distanceScale = 10.0f;
-        float springConstant = 1.75f;
-        float dampingConstant = 11.0f;
-        float restLength = 0.55f;
-        float size = 0.35f;
+        float springConstant = 0.9f;
+        float dampingConstant = 7.5f;
+        float restLength = 0.75f;
+        float size = 0.5f;
 
         float scalar = distanceScale * springConstant * (size - restLength);
         Vector2 direction = p_RayData->intersectionNormal;

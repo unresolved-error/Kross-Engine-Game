@@ -116,11 +116,6 @@ namespace Kross
 			{
 				case 0:
 				{
-					/* Rest the Window View Port and Size. */
-					glViewport(0, 0, 1280, 720);
-					SetWidth(1280);
-					SetHeight(720);
-
 					/* Set the window to the middle of the screen */
 					glfwSetWindowMonitor(p_GLFWWindow, NULL, (int)(((float)GetWidth() / (float)Width) * GetWidth()) - (int)(GetWidth() / 2), (int)(((float)GetHeight() / (float)Height) * GetHeight()) - (int)(GetHeight() / 2), GetWidth(), GetHeight(), GLFW_DONT_CARE);
 					break;

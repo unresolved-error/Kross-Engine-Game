@@ -18,8 +18,8 @@ namespace Kross
     {
     private:
         float m_closestFraction = 1.0f;
-        CollisionData* p_CollisionData = KROSS_NEW CollisionData();
-        RaycastData* p_RayData = KROSS_NEW RaycastData();
+        CollisionData* p_CollisionData = new CollisionData();
+        RaycastData* p_RayData = new RaycastData();
 
     public:
         Raycast2DCallback() {};

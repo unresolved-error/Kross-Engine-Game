@@ -46,13 +46,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -138,7 +138,6 @@
     <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
-    <ClInclude Include="Source\Core\Renderer\Vertex\BatchVertex.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\Vertex.h" />
     <ClInclude Include="Source\Core\Scene.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
@@ -522,8 +521,6 @@
     <ClCompile Include="Source\Core\Physics\Shape\Circle.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Plane.cpp" />
     <ClCompile Include="Source\Core\Physics\Shape\Shape.cpp" />
-    <ClCompile Include="Source\Core\Renderer\Batch\Batch.cpp" />
-    <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp" />
     <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Character.cpp" />
@@ -736,9 +733,6 @@
     <None Include="Vendor\glm\include\glm\gtx\vector_query.inl" />
     <None Include="Vendor\glm\include\glm\gtx\wrap.inl" />
     <None Include="Vendor\liquidfun\Box2D\Box2D\Documentation\footer.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Source\Core\Text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
