@@ -11,6 +11,7 @@
 
 //#include "../../Component/Rigidbody2D.h"
 #include "../Physics.h"
+#include "ContactFilter.h"
 
 namespace Kross
 {

@@ -4,6 +4,12 @@
 
 namespace Kross
 {
+	Particle::~Particle()
+	{
+		delete p_Box;
+		delete p_Circle;
+		delete p_Filter;
+	}
 	void Particle::CreateParticle(ParticleSystem* particleSystem)
 	{
 		particleSystem->CreateParticle(CreateParticleDef());
@@ -17,6 +23,8 @@ namespace Kross
 
 		particleDef.position.Set(GetPosition().x, GetPosition().y);
 		particleDef.color.Set(GetColor().r, GetColor().g, GetColor().b, GetColor().a);
+
+		particleDef.userData = GetCollisionFilter();
 
 		return particleDef;
 	}
@@ -36,12 +44,15 @@ namespace Kross
 
 		particleDef.strength = 0.0f;
 
-		particleDef.shape = GetCircle();
+		particleDef.shape = GetShape();
 		//particleDef.angle = GetAngle() + 0.01f;
 		//particleDef.angularVelocity = GetAngularVelocity() + 0.05f;
 
 		particleDef.position.Set(GetPosition().x, GetPosition().y);
 		particleDef.color.Set(GetColor().r, GetColor().g, GetColor().b, GetColor().a);
+
+		particleDef.userData = GetCollisionFilter();
+
 		return particleDef;
 	}
 }

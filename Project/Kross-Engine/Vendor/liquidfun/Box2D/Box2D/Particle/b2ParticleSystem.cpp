@@ -2667,7 +2667,7 @@ void b2ParticleSystem::UpdateBodyContacts()
 			float32 d;
 			b2Vec2 n;
 			fixture->ComputeDistance(ap, &d, &n, childIndex);
-			d *= 3;	//BULLSHIT HACK FROM FINN. This causes particles to clip into non-particle colliders a bit, so they can fit through
+			//d *= 3;	//BULLSHIT HACK FROM FINN. This causes particles to clip into non-particle colliders a bit, so they can fit through
 					//narrow gaps and the like. Should let us get away with substantially bigger particle radius.
 			if (d < m_system->m_particleDiameter && ShouldCollide(fixture, a))
 			{

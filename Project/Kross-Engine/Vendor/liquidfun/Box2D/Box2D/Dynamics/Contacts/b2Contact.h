@@ -77,7 +77,6 @@ struct b2ContactEdge
 class b2Contact
 {
 public:
-
 	/// Get the contact manifold. Do not modify the manifold unless you understand the
 	/// internals of Box2D.
 	b2Manifold* GetManifold();

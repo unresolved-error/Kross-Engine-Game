@@ -98,7 +98,8 @@
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
-    <ClInclude Include="Source\Core\Physics\Collision\CollisionFilter.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\PhysicsCallbacks.h" />
     <ClInclude Include="Source\Core\Physics\Collision\Raycast2DCallback.h" />
     <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
     <ClInclude Include="Source\Core\Physics\Physics.h" />
@@ -501,6 +502,7 @@
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collision\PhysicsCallbacks.cpp" />
     <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />

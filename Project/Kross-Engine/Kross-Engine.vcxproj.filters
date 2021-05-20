@@ -1188,7 +1188,7 @@
     <ClInclude Include="Source\Core\Physics\Collision\Raycast2DCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\CollisionFilter.h">
+    <ClInclude Include="Source\Core\Renderer\Batch\Batch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Renderer\Batch\Batch.h">
