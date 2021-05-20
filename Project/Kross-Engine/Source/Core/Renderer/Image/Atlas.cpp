@@ -12,13 +12,18 @@
 
 namespace Kross
 {
+	Atlas::~Atlas()
+	{
+		Texture::OnDestroy(p_AtlasTexture);
+	}
+
 	Atlas* Atlas::OnCreate()
 	{
 		/* Grabs all of the Textures. */
 		List<Texture*> textures = ResourceManager::GetTextures();
 
 		/* Create an Empty Atlas. */
-		Atlas* atlas = new Atlas();
+		Atlas* atlas = KROSS_NEW Atlas();
 
 		/* Create a empty Atlas Texture. */
 		Texture* atlasTexture = Texture::OnCreateAtlas();
@@ -28,7 +33,7 @@ namespace Kross
 		const int height = 8192;
 
 		/* Creating a fresh block of Data for the Texture. */
-		unsigned char* data = new unsigned char[width * height * 4];
+		unsigned char* data = KROSS_NEW unsigned char[width * height * 4];
 		memset(data, (unsigned char)0, width * height * 4);
 
 		/* Iterate theough every Texture loaded in. */
@@ -36,15 +41,15 @@ namespace Kross
 		{
 			/* Current Texture we are looking at. */
 			Texture* texture = textures[i];
-
+		
 			/* Find out where it will sit in the Atlas. */
 			int yOffset = 0;
 			for (int j = i - 1; j >= 0; j--)
 				yOffset += textures[j]->GetHeight();
-
+		
 			/* Record the Texture Offset for proper uv calculations. */
 			atlas->m_TextureOffsets[texture] = Vector2(0.0f, yOffset);
-
+		
 			/* Go through the Texture Pixels. */
 			for (int y = texture->GetHeight() - 1; y >= 0; y--)
 			{
@@ -104,5 +109,12 @@ namespace Kross
 		
 		/* Returns the new Atlas. */
 		return atlas;
+	}
+
+	void Atlas::OnDestroy(Atlas* atlas)
+	{
+		/* Safe programming. Not really needed, but good to have. */
+		if (atlas)
+			delete atlas;
 	}
 }

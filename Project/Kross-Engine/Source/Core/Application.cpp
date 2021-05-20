@@ -23,7 +23,7 @@ namespace Kross
 
 	Application::Application(const std::string& title, int width, int height)
 	{
-		s_Window = new Window();
+		s_Window = KROSS_NEW Window();
 
 		s_Window->SetWidth(width);
 		s_Window->SetHeight(height);
@@ -36,7 +36,7 @@ namespace Kross
 	void Application::OnCreate(const std::string& title, int width, int height)
 	{
 		if (!s_Instance)
-			s_Instance = new Application(title, width, height);
+			s_Instance = KROSS_NEW Application(title, width, height);
 	}
 
 	void Application::OnStart()
@@ -60,7 +60,14 @@ namespace Kross
 		Shader* lineShader = Shader::OnCreate("Resources/Shaders/line.vert", "Resources/Shaders/line.frag", "LineShader");
 		ResourceManager::AttachResource<Shader>(lineShader);
 
+		Shader* batchShader = Shader::OnCreate("Resources/Shaders/batch.vert", "Resources/Shaders/batch.frag", "BatchShader");
+		ResourceManager::AttachResource<Shader>(batchShader);
+
 		Texture* fontTexture = Texture::OnCreate("Resources/Font/KrossFont.png", "KrossFontTexture");
+
+		Texture* particleTexture = Texture::OnCreate("Resources/Textures/Particle.png", "ParticleTexture");
+
+		Sprite* particleSprite = Sprite::OnCreate(particleTexture, 3, 3, "Particle");
 
 		Font* krossFont = Font::OnCreate(fontTexture, 10, 16, "KrossFont");
 		ResourceManager::AttachResource<Font>(krossFont);
@@ -68,6 +75,7 @@ namespace Kross
 
 	void Application::OnUpdate()
 	{
+
 		/* If the window was successfully Started. Run the Application. */
 		if (s_Window->GetInitialiseStatus() == true)
 		{
@@ -75,6 +83,7 @@ namespace Kross
 
 			std::cout << "Creating Atlas..." << std::endl;
 			Atlas* atlas = Atlas::OnCreate();
+			ResourceManager::AttachResource<Atlas>(atlas);
 			
 			SceneManager::OnStart();
 			std::cout << "Starting Main Loop..." << std::endl;
@@ -95,6 +104,8 @@ namespace Kross
 				s_Window->OnPollEvents();
 			}
 		}
+
+		
 
 		return;
 	}

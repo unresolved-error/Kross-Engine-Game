@@ -92,13 +92,10 @@ namespace Kross
         void SetMass(float mass)
         {
             /* A new mass data is created */
-            p_MassData = new b2MassData();
             /* The mass data variables are set */
             p_MassData->mass = mass;
             p_MassData->center = { 0, 0 };
             p_MassData->I = 0.0f;
-            /* The mass data is set to the body */
-            p_Body->SetMassData(p_MassData);
         }
 
         /* Sets the physics scene */

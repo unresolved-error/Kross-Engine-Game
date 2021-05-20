@@ -42,7 +42,7 @@ namespace Kross
 		{
 			for (int i = 0; i < GetGroupCount(); i++)
 			{
-				p_Particle->SetPosition(Vector2(-6.75f + 6.0f * i, 1.5f));
+				p_Particle->SetPosition(GetObject()->GetTransform()->m_Position);
 				p_Particle->SetColor(Vector4(1.0f - 0.1f * i, 1.0f - 0.05f * i, 1.0f - 0.2f * i, 1.0f));
 				OnCreateParticleGroup();
 			}
@@ -76,6 +76,7 @@ namespace Kross
 	{
 		delete p_Particle;
 		delete p_Lines;
+		delete p_CollisionFilter;
 	}
 
 	void ParticleEmitter::OnCreateParticleSystem()

@@ -14,14 +14,23 @@ namespace Kross
     Physics* Physics::p_Instance = nullptr;
     Vector2 Physics::m_IntersectionNormal = Vector2(0,0);
     LineRenderer* Physics::p_Lines = nullptr;
-    Raycast2DCallback* Physics::p_RayCallback = new Raycast2DCallback();
-    CollisionData* Physics::p_CollisionData = new CollisionData();
+    Raycast2DCallback* Physics::p_RayCallback = KROSS_NEW Raycast2DCallback();
+    CollisionData* Physics::p_CollisionData = KROSS_NEW CollisionData();
     RaycastData* Physics::p_RayData = nullptr;
+
+    Physics::~Physics()
+    {
+       //delete p_RayCallback;
+
+        if (p_CollisionData)
+            delete p_CollisionData;
+
+    }
 
     void Physics::OnCreate()
     {
         if (!p_Instance)
-            p_Instance = new Physics();
+            p_Instance = KROSS_NEW Physics();
     }
 
     void Physics::OnDestroy()

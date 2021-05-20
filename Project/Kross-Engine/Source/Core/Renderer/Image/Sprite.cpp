@@ -12,15 +12,18 @@ namespace Kross
 {
 	Sprite::~Sprite()
 	{
-		/* Null out Texture and Geomerty. */
+		static int deleteCount = 0;
+		/* Null out Texture and Geometry. */
 		p_Texture = nullptr;
 		m_Geometry = nullptr;
+		std::cout << "Destroying sprite " << deleteCount << std::endl;
+		deleteCount++;
 	}
 
 	Sprite* Sprite::OnCreate(Texture* texture, int width, int height, const std::string& name)
 	{
 		/* Sprite Creation. */
-		Sprite* sprite = new Sprite();
+		Sprite* sprite = KROSS_NEW Sprite();
 		sprite->SetName(name);
 		sprite->SetWidth(width);
 		sprite->SetHeight(height);
@@ -43,7 +46,7 @@ namespace Kross
 	Sprite* Sprite::OnCreate(Texture* texture, int width, int height, Vector2 offset, const std::string& name)
 	{
 		/* Sprite Creation. */
-		Sprite* sprite = new Sprite();
+		Sprite* sprite = KROSS_NEW Sprite();
 		sprite->SetName(name);
 		sprite->SetWidth(width);
 		sprite->SetHeight(height);
@@ -90,7 +93,7 @@ namespace Kross
 			for (int x = 0; x < maxHorizontalSprites; x++)
 			{
 				/* Sprite Creation. */
-				Sprite* sprite = new Sprite();
+				Sprite* sprite = KROSS_NEW Sprite();
 				std::string name(1, char(charIndex));
 
 				sprite->SetName(name);
@@ -131,8 +134,8 @@ namespace Kross
 	void Sprite::OnDestroy(Sprite* sprite)
 	{ 
 		/* Safe programming, not really needed but good to have. */
-		if (sprite)
-			delete sprite;
+		//if (sprite)
+		delete sprite;
 	}
 
 	void Sprite::AttachGeometryData()

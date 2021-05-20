@@ -12,7 +12,7 @@ namespace Kross
 	void Input::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = new Input();
+			s_Instance = KROSS_NEW Input();
 	}
 
 	void Input::OnDestoy()

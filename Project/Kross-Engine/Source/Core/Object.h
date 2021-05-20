@@ -161,7 +161,7 @@ namespace Kross
 			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
 
 			/* Set up of the new Component. */
-			Component* component = new Type();
+			Component* component = KROSS_NEW Type();
 			component->SetObject(this);
 
 			/* Then Check if the Component is a Renderer. */

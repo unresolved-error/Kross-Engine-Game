@@ -54,7 +54,7 @@ namespace Kross
 
     public:
 
-        ParticleEmitter() : p_Particle(new Particle()), p_Lines(new LineRenderer()), p_CollisionFilter(new CollisionFilter()) {}
+        ParticleEmitter() : p_Particle(KROSS_NEW Particle()), p_Lines(KROSS_NEW LineRenderer()), p_CollisionFilter(KROSS_NEW CollisionFilter()) {}
         ~ParticleEmitter();
 
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }

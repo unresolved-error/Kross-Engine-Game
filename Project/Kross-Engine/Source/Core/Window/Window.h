@@ -57,7 +57,7 @@ namespace Kross
 
 	public:
 		Window()
-			: p_Properties(new WindowProperties()), p_GLFWWindow(nullptr), m_Initialised(false)
+			: p_Properties(KROSS_NEW WindowProperties()), p_GLFWWindow(nullptr), m_Initialised(false)
 		{};
 		
 		// Gets the Title of the Window.
