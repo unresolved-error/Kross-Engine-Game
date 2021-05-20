@@ -20,8 +20,7 @@ namespace Kross
 
 	VertexArray::~VertexArray()
 	{
-		if(m_VertexArrayID != NULL)
-			glDeleteVertexArrays(1, &m_VertexArrayID);
+		glDeleteVertexArrays(1, &m_VertexArrayID);
 	}
 
 	void VertexArray::Attach()

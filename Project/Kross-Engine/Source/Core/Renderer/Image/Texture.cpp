@@ -82,7 +82,7 @@ namespace Kross
 		if (p_PixelData)
 			delete[] p_PixelData;
 
-		p_PixelData = new unsigned char(width * height * bpp);
+		p_PixelData = KROSS_NEW unsigned char(width * height * bpp);
 	}
 
 	void Texture::OnFinalise()
@@ -133,7 +133,7 @@ namespace Kross
 		int width, height, bpp;
 
 		/* Creation of Texture. */
-		Texture* texture = new Texture();
+		Texture* texture = KROSS_NEW Texture();
 		texture->SetName(name);
 		texture->SetFilepath(filepath);
 
@@ -176,7 +176,7 @@ namespace Kross
 	Texture* Texture::OnCreate(int width, int height, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset, PerlinNormaliseMode mode, const std::string& name)
 	{
 		/* Creation of Texture. */
-		Texture* texture = new Texture();
+		Texture* texture = KROSS_NEW Texture();
 		texture->SetName(name);
 
 		/* Core Texture data. */
@@ -204,7 +204,7 @@ namespace Kross
 		/* ------------------------------- */
 
 		/* Create new Texture Data. */
-		unsigned char* data = new unsigned char[width * height * 4];
+		unsigned char* data = KROSS_NEW unsigned char[width * height * 4];
 
 		/* Go through Texture Pixels. */
 		for(int y = 0; y < height; y++)
@@ -257,7 +257,7 @@ namespace Kross
 	Texture* Texture::OnCreate(int width, int height, unsigned char* data, int internal, int format, GLenum type, const std::string& name)
 	{
 		/* Creation of Texture. */
-		Texture* texture = new Texture();
+		Texture* texture = KROSS_NEW Texture();
 		texture->SetName(name);
 
 		/* Core Texture data. */
@@ -295,7 +295,7 @@ namespace Kross
 	Texture* Texture::OnCreateAtlas()
 	{
 		/* return a blank Texture for the Atlas to mess around with. */
-		return new Texture();
+		return KROSS_NEW Texture();
 	}
 
 	void Texture::OnDestroy(Texture* texture)

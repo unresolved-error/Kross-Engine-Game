@@ -30,7 +30,7 @@ namespace Kross
 	{
 	private:
 		Atlas()
-			: p_AtlasTexture(nullptr)
+			: p_AtlasTexture(nullptr), m_TextureOffsets(std::unordered_map<Texture*, Vector2>()), m_SpriteAtlasUVs(std::unordered_map<Sprite*, AtlasSpriteData>())
 		{};
 		~Atlas();
 
@@ -40,6 +40,8 @@ namespace Kross
 		std::unordered_map<Sprite*, AtlasSpriteData> m_SpriteAtlasUVs;
 
 	protected:
+		friend class BatchRenderer;
+
 		// Sets the Texture.
 		void SetTexture(Texture* texture) { p_AtlasTexture = texture; };
 

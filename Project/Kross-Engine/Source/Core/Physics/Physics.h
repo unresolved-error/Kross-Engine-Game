@@ -52,6 +52,9 @@ namespace Kross
         static Raycast2DCallback* p_RayCallback;
         static CollisionData* p_CollisionData;
 
+        Physics() {};
+        ~Physics();
+
     protected:
         friend class Application;
 

@@ -58,6 +58,14 @@ using List = std::vector<Type>;
  *};
  */
 
+#ifdef _DEBUG
+    #define KROSS_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+    // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+    // allocations to be of _CLIENT_BLOCK type
+#else
+    #define KROSS_NEW new
+#endif
+
 /* --- DLL Export and Import Functionality --- */
 
 #ifdef KROSS_PLATFORM_WINDOWS

@@ -75,18 +75,18 @@ namespace Kross
 		/* Sets the shape of the particle as a polygon */
 		void SetShape(Vector2 dim) 
 		{ 
-			PolygonShape* shape = new PolygonShape();
+			PolygonShape* shape = KROSS_NEW PolygonShape();
 			shape->SetAsBox(dim.x, dim.y);
 			p_Shape = shape;
 		}
 		/* Sets the shape of the particle as a circle */
 		void SetShape(float radius) 
 		{
-			CircleShape* shape = new CircleShape();
+			CircleShape* shape = KROSS_NEW CircleShape();
 			shape->m_radius = radius;
 			p_Shape = shape;
 		}
-		const b2Shape* GetShape() { return p_Shape; }
+		const CircleShape* GetCircle() { return p_Circle; }
 
 		/* Sets the angle of the particle group */
 		void SetAngle(float angle) { m_Angle = angle; }
@@ -104,10 +104,9 @@ namespace Kross
 			groupDef->position.Set(pos.x, pos.y);
 		}
 
-		/* Sets custom user data */
-		void SetCollisionFilter(b2Filter* filter) { p_Filter = filter; }
-		/* Gets custom user data */
-		b2Filter* GetCollisionFilter() { return p_Filter; }
+		void SetCollisionFilter(b2Filter* filter) { p_Filter = filter; };
+		b2Filter* GetCollisionFilter() const { return p_Filter; };
 
+		b2Shape* GetShape() const { return p_Shape; };
 	};
 }

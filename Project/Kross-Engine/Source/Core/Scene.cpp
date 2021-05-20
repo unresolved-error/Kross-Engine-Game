@@ -34,7 +34,16 @@ namespace Kross
 
         /* Clear the Render Queue. */
         m_RenderList.clear();
-        delete p_WorldFilter;
+
+        for (int i = 0; i < m_BatchRenderers.size(); i++)
+        {
+            BatchRenderer::OnDestroy(m_BatchRenderers[i]);
+            m_BatchRenderers[i] = nullptr;
+        }
+
+        m_BatchRenderers.clear();
+
+        delete p_Physics;
     }
 
     void Scene::OnStart()
@@ -46,9 +55,11 @@ namespace Kross
         for (int i = 0; i < m_StaticObjects.size(); i++)
             m_StaticObjects[i]->OnStart();
 
+        for (int i = 0; i < (int)Layer::Count; i++)
+            m_BatchRenderers[i]->OnStart();
+
         /* Scene has Started. */
         m_Started = true;
-
     }
 
     void Scene::OnUpdate()
@@ -118,9 +129,14 @@ namespace Kross
         /* Render the Objects. */
         for (int l = 0; l < (int)Layer::Count; l++)
         {
-            /* Go through each Layer and render the Objects. */
+            ///* Go through each Layer and render the Objects. */
+            //for (int i = 0; i < m_RenderList[l].size(); i++)
+            //    m_RenderList[l][i]->OnRender();
+            
             for (int i = 0; i < m_RenderList[l].size(); i++)
-                m_RenderList[l][i]->OnRender();
+                m_BatchRenderers[l]->AttachRenderer(m_RenderList[l][i]);
+
+            m_BatchRenderers[l]->OnFinish();
         }
 
         /* Remove the Dynamic Objects from the Render Queue. */
@@ -244,7 +260,7 @@ namespace Kross
     Scene* Scene::OnCreate(const std::string& name)
     {
         /* Create the Scene. */
-        Scene* scene = new Scene(name);
+        Scene* scene = KROSS_NEW Scene(name);
 
         /* Return the new Scene. */
         return scene;

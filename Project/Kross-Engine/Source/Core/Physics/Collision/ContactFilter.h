@@ -13,7 +13,7 @@ namespace Kross
 {
     class KROSS_API ParticleEmitter;
 
-    enum class KROSS_API CollisionFilters
+    enum class KROSS_API CollisionFilter
     {
         Entity,
         Ground,
