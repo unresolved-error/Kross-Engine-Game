@@ -29,8 +29,8 @@ namespace Kross
         virtual void OnRender() { return; };
 
     public:
-        Renderer()
-            : m_Depth(0)
+        Renderer() :
+            m_Depth(0)
         {};
         ~Renderer() {};
 

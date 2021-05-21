@@ -38,8 +38,8 @@ namespace Kross
 		VertexArray* m_VertexArray;
 		VertexBuffer* m_VertexBuffer;
 
-		int m_MemorySize;
 		RenderMode m_RenderMode;
+		int m_MemorySize;
 
 	protected:
 		friend class Sprite;
@@ -52,14 +52,15 @@ namespace Kross
 		void OnRenderGeometry();
 
 	public:
-		Geometry()
-			: m_Geometry(List<Vertex>()), 
-			m_Indicies(List<unsigned int>()), 
-			m_Name(""), 
-			m_IndexBuffer(KROSS_NEW IndexBuffer()), 
-			m_VertexArray(KROSS_NEW VertexArray()), 
-			m_VertexBuffer(KROSS_NEW VertexBuffer()), 
-			m_MemorySize(0), m_RenderMode(RenderMode::None)
+		Geometry() :
+			m_IndexBuffer	(KROSS_NEW IndexBuffer()), 
+			m_VertexArray	(KROSS_NEW VertexArray()), 
+			m_VertexBuffer	(KROSS_NEW VertexBuffer()), 
+			m_RenderMode	(RenderMode::None),
+			m_Indicies		(List<unsigned int>()), 
+			m_Geometry		(List<Vertex>()), 
+			m_Name			(""), 
+			m_MemorySize	(0)
 		{};
 		~Geometry();
 

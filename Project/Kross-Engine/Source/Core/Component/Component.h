@@ -29,8 +29,8 @@ namespace Kross
 		void SetObject(Object* object) { p_Object = object; };
 
 	public:
-		Component()
-			: p_Object(nullptr)
+		Component() :
+			p_Object(nullptr)
 		{};
 		virtual ~Component() {};
 

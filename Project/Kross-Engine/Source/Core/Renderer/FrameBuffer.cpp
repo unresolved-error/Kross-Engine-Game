@@ -8,8 +8,9 @@
 
 namespace Kross
 {
-	FrameBuffer::FrameBuffer(int width, int height)
-		: m_FrameBufferID(0), m_WindowFrameTexture(nullptr)
+	FrameBuffer::FrameBuffer(int width, int height)	: 
+		m_FrameBufferID			(0), 
+		m_WindowFrameTexture	(nullptr)
 	{
 		glGenFramebuffers(1, &m_FrameBufferID);
 

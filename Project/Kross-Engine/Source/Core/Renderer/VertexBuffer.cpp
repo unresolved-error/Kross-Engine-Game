@@ -10,8 +10,8 @@
 
 namespace Kross
 {
-	VertexBuffer::VertexBuffer()
-		: m_VertexBufferID(0)
+	VertexBuffer::VertexBuffer() : 
+		m_VertexBufferID(0)
 	{
 		glGenBuffers(1, &m_VertexBufferID);
 	}

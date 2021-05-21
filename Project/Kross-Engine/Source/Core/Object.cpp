@@ -10,8 +10,14 @@
 
 namespace Kross
 {
-	Object::Object()
-		: m_Name("GameObject"), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
+	Object::Object() :
+		m_Name			("GameObject"),
+		m_Components	(List<Component*>()),
+		m_Children		(List<Object*>()),
+		p_Transform		(nullptr), 
+		p_ParentObject	(nullptr),
+		m_Static		(false),
+		m_Enable		(true)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -34,6 +40,15 @@ namespace Kross
 			delete m_Components[i];
 			m_Components[i] = nullptr;
 		}
+
+		/* Clean up the Children from the heap. */
+		for (int i = 0; i < m_Children.size(); i++)
+		{
+			delete m_Children[i];
+			m_Children[i] = nullptr;
+		}
+
+		delete p_ParentObject;
 	}
 
 	Object* Object::OnCreate(const std::string& name)

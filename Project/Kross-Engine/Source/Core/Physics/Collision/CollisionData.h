@@ -37,7 +37,9 @@ namespace Kross
 
 		b2Fixture* fixture = nullptr;
 		b2Body* body = nullptr;
-	};
+};
+
+
 
 	class KROSS_API CollisionData
 	{
@@ -47,8 +49,9 @@ namespace Kross
 
 	public:
 		CollisionData() : 
-			p_ColliderData(KROSS_NEW ColliderData()), 
-			p_RayData(KROSS_NEW RaycastData()) {}
+			p_ColliderData	(KROSS_NEW ColliderData()), 
+			p_RayData		(KROSS_NEW RaycastData()) 
+		{}
 		~CollisionData()
 		{
 			delete p_ColliderData;

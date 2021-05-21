@@ -8,7 +8,7 @@
 
 namespace Kross
 {
-	ResourceManager*	ResourceManager::s_Instance =			nullptr;
+	ResourceManager*	ResourceManager::s_Instance =		nullptr;
 
 	List<Geometry*>		ResourceManager::s_Geometry =		List<Geometry*>();
 	List<Shader*>		ResourceManager::s_Shaders =		List<Shader*>();

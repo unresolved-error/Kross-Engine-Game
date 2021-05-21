@@ -16,32 +16,31 @@ namespace Kross
 
 	class KROSS_API Particle
 	{
-	private:
 	protected:
-		int m_ParticleID = 0;
-
 		uint32 m_Flags = 0;
 		uint32 m_GroupFlags = 0;
-		Vector2 m_Position = Vector2(0,0);
-		Vector4 m_Color = Vector4(255, 255, 255, 255);
-		float m_Lifetime = 0.0f;
 
-		float m_Angle = 0.0f;
+		Vector2 m_Position = Vector2(0,0);
 		Vector2 m_LinearVelocity = Vector2(0,0);
+		Vector4 m_Color = Vector4(255, 255, 255, 255);
+
+		int m_ParticleID = 0;
+
+		float m_Lifetime = 0.0f;
+		float m_Angle = 0.0f;
 		float m_AngularVelocity = 0.0f;
 		float m_Strength = 0.0f;
-		CircleShape* p_Circle;
-		PolygonShape* p_Box;
-		b2Shape* p_Shape = nullptr;
 
+		b2Shape* p_Shape;
 		b2ParticleDef m_ParticleDef;
-		b2Filter* p_Filter = nullptr;
+		b2Filter* p_Filter;
 
 	public:
 		/* The group bool is to determine where values need to be assigned */
-		Particle()
-			: p_Circle(nullptr), p_Box(nullptr)
-		{};
+		Particle() : 
+			p_Shape		(nullptr), 
+			p_Filter	(nullptr)
+		{}
 		~Particle();
 
 		ParticleDef GetParticleDef() { return m_ParticleDef; }
@@ -79,18 +78,16 @@ namespace Kross
 		{ 
 			PolygonShape* shape = KROSS_NEW PolygonShape();
 			shape->SetAsBox(dim.x, dim.y);
-			p_Box = shape;
-			p_Shape = p_Box;
+			p_Shape = shape;
 		}
 		/* Sets the shape of the particle as a circle */
 		void SetShape(float radius) 
 		{
 			CircleShape* shape = KROSS_NEW CircleShape();
 			shape->m_radius = radius;
-			p_Circle = shape;
-			p_Shape = p_Circle;
+			p_Shape = shape;
 		}
-		const CircleShape* GetCircle() { return p_Circle; }
+		const b2Shape* GetShape() { return p_Shape; }
 
 		/* Sets the angle of the particle group */
 		void SetAngle(float angle) { m_Angle = angle; }
@@ -110,7 +107,5 @@ namespace Kross
 
 		void SetCollisionFilter(b2Filter* filter) { p_Filter = filter; };
 		b2Filter* GetCollisionFilter() const { return p_Filter; };
-
-		b2Shape* GetShape() const { return p_Shape; };
 	};
 }

@@ -19,8 +19,15 @@
 
 namespace Kross
 {
-	Texture::Texture()
-		: m_TextureID(0), m_Slot(0), m_Width(0), m_Height(0), m_BPP(0), p_PixelData(nullptr), m_Name(""), m_Filepath("")
+	Texture::Texture() : 
+		m_TextureID	(0), 
+		m_Slot		(0),
+		m_Width		(0),
+		m_Height	(0),
+		m_BPP		(0), 
+		m_Name		(""), 
+		m_Filepath	(""),
+		p_PixelData	(nullptr)
 	{
 		glGenTextures(1, &m_TextureID);
 	}

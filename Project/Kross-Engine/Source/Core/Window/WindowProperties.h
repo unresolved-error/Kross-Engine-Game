@@ -20,8 +20,13 @@ namespace Kross
 	protected:
 
 	public:
-		WindowProperties()
-			: m_ChangedWindowMode(true), m_Width(0), m_Height(0), m_VSync(1), m_Fullscreen(0), m_Title("")
+		WindowProperties() : 
+			m_ChangedWindowMode	(true),
+			m_Title				(""),
+			m_Width				(0), 
+			m_Height			(0),
+			m_VSync				(1), 
+			m_Fullscreen		(0)
 		{};
 
 		// Get the Title Property.

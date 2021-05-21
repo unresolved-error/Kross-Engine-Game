@@ -14,12 +14,14 @@ namespace Kross
 {
 	struct KROSS_API AtlasSpriteData
 	{
-		AtlasSpriteData()
-			: m_Offset(Vector2(-1.0f)), m_Ratio(Vector2(-1.0f))
+		AtlasSpriteData() :
+			m_Offset	(Vector2(-1.0f)), 
+			m_Ratio		(Vector2(-1.0f))
 		{};
 
-		AtlasSpriteData(Vector2 offset, Vector2 ratio)
-			: m_Offset(offset), m_Ratio(ratio)
+		AtlasSpriteData(Vector2 offset, Vector2 ratio) : 
+			m_Offset	(offset), 
+			m_Ratio		(ratio)
 		{};
 
 		Vector2 m_Offset;
@@ -29,8 +31,10 @@ namespace Kross
 	class KROSS_API Atlas
 	{
 	private:
-		Atlas()
-			: p_AtlasTexture(nullptr), m_TextureOffsets(std::unordered_map<Texture*, Vector2>()), m_SpriteAtlasUVs(std::unordered_map<Sprite*, AtlasSpriteData>())
+		Atlas() : 
+			p_AtlasTexture		(nullptr),
+			m_TextureOffsets	(std::unordered_map<Texture*, Vector2>()),
+			m_SpriteAtlasUVs	(std::unordered_map<Sprite*, AtlasSpriteData>())
 		{};
 		~Atlas();
 

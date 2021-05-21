@@ -32,8 +32,8 @@ namespace Kross
 		void OnRender() override;
 
 	public:
-		TextRenderer()
-			: m_Text(Text())
+		TextRenderer() :
+			m_Text(Text())
 		{
 			m_Text.SetTextRenderer(this);
 		};

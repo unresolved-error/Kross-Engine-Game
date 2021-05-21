@@ -10,8 +10,9 @@
 
 namespace Kross
 {
-	IndexBuffer::IndexBuffer()
-		:m_IndexBufferID(0), m_Count(0)
+	IndexBuffer::IndexBuffer() :
+		m_IndexBufferID	(0),
+		m_Count			(0)
 	{
 		glGenBuffers(1, &m_IndexBufferID);
 	}

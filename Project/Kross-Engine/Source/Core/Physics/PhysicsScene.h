@@ -38,7 +38,10 @@ namespace Kross
 		void SetParticleSystem(ParticleSystem* particleSystem) { p_ParticleSystem = particleSystem; }
 
 	public:
-		PhysicsScene() : p_PhysicsWorld(nullptr), p_ParticleSystem(nullptr) {};
+		PhysicsScene() :
+			p_PhysicsWorld		(nullptr), 
+			p_ParticleSystem	(nullptr) 
+		{};
 		~PhysicsScene();
 
 		/* Adds the Body to a list of bodies */
