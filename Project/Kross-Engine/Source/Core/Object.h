@@ -8,31 +8,11 @@
 
 #include "Core.h"
 
+#include "Layer.h"
 #include "Component/Component.h"
 
 namespace Kross
 {
-	// Used for Rendering Objects. (LAST TO FIRST. NOTE! THESE ARE ADDED ENGINE SIDE!) 
-	enum class KROSS_API Layer
-	{
-		/* Layers. */
-
-		None,
-		Default,
-		Light,
-		Player,
-		Environment,
-		Background,
-		Fluids,
-		Wall,
-		Ground,
-		
-
-		/* Layer Count. */
-
-		Count,
-	};
-
 	/* Forward declare the Component and Transform Class. */
 
 	class KROSS_API Component;

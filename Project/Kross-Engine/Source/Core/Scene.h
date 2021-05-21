@@ -20,10 +20,13 @@ namespace Kross
 	private:
 		Scene(const std::string& name)
 			: m_Name(name), m_Started(false), m_Objects(List<Object*>()), m_StaticObjects(List<Object*>()),
-			p_Camera(nullptr), p_Physics(KROSS_NEW PhysicsScene()), p_CollisionFilter(KROSS_NEW CollisionFilter())
+			p_Camera(nullptr), 
+			p_Physics(KROSS_NEW PhysicsScene()), 
+			p_WorldFilter(KROSS_NEW ContactFilter())
 		{
 			/* Sets the physics world for Box2D */
 			World* world = KROSS_NEW World({ 0.0f, -9.8f });
+			world->SetContactFilter(p_WorldFilter);
 			p_Physics->SetPhysicsWorld(world);
 
 			/* Sets a default particle system */
@@ -38,7 +41,7 @@ namespace Kross
 			for (int i = 0; i < (int)Layer::Count; i++)
 			{
 				m_RenderList.push_back(List<Renderer*>());
-				m_BatchRenderers.push_back(BatchRenderer::OnCreate());
+				m_BatchRenderers.push_back(BatchRenderer::OnCreate((Layer)i));
 			}
 		};
 		~Scene();
@@ -58,7 +61,7 @@ namespace Kross
 		Object* p_Camera;
 		PhysicsScene* p_Physics;
 
-		CollisionFilter* p_CollisionFilter;
+		ContactFilter* p_WorldFilter;
 		
 	protected:
 		friend class SceneManager;

@@ -80,8 +80,14 @@ namespace Kross
 				/* If the name of the Shader matches the name requested, return that Shader. */
 				if (s_Shaders[i]->GetName() == name)
 				{
+					Shader* shaderCopy;
+
 					/* Return a copy of the Shader so that whatever is using it can have its own version of it. */
-					Shader* shaderCopy = Shader::OnCreate(s_Shaders[i]->GetVertexFilepath(), s_Shaders[i]->GetFragmentFilepath(), s_Shaders[i]->GetName() + " - Copy");
+					if(s_Shaders[i]->GetGeometryFilepath() != "")
+						shaderCopy = Shader::OnCreate(s_Shaders[i]->GetVertexFilepath(), s_Shaders[i]->GetFragmentFilepath(), s_Shaders[i]->GetGeometryFilepath(), s_Shaders[i]->GetName() + " - Copy");
+
+					else
+						shaderCopy = Shader::OnCreate(s_Shaders[i]->GetVertexFilepath(), s_Shaders[i]->GetFragmentFilepath(), s_Shaders[i]->GetName() + " - Copy");
 
 					/* Remove the Shader from the Resource Manager that was just created. */
 					DetachResource<Shader>(shaderCopy);
@@ -104,8 +110,14 @@ namespace Kross
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < s_Shaders.size())
 			{
+				Shader* shaderCopy;
+
 				/* Return a copy of the Shader so that whatever is using it can have its own version of it. */
-				Shader* shaderCopy = Shader::OnCreate(s_Shaders[index]->GetVertexFilepath(), s_Shaders[index]->GetFragmentFilepath(), s_Shaders[index]->GetName());
+				if (s_Shaders[index]->GetGeometryFilepath() != "")
+					shaderCopy = Shader::OnCreate(s_Shaders[index]->GetVertexFilepath(), s_Shaders[index]->GetFragmentFilepath(), s_Shaders[index]->GetGeometryFilepath(), s_Shaders[index]->GetName() + " - Copy");
+
+				else
+					shaderCopy = Shader::OnCreate(s_Shaders[index]->GetVertexFilepath(), s_Shaders[index]->GetFragmentFilepath(), s_Shaders[index]->GetName() + " - Copy");
 
 				/* Remove the Shader from the Resource Manager that was just created. */
 				DetachResource<Shader>(shaderCopy);

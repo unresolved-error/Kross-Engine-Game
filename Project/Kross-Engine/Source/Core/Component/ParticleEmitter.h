@@ -21,10 +21,17 @@ namespace Kross
 {
     enum class KROSS_API ParticleType
     {
+        None,
         Particle,
         ParticleGroup,
     };
 
+    struct KROSS_API Metaball
+    {
+        Vector4 m_Colour;
+        Vector2 m_Position;
+        float m_Radius;
+    };
 
     class KROSS_API ParticleEmitter : public Renderer
     {
@@ -36,12 +43,14 @@ namespace Kross
         LineRenderer* p_Lines;
         Shader* p_DebugShader;
         Shader* p_GeometryShader;
-        CollisionFilter* p_CollisionFilter;
+
+        b2Filter* p_Filter;
 
         ParticleType m_ParticleType;
 
         int m_ParticleCount = 50;
         int m_GroupCount = 5;
+
 
     protected:
         friend class PhyscisScene;
@@ -54,7 +63,17 @@ namespace Kross
 
     public:
 
-        ParticleEmitter() : p_Particle(KROSS_NEW Particle()), p_Lines(KROSS_NEW LineRenderer()), p_CollisionFilter(KROSS_NEW CollisionFilter()) {}
+        ParticleEmitter() : 
+            p_ParticleSystem    (nullptr), 
+            p_PhysicsScene      (nullptr),
+            p_World             (nullptr), 
+            p_DebugShader       (nullptr), 
+            p_GeometryShader    (nullptr),
+            m_ParticleType      (ParticleType::None),
+            p_Lines             (KROSS_NEW LineRenderer()), 
+            p_Particle          (KROSS_NEW Particle()), 
+            p_Filter            (KROSS_NEW b2Filter())
+        {}
         ~ParticleEmitter();
 
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
@@ -96,7 +115,7 @@ namespace Kross
         /* A value of 0 means there is no maximum */
         void SetMaxCount(int max) { m_ParticleCount = max; }
         /* Returns the max particle count of the particle system */
-        float GetMaxCount() { return m_ParticleCount; }
+        int GetMaxCount() { return m_ParticleCount; }
 
         /* Enable / disable destruction of particles in CreateParticle() */
         /* when no more particles can be created due to a prior call to SetMaxParticleCount() */
@@ -147,5 +166,16 @@ namespace Kross
         void SetParticleType(ParticleType type) { m_ParticleType = type; }
         /* Gets the particle type */
         ParticleType GetParticleType() { return m_ParticleType; }
+
+        /* Sets the particles collision filters */
+        void SetColliderFilters(uint16 catagoryBits, uint16 maskBits)
+        {
+            p_Filter->categoryBits = catagoryBits;
+            p_Filter->maskBits = maskBits;
+        }
+
+        /* Gets the filter */
+        b2Filter* GetColliderFilters() { return p_Filter; }
+
     };
 }

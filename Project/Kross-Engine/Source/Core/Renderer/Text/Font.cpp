@@ -21,6 +21,9 @@ namespace Kross
 			m_Characters[i] = nullptr;
 		}
 
+		m_Characters.clear();
+		m_Characters.~vector();
+
 		/* Delete Sprites. */
 		for (int i = 0; i < m_Sprites.size(); i++)
 		{
@@ -28,6 +31,9 @@ namespace Kross
 			Sprite::OnDestroy(m_Sprites[i]);
 			m_Sprites[i] = nullptr;
 		}
+
+		m_Sprites.clear();
+		m_Sprites.~vector();
 	}
 
 	Font* Font::OnCreate(Texture* texture, int width, int height, const std::string& name)

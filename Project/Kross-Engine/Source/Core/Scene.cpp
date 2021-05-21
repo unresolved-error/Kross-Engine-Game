@@ -44,6 +44,7 @@ namespace Kross
         m_BatchRenderers.clear();
 
         delete p_Physics;
+        delete p_WorldFilter;
     }
 
     void Scene::OnStart()

@@ -27,7 +27,7 @@ namespace Kross
 			m_UVOffset(Vector2(0.0f,0.0f)),
 			m_UVRatio(Vector2(1.0f, 1.0f)),
 			m_Name(""),
-			m_Geometry(KROSS_NEW Geometry()),
+			m_Geometry(nullptr),
 			m_PixelOffset(Vector2(0.0f))
 		{
 			static int count = 0;

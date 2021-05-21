@@ -8,6 +8,8 @@
 
 #include "../../Core.h"
 
+#include "ShaderFlags.h"
+
 #include "../Image/Texture.h"
 #include "../../Math/Math.h"
 
@@ -23,7 +25,8 @@ namespace Kross
 		// Used to store the Locations of the Uniforms for performace.
 		std::unordered_map<std::string, int> m_UniformCache;
 
-		std::string m_Name, m_VertexFilepath, m_FragmentFilepath;
+		std::string m_Name, m_VertexFilepath, m_FragmentFilepath, m_GeometryFilepath;
+		ShaderFlag m_Flag;
 
 	protected:
 		friend class ResourceManager;
@@ -33,6 +36,9 @@ namespace Kross
 
 		// Gets the Fragment Shader Filepath.
 		const std::string GetFragmentFilepath() const { return m_FragmentFilepath; };
+
+		// Gets the Geometry Shader Filepath.
+		const std::string GetGeometryFilepath() const { return m_GeometryFilepath; };
 
 		// Gets the Shader ID.
 		const unsigned int GetShaderID() const { return m_ShaderID; };
@@ -52,8 +58,14 @@ namespace Kross
 		// Sets the Fragment Shader Filepath.
 		void SetFragmentFilepath(const std::string& filepath) { m_FragmentFilepath = filepath; };
 
+		// Sets the Geometry Shader Filepath.
+		void SetGeometryFilepath(const std::string& filepath) { m_GeometryFilepath = filepath; };
+
 		// Combines the Vertex and Fragment Shaders.
 		void AttachShaders(unsigned int vertex, unsigned int fragment);
+
+		// Combines the Vertex, Fragment and Geometry Shaders.
+		void AttachShaders(unsigned int vertex, unsigned int fragment, unsigned int geometry);
 
 	public:
 		// Binds the Shader.
@@ -68,11 +80,20 @@ namespace Kross
 		// Creates a Shader through file location.
 		static Shader* OnCreate(const std::string& vertexFilepath, const std::string& fragmentFilepath, const std::string& name);
 
+		// Creates a Shader through file location.
+		static Shader* OnCreate(const std::string& vertexFilepath, const std::string& fragmentFilepath, const std::string& geometryFilepath, const std::string& name);
+
 		// Reloads the Shader given.
 		static Shader* OnReload(Shader* shader);
 
 		// Destroys the Shader specified.
 		static void OnDestroy(Shader* shader);
+
+		// Sets the Shader Flag. (USE WITH CAUTION)
+		void SetFlag(ShaderFlag flag) { m_Flag = flag; };
+
+		// Gets the Shader Flag.
+		ShaderFlag GetFlag() const { return m_Flag; };
 
 		// Sets a Bool variable inside the Shader.
 		void SetUniform(const std::string& variable, bool value);

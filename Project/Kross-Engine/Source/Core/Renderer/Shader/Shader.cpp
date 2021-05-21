@@ -15,7 +15,7 @@
 namespace Kross
 {
 	Shader::Shader()
-		: m_ShaderID(0), m_Name(""), m_VertexFilepath(""), m_FragmentFilepath("")
+		: m_ShaderID(0), m_Name(""), m_VertexFilepath(""), m_FragmentFilepath(""), m_GeometryFilepath(""), m_Flag(ShaderFlag::None)
 	{
 		m_ShaderID = glCreateProgram();
 	}
@@ -54,6 +54,32 @@ namespace Kross
 
 		/* Attach them to the overall Shader. */
 		shader->AttachShaders(vShader, fShader);
+
+		/* Return the created Shader. */
+		return shader;
+	}
+
+	Shader* Shader::OnCreate(const std::string& vertexFilepath, const std::string& fragmentFilepath, const std::string& geometryFilepath, const std::string& name)
+	{
+		/* Create the Shader. */
+		Shader* shader = KROSS_NEW Shader();
+		shader->SetName(name);
+		shader->SetVertexFilepath(vertexFilepath);
+		shader->SetFragmentFilepath(fragmentFilepath);
+		shader->SetGeometryFilepath(geometryFilepath);
+
+		/* Grab the source from the files. */
+		std::string vSource = FileSystem::GetFileContents(vertexFilepath);
+		std::string fSource = FileSystem::GetFileContents(fragmentFilepath);
+		std::string gSource = FileSystem::GetFileContents(geometryFilepath);
+
+		/* Compile the Shaders. */
+		unsigned int vShader = Shader::GetShaderCompileStatus(vSource, GL_VERTEX_SHADER);
+		unsigned int fShader = Shader::GetShaderCompileStatus(fSource, GL_FRAGMENT_SHADER);
+		unsigned int gShader = Shader::GetShaderCompileStatus(gSource, GL_GEOMETRY_SHADER);
+
+		/* Attach them to the overall Shader. */
+		shader->AttachShaders(vShader, fShader, gShader);
 
 		/* Return the created Shader. */
 		return shader;
@@ -114,7 +140,7 @@ namespace Kross
 			glGetShaderInfoLog(shader, sizeof(message), NULL, message);
 
 			/* Output the error. */					/* This is to determain the type of shader */
-			std::cout << "[Error] Compiling the " << ((type == GL_VERTEX_SHADER) ? "Vertex" : "Fragment") << " Shader!" << std::endl;
+			std::cout << "[Error] Compiling the " << ((type == GL_VERTEX_SHADER) ? "Vertex" : ((type == GL_FRAGMENT_SHADER) ? "Fragment" : "Geometry")) << " Shader!" << std::endl;
 			std::cout << message << std::endl;
 
 			/* Destroy the defective shader. */
@@ -139,6 +165,23 @@ namespace Kross
 		/* No longer needing these so get rid of them. */
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
+	}
+
+	void Shader::AttachShaders(unsigned int vertex, unsigned int fragment, unsigned int geometry)
+	{
+		/* Attach the shaders. */
+		glAttachShader(m_ShaderID, vertex);
+		glAttachShader(m_ShaderID, fragment);
+		glAttachShader(m_ShaderID, geometry);
+
+		/* Validate the shader. */
+		glLinkProgram(m_ShaderID);
+		glValidateProgram(m_ShaderID);
+
+		/* No longer needing these so get rid of them. */
+		glDeleteShader(vertex);
+		glDeleteShader(fragment);
+		glDeleteShader(geometry);
 	}
 
 	int Shader::GetUniformLocation(const std::string& variable)

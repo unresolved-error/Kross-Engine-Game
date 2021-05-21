@@ -1,3 +1,9 @@
+/*
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
+
 #include "Input.h"
 
 namespace Kross

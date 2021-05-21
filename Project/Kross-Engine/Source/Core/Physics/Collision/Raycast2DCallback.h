@@ -18,12 +18,14 @@ namespace Kross
     {
     private:
         float m_closestFraction = 1.0f;
-        CollisionData* p_CollisionData = KROSS_NEW CollisionData();
         RaycastData* p_RayData = KROSS_NEW RaycastData();
 
     public:
         Raycast2DCallback() {};
-        ~Raycast2DCallback() { delete p_RayData; }
+        ~Raycast2DCallback() 
+        { 
+            delete p_RayData;
+        }
 
         float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point,
             const b2Vec2& normal, float32 fraction) override

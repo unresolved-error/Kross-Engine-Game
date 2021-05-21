@@ -84,8 +84,11 @@ namespace Kross
 		/* Update all Shaders View and Projection Matrix. */
 		for (int i = 0; i < s_Shaders.size(); i++)
 		{
-			s_Shaders[i]->SetUniform("u_View", viewMatrix);
-			s_Shaders[i]->SetUniform("u_Projection", projectionMatrix);
+			if (s_Shaders[i]->GetFlag() == ShaderFlag::None)
+			{
+				s_Shaders[i]->SetUniform("u_View", viewMatrix);
+				s_Shaders[i]->SetUniform("u_Projection", projectionMatrix);
+			}
 		}
 	}
 }

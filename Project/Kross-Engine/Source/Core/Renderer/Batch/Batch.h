@@ -197,64 +197,22 @@ namespace Kross
         void Attach<ParticleEmitter>(ParticleEmitter* emitter)
         {
             b2Vec2* positions = emitter->GetParticleSystem()->GetPositionBuffer();
+            b2Vec2* velocities = emitter->GetParticleSystem()->GetVelocityBuffer();
             int particleCount = emitter->GetParticleSystem()->GetParticleCount();
-
-            Sprite* sprite = ResourceManager::GetResource<Sprite>("Particle");
-            AtlasSpriteData data = p_Atlas->GetSpriteData(sprite);
-
-            List<List<Vector2>> spritesUVs;
 
             for (int i = 0; i < particleCount; i++)
             {
-                spritesUVs.push_back(List<Vector2>(4));
-                spritesUVs[i][0].x = (1.0f * data.m_Ratio.x) + data.m_Offset.x;
-                spritesUVs[i][1].x = (1.0f * data.m_Ratio.x) + data.m_Offset.x;
-                spritesUVs[i][2].x = (0.0f * data.m_Ratio.x) + data.m_Offset.x;
-                spritesUVs[i][3].x = (0.0f * data.m_Ratio.x) + data.m_Offset.x;
-
-                spritesUVs[i][0].y = (1.0f * data.m_Ratio.y) + data.m_Offset.y;
-                spritesUVs[i][1].y = (0.0f * data.m_Ratio.y) + data.m_Offset.y;
-                spritesUVs[i][2].y = (0.0f * data.m_Ratio.y) + data.m_Offset.y;
-                spritesUVs[i][3].y = (1.0f * data.m_Ratio.y) + data.m_Offset.y;
-
-                Matrix4 model;
-                Matrix4 modelPosition = glm::translate(Matrix4(1.0f), Vector3(positions[i].x, positions[i].y, 0.0f));
-                Matrix4 modelRotation = glm::rotate(Matrix4(1.0f), glm::radians(0.0f), Vector3(0.0f, 0.0f, 1.0f)); /* Set this to Zero as text isn't rotating... */
-                Matrix4 modelScale = glm::scale(Matrix4(1.0f), Vector3(1.0f, 1.0f, 0.0f));							  /* Atleast not now anyway. */
-
-                /* Update the Model. */
-                model = modelPosition * modelRotation * modelScale;
-
-                List<Vertex> geometryVertexes = sprite->GetGeometry()->m_Geometry;
-
                 Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
 
-                Vertex topRight = Vertex(model * Vector4(geometryVertexes[0].m_Position, 0.0f, 1.0f),
-                    spritesUVs[i][0],
-                    waterColour);
-                Vertex bottomRight = Vertex(model * Vector4(geometryVertexes[1].m_Position, 0.0f, 1.0f),
-                    spritesUVs[i][1],
-                    waterColour);
-                Vertex bottomLeft = Vertex(model * Vector4(geometryVertexes[2].m_Position, 0.0f, 1.0f),
-                    spritesUVs[i][2],
-                    waterColour);
-                Vertex topLeft = Vertex(model * Vector4(geometryVertexes[3].m_Position, 0.0f, 1.0f),
-                    spritesUVs[i][3],
+                Vertex waterDrop = Vertex(Vector2(positions[i].x, positions[i].y),
+                    Vector2(velocities[i].x, velocities[i].y),
                     waterColour);
 
                 int vertexCount = m_Data.size();
 
-                m_Indicies.push_back(0 + vertexCount);
-                m_Indicies.push_back(1 + vertexCount);
-                m_Indicies.push_back(2 + vertexCount);
-                m_Indicies.push_back(2 + vertexCount);
-                m_Indicies.push_back(3 + vertexCount);
-                m_Indicies.push_back(0 + vertexCount);
+                m_Indicies.push_back(vertexCount);
 
-                m_Data.push_back(topRight);
-                m_Data.push_back(bottomRight);
-                m_Data.push_back(bottomLeft);
-                m_Data.push_back(topLeft);
+                m_Data.push_back(waterDrop);
             }
 
             m_BatchSize += particleCount;

@@ -1,3 +1,9 @@
+/*
+ *  Author: Deklyn Palmer.
+ *  Editors:
+ *      - Deklyn Palmer.
+ */
+
 #pragma once
 
 #include "Core.h"

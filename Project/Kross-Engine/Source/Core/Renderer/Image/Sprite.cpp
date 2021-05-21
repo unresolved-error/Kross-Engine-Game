@@ -154,6 +154,7 @@ namespace Kross
 		}
 
 		/* Otherwise create it. */
+		m_Geometry = new Geometry();
 
 		/* Set the name of the Geometry. */
 		m_Geometry->SetName(name);
