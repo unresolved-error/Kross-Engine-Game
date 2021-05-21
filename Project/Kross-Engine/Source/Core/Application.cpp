@@ -66,11 +66,15 @@ namespace Kross
 		Shader* waterShader = Shader::OnCreate("Resources/Shaders/Water/water.vert", "Resources/Shaders/Water/water.frag", "Resources/Shaders/Water/water.geom", "WaterShader");
 		ResourceManager::AttachResource<Shader>(waterShader);
 
-
+		Shader* MetaballShader = Shader::OnCreate("Resources/Shaders/Water/MetaballVertex.vert", "Resources/Shaders/Water/MetaballFragment.frag", "MetaballShader");
+		MetaballShader->SetFlag(ShaderFlag::Fluid);
+		ResourceManager::AttachResource<Shader>(MetaballShader);
 
 		Texture* fontTexture = Texture::OnCreate("Resources/Font/KrossFont.png", "KrossFontTexture");
 
 		Texture* particleTexture = Texture::OnCreate("Resources/Textures/Particle.png", "ParticleTexture");
+
+		Texture* blackTexture = Texture::OnCreate("Resources/Textures/BlackScreen.png", "BlackScreen");
 
 		Sprite* particleSprite = Sprite::OnCreate(particleTexture, 3, 3, "Particle");
 

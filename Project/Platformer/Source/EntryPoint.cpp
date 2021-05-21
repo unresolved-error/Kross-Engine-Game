@@ -201,7 +201,7 @@ int main(int argc, char** argv)
 
 	particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_fixtureContactFilterParticle);
 	particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
-	particle->GetParticle()->SetShape(1.5f);
+	particle->GetParticle()->SetShape(0.5f);
 	//particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
 	//particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
 	particle->SetMaxCount(0);

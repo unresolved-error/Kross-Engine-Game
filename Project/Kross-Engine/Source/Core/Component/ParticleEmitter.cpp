@@ -19,7 +19,7 @@ namespace Kross
 		/* Creates the particle system */
 		OnCreateParticleSystem();
 
-		SetRadius(0.025f);
+		SetRadius(0.05f);
 
 		/* Creates all of the particles */
 		if (m_ParticleType == ParticleType::Particle)

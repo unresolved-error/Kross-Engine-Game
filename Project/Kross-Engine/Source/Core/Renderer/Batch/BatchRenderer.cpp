@@ -13,6 +13,7 @@ namespace Kross
     {
         delete p_Batch;
         delete p_WaterBuffer;
+        p_Texture = NULL;
     }
 
     BatchRenderer* BatchRenderer::OnCreate(Layer layer)
@@ -76,9 +77,15 @@ namespace Kross
         else
         {
             p_WaterBuffer->Attach();
+            glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+            p_Texture = ResourceManager::GetResource<Texture>("BlackScreen");
+            p_Texture->Attach();
+
+            p_BatchShader->SetUniform("u_Texture", p_Texture);
             p_BatchShader->SetUniform("u_HalfSize", 0.03f);
             p_BatchShader->SetUniform("u_InverseAspect", 1.0f / Application::GetWindow()->GetApsectRatio());
-            p_BatchShader->SetUniform("u_Colour", Colour(0.28f, 0.71f, 0.91f, 1.0f));
+            //p_BatchShader->SetUniform("u_Colour", Colour(0.28f, 0.71f, 0.91f, 1.0f));
             p_BatchShader->Attach();
             p_Batch->OnCompile();
 
@@ -86,19 +93,23 @@ namespace Kross
 
             p_Batch->m_VertexArray->Attach();
             glDrawElements(GL_POINTS, p_Batch->m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr); // not to screen.
+            
+
+
+            p_WaterBuffer->GetFrameTexture()->SetSlot(0);
+            p_WaterBuffer->GetFrameTexture()->Attach();
+            
+
+            //p_MetaballShader->SetUniform("u_Texture", p_Texture);
+            p_MetaballShader->SetUniform("u_Texture", p_WaterBuffer->GetFrameTexture());
+            //p_MetaballShader->SetUniform("u_Position", p_Batch->m_VertexBuffer);
+            p_MetaballShader->Attach();
+            p_Batch->OnCompile();
+
+            p_Batch->m_VertexArray->AttachVertexBufferToLayout(*p_Batch->m_VertexBuffer);
+            p_Batch->m_VertexArray->Attach();
 
             p_WaterBuffer->Detach();
-
-            //p_metaballShader->SetUniform("u_Texture", p_WaterBuffer->GetFrameTexture());
-
-
-
-
-            //further junk here to metaball;
-
-//            take further junk to future metaball:
-
-
         }
 
         Texture::Detach();
