@@ -90,7 +90,6 @@ public:
 					window->SetFullscreen(0);
 			}
 		}
-
 		else
 		{
 			controllerID = Input::GetAvalibleController();

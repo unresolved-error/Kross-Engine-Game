@@ -358,7 +358,7 @@ namespace Kross
                 if (p_FluidData->m_Collision)
                 {
                     // player is swimming
-                    OnApplyForce(particleForce * (p_Body->GetMass() * 0.5f));
+                    OnApplyForce(particleForce * (p_Body->GetMass() * 0.15f));
                 }
 
                 float footSpringLength = 0.5f;
@@ -497,8 +497,8 @@ namespace Kross
         float distance = glm::length(pos2 - pos1);
 
         float distanceScale = 10.0f;
-        float springConstant = 1.75f;
-        float dampingConstant = 11.0f;
+        float springConstant = 2.0f;
+        float dampingConstant = 12.0f;
         float restLength = 0.55f;
         float size = 0.35f;
 

@@ -41,10 +41,12 @@ namespace Kross
 			{
 				p_Particle->SetCollisionFilter(p_Filter);
 
-				p_Particle->SetPosition(Vector2(0.0f + 1.5f * i, 1.5f));
+				p_Particle->SetPosition(Vector2(0.0f, 1.0f));
 				OnCreateParticleGroup();
 			}
 		}
+
+		std::cout << "Total particle count: " << p_ParticleSystem->GetParticleCount() << std::endl;
 
 		/* Sets the shader */
 		p_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
