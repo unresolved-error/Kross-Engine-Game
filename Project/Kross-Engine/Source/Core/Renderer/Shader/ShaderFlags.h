@@ -13,6 +13,7 @@ namespace Kross
     enum class KROSS_API ShaderFlag
     {
         None,
+        Text,
         Fluid,
 
         /* Just in case. */

@@ -12,12 +12,9 @@ namespace Kross
 {
 	Sprite::~Sprite()
 	{
-		static int deleteCount = 0;
 		/* Null out Texture and Geometry. */
 		p_Texture = nullptr;
 		m_Geometry = nullptr;
-		std::cout << "Destroying sprite " << deleteCount << std::endl;
-		deleteCount++;
 	}
 
 	Sprite* Sprite::OnCreate(Texture* texture, int width, int height, const std::string& name)
@@ -134,8 +131,8 @@ namespace Kross
 	void Sprite::OnDestroy(Sprite* sprite)
 	{ 
 		/* Safe programming, not really needed but good to have. */
-		//if (sprite)
-		delete sprite;
+		if (sprite)
+			delete sprite;
 	}
 
 	void Sprite::AttachGeometryData()
@@ -144,40 +141,32 @@ namespace Kross
 		std::string name = std::to_string(m_Width) + "x" + std::to_string(m_Height);
 
 		/* Search for pre existsing Geometry with these dimentions. */
-		Geometry* geometry = ResourceManager::GetResource<Geometry>(name);
+		m_Geometry = ResourceManager::GetResource<Geometry>(name);
 
 		/* If Geometry exists already of these dimentions then use it. */
-		if (geometry)
-		{
-			m_Geometry = geometry;
+		if (m_Geometry)
 			return;
-		}
 
 		/* Otherwise create it. */
-		m_Geometry = new Geometry();
+		m_Geometry = KROSS_NEW Geometry();
 
 		/* Set the name of the Geometry. */
 		m_Geometry->SetName(name);
 
-		/* Set Render Mode for Geometry. */
-		m_Geometry->SetRenderMode(RenderMode::Solid);
+		/* Calculate the Width and Height in World Space. */
+		float width = ((float)m_Width / (float)BASE_SPRITE_WIDTH_AND_HEIGHT);
+		float height = ((float)m_Height / (float)BASE_SPRITE_WIDTH_AND_HEIGHT);
 
-		/* Get the Width and Height in World Space. */
-		float width = ((float)m_Width / (float)BASE_SPRITE_WIDTH_AND_HEIGHT) / 2.0f;
-		float height = ((float)m_Height / (float)BASE_SPRITE_WIDTH_AND_HEIGHT) / 2.0f;
+		/* Set the Size of the Geometry. */
+		m_Geometry->SetSize(Vector2(width, height));
 
 		/* Add Vertexes. */
-		m_Geometry->AttachVertex(Vertex(Vector2( width,  height), Vector2(1.0f, 1.0f), Colour(1.0f)));
-		m_Geometry->AttachVertex(Vertex(Vector2( width, -height), Vector2(1.0f, 0.0f), Colour(1.0f)));
-		m_Geometry->AttachVertex(Vertex(Vector2(-width, -height), Vector2(0.0f, 0.0f), Colour(1.0f)));
-		m_Geometry->AttachVertex(Vertex(Vector2(-width,  height), Vector2(0.0f, 1.0f), Colour(1.0f)));
+		//m_Geometry->AttachVertex(Vertex(Vector2( width,  height), Vector2(1.0f, 1.0f), Colour(1.0f)));
+		//m_Geometry->AttachVertex(Vertex(Vector2( width, -height), Vector2(1.0f, 0.0f), Colour(1.0f)));
+		//m_Geometry->AttachVertex(Vertex(Vector2(-width, -height), Vector2(0.0f, 0.0f), Colour(1.0f)));
+		//m_Geometry->AttachVertex(Vertex(Vector2(-width,  height), Vector2(0.0f, 1.0f), Colour(1.0f)));
 
 		/* Attach new Geometry to the global resources. */
 		ResourceManager::AttachResource<Geometry>(m_Geometry);
-	}
-
-	void Sprite::OnRender()
-	{
-		m_Geometry->OnRenderGeometry();
 	}
 }

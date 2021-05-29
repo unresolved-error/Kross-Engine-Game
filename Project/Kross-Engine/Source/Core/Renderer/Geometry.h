@@ -10,36 +10,13 @@
 
 #include "../Math/Math.h"
 
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "Vertex/Vertex.h"
-
 namespace Kross
 {
-	// This is used inside of Geomtry, to determain the way it is drawn.
-	enum class KROSS_API RenderMode
-	{
-		None,
-		Solid,
-		Wireframe,
-		Line,
-	};
-
-	class KROSS_API Geometry
+	struct KROSS_API Geometry
 	{
 	private:
-		List<Vertex> m_Geometry;
-		List<unsigned int> m_Indicies;
-
+		Vector2 m_Size;
 		std::string m_Name;
-
-		IndexBuffer* m_IndexBuffer;
-		VertexArray* m_VertexArray;
-		VertexBuffer* m_VertexBuffer;
-
-		RenderMode m_RenderMode;
-		int m_MemorySize;
 
 	protected:
 		friend class Sprite;
@@ -48,27 +25,18 @@ namespace Kross
 		// Sets the Geometry Name.
 		void SetName(const std::string& name) { m_Name = name; };
 
-		// Draws the Geometry.
-		void OnRenderGeometry();
+		// Sets the Size of the Geometry.
+		void SetSize(Vector2 size) { m_Size = size; };
+
+		// Gets the Size of the Geometry. (FULL WIDTH AND HEIGHT)
+		Vector2 GetSize() const { return m_Size; };
 
 	public:
 		Geometry() :
-			m_IndexBuffer	(KROSS_NEW IndexBuffer()), 
-			m_VertexArray	(KROSS_NEW VertexArray()), 
-			m_VertexBuffer	(KROSS_NEW VertexBuffer()), 
-			m_RenderMode	(RenderMode::None),
-			m_Indicies		(List<unsigned int>()), 
-			m_Geometry		(List<Vertex>()), 
-			m_Name			(""), 
-			m_MemorySize	(0)
+			m_Size		(Vector2(0.0f)),
+			m_Name		("")
 		{};
-		~Geometry();
-
-		// Adds a Vertex to the Geometry Data.
-		void AttachVertex(Vertex vertex);
-
-		// Sets the Geometry Render Mode.
-		void SetRenderMode(RenderMode mode) { m_RenderMode = mode; };
+		~Geometry() {};
 
 		// Gets the Geometry Name.
 		const std::string GetName() const { return m_Name; };

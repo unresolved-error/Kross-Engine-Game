@@ -29,11 +29,7 @@ namespace Kross
 			m_Name(""),
 			m_Geometry(nullptr),
 			m_PixelOffset(Vector2(0.0f))
-		{
-			static int count = 0;
-			std::cout << "Creating sprite " << count << std::endl;
-			count++;
-		};
+		{};
 		~Sprite();
 
 		Texture* p_Texture;
@@ -90,9 +86,6 @@ namespace Kross
 
 		// Sets the Sprite Geometry Data.
 		void AttachGeometryData();
-
-		// Renders the Sprite.
-		void OnRender();
 
 	public:
 		// Creates a Sprite from a Texture.

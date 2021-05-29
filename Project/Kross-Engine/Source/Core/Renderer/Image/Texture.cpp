@@ -27,7 +27,8 @@ namespace Kross
 		m_BPP		(0), 
 		m_Name		(""), 
 		m_Filepath	(""),
-		p_PixelData	(nullptr)
+		p_PixelData	(nullptr),
+		m_Type		(TextureType::TextureMap)
 	{
 		glGenTextures(1, &m_TextureID);
 	}
@@ -131,7 +132,7 @@ namespace Kross
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	Texture* Texture::OnCreate(const std::string& filepath, const std::string& name)
+	Texture* Texture::OnCreate(const std::string& filepath, const std::string& name, TextureType type)
 	{
 		/* Flips the image vertically on load. */
 		stbi_set_flip_vertically_on_load(1);
@@ -143,6 +144,7 @@ namespace Kross
 		Texture* texture = KROSS_NEW Texture();
 		texture->SetName(name);
 		texture->SetFilepath(filepath);
+		texture->SetType(type);
 
 		/* Core Texture data. */
 		texture->SetPixelData(stbi_load(filepath.c_str(), &width, &height, &bpp, 4));
@@ -185,6 +187,7 @@ namespace Kross
 		/* Creation of Texture. */
 		Texture* texture = KROSS_NEW Texture();
 		texture->SetName(name);
+		texture->SetType(TextureType::PerlinMap);
 
 		/* Core Texture data. */
 		texture->SetWidth(width); 
@@ -266,6 +269,7 @@ namespace Kross
 		/* Creation of Texture. */
 		Texture* texture = KROSS_NEW Texture();
 		texture->SetName(name);
+		texture->SetType(TextureType::TextureMap);
 
 		/* Core Texture data. */
 		texture->SetPixelData(data);

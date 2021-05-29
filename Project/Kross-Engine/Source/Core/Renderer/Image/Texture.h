@@ -9,6 +9,8 @@
 #include "../../Core.h"
 
 #include "../../Math/Math.h"
+#include "TextureType.h"
+
 #include "GL/glew.h"
 
 namespace Kross
@@ -47,6 +49,8 @@ namespace Kross
 
 		std::string m_Name, m_Filepath;
 
+		TextureType m_Type;
+
 	protected:
 		friend class FrameBuffer;
 		friend class Atlas;
@@ -78,6 +82,9 @@ namespace Kross
 		// Sets the Texture Pixel Data.
 		void SetPixelData(unsigned char* data) { p_PixelData = data; };
 
+		// Sets the Texture Type.
+		void SetType(TextureType type) { m_Type = type; };
+
 		// Gets a Colour of the Pixel at a given co-ordinate.
 		Colour GetPixel(int x, int y);
 
@@ -91,7 +98,6 @@ namespace Kross
 		void OnFinalise();
 		
 	public:
-		
 		// Binds the Texture to the Texture Slot.
 		void Attach();
 		
@@ -110,11 +116,14 @@ namespace Kross
 		// Gets the Texture Slot.
 		const unsigned int GetSlot() const { return m_Slot; };
 
+		// Gets the Texture Type.
+		TextureType GetType() const { return m_Type; };
+
 		// Sets the Texture Slot.
 		void SetSlot(unsigned int slot = 0) { m_Slot = slot; };
 
 		// Creates a Texture through file location.
-		static Texture* OnCreate(const std::string& filepath, const std::string& name);
+		static Texture* OnCreate(const std::string& filepath, const std::string& name, TextureType type = TextureType::TextureMap);
 
 		/** 
 			Creates a Texture based on custom parameters. (PERLIN NOISE)
