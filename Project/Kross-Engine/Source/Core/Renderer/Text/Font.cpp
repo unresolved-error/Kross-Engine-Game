@@ -6,6 +6,8 @@
 
 #include "Font.h"
 
+#include "../../Manager/ResourceManager.h"
+
 namespace Kross
 {
 	Font::~Font()
