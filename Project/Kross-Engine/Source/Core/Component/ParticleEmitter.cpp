@@ -46,34 +46,13 @@ namespace Kross
 			}
 		}
 
-		/* Sets the shader */
-		p_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
-
-		/* Initialise the line renderer */
-		p_Lines->Initialise();
-
 		/* Good blue */
 		/* Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f) */
 
 	}
 
-	void ParticleEmitter::OnRender()
-	{
-		b2ParticleColor* particleColor = p_ParticleSystem->GetColorBuffer();
-		b2Vec2* particlePositions = p_ParticleSystem->GetPositionBuffer();
-		for (int i = 0; i < p_ParticleSystem->GetParticleCount(); i++)
-		{
-			p_Lines->SetColour({ particleColor[i].r, particleColor[i].g, particleColor[i].b });
-			p_Lines->DrawCross({ particlePositions[i].x, particlePositions[i].y }, p_ParticleSystem->GetRadius());
-		}
-		
-		p_DebugShader->Attach();
-		p_Lines->UpdateFrame();
-	}
-
 	ParticleEmitter::~ParticleEmitter()
 	{
-		delete p_Lines;
 		delete p_Filter;
 	}
 

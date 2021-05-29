@@ -77,11 +77,6 @@ namespace Kross
         /* Rigidbody2D update method */
         void OnUpdate() override;
 
-        /* The RigidBody outlines will only render in debug */
-        #ifdef KROSS_DEBUG
-        void OnRender() override;
-        #endif
-
         Body* GetRayCollisionBody() const { return p_RayData->body; }
 
     public:

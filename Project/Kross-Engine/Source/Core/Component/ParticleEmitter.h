@@ -58,19 +58,13 @@ namespace Kross
         /* ParticleEmitter start method */
         void OnStart() override;
 
-        /* ParticleEmitter render method */
-        void OnRender() override;
-
     public:
 
         ParticleEmitter() : 
             p_ParticleSystem    (nullptr), 
             p_PhysicsScene      (nullptr),
             p_World             (nullptr), 
-            p_DebugShader       (nullptr), 
-            p_GeometryShader    (nullptr),
             m_ParticleType      (ParticleType::None),
-            p_Lines             (KROSS_NEW LineRenderer()), 
             p_Particle          (KROSS_NEW Particle()), 
             p_Filter            (KROSS_NEW b2Filter())
         {}

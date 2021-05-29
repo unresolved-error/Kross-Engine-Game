@@ -28,13 +28,7 @@ namespace Kross
         p_Filter        (KROSS_NEW ContactFilter()),
         p_FluidData     (KROSS_NEW FluidCollisionData()),
         p_FluidCallback (KROSS_NEW FluidCollisionCallback())
-    {
-        /* When in debug set up the shader and renderer */
-        #ifdef KROSS_DEBUG
-        p_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
-        lines = KROSS_NEW LineRenderer();
-        #endif
-    }
+    {}
 
     Rigidbody2D::~Rigidbody2D()
     {
@@ -47,10 +41,6 @@ namespace Kross
         delete p_MassData;
         delete p_RayData;
         delete p_FixtureDef;
-
-        #ifdef KROSS_DEBUG
-            delete lines;
-        #endif
     }
 
     void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits)
@@ -339,11 +329,6 @@ namespace Kross
 
         /* Gets the physics scene */
         p_PhysicsScene = GetPhysicsScene();
-
-        /* When in debug the line renderer is initialised */
-        #ifdef KROSS_DEBUG
-        lines->Initialise();
-        #endif
     }
 
     void Rigidbody2D::OnUpdate()
@@ -381,9 +366,6 @@ namespace Kross
 
                     OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
 
-                    #ifdef KROSS_DEBUG
-                    lines->SetColour(Vector3(1, 0, 0));
-                    #endif
                     p_RayData->hit = false;
                 }
                 else
@@ -395,17 +377,7 @@ namespace Kross
 
                     else if (m_CollisionState == CollisionState::Exit)
                         m_CollisionState = CollisionState::None;
-
-                    #ifdef Kross_DEBUG
-                    lines->SetColour(Vector3(0, 1, 0));
-                    #endif // Kross_DEBUG
-
                 }
-
-                #ifdef KROSS_DEBUG
-                lines->DrawLineSegment(Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y), p_RayData->intersectionPoint);
-                lines->DrawCircle(p_RayData->intersectionPoint, 0.05f, 6);
-                #endif // KROSS_DEBUG
                 
                 /* Gets the object position and updates it with the position of the body */
                 GetObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
@@ -450,42 +422,12 @@ namespace Kross
         p_Body->ApplyLinearImpulse({ impulse.x, impulse.y }, { p_Body->GetPosition().x, p_Body->GetPosition().y }, true);
     }
 
-    #ifdef KROSS_DEBUG
-    void Rigidbody2D::OnRender()
-    {
-        //lines->SetColour(Vector3(1.0f, 0.0f, 0.0f));
-
-        GetObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
-
-        /* Checks the shape type of the body */
-        if (m_ShapeType == ShapeType::Box)
-        {
-            /* Draws the rigid body */
-            lines->DrawRigidBody(p_Body);
-        }
-        else if (m_ShapeType == ShapeType::Circle)
-        {
-            /* Draws the rigid body */
-            lines->DrawRigidBody(p_Body);
-        }
-
-        else
-            lines->DrawCross(Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y), 5.0f);
-
-        /* Attatches the shader */
-        p_DebugShader->Attach();
-
-        /* Updates the line renderer */
-        lines->UpdateFrame();
-    }
-    #endif
-
     Vector2 Rigidbody2D::GetPosition() const
     {
         return Vector2(GetObject()->GetTransform()->m_Position.x, GetObject()->GetTransform()->m_Position.y);
     }
 
-    Vector2 Kross::Rigidbody2D::SpringCalculation(Body* body1, Body* body2, float dist)
+    Vector2 Rigidbody2D::SpringCalculation(Body* body1, Body* body2, float dist)
     {
         Vector2 fs = { 0,0 };
         Vector2 velocity = { 0,0 };

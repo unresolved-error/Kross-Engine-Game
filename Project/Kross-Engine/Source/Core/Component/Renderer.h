@@ -23,10 +23,6 @@ namespace Kross
         int m_Depth;
 
     protected:
-        friend class Scene;
-
-        // Rendering Method.
-        virtual void OnRender() { return; };
 
     public:
         Renderer() :
