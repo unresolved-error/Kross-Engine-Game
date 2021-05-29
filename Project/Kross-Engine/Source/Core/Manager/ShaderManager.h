@@ -15,10 +15,14 @@ namespace Kross
 	class KROSS_API ShaderManager
 	{
 	private:
-		ShaderManager() {};
+		ShaderManager() :
+			m_Shaders	(List<Shader*>())
+		{};
 		~ShaderManager();
-		static List<Shader*> s_Shaders;
+
 		static ShaderManager* s_Instance;
+
+		List<Shader*> m_Shaders;
 
 	protected:
 		friend class Application;

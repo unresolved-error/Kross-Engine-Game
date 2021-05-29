@@ -1245,7 +1245,13 @@
     <ClInclude Include="Source\Core\Physics\Collision\PhysicsCallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Fluids\Fluids.h">
+    <ClInclude Include="Source\Core\Renderer\Tilemap\Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Renderer\Tilemap\TilemapSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Renderer\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1545,6 +1551,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Collision\PhysicsCallbacks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Renderer\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

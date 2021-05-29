@@ -16,9 +16,16 @@ namespace Kross
     class KROSS_API Time
     {
     private:
-        static float s_DeltaTime;
-        static float s_PreviousTime;
+        Time() :
+            m_DeltaTime     (0.0f),
+            m_PreviousTime  (0.0f)
+        {};
+        ~Time() {};
+
         static Time* s_Instance;
+
+        float m_DeltaTime;
+        float m_PreviousTime;
 
     protected:
         friend class Application;
@@ -34,6 +41,6 @@ namespace Kross
 
     public:
         /* Returns the current delta time */
-        static const float GetDeltaTime() { return s_DeltaTime; };
+        static const float GetDeltaTime() { return s_Instance->m_DeltaTime; };
     };
 }

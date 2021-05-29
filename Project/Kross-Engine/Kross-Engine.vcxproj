@@ -127,6 +127,7 @@
     <ClInclude Include="Source\Core\Renderer\Batch\BatchRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Image\Atlas.h" />
     <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
+    <ClInclude Include="Source\Core\Renderer\Material.h" />
     <ClInclude Include="Source\Core\Renderer\Shader\ShaderFlags.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
@@ -137,6 +138,8 @@
     <ClInclude Include="Source\Core\Renderer\Shader\Shader.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Font.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Text.h" />
+    <ClInclude Include="Source\Core\Renderer\Tilemap\Tile.h" />
+    <ClInclude Include="Source\Core\Renderer\Tilemap\TilemapSet.h" />
     <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
@@ -528,6 +531,7 @@
     <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp" />
     <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Material.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Character.cpp" />
     <ClCompile Include="Source\Core\Renderer\Text\Font.cpp" />
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />

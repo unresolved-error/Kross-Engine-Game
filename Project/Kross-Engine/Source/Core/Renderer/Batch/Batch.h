@@ -59,6 +59,8 @@ namespace Kross
             Sprite* sprite = renderer->GetSprite();
             Matrix4 model = renderer->GetObject()->GetTransform()->GetModelMatrix();
             AtlasSpriteData spriteData = p_Atlas->GetSpriteData(sprite);
+            AtlasSpriteData spriteNormalData = p_Atlas->GetSpriteData(sprite);
+            AtlasSpriteData spriteSpecularData = p_Atlas->GetSpriteData(sprite);
 
             List<Vertex> geometryVertexes = sprite->GetGeometry()->m_Geometry;
             List<Vector2> uvs = List<Vector2>(4);
@@ -97,15 +99,19 @@ namespace Kross
 
             Vertex topRight =       Vertex(model * Vector4(geometryVertexes[0].m_Position, 0.0f, 1.0f), 
                                             uvs[0],
+                                            model * Vector4(0.0f, 0.0f, 1.0f, 0.0f),
                                             renderer->GetColour());
             Vertex bottomRight =    Vertex(model * Vector4(geometryVertexes[1].m_Position, 0.0f, 1.0f), 
                                             uvs[1], 
+                                            model * Vector4(0.0f, 0.0f, 1.0f, 0.0f),
                                             renderer->GetColour());
             Vertex bottomLeft =     Vertex(model * Vector4(geometryVertexes[2].m_Position, 0.0f, 1.0f), 
                                             uvs[2], 
+                                            model * Vector4(0.0f, 0.0f, 1.0f, 0.0f),
                                             renderer->GetColour());
             Vertex topLeft =        Vertex(model * Vector4(geometryVertexes[3].m_Position, 0.0f, 1.0f), 
                                             uvs[3], 
+                                            model * Vector4(0.0f, 0.0f, 1.0f, 0.0f),
                                             renderer->GetColour());
 
             int vertexCount = m_Data.size();

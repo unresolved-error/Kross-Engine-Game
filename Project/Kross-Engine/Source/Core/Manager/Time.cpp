@@ -10,9 +10,6 @@ namespace Kross
 {
 	Time*	Time::s_Instance =		nullptr;
 
-	float	Time::s_DeltaTime =		0.0f;
-	float	Time::s_PreviousTime =	0.0f;
-
 	void Time::OnCreate()
 	{
 		if (!s_Instance)
@@ -31,8 +28,7 @@ namespace Kross
 		float currentTime = glfwGetTime();
 		
 		/* Update Delta Time. */
-		s_DeltaTime = (currentTime - s_PreviousTime);
-		
-		s_PreviousTime = currentTime;
+		s_Instance->m_DeltaTime = (currentTime - s_Instance->m_PreviousTime);
+		s_Instance->m_PreviousTime = currentTime;
 	}
 }

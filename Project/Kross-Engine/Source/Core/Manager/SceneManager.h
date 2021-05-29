@@ -15,12 +15,16 @@ namespace Kross
     class KROSS_API SceneManager
     {
     private:
-        SceneManager() {};
+        SceneManager() :
+            m_Scenes        (List<Scene*>()),
+            p_CurrentScene  (nullptr)
+        {};
         ~SceneManager();
 
         static SceneManager* s_Instance;
-        static List<Scene*> s_Scenes;
-        static Scene* s_CurrentScene;
+
+        List<Scene*> m_Scenes;
+        Scene* p_CurrentScene;
 
     protected:
         friend class Application;
@@ -48,7 +52,7 @@ namespace Kross
 
     public:
         // Get's the Current Selected Scene.
-        static Scene* GetCurrentScene() { return s_CurrentScene; };
+        static Scene* GetCurrentScene() { return s_Instance->p_CurrentScene; };
 
         // Sets the Current Scene. (BY NAME)
         static void SetCurrentScene(const std::string& name);

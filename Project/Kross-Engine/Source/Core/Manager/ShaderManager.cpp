@@ -8,21 +8,20 @@
 
 namespace Kross
 {
-	List<Shader*>		ShaderManager::s_Shaders =		List<Shader*>();
 	ShaderManager*		ShaderManager::s_Instance =		nullptr;
 
 	ShaderManager::~ShaderManager()
 	{
 		/* Destroy all the Shaders. */
-		for (int i = 0; i < s_Shaders.size(); i++)
+		for (int i = 0; i < s_Instance->m_Shaders.size(); i++)
 		{
-			Shader::OnDestroy(s_Shaders[i]);
-			s_Shaders[i] = nullptr;
+			Shader::OnDestroy(s_Instance->m_Shaders[i]);
+			s_Instance->m_Shaders[i] = nullptr;
 		}
 
 		/* Clean up Memory. */
-		s_Shaders.clear();
-		s_Shaders.~vector();
+		s_Instance->m_Shaders.clear();
+		s_Instance->m_Shaders.~vector();
 	}
 
 	void ShaderManager::OnCreate()
@@ -44,14 +43,14 @@ namespace Kross
 			return;
 
 		/* Check for duplicates. */
-		for (int i = 0; i < s_Shaders.size(); i++)
+		for (int i = 0; i < s_Instance->m_Shaders.size(); i++)
 		{
-			if (s_Shaders[i] == shader)
+			if (s_Instance->m_Shaders[i] == shader)
 				return;
 		}
 
 		/* If no duplicate was found, add it. */
-		s_Shaders.push_back(shader);
+		s_Instance->m_Shaders.push_back(shader);
 	}
 
 	void ShaderManager::DetachShader(Shader* shader)
@@ -61,13 +60,13 @@ namespace Kross
 			return;
 
 		/* Check for Shader. */
-		for (int i = 0; i < s_Shaders.size(); i++)
+		for (int i = 0; i < s_Instance->m_Shaders.size(); i++)
 		{
-			if (s_Shaders[i] == shader)
+			if (s_Instance->m_Shaders[i] == shader)
 			{
 				/* Remove the Shader. */
 				Shader::OnDestroy(shader);
-				s_Shaders.erase(s_Shaders.begin() + i);
+				s_Instance->m_Shaders.erase(s_Instance->m_Shaders.begin() + i);
 				return;
 			}
 		}
@@ -82,12 +81,12 @@ namespace Kross
 	void ShaderManager::OnUpdateShaderVPMatrix(Matrix4 viewMatrix, Matrix4 projectionMatrix)
 	{
 		/* Update all Shaders View and Projection Matrix. */
-		for (int i = 0; i < s_Shaders.size(); i++)
+		for (int i = 0; i < s_Instance->m_Shaders.size(); i++)
 		{
-			if (s_Shaders[i]->GetFlag() == ShaderFlag::None)
+			if (s_Instance->m_Shaders[i]->GetFlag() == ShaderFlag::None)
 			{
-				s_Shaders[i]->SetUniform("u_View", viewMatrix);
-				s_Shaders[i]->SetUniform("u_Projection", projectionMatrix);
+				s_Instance->m_Shaders[i]->SetUniform("u_View", viewMatrix);
+				s_Instance->m_Shaders[i]->SetUniform("u_Projection", projectionMatrix);
 			}
 		}
 	}
