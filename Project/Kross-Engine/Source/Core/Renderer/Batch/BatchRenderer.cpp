@@ -33,7 +33,7 @@ namespace Kross
     {
         if (typeid(*renderer) == typeid(SpriteRenderer))
         {
-            if (!p_Batch->IsFull())
+            if (p_Batch->IsFull())
                 OnRender();
 
             p_Batch->Attach<SpriteRenderer>((SpriteRenderer*)renderer);
@@ -49,7 +49,7 @@ namespace Kross
 
         else if (typeid(*renderer) == typeid(ParticleEmitter))
         {
-            if (!p_Batch->IsFull())
+            if (p_Batch->IsFull())
                 OnRender();
 
             p_Batch->Attach<ParticleEmitter>((ParticleEmitter*)renderer);
@@ -75,7 +75,7 @@ namespace Kross
         }
         else
         {
-            p_WaterBuffer->Attach();
+           // p_WaterBuffer->Attach();
             p_BatchShader->SetUniform("u_HalfSize", 0.03f);
             p_BatchShader->SetUniform("u_InverseAspect", 1.0f / Application::GetWindow()->GetApsectRatio());
             p_BatchShader->SetUniform("u_Colour", Colour(0.28f, 0.71f, 0.91f, 1.0f));
@@ -87,7 +87,7 @@ namespace Kross
             p_Batch->m_VertexArray->Attach();
             glDrawElements(GL_POINTS, p_Batch->m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr); // not to screen.
 
-            p_WaterBuffer->Detach();
+            //p_WaterBuffer->Detach();
 
             //p_metaballShader->SetUniform("u_Texture", p_WaterBuffer->GetFrameTexture());
 

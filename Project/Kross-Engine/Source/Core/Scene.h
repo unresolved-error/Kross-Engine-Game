@@ -25,7 +25,8 @@ namespace Kross
 			p_WorldFilter(KROSS_NEW ContactFilter())
 		{
 			/* Sets the physics world for Box2D */
-			World* world = KROSS_NEW World({ 0.0f, -9.8f });
+			//World* world = KROSS_NEW World({ 0.0f, -9.8f });
+			World* world = KROSS_NEW World({ 0.0f, 0.0f });
 			world->SetContactFilter(p_WorldFilter);
 			p_Physics->SetPhysicsWorld(world);
 
@@ -123,6 +124,9 @@ namespace Kross
 
 		// Gets the Main Camera of the Scene.
 		Object* GetCamera() const { return p_Camera; };
+
+		// Sets the Gravity of the Scene.
+		void SetGravity(float gravity, Vector2 direction) { p_Physics->p_PhysicsWorld->SetGravity({ direction.x * gravity, direction.y * gravity }); };
 
 	};
 

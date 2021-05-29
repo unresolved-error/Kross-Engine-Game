@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	player->SetLayer(Layer::Background);
 	
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
-	renderer->SetSprite(characterSprite);
+	renderer->SetS(characterSprite);
 
 	scene->AttachObject(player);
 

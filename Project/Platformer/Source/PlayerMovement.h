@@ -107,6 +107,9 @@ public:
 			if (Input::GetKeyPressed(Key::E))
 				followPlayer = !followPlayer;
 
+			if (Input::GetKeyPressed(Key::Q))
+				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
+
 			if (Input::GetKeyDown(Key::Enter))
 			{
 				Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
