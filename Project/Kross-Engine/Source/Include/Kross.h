@@ -50,7 +50,6 @@
 
 #include "../Core/Renderer/Text/Character.h"
 #include "../Core/Renderer/Text/Font.h"
-#include "../Core/Renderer/Text/Text.h"
 
 #include "../Core/Window/Window.h"
 #include "../Core/Window/WindowProperties.h"

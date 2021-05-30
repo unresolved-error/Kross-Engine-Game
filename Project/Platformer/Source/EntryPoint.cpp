@@ -28,6 +28,12 @@ int main(int argc, char** argv)
 	Sprite* wallSprite = Sprite::OnCreate(wallTexture, 32,32, "Wall");
 	Sprite* characterSprite = Sprite::OnCreate(characterTexture, 18, 21, "Character");
 
+	Material* playerMaterial = Material::OnCreate("PlayerMaterial");
+	playerMaterial->p_Diffuse = characterSprite;
+
+	Material* groundMaterial = Material::OnCreate("GroundMaterial");
+	groundMaterial->p_Diffuse = wallSprite;
+
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
 	camera->GetComponent<Camera>()->SetSize(5.0f);
@@ -57,7 +63,7 @@ int main(int argc, char** argv)
 	player->SetLayer(Layer::Background);
 	
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
-	renderer->SetS(characterSprite);
+	renderer->SetMaterial(playerMaterial);
 
 	scene->AttachObject(player);
 
@@ -76,7 +82,7 @@ int main(int argc, char** argv)
 	for (int i = 0; i < 12; i++)
 	{
 		SpriteRenderer* renderer = platforms[i]->GetComponent<SpriteRenderer>();
-		renderer->SetSprite(wallSprite);
+		renderer->SetMaterial(groundMaterial);
 	}
 
 	Object* platformCollider = Object::OnCreate("Platform Collider");
@@ -109,7 +115,7 @@ int main(int argc, char** argv)
 		grb->CreateWorldBox(Vector2(0.5f, 0.5f), grounds[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = grounds[i]->GetComponent<SpriteRenderer>();
-		renderer->SetSprite(wallSprite);
+		renderer->SetMaterial(groundMaterial);
 	}
 
 
@@ -132,7 +138,7 @@ int main(int argc, char** argv)
 		rrb->CreateWorldBox(Vector2(0.5f, 0.5f), roofs[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = roofs[i]->GetComponent<SpriteRenderer>();
-		renderer->SetSprite(wallSprite);
+		renderer->SetMaterial(groundMaterial);
 	}
 
 
@@ -155,7 +161,7 @@ int main(int argc, char** argv)
 		rwrb->CreateWorldBox(Vector2(0.5f, 0.5f), 0.0f, rightWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = rightWalls[i]->GetComponent<SpriteRenderer>();
-		renderer->SetSprite(wallSprite);
+		renderer->SetMaterial(groundMaterial);
 	}
 
 
@@ -178,7 +184,7 @@ int main(int argc, char** argv)
 		lwrb->CreateWorldBox(Vector2(0.5f, 0.5f), 0.0f, leftWalls[i]->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
 
 		SpriteRenderer* renderer = leftWalls[i]->GetComponent<SpriteRenderer>();
-		renderer->SetSprite(wallSprite);
+		renderer->SetMaterial(groundMaterial);
 	}
 
 
