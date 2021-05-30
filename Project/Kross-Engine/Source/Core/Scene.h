@@ -18,11 +18,14 @@ namespace Kross
 	class KROSS_API Scene
 	{
 	private:
-		Scene(const std::string& name)
-			: m_Name(name), m_Started(false), m_Objects(List<Object*>()), m_StaticObjects(List<Object*>()),
-			p_Camera(nullptr), 
-			p_Physics(KROSS_NEW PhysicsScene()), 
-			p_WorldFilter(KROSS_NEW ContactFilter())
+		Scene(const std::string& name) : 
+			m_Name				(name), 
+			m_Started			(false), 
+			m_Objects			(List<Object*>()), 
+			m_StaticObjects		(List<Object*>()),
+			p_Camera			(nullptr), 
+			p_Physics			(KROSS_NEW PhysicsScene()), 
+			p_WorldFilter		(KROSS_NEW ContactFilter())
 		{
 			/* Sets the physics world for Box2D */
 			//World* world = KROSS_NEW World({ 0.0f, -9.8f });
