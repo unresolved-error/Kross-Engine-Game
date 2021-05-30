@@ -16,18 +16,18 @@
 namespace Kross
 {
     Rigidbody2D::Rigidbody2D() :
-        p_Body          (nullptr),
-        p_PhysicsScene  (nullptr),
-        p_Box           (nullptr),
-        p_Circle        (nullptr),
-        m_ShapeType     (ShapeType::Count),
-        m_CollisionState(CollisionState::None),
-        p_FixtureDef    (KROSS_NEW FixtureDef()),
-        p_MassData      (KROSS_NEW b2MassData()),
-        p_RayData       (KROSS_NEW RaycastData()),
-        p_Filter        (KROSS_NEW ContactFilter()),
-        p_FluidData     (KROSS_NEW FluidCollisionData()),
-        p_FluidCallback (KROSS_NEW FluidCollisionCallback())
+        p_Body              (nullptr),
+        p_PhysicsScene      (nullptr),
+        p_Box               (nullptr),
+        p_Circle            (nullptr),
+        m_ShapeType         (ShapeType::Count),
+        m_CollisionState    (CollisionState::None),
+        p_FixtureDef        (KROSS_NEW FixtureDef()),
+        p_MassData          (KROSS_NEW b2MassData()),
+        p_RayData           (KROSS_NEW RaycastData()),
+        p_Filter            (KROSS_NEW ContactFilter()),
+        p_FluidData         (KROSS_NEW FluidCollisionData()),
+        p_FluidCallback     (KROSS_NEW FluidCollisionCallback())
     {}
 
     Rigidbody2D::~Rigidbody2D()

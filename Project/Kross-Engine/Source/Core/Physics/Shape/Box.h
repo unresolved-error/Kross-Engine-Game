@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *		- Deklyn Palmer.
  */
 
 
@@ -21,14 +22,17 @@ namespace Kross
 
 	public:
 		/* Creates a new box using the dimensions and body */
-		Box(Vector2 dimensions, Vector2 offset);
+		Box(Vector2 dimensions, Vector2 offset) :
+			m_width		(dimensions.x),
+			m_height	(dimensions.y)
+		{};
 
 		/* Returns the shape type */
 		ShapeType GetShapeType() const { return ShapeType::Box; }
 
 		/* Returns the height */
-		//float GetHeight() const { return m_height; }
 		float GetHeight() { return m_height; }
+
 		/* Returns the width */
 		float GetWidth() const { return m_width; }
 
