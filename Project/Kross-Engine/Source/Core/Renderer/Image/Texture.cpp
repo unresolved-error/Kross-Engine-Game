@@ -252,7 +252,7 @@ namespace Kross
 
 			texture->Detach();
 
-			/* Add it to the  Resource Manager. */
+			/* Add it to the Resource Manager. */
 			ResourceManager::AttachResource<Texture>(texture);
 
 			/* Return the created texture. */

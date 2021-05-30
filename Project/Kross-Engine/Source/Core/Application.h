@@ -19,7 +19,7 @@ namespace Kross
 		~Application();
 
 		static Application* s_Instance;
-		static Window* s_Window;
+		Window* p_Window;
 
 	protected:
 
@@ -41,6 +41,6 @@ namespace Kross
 		static void OnDestroy();
 
 		// Gets the Window of the Application.
-		static Window* GetWindow() { return s_Window; };
+		static Window* GetWindow() { return s_Instance->p_Window; };
 	};
 }

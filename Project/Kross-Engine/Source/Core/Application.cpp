@@ -19,15 +19,13 @@
 namespace Kross
 {
 	Application*	Application::s_Instance =	nullptr;
-	Window*			Application::s_Window =		nullptr;
 
-	Application::Application(const std::string& title, int width, int height)
+	Application::Application(const std::string& title, int width, int height) :
+		p_Window	(KROSS_NEW Window())
 	{
-		s_Window = KROSS_NEW Window();
-
-		s_Window->SetWidth(width);
-		s_Window->SetHeight(height);
-		s_Window->SetTitle(title);
+		p_Window->SetWidth(width);
+		p_Window->SetHeight(height);
+		p_Window->SetTitle(title);
 	}
 
 	Application::~Application()
@@ -41,22 +39,16 @@ namespace Kross
 
 	void Application::OnStart()
 	{
-		s_Window->OnInitialise();
+		s_Instance->p_Window->OnInitialise();
 		ShaderManager::OnCreate();
 		ResourceManager::OnCreate();
 		SceneManager::OnCreate();
 		Time::OnCreate();
 		Input::OnCreate();
-		Input::SetWindow(s_Window);
+		Input::SetWindow(s_Instance->p_Window);
 		Physics::OnCreate();
 
-		/* Add the Standard Shaders. */
-		Shader* standardShader = Shader::OnCreate("Resources/Shaders/standard.vert", "Resources/Shaders/standard.frag", "StandardShader");
-		ResourceManager::AttachResource<Shader>(standardShader);
-
-		Shader* textShader = Shader::OnCreate("Resources/Shaders/text.vert", "Resources/Shaders/text.frag", "TextShader");
-		ResourceManager::AttachResource<Shader>(textShader);
-
+		/* Add Shaders. */
 		Shader* lineShader = Shader::OnCreate("Resources/Shaders/line.vert", "Resources/Shaders/line.frag", "LineShader");
 		ResourceManager::AttachResource<Shader>(lineShader);
 
@@ -66,14 +58,14 @@ namespace Kross
 		Shader* waterShader = Shader::OnCreate("Resources/Shaders/Water/water.vert", "Resources/Shaders/Water/water.frag", "Resources/Shaders/Water/water.geom", "WaterShader");
 		ResourceManager::AttachResource<Shader>(waterShader);
 
-
-
-		Texture* fontTexture = Texture::OnCreate("Resources/Font/KrossFont.png", "KrossFontTexture");
+		/* Add Default Textures. */
+		Texture* fontTexture = Texture::OnCreate("Resources/Font/KrossFont.png", "KrossFontTexture", TextureType::FontMap);
 
 		Texture* particleTexture = Texture::OnCreate("Resources/Textures/Particle.png", "ParticleTexture");
 
 		Sprite* particleSprite = Sprite::OnCreate(particleTexture, 3, 3, "Particle");
 
+		/* Create Default Font. */
 		Font* krossFont = Font::OnCreate(fontTexture, 10, 16, "KrossFont");
 		ResourceManager::AttachResource<Font>(krossFont);
 	}
@@ -82,7 +74,7 @@ namespace Kross
 	{
 
 		/* If the window was successfully Started. Run the Application. */
-		if (s_Window->GetInitialiseStatus() == true)
+		if (s_Instance->p_Window->GetInitialiseStatus() == true)
 		{
 			std::cout << "Kross Engine Running..." << std::endl;
 
@@ -94,30 +86,28 @@ namespace Kross
 			std::cout << "Starting Main Loop..." << std::endl;
 
 			/* While the window isn't closed */
-			while (s_Window->GetClosedStatus() == false)
+			while (s_Instance->p_Window->GetClosedStatus() == false)
 			{
-				s_Window->OnStart();
+				s_Instance->p_Window->OnStart();
 
 				Time::OnUpdateDeltaTime();
-				SceneManager::OnUpdateSceneCameraAspectRatio(s_Window->GetApsectRatio());
+				SceneManager::OnUpdateSceneCameraAspectRatio(s_Instance->p_Window->GetApsectRatio());
 
 				SceneManager::OnUpdate();
 				SceneManager::OnPhysicsUpdate();
 
 				SceneManager::OnRender();
 
-				s_Window->OnPollEvents();
+				s_Instance->p_Window->OnPollEvents();
 			}
 		}
-
-		
 
 		return;
 	}
 
 	void Application::OnShutdown()
 	{
-		s_Window->OnShutdown();
+		s_Instance->p_Window->OnShutdown();
 		ShaderManager::OnDestroy();
 		ResourceManager::OnDestroy();
 		SceneManager::OnDestroy();

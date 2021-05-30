@@ -37,13 +37,13 @@ namespace Kross
 		void SetMaterial(Material* material) { p_Material = material; };
 
 		// Sets the Sprite.
-		void SetMaterialTextureSprite(Sprite* sprite) { p_Material->p_Sprite = sprite; };
+		void SetMaterialTextureSprite(Sprite* sprite) { p_Material->p_Diffuse = sprite; };
 
 		// Sets the Sprite.
-		void SetMaterialNormalMap(Sprite* sprite) { p_Material->p_NormalMap = sprite; };
+		void SetMaterialNormalMap(Sprite* sprite) { p_Material->p_Normal = sprite; };
 
 		// Sets the Sprite.
-		void SetMaterialSpecularMap(Sprite* sprite) { p_Material->p_SpecularMap = sprite; };
+		void SetMaterialSpecularMap(Sprite* sprite) { p_Material->p_Specular = sprite; };
 
 		// Sets the Tint Colour.
 		void SetColour(Colour colour) { m_Colour = colour; };
@@ -58,13 +58,13 @@ namespace Kross
 		Material* GetMaterial() const { return p_Material; };
 
 		// Gets the Texture Sprite.
-		Sprite* GetTextureSprite() const { return p_Material->p_Sprite; };
+		Sprite* GetTextureSprite() const { return p_Material->p_Diffuse; };
 
 		// Gets the Normal Map.
-		Sprite* GetNormalMap() const { return p_Material->p_NormalMap; };
+		Sprite* GetNormalMap() const { return p_Material->p_Normal; };
 
 		// Gets the Specular Map.
-		Sprite* GetSpecularMap() const { return p_Material->p_SpecularMap; };
+		Sprite* GetSpecularMap() const { return p_Material->p_Specular; };
 
 		// Gets the Tint Colour.
 		Colour GetColour() const { return m_Colour; };

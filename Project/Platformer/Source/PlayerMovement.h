@@ -48,6 +48,9 @@ public:
 		controllerID = Input::GetAvalibleController();
 
 		previousTime = Time::GetDeltaTime();
+
+		Material* defaultMaterial = Material::OnCreate("Default");
+		defaultMaterial->p_Diffuse = ResourceManager::GetResource<Sprite>(0);
 	}
 
 
@@ -77,7 +80,7 @@ public:
 				newbie->SetStaticStatus(true);
 
 				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
-				ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
+				ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
 				ren->SetDepth(20);
 			}
 
@@ -118,7 +121,7 @@ public:
 				newbie->SetStaticStatus(true);
 
 				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
-				ren->SetSprite(ResourceManager::GetResource<Sprite>(0));
+				ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
 				ren->SetDepth(20);
 			}
 

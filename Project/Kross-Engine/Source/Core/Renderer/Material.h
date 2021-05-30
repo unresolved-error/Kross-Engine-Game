@@ -17,9 +17,9 @@ namespace Kross
     private:
         Material() :
             m_Name          (""),
-            p_Sprite        (nullptr),
-            p_NormalMap     (nullptr),
-            p_SpecularMap   (nullptr)
+            p_Diffuse       (nullptr),
+            p_Normal        (nullptr),
+            p_Specular      (nullptr)
         {};
         ~Material();
 
@@ -39,8 +39,8 @@ namespace Kross
         // Gets the Name of the Material.
         const std::string GetName() const { return m_Name; }
 
-        Sprite* p_Sprite;
-        Sprite* p_NormalMap;
-        Sprite* p_SpecularMap;
+        Sprite* p_Diffuse;
+        Sprite* p_Normal;
+        Sprite* p_Specular;
     };
 }
