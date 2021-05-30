@@ -82,5 +82,39 @@ namespace Kross
 			/* Colour Layout. */
 			m_Attributes[5] = VertexAttribute(5, 4, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(SpriteVertex), (unsigned int)offsetof(SpriteVertex, SpriteVertex::m_Colour));
 		}
+
+		// Sets the Layout to be of type Text Vertex.
+		template<>
+		void SetLayoutType<TextVertex>()
+		{
+			/* Pre Allocate 3 for adding the Attributes. */
+			m_Attributes = List<VertexAttribute>(3);
+
+			/* Position Layout. */
+			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(TextVertex), (unsigned int)offsetof(TextVertex, TextVertex::m_Position));
+
+			/* UVs Layout. */
+			m_Attributes[1] = VertexAttribute(1, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(TextVertex), (unsigned int)offsetof(TextVertex, TextVertex::m_UVs));
+
+			/* Colour Layout. */
+			m_Attributes[2] = VertexAttribute(2, 4, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(TextVertex), (unsigned int)offsetof(TextVertex, TextVertex::m_Colour));
+		}
+
+		// Sets the Layout to be of type Water Vertex.
+		template<>
+		void SetLayoutType<WaterVertex>()
+		{
+			/* Pre Allocate 3 for adding the Attributes. */
+			m_Attributes = List<VertexAttribute>(3);
+
+			/* Position Layout. */
+			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(WaterVertex), (unsigned int)offsetof(WaterVertex, WaterVertex::m_Position));
+
+			/* UVs Layout. */
+			m_Attributes[1] = VertexAttribute(1, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(WaterVertex), (unsigned int)offsetof(WaterVertex, WaterVertex::m_Velocity));
+
+			/* Colour Layout. */
+			m_Attributes[2] = VertexAttribute(2, 4, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(WaterVertex), (unsigned int)offsetof(WaterVertex, WaterVertex::m_Colour));
+		}
 	};
 }
