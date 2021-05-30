@@ -29,7 +29,7 @@ namespace Kross
 		List<Sprite*> m_Sprites;
 
 	protected:
-		friend class Text;
+		friend class TextRenderer;
 
 		// Gets the Texture of the Font.
 		Texture* GetTexture() const { return p_Texture; };

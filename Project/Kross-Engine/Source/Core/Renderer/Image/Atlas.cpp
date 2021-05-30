@@ -29,8 +29,8 @@ namespace Kross
 		Texture* atlasTexture = Texture::OnCreateAtlas();
 
 		/* Variables. */
-		const int width = 8192;
-		const int height = 8192;
+		const int width = 4096;
+		const int height = 4096;
 
 		/* Creating a fresh block of Data for the Texture. */
 		unsigned char* data = KROSS_NEW unsigned char[width * height * 4];
@@ -41,6 +41,10 @@ namespace Kross
 		{
 			/* Current Texture we are looking at. */
 			Texture* texture = textures[i];
+
+			/* If we need to ignore, go to the next texture in the list. */
+			if (atlas->ShouldIgnoreTexture(texture))
+				continue;
 		
 			/* Find out where it will sit in the Atlas. */
 			int yOffset = 0;
@@ -48,21 +52,25 @@ namespace Kross
 				yOffset += textures[j]->GetHeight();
 		
 			/* Record the Texture Offset for proper uv calculations. */
-			atlas->m_TextureOffsets[texture] = Vector2(0.0f, yOffset);
+			atlas->SetTextureOffset(texture, Vector2(0.0f, yOffset));
 		
+			/* Quick Variable. */
+			int textureHeight = texture->GetHeight();
+			int textureWidth = texture->GetWidth();
+
 			/* Go through the Texture Pixels. */
-			for (int y = texture->GetHeight() - 1; y >= 0; y--)
+			for (int y = textureHeight - 1; y >= 0; y--)
 			{
-				for (int x = 0; x < texture->GetWidth(); x++)
+				for (int x = 0; x < textureWidth; x++)
 				{
 					/* Grab the Current Pixel. */
 					Colour pixelColour = texture->GetPixel(x, y);
 					
 					/* Write the Pixel Data from bottom to top of the texture. */
-					data[(x + (((yOffset + (texture->GetHeight() - y))) * width)) * 4 + 0] = (unsigned char)((int)(pixelColour.r * 255)); /* R. */
-					data[(x + (((yOffset + (texture->GetHeight() - y))) * width)) * 4 + 1] = (unsigned char)((int)(pixelColour.g * 255)); /* G. */
-					data[(x + (((yOffset + (texture->GetHeight() - y))) * width)) * 4 + 2] = (unsigned char)((int)(pixelColour.b * 255)); /* B. */
-					data[(x + (((yOffset + (texture->GetHeight() - y))) * width)) * 4 + 3] = (unsigned char)((int)(pixelColour.a * 255)); /* A. */
+					data[(x + (((yOffset + (textureHeight - y))) * width)) * 4 + 0] = (unsigned char)((int)(pixelColour.r * 255)); /* R. */
+					data[(x + (((yOffset + (textureHeight - y))) * width)) * 4 + 1] = (unsigned char)((int)(pixelColour.g * 255)); /* G. */
+					data[(x + (((yOffset + (textureHeight - y))) * width)) * 4 + 2] = (unsigned char)((int)(pixelColour.b * 255)); /* B. */
+					data[(x + (((yOffset + (textureHeight - y))) * width)) * 4 + 3] = (unsigned char)((int)(pixelColour.a * 255)); /* A. */
 				}
 			}
 		}
@@ -88,23 +96,39 @@ namespace Kross
 		/* Gather Created Sprites. */
 		List<Sprite*> sprites = ResourceManager::GetSprites();
 
+		/* Go through all of the Sprites. */
 		for (int i = 0; i < sprites.size(); i++)
 		{
+			/* Quick Variable for the Texture. */
+			Texture* spriteTexture = sprites[i]->GetTexture();
+
+			/* If the Texture that this sprite origniated from is ignored don't add it to the sprite data. */
+			if (atlas->ShouldIgnoreTexture(spriteTexture))
+				continue;
+
+			/* Quick Variables. */
+			Vector2 spriteTextureOffset = atlas->GetTextureOffset(spriteTexture);
+			Vector2 spritePixelOffset = sprites[i]->GetPixelOffset();
+
+			int spriteWidth = sprites[i]->GetWidth();
+			int spriteHeight = sprites[i]->GetHeight();
+
+
 			/* UV Ratio Variable. */
 			Vector2 ratio = Vector2(0.0f);
-			ratio.x = (float)sprites[i]->GetWidth() / (float)atlasTexture->GetWidth();
-			ratio.y = (float)sprites[i]->GetHeight() / (float)atlasTexture->GetHeight();
+			ratio.x = (float)spriteWidth / (float)width;
+			ratio.y = (float)spriteHeight / (float)height;
 
 			/* UV Offset Variable. */
 			Vector2 offset = Vector2(0.0f);
-			offset.x = (float)(atlas->m_TextureOffsets[sprites[i]->GetTexture()].x + sprites[i]->GetPixelOffset().x) / (float)atlasTexture->GetWidth();
-			offset.y = (float)(atlasTexture->GetHeight() - sprites[i]->GetHeight() - (int)(atlas->m_TextureOffsets[sprites[i]->GetTexture()].y + sprites[i]->GetPixelOffset().y)) / (float)atlasTexture->GetHeight();
+			offset.x = (float)(spriteTextureOffset.x + spritePixelOffset.x) / (float)width;
+			offset.y = (float)(height - spriteHeight - (int)(spriteTextureOffset.y + spritePixelOffset.y)) / (float)height;
 
 			/* Create a Data Pack. */
 			AtlasSpriteData spriteData = AtlasSpriteData(offset, ratio);
 
 			/* Attach this Data. */
-			atlas->m_SpriteAtlasUVs[sprites[i]] = spriteData;
+			atlas->SetSpriteData(sprites[i], spriteData);
 		}
 		
 		/* Returns the new Atlas. */
@@ -116,5 +140,25 @@ namespace Kross
 		/* Safe programming. Not really needed, but good to have. */
 		if (atlas)
 			delete atlas;
+	}
+
+	bool Atlas::ShouldIgnoreTexture(Texture* texture)
+	{
+		/* Get the Type of Texture it is. */
+		TextureType type = texture->GetType();
+
+		/* Check if it is a Texture that should ignored. */
+		for (int i = 0; i < m_IgnoreTextureTypes.size(); i++)
+		{
+			/* If the Texture is one of the Ignored Types. */
+			if (m_IgnoreTextureTypes[i] == type)
+			{
+				/* We should ignore it. */
+				return true;
+			}
+		}
+
+		/* Return false if no Type was matched. */
+		return false;
 	}
 }
