@@ -527,10 +527,6 @@
     <ClCompile Include="Source\Core\Manager\ShaderManager.cpp" />
     <ClCompile Include="Source\Core\Math\Random.cpp" />
     <ClCompile Include="Source\Core\Object.cpp" />
-    <ClCompile Include="Source\Core\Physics\Shape\Box.cpp" />
-    <ClCompile Include="Source\Core\Physics\Shape\Circle.cpp" />
-    <ClCompile Include="Source\Core\Physics\Shape\Plane.cpp" />
-    <ClCompile Include="Source\Core\Physics\Shape\Shape.cpp" />
     <ClCompile Include="Source\Core\Renderer\Batch\Batch.cpp" />
     <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp" />
