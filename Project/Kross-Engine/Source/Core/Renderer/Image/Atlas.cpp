@@ -49,7 +49,11 @@ namespace Kross
 			/* Find out where it will sit in the Atlas. */
 			int yOffset = 0;
 			for (int j = i - 1; j >= 0; j--)
-				yOffset += textures[j]->GetHeight();
+			{
+				/* If this  is  a texture that should not be Ignored. */
+				if (!atlas->ShouldIgnoreTexture(textures[j]))
+					yOffset += textures[j]->GetHeight(); /* Collectively add the Height. */
+			}
 		
 			/* Record the Texture Offset for proper uv calculations. */
 			atlas->SetTextureOffset(texture, Vector2(0.0f, yOffset));
