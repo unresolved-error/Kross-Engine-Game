@@ -147,6 +147,7 @@
     <ClInclude Include="Source\Core\Math\Math.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBufferLayout.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\TextVertex.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\Vertex.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\WaterVertex.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\SpriteVertex.h" />
     <ClInclude Include="Source\Core\Scene.h" />
