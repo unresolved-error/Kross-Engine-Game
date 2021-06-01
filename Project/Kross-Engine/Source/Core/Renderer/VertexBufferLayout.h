@@ -28,6 +28,15 @@ namespace Kross
 {
 	struct KROSS_API VertexAttribute
 	{
+		VertexAttribute() :
+			m_PointerID		(0),
+			m_Count			(0),
+			m_Type			(0),
+			m_Normalised	(0),
+			m_Stride		(0),
+			m_Offset		(0)
+		{};
+
 		VertexAttribute(short pointerID, short count, int type, int normalised, unsigned int stride, unsigned int offset) :
 			m_PointerID		(pointerID),
 			m_Count			(count),
@@ -48,6 +57,13 @@ namespace Kross
 		List<VertexAttribute> m_Attributes;
 
 	protected:
+		friend class VertexArray;
+
+		// Gets a specific Attribute.
+		VertexAttribute GetAttribute(int index) const { return m_Attributes[index]; };
+
+		// Gets the Attributes that have been loaded.
+		const int GetAttributeCount() const { return m_Attributes.size(); };
 
 	public:
 		// Base Template. (DO NOT USE)

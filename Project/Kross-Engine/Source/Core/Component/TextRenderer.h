@@ -14,9 +14,6 @@
 
 namespace Kross
 {
-	/* Forward Declaration. */
-	class KROSS_API Text;
-
 	class KROSS_API TextRenderer : public Renderer
 	{
 	private:
@@ -32,7 +29,9 @@ namespace Kross
 		float m_Size;
 
 	protected:
-		friend class Batch;
+		/* Friend classing Batch. */
+		template<typename Type> friend class Batch;
+		/* ^ I Hate this even more. */
 
 		// Text Renderer Update Method.
 		void OnUpdate() override;

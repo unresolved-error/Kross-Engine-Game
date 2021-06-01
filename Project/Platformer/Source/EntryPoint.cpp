@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 
 	Object* textExample = Object::OnCreate("Text");
 	textExample->AttachComponent<TextRenderer>();
-	textExample->SetLayer(Layer::Player);
+	textExample->SetLayer(Layer::UI);
 
 	TextRenderer* textRenderer = textExample->GetComponent<TextRenderer>();
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));

@@ -39,6 +39,7 @@ namespace Kross
 	public:
 		LineRenderer();
 		~LineRenderer();
+
 		LineRenderer(const LineRenderer&) = delete;
 		LineRenderer(const LineRenderer&&) = delete;
 		const LineRenderer& operator=(const LineRenderer&) = delete;

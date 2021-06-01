@@ -14,20 +14,21 @@ namespace Kross
 	enum class KROSS_API Layer
 	{
 		/* Layers. */
-
 		None,
 		Default,
 		Light,
 		Player,
 		Environment,
 		Background,
-		Fluids,
+		
 		Wall,
 		Ground,
 
+		/* Important Layers. (DO NOT REMOVE) */
+		Fluids,
+		UI,
 
 		/* Layer Count. */
-
 		Count,
 	};
 }

@@ -20,16 +20,12 @@ namespace Kross
 
 	protected:
 		friend class Sprite;
-		friend class Batch;
 
 		// Sets the Geometry Name.
 		void SetName(const std::string& name) { m_Name = name; };
 
 		// Sets the Size of the Geometry.
 		void SetSize(Vector2 size) { m_Size = size; };
-
-		// Gets the Size of the Geometry. (FULL WIDTH AND HEIGHT)
-		Vector2 GetSize() const { return m_Size; };
 
 	public:
 		Geometry() :
@@ -40,5 +36,8 @@ namespace Kross
 
 		// Gets the Geometry Name.
 		const std::string GetName() const { return m_Name; };
+
+		// Gets the Size of the Geometry. (FULL WIDTH AND HEIGHT)
+		Vector2 GetSize() const { return m_Size; };
 	};
 }

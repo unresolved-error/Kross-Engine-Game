@@ -32,7 +32,10 @@ namespace Kross
 	protected:
 		friend class Font;
 		friend class TextRenderer;
-		friend class Batch;
+
+		/* Friend classing Batch. */
+		template<typename Type> friend class Batch;
+		/* ^ I Hate this even more. */
 
 		// Sets the position in World Space or Screen Space of the Character. (TEXT RENDERER USE)
 		void SetPosition(Vector2 position) { m_Position = position; };

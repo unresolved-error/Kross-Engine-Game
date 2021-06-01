@@ -30,6 +30,7 @@ namespace Kross
 
 	protected:
 		friend class TextRenderer;
+		friend class BatchRenderer;
 
 		// Gets the Texture of the Font.
 		Texture* GetTexture() const { return p_Texture; };

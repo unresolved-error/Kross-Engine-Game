@@ -28,6 +28,9 @@ namespace Kross
 		bool m_FlipX, m_FlipY;
 
 	protected:
+		/* Friend classing Batch. */
+		template<typename Type> friend class Batch;
+		/* ^ I Hate this even more. */
 
 	public:
 		SpriteRenderer();
@@ -37,7 +40,7 @@ namespace Kross
 		void SetMaterial(Material* material) { p_Material = material; };
 
 		// Sets the Sprite.
-		void SetMaterialTextureSprite(Sprite* sprite) { p_Material->p_Diffuse = sprite; };
+		void SetMaterialDiffuseMap(Sprite* sprite) { p_Material->p_Diffuse = sprite; };
 
 		// Sets the Sprite.
 		void SetMaterialNormalMap(Sprite* sprite) { p_Material->p_Normal = sprite; };
@@ -58,7 +61,7 @@ namespace Kross
 		Material* GetMaterial() const { return p_Material; };
 
 		// Gets the Texture Sprite.
-		Sprite* GetTextureSprite() const { return p_Material->p_Diffuse; };
+		Sprite* GetDiffuseMap() const { return p_Material->p_Diffuse; };
 
 		// Gets the Normal Map.
 		Sprite* GetNormalMap() const { return p_Material->p_Normal; };

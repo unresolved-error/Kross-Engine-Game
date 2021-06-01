@@ -49,7 +49,10 @@ namespace Kross
 		friend class SpriteRenderer;
 		friend class Character;
 		friend class Atlas;
-		friend class Batch;
+
+		/* Friend classing Batch. */
+		template<typename Type> friend class Batch;
+		/* ^ I Hate this even more. */
 
 		// Get the Sprite UV Ratio. (SHADER USE ONLY)
 		const Vector2 GetUVRatio() const { return m_UVRatio; };
@@ -123,6 +126,5 @@ namespace Kross
 
 		// Gets the  Sprite Texture.
 		Texture* GetTexture() const { return p_Texture; };
-
 	};
 }

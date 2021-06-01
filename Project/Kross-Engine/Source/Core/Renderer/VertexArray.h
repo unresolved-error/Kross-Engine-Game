@@ -9,6 +9,7 @@
 #include "../Core.h"
 
 #include "VertexBuffer.h"
+#include "VertexBufferLayout.h"
 
 namespace Kross
 {
@@ -31,7 +32,7 @@ namespace Kross
 		// Un Binds the current VertexArray. 
 		static void Detach();
 
-		// Configures a VertexBuffer to a layout.
-		void AttachVertexBufferToLayout(VertexBuffer& vertexBuffer);
+		// Configures a VertexBuffer to a Layout.
+		void AttachVertexBufferToLayout(VertexBuffer& vertexBuffer, VertexBufferLayout* layout);
 	};
 }

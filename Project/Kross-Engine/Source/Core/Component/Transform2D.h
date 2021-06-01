@@ -20,7 +20,10 @@ namespace Kross
 	protected:
 		friend class SpriteRenderer;
 		friend class Rigidbody2D;
-		friend class Batch;
+
+		/* Friend classing Batch. */
+		template<typename Type> friend class Batch;
+		/* ^ I Hate this even more. */
 
 		// Transform2D Start Method.
 		void OnStart() override;

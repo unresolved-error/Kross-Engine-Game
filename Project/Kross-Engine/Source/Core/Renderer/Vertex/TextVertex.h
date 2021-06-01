@@ -10,9 +10,11 @@
 
 #include "../../Math/Math.h"
 
+#include "Vertex.h"
+
 namespace Kross
 {
-	struct KROSS_API TextVertex
+	struct KROSS_API TextVertex : public Vertex
 	{
 	public:
 		TextVertex() :

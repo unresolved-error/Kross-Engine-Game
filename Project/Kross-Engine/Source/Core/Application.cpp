@@ -49,6 +49,9 @@ namespace Kross
 		Physics::OnCreate();
 
 		/* Add Shaders. */
+		Shader* textShader = Shader::OnCreate("Resources/Shaders/text.vert", "Resources/Shaders/text.frag", "TextShader");
+		ResourceManager::AttachResource<Shader>(textShader);
+
 		Shader* lineShader = Shader::OnCreate("Resources/Shaders/line.vert", "Resources/Shaders/line.frag", "LineShader");
 		ResourceManager::AttachResource<Shader>(lineShader);
 
