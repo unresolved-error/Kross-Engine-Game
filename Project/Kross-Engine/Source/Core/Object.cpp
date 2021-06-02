@@ -15,6 +15,7 @@ namespace Kross
 		m_Components	(List<Component*>()),
 		m_Children		(List<Object*>()),
 		p_Transform		(nullptr), 
+		m_Layer			(Layer::Default),
 		p_ParentObject	(nullptr),
 		m_Static		(false),
 		m_Enable		(true)
@@ -24,8 +25,15 @@ namespace Kross
 		p_Transform = GetComponent<Transform2D>();
 	}
 
-	Object::Object(const std::string& name)
-		: m_Name(name), m_Static(false), m_Enable(true), m_Components(List<Component*>()), p_Transform(nullptr), m_Children(List<Object*>()), p_ParentObject(nullptr)
+	Object::Object(const std::string& name) : 
+		m_Name			(name), 
+		m_Static		(false), 
+		m_Enable		(true), 
+		m_Components	(List<Component*>()), 
+		p_Transform		(nullptr), 
+		m_Layer			(Layer::Default),
+		m_Children		(List<Object*>()), 
+		p_ParentObject	(nullptr)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();

@@ -22,14 +22,16 @@ int main(int argc, char** argv)
 
 	Texture* texture = Texture::OnCreate("Resources/Textures/Default.png", "Default");
 	Texture* wallTexture = Texture::OnCreate("Resources/Textures/DirtTileTest.png", "Dirt");
+	Texture* character = Texture::OnCreate("Resources/Textures/Deko.png", "Deklyn");
 	Texture* characterTexture = Texture::OnCreate("Resources/Textures/Character.png", "Character");
 
 	Sprite* sprite = Sprite::OnCreate(texture, 32, 32, "Default");
 	Sprite* wallSprite = Sprite::OnCreate(wallTexture, 32,32, "Wall");
+	Sprite* spriteS = Sprite::OnCreate(character, 48, 48, "Deklyn");
 	Sprite* characterSprite = Sprite::OnCreate(characterTexture, 18, 21, "Character");
 
 	Material* playerMaterial = Material::OnCreate("PlayerMaterial");
-	playerMaterial->p_Diffuse = characterSprite;
+	playerMaterial->p_Diffuse = spriteS;
 
 	Material* groundMaterial = Material::OnCreate("GroundMaterial");
 	groundMaterial->p_Diffuse = wallSprite;

@@ -75,6 +75,7 @@ public:
 			if (Input::GetControllerAxis(controllerID, Controller::LeftTrigger, 0.9f) > 0.9f)
 			{
 				Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
+				newbie->SetLayer(Layer::Default);
 				newbie->AttachComponent<SpriteRenderer>();
 
 				newbie->SetStaticStatus(true);
@@ -116,6 +117,7 @@ public:
 			if (Input::GetKeyDown(Key::Enter))
 			{
 				Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
+				newbie->SetLayer(Layer::Default);
 				newbie->AttachComponent<SpriteRenderer>();
 
 				newbie->SetStaticStatus(true);

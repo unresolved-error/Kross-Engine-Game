@@ -25,6 +25,7 @@ namespace Kross
 			| 5 | 6 | 7 |
 			+---+---+---+
 		*/
+		Empty,
 
 		TopLeft,
 		/*	- Connections: 4, 6, 7. */
@@ -64,12 +65,5 @@ namespace Kross
 
 		CenterSingle,
 		/*	- Connections: 1, 3, 4, 6. */
-	};
-
-
-	enum class KROSS_API TileStatus
-	{
-		Empty,
-		Full,
 	};
 }

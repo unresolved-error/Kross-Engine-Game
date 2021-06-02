@@ -18,11 +18,15 @@
 
 #include "../VertexBufferLayout.h"
 
+#include "Batch.h"
+
 #include "../FrameBuffer.h"
 #include "../../Layer.h"
 
 namespace Kross
 {
+    //template<typename Type> class Batch;
+
     class KROSS_API BatchRenderer
     {
     private:
@@ -37,7 +41,11 @@ namespace Kross
             p_VertexBufferLayout    (KROSS_NEW VertexBufferLayout()),
             p_Atlas                 (atlas), 
             p_Texture               (nullptr), 
-            p_Batch                 (nullptr), 
+
+            p_WaterBatch            (KROSS_NEW Batch<WaterVertex>(atlas)),
+            p_TextBatch             (KROSS_NEW Batch<TextVertex>(atlas)),
+            p_SpriteBatch           (KROSS_NEW Batch<SpriteVertex>(atlas)),
+
             m_Layer                 (layer)
         {};
         ~BatchRenderer();
@@ -57,9 +65,10 @@ namespace Kross
         // Use Texture for Special Cases like Text Renderering..
         Texture* p_Texture;
         
-        // Batch is the Type it is due to templating. (DO NOT SCREW AROUND WITH THIS, UNLESS YOUR NAME IS DEKLYN PALMER) 
-        void* p_Batch;                              
-        /* ^ I hate this. A lot. */
+        /* Batch Type to allow the Renderer to switch which one it uses. */
+        Batch<WaterVertex>* p_WaterBatch;
+        Batch<TextVertex>* p_TextBatch;
+        Batch<SpriteVertex>* p_SpriteBatch;
 
         Layer m_Layer;
 

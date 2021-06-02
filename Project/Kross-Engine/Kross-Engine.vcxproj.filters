@@ -1538,9 +1538,6 @@
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Batch\Batch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
