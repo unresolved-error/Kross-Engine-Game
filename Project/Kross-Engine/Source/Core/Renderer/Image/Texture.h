@@ -49,6 +49,7 @@ namespace Kross
 
 	protected:
 		friend class FrameBuffer;
+		friend class BatchRenderer;
 		friend class Atlas;
 
 		/* Creates a Blank Texture. (ATLAS) */

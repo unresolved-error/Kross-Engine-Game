@@ -38,13 +38,17 @@ namespace Kross
         
         Texture* p_Texture;
 
+        unsigned int framebuffer = 0;
+        unsigned int texture = 0;
+
+
     protected:
         friend class Scene;
 
         void OnStart() {
             if (m_Layer == Layer::Fluids)
                 p_BatchShader = ResourceManager::GetResource<Shader>("WaterShader");
-
+            
             else
                 p_BatchShader = ResourceManager::GetResource<Shader>("BatchShader");
 

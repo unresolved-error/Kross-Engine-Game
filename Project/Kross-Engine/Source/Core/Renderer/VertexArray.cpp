@@ -13,7 +13,7 @@
 namespace Kross
 {
 	VertexArray::VertexArray() :
-		m_VertexArrayID(0)
+		m_VertexArrayID()
 	{
 		glGenVertexArrays(1, &m_VertexArrayID);
 	}
