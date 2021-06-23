@@ -12,6 +12,7 @@
 #include "../Renderer/Shader/Shader.h"
 #include "../Renderer/Text/Font.h"
 #include "../Renderer/Material.h"
+#include "../Animation/Animation.h"
 
 #include "ShaderManager.h"
 
@@ -27,6 +28,7 @@ namespace Kross
 			m_Textures		(List<Texture*>()),
 			m_Materials		(List<Material*>()),
 			m_Fonts			(List<Font*>()),
+			m_Animations	(List<Animation*>()),
 			p_Atlas			(nullptr)
 		{};
 		~ResourceManager();
@@ -39,6 +41,7 @@ namespace Kross
 		List<Texture*> m_Textures;
 		List<Material*> m_Materials;
 		List<Font*> m_Fonts;
+		List<Animation*> m_Animations;
 
 		Atlas* p_Atlas;
 
@@ -48,6 +51,9 @@ namespace Kross
 
 		// Destroys an Instance of the Manager.
 		static void OnDestroy();
+
+		// Loads the Manifest File.
+		static void OnLoadManifest();
 
 		// Base Template Class. (DO NOT USE)
 		template<typename Type>
@@ -335,7 +341,7 @@ namespace Kross
 		{
 			for (int i = 0; i < s_Instance->m_Materials.size(); i++)
 			{
-				/* If the name of the Font matches the name requested, return that Font. */
+				/* If the name of the Material matches the name requested, return that Material. */
 				if (s_Instance->m_Materials[i]->GetName() == name)
 					return s_Instance->m_Materials[i];
 			}
@@ -375,6 +381,60 @@ namespace Kross
 				{
 					Material::OnDestroy(s_Instance->m_Materials[i]);
 					s_Instance->m_Materials.erase(s_Instance->m_Materials.begin() + i);
+				}
+			}
+		}
+
+		#pragma endregion
+
+		#pragma region ANIMATIONS
+
+		// Gets Animation by name from Resource Manager.
+		template<>
+		static Animation* GetResource<Animation>(const std::string& name)
+		{
+			for (int i = 0; i < s_Instance->m_Animations.size(); i++)
+			{
+				/* If the name of the Animation matches the name requested, return that Animation. */
+				if (s_Instance->m_Animations[i]->GetName() == name)
+					return s_Instance->m_Animations[i];
+			}
+
+			/* If nothing was found. */
+			return nullptr;
+		}
+
+		// Gets Animation by name from Resource Manager.
+		template<>
+		static Animation* GetResource<Animation>(int index)
+		{
+			/* If the Index is in the bounds of the List. */
+			if (index >= 0 && index < s_Instance->m_Animations.size())
+				return s_Instance->m_Animations[index];
+
+			/* If not, return null. */
+			return nullptr;
+		}
+
+		// Adds Animation to the Resource Manager.
+		template<>
+		static void AttachResource<Animation>(Animation* animation)
+		{
+			s_Instance->m_Animations.push_back(animation);
+		}
+
+		// Removes a Animation from the Resource Manager.
+		template<>
+		static void DetachResource<Animation>(Animation* animation)
+		{
+			/* Go through the Material List. */
+			for (int i = 0; i < s_Instance->m_Animations.size(); i++)
+			{
+				/* if the Material is the same as the one specified. Remove it.*/
+				if (s_Instance->m_Animations[i] == animation)
+				{
+					Animation::OnDestroy(s_Instance->m_Animations[i]);
+					s_Instance->m_Animations.erase(s_Instance->m_Animations.begin() + i);
 				}
 			}
 		}

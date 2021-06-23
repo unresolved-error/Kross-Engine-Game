@@ -17,13 +17,13 @@ namespace Kross
 		m_Geometry = nullptr;
 	}
 
-	Sprite* Sprite::OnCreate(Texture* texture, int width, int height, const std::string& name)
+	Sprite* Sprite::OnCreate(Texture* texture, const std::string& name)
 	{
 		/* Sprite Creation. */
 		Sprite* sprite = KROSS_NEW Sprite();
 		sprite->SetName(name);
-		sprite->SetWidth(width);
-		sprite->SetHeight(height);
+		sprite->SetWidth(texture->GetWidth());
+		sprite->SetHeight(texture->GetHeight());
 		sprite->SetTexture(texture);
 
 		/* Set UV Data. (DEFAULT FULL RESOLUTION) */
@@ -48,6 +48,7 @@ namespace Kross
 		sprite->SetWidth(width);
 		sprite->SetHeight(height);
 		sprite->SetTexture(texture);
+		sprite->SetPixelOffset(offset);
 
 		/* UV Ratio Variable. */
 		Vector2 ratio = Vector2(0.0f);
@@ -122,6 +123,59 @@ namespace Kross
 
 				/* Up the Character Index. */
 				charIndex++;
+			}
+
+		/* Once Finished return the list. */
+		return spriteList;
+	}
+
+	List<Sprite*> Sprite::OnCreate(Texture* texture, int width, int height, const std::string& baseName)
+	{
+		/* Create the List. */
+		List<Sprite*> spriteList = List<Sprite*>();
+
+		/* Get the Max Number of Sprites Up and Down. */
+		int maxHorizontalSprites = texture->GetWidth() / width;
+		int maxVerticalSprites = texture->GetHeight() / height;
+
+		/* Create the Sprites. */
+		for (int y = 0; y < maxVerticalSprites; y++)
+			for (int x = 0; x < maxHorizontalSprites; x++)
+			{
+				/* Sprite Creation. */
+				Sprite* sprite = KROSS_NEW Sprite();
+				std::string name = baseName + std::to_string(x) + "-" + std::to_string(y);
+
+				sprite->SetName(name);
+				sprite->SetWidth(width);
+				sprite->SetHeight(height);
+				sprite->SetTexture(texture);
+				sprite->SetPixelOffset(Vector2((float)x * width, (float)y * height));
+
+				/* UV Ratio Variable. */
+				Vector2 ratio = Vector2(0.0f);
+				ratio.x = (float)width / (float)texture->GetWidth();
+				ratio.y = (float)height / (float)texture->GetHeight();
+
+				/* Set UV Ratio Data. */
+				sprite->SetUVRatio(Vector2(ratio.x, ratio.y));
+
+				/* UV Offset Variable. */
+				Vector2 offset = Vector2(0.0f);
+				offset.x = (float)(x * width) / (float)texture->GetWidth();
+				offset.y = (float)(texture->GetHeight() - height - (int)(y * height)) / (float)texture->GetHeight();
+
+				/* Set UV Offset Data. */
+				sprite->SetUVOffset(Vector2(offset.x, offset.y));
+
+				/* Add all of the Geometry Data needed. */
+				sprite->AttachGeometryData();
+
+				/* Add it to the List. */
+				spriteList.push_back(sprite);
+
+				/* Add the Sprite to the Resource Manager. */
+				ResourceManager::AttachResource<Sprite>(sprite);
 			}
 
 		/* Once Finished return the list. */

@@ -40,9 +40,6 @@ namespace Kross
         Particle* p_Particle;
         PhysicsScene* p_PhysicsScene;
         World* p_World;
-        LineRenderer* p_Lines;
-        Shader* p_DebugShader;
-        Shader* p_GeometryShader;
 
         b2Filter* p_Filter;
 

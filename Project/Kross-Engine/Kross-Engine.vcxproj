@@ -91,8 +91,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Animation\Animation.h" />
+    <ClInclude Include="Source\Core\Animation\Keyframe.h" />
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Audio\AudioTemp.h" />
+    <ClInclude Include="Source\Core\Component\Animator.h" />
     <ClInclude Include="Source\Core\Component\Camera.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
@@ -508,7 +511,9 @@
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Animation\Animation.cpp" />
     <ClCompile Include="Source\Core\Application.cpp" />
+    <ClCompile Include="Source\Core\Component\Animator.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />

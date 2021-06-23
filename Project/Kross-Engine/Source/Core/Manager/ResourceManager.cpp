@@ -5,6 +5,7 @@
  */
 
 #include "ResourceManager.h"
+#include "../FileSystem.h"
 
 namespace Kross
 {
@@ -78,6 +79,17 @@ namespace Kross
 		m_Fonts.clear();
 		m_Fonts.~vector();
 
+		/* Clean up all the Animations from memory. */
+		for (int i = 0; i < m_Animations.size(); i++)
+		{
+			Animation::OnDestroy(m_Animations[i]);
+			m_Animations[i] = nullptr;
+		}
+
+		/* Clean up the list. */
+		m_Animations.clear();
+		m_Animations.~vector();
+
 		/* Destroy the Atlas. */
 		Atlas::OnDestroy(p_Atlas);
 	}
@@ -92,5 +104,11 @@ namespace Kross
 	{
 		if (s_Instance)
 			delete s_Instance;
+	}
+
+	void ResourceManager::OnLoadManifest()
+	{
+		/* Load the Manifest File. */
+		FileSystem::OnLoadManifestFile();
 	}
 }

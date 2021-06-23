@@ -58,5 +58,6 @@ namespace Kross
 #include "Transform2D.h"
 #include "Script.h"
 #include "Camera.h"
+#include "Animator.h"
 
 #include "Renderer.h"

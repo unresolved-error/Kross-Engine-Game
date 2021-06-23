@@ -48,29 +48,8 @@ namespace Kross
 		Input::SetWindow(s_Instance->p_Window);
 		Physics::OnCreate();
 
-		/* Add Shaders. */
-		Shader* textShader = Shader::OnCreate("Resources/Shaders/text.vert", "Resources/Shaders/text.frag", "TextShader");
-		ResourceManager::AttachResource<Shader>(textShader);
-
-		Shader* lineShader = Shader::OnCreate("Resources/Shaders/line.vert", "Resources/Shaders/line.frag", "LineShader");
-		ResourceManager::AttachResource<Shader>(lineShader);
-
-		Shader* batchShader = Shader::OnCreate("Resources/Shaders/batch.vert", "Resources/Shaders/batch.frag", "BatchShader");
-		ResourceManager::AttachResource<Shader>(batchShader);
-
-		Shader* waterShader = Shader::OnCreate("Resources/Shaders/Water/water.vert", "Resources/Shaders/Water/water.frag", "Resources/Shaders/Water/water.geom", "WaterShader");
-		ResourceManager::AttachResource<Shader>(waterShader);
-
-		/* Add Default Textures. */
-		Texture* fontTexture = Texture::OnCreate("Resources/Font/KrossFont.png", "KrossFontTexture", TextureType::FontMap);
-
-		Texture* particleTexture = Texture::OnCreate("Resources/Textures/Particle.png", "ParticleTexture");
-
-		Sprite* particleSprite = Sprite::OnCreate(particleTexture, 3, 3, "Particle");
-
-		/* Create Default Font. */
-		Font* krossFont = Font::OnCreate(fontTexture, 10, 16, "KrossFont");
-		ResourceManager::AttachResource<Font>(krossFont);
+		/* Loads the Manifest File. */
+		ResourceManager::OnLoadManifest();
 	}
 
 	void Application::OnUpdate()

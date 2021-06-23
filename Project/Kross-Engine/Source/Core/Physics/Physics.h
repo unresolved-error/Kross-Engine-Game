@@ -34,25 +34,33 @@ namespace Kross
     typedef b2BodyType              BodyType;
     typedef b2BodyDef               BodyDef;
 
-    class KROSS_API LineRenderer;
-
     class KROSS_API Physics
     {
     private:
         //static b2RayCastInput input;
 
-        static Body* p_Body;
+        static Physics* s_Instance;
 
-        static Vector2 m_IntersectionNormal;
+        Body* p_Body;
 
-        static LineRenderer* p_Lines;
+        Vector2 m_IntersectionNormal;
 
-        static Physics* p_Instance;
-        static RaycastData* p_RayData;
-        static Raycast2DCallback* p_RayCallback;
-        static CollisionData* p_CollisionData;
+        RaycastData* p_RayData;
+        CollisionData* p_CollisionData;
 
-        Physics() {};
+        /* Call Backs. */
+
+        Raycast2DCallback* p_RayCallback;
+        FluidCollisionCallback* p_FluidCallBack;
+
+        Physics() :
+            p_Body                  (nullptr),
+            m_IntersectionNormal    (Vector2(0.0f)),
+            p_RayData               (nullptr),
+            p_RayCallback           (KROSS_NEW Raycast2DCallback()),
+            p_CollisionData         (KROSS_NEW CollisionData()),
+            p_FluidCallBack         (KROSS_NEW FluidCollisionCallback())
+        {};
         ~Physics();
 
     protected:
@@ -66,8 +74,9 @@ namespace Kross
 
     public:
         static RaycastData* OnRayCast(Vector2 pos, Vector2 direction, Body* body,
-            float max, LineRenderer* lines = nullptr);
+            float max);
+
+        // Gets the Fluid Collision Callback.
+        static FluidCollisionCallback* GetFluidCollisionCallBack() { return s_Instance->p_FluidCallBack; };
     };
-
-
 }

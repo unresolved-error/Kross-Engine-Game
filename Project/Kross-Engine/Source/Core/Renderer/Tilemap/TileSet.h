@@ -12,6 +12,6 @@ namespace Kross
 {
 	class KROSS_API TileSet
 	{
-
+	
 	};
 }

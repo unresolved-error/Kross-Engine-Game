@@ -7,7 +7,7 @@
 #pragma once
 #include "../../Core.h"
 
-#include "../Physics.h"
+#include "Box2D/Box2D.h"
 
 namespace Kross
 {

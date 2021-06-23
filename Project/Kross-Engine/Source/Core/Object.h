@@ -135,7 +135,7 @@ namespace Kross
 
 		// Adds a Component to the Object.
 		template<typename Type>
-		void AttachComponent()
+		Type* AttachComponent()
 		{
 			/* Check if the type passed through is a Child of Component. */
 			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
@@ -150,6 +150,9 @@ namespace Kross
 
 			/* Add it to the list. */
 			m_Components.push_back(component);
+
+			/* Return the Component Type. */
+			return (Type*)component;
 		}
 
 		// Gets the first Component that is of the Type specified.

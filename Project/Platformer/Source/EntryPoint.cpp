@@ -11,30 +11,14 @@ int main(int argc, char** argv)
 {
 	_CrtMemState* memState = KROSS_NEW _CrtMemState();
 
-	Application::OnCreate("Rolly Polly Boi");
+	Application::OnCreate();
 	Application::OnStart();
 
 	/* Create all Assets, Objects, Scenes etc. Bellow Start.*/
-	/* Until a manifest file is introduced. */
-	int renderMode = 0;
 
 	Scene* scene = Scene::OnCreate("Main");
 
-	Texture* texture = Texture::OnCreate("Resources/Textures/Default.png", "Default");
-	Texture* wallTexture = Texture::OnCreate("Resources/Textures/DirtTileTest.png", "Dirt");
-	Texture* character = Texture::OnCreate("Resources/Textures/Deko.png", "Deklyn");
-	Texture* characterTexture = Texture::OnCreate("Resources/Textures/Character.png", "Character");
-
-	Sprite* sprite = Sprite::OnCreate(texture, 32, 32, "Default");
-	Sprite* wallSprite = Sprite::OnCreate(wallTexture, 32,32, "Wall");
-	Sprite* spriteS = Sprite::OnCreate(character, 48, 48, "Deklyn");
-	Sprite* characterSprite = Sprite::OnCreate(characterTexture, 18, 21, "Character");
-
-	Material* playerMaterial = Material::OnCreate("PlayerMaterial");
-	playerMaterial->p_Diffuse = spriteS;
-
-	Material* groundMaterial = Material::OnCreate("GroundMaterial");
-	groundMaterial->p_Diffuse = wallSprite;
+	Material* groundMaterial = ResourceManager::GetResource<Material>("Ground");
 
 	Object* camera = Object::OnCreate("Camera");
 	camera->AttachComponent<Camera>();
@@ -44,12 +28,16 @@ int main(int argc, char** argv)
 	player->AttachComponent<SpriteRenderer>();
 	player->AttachComponent<Rigidbody2D>();
 	player->AttachComponent<PlayerMovement>();
+	player->AttachComponent<Animator>();
 	player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
+
+	Animator* animator = player->GetComponent<Animator>();
+	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Idle"));
+	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Walk"));
 	
 	player->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
 	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
 	player->GetTransform()->m_Rotation = 0.0f;
-	
 
 	Object* textExample = Object::OnCreate("Text");
 	textExample->AttachComponent<TextRenderer>();
@@ -59,13 +47,13 @@ int main(int argc, char** argv)
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
 	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
 	textRenderer->SetTextSize(1.0f);
-	textRenderer->SetText("Hello AIE!");
+	textRenderer->SetText("What? I Can Walk?!");
 	
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 	player->SetLayer(Layer::Background);
 	
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
-	renderer->SetMaterial(playerMaterial);
+	renderer->SetMaterial(ResourceManager::GetResource<Material>("Player"));
 
 	scene->AttachObject(player);
 
@@ -96,7 +84,6 @@ int main(int argc, char** argv)
 
 	Rigidbody2D* pcrb = platformCollider->GetComponent<Rigidbody2D>();
 	pcrb->CreateWorldBox(Vector2(6.0f, 0.5f), platformCollider->GetTransform()->m_Position, ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
-
 
 	Object* grounds[31];
 	for (int i = 0; i < 31; i++)
@@ -195,25 +182,25 @@ int main(int argc, char** argv)
 	//rigidBody->SetMass(1.25f);
 
 
-	Object* particleEmitter = Object::OnCreate("Emitter");
-	particleEmitter->SetStaticStatus(true);
-	particleEmitter->AttachComponent<ParticleEmitter>();
-	particleEmitter->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
-	particleEmitter->SetLayer(Layer::Fluids);
-
-	scene->AttachObject(particleEmitter);
-
-	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
-	particle->SetParticleType(ParticleType::ParticleGroup);
-	particle->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
-
-	particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_fixtureContactFilterParticle);
-	particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
-	particle->GetParticle()->SetShape(1.5f);
-	//particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
-	//particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	particle->SetMaxCount(0);
-	particle->SetGroupCount(1);
+	//Object* particleEmitter = Object::OnCreate("Emitter");
+	//particleEmitter->SetStaticStatus(true);
+	//particleEmitter->AttachComponent<ParticleEmitter>();
+	//particleEmitter->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
+	//particleEmitter->SetLayer(Layer::Fluids);
+	//
+	//scene->AttachObject(particleEmitter);
+	//
+	//ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
+	//particle->SetParticleType(ParticleType::ParticleGroup);
+	//particle->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
+	//
+	//particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_fixtureContactFilterParticle);
+	//particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
+	//particle->GetParticle()->SetShape(1.5f);
+	////particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
+	////particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
+	//particle->SetMaxCount(0);
+	//particle->SetGroupCount(1);
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 

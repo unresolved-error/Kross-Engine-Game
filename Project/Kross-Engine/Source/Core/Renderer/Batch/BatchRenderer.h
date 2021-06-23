@@ -66,6 +66,7 @@ namespace Kross
         Texture* p_Texture;
         
         /* Batch Type to allow the Renderer to switch which one it uses. */
+
         Batch<WaterVertex>* p_WaterBatch;
         Batch<TextVertex>* p_TextBatch;
         Batch<SpriteVertex>* p_SpriteBatch;

@@ -123,7 +123,7 @@ namespace Kross
 		void DetachObject(int index);
 
 		// Gets the total Number of Objects in the Scene.
-		const int GetObjectCount() const { return m_Objects.size(); }
+		const int GetObjectCount() const { return m_Objects.size() + m_StaticObjects.size(); }
 
 		// Gets the Main Camera of the Scene.
 		Object* GetCamera() const { return p_Camera; };
@@ -145,9 +145,9 @@ namespace Kross
 	// Creates an Empty object.
 	Object* OnCreateObject(const std::string& name, Vector2 position, float rotation, Vector2 scale);
 	
-	//// Creates a clone of the Object passed in.
-	//Object* OnCreateObject(Object* object);
-	//
+	// Creates a clone of the Object passed in.
+	Object* OnCreateObject(Object* object);
+	
 	//// Destroys the Object passed in.
 	//void OnDestroyObject(Object* object);
 }

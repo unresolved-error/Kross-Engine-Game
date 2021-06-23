@@ -11,8 +11,6 @@
 #include "../Physics/Shape/Shape.h"
 #include "../Manager/Time.h"
 
-#include "../Physics/Physics.h"
-
 namespace Kross
 {
     Rigidbody2D::Rigidbody2D() :
@@ -26,8 +24,7 @@ namespace Kross
         p_MassData          (KROSS_NEW b2MassData()),
         p_RayData           (KROSS_NEW RaycastData()),
         p_Filter            (KROSS_NEW ContactFilter()),
-        p_FluidData         (KROSS_NEW FluidCollisionData()),
-        p_FluidCallback     (KROSS_NEW FluidCollisionCallback())
+        p_FluidData         (KROSS_NEW FluidCollisionData())
     {}
 
     Rigidbody2D::~Rigidbody2D()
@@ -41,6 +38,9 @@ namespace Kross
         delete p_MassData;
         delete p_RayData;
         delete p_FixtureDef;
+
+        delete p_Filter;
+        delete p_FluidData;
     }
 
     void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits)
@@ -364,7 +364,7 @@ namespace Kross
                     else if (m_CollisionState == CollisionState::Enter)
                         m_CollisionState = CollisionState::Stay;
 
-                    OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
+                    //OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
 
                     p_RayData->hit = false;
                 }
@@ -477,11 +477,11 @@ namespace Kross
         Vector2 averageVelocity(0, 0);
         int particleCount = 0;
 
-        p_FluidCallback->SetFluidCollisionData(p_FluidData);
+        Physics::GetFluidCollisionCallBack()->SetFluidCollisionData(p_FluidData);
         const b2Shape* shape = p_Body->GetFixtureList()->GetShape();
 
-        p_PhysicsScene->GetParticleSystem()->QueryShapeAABB(p_FluidCallback, *(b2Shape*)shape, p_Body->GetTransform());
-        p_FluidData = p_FluidCallback->GetFluidCollisionData();
+        p_PhysicsScene->GetParticleSystem()->QueryShapeAABB(Physics::GetFluidCollisionCallBack(), *(b2Shape*)shape, p_Body->GetTransform());
+        p_FluidData = Physics::GetFluidCollisionCallBack()->GetFluidCollisionData();
 
         particleCount = p_FluidData->m_ParticleIndexs.size();
 

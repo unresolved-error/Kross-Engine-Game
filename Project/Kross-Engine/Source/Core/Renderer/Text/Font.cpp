@@ -62,6 +62,8 @@ namespace Kross
 		/* Record the Sprites used for deleting. */
 		font->m_Sprites = characters;
 
+		ResourceManager::AttachResource<Font>(font);
+
 		/* Return the new Font. */
 		return font;
 	}

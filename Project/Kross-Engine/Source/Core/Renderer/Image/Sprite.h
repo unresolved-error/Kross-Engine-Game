@@ -92,7 +92,7 @@ namespace Kross
 
 	public:
 		// Creates a Sprite from a Texture.
-		static Sprite* OnCreate(Texture* texture, int width, int height, const std::string& name);
+		static Sprite* OnCreate(Texture* texture, const std::string& name);
 
 		/** 
 			Creates a Sprite from a Texture with specific co-ordinates. (USE IF YOU KNOW WHAT YOUR DOING)
@@ -111,6 +111,15 @@ namespace Kross
 			 - height: The Height of the Font Characters.
 		*/
 		static List<Sprite*> OnCreate(Texture* texture, int width, int height);
+
+		/**
+			Creates a Sprite Set from a Texture with a fixed width and height.
+			 - texture: The Texture that the Sprites will be using.
+			 - width: The Width of the Sprites.
+			 - height: The Height of the Sprites.
+			 - name: The Names of the Sprite. (Eg. Tile0-2) 
+		*/
+		static List<Sprite*> OnCreate(Texture* texture, int width, int height, const std::string& baseName);
 
 		// Destroys the Sprite Specified.
 		static void OnDestroy(Sprite* sprite);

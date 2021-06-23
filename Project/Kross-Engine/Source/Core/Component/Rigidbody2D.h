@@ -15,7 +15,6 @@
 #include "../Renderer/LineRenderer.h"
 #include "../Physics/Collision/CollisionData.h"
 #include "../Physics/Collision/ContactFilter.h"
-#include "../Physics/Collision/PhysicsCallbacks.h"
 
 namespace Kross
 {
@@ -57,15 +56,6 @@ namespace Kross
         RaycastData* p_RayData;
         ContactFilter* p_Filter;
         FluidCollisionData* p_FluidData;
-        FluidCollisionCallback* p_FluidCallback;
-
-
-
-
-        #ifdef KROSS_DEBUG
-        Shader* p_DebugShader;
-        LineRenderer* lines;
-        #endif
 
     protected:
         friend class PhysicsScene;

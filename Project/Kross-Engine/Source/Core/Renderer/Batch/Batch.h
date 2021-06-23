@@ -13,7 +13,7 @@
 #include "../../Component/Renderer.h"
 
 // How much Geometry can be passed in by default.
-#define MAX_BATCH_SIZE 64
+#define MAX_BATCH_SIZE 512
 
 namespace Kross
 {

@@ -12,6 +12,7 @@ public:
 		renderer	(nullptr),
 		window		(nullptr),
 		rigidBody	(nullptr),
+		animator	(nullptr),
 		camera		(nullptr),
 		textObj		(nullptr)
 	{};
@@ -21,6 +22,8 @@ public:
 	SpriteRenderer* renderer;
 	Window* window;
 	Rigidbody2D* rigidBody;
+
+	Animator* animator;
 
 	Camera* camera;
 	TextRenderer* textObj;
@@ -49,6 +52,8 @@ public:
 
 		previousTime = Time::GetDeltaTime();
 
+		animator = GetObject()->GetComponent<Animator>();
+
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->p_Diffuse = ResourceManager::GetResource<Sprite>(0);
 	}
@@ -61,6 +66,16 @@ public:
 		if (Input::ControllerConnected(controllerID))
 		{
 			input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), Input::GetControllerAxis(controllerID, Controller::LeftStickVertical, 0.2f));
+
+			if (input.x == 0.0f && input.y == 0.0f)
+			{
+				animator->SetCurrentAnimation(0);
+			}
+
+			else
+			{
+				animator->SetCurrentAnimation(1);
+			}
 
 			if (Input::GetControllerButtonPressed(controllerID, Controller::A))
 				if (jumpCount < 2)
@@ -101,6 +116,16 @@ public:
 
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
 
+			if (input.x == 0.0f && input.y == 0.0f)
+			{
+				animator->SetCurrentAnimation(0);
+			}
+
+			else
+			{
+				animator->SetCurrentAnimation(1);
+			}
+
 			if (Input::GetKeyPressed(Key::Space))
 				if (jumpCount < 2)
 				{
@@ -114,17 +139,29 @@ public:
 			if (Input::GetKeyPressed(Key::Q))
 				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
 
+			if (Input::GetKeyPressed(Key::Z))
+				std::cout << "Number of Objects: " << SceneManager::GetCurrentScene()->GetObjectCount() << std::endl;
+
 			if (Input::GetKeyDown(Key::Enter))
 			{
-				Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
-				newbie->SetLayer(Layer::Default);
-				newbie->AttachComponent<SpriteRenderer>();
+				for (int i = 0; i < 250; i++)
+				{
+					Object* newbie = Object::OnCreate("Newbie");
+					newbie->SetLayer(Layer::Default);
+					newbie->SetStaticStatus(true);
 
-				newbie->SetStaticStatus(true);
+					Transform2D* newbieTransform = newbie->GetTransform();
+					newbieTransform->m_Position = GetObject()->GetTransform()->m_Position;
+					newbieTransform->m_Rotation = Random::GetRandomRange<float>(0.0f, 360.0f);
+					newbie->AttachComponent<SpriteRenderer>();
 
-				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
-				ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
-				ren->SetDepth(20);
+
+					SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
+					ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
+					ren->SetDepth(20);
+
+					OnCreateObject(newbie);
+				}
 			}
 
 			if (Input::GetKeyPressed(Key::F11))

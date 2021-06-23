@@ -16,6 +16,28 @@ namespace Kross
 		FileSystem() {};
 		~FileSystem() {};
 	protected:
+		friend class ResourceManager;
+
+		// Loads the Asset Engine Manifest File.
+		static void OnLoadManifestFile();
+
+		// Loads in a Texture.
+		static void OnLoadTexture(const std::string& filepath);
+
+		// Loads in a Sprite.
+		static void OnLoadSprite(const std::string& filepath);
+
+		// Loads in a Shader.
+		static void OnLoadShader(const std::string& filepath);
+
+		// Loads in a Shader.
+		static void OnLoadFont(const std::string& filepath);
+
+		// Loads in a Material.
+		static void OnLoadMaterial(const std::string& filepath);
+
+		// Loads in a Animation.
+		static void OnLoadAnimation(const std::string& filepath);
 
 	public:
 		// Obtains the file contents in a string. (LAID OUT AS REPRESENTED IN FILE)
