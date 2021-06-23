@@ -13,7 +13,6 @@
  */
 
 #include "../Core/Application.h"
-#include "../Core/FileSystem.h"
 #include "../Core/Input.h"
 #include "../Core/Object.h"
 #include "../Core/Scene.h"
@@ -22,6 +21,8 @@
 #include "../Core/Animation/Keyframe.h"
 
 #include "../Core/Component/Component.h"
+
+#include "../Core/File-IO/FileSystem.h"
 
 #include "../Core/Manager/ResourceManager.h"
 #include "../Core/Manager/SceneManager.h"

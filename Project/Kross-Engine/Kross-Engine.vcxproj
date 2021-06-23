@@ -114,7 +114,7 @@
     <ClInclude Include="Source\Core\Component\TextRenderer.h" />
     <ClInclude Include="Source\Core\Component\Transform2D.h" />
     <ClInclude Include="Source\Core\Core.h" />
-    <ClInclude Include="Source\Core\FileSystem.h" />
+    <ClInclude Include="Source\Core\File-IO\FileSystem.h" />
     <ClInclude Include="Source\Core\Input.h" />
     <ClInclude Include="Source\Core\Manager\ResourceManager.h" />
     <ClInclude Include="Source\Core\Manager\SceneManager.h" />
@@ -526,7 +526,7 @@
     <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
     <ClCompile Include="Source\Core\Component\TextRenderer.cpp" />
     <ClCompile Include="Source\Core\Component\Transform2D.cpp" />
-    <ClCompile Include="Source\Core\FileSystem.cpp" />
+    <ClCompile Include="Source\Core\File-IO\FileSystem.cpp" />
     <ClCompile Include="Source\Core\Input.cpp" />
     <ClCompile Include="Source\Core\Manager\ResourceManager.cpp" />
     <ClCompile Include="Source\Core\Manager\SceneManager.cpp" />
@@ -746,6 +746,7 @@
     <None Include="Vendor\liquidfun\Box2D\Box2D\Documentation\footer.html" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Source\Core\File-IO\README.txt" />
     <Text Include="Source\Core\Text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

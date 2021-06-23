@@ -897,9 +897,6 @@
     <ClInclude Include="Source\Core\Renderer\Image\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\FileSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1278,6 +1275,9 @@
     <ClInclude Include="Source\Core\Component\Animator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\File-IO\FileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Application.cpp">
@@ -1308,9 +1308,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Renderer\Shader\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\FileSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp">
@@ -1560,6 +1557,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Component\Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\File-IO\FileSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1976,5 +1976,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Text.txt" />
+    <Text Include="Source\Core\File-IO\README.txt" />
   </ItemGroup>
 </Project>

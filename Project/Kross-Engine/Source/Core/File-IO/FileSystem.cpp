@@ -9,7 +9,7 @@
 #define MANIFEST_FILEPATH "manifest.krs"
 #define LINE_DIVIDER "->"
 
-#include "Manager/ResourceManager.h"
+#include "../Manager/ResourceManager.h"
 
 namespace Kross
 {
