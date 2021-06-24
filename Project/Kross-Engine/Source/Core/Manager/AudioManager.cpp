@@ -40,4 +40,8 @@ namespace Kross
         if (s_Instance)
             delete s_Instance;
     }
+    void AudioManager::OnAttachReference(AudioPlayer* player)
+    {
+       player->SetAudioEngine(s_Instance->p_Soloud);
+    }
 }
