@@ -58,10 +58,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;; WITH_WINMM;;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -76,10 +76,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE;; WITH_WINMM;;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,6 +101,7 @@
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
     <ClInclude Include="Source\Core\Layer.h" />
+    <ClInclude Include="Source\Core\Manager\AudioManager.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
     <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h" />
     <ClInclude Include="Source\Core\Physics\Collision\PhysicsCallbacks.h" />
@@ -507,6 +508,52 @@
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2StackQueue.h" />
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.h" />
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_audiosource.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_bassboostfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_biquadresonantfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_bus.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_c.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_dcremovalfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_echofilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_error.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_fader.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_fft.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_fftfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_file.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_file_hack_off.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_file_hack_on.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_filter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_flangerfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_freeverbfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_internal.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_lofifilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_misc.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_monotone.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_noise.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_openmpt.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_queue.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_robotizefilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_sfxr.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_speech.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_tedsid.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_thread.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_vic.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_vizsn.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_wav.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_waveshaperfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_wavstream.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\darray.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\klatt.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\resonator.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\tts.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\tedsid\sid.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\tedsid\ted.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_flac.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_mp3.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_wav.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\stb_vorbis.h" />
+    <ClInclude Include="Vendor\soloud\src\backend\miniaudio\miniaudio.h" />
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image.h" />
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h" />
   </ItemGroup>
@@ -516,6 +563,7 @@
     <ClCompile Include="Source\Core\Component\Animator.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
     <ClCompile Include="Source\Core\Physics\Collision\PhysicsCallbacks.cpp" />
     <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
@@ -603,6 +651,77 @@
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleSystem.cpp" />
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.cpp" />
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\monotone\soloud_monotone.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\noise\soloud_noise.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\openmpt\soloud_openmpt.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\openmpt\soloud_openmpt_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\sfxr\soloud_sfxr.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\darray.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\klatt.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\resonator.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\soloud_speech.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\tts.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\sid.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\soloud_tedsid.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\ted.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\vic\soloud_vic.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\vizsn\soloud_vizsn.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\dr_impl.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\soloud_wav.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\soloud_wavstream.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\stb_vorbis.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\alsa\soloud_alsa.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\coreaudio\soloud_coreaudio.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\jack\soloud_jack.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\miniaudio\soloud_miniaudio.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\nosound\soloud_nosound.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\null\soloud_null.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\openal\soloud_openal.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\openal\soloud_openal_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\opensles\soloud_opensles.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\oss\soloud_oss.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\portaudio\soloud_portaudio.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\portaudio\soloud_portaudio_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl2_static\soloud_sdl2_static.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl1.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl1_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl2.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl2_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl_static\soloud_sdl_static.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\vita_homebrew\soloud_vita_homebrew.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\wasapi\soloud_wasapi.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\winmm\soloud_winmm.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\xaudio2\soloud_xaudio2.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_audiosource.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_bus.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_3d.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_basicops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_faderops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_filterops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_getters.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_setters.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_voicegroup.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_voiceops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_fader.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_fft.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_fft_lut.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_file.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_filter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_misc.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_queue.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_thread.cpp" />
+    <ClCompile Include="Vendor\soloud\src\c_api\soloud_c.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_bassboostfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_biquadresonantfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_dcremovalfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_echofilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_fftfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_flangerfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_freeverbfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_lofifilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_robotizefilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_waveshaperfilter.cpp" />
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image.cpp" />
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp" />
   </ItemGroup>
@@ -744,6 +863,9 @@
     <None Include="Vendor\glm\include\glm\gtx\vector_query.inl" />
     <None Include="Vendor\glm\include\glm\gtx\wrap.inl" />
     <None Include="Vendor\liquidfun\Box2D\Box2D\Documentation\footer.html" />
+    <None Include="Vendor\soloud\doc\soloud.html" />
+    <None Include="Vendor\soloud\src\audiosource\speech\Elements.def" />
+    <None Include="Vendor\soloud\src\c_api\soloud.def" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\File-IO\README.txt" />
