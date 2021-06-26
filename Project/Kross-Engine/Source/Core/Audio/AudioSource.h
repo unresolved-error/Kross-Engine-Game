@@ -21,16 +21,13 @@ namespace Kross
         std::string filePath;
         std::string name;
 
-        SoLoud::Wav* wavFile;
-        SoLoud::WavStream* wavStreamFile;
+        SoLoud::Wav wavFile;
+        SoLoud::WavStream wavStreamFile;
+
+        SoLoud::handle sourceHandle;
 
 
     private:
-        //loads a Wav file.
-        void loadWav(std::string filePath);
-
-        //Loads a fileStream Wav.
-        void loadWavStream(std::string filePath);
 
 
 

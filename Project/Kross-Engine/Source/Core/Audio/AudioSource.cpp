@@ -15,14 +15,15 @@ namespace Kross
 		if (isThisStream)
 		{
 			const char* filepathCStr = filePath.c_str();
-			wavStreamFile->load(filepathCStr);
+			wavStreamFile.load(filepathCStr);
 
 		}
 		else
 		{
 			const char* filepathCStr = filePath.c_str();
-			wavFile->load(filepathCStr);
+			wavFile.load(filepathCStr);
 
 		}
 	}
+
 }

@@ -20,12 +20,14 @@ namespace Kross
         AudioPlayer();
         ~AudioPlayer();
         
-         
+         //Takes a reference to an audio source that has been loaded previously, and attaches it. WILL NOT COLLECT IT'S HANDLE.
+        void AttachSoundToPlayer(AudioSource* toAttach);
 
-
-        void PlaySoundEffect();
-
-
+        void PlaySoundEffect(AudioSource* audioSrc, float volume, float pan, bool paused);
+        void SetPlaySpeed(float playSpeed);
+        void SetPan(float pan);
+        void SetVolume(float volume);
+        void SetIfLooping(bool looping);
 
     protected:
         friend class AudioManager;
