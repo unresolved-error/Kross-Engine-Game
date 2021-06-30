@@ -22,8 +22,6 @@ namespace Kross
     {
         s_Instance->p_Soloud = KROSS_NEW SoLoud::Soloud;
         SoLoud::result result = s_Instance->p_Soloud->init();
-
-
     }
 
     void Kross::AudioManager::OnShutdown()

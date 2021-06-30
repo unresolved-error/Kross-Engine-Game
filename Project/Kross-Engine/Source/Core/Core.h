@@ -45,19 +45,6 @@ using List = std::vector<Type>;
 #include <unordered_map>
 #include <fstream>
 
-/* --- Testing Ground --- */
-/*class Test
- *{
- *public:
- *    Test()
- *    {
- *        // List works fine
- *        List<int> list;
- *        list.push_back(1);
- *    }
- *};
- */
-
 #ifdef _DEBUG
     #define KROSS_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
     // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the

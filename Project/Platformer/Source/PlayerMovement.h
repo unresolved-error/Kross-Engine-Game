@@ -122,7 +122,7 @@ public:
 
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
 
-			pan += Input::GetAxis(Axis::KeyboardHorizontal) * Time::GetDeltaTime();
+			//pan += Input::GetAxis(Axis::KeyboardHorizontal) * Time::GetDeltaTime();
 			pan = glm::clamp(pan, 0.0f, 1.0f);
 			audplayer->SetVolume(pan);
 

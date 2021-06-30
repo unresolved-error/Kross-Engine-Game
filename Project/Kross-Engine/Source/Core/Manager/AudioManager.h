@@ -23,7 +23,12 @@ namespace Kross
        
         static AudioManager* s_Instance;
         SoLoud::Soloud* p_Soloud;
+
+    protected:
+        friend class AudioSource;
         
+        // Gets the Audio Engine.
+        static SoLoud::Soloud* GetAudioEngine() { return s_Instance->p_Soloud; };
 
     public:
         // Creates an Instance of the Manager.
