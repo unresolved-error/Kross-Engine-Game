@@ -22,7 +22,7 @@ namespace Kross
 	void Animator::OnStart()
 	{
 		/* Grab the Object. */
-		Object* gameObject = GetObject();
+		Object* gameObject = GetLinkObject();
 
 		/* Get the Components needed. */
 		p_Rigidbody = gameObject->GetComponent<Rigidbody2D>();
@@ -45,7 +45,7 @@ namespace Kross
 			Keyframe* currentKeyframe = p_AnimationCurrent->GetCurrentKeyframe();
 
 			/* Set Data Accordingly. */
-			if (!p_Rigidbody && GetObject()->GetStaticStatus() == false)
+			if (!p_Rigidbody && GetLinkObject()->GetStaticStatus() == false)
 			{
 				if (currentKeyframe->GetPositionData())
 					p_Transform->m_Position = currentKeyframe->GetPosition();

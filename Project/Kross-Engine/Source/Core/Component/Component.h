@@ -26,13 +26,16 @@ namespace Kross
 		friend class Object;
 
 		// Sets the Object that the Component will be linked to.
-		void SetObject(Object* object) { p_Object = object; };
+		void SetLinkObject(Object* object) { p_Object = object; c_Object = object; };
 
 	public:
 		Component() :
-			p_Object(nullptr)
+			p_Object(nullptr), c_Object(nullptr)
 		{};
+
 		virtual ~Component() {};
+
+		const Object* c_Object;
 
 		// Component Start Method.
 		virtual void OnStart() { return; };
@@ -50,8 +53,7 @@ namespace Kross
 		virtual void OnCollisionExit(Object* other) { return; };
 
 		// Gets the Object that the Component is linked to.
-		Object* GetObject() const { return p_Object; };
-
+		Object* GetLinkObject() const { return p_Object; };
 	};
 }
 

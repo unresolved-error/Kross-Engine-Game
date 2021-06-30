@@ -81,7 +81,7 @@ namespace Kross
             Sprite* specularSprite = renderer->GetSpecularMap();
 
             /* Grab the Model. */
-            Matrix4 model = renderer->GetObject()->GetTransform()->GetModelMatrix();
+            Matrix4 model = renderer->GetLinkObject()->GetTransform()->GetModelMatrix();
 
             /* Get all the Sprite Data needed. */
             AtlasSpriteData diffuseData = p_Atlas->GetSpriteData(diffuseSprite);

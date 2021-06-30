@@ -44,15 +44,15 @@ public:
 
 	void Start() override
 	{
-		transform = GetObject()->GetTransform();
-		renderer = GetObject()->GetComponent<SpriteRenderer>();
+		transform = GetLinkObject()->GetTransform();
+		renderer = GetLinkObject()->GetComponent<SpriteRenderer>();
 		window = Application::GetWindow();
 
 		controllerID = Input::GetAvalibleController();
 
 		previousTime = Time::GetDeltaTime();
 
-		animator = GetObject()->GetComponent<Animator>();
+		animator = GetLinkObject()->GetComponent<Animator>();
 
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->p_Diffuse = ResourceManager::GetResource<Sprite>(0);
@@ -89,7 +89,7 @@ public:
 
 			if (Input::GetControllerAxis(controllerID, Controller::LeftTrigger, 0.9f) > 0.9f)
 			{
-				Object* newbie = OnCreateObject("Newbie", GetObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
+				Object* newbie = OnCreateObject("Newbie", GetLinkObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
 				newbie->SetLayer(Layer::Default);
 				newbie->AttachComponent<SpriteRenderer>();
 
@@ -151,7 +151,7 @@ public:
 					newbie->SetStaticStatus(true);
 
 					Transform2D* newbieTransform = newbie->GetTransform();
-					newbieTransform->m_Position = GetObject()->GetTransform()->m_Position;
+					newbieTransform->m_Position = GetLinkObject()->GetTransform()->m_Position;
 					newbieTransform->m_Rotation = Random::GetRandomRange<float>(0.0f, 360.0f);
 					newbie->AttachComponent<SpriteRenderer>();
 
@@ -176,7 +176,7 @@ public:
 
 		rigidBody->OnApplyForce(input * 0.5f);
 
-		textObj->GetObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
+		textObj->GetLinkObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
 
 		//if (followPlayer)
 		//{
@@ -197,7 +197,7 @@ public:
 		//		cameraTransform->m_Position = transform->m_Position;
 		//}
 
-		Transform2D* cameraTransform = camera->GetObject()->GetTransform();
+		Transform2D* cameraTransform = camera->GetLinkObject()->GetTransform();
 		cameraTransform->m_Position = transform->m_Position;
 
 		if (input.x > 0)

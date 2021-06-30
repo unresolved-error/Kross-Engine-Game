@@ -142,7 +142,7 @@ namespace Kross
 
 			/* Set up of the new Component. */
 			Component* component = KROSS_NEW Type();
-			component->SetObject(this);
+			component->SetLinkObject(this);
 
 			/* Then Check if the Component is a Renderer. */
 			if (std::is_convertible<Type*, Renderer*>::value)

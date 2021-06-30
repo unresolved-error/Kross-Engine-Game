@@ -81,7 +81,7 @@ namespace Kross
 		float startPoint = 0.0f;
 
 		/* Object Variables. */
-		Vector2 objectPosition = GetObject()->GetTransform()->m_Position;
+		Vector2 objectPosition = GetLinkObject()->GetTransform()->m_Position;
 
 		/* Get the Starting location for the Text. */
 		switch (m_Alignment)
