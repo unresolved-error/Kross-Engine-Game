@@ -8,20 +8,26 @@
 
 namespace Kross
 {
-
+	
 	AudioSource::AudioSource(std::string filePath, bool isThisStream)
-		: isStream(isThisStream), filePath(filePath)
+		: m_IsStream(isThisStream), m_FilePath(filePath)
 	{
 		if (isThisStream)
 		{
 			const char* filepathCStr = filePath.c_str();
-			wavStreamFile.load(filepathCStr);
+			m_WavStreamFile.load(filepathCStr);
+
+
+			std::cout << " wav STREAM loaded." << std::endl;
+
 
 		}
 		else
 		{
 			const char* filepathCStr = filePath.c_str();
-			wavFile.load(filepathCStr);
+			m_WavFile.load(filepathCStr);
+
+			std::cout << " wav loaded." << std::endl;
 
 		}
 	}

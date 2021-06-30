@@ -22,8 +22,9 @@ namespace Kross
          //Takes a reference to an audio source that has been loaded previously, and attaches it. WILL NOT COLLECT IT'S HANDLE.
         void AttachSoundToPlayer(AudioSource* toAttach);
 
-        //for both wav and streams.
+        //for both wav and streams. Volume ranges [0,1], pan ranges from [-1,1].
         void PlaySoundEffect(AudioSource* audioSrc, float volume, float pan, bool paused);
+
         void SetPlaySpeed(float playSpeed);
         void SetPan(float pan);
         void SetVolume(float volume);
@@ -32,12 +33,12 @@ namespace Kross
 
     protected:
         friend class AudioManager;
-        void SetAudioEngine(SoLoud::Soloud* engine) { audioEngine = engine; };
+        void SetAudioEngine(SoLoud::Soloud* engine) { p_AudioEngine = engine; };
 
     private:
-        AudioSource* audioSrc;
-        SoLoud::Soloud* audioEngine;
-        SoLoud::handle audioHandle;
+        AudioSource* p_AudioSrc;
+        SoLoud::Soloud* p_AudioEngine;
+        SoLoud::handle m_AudioHandle;
 
     };
 }

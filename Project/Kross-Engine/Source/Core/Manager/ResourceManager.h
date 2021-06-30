@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #pragma once
@@ -13,7 +14,7 @@
 #include "../Renderer/Text/Font.h"
 #include "../Renderer/Material.h"
 #include "../Animation/Animation.h"
-
+#include "../Audio/AudioSource.h"
 #include "ShaderManager.h"
 
 namespace Kross
@@ -29,6 +30,7 @@ namespace Kross
 			m_Materials		(List<Material*>()),
 			m_Fonts			(List<Font*>()),
 			m_Animations	(List<Animation*>()),
+			m_AudioSources (List<AudioSource*>()),
 			p_Atlas			(nullptr)
 		{};
 		~ResourceManager();
@@ -42,6 +44,7 @@ namespace Kross
 		List<Material*> m_Materials;
 		List<Font*> m_Fonts;
 		List<Animation*> m_Animations;
+		List<AudioSource*> m_AudioSources;
 
 		Atlas* p_Atlas;
 
