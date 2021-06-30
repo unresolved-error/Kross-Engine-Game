@@ -208,6 +208,11 @@ int main(int argc, char** argv)
 
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
+	
+	AudioSource* MarioJump = new AudioSource("Resources/Audio/mario_jump.wav");
+	player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(MarioJump);
+	
+	player->GetComponent<AudioPlayer>()->PlaySoundEffect(MarioJump, 1, 0, false);
 
 	SceneManager::AttachScene(scene);
 	SceneManager::SetCurrentScene(0);

@@ -11,8 +11,10 @@
 namespace Kross
 {
 	AudioPlayer::AudioPlayer()
+		: audioEngine(nullptr), audioHandle(0), audioSrc(nullptr)
 	{
 		AudioManager::OnAttachReference(this);
+		//audioEngine = AudioManager::ReturnSoLoudReference();
 	}
 	
 	void AudioPlayer::AttachSoundToPlayer(AudioSource* toAttach)
@@ -34,8 +36,9 @@ namespace Kross
 			audioHandle = audioEngine->play(audioSrc->wavFile, volume, pan, paused);
 			
 			audioSrc->sourceHandle = audioHandle;
+			
 		}
-
+	
 	}
 
 	void AudioPlayer::SetPlaySpeed(float playSpeed)

@@ -49,6 +49,7 @@ namespace Kross
 		Input::SetWindow(s_Instance->p_Window);
 		Physics::OnCreate();
 		AudioManager::OnCreate();
+		AudioManager::OnStart();
 
 		/* Loads the Manifest File. */
 		ResourceManager::OnLoadManifest();
@@ -66,7 +67,6 @@ namespace Kross
 			Atlas* atlas = Atlas::OnCreate();
 			ResourceManager::AttachResource<Atlas>(atlas);
 
-			AudioManager::OnStart();
 			
 			SceneManager::OnStart();
 			std::cout << "Starting Main Loop..." << std::endl;
