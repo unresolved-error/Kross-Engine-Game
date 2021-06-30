@@ -6,6 +6,7 @@
  */
 
 #include "AudioPlayer.h"
+#include "../Manager/AudioManager.h"
 
 namespace Kross
 {

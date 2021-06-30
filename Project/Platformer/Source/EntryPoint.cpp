@@ -51,6 +51,8 @@ int main(int argc, char** argv)
 	
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 	player->SetLayer(Layer::Background);
+
+	player->AttachComponent<AudioPlayer>();
 	
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
 	renderer->SetMaterial(ResourceManager::GetResource<Material>("Player"));

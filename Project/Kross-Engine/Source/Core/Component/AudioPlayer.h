@@ -10,7 +10,6 @@
 #include "../Core.h"
 #include "Component.h"
 #include "../Audio/AudioSource.h"
-#include "../Manager/AudioManager.h"
 
 namespace Kross
 {
@@ -18,16 +17,18 @@ namespace Kross
     {
     public:
         AudioPlayer();
-        ~AudioPlayer();
+        ~AudioPlayer() {};
         
          //Takes a reference to an audio source that has been loaded previously, and attaches it. WILL NOT COLLECT IT'S HANDLE.
         void AttachSoundToPlayer(AudioSource* toAttach);
 
+        //for both wav and streams.
         void PlaySoundEffect(AudioSource* audioSrc, float volume, float pan, bool paused);
         void SetPlaySpeed(float playSpeed);
         void SetPan(float pan);
         void SetVolume(float volume);
         void SetIfLooping(bool looping);
+
 
     protected:
         friend class AudioManager;
