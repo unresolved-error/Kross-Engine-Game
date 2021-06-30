@@ -23,6 +23,8 @@ public:
 	Window* window;
 	Rigidbody2D* rigidBody;
 
+	AudioPlayer* audplayer = nullptr;
+
 	Animator* animator;
 
 	Camera* camera;
@@ -36,6 +38,8 @@ public:
 	float moveSpeed = 5;
 
 	int controllerID = 0;
+
+	float pan = 0.0f;
 
 	float previousTime = 0.0f;
 	float actualTime = 0.0f;
@@ -56,6 +60,8 @@ public:
 
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->p_Diffuse = ResourceManager::GetResource<Sprite>(0);
+
+		audplayer = GetLinkObject()->GetComponent<AudioPlayer>();
 	}
 
 
@@ -115,6 +121,10 @@ public:
 			controllerID = Input::GetAvalibleController();
 
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
+
+			pan += Input::GetAxis(Axis::KeyboardHorizontal) * Time::GetDeltaTime();
+			pan = glm::clamp(pan, 0.0f, 1.0f);
+			audplayer->SetVolume(pan);
 
 			if (input.x == 0.0f && input.y == 0.0f)
 			{

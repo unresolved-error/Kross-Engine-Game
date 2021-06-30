@@ -23,15 +23,7 @@ namespace Kross
         s_Instance->p_Soloud = KROSS_NEW SoLoud::Soloud;
         SoLoud::result result = s_Instance->p_Soloud->init();
 
-        if (result)
-        {
-            std::cout << " Everything is Fine?" << std::endl;
-        }
 
-        else
-        {
-            std::cout << "Something dung fucked up!" << std::endl;
-        }
     }
 
     void Kross::AudioManager::OnShutdown()

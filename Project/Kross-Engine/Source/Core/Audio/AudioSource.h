@@ -13,18 +13,22 @@ namespace Kross
     class KROSS_API AudioSource
     {
     public:
+        /**
+            On creation: If this is a sound effect, just a filepath is fine.
+            If it needs to be streamed, a bool of "true" is required.
+        */
         AudioSource(std::string filepath, bool isStream = false);
         ~AudioSource();
 
-        bool isStream;
+        bool m_IsStream;
 
-        std::string filePath;
-        std::string name;
+        std::string m_FilePath;
+        std::string m_Name;
 
-        SoLoud::Wav wavFile;
-        SoLoud::WavStream wavStreamFile;
+        SoLoud::Wav m_WavFile;
+        SoLoud::WavStream m_WavStreamFile;
 
-        SoLoud::handle sourceHandle;
+        SoLoud::handle m_SourceHandle;
 
 
     private:

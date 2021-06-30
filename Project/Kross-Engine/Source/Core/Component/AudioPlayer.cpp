@@ -11,7 +11,7 @@
 namespace Kross
 {
 	AudioPlayer::AudioPlayer()
-		: audioEngine(nullptr), audioHandle(0), audioSrc(nullptr)
+		: p_AudioEngine(nullptr), m_AudioHandle(0), p_AudioSrc(nullptr)
 	{
 		AudioManager::OnAttachReference(this);
 		//audioEngine = AudioManager::ReturnSoLoudReference();
@@ -19,23 +19,23 @@ namespace Kross
 	
 	void AudioPlayer::AttachSoundToPlayer(AudioSource* toAttach)
 	{
-		audioSrc = toAttach;
+		p_AudioSrc = toAttach;
 	}
 
 	void Kross::AudioPlayer::PlaySoundEffect(AudioSource* audioSrc, float volume, float pan, bool paused)
 	{
-		if (audioSrc->isStream) 
+		if (audioSrc->m_IsStream) 
 		{
 			//Set the handle that the audioPlayer owns to this source's newly generated handle.
-			audioHandle = audioEngine->play(audioSrc->wavStreamFile, volume, pan, paused); 
+			m_AudioHandle = p_AudioEngine->play(audioSrc->m_WavStreamFile, volume, pan, paused);
 			//collect the handle and add to the audio source as well. This is so the player can recover handles.
-			audioSrc->sourceHandle = audioHandle;
+			audioSrc->m_SourceHandle = m_AudioHandle;
 		}
 		else 
 		{
-			audioHandle = audioEngine->play(audioSrc->wavFile, volume, pan, paused);
+			m_AudioHandle = p_AudioEngine->play(audioSrc->m_WavFile, volume, pan, paused);
 			
-			audioSrc->sourceHandle = audioHandle;
+			audioSrc->m_SourceHandle = m_AudioHandle;
 			
 		}
 	
@@ -43,22 +43,22 @@ namespace Kross
 
 	void AudioPlayer::SetPlaySpeed(float playSpeed)
 	{
-		audioEngine->setRelativePlaySpeed(audioHandle, playSpeed);
+		p_AudioEngine->setRelativePlaySpeed(m_AudioHandle, playSpeed);
 	}
 
 	void AudioPlayer::SetPan(float pan)
 	{
-		audioEngine->setPan(audioHandle, pan);
+		p_AudioEngine->setPan(m_AudioHandle, pan);
 	}
 
 	void AudioPlayer::SetVolume(float volume)
 	{
-		audioEngine->setVolume(audioHandle, volume);
+		p_AudioEngine->setVolume(m_AudioHandle, volume);
 	}
 
 	void AudioPlayer::SetIfLooping(bool looping)
 	{
-		audioEngine->setLooping(audioHandle, looping);
+		p_AudioEngine->setLooping(m_AudioHandle, looping);
 	}
 
 }
