@@ -33,6 +33,8 @@ namespace Kross
 	{
 		body->GetWorld()->RayCast(s_Instance->p_RayCallback, { pos.x, pos.y }, { pos.x + direction.x * max, pos.y + direction.y * max });
 
+		Vector2 vector = GetVector2(b2Vec2(1.0f, 1.0f));
+
 		s_Instance->p_RayData = s_Instance->p_RayCallback->GetRayData();
 
 		return s_Instance->p_RayData;

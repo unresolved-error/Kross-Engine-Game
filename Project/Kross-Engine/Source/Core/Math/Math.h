@@ -11,6 +11,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Box2D/Box2D.h"
+
 namespace Kross
 {
 	typedef glm::vec1 Vector1;
