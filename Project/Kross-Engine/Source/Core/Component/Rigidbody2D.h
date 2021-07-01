@@ -98,12 +98,6 @@ namespace Kross
             p_MassData->I = 0.0f;
         }
 
-        /* Sets the physics scene */
-        void SetPhysicsScene(PhysicsScene* scene) { p_PhysicsScene = scene; }
-
-        /* Gets the physics scene */
-        PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
-
 
         /* Sets the Body for the RigidBody */
         void SetBody(Body* body) { p_Body = body; }

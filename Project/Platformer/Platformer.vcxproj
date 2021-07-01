@@ -82,6 +82,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Kross-Engine\Vendor\glew\include\;$(SolutionDir)Kross-Engine\Vendor\glfw\include\;$(SolutionDir)Kross-Engine\Vendor\glm\include\;$(SolutionDir)Kross-Engine\Vendor\stb_image\include\;$(SolutionDir)Kross-Engine\Vendor\fnl\include\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\;%(AdditionalIncludeDirectories);$(SolutionDir)Kross-Engine\Vendor\soloud\include\;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

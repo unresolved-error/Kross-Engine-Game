@@ -45,7 +45,7 @@ namespace Kross
     bool CircleCastCallback::ReportFixture(b2Fixture* fixture)
     {
         p_CircleData->m_Bodies.push_back(fixture->GetBody());
-        return true;
+        return false;
     }
 
     bool CircleCastCallback::ReportParticle(const b2ParticleSystem* particleSystem, int32 index)

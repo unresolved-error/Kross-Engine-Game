@@ -78,7 +78,7 @@ namespace Kross
         static RaycastData* OnRayCast(Vector2 pos, Vector2 direction, Body* body,
             float max);
 
-        static RaycastData* OnCircleCast(Vector2 pos, Vector2 direction, Body* body, float max);
+        static RaycastData* OnCircleCast(Vector2 pos, Vector2 endPos, Vector2 direction, Body* body, float max);
 
         // Gets the Fluid Collision Callback.
         static FluidCollisionCallback* GetFluidCollisionCallBack() { return s_Instance->p_FluidCallback; };

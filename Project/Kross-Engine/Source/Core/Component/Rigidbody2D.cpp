@@ -18,6 +18,7 @@ namespace Kross
         p_PhysicsScene      (nullptr),
         p_Box               (nullptr),
         p_Circle            (nullptr),
+        p_DebugRenderer     (nullptr),
         m_ShapeType         (ShapeType::Count),
         m_CollisionState    (CollisionState::None),
         p_FixtureDef        (KROSS_NEW FixtureDef()),
@@ -356,7 +357,7 @@ namespace Kross
                 //float distance = CalculateRayLength(1.0f, Vector2(0, -footSpringLength),
                 //    Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
 
-                float distance = CalculateCircleCast(0.5f, 1.0f, Vector2(0.0f, -1.0f),
+                float distance = CalculateCircleCast(0.05f, 1.0f, Vector2(0.0f, -footSpringLength),
                       Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
 
                 if (p_RayData->hit)
@@ -531,11 +532,11 @@ namespace Kross
     }
 
     float Rigidbody2D::CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos)
-    {
-        circleCastRadius *= 2.0f;
+    {        
         p_RayData->maxFraction = maxFraction;
         p_RayData->direction = direction;
         p_RayData->pos = pos;
+        Vector2 endPos = Vector2(pos.x + 0.5f * direction.x, pos.y + 0.5f * direction.y);
 
         Physics::GetCircleCastCallback()->SetCircleCastData(p_CircleCastData);
         b2Shape* shape = p_Body->GetFixtureList()->GetShape();
@@ -562,9 +563,13 @@ namespace Kross
 
         for (int i = 0; i < p_CircleCastData->m_Bodies.size(); i++)
         {
-            p_RayData = Physics::OnCircleCast(p_RayData->pos, p_RayData->direction, 
+            p_RayData = Physics::OnCircleCast(p_RayData->pos, endPos, p_RayData->direction, 
                 p_Body, p_RayData->maxFraction);
+
+            p_RayData->body = p_CircleCastData->m_Bodies[i];
         }
+        p_DebugRenderer->DrawLineSegment(pos, endPos);
+        p_DebugRenderer->DrawCircle(endPos, circleCastRadius, 8);
 
         return glm::length(p_RayData->intersectionPoint - Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
     }

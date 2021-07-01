@@ -11,6 +11,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Box2D/Box2D.h"
+
 namespace Kross
 {
 	typedef glm::vec1 Vector1;
@@ -23,5 +25,14 @@ namespace Kross
 	typedef glm::mat3 Matrix3;
 	typedef glm::mat4 Matrix4;
 
-	
+}
+
+inline static Kross::Vector2 GetVector2(const b2Vec2& vector)
+{
+	return Kross::Vector2(vector.x, vector.y);
+}
+
+inline static Kross::Vector3 GetVector3(const b2Vec3& vector)
+{
+	return Kross::Vector3(vector.x, vector.y, vector.z);
 }
