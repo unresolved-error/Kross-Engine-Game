@@ -39,4 +39,27 @@ namespace Kross
     {
         return p_Data;
     }
+
+
+
+    bool CircleCastCallback::ReportFixture(b2Fixture* fixture)
+    {
+        p_CircleData->m_Bodies.push_back(fixture->GetBody());
+        return true;
+    }
+
+    bool CircleCastCallback::ReportParticle(const b2ParticleSystem* particleSystem, int32 index)
+    {
+        return false;
+    }
+
+    bool CircleCastCallback::ShouldQueryParticleSystem(const b2ParticleSystem* particleSystem)
+    {
+        return false;
+    }
+
+    CircleCastData* CircleCastCallback::GetCircleCastData()
+    {
+        return p_CircleData;
+    }
 }

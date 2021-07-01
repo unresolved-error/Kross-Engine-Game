@@ -12,40 +12,10 @@ namespace Kross
 	void ParticleEmitter::OnStart()
 	{
 		p_PhysicsScene = GetPhysicsScene();
-
-		/* set the world and the particle system */
-		p_World = p_PhysicsScene->GetPhysicsWorld();
-
+		
 		/* Creates the particle system */
 		OnCreateParticleSystem();
-
-		SetRadius(0.025f);
-
-		/* Creates all of the particles */
-		if (m_ParticleType == ParticleType::Particle)
-		{
-			for (int i = 0; i < 20; i++)
-			{
-				for (int j = 0; j < 20; j++)
-				{
-					p_Particle->SetCollisionFilter(p_Filter);
-
-					p_Particle->SetPosition(Vector2(-5.0f + 0.005f * i, 3.0f - 0.005f * j));
-					OnCreateParticle();
-				}
-			}
-		}
-		else if (m_ParticleType == ParticleType::ParticleGroup)
-		{
-			for (int i = 0; i < GetGroupCount(); i++)
-			{
-				p_Particle->SetCollisionFilter(p_Filter);
-
-				p_Particle->SetPosition(Vector2(0.0f + 1.5f * i, 1.5f));
-				OnCreateParticleGroup();
-			}
-		}
-
+		
 		/* Good blue */
 		/* Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f) */
 
@@ -56,39 +26,81 @@ namespace Kross
 		delete p_Filter;
 	}
 
+	void ParticleEmitter::AttachParticle(Particle* particle)
+	{
+		m_ParticleList.push_back(particle);
+		p_Particle = particle;
+		p_Particle->SetParticleID(m_ParticleList.size());
+	}
+
+	List<Particle*> ParticleEmitter::GetParticles()
+	{
+		return m_ParticleList;
+	}
+
 	void ParticleEmitter::OnCreateParticleSystem()
 	{
 		ParticleSystemDef particleSystemDef;
-		p_ParticleSystem = p_PhysicsScene->GetParticleSystem();
+		p_ParticleSystem = p_PhysicsScene->GetPhysicsWorld()->CreateParticleSystem(&particleSystemDef);
+		p_PhysicsScene->AddParticleSystem(p_ParticleSystem);
+		m_ParticleSystemList.push_back(p_ParticleSystem);
 	}
 
-	void ParticleEmitter::OnCreateParticle()
+	void ParticleEmitter::OnCreateParticle(ParticleSystem* particleSystem, Particle* particle)
 	{
-		if (!p_World)
-		{
-			p_PhysicsScene = GetPhysicsScene();
-			p_PhysicsScene->GetPhysicsWorld();
-			OnCreateParticleSystem();
-			GetParticleSystem()->CreateParticle(p_Particle->CreateParticleDef());
-		}
-		else
-		{
-			GetParticleSystem()->CreateParticle(p_Particle->CreateParticleDef());
-		}
+		ParticleDef particleDef = particle->CreateParticleDef();
+		particleSystem->CreateParticle(particleDef);
 	}
 
-	void ParticleEmitter::OnCreateParticleGroup()
+	void ParticleEmitter::OnCreateParticleGroup(ParticleSystem* particleSystem, Particle* particle)
 	{
-		if (!p_World)
+		ParticleGroupDef groupDef = particle->CreateParticleGroupDef();
+		particleSystem->CreateParticleGroup(groupDef);
+	}
+
+	void ParticleEmitter::SpawnParticles()
+	{
+		p_PhysicsScene = GetPhysicsScene();
+		
+		/* Creates the particle system */
+		m_ParticleSystemList = p_PhysicsScene->GetParticleSystem();
+		
+
+
+		/* Creates all of the particles */
+		for (int x = 0; x < m_ParticleSystemList.size(); x++)
 		{
-			p_PhysicsScene = GetPhysicsScene();
-			p_PhysicsScene->GetPhysicsWorld();
-			OnCreateParticleSystem();
-			GetParticleSystem()->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
-		}
-		else
-		{
-			GetParticleSystem()->CreateParticleGroup(p_Particle->CreateParticleGroupDef());
+			p_ParticleSystem = m_ParticleSystemList[x];
+			SetRadius(0.025f);
+			
+
+			for (int y = 0; y < m_ParticleList.size(); y++)
+			{
+				m_ParticleList[y]->SetCollisionFilter(p_Filter);
+
+				if (!m_ParticleList[y]->GetParticleGroupType())
+				{
+					for (int i = 0; i < 20; i++)
+					{
+						for (int j = 0; j < 20; j++)
+						{
+							m_ParticleList[y]->SetPosition(Vector2(GetPosition().x + 0.005f * i,
+								GetPosition().y - 0.0045f * j));
+
+							OnCreateParticle(p_ParticleSystem, m_ParticleList[y]);
+						}
+					}
+				}
+				else if (m_ParticleList[y]->GetParticleGroupType())
+				{
+					for (int i = 0; i < GetGroupCount(); i++)
+					{
+						m_ParticleList[y]->SetPosition(Vector2(GetPosition().x + 0.005f * i, GetPosition().y));
+
+						OnCreateParticleGroup(p_ParticleSystem, m_ParticleList[y]);
+					}
+				}
+			}
 		}
 	}
 

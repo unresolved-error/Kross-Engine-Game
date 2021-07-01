@@ -49,17 +49,18 @@ namespace Kross
         CollisionData* p_CollisionData;
 
         /* Call Backs. */
-
         Raycast2DCallback* p_RayCallback;
-        FluidCollisionCallback* p_FluidCallBack;
+        FluidCollisionCallback* p_FluidCallback;
+        CircleCastCallback* p_CircleCastCallback;
 
         Physics() :
             p_Body                  (nullptr),
             m_IntersectionNormal    (Vector2(0.0f)),
-            p_RayData               (nullptr),
+            p_RayData               (KROSS_NEW RaycastData()),
             p_RayCallback           (KROSS_NEW Raycast2DCallback()),
             p_CollisionData         (KROSS_NEW CollisionData()),
-            p_FluidCallBack         (KROSS_NEW FluidCollisionCallback())
+            p_FluidCallback         (KROSS_NEW FluidCollisionCallback()),
+            p_CircleCastCallback    (KROSS_NEW CircleCastCallback())
         {};
         ~Physics();
 
@@ -73,10 +74,15 @@ namespace Kross
         static void OnDestroy();
 
     public:
+
         static RaycastData* OnRayCast(Vector2 pos, Vector2 direction, Body* body,
             float max);
 
+        static RaycastData* OnCircleCast(Vector2 pos, Vector2 direction, Body* body, float max);
+
         // Gets the Fluid Collision Callback.
-        static FluidCollisionCallback* GetFluidCollisionCallBack() { return s_Instance->p_FluidCallBack; };
+        static FluidCollisionCallback* GetFluidCollisionCallBack() { return s_Instance->p_FluidCallback; };
+
+        static CircleCastCallback* GetCircleCastCallback() { return s_Instance->p_CircleCastCallback; }
     };
 }

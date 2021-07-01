@@ -24,7 +24,8 @@ namespace Kross
         p_MassData          (KROSS_NEW b2MassData()),
         p_RayData           (KROSS_NEW RaycastData()),
         p_Filter            (KROSS_NEW ContactFilter()),
-        p_FluidData         (KROSS_NEW FluidCollisionData())
+        p_FluidData         (KROSS_NEW FluidCollisionData()),
+        p_CircleCastData    (KROSS_NEW CircleCastData())
     {}
 
     Rigidbody2D::~Rigidbody2D()
@@ -348,13 +349,12 @@ namespace Kross
 
                 float footSpringLength = 0.5f;
 
-                p_RayData->maxFraction = 1.0f;
-                p_RayData->direction = Vector2(0, -footSpringLength);
-                p_RayData->pos = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
 
-                p_RayData = Physics::OnRayCast(p_RayData->pos, p_RayData->direction, p_Body, p_RayData->maxFraction);
+                //float distance = CalculateRayLength(1.0f, Vector2(0, -footSpringLength),
+                //    Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
 
-                float distance = glm::length(p_RayData->intersectionPoint - Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
+                float distance = CalculateCircleCast(0.5f, 1.0f, Vector2(0.0f, -1.0f),
+                      Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
 
                 if (p_RayData->hit)
                 {
@@ -477,13 +477,17 @@ namespace Kross
         Vector2 averageVelocity(0, 0);
         int particleCount = 0;
 
-        Physics::GetFluidCollisionCallBack()->SetFluidCollisionData(p_FluidData);
-        const b2Shape* shape = p_Body->GetFixtureList()->GetShape();
+        for (int i = 0; i < p_PhysicsScene->GetParticleSystem().size(); i++)
+        {
+            Physics::GetFluidCollisionCallBack()->SetFluidCollisionData(p_FluidData);
+            const b2Shape* shape = p_Body->GetFixtureList()->GetShape();
 
-        p_PhysicsScene->GetParticleSystem()->QueryShapeAABB(Physics::GetFluidCollisionCallBack(), *(b2Shape*)shape, p_Body->GetTransform());
-        p_FluidData = Physics::GetFluidCollisionCallBack()->GetFluidCollisionData();
+            p_PhysicsScene->GetParticleSystem()[i]->QueryShapeAABB(Physics::GetFluidCollisionCallBack(),
+                *(b2Shape*)shape, p_Body->GetTransform());
+            p_FluidData = Physics::GetFluidCollisionCallBack()->GetFluidCollisionData();
 
-        particleCount = p_FluidData->m_ParticleIndexs.size();
+            particleCount = p_FluidData->m_ParticleIndexs.size();
+        }
 
         if (particleCount != 0)
         {
@@ -492,9 +496,10 @@ namespace Kross
             averageVelocity = Vector2(0, 0);
             totalVelocity = Vector2(0, 0);
 
-            for (int i = 0; i < p_FluidData->m_ParticleIndexs.size(); i++)
+            for (int j = 0; j < p_FluidData->m_ParticleIndexs.size(); j++)
             {
-                Vector2 particleVelocity = Vector2(p_FluidData->p_ParticleSystem->GetVelocityBuffer()[p_FluidData->m_ParticleIndexs[i]].x, p_FluidData->p_ParticleSystem->GetVelocityBuffer()[p_FluidData->m_ParticleIndexs[i]].y);
+                Vector2 particleVelocity = Vector2(p_FluidData->p_ParticleSystem->GetVelocityBuffer()[p_FluidData->m_ParticleIndexs[j]].x,
+                    p_FluidData->p_ParticleSystem->GetVelocityBuffer()[p_FluidData->m_ParticleIndexs[j]].y);
 
                 totalVelocity += particleVelocity;
             }
@@ -508,13 +513,62 @@ namespace Kross
             p_FluidData->m_Collision = false;
             averageVelocity = Vector2(0, 0);
         }
-
+        
         return averageVelocity;
+    }
+
+    float Rigidbody2D::CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos)
+    {
+        p_RayData->maxFraction = maxFraction;
+        p_RayData->direction = direction;
+        p_RayData->pos = pos;
+
+        p_RayData = Physics::OnRayCast(p_RayData->pos, p_RayData->direction, p_Body, p_RayData->maxFraction);
+
+        return glm::length(p_RayData->intersectionPoint - Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
+    }
+
+    float Rigidbody2D::CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos)
+    {
+        circleCastRadius *= 2.0f;
+        p_RayData->maxFraction = maxFraction;
+        p_RayData->direction = direction;
+        p_RayData->pos = pos;
+
+        Physics::GetCircleCastCallback()->SetCircleCastData(p_CircleCastData);
+        b2Shape* shape = p_Body->GetFixtureList()->GetShape();
+
+        /* Checks if it is a circle */
+        if (shape->m_type == 0)
+        {
+            shape->m_radius += circleCastRadius;
+        }
+        /* Checks if it is a poly */
+        else if (shape->m_type == 2)
+        {
+            PolygonShape* shape = KROSS_NEW PolygonShape();
+            shape->SetAsBox(p_Box->GetWidth() + circleCastRadius, p_Box->GetHeight() + circleCastRadius);
+        }
+
+        /* Gets surrounding objects */
+        p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetCircleCastCallback(),
+            *(b2Shape*)shape, p_Body->GetTransform());
+
+        p_CircleCastData = Physics::GetCircleCastCallback()->GetCircleCastData();
+        
+
+
+        for (int i = 0; i < p_CircleCastData->m_Bodies.size(); i++)
+        {
+            p_RayData = Physics::OnCircleCast(p_RayData->pos, p_RayData->direction, 
+                p_Body, p_RayData->maxFraction);
+        }
+
+        return glm::length(p_RayData->intersectionPoint - Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y));
     }
 
     float Rigidbody2D::GetFriction()
     {
         return p_Body->GetFixtureList()->GetFriction();
     }
-
 }

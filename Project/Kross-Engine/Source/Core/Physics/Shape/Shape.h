@@ -11,23 +11,16 @@
 
 #include "../../Math/Math.h"
 #include "../Physics.h"
+#include "../Filters/ShapeType.h"
 
 namespace Kross
 {
-    // Instantiates the enum class for collision shapes.
-    enum class KROSS_API ShapeType
-    {
-        Box,
-        Circle,
-        Plane,
-        Count
-    };
 
 
     class KROSS_API Shape
     {
     protected:
-        Vector2 m_offset;
+        Vector2 m_offset = {0,0};
 
     public:
         /* Gets the shape of the object */

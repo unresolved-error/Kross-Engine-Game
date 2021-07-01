@@ -9,7 +9,6 @@
 #include "../../Core.h"
 
 #include "../../Math/Math.h"
-#include "Box2D/Box2D.h"
 #include "CollisionData.h"
 
 namespace Kross
@@ -29,7 +28,7 @@ namespace Kross
         ~Raycast2DCallback() 
         { 
             delete p_CollisionData;
-            delete p_RayData; 
+            delete p_RayData;
         }
 
         float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point,

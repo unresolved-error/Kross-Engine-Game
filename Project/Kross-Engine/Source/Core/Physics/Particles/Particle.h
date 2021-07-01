@@ -10,6 +10,8 @@
 
 #include "../../Math/Math.h"
 #include "../Physics.h"
+#include "../Box2D/Box2D/Box2D.h"
+#include "../Filters/ParticleType.h"
 
 namespace Kross
 {
@@ -25,25 +27,28 @@ namespace Kross
 		Vector4 m_Color = Vector4(255, 255, 255, 255);
 
 		int m_ParticleID = 0;
+		bool m_IsParticleGroup = false;
 
 		float m_Lifetime = 0.0f;
 		float m_Angle = 0.0f;
 		float m_AngularVelocity = 0.0f;
 		float m_Strength = 0.0f;
+		float m_Radius = 0.025f;
 
 		b2Shape* p_Shape;
-		b2ParticleDef m_ParticleDef;
+		b2ParticleDef* p_ParticleDef;
 		b2Filter* p_Filter;
 
 	public:
 		/* The group bool is to determine where values need to be assigned */
-		Particle() : 
-			p_Shape		(nullptr), 
-			p_Filter	(nullptr)
+		Particle() :
+			p_Shape			(nullptr),
+			p_ParticleDef	(nullptr),
+			p_Filter		(nullptr)
 		{}
 		~Particle();
 
-		ParticleDef GetParticleDef() { return m_ParticleDef; }
+		ParticleDef* GetParticleDef() { return p_ParticleDef; }
 
 		void CreateParticle(ParticleSystem* particleSystem);
 		/* Creates a particle def with the supplied information */
@@ -107,5 +112,28 @@ namespace Kross
 
 		void SetCollisionFilter(b2Filter* filter) { p_Filter = filter; };
 		b2Filter* GetCollisionFilter() const { return p_Filter; };
+
+		void SetParticleID(int id) { m_ParticleID = id; }
+		int GetParticleID() { return m_ParticleID; }
+
+		void SetRadius(float radius) { m_Radius = radius; }
+		float GetRadius() { return m_Radius; }
+
+		/* Sets the Particle group type */
+		void ParticleGroup(bool isGroup) { m_IsParticleGroup = isGroup; }
+		/* Returns true if there is a particle group */
+		bool GetParticleGroupType() { return m_IsParticleGroup; }
 	};
 }
+
+//Include all particles here
+#include "WaterParticle.h"
+#include "SpringParticle.h"
+#include "ElasticParticle.h"
+#include "ViscousParticle.h"
+#include "PowderParticle.h"
+#include "TensileParticle.h"
+#include "ColourMixingParticle.h"
+#include "StaticPressureParticle.h"
+#include "ReactiveParticle.h"
+#include "RepulsiveParticle.h"

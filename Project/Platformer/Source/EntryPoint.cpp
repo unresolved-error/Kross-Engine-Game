@@ -182,25 +182,57 @@ int main(int argc, char** argv)
 	//rigidBody->SetMass(1.25f);
 
 
-	//Object* particleEmitter = Object::OnCreate("Emitter");
-	//particleEmitter->SetStaticStatus(true);
-	//particleEmitter->AttachComponent<ParticleEmitter>();
-	//particleEmitter->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
-	//particleEmitter->SetLayer(Layer::Fluids);
-	//
-	//scene->AttachObject(particleEmitter);
-	//
-	//ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
-	//particle->SetParticleType(ParticleType::ParticleGroup);
-	//particle->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
-	//
-	//particle->GetParticle()->AddParticleFlag(b2_waterParticle | b2_fixtureContactFilterParticle);
-	//particle->GetParticle()->AddParticleGroupFlag(b2_solidParticleGroup);
-	//particle->GetParticle()->SetShape(1.5f);
-	////particle->GetParticle()->SetColor({ 0.0f, 100.0f, 207.0f, 255.0f });
-	////particle->GetParticle()->SetPosition(Vector2(particleEmitter->GetTransform()->m_Position.x, particleEmitter->GetTransform()->m_Position.y));
-	//particle->SetMaxCount(0);
-	//particle->SetGroupCount(1);
+	Object* particleEmitter = Object::OnCreate("Emitter");
+	particleEmitter->SetStaticStatus(true);
+	particleEmitter->AttachComponent<ParticleEmitter>();
+	particleEmitter->GetTransform()->m_Position = Vector2(1.0f, 1.0f);
+	particleEmitter->SetLayer(Layer::Fluids);
+	
+	scene->AttachObject(particleEmitter);
+	
+	ParticleEmitter* particle = particleEmitter->GetComponent<ParticleEmitter>();
+	WaterParticle* tempParticle = new WaterParticle();
+
+	tempParticle->ParticleGroup(false);
+	particle->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
+
+	particle->SetMaxCount(0);
+	particle->SetGroupCount(1);
+
+	particle->SetPosition(particleEmitter->GetTransform()->m_Position);
+	tempParticle->SetShape(0.5f);
+
+	particle->AttachParticle(tempParticle);
+	particle->SpawnParticles();
+
+
+
+
+	Object* ppEmitter = Object::OnCreate("ppEmitter");
+	ppEmitter->SetStaticStatus(true);
+	ppEmitter->AttachComponent<ParticleEmitter>();
+	ppEmitter->GetTransform()->m_Position = Vector2(-1.0f, 1.0f);
+	ppEmitter->SetLayer(Layer::Fluids);
+	
+	scene->AttachObject(ppEmitter);
+	
+	ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
+	WaterParticle* tempParticle2 = new WaterParticle();
+
+	tempParticle2->ParticleGroup(false);
+	particleEm->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
+
+	particleEm->SetMaxCount(0);
+	particleEm->SetGroupCount(1);
+
+	tempParticle2->SetColor(Vector4(255.0f, 0.0f, 0.0f, 255.0f));
+	particleEm->SetPosition(ppEmitter->GetTransform()->m_Position);
+	tempParticle2->SetShape(0.5f);
+
+	particleEm->AttachParticle(tempParticle2);
+	particleEm->SpawnParticles();
+
+
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 

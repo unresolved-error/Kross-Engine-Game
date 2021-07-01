@@ -9,23 +9,15 @@
 #include "../Core.h"
 
 #include "Renderer.h"
+#include "../Renderer/Shader/Shader.h"
+#include "../Manager/ResourceManager.h"
 
 #include "../Physics/Physics.h"
 #include "../Physics/PhysicsScene.h"
 #include "../Physics/Particles/Particle.h"
-#include "../Manager/ResourceManager.h"
-#include "../Renderer/Shader/Shader.h"
-#include "../Renderer/LineRenderer.h"
 
 namespace Kross
 {
-    enum class KROSS_API ParticleType
-    {
-        None,
-        Particle,
-        ParticleGroup,
-    };
-
     struct KROSS_API Metaball
     {
         Vector4 m_Colour;
@@ -36,14 +28,15 @@ namespace Kross
     class KROSS_API ParticleEmitter : public Renderer
     {
     private:
-        ParticleSystem* p_ParticleSystem;
         Particle* p_Particle;
         PhysicsScene* p_PhysicsScene;
-        World* p_World;
+        List<Particle*> m_ParticleList;
+        List<ParticleSystem*> m_ParticleSystemList;
+        ParticleSystem* p_ParticleSystem;
 
         b2Filter* p_Filter;
 
-        ParticleType m_ParticleType;
+        Vector2 m_Pos = Vector2(0,0);
 
         int m_ParticleCount = 50;
         int m_GroupCount = 5;
@@ -52,23 +45,24 @@ namespace Kross
     protected:
         friend class PhyscisScene;
         friend class Particle;
+
         /* ParticleEmitter start method */
         void OnStart() override;
 
     public:
 
         ParticleEmitter() : 
-            p_ParticleSystem    (nullptr), 
+            p_Particle          (KROSS_NEW Particle()),
             p_PhysicsScene      (nullptr),
-            p_World             (nullptr), 
-            m_ParticleType      (ParticleType::None),
-            p_Particle          (KROSS_NEW Particle()), 
+            m_ParticleList      (List<Particle*>()),
+            p_ParticleSystem    (nullptr), 
             p_Filter            (KROSS_NEW b2Filter())
         {}
         ~ParticleEmitter();
 
+
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
-        ParticleSystem* GetParticleSystem() { return p_ParticleSystem; }
+        List<ParticleSystem*> GetParticleSystem() { return p_PhysicsScene->GetParticleSystem(); }
 
         void SetMaxParticleCount(int count) { p_ParticleSystem->SetMaxParticleCount(count); }
         int GetMaxParticleCount() { return p_ParticleSystem->GetMaxParticleCount(); }
@@ -76,16 +70,26 @@ namespace Kross
         void SetGroupCount(int count) { m_GroupCount = count; }
         int GetGroupCount() { return m_GroupCount; }
 
+
+        //void SetParticleType(ParticleType particle) { m_ParticleType = particle; }
+
+        void AttachParticle(Particle* particle);
+
+        Particle* GetParticle() { return p_Particle; }
+
+        List<Particle*> GetParticles();
+
+
         /* This is to create the particle system which is used to create the particles */
         void OnCreateParticleSystem();
 
         /* Creates the individual particle */
-        void OnCreateParticle();
+        void OnCreateParticle(ParticleSystem* particleSystem, Particle* particle);
 
-        /* Creates the particle group */
-        void OnCreateParticleGroup();
+        /* Creates the particle group. This is not stable(Try to avoid) */
+        void OnCreateParticleGroup(ParticleSystem* particleSystem, Particle* particle);
 
-        Particle* GetParticle() { return p_Particle; }
+        void SpawnParticles();
 
         /* The Radius sets the size of the particles */
         /* This is can only be set when there are no particles present */
@@ -102,6 +106,7 @@ namespace Kross
         /* Returns the Density of the particle system */
         float GetDensity() { return p_ParticleSystem->GetDensity(); }
 
+
         /* Sets the maximum number of particles */
         /* A value of 0 means there is no maximum */
         void SetMaxCount(int max) { m_ParticleCount = max; }
@@ -114,6 +119,7 @@ namespace Kross
         void SetDestroyByAge(bool destroy) { p_ParticleSystem->SetDestructionByAge(destroy); }
         /* Returns destruction by age */
         bool GetDestroyByAge() { return p_ParticleSystem->GetDestructionByAge(); }
+
 
         /* Sets the lifetime of a particle in seconds */
         /* A lifetime less than or equal to 0 */
@@ -128,6 +134,7 @@ namespace Kross
         /* Gets the strict contact check */
         bool GetStrictContactCheck() { return p_ParticleSystem->GetStrictContactCheck(); }
 
+
         /* This is used to pause/unpause the particle system */
         /* When paused the world step skips over the particle system */
         void SetPaused(bool paused) { p_ParticleSystem->SetPaused(paused); }
@@ -138,6 +145,7 @@ namespace Kross
         void SetGravityScale(float scale) { p_ParticleSystem->SetGravityScale(scale); }
         /* Returns the particle gravity scale */
         float GetGravityScale() { return p_ParticleSystem->GetGravityScale(); }
+
 
         /* Sets flags for a specified particle */
         void SetParticleFlags(int index, ParticleFlag flags) { p_ParticleSystem->SetParticleFlags(index, flags); }
@@ -150,13 +158,9 @@ namespace Kross
         /* The user must decide if they are stuck or otherwise and what to do with them */
         const int32* GetStuckCandidates() {return p_ParticleSystem->GetStuckCandidates(); }
 
+
         /* Sets the physics scene */
         void SetPhysicsScene(PhysicsScene* physicsScene) { p_PhysicsScene = physicsScene; }
-
-        /* Sets the Particle type */
-        void SetParticleType(ParticleType type) { m_ParticleType = type; }
-        /* Gets the particle type */
-        ParticleType GetParticleType() { return m_ParticleType; }
 
         /* Sets the particles collision filters */
         void SetColliderFilters(uint16 catagoryBits, uint16 maskBits)
@@ -167,6 +171,9 @@ namespace Kross
 
         /* Gets the filter */
         b2Filter* GetColliderFilters() { return p_Filter; }
+
+        void SetPosition(Vector2 pos) { m_Pos = pos; }
+        Vector2 GetPosition() { return m_Pos; }
 
     };
 }

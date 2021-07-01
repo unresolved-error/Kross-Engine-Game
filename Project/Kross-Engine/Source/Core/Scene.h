@@ -36,7 +36,7 @@ namespace Kross
 			/* Sets a default particle system */
 			ParticleSystemDef particleSystemDef;
 			ParticleSystem* particleSystem = world->CreateParticleSystem(&particleSystemDef);
-			p_Physics->SetParticleSystem(particleSystem);
+			p_Physics->AddParticleSystem(particleSystem);
 
 			/* Sets the particle contact filters */
 

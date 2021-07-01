@@ -37,4 +37,21 @@ namespace Kross
 
 		return s_Instance->p_RayData;
 	}
+
+	RaycastData* Physics::OnCircleCast(Vector2 pos, Vector2 direction, Body* body, float max)
+	{
+		direction = glm::normalize(direction);
+
+		b2RayCastInput input;
+		b2RayCastOutput output;
+		input.maxFraction = max;
+		input.p1 = b2Vec2(pos.x, pos.y);
+		input.p2 = b2Vec2(pos.x, pos.y + 0.5f * direction.y);
+		
+		body->GetFixtureList()->GetShape()->CircleCast(&output, input, body->GetTransform(), 0.5f, 0);
+		
+		s_Instance->p_RayData = s_Instance->p_RayCallback->GetRayData();
+
+		return s_Instance->p_RayData;
+	}
 }

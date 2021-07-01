@@ -56,6 +56,7 @@ namespace Kross
         RaycastData* p_RayData;
         ContactFilter* p_Filter;
         FluidCollisionData* p_FluidData;
+        CircleCastData* p_CircleCastData;
 
     protected:
         friend class PhysicsScene;
@@ -70,7 +71,6 @@ namespace Kross
         Body* GetRayCollisionBody() const { return p_RayData->body; }
 
     public:
-
         Rigidbody2D();
         ~Rigidbody2D();
 
@@ -86,37 +86,49 @@ namespace Kross
 
         /* Sets the physics scene */
         void SetPhysicsScene(PhysicsScene* scene) { p_PhysicsScene = scene; }
+
         /* Gets the physics scene */
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
 
+
         /* Sets the Body for the RigidBody */
         void SetBody(Body* body) { p_Body = body; }
+
         /* Gets the Body for the RigidBody */
         Body* GetBody() const { return p_Body; }
 
+
         /* Apply a force to the body */
         void OnApplyForce(Vector2 force);
+
         /* Apply an impulse to the body */
         void OnApplyImpulse(Vector2 impulse);
+
 
         /* Creates a new dynamic circle */
         void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
         void CreateDynamicCircle(float radius, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
+
         /* Creates a new dynamic box */
         void CreateDynamicBox(Vector2 Dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
         void CreateDynamicBox(Vector2 Dimensions, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
 
+
         /* Creates a new static circle */
         void CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits);
         void CreateWorldCircle(float radius, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits);
+
         /* Creates a new static box */
         void CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits);
         void CreateWorldBox(Vector2 Dimensions, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits);
 
+
         /* Gets the Objects Position */
         Vector2 GetPosition() const;
+
         /* Gets the Objects velocity */
         Vector2 GetVelocity() const{ return Vector2(p_Body->GetLinearVelocity().x , p_Body->GetLinearVelocity().y); }
+
 
         /* Gets the friction of a specified object */
         float GetFriction();
@@ -124,10 +136,16 @@ namespace Kross
         /* Calculates the spring under the player */
         Vector2 SpringCalculation(Body* body1, Body* body2, float distance);
 
+
         /* Returns the current collision state */
         CollisionState GetCollision() const { return m_CollisionState; }    
 
         /* Collides dynamic bodies with particles */
         Vector2 CollideParticles();
+
+
+        float CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos);
+    
+        float CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos);
     };
 }
