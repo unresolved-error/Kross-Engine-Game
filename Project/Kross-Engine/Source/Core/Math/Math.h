@@ -22,6 +22,14 @@ namespace Kross
 	typedef glm::mat2 Matrix2;
 	typedef glm::mat3 Matrix3;
 	typedef glm::mat4 Matrix4;
+}
 
-	
+inline static glm::vec2 GetVector2(const b2Vec2& vector)
+{
+	return glm::vec2(vector.x, vector.y);
+}
+
+inline static glm::vec3 GetVector3(const b2Vec3& vector)
+{
+	return glm::vec3(vector.x, vector.y, vector.z);
 }

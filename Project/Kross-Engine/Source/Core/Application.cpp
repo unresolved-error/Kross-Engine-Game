@@ -96,9 +96,10 @@ namespace Kross
 		s_Instance->p_Window->OnShutdown();
 		AudioManager::OnShutdown();
 
+		ResourceManager::OnDestroy();
+
 		AudioManager::OnDestroy();
 		ShaderManager::OnDestroy();
-		ResourceManager::OnDestroy();
 		SceneManager::OnDestroy();
 		Time::OnDestroy();
 		Input::OnDestoy();
