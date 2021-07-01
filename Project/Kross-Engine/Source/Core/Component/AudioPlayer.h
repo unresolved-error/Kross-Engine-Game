@@ -28,6 +28,9 @@ namespace Kross
         //Pauses the sound. true to pause. false to play.
         void PauseSound(bool paused);
 
+        //moves the read to the seconds to this point in the track. Use only on paused sounds. Some sound types will NOT be able to seek backwards, if the read point is beyond the float supplied.
+        void SeekSoundClipPoint(float seconds);
+
         //Pauses the sound after "seconds". Restart the track with the PauseSound function, this one can't.
         void PauseSoundDelayed(float seconds);
 
@@ -64,6 +67,8 @@ namespace Kross
         //minSpeed and maxSpeed (less than 0 may error, 1 is normal play speed) are what is oscillated between and seconds is each cycles length.
         void OscillateRelitivePlaySpeed(float minSpeed, float maxSpeed, float seconds);
 
+        //Stops this sound playing. 
+        void StopThisSound();
 
 
     protected:

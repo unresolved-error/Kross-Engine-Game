@@ -46,6 +46,11 @@ namespace Kross
 		p_AudioEngine->setPause(m_AudioHandle, paused);
 	}
 
+	void AudioPlayer::SeekSoundClipPoint(float seconds)
+	{
+		p_AudioEngine->seek(m_AudioHandle, seconds);
+	}
+
 	void AudioPlayer::PauseSoundDelayed(float seconds)
 	{
 		p_AudioEngine->schedulePause(m_AudioHandle, seconds);
@@ -100,6 +105,13 @@ namespace Kross
 	{
 		p_AudioEngine->oscillateRelativePlaySpeed(m_AudioHandle, minSpeed, maxSpeed, seconds);
 	}
+
+	void AudioPlayer::StopThisSound()
+	{
+		p_AudioEngine->stop(m_AudioHandle);
+	}
+
+	
 
 }
 

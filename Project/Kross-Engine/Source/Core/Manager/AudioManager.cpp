@@ -42,4 +42,15 @@ namespace Kross
     {
        player->SetAudioEngine(s_Instance->p_Soloud);
     }
+    void AudioManager::SetGlobalVolume(float volume)
+    {
+        p_Soloud->setGlobalVolume(volume);
+       
+    }
+    float AudioManager::GetGlobalVolume()
+    {
+
+        return p_Soloud->getGlobalVolume();
+         
+    }
 }
