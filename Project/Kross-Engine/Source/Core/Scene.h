@@ -12,6 +12,7 @@
 #include "Object.h"
 #include "Physics/PhysicsScene.h"
 #include "Renderer/Batch/BatchRenderer.h"
+#include "Renderer/LineRenderer.h"
 
 namespace Kross
 {
@@ -19,13 +20,16 @@ namespace Kross
 	{
 	private:
 		Scene(const std::string& name) : 
-			m_Name				(name), 
-			m_Started			(false), 
-			m_Objects			(List<Object*>()), 
-			m_StaticObjects		(List<Object*>()),
-			p_Camera			(nullptr), 
-			p_Physics			(KROSS_NEW PhysicsScene()), 
-			p_WorldFilter		(KROSS_NEW ContactFilter())
+			m_Name					(name), 
+			m_Started				(false), 
+			m_Objects				(List<Object*>()), 
+			m_StaticObjects			(List<Object*>()),
+			m_RigidbodyComponents	(List<Component*>()),
+			p_DebugRenderer			(KROSS_NEW LineRenderer()),
+			p_DebugShader			(nullptr),
+			p_Camera				(nullptr), 
+			p_Physics				(KROSS_NEW PhysicsScene()), 
+			p_WorldFilter			(KROSS_NEW ContactFilter())
 		{
 			/* Sets the physics world for Box2D */
 			//World* world = KROSS_NEW World({ 0.0f, -9.8f });
@@ -39,7 +43,6 @@ namespace Kross
 			p_Physics->AddParticleSystem(particleSystem);
 
 			/* Sets the particle contact filters */
-
 
 			/* Add lists on every Layer for Rendering. */
 			for (int i = 0; i < (int)Layer::Count; i++)
@@ -56,11 +59,15 @@ namespace Kross
 
 		List<Object*> m_Objects;
 		List<Object*> m_StaticObjects;
+		List<Component*> m_RigidbodyComponents;
 
 		// List of Layer Groups.
 		List<List<Renderer*>> m_RenderList; /* | Layer | Object | */
 
 		List<BatchRenderer*> m_BatchRenderers;
+
+		LineRenderer* p_DebugRenderer;
+		Shader* p_DebugShader;
 
 		Object* p_Camera;
 		PhysicsScene* p_Physics;

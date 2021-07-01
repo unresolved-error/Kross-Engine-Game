@@ -9,6 +9,7 @@
 #include "Manager/ShaderManager.h"
 #include "Manager/ResourceManager.h"
 #include "Manager/SceneManager.h"
+#include "Manager/AudioManager.h"
 #include "Manager/Time.h"
 #include "Physics/Physics.h"
 
@@ -47,6 +48,8 @@ namespace Kross
 		Input::OnCreate();
 		Input::SetWindow(s_Instance->p_Window);
 		Physics::OnCreate();
+		AudioManager::OnCreate();
+		AudioManager::OnStart();
 
 		/* Loads the Manifest File. */
 		ResourceManager::OnLoadManifest();
@@ -63,6 +66,7 @@ namespace Kross
 			std::cout << "Creating Atlas..." << std::endl;
 			Atlas* atlas = Atlas::OnCreate();
 			ResourceManager::AttachResource<Atlas>(atlas);
+
 			
 			SceneManager::OnStart();
 			std::cout << "Starting Main Loop..." << std::endl;
@@ -90,6 +94,9 @@ namespace Kross
 	void Application::OnShutdown()
 	{
 		s_Instance->p_Window->OnShutdown();
+		AudioManager::OnShutdown();
+
+		AudioManager::OnDestroy();
 		ShaderManager::OnDestroy();
 		ResourceManager::OnDestroy();
 		SceneManager::OnDestroy();

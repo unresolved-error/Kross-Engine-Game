@@ -40,10 +40,10 @@ namespace Kross
 		LineRenderer();
 		~LineRenderer();
 
-		LineRenderer(const LineRenderer&) = delete;
-		LineRenderer(const LineRenderer&&) = delete;
-		const LineRenderer& operator=(const LineRenderer&) = delete;
-		const LineRenderer& operator=(LineRenderer&&) = delete;
+		//LineRenderer(const LineRenderer&) = delete;
+		//LineRenderer(const LineRenderer&&) = delete;
+		//const LineRenderer& operator=(const LineRenderer&) = delete;
+		//const LineRenderer& operator=(LineRenderer&&) = delete;
 
 		void Initialise();
 

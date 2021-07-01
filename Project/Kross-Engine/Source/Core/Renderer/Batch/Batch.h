@@ -80,8 +80,18 @@ namespace Kross
             Sprite* normalSprite = renderer->GetNormalMap();
             Sprite* specularSprite = renderer->GetSpecularMap();
 
-            /* Grab the Model. */
-            Matrix4 model = renderer->GetObject()->GetTransform()->GetModelMatrix();
+            /* Quick Variables. */
+            Transform2D* transform = renderer->GetLinkObject()->GetTransform();
+
+            /* Update the Model. */
+            Matrix4 model = Matrix4(1.0f);
+
+            /* Update the Translation, Rotation and Scale Marixes. */
+            Matrix4 translation = glm::translate(Matrix4(1.0f), Vector3(transform->m_Position, 0.0f));
+            Matrix4 rotation = glm::rotate(Matrix4(1.0f), glm::radians(transform->m_Rotation), Vector3(0.0f, 0.0f, 1.0f));
+            Matrix4 scale = glm::scale(Matrix4(1.0f), Vector3(transform->m_Scale, 0.0f));
+
+            model = translation * rotation * scale;
 
             /* Get all the Sprite Data needed. */
             AtlasSpriteData diffuseData = p_Atlas->GetSpriteData(diffuseSprite);

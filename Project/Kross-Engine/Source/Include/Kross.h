@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *		- Chris Deitch
  */
 
 #pragma once
@@ -20,6 +21,9 @@
 #include "../Core/Animation/Animation.h"
 #include "../Core/Animation/Keyframe.h"
 
+#include "../Core/Audio/AudioSource.h"
+
+
 #include "../Core/Component/Component.h"
 
 #include "../Core/File-IO/FileSystem.h"
@@ -28,6 +32,8 @@
 #include "../Core/Manager/SceneManager.h"
 #include "../Core/Manager/ShaderManager.h"
 #include "../Core/Manager/Time.h"
+#include "../Core/Manager/AudioManager.h"
+
 
 #include "../Core/Math/Math.h"
 #include "../Core/Math/Random.h"

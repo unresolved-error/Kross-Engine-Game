@@ -51,6 +51,8 @@ int main(int argc, char** argv)
 	
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 	player->SetLayer(Layer::Background);
+
+	player->AttachComponent<AudioPlayer>();
 	
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
 	renderer->SetMaterial(ResourceManager::GetResource<Material>("Player"));
@@ -238,6 +240,18 @@ int main(int argc, char** argv)
 
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
+	
+	AudioSource* MarioJump = AudioSource::OnCreate("Resources/Audio/mario_jump.wav", "Mario-Jump");
+	player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(MarioJump);
+	
+	player->GetComponent<AudioPlayer>()->PlaySoundEffect(MarioJump, 1, 0, false);
+	
+
+
+	AudioSource* BulletProof = AudioSource::OnCreate("Resources/Audio/bulletproof-soundroll-main-version-02-19-1873.mp3", "Bullet-Proof", true);
+	player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(BulletProof);
+	player->GetComponent<AudioPlayer>()->PlaySoundEffect(BulletProof,1,0,false);
+	player->GetComponent<AudioPlayer>()->SetIfLooping(true);
 
 	SceneManager::AttachScene(scene);
 	SceneManager::SetCurrentScene(0);
