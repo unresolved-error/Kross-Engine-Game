@@ -48,6 +48,8 @@ namespace Kross
         Box* p_Box;
         Circle* p_Circle;
 
+        LineRenderer* p_DebugRenderer;
+
         ShapeType m_ShapeType;
         CollisionState m_CollisionState;
 
@@ -67,7 +69,19 @@ namespace Kross
         /* Rigidbody2D update method */
         void OnUpdate() override;
 
+        // Sends Draw Informatin to the Line Renderer.
+        void OnUpdateDrawInformation() const { p_DebugRenderer->DrawRigidBody(p_Body); };
+
+        // Attaches a Line Renderer.
+        void AttachLineRenderer(LineRenderer* renderer) { p_DebugRenderer = renderer; };
+
         Body* GetRayCollisionBody() const { return p_RayData->body; }
+
+        /* Sets the physics scene */
+        void SetPhysicsScene(PhysicsScene* scene) { p_PhysicsScene = scene; }
+
+        /* Gets the physics scene */
+        PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
 
     public:
 
@@ -83,11 +97,6 @@ namespace Kross
             p_MassData->center = { 0, 0 };
             p_MassData->I = 0.0f;
         }
-
-        /* Sets the physics scene */
-        void SetPhysicsScene(PhysicsScene* scene) { p_PhysicsScene = scene; }
-        /* Gets the physics scene */
-        PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
 
         /* Sets the Body for the RigidBody */
         void SetBody(Body* body) { p_Body = body; }

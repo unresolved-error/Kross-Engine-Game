@@ -329,6 +329,9 @@ namespace Kross
 
         /* Gets the physics scene */
         p_PhysicsScene = GetPhysicsScene();
+
+        /* Send Draw Information. */
+        p_DebugRenderer->DrawRigidBody(p_Body);
     }
 
     void Rigidbody2D::OnUpdate()
@@ -384,7 +387,6 @@ namespace Kross
 
                 /* Gets the object rotation and updates it with the angle of the body */
                 GetLinkObject()->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
-
             }
         }
         else if (p_Circle != nullptr)

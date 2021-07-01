@@ -73,6 +73,20 @@ namespace Kross
 			static_assert(false, "Vertex Buffer Layout Type Passed Invalid!");
 		}
 
+		// Sets the Layout to be of type Line Vertex.
+		template<>
+		void SetLayoutType<LineVertex>()
+		{
+			/* Pre Allocate 2 for adding the Attributes. */
+			m_Attributes = List<VertexAttribute>(2);
+
+			/* Position Layout. */
+			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(LineVertex), (unsigned int)offsetof(LineVertex, LineVertex::m_Position));
+
+			/* Colour Layout. */
+			m_Attributes[1] = VertexAttribute(1, 4, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(LineVertex), (unsigned int)offsetof(LineVertex, LineVertex::m_Colour));
+		}
+
 		// Sets the Layout to be of type Sprite Vertex.
 		template<>
 		void SetLayoutType<SpriteVertex>()

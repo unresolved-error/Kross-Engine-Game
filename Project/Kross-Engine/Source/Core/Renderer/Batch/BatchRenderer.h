@@ -42,9 +42,9 @@ namespace Kross
             p_Atlas                 (atlas), 
             p_Texture               (nullptr), 
 
-            p_WaterBatch            (KROSS_NEW Batch<WaterVertex>(atlas)),
-            p_TextBatch             (KROSS_NEW Batch<TextVertex>(atlas)),
             p_SpriteBatch           (KROSS_NEW Batch<SpriteVertex>(atlas)),
+            p_TextBatch             (KROSS_NEW Batch<TextVertex>(atlas)),
+            p_WaterBatch            (KROSS_NEW Batch<WaterVertex>(atlas)),
 
             m_Layer                 (layer)
         {};
@@ -67,9 +67,9 @@ namespace Kross
         
         /* Batch Type to allow the Renderer to switch which one it uses. */
 
-        Batch<WaterVertex>* p_WaterBatch;
-        Batch<TextVertex>* p_TextBatch;
         Batch<SpriteVertex>* p_SpriteBatch;
+        Batch<TextVertex>* p_TextBatch;
+        Batch<WaterVertex>* p_WaterBatch;
 
         Layer m_Layer;
 

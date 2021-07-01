@@ -101,6 +101,7 @@
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
+    <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBufferLayout.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\LineVertex.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\TextVertex.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\Vertex.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\WaterVertex.h" />
@@ -566,6 +568,7 @@
     <ClCompile Include="Source\Core\Component\AudioPlayer.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
     <ClCompile Include="Source\Core\Physics\Collision\PhysicsCallbacks.cpp" />

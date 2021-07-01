@@ -14,7 +14,6 @@ namespace Kross
 	enum class KROSS_API Layer
 	{
 		/* Layers. */
-		None,
 		Default,
 		Light,
 		Player,
@@ -30,5 +29,7 @@ namespace Kross
 
 		/* Layer Count. */
 		Count,
+
+		None,
 	};
 }

@@ -13,6 +13,7 @@ namespace Kross
 	struct KROSS_API Vertex {};
 }
 
+#include "LineVertex.h"
 #include "SpriteVertex.h"
 #include "TextVertex.h"
 #include "WaterVertex.h"

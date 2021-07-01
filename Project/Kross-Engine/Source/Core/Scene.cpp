@@ -49,15 +49,19 @@ namespace Kross
 
     void Scene::OnStart()
     {
+        for (int i = 0; i < m_BatchRenderers.size(); i++)
+            m_BatchRenderers[i]->OnStart();
+
+        /* Grab the Debug Shader. */
+        p_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
+        p_DebugRenderer->Initialise();
+
         /* Start All Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
             m_Objects[i]->OnStart();
 
         for (int i = 0; i < m_StaticObjects.size(); i++)
             m_StaticObjects[i]->OnStart();
-
-        for (int i = 0; i < (int)Layer::Count; i++)
-            m_BatchRenderers[i]->OnStart();
 
         /* Scene has Started. */
         m_Started = true;
@@ -68,6 +72,12 @@ namespace Kross
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
             m_Objects[i]->OnUpdate();
+
+        for (int i = 0; i < m_RigidbodyComponents.size(); i++)
+        {
+            Rigidbody2D* body = (Rigidbody2D*)m_RigidbodyComponents[i];
+            body->OnUpdateDrawInformation();
+        }
     }
 
     void Scene::OnPhysicsUpdate()
@@ -129,16 +139,16 @@ namespace Kross
 
         /* Render the Objects. */
         for (int l = 0; l < (int)Layer::Count; l++)
-        {
-            ///* Go through each Layer and render the Objects. */
-            //for (int i = 0; i < m_RenderList[l].size(); i++)
-            //    m_RenderList[l][i]->OnRender();
-            
+        {   
             for (int i = 0; i < m_RenderList[l].size(); i++)
                 m_BatchRenderers[l]->AttachRenderer(m_RenderList[l][i]);
 
             m_BatchRenderers[l]->OnFinish();
         }
+
+        /* Draw Debug Information. */
+        p_DebugShader->Attach();
+        p_DebugRenderer->UpdateFrame();
 
         /* Remove the Dynamic Objects from the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)
@@ -288,7 +298,11 @@ namespace Kross
 
         /* If the object is a RigidBody the physics scene is set */
         if (body)
+        {
             body->SetPhysicsScene(p_Physics);
+            body->AttachLineRenderer(p_DebugRenderer);
+            m_RigidbodyComponents.push_back(body);
+        }
 
         /* Check if the object is type Particleemitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
