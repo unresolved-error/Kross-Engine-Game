@@ -41,6 +41,16 @@ namespace Kross
 	
 	}
 
+	void AudioPlayer::PauseSound(bool paused)
+	{
+		p_AudioEngine->setPause(m_AudioHandle, paused);
+	}
+
+	void AudioPlayer::PauseSoundDelayed(float seconds)
+	{
+		p_AudioEngine->schedulePause(m_AudioHandle, seconds);
+	}
+
 	void AudioPlayer::SetPlaySpeed(float playSpeed)
 	{
 		p_AudioEngine->setRelativePlaySpeed(m_AudioHandle, playSpeed);
@@ -59,6 +69,36 @@ namespace Kross
 	void AudioPlayer::SetIfLooping(bool looping)
 	{
 		p_AudioEngine->setLooping(m_AudioHandle, looping);
+	}
+
+	void AudioPlayer::FadeVolume(float destinedVolume, float secondsToFade)
+	{
+		p_AudioEngine->fadeVolume(m_AudioHandle,destinedVolume,secondsToFade);
+	}
+
+	void AudioPlayer::FadePan(float destinedPan, float secondsToFade)
+	{
+		p_AudioEngine->fadePan(m_AudioHandle, destinedPan, secondsToFade);
+	}
+
+	void AudioPlayer::FadeRelativePlaySpeed(float destinedSpeed, float secondsToFade)
+	{
+		p_AudioEngine->fadeRelativePlaySpeed(m_AudioHandle, destinedSpeed, secondsToFade);
+	}
+
+	void AudioPlayer::OscillateVolume(float minVol, float maxVol, float seconds)
+	{
+		p_AudioEngine->oscillateVolume(m_AudioHandle,minVol, maxVol, seconds);
+	}
+
+	void AudioPlayer::OscillatePan(float minPan, float maxPan, float seconds)
+	{
+		p_AudioEngine->oscillatePan(m_AudioHandle, minPan, maxPan, seconds);
+	}
+
+	void AudioPlayer::OscillateRelitivePlaySpeed(float minSpeed, float maxSpeed, float seconds)
+	{
+		p_AudioEngine->oscillateRelativePlaySpeed(m_AudioHandle, minSpeed, maxSpeed, seconds);
 	}
 
 }

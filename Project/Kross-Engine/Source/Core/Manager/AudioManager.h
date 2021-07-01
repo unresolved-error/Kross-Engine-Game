@@ -24,6 +24,7 @@ namespace Kross
         static AudioManager* s_Instance;
         SoLoud::Soloud* p_Soloud;
 
+
     protected:
         friend class AudioSource;
         

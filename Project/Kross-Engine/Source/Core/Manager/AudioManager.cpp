@@ -10,8 +10,6 @@ namespace Kross
 {
     AudioManager* AudioManager::s_Instance = nullptr;
 
-
-
     void Kross::AudioManager::OnCreate()
     {
         if (!s_Instance)
