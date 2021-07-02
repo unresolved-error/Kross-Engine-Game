@@ -15,6 +15,7 @@
 #include "../Renderer/Material.h"
 #include "../Animation/Animation.h"
 #include "../Audio/AudioSource.h"
+#include "../Renderer/Tilemap/TileMap.h"
 #include "ShaderManager.h"
 
 namespace Kross
@@ -30,7 +31,8 @@ namespace Kross
 			m_Materials		(List<Material*>()),
 			m_Fonts			(List<Font*>()),
 			m_Animations	(List<Animation*>()),
-			m_AudioSources (List<AudioSource*>()),
+			m_AudioSources  (List<AudioSource*>()),
+			m_TileMaps		(List<TileMap*>()),
 			p_Atlas			(nullptr)
 		{};
 		~ResourceManager();
@@ -45,6 +47,7 @@ namespace Kross
 		List<Font*> m_Fonts;
 		List<Animation*> m_Animations;
 		List<AudioSource*> m_AudioSources;
+		List<TileMap*> m_TileMaps;
 
 		Atlas* p_Atlas;
 

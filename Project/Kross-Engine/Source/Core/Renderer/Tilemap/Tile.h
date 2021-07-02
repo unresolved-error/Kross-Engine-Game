@@ -19,6 +19,7 @@ namespace Kross
         Sprite* p_Sprite;
         Vector2 m_Position;
         
+
         Tile() :
             p_Sprite(nullptr),
             m_Position(Vector2(0.0f,0.0f))
