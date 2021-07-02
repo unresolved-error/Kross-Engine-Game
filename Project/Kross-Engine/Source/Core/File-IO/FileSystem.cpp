@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #include "FileSystem.h"
@@ -258,6 +259,33 @@ namespace Kross
 		{
 			fileStream.close();
 		}
+	}
+
+	void FileSystem::OnLoadTileMap(const std::string& filepath) 
+	{
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+		std::string mapName;
+		std::string mapRawDataFilepath;
+		std::string spriteBaseName;
+		std::string spriteSetWidth;
+		std::string spriteSetHeight;
+
+		List<Sprite*> spriteList;
+
+		for (int y = 0; y < std::stoi(spriteSetHeight); y++)
+		{
+			for (int x = 0; x < std::stoi(spriteSetWidth); x++) 
+			{
+				std::string searchName = spriteBaseName + std::to_string(x) + "-" + std::to_string(y);
+				Sprite* sprite = ResourceManager::GetResource<Sprite>(searchName);
+				spriteList.push_back(sprite);
+			}
+		}
+
+		TileMap* tileMap = TileMap::onCreate();
+		tileMap->setSprites(spriteList);
 	}
 
 	void FileSystem::OnLoadSprite(const std::string& filepath)

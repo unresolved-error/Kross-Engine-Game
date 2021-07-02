@@ -186,8 +186,7 @@
     <ClInclude Include="Source\Core\Renderer\Text\Font.h" />
     <ClInclude Include="Source\Core\Renderer\Text\TextAlignment.h" />
     <ClInclude Include="Source\Core\Renderer\Tilemap\Tile.h" />
-    <ClInclude Include="Source\Core\Renderer\Tilemap\TileType.h" />
-    <ClInclude Include="Source\Core\Renderer\Tilemap\TileSet.h" />
+    <ClInclude Include="Source\Core\Renderer\Tilemap\TileMap.h" />
     <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
@@ -637,6 +636,7 @@
     <ClCompile Include="Source\Core\Renderer\Image\Texture.cpp" />
     <ClCompile Include="Source\Core\Renderer\IndexBuffer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Shader\Shader.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Tilemap\TileMap.cpp" />
     <ClCompile Include="Source\Core\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Core\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="Source\Core\Scene.cpp" />
