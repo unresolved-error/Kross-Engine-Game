@@ -272,6 +272,109 @@ namespace Kross
 		std::string spriteSetWidth;
 		std::string spriteSetHeight;
 
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool hasFirstLine = false;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Special Case where it reads the first line. */
+				if (!hasFirstLine)
+				{
+					hasFirstLine = true;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string tileMapProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						tileMapProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (tileMapProperty == "NAME")
+							mapName = line.substr(0, searchPosition);
+
+						else if (tileMapProperty == "RAWDATA")
+							mapRawDataFilepath = line.substr(0, searchPosition);
+
+						else if (tileMapProperty == "SPRITESETNAME")
+							spriteBaseName = line.substr(0, searchPosition);
+
+						else if (tileMapProperty == "SPRITESETWIDTH")
+							spriteSetWidth = line.substr(0, searchPosition);
+
+						else if (tileMapProperty == "SPRITESETHEIGHT")
+							spriteSetHeight = line.substr(0, searchPosition);
+					}
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+
+			fileStream.close();
+		}
+
+		/* Open Raw Data. */
+		fileStream.open(mapRawDataFilepath);
+
+		List<List<int>> dataConverted;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				List<std::string> data;
+				std::string lineSplitter = ",";
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos)
+				{
+					data.push_back(line.substr(0, searchPosition));
+				}
+
+				data.push_back(line);
+
+				dataConverted.push_back(List<int>());
+
+				for (int i = 0; i < data.size(); i++)
+				{
+					/* Comment me please. */
+					dataConverted[dataConverted.size() - 1].push_back(std::stoi(data[i]));
+				}
+			}
+
+			fileStream.close();
+		}
+
 		List<Sprite*> spriteList;
 
 		for (int y = 0; y < std::stoi(spriteSetHeight); y++)
@@ -284,8 +387,9 @@ namespace Kross
 			}
 		}
 
-		TileMap* tileMap = TileMap::onCreate();
-		tileMap->setSprites(spriteList);
+		TileMap* tileMap = TileMap::OnCreate(mapName);
+		tileMap->AttachSprites(spriteList);
+		tileMap->SetMapIndexes(dataConverted);
 	}
 
 	void FileSystem::OnLoadSprite(const std::string& filepath)

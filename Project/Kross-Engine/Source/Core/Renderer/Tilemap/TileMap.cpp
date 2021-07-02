@@ -21,6 +21,7 @@ namespace Kross
 
 	void Kross::TileMap::AttachSprites(List<Sprite*> sprites)
 	{
+		m_Sprites = sprites;
 	}
 
 	void TileMap::SetName(std::string name)
