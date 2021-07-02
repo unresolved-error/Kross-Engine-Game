@@ -155,6 +155,9 @@ namespace Kross
 
 				else if (assetType == "ANIMATION")
 					OnLoadAnimation(assetFilepath);
+
+				else if (assetType == "AUDIOSOURCE")
+					OnLoadAudioSource(assetFilepath);
 			}
 
 			fileStream.close();
@@ -792,6 +795,85 @@ namespace Kross
 				/* Add the Keyframe. */
 				animation->AttachKeyframe(keyframe);
 			}
+
+			fileStream.close();
+		}
+
+		else
+		{
+			fileStream.close();
+		}
+	}
+
+	void FileSystem::OnLoadAudioSource(const std::string& filepath)
+	{
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+
+		/* Parameter variables. */
+		std::string audioSourceName;
+		std::string audioSourceFilepath;
+		std::string audioSourceStream;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool ignoreFirstLine = true;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Ignore the first line. */
+				if (ignoreFirstLine)
+				{
+					ignoreFirstLine = false;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string audioSourceProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						audioSourceProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (audioSourceProperty == "NAME")
+							audioSourceName = line.substr(0, searchPosition);
+
+						else if (audioSourceProperty == "FILEPATH")
+							audioSourceFilepath = line.substr(0, searchPosition);
+
+						else if (audioSourceProperty == "STREAM")
+							audioSourceStream = line.substr(0, searchPosition);
+					}
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+			
+			AudioSource* source = AudioSource::OnCreate(audioSourceFilepath, audioSourceName, std::stoi(audioSourceStream));
+
+			ResourceManager::AttachResource<AudioSource>(source);
 
 			fileStream.close();
 		}

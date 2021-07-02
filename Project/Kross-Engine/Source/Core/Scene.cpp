@@ -73,11 +73,13 @@ namespace Kross
         for (int i = 0; i < m_Objects.size(); i++)
             m_Objects[i]->OnUpdate();
 
+        #ifdef KROSS_DEBUG
         for (int i = 0; i < m_RigidbodyComponents.size(); i++)
         {
             Rigidbody2D* body = (Rigidbody2D*)m_RigidbodyComponents[i];
             body->OnUpdateDrawInformation();
         }
+        #endif
     }
 
     void Scene::OnPhysicsUpdate()
@@ -146,9 +148,11 @@ namespace Kross
             m_BatchRenderers[l]->OnFinish();
         }
 
+        #ifdef KROSS_DEBUG
         /* Draw Debug Information. */
         p_DebugShader->Attach();
         p_DebugRenderer->UpdateFrame();
+        #endif
 
         /* Remove the Dynamic Objects from the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)

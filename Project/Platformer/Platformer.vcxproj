@@ -5,6 +5,10 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-Debug|x64">
+      <Configuration>Release-Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
@@ -31,6 +35,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -42,6 +53,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -51,6 +65,12 @@
     <TargetName>Kross</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
@@ -78,7 +98,27 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS;; WITH_WINMM;; _CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; KROSS_DEBUG; WITH_WINMM;; _CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Kross-Engine\Vendor\glew\include\;$(SolutionDir)Kross-Engine\Vendor\glfw\include\;$(SolutionDir)Kross-Engine\Vendor\glm\include\;$(SolutionDir)Kross-Engine\Vendor\stb_image\include\;$(SolutionDir)Kross-Engine\Vendor\fnl\include\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\;%(AdditionalIncludeDirectories);$(SolutionDir)Kross-Engine\Vendor\soloud\include\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Kross-Engine\Vendor\glfw\lib\;$(SolutionDir)Kross-Engine\Vendor\glew\lib\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; WITH_WINMM;; _CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Kross-Engine\Vendor\glew\include\;$(SolutionDir)Kross-Engine\Vendor\glfw\include\;$(SolutionDir)Kross-Engine\Vendor\glm\include\;$(SolutionDir)Kross-Engine\Vendor\stb_image\include\;$(SolutionDir)Kross-Engine\Vendor\fnl\include\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\;%(AdditionalIncludeDirectories);$(SolutionDir)Kross-Engine\Vendor\soloud\include\;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>

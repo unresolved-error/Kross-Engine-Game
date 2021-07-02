@@ -430,14 +430,68 @@ namespace Kross
 		template<>
 		static void DetachResource<Animation>(Animation* animation)
 		{
-			/* Go through the Material List. */
+			/* Go through the Animation List. */
 			for (int i = 0; i < s_Instance->m_Animations.size(); i++)
 			{
-				/* if the Material is the same as the one specified. Remove it.*/
+				/* if the Animation is the same as the one specified. Remove it.*/
 				if (s_Instance->m_Animations[i] == animation)
 				{
 					Animation::OnDestroy(s_Instance->m_Animations[i]);
 					s_Instance->m_Animations.erase(s_Instance->m_Animations.begin() + i);
+				}
+			}
+		}
+
+		#pragma endregion
+
+		#pragma region AUDIO SOURCES
+
+		// Gets Audio Source by name from Resource Manager.
+		template<>
+		static AudioSource* GetResource<AudioSource>(const std::string& name)
+		{
+			for (int i = 0; i < s_Instance->m_AudioSources.size(); i++)
+			{
+				/* If the name of the Audio Source matches the name requested, return that Audio Source. */
+				if (s_Instance->m_AudioSources[i]->GetName() == name)
+					return s_Instance->m_AudioSources[i];
+			}
+
+			/* If nothing was found. */
+			return nullptr;
+		}
+
+		// Gets Audio Source by name from Resource Manager.
+		template<>
+		static AudioSource* GetResource<AudioSource>(int index)
+		{
+			/* If the Index is in the bounds of the List. */
+			if (index >= 0 && index < s_Instance->m_AudioSources.size())
+				return s_Instance->m_AudioSources[index];
+
+			/* If not, return null. */
+			return nullptr;
+		}
+
+		// Adds Audio Source to the Resource Manager.
+		template<>
+		static void AttachResource<AudioSource>(AudioSource* audioSource)
+		{
+			s_Instance->m_AudioSources.push_back(audioSource);
+		}
+
+		// Removes a Audio Source from the Resource Manager.
+		template<>
+		static void DetachResource<AudioSource>(AudioSource* audioSource)
+		{
+			/* Go through the Audio Sources List. */
+			for (int i = 0; i < s_Instance->m_AudioSources.size(); i++)
+			{
+				/* if the Audio Source is the same as the one specified. Remove it.*/
+				if (s_Instance->m_AudioSources[i] == audioSource)
+				{
+					AudioSource::OnDestroy(s_Instance->m_AudioSources[i]);
+					s_Instance->m_AudioSources.erase(s_Instance->m_AudioSources.begin() + i);
 				}
 			}
 		}

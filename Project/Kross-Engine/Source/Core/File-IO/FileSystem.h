@@ -39,6 +39,9 @@ namespace Kross
 		// Loads in a Animation.
 		static void OnLoadAnimation(const std::string& filepath);
 
+		// Loads in a Audio Source.
+		static void OnLoadAudioSource(const std::string& filepath);
+
 	public:
 		// Obtains the file contents in a string. (LAID OUT AS REPRESENTED IN FILE)
 		static std::string GetFileContents(const std::string& filepath);
