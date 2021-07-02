@@ -24,6 +24,7 @@ namespace Kross
         static AudioManager* s_Instance;
         SoLoud::Soloud* p_Soloud;
 
+
     protected:
         friend class AudioSource;
         
@@ -49,6 +50,15 @@ namespace Kross
 
         //Returns SoLoud instance.
         SoLoud::Soloud* ReturnSoLoudReference() { return p_Soloud; };
+
+        //"Sets global volume. 1 is normal, 0 is mute.
+        void SetGlobalVolume(float volume);
+
+        //Get global volume, returns current vol, 1 is normal, 0 is mute.
+        float GetGlobalVolume();
+
+
+
 
     };
 }
