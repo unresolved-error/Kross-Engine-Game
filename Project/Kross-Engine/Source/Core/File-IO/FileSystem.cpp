@@ -162,6 +162,9 @@ namespace Kross
 
 				else if (assetType == "TILEMAP")
 					OnLoadTileMap(assetFilepath);
+
+				else if(assetType == "TILESET")
+					OnLoadTileSet(assetFilepath);
 			}
 
 			fileStream.close();
@@ -271,9 +274,6 @@ namespace Kross
 		fileStream.open(filepath.c_str());
 		std::string mapName;
 		std::string mapRawDataFilepath;
-		std::string spriteBaseName;
-		std::string spriteSetWidth;
-		std::string spriteSetHeight;
 
 		if (fileStream.is_open())
 		{
@@ -319,14 +319,6 @@ namespace Kross
 						else if (tileMapProperty == "RAWDATA")
 							mapRawDataFilepath = line.substr(0, searchPosition);
 
-						else if (tileMapProperty == "SPRITESETNAME")
-							spriteBaseName = line.substr(0, searchPosition);
-
-						else if (tileMapProperty == "SPRITESETWIDTH")
-							spriteSetWidth = line.substr(0, searchPosition);
-
-						else if (tileMapProperty == "SPRITESETHEIGHT")
-							spriteSetHeight = line.substr(0, searchPosition);
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -382,21 +374,107 @@ namespace Kross
 			fileStream.close();
 		}
 
-		List<Sprite*> spriteList;
 
-		for (int y = 0; y < std::stoi(spriteSetHeight); y++)
+
+		TileMap* tileMap = TileMap::OnCreate(mapName);
+		tileMap->SetMapIndexes(dataConverted);
+		/* Attach to resource manager. */
+		ResourceManager::AttachResource<TileMap>(tileMap);
+
+	}
+
+	void FileSystem::OnLoadTileSet(const std::string& filepath)
+	{
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+		std::string tileSetName;
+		std::string spriteBaseName;
+		std::string spriteSheetWidth;
+		std::string spriteSheetHeight;
+
+		if (fileStream.is_open())
 		{
-			for (int x = 0; x < std::stoi(spriteSetWidth); x++) 
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool hasFirstLine = false;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
 			{
-				std::string searchName = spriteBaseName + std::to_string(x) + "-" + std::to_string(y);
-				Sprite* sprite = ResourceManager::GetResource<Sprite>(searchName);
-				spriteList.push_back(sprite);
+				/* Special Case where it reads the first line. */
+				if (!hasFirstLine)
+				{
+					hasFirstLine = true;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string tileSetProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						tileSetProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (tileSetProperty == "NAME")
+							tileSetName = line.substr(0, searchPosition);
+
+						else if (tileSetProperty == "SPRITEBASENAME")
+							spriteBaseName = line.substr(0, searchPosition);
+
+						else if (tileSetProperty == "SPRITESHEETWIDTH")
+							spriteSheetWidth = line.substr(0, searchPosition);
+
+						else if (tileSetProperty == "SPRITESHEETHEIGHT")
+							spriteSheetHeight = line.substr(0, searchPosition);
+
+
+					}
+
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+
+			fileStream.close();
+		}
+
+		/* Quick Variables. */
+		int width = std::stoi(spriteSheetWidth);
+		int height = std::stoi(spriteSheetHeight);
+		List<Sprite*> sprites;
+
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				sprites.push_back(ResourceManager::GetResource<Sprite>(spriteBaseName + std::to_string(x) + "-" + std::to_string(y)));
 			}
 		}
 
-		TileMap* tileMap = TileMap::OnCreate(mapName);
-		tileMap->AttachSprites(spriteList);
-		tileMap->SetMapIndexes(dataConverted);
+		TileSet* tileSet = TileSet::OnCreate(tileSetName);
+		tileSet->SetSprites(sprites);
+
+		/* Attach to resource manager. */
+		ResourceManager::AttachResource<TileSet>(tileSet);
 	}
 
 	void FileSystem::OnLoadSprite(const std::string& filepath)

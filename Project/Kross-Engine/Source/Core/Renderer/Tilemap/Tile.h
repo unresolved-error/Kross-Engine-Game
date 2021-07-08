@@ -17,17 +17,17 @@ namespace Kross
     struct KROSS_API Tile
     {
         Sprite* p_Sprite;
-        Vector2 m_Position;
+        Vector2 m_Offset;
         
 
         Tile() :
             p_Sprite(nullptr),
-            m_Position(Vector2(0.0f,0.0f))
+            m_Offset(Vector2(0.0f,0.0f))
         {};
 
-        Tile(Sprite* tileSprite, Vector2 tilePosition) :
+        Tile(Sprite* tileSprite, Vector2 tileOffset) :
             p_Sprite(tileSprite),
-            m_Position(tilePosition)
+            m_Offset(tileOffset)
         {};
 
     };
