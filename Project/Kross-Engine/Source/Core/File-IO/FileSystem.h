@@ -26,7 +26,7 @@ namespace Kross
 		static void OnLoadTexture(const std::string& filepath);
 
 		// Loads in a tileMap
-		void OnLoadTileMap(const std::string& filepath);
+		static void OnLoadTileMap(const std::string& filepath);
 
 		// Loads in a Sprite.
 		static void OnLoadSprite(const std::string& filepath);

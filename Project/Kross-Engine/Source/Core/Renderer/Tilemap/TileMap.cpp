@@ -51,5 +51,4 @@ namespace Kross
 		//Not required, but safe code.
 		if (toDestruct) { delete toDestruct; }
 	}
-
 }

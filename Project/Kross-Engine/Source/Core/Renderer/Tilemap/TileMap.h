@@ -14,6 +14,7 @@ namespace Kross
     {
     protected:
         friend class FileSystem;
+
         void SetOrigin(Vector2 origin);
         void SetDimension(Vector2 dimension);
         void SetMapIndexes(List<List<int>> mapIndexs);

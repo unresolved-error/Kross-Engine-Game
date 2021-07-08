@@ -1931,6 +1931,12 @@
     <ClCompile Include="Source\Core\Component\AudioPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\File-IO\Serialiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Renderer\Tilemap\TileMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl">

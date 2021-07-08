@@ -159,6 +159,9 @@ namespace Kross
 
 				else if (assetType == "AUDIOSOURCE")
 					OnLoadAudioSource(assetFilepath);
+
+				else if (assetType == "TILEMAP")
+					OnLoadTileMap(assetFilepath);
 			}
 
 			fileStream.close();
@@ -359,7 +362,11 @@ namespace Kross
 				while ((searchPosition = line.find(lineSplitter)) != std::string::npos)
 				{
 					data.push_back(line.substr(0, searchPosition));
+
+					line.erase(0, searchPosition + lineSplitter.length());
 				}
+				
+				line = line;
 
 				data.push_back(line);
 
