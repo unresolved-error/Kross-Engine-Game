@@ -14,6 +14,16 @@ namespace Kross
 		CreateTiles();
 	}
 
+	TileMapRenderer::~TileMapRenderer()
+	{
+		for (int i = 0; i < m_Tiles.size(); i++)
+		{
+			delete m_Tiles[i];
+			m_Tiles[i] = nullptr;
+		}
+		m_Tiles.clear();
+	}
+
 	void TileMapRenderer::SetTileMap(TileMap* tileMap)
 	{
 		p_TileMap = tileMap;

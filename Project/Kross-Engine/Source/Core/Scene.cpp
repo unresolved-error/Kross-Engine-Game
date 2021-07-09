@@ -45,6 +45,8 @@ namespace Kross
 
         delete p_Physics;
         delete p_WorldFilter;
+        delete p_DebugRenderer;
+        p_DebugShader = nullptr;
     }
 
     void Scene::OnStart()

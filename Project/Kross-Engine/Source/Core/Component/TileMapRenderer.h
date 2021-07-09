@@ -48,6 +48,7 @@ namespace Kross
 
 
     public:
+        ~TileMapRenderer();
         TileMap* GetTileMap() { return p_TileMap; };
         TileSet* GetTileSet() { return p_TileSet; };
         void SetTileMap(TileMap* tileMap);

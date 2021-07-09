@@ -101,6 +101,28 @@ namespace Kross
 		m_AudioSources.clear();
 		m_AudioSources.~vector();
 
+		/* Clean up all the Tile Maps from memory. */
+		for (int i = 0; i < m_TileMaps.size(); i++)
+		{
+			TileMap::OnDestroy(m_TileMaps[i]);
+			m_TileMaps[i] = nullptr;
+		}
+
+		/* Clean up the list. */
+		m_TileMaps.clear();
+		m_TileMaps.~vector();
+
+		/* Clean up all the Tile Sets from memory. */
+		for (int i = 0; i < m_TileSets.size(); i++)
+		{
+			TileSet::OnDestroy(m_TileSets[i]);
+			m_TileSets[i] = nullptr;
+		}
+
+		/* Clean up the list. */
+		m_TileSets.clear();
+		m_TileSets.~vector();
+
 		/* Destroy the Atlas. */
 		Atlas::OnDestroy(p_Atlas);
 	}
