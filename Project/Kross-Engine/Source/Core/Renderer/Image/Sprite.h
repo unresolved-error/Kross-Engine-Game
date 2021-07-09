@@ -46,6 +46,7 @@ namespace Kross
 		Geometry* m_Geometry;
 
 	protected:
+		friend class Rigidbody2D;
 		friend class SpriteRenderer;
 		friend class Character;
 		friend class Atlas;

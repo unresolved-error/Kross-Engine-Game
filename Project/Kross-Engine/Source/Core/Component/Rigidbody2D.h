@@ -15,6 +15,9 @@
 #include "../Renderer/LineRenderer.h"
 #include "../Physics/Data/CollisionData.h"
 #include "../Physics/Collision/ContactFilter.h"
+#include "../Renderer/Tilemap/Tile.h"
+#include "../Renderer/Tilemap/TileSet.h"
+#include "../Renderer/Tilemap/TileMap.h"
 
 namespace Kross
 {
@@ -61,8 +64,14 @@ namespace Kross
 
         List<AABBCollisionData*> m_AABBCollisions;
         List<Body*> m_CloseObjects;
+        List<Body*> m_TileColliders;
+        List<Box*> m_TileShapes;
+        List<FixtureDef*> m_Fixtures;
+
+        bool m_TileMap = false;
 
     protected:
+        friend class TileMapRenderer;
         friend class PhysicsScene;
         friend class Scene;
 
@@ -73,7 +82,7 @@ namespace Kross
         void OnUpdate() override;
 
         // Sends Draw Informatin to the Line Renderer.
-        void OnUpdateDrawInformation() const { p_DebugRenderer->DrawRigidBody(p_Body); };
+        void OnUpdateDrawInformation() const;
 
         // Attaches a Line Renderer.
         void AttachLineRenderer(LineRenderer* renderer) { p_DebugRenderer = renderer; };
@@ -148,7 +157,7 @@ namespace Kross
 
 
         /* Returns the current collision state */
-        CollisionState GetCollision() const { return m_CollisionState; }    
+        CollisionState GetCollision() const { return m_CollisionState; }
 
         /* Collides dynamic bodies with particles */
         Vector2 CollideParticles();
@@ -160,6 +169,6 @@ namespace Kross
 
         void GetSurroundingObjects(float size, Body* body);
 
-        //void CreateTileMapColliders(TileMap* tileMap);
+        void CreateTileMapColliders(TileMap* tileMap, List<Tile*> tiles);
     };
 }

@@ -112,13 +112,14 @@ namespace Kross
 		m_ParticleSystemList = p_PhysicsScene->GetParticleSystem();
 
 
-		/* Creates all of the particles */
+		/* Goes through all of the particle systems */
 		for (int x = 0; x < m_ParticleSystemList.size(); x++)
 		{
 			p_ParticleSystem = m_ParticleSystemList[x];
 			SetRadius(0.025f);
 
 
+			/* Goes through all particles within the system */
 			for (int y = 0; y < m_ParticleList.size(); y++)
 			{
 				m_ParticleList[y]->SetCollisionFilter(p_Filter);

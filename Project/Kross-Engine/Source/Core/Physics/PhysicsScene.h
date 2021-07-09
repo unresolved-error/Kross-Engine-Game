@@ -54,5 +54,7 @@ namespace Kross
 		/* Return the Particle System */
 		List<ParticleSystem*> GetParticleSystem() { return m_ParticleSystem; }
 
+		List<Body*> GetBodyList() { return m_bodies; }
+
 	};
 }

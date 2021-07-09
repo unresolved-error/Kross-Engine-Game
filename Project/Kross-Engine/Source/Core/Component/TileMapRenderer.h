@@ -38,6 +38,7 @@ namespace Kross
 
 
     protected:
+        friend class RigidBody2D;
         /* Friend classing Batch. */
         template<typename Type> friend class Batch;
         /* ^ I Hate this even more. Deklyn, what is this bs?*/
@@ -50,6 +51,7 @@ namespace Kross
     public:
         TileMap* GetTileMap() { return p_TileMap; };
         TileSet* GetTileSet() { return p_TileSet; };
+        List<Tile*> GetTileList() { return m_Tiles; };
         void SetTileMap(TileMap* tileMap);
         void SetTileSet(TileSet* tileSet);
    
