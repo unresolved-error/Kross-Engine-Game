@@ -25,6 +25,7 @@ namespace Kross
             m_Offset(Vector2(0.0f,0.0f))
         {};
 
+        //overloaded tile creator. not currently used.
         Tile(Sprite* tileSprite, Vector2 tileOffset) :
             p_Sprite(tileSprite),
             m_Offset(tileOffset)

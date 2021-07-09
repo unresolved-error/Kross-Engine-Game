@@ -30,8 +30,10 @@ namespace Kross
         TileSet* p_TileSet;
         List<Tile*> m_Tiles;
 
+        //Do not call manually. takes the xy of a tile Map, and then finds appropriate value. Uses that value to select correct sprite.
         Sprite* MatchMapCell(int x, int y);
 
+        //As per title.
         void CreateTiles();
 
 
@@ -48,10 +50,13 @@ namespace Kross
 
 
     public:
-        ~TileMapRenderer();
+        //Returns tileMap Pointer
         TileMap* GetTileMap() { return p_TileMap; };
+        //Gets the tileset pointer
         TileSet* GetTileSet() { return p_TileSet; };
+        //takes the tile map pointer and sets it to this renderer
         void SetTileMap(TileMap* tileMap);
+        //takes tileSet pointer and sets it to this renderer.
         void SetTileSet(TileSet* tileSet);
    
 
