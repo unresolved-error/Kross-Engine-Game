@@ -2,6 +2,7 @@
  *  Author: Chris Deitch.
  *  Editors:
  *      - Chris Deitch.
+ *      - Deklyn Palmer.
  */
 
 #pragma once
@@ -26,26 +27,29 @@ namespace Kross
         TileSet* p_TileSet;
         List<Tile*> m_Tiles;
 
+        Sprite* MatchMapCell(int x, int y);
+
+        void CreateTiles();
 
 
 
 
     protected:
-
+        /* Friend classing Batch. */
+        template<typename Type> friend class Batch;
+        /* ^ I Hate this even more. Deklyn, what is this bs?*/
 
         // Component Start Method.
         void OnStart() override;
 
-        // Component Update Method.
-        void OnUpdate() override;
 
 
     public:
         TileMap* GetTileMap() { return p_TileMap; };
         TileSet* GetTileSet() { return p_TileSet; };
-        void SetTileMap(TileMap* tileMap) { p_TileMap = tileMap; }
-        void SetTileSet(TileSet* tileSet) { p_TileSet = tileSet; }
-
+        void SetTileMap(TileMap* tileMap);
+        void SetTileSet(TileSet* tileSet);
+   
 
     };
 

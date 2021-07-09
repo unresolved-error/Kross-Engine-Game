@@ -24,8 +24,8 @@ namespace Kross
         List<List<int>> GetMapIndexs()const { return m_MapSpriteIndexs; };
         static TileMap* OnCreate(const std::string& name);
         static void OnDestroy(TileMap* toDestruct);
-
-
+        int GetCellValue(int x, int y);
+        const Vector2 GetDimensions() const;
 
 
     private:

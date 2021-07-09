@@ -30,4 +30,13 @@ namespace Kross
 		//Not required, but safe code.
 		if (toDestruct) { delete toDestruct; }
 	}
+	int TileMap::GetCellValue(const int x, const int y)
+	{
+		return m_MapSpriteIndexs[y][x];
+	}
+	
+	const Vector2 TileMap::GetDimensions() const
+	{
+		return Vector2(m_MapSpriteIndexs[0].size(), m_MapSpriteIndexs.size());
+	}
 }
