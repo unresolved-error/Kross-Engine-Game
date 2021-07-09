@@ -63,5 +63,4 @@ namespace Kross
 #include "Animator.h"
 #include "AudioPlayer.h"
 
-
 #include "Renderer.h"

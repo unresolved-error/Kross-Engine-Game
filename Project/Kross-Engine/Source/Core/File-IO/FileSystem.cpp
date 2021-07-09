@@ -2,12 +2,16 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #include "FileSystem.h"
 
 #define MANIFEST_FILEPATH "manifest.krs"
 #define LINE_DIVIDER "->"
+
+/* For Writing the Files. */
+#define ASSET_FILEPATH "Assets/"
 
 #include "../Manager/ResourceManager.h"
 
@@ -77,7 +81,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadManifestFile()
+	void FileSystem::OnReadManifestFile()
 	{
 		/* The Filepath for the Mainfest. */
 		std::string filepath = MANIFEST_FILEPATH;
@@ -139,22 +143,31 @@ namespace Kross
 				/* Determain how it gets loaded in. */
 
 				if (assetType == "SPRITE")
-					OnLoadSprite(assetFilepath);
+					OnReadSprite(assetFilepath);
 
 				else if (assetType == "TEXTURE")
-					OnLoadTexture(assetFilepath);
+					OnReadTexture(assetFilepath);
 
 				else if (assetType == "SHADER")
-					OnLoadShader(assetFilepath);
+					OnReadShader(assetFilepath);
 
 				else if (assetType == "FONT")
-					OnLoadFont(assetFilepath);
+					OnReadFont(assetFilepath);
 
 				else if (assetType == "MATERIAL")
-					OnLoadMaterial(assetFilepath);
+					OnReadMaterial(assetFilepath);
 
 				else if (assetType == "ANIMATION")
-					OnLoadAnimation(assetFilepath);
+					OnReadAnimation(assetFilepath);
+
+				else if (assetType == "AUDIOSOURCE")
+					OnReadAudioSource(assetFilepath);
+
+				else if (assetType == "TILEMAP")
+					OnReadTileMap(assetFilepath);
+
+				else if(assetType == "TILESET")
+					OnReadTileSet(assetFilepath);
 			}
 
 			fileStream.close();
@@ -166,7 +179,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadTexture(const std::string& filepath)
+	void FileSystem::OnReadTexture(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -257,7 +270,217 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadSprite(const std::string& filepath)
+	void FileSystem::OnReadTileMap(const std::string& filepath) 
+	{
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+		std::string mapName;
+		std::string mapRawDataFilepath;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool hasFirstLine = false;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Special Case where it reads the first line. */
+				if (!hasFirstLine)
+				{
+					hasFirstLine = true;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string tileMapProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						tileMapProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (tileMapProperty == "NAME")
+							mapName = line.substr(0, searchPosition);
+
+						else if (tileMapProperty == "RAWDATA")
+							mapRawDataFilepath = line.substr(0, searchPosition);
+
+					}
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+
+			fileStream.close();
+		}
+
+		/* Open Raw Data. */
+		fileStream.open(mapRawDataFilepath);
+
+		List<List<int>> dataConverted;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				List<std::string> data;
+				std::string lineSplitter = ",";
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos)
+				{
+					data.push_back(line.substr(0, searchPosition));
+
+					line.erase(0, searchPosition + lineSplitter.length());
+				}
+				
+				line = line;
+
+				data.push_back(line);
+
+				dataConverted.push_back(List<int>());
+
+				for (int i = 0; i < data.size(); i++)
+				{
+					/* Comment me please. */
+					dataConverted[dataConverted.size() - 1].push_back(std::stoi(data[i]));
+				}
+			}
+
+			fileStream.close();
+		}
+
+
+
+		TileMap* tileMap = TileMap::OnCreate(mapName);
+		tileMap->SetMapIndexes(dataConverted);
+		/* Attach to resource manager. */
+		ResourceManager::AttachResource<TileMap>(tileMap);
+
+	}
+
+	void FileSystem::OnReadTileSet(const std::string& filepath)
+	{
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+		std::string tileSetName;
+		std::string spriteBaseName;
+		std::string spriteSheetWidth;
+		std::string spriteSheetHeight;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool hasFirstLine = false;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Special Case where it reads the first line. */
+				if (!hasFirstLine)
+				{
+					hasFirstLine = true;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string tileSetProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						tileSetProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (tileSetProperty == "NAME")
+							tileSetName = line.substr(0, searchPosition);
+
+						else if (tileSetProperty == "SPRITEBASENAME")
+							spriteBaseName = line.substr(0, searchPosition);
+
+						else if (tileSetProperty == "SPRITESHEETWIDTH")
+							spriteSheetWidth = line.substr(0, searchPosition);
+
+						else if (tileSetProperty == "SPRITESHEETHEIGHT")
+							spriteSheetHeight = line.substr(0, searchPosition);
+
+
+					}
+
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+
+			fileStream.close();
+		}
+
+		/* Quick Variables. */
+		int width = std::stoi(spriteSheetWidth);
+		int height = std::stoi(spriteSheetHeight);
+		List<Sprite*> sprites;
+
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				sprites.push_back(ResourceManager::GetResource<Sprite>(spriteBaseName + std::to_string(x) + "-" + std::to_string(y)));
+			}
+		}
+
+		TileSet* tileSet = TileSet::OnCreate(tileSetName);
+		tileSet->SetSprites(sprites);
+
+		/* Attach to resource manager. */
+		ResourceManager::AttachResource<TileSet>(tileSet);
+	}
+
+	void FileSystem::OnReadSprite(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -367,7 +590,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadFont(const std::string& filepath)
+	void FileSystem::OnReadFont(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -454,7 +677,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadShader(const std::string& filepath)
+	void FileSystem::OnReadShader(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -541,7 +764,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadMaterial(const std::string& filepath)
+	void FileSystem::OnReadMaterial(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -631,7 +854,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadAnimation(const std::string& filepath)
+	void FileSystem::OnReadAnimation(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -792,6 +1015,85 @@ namespace Kross
 				/* Add the Keyframe. */
 				animation->AttachKeyframe(keyframe);
 			}
+
+			fileStream.close();
+		}
+
+		else
+		{
+			fileStream.close();
+		}
+	}
+
+	void FileSystem::OnReadAudioSource(const std::string& filepath)
+	{
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+
+		/* Parameter variables. */
+		std::string audioSourceName;
+		std::string audioSourceFilepath;
+		std::string audioSourceStream;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool ignoreFirstLine = true;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Ignore the first line. */
+				if (ignoreFirstLine)
+				{
+					ignoreFirstLine = false;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string audioSourceProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						audioSourceProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (audioSourceProperty == "NAME")
+							audioSourceName = line.substr(0, searchPosition);
+
+						else if (audioSourceProperty == "FILEPATH")
+							audioSourceFilepath = line.substr(0, searchPosition);
+
+						else if (audioSourceProperty == "STREAM")
+							audioSourceStream = line.substr(0, searchPosition);
+					}
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+			
+			AudioSource* source = AudioSource::OnCreate(audioSourceFilepath, audioSourceName, std::stoi(audioSourceStream));
+
+			ResourceManager::AttachResource<AudioSource>(source);
 
 			fileStream.close();
 		}

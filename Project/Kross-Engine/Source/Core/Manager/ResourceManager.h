@@ -15,6 +15,9 @@
 #include "../Renderer/Material.h"
 #include "../Animation/Animation.h"
 #include "../Audio/AudioSource.h"
+#include "../Renderer/Tilemap/TileMap.h"
+#include "../Renderer/Tilemap/TileSet.h"
+
 #include "ShaderManager.h"
 
 namespace Kross
@@ -30,7 +33,9 @@ namespace Kross
 			m_Materials		(List<Material*>()),
 			m_Fonts			(List<Font*>()),
 			m_Animations	(List<Animation*>()),
-			m_AudioSources (List<AudioSource*>()),
+			m_AudioSources  (List<AudioSource*>()),
+			m_TileMaps		(List<TileMap*>()),
+			m_TileSets      (List<TileSet*>()),
 			p_Atlas			(nullptr)
 		{};
 		~ResourceManager();
@@ -45,6 +50,8 @@ namespace Kross
 		List<Font*> m_Fonts;
 		List<Animation*> m_Animations;
 		List<AudioSource*> m_AudioSources;
+		List<TileMap*> m_TileMaps;
+		List<TileSet*> m_TileSets;
 
 		Atlas* p_Atlas;
 
@@ -55,8 +62,8 @@ namespace Kross
 		// Destroys an Instance of the Manager.
 		static void OnDestroy();
 
-		// Loads the Manifest File.
-		static void OnLoadManifest();
+		// Reads the Manifest File.
+		static void OnReadManifest();
 
 		// Base Template Class. (DO NOT USE)
 		template<typename Type>
@@ -430,10 +437,10 @@ namespace Kross
 		template<>
 		static void DetachResource<Animation>(Animation* animation)
 		{
-			/* Go through the Material List. */
+			/* Go through the Animation List. */
 			for (int i = 0; i < s_Instance->m_Animations.size(); i++)
 			{
-				/* if the Material is the same as the one specified. Remove it.*/
+				/* if the Animation is the same as the one specified. Remove it.*/
 				if (s_Instance->m_Animations[i] == animation)
 				{
 					Animation::OnDestroy(s_Instance->m_Animations[i]);
@@ -443,6 +450,168 @@ namespace Kross
 		}
 
 		#pragma endregion
+
+		#pragma region AUDIO SOURCES
+
+		// Gets Audio Source by name from Resource Manager.
+		template<>
+		static AudioSource* GetResource<AudioSource>(const std::string& name)
+		{
+			for (int i = 0; i < s_Instance->m_AudioSources.size(); i++)
+			{
+				/* If the name of the Audio Source matches the name requested, return that Audio Source. */
+				if (s_Instance->m_AudioSources[i]->GetName() == name)
+					return s_Instance->m_AudioSources[i];
+			}
+
+			/* If nothing was found. */
+			return nullptr;
+		}
+
+		// Gets Audio Source by name from Resource Manager.
+		template<>
+		static AudioSource* GetResource<AudioSource>(int index)
+		{
+			/* If the Index is in the bounds of the List. */
+			if (index >= 0 && index < s_Instance->m_AudioSources.size())
+				return s_Instance->m_AudioSources[index];
+
+			/* If not, return null. */
+			return nullptr;
+		}
+
+		// Adds Audio Source to the Resource Manager.
+		template<>
+		static void AttachResource<AudioSource>(AudioSource* audioSource)
+		{
+			s_Instance->m_AudioSources.push_back(audioSource);
+		}
+
+		// Removes a Audio Source from the Resource Manager.
+		template<>
+		static void DetachResource<AudioSource>(AudioSource* audioSource)
+		{
+			/* Go through the Audio Sources List. */
+			for (int i = 0; i < s_Instance->m_AudioSources.size(); i++)
+			{
+				/* if the Audio Source is the same as the one specified. Remove it.*/
+				if (s_Instance->m_AudioSources[i] == audioSource)
+				{
+					AudioSource::OnDestroy(s_Instance->m_AudioSources[i]);
+					s_Instance->m_AudioSources.erase(s_Instance->m_AudioSources.begin() + i);
+				}
+			}
+		}
+
+		#pragma endregion
+
+		#pragma region TILEMAPS
+
+		// Gets TileMap by name from Resource Manager.
+		template<>
+		static TileMap* GetResource<TileMap>(const std::string& name)
+		{
+			for (int i = 0; i < s_Instance->m_TileMaps.size(); i++)
+			{
+				/* If the name of the Audio Source matches the name requested, return that Audio Source. */
+				if (s_Instance->m_TileMaps[i]->GetName() == name)
+					return s_Instance->m_TileMaps[i];
+			}
+
+			/* If nothing was found. */
+			return nullptr;
+		}
+
+		// Gets TileMap by name from Resource Manager.
+		template<>
+		static TileMap* GetResource<TileMap>(int index)
+		{
+			/* If the Index is in the bounds of the List. */
+			if (index >= 0 && index < s_Instance->m_TileMaps.size())
+				return s_Instance->m_TileMaps[index];
+
+			/* If not, return null. */
+			return nullptr;
+		}
+
+		// Adds TileMap to the Resource Manager.
+		template<>
+		static void AttachResource<TileMap>(TileMap* TileMap)
+		{
+			s_Instance->m_TileMaps.push_back(TileMap);
+		}
+
+		// Removes a TileMap from the Resource Manager.
+		template<>
+		static void DetachResource<TileMap>(TileMap* TileMap)
+		{
+			/* Go through the TileMap List. */
+			for (int i = 0; i < s_Instance->m_TileMaps.size(); i++)
+			{
+				/* if the TileMap is the same as the one specified. Remove it.*/
+				if (s_Instance->m_TileMaps[i] == TileMap)
+				{
+					TileMap::OnDestroy(s_Instance->m_TileMaps[i]);
+					s_Instance->m_TileMaps.erase(s_Instance->m_TileMaps.begin() + i);
+				}
+			}
+		}
+
+#pragma endregion
+
+		#pragma region TILESETS
+
+		// Gets TileMap by name from Resource Manager.
+		template<>
+		static TileSet* GetResource<TileSet>(const std::string& name)
+		{
+			for (int i = 0; i < s_Instance->m_TileSets.size(); i++)
+			{
+				/* If the name of the TileSet matches the name requested, return that TileSet. */
+				if (s_Instance->m_TileSets[i]->GetName() == name)
+					return s_Instance->m_TileSets[i];
+			}
+
+			/* If nothing was found. */
+			return nullptr;
+		}
+
+		// Gets TileSet by name from Resource Manager.
+		template<>
+		static TileSet* GetResource<TileSet>(int index)
+		{
+			/* If the Index is in the bounds of the List. */
+			if (index >= 0 && index < s_Instance->m_TileSets.size())
+				return s_Instance->m_TileSets[index];
+
+			/* If not, return null. */
+			return nullptr;
+		}
+
+		// Adds TileSet to the Resource Manager.
+		template<>
+		static void AttachResource<TileSet>(TileSet* TileSet)
+		{
+			s_Instance->m_TileSets.push_back(TileSet);
+		}
+
+		// Removes a TileSet from the Resource Manager.
+		template<>
+		static void DetachResource<TileSet>(TileSet* TileSet)
+		{
+			/* Go through the TileSet List. */
+			for (int i = 0; i < s_Instance->m_TileSets.size(); i++)
+			{
+				/* if the TileSet is the same as the one specified. Remove it.*/
+				if (s_Instance->m_TileSets[i] == TileSet)
+				{
+					TileSet::OnDestroy(s_Instance->m_TileSets[i]);
+					s_Instance->m_TileSets.erase(s_Instance->m_TileSets.begin() + i);
+				}
+			}
+		}
+
+#pragma endregion
 
 		// Gets the Atlas.
 		static Atlas* GetAtlas() { return s_Instance->p_Atlas; };

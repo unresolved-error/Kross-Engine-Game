@@ -95,6 +95,17 @@ namespace Kross
             p_WaterBatch->Attach((ParticleEmitter*)renderer);
         }
 
+        /* The Renderer is a Particle Emitter. */
+        else if (typeid(*renderer) == typeid(TileMapRenderer))
+        {
+            /* Check if the Batch Packet is Full. */
+            if (p_SpriteBatch->GetFullStatus() == true)
+                OnRender();
+
+            /* Attach the Data. */
+            p_SpriteBatch->Attach((TileMapRenderer*)renderer);
+        }
+
         return;
     }
 

@@ -10,8 +10,6 @@ namespace Kross
 {
     AudioManager* AudioManager::s_Instance = nullptr;
 
-
-
     void Kross::AudioManager::OnCreate()
     {
         if (!s_Instance)
@@ -43,5 +41,16 @@ namespace Kross
     void AudioManager::OnAttachReference(AudioPlayer* player)
     {
        player->SetAudioEngine(s_Instance->p_Soloud);
+    }
+    void AudioManager::SetGlobalVolume(float volume)
+    {
+        p_Soloud->setGlobalVolume(volume);
+       
+    }
+    float AudioManager::GetGlobalVolume()
+    {
+
+        return p_Soloud->getGlobalVolume();
+         
     }
 }

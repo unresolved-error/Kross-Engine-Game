@@ -90,6 +90,17 @@ namespace Kross
 		m_Animations.clear();
 		m_Animations.~vector();
 
+		/* Clean up all the Audio Sources from memory. */
+		for (int i = 0; i < m_AudioSources.size(); i++)
+		{
+			AudioSource::OnDestroy(m_AudioSources[i]);
+			m_AudioSources[i] = nullptr;
+		}
+
+		/* Clean up the list. */
+		m_AudioSources.clear();
+		m_AudioSources.~vector();
+
 		/* Destroy the Atlas. */
 		Atlas::OnDestroy(p_Atlas);
 	}
@@ -106,9 +117,9 @@ namespace Kross
 			delete s_Instance;
 	}
 
-	void ResourceManager::OnLoadManifest()
+	void ResourceManager::OnReadManifest()
 	{
 		/* Load the Manifest File. */
-		FileSystem::OnLoadManifestFile();
+		FileSystem::OnReadManifestFile();
 	}
 }

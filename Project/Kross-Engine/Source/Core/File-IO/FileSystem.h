@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #pragma once
@@ -18,26 +19,65 @@ namespace Kross
 	protected:
 		friend class ResourceManager;
 
-		// Loads the Asset Engine Manifest File.
-		static void OnLoadManifestFile();
+		// Writes the Asset Engine Manifest File.
+		static void OnWriteManifestFile();
 
-		// Loads in a Texture.
-		static void OnLoadTexture(const std::string& filepath);
+		// Writes a Texture.
+		static void OnWritesTexture(const std::string& filepath);
 
-		// Loads in a Sprite.
-		static void OnLoadSprite(const std::string& filepath);
+		// Writes a TileMap
+		static void OnWritesTileMap(const std::string& filepath);
 
-		// Loads in a Shader.
-		static void OnLoadShader(const std::string& filepath);
+		// Writes a TileSet
+		static void OnWritesTileSet(const std::string& filepath);
 
-		// Loads in a Shader.
-		static void OnLoadFont(const std::string& filepath);
+		// Writes a Sprite.
+		static void OnWritesSprite(const std::string& filepath);
 
-		// Loads in a Material.
-		static void OnLoadMaterial(const std::string& filepath);
+		// Writes a Shader.
+		static void OnWritesShader(const std::string& filepath);
 
-		// Loads in a Animation.
-		static void OnLoadAnimation(const std::string& filepath);
+		// Writes a Shader.
+		static void OnWritesFont(const std::string& filepath);
+
+		// Writes a Material.
+		static void OnWritesMaterial(const std::string& filepath);
+
+		// Writes a Animation.
+		static void OnWritesAnimation(const std::string& filepath);
+
+		// Writes a Audio Source.
+		static void OnWritesAudioSource(const std::string& filepath);
+
+		// Reads the Asset Engine Manifest File.
+		static void OnReadManifestFile();
+
+		// Reads in a Texture.
+		static void OnReadTexture(const std::string& filepath);
+
+		// Reads in a TileMap
+		static void OnReadTileMap(const std::string& filepath);
+
+		// Reads in a TileSet
+		static void OnReadTileSet(const std::string& filepath);
+
+		// Reads in a Sprite.
+		static void OnReadSprite(const std::string& filepath);
+
+		// Reads in a Shader.
+		static void OnReadShader(const std::string& filepath);
+
+		// Reads in a Shader.
+		static void OnReadFont(const std::string& filepath);
+
+		// Reads in a Material.
+		static void OnReadMaterial(const std::string& filepath);
+
+		// Reads in a Animation.
+		static void OnReadAnimation(const std::string& filepath);
+
+		// Reads in a Audio Source.
+		static void OnReadAudioSource(const std::string& filepath);
 
 	public:
 		// Obtains the file contents in a string. (LAID OUT AS REPRESENTED IN FILE)
