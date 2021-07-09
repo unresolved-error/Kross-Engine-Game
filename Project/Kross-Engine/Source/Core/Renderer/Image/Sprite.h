@@ -49,6 +49,7 @@ namespace Kross
 		friend class SpriteRenderer;
 		friend class Character;
 		friend class Atlas;
+		friend class TileMapRenderer;
 
 		/* Friend classing Batch. */
 		template<typename Type> friend class Batch;

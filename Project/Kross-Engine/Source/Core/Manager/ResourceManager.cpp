@@ -117,9 +117,9 @@ namespace Kross
 			delete s_Instance;
 	}
 
-	void ResourceManager::OnLoadManifest()
+	void ResourceManager::OnReadManifest()
 	{
 		/* Load the Manifest File. */
-		FileSystem::OnLoadManifestFile();
+		FileSystem::OnReadManifestFile();
 	}
 }

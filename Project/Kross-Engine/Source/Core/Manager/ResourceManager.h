@@ -62,8 +62,8 @@ namespace Kross
 		// Destroys an Instance of the Manager.
 		static void OnDestroy();
 
-		// Loads the Manifest File.
-		static void OnLoadManifest();
+		// Reads the Manifest File.
+		static void OnReadManifest();
 
 		// Base Template Class. (DO NOT USE)
 		template<typename Type>

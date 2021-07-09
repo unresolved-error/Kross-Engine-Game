@@ -49,6 +49,7 @@ public:
 	void Start() override
 	{
 		transform = GetLinkObject()->GetTransform();
+		transform->m_Position = Vector2(0.0f);
 		renderer = GetLinkObject()->GetComponent<SpriteRenderer>();
 		window = Application::GetWindow();
 

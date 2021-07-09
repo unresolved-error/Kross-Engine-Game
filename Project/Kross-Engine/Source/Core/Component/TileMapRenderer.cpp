@@ -56,7 +56,7 @@ namespace Kross
 		
 
 
-		for (int y = 0; y < p_TileMap->GetDimensions().y; y++)
+		for (int y = p_TileMap->GetDimensions().y - 1; y >= 0; y--)
 		{
 		
 			for (int x = 0; x < p_TileMap->GetDimensions().x; x++) 
@@ -64,9 +64,12 @@ namespace Kross
 				if (p_TileSet && p_TileMap->GetCellValue(x,y) != -1) 
 				{
 					Tile* newTile = KROSS_NEW Tile();
+
 					newTile->p_Sprite = MatchMapCell(x, y);
-					newTile->m_Offset.x = (float)(((newTile->p_Sprite->GetWidth() / 2) * x) + (newTile->p_Sprite->GetWidth()/2));
-					newTile->m_Offset.y = (float)(((newTile->p_Sprite->GetHeight() / 2) * y) + (newTile->p_Sprite->GetHeight()/2));
+
+					Vector2 geomSize = newTile->p_Sprite->GetGeometry()->GetSize();
+					newTile->m_Offset.x = (geomSize.x) * x + geomSize.x / 2.0f;
+					newTile->m_Offset.y = -((geomSize.y) * y) - geomSize.y / 2.0f;
 					m_Tiles.push_back(newTile);
 				}
 

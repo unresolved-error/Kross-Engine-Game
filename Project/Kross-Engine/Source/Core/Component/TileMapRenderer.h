@@ -11,7 +11,10 @@
 
 #include "Renderer.h"
 
-#include "../Renderer/Material.h"
+#include "../Renderer/Tilemap/Tile.h"
+#include "../Renderer/Tilemap/TileSet.h"
+#include "../Renderer/Tilemap/TileMap.h"
+
 #include "../Math/Math.h"
 
 #include "Camera.h"

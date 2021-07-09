@@ -244,6 +244,101 @@ namespace Kross
             m_BatchSize++;
         }
 
+        // Add Tile Map Renderer Data to the Batch.
+        void Attach(TileMapRenderer* renderer)
+        {
+            /* Check if we have the Right Vertex Type First. */
+            static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
+
+            /* Quick Variables. */
+            Transform2D* transform = renderer->GetLinkObject()->GetTransform();
+
+            for (int i = 0; i < renderer->m_Tiles.size(); i++)
+            {
+                Tile* currentTile = renderer->m_Tiles[i];
+                /* Update the Model. */
+                Matrix4 model = Matrix4(1.0f);
+
+                /* Update the Translation, Rotation and Scale Marixes. */
+                Matrix4 translation = glm::translate(Matrix4(1.0f), Vector3(transform->m_Position + currentTile->m_Offset, 0.0f));
+                Matrix4 rotation = glm::rotate(Matrix4(1.0f), glm::radians(transform->m_Rotation), Vector3(0.0f, 0.0f, 1.0f));
+                Matrix4 scale = glm::scale(Matrix4(1.0f), Vector3(transform->m_Scale, 0.0f));
+
+                model = translation * rotation * scale;
+
+                /* Get the Sprite Data needed. */
+                AtlasSpriteData spriteData = p_Atlas->GetSpriteData(currentTile->p_Sprite);
+
+                /* Get Sprite Geometry. */
+                Geometry* geometry = currentTile->p_Sprite->GetGeometry();
+
+                /* Get UVs for Sprite. */
+                List<Vector2> uvs = List<Vector2>(4);
+
+                /* Diffuse UVs. */
+                uvs[0].x = (1.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
+                uvs[1].x = (1.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
+                uvs[2].x = (0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
+                uvs[3].x = (0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
+
+                /* Diffuse UVs. */
+                uvs[0].y = (1.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
+                uvs[1].y = (0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
+                uvs[2].y = (0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
+                uvs[3].y = (1.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
+
+                /* Quick Variables. */
+                float halfWidth = geometry->GetSize().x / 2.0f;
+                float halfHeight = geometry->GetSize().y / 2.0f;
+
+                /* Vertex Data. */
+                SpriteVertex topRight = SpriteVertex(model * Vector4(halfWidth, halfHeight, 0.0f, 1.0f),
+                    uvs[0],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+                SpriteVertex bottomRight = SpriteVertex(model * Vector4(halfWidth, -halfHeight, 0.0f, 1.0f),
+                    uvs[1],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+                SpriteVertex bottomLeft = SpriteVertex(model * Vector4(-halfWidth, -halfHeight, 0.0f, 1.0f),
+                    uvs[2],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+                SpriteVertex topLeft = SpriteVertex(model * Vector4(-halfWidth, halfHeight, 0.0f, 1.0f),
+                    uvs[3],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+
+                /* Grab the Current Vertex Count. */
+                int vertexCount = m_Data.size();
+
+                /* Attach the Indicies. */
+                m_Indicies.push_back(0 + vertexCount);
+                m_Indicies.push_back(1 + vertexCount);
+                m_Indicies.push_back(2 + vertexCount);
+                m_Indicies.push_back(2 + vertexCount);
+                m_Indicies.push_back(3 + vertexCount);
+                m_Indicies.push_back(0 + vertexCount);
+
+                /* Attach the Vertex Data. */
+                m_Data.push_back(topRight);
+                m_Data.push_back(bottomRight);
+                m_Data.push_back(bottomLeft);
+                m_Data.push_back(topLeft);
+
+                /* Update the Size. */
+                m_BatchSize++;
+            }
+        }
+
         // Add Text Renderer Data to the Batch.
         void Attach(TextRenderer* renderer)
         {

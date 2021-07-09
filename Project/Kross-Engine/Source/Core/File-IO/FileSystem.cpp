@@ -10,6 +10,9 @@
 #define MANIFEST_FILEPATH "manifest.krs"
 #define LINE_DIVIDER "->"
 
+/* For Writing the Files. */
+#define ASSET_FILEPATH "Assets/"
+
 #include "../Manager/ResourceManager.h"
 
 namespace Kross
@@ -78,7 +81,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadManifestFile()
+	void FileSystem::OnReadManifestFile()
 	{
 		/* The Filepath for the Mainfest. */
 		std::string filepath = MANIFEST_FILEPATH;
@@ -140,31 +143,31 @@ namespace Kross
 				/* Determain how it gets loaded in. */
 
 				if (assetType == "SPRITE")
-					OnLoadSprite(assetFilepath);
+					OnReadSprite(assetFilepath);
 
 				else if (assetType == "TEXTURE")
-					OnLoadTexture(assetFilepath);
+					OnReadTexture(assetFilepath);
 
 				else if (assetType == "SHADER")
-					OnLoadShader(assetFilepath);
+					OnReadShader(assetFilepath);
 
 				else if (assetType == "FONT")
-					OnLoadFont(assetFilepath);
+					OnReadFont(assetFilepath);
 
 				else if (assetType == "MATERIAL")
-					OnLoadMaterial(assetFilepath);
+					OnReadMaterial(assetFilepath);
 
 				else if (assetType == "ANIMATION")
-					OnLoadAnimation(assetFilepath);
+					OnReadAnimation(assetFilepath);
 
 				else if (assetType == "AUDIOSOURCE")
-					OnLoadAudioSource(assetFilepath);
+					OnReadAudioSource(assetFilepath);
 
 				else if (assetType == "TILEMAP")
-					OnLoadTileMap(assetFilepath);
+					OnReadTileMap(assetFilepath);
 
 				else if(assetType == "TILESET")
-					OnLoadTileSet(assetFilepath);
+					OnReadTileSet(assetFilepath);
 			}
 
 			fileStream.close();
@@ -176,7 +179,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadTexture(const std::string& filepath)
+	void FileSystem::OnReadTexture(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -267,7 +270,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadTileMap(const std::string& filepath) 
+	void FileSystem::OnReadTileMap(const std::string& filepath) 
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -383,7 +386,7 @@ namespace Kross
 
 	}
 
-	void FileSystem::OnLoadTileSet(const std::string& filepath)
+	void FileSystem::OnReadTileSet(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -477,7 +480,7 @@ namespace Kross
 		ResourceManager::AttachResource<TileSet>(tileSet);
 	}
 
-	void FileSystem::OnLoadSprite(const std::string& filepath)
+	void FileSystem::OnReadSprite(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -587,7 +590,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadFont(const std::string& filepath)
+	void FileSystem::OnReadFont(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -674,7 +677,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadShader(const std::string& filepath)
+	void FileSystem::OnReadShader(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -761,7 +764,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadMaterial(const std::string& filepath)
+	void FileSystem::OnReadMaterial(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -851,7 +854,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadAnimation(const std::string& filepath)
+	void FileSystem::OnReadAnimation(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -1022,7 +1025,7 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnLoadAudioSource(const std::string& filepath)
+	void FileSystem::OnReadAudioSource(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;

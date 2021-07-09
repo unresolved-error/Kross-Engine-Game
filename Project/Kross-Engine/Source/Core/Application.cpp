@@ -51,8 +51,8 @@ namespace Kross
 		AudioManager::OnCreate();
 		AudioManager::OnStart();
 
-		/* Loads the Manifest File. */
-		ResourceManager::OnLoadManifest();
+		/* Reads the Manifest File. */
+		ResourceManager::OnReadManifest();
 	}
 
 	void Application::OnUpdate()

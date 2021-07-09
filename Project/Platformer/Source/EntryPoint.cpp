@@ -47,7 +47,15 @@ int main(int argc, char** argv)
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
 	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
 	textRenderer->SetTextSize(1.0f);
-	textRenderer->SetText("What? I Can Walk?!");
+	textRenderer->SetText("Huh? TileMaps!?");
+
+	Object* tileExample = Object::OnCreate("TileMap");
+	tileExample->AttachComponent<TileMapRenderer>();
+	tileExample->SetLayer(Layer::Background);
+
+	TileMapRenderer* tilemap = tileExample->GetComponent<TileMapRenderer>();
+	tilemap->SetTileMap(ResourceManager::GetResource<TileMap>("DirtTileMap"));
+	tilemap->SetTileSet(ResourceManager::GetResource<TileSet>("DirtTileSet"));
 	
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 	player->SetLayer(Layer::Background);
@@ -208,6 +216,7 @@ int main(int argc, char** argv)
 
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
+	scene->AttachObject(tileExample);
 	
 	//AudioSource* MarioJump = AudioSource::OnCreate("Resources/Audio/mario_jump.wav", "Mario-Jump");
 	//player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(MarioJump);
