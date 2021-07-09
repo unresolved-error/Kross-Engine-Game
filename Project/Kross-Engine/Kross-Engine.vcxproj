@@ -142,6 +142,7 @@
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
+    <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
     <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
@@ -609,6 +610,7 @@
     <ClCompile Include="Source\Core\Component\AudioPlayer.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />

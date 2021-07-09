@@ -18,6 +18,15 @@ namespace Kross {
 	}
 
 
+	Sprite* TileSet::GetSprite(int index)
+	{
+		if (index >= 0 && index < m_Sprites.size()) {
+
+			return m_Sprites[index];
+		}
+		return nullptr;
+	}
+
 	TileSet* TileSet::OnCreate(const std::string& name)
 	{
 		TileSet* tileset = KROSS_NEW TileSet();

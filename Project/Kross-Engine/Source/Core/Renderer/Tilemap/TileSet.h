@@ -34,6 +34,9 @@ namespace Kross
 
     public:
 
+
+        Sprite* GetSprite(int index);
+
         static TileSet* OnCreate(const std::string& name);
         static void OnDestroy(TileSet* tileSet);
         std::string GetName()const { return m_Name; };
