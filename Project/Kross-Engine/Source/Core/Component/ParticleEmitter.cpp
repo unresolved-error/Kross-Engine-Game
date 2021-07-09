@@ -62,18 +62,18 @@ namespace Kross
 	{
 		p_PhysicsScene = GetPhysicsScene();
 		
-		/* Creates the particle system */
+		/* Gets the particle system */
 		m_ParticleSystemList = p_PhysicsScene->GetParticleSystem();
 		
 
 
-		/* Creates all of the particles */
+		/* Goes through all of the particle systems */
 		for (int x = 0; x < m_ParticleSystemList.size(); x++)
 		{
 			p_ParticleSystem = m_ParticleSystemList[x];
 			SetRadius(0.025f);
 			
-
+			/* Goes through all particles within the system */
 			for (int y = 0; y < m_ParticleList.size(); y++)
 			{
 				m_ParticleList[y]->SetCollisionFilter(p_Filter);
@@ -98,6 +98,42 @@ namespace Kross
 						m_ParticleList[y]->SetPosition(Vector2(GetPosition().x + 0.005f * i, GetPosition().y));
 
 						OnCreateParticleGroup(p_ParticleSystem, m_ParticleList[y]);
+					}
+				}
+			}
+		}
+	}
+
+	void ParticleEmitter::SpawnParticleGrid(float width, float height)
+	{
+		p_PhysicsScene = GetPhysicsScene();
+
+		/* Gets the particle system */
+		m_ParticleSystemList = p_PhysicsScene->GetParticleSystem();
+
+
+		/* Creates all of the particles */
+		for (int x = 0; x < m_ParticleSystemList.size(); x++)
+		{
+			p_ParticleSystem = m_ParticleSystemList[x];
+			SetRadius(0.025f);
+
+
+			for (int y = 0; y < m_ParticleList.size(); y++)
+			{
+				m_ParticleList[y]->SetCollisionFilter(p_Filter);
+
+				if (!m_ParticleList[y]->GetParticleGroupType())
+				{
+					for (int i = 0; i < width; i++)
+					{
+						for (int j = 0; j < height; j++)
+						{
+							m_ParticleList[y]->SetPosition(Vector2(GetPosition().x + 0.005f * i,
+								GetPosition().y - 0.0045f * j));
+
+							OnCreateParticle(p_ParticleSystem, m_ParticleList[y]);
+						}
 					}
 				}
 			}

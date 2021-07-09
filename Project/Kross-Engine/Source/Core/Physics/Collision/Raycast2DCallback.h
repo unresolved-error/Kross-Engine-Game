@@ -9,7 +9,7 @@
 #include "../../Core.h"
 
 #include "../../Math/Math.h"
-#include "CollisionData.h"
+#include "../Data/CollisionData.h"
 
 namespace Kross
 {

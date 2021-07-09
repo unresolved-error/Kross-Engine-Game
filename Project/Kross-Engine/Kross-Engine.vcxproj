@@ -149,9 +149,8 @@
     <ClInclude Include="Source\Core\Manager\Time.h" />
     <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h" />
     <ClInclude Include="Source\Core\Physics\Filters\CollisionFilter.h" />
-    <ClInclude Include="Source\Core\Physics\Collision\PhysicsCallbacks.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.h" />
     <ClInclude Include="Source\Core\Physics\Collision\Raycast2DCallback.h" />
-    <ClInclude Include="Source\Core\Physics\Data\ColliderData.h" />
     <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h" />
     <ClInclude Include="Source\Core\Physics\Data\RaycastData.h" />
     <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h" />
@@ -182,7 +181,7 @@
     <ClInclude Include="Source\Core\Manager\ShaderManager.h" />
     <ClInclude Include="Source\Core\Math\Random.h" />
     <ClInclude Include="Source\Core\Object.h" />
-    <ClInclude Include="Source\Core\Physics\Collision\CollisionData.h" />
+    <ClInclude Include="Source\Core\Physics\Data\CollisionData.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Box.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Plane.h" />
@@ -630,7 +629,7 @@
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
-    <ClCompile Include="Source\Core\Physics\Collision\PhysicsCallbacks.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp" />
     <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />

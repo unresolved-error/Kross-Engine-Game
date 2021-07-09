@@ -11,15 +11,11 @@
 
 namespace Kross
 {
-    struct KROSS_API FluidCollisionData
+    struct KROSS_API AABBCollisionData
     {
+        List<b2Fixture*> m_Fixture;
         const b2ParticleSystem* p_ParticleSystem = nullptr;
         List<int> m_ParticleIndexs;
         bool m_Collision = false;
-    };
-
-    struct KROSS_API CircleCastData
-    {
-        List<b2Body*> m_Bodies;
     };
 }

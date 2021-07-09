@@ -26,5 +26,5 @@ namespace Kross
 
 		b2Fixture* fixture = nullptr;
 		b2Body* body = nullptr;
-};
+	};
 }

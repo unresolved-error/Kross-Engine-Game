@@ -51,11 +51,11 @@ namespace Kross
 
     public:
 
-        ParticleEmitter() : 
+        ParticleEmitter() :
             p_Particle          (KROSS_NEW Particle()),
             p_PhysicsScene      (nullptr),
             m_ParticleList      (List<Particle*>()),
-            p_ParticleSystem    (nullptr), 
+            p_ParticleSystem    (nullptr),
             p_Filter            (KROSS_NEW b2Filter())
         {}
         ~ParticleEmitter();
@@ -71,12 +71,13 @@ namespace Kross
         int GetGroupCount() { return m_GroupCount; }
 
 
-        //void SetParticleType(ParticleType particle) { m_ParticleType = particle; }
-
+        /* Attatches the paricle to the particle list */
         void AttachParticle(Particle* particle);
 
-        Particle* GetParticle() { return p_Particle; }
+        /* Returns specified particle */
+        Particle* GetParticle(int index) { return m_ParticleList[index]; }
 
+        /* Returns the list of all particles */
         List<Particle*> GetParticles();
 
 
@@ -89,7 +90,11 @@ namespace Kross
         /* Creates the particle group. This is not stable(Try to avoid) */
         void OnCreateParticleGroup(ParticleSystem* particleSystem, Particle* particle);
 
+        /* Creates all of the particles */
         void SpawnParticles();
+
+        /* Creates all of the particles in a specified grid */
+        void SpawnParticleGrid(float x, float y);
 
         /* The Radius sets the size of the particles */
         /* This is can only be set when there are no particles present */

@@ -11,9 +11,9 @@
 #include "../Math/Math.h"
 #include "Box2D/Box2D.h"
 #include "../Renderer/LineRenderer.h"
-#include "Collision/CollisionData.h"
+#include "Data/CollisionData.h"
 #include "Collision/ContactFilter.h"
-#include "Collision/PhysicsCallbacks.h"
+#include "Collision/AABBCollisionCallbacks.h"
 #include "Collision/Raycast2DCallback.h"
 
 namespace Kross
@@ -50,8 +50,7 @@ namespace Kross
 
         /* Call Backs. */
         Raycast2DCallback* p_RayCallback;
-        FluidCollisionCallback* p_FluidCallback;
-        CircleCastCallback* p_CircleCastCallback;
+        AABBCollisionCallback* p_AABBCollisionCallback;
 
         Physics() :
             p_Body                  (nullptr),
@@ -59,8 +58,7 @@ namespace Kross
             p_RayData               (KROSS_NEW RaycastData()),
             p_RayCallback           (KROSS_NEW Raycast2DCallback()),
             p_CollisionData         (KROSS_NEW CollisionData()),
-            p_FluidCallback         (KROSS_NEW FluidCollisionCallback()),
-            p_CircleCastCallback    (KROSS_NEW CircleCastCallback())
+            p_AABBCollisionCallback (KROSS_NEW AABBCollisionCallback())
         {};
         ~Physics();
 
@@ -78,11 +76,9 @@ namespace Kross
         static RaycastData* OnRayCast(Vector2 pos, Vector2 direction, Body* body,
             float max);
 
-        static RaycastData* OnCircleCast(Vector2 pos, Vector2 direction, Body* body, float max);
+        static RaycastData* OnCircleCast(Vector2 pos, Vector2 direction, Body* body, float max, float radius);
 
         // Gets the Fluid Collision Callback.
-        static FluidCollisionCallback* GetFluidCollisionCallBack() { return s_Instance->p_FluidCallback; };
-
-        static CircleCastCallback* GetCircleCastCallback() { return s_Instance->p_CircleCastCallback; }
+        static AABBCollisionCallback* GetAABBCollisionCallback() { return s_Instance->p_AABBCollisionCallback; };
     };
 }

@@ -13,7 +13,7 @@
 
 #include "../Renderer/Shader/Shader.h"
 #include "../Renderer/LineRenderer.h"
-#include "../Physics/Collision/CollisionData.h"
+#include "../Physics/Data/CollisionData.h"
 #include "../Physics/Collision/ContactFilter.h"
 
 namespace Kross
@@ -57,8 +57,10 @@ namespace Kross
         b2MassData* p_MassData;
         RaycastData* p_RayData;
         ContactFilter* p_Filter;
-        FluidCollisionData* p_FluidData;
-        CircleCastData* p_CircleCastData;
+        AABBCollisionData* p_AABBCollisionData;
+
+        List<AABBCollisionData*> m_AABBCollisions;
+        List<Body*> m_CloseObjects;
 
     protected:
         friend class PhysicsScene;
@@ -97,12 +99,6 @@ namespace Kross
             p_MassData->center = { 0, 0 };
             p_MassData->I = 0.0f;
         }
-
-        /* Sets the physics scene */
-        void SetPhysicsScene(PhysicsScene* scene) { p_PhysicsScene = scene; }
-
-        /* Gets the physics scene */
-        PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
 
 
         /* Sets the Body for the RigidBody */
@@ -161,5 +157,9 @@ namespace Kross
         float CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos);
     
         float CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos);
+
+        void GetSurroundingObjects(float size, Body* body);
+
+        //void CreateTileMapColliders(TileMap* tileMap);
     };
 }

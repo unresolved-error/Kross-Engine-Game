@@ -476,6 +476,7 @@ bool b2PolygonShape::CircleCast(b2RayCastOutput * output, const b2RayCastInput &
 				output->normal = b2Mul(xf.q, output->normal);	//Put the normal back into world space.
 				output->normal.Normalize();
 				hit = true;
+				return true;
 			}
 		}
 	}
