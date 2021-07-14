@@ -443,8 +443,8 @@ namespace Kross
                 for (int i = 0; i < particleCount; i++)
                 {
                     /* Default Water Colour. */
-                    //Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
-                    Colour waterColour = Colour(emitter->GetParticle(i)->GetColor());
+                    Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
+                    //Colour waterColour = Colour(emitter->GetParticle(i)->GetColor()); // Not Working...
 
                     /* Set the Vertex. */
                     WaterVertex waterDrop = WaterVertex(Vector2(positions[i].x, positions[i].y),

@@ -1,2401 +1,809 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Source\Core\Animation\Animation.cpp" />
+    <ClCompile Include="Source\Core\Application.cpp" />
+    <ClCompile Include="Source\Core\Audio\AudioSource.cpp" />
+    <ClCompile Include="Source\Core\Component\Animator.cpp" />
+    <ClCompile Include="Source\Core\Component\AudioPlayer.cpp" />
+    <ClCompile Include="Source\Core\Component\Camera.cpp" />
+    <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
+    <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />
+    <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
+    <ClCompile Include="Source\Core\Manager\Time.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp" />
+    <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
+    <ClCompile Include="Source\Core\Physics\Physics.cpp" />
+    <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />
+    <ClCompile Include="Source\Core\Component\Rigidbody2D.cpp" />
+    <ClCompile Include="Source\Core\Component\Script.cpp" />
+    <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
+    <ClCompile Include="Source\Core\Component\TextRenderer.cpp" />
+    <ClCompile Include="Source\Core\Component\Transform2D.cpp" />
+    <ClCompile Include="Source\Core\File-IO\FileSystem.cpp" />
+    <ClCompile Include="Source\Core\Input.cpp" />
+    <ClCompile Include="Source\Core\Manager\ResourceManager.cpp" />
+    <ClCompile Include="Source\Core\Manager\SceneManager.cpp" />
+    <ClCompile Include="Source\Core\Manager\ShaderManager.cpp" />
+    <ClCompile Include="Source\Core\Math\Random.cpp" />
+    <ClCompile Include="Source\Core\Object.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp" />
+    <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Material.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Text\Font.cpp" />
+    <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Image\Sprite.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Image\Texture.cpp" />
+    <ClCompile Include="Source\Core\Renderer\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Shader\Shader.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Tilemap\TileMap.cpp" />
+    <ClCompile Include="Source\Core\Renderer\Tilemap\TileSet.cpp" />
+    <ClCompile Include="Source\Core\Renderer\VertexArray.cpp" />
+    <ClCompile Include="Source\Core\Renderer\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Core\Scene.cpp" />
+    <ClCompile Include="Source\Core\Window\Window.cpp" />
+    <ClCompile Include="Source\Reference\Dummy.cpp" />
+    <ClCompile Include="Vendor\glm\include\glm\detail\glm.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Collision.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Distance.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Draw.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2FreeList.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Math.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Settings.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Stat.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Timer.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2TrackedBlock.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Body.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Island.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2World.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2Particle.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleAssembly.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleGroup.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleSystem.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.cpp" />
+    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\monotone\soloud_monotone.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\noise\soloud_noise.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\openmpt\soloud_openmpt.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\openmpt\soloud_openmpt_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\sfxr\soloud_sfxr.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\darray.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\klatt.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\resonator.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\soloud_speech.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\speech\tts.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\sid.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\soloud_tedsid.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\ted.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\vic\soloud_vic.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\vizsn\soloud_vizsn.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\dr_impl.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\soloud_wav.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\soloud_wavstream.cpp" />
+    <ClCompile Include="Vendor\soloud\src\audiosource\wav\stb_vorbis.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\alsa\soloud_alsa.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\coreaudio\soloud_coreaudio.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\jack\soloud_jack.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\miniaudio\soloud_miniaudio.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\nosound\soloud_nosound.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\null\soloud_null.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\openal\soloud_openal.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\openal\soloud_openal_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\opensles\soloud_opensles.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\oss\soloud_oss.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\portaudio\soloud_portaudio.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\portaudio\soloud_portaudio_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl2_static\soloud_sdl2_static.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl1.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl1_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl2.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl2_dll.c" />
+    <ClCompile Include="Vendor\soloud\src\backend\sdl_static\soloud_sdl_static.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\vita_homebrew\soloud_vita_homebrew.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\wasapi\soloud_wasapi.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\winmm\soloud_winmm.cpp" />
+    <ClCompile Include="Vendor\soloud\src\backend\xaudio2\soloud_xaudio2.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_audiosource.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_bus.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_3d.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_basicops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_faderops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_filterops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_getters.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_setters.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_voicegroup.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_core_voiceops.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_fader.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_fft.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_fft_lut.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_file.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_filter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_misc.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_queue.cpp" />
+    <ClCompile Include="Vendor\soloud\src\core\soloud_thread.cpp" />
+    <ClCompile Include="Vendor\soloud\src\c_api\soloud_c.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_bassboostfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_biquadresonantfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_dcremovalfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_echofilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_fftfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_flangerfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_freeverbfilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_lofifilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_robotizefilter.cpp" />
+    <ClCompile Include="Vendor\soloud\src\filter\soloud_waveshaperfilter.cpp" />
+    <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image.cpp" />
+    <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Core\Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Reference\Dummy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Window\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Window\WindowProperties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\_features.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\_fixes.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\_noise.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\_swizzle.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\_swizzle_func.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\_vectorize.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\compute_common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\compute_vector_relational.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\qualifier.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\setup.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_float.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_half.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat2x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat2x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat2x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat3x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat3x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat3x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat4x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat4x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat4x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_quat.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_clip_space.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_projection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_relational.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_transform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_double.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_double_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_exponential.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_float.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_float_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_geometric.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_relational.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_transform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_trigonometric.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_constants.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_int_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_integer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_packing.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_relational.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_uint_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_ulp.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool1_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double1_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float1_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float2_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float3_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float4_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int1_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_integer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_packing.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_relational.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint1_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint2_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint3_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint4_sized.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext\vector_ulp.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\bitfield.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\color_space.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\constants.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\epsilon.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\integer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_access.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_integer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_inverse.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_transform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\noise.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\packing.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\quaternion.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\random.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\reciprocal.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\round.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\type_aligned.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\type_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\type_ptr.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\ulp.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtc\vec1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\associated_min_max.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\bit.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\closest_point.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\color_encoding.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\color_space.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\color_space_YCoCg.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\compatibility.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\component_wise.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\dual_quaternion.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\easing.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\euler_angles.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\extend.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\extended_min_max.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\exterior_product.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\fast_exponential.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\fast_square_root.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\fast_trigonometry.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\functions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\gradient_paint.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\handed_coordinate_space.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\hash.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\integer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\intersect.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\io.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\log_base.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_cross_product.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_decompose.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_factorisation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_interpolation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_major_storage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_operation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_query.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_transform_2d.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\mixed_product.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\norm.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\normal.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\normalize_dot.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\number_precision.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\optimum_pow.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\orthonormalize.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\perpendicular.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\polar_coordinates.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\projection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\quaternion.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\range.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\raw_data.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\rotate_normalized_axis.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\rotate_vector.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\scalar_multiplication.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\scalar_relational.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\spline.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\std_based_type.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\string_cast.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\texture.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\transform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\transform2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\type_aligned.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\type_trait.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\vec_swizzle.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\vector_angle.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\vector_query.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\gtx\wrap.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\exponential.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\geometric.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\integer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\neon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\packing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\platform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\trigonometric.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\simd\vector_relational.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\exponential.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\ext.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\fwd.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\geometric.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\glm.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\integer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat2x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat2x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat2x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat3x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat3x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat3x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat4x2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat4x3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\mat4x4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\matrix.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\packing.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\trigonometric.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\vec2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\vec3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\vec4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glm\include\glm\vector_relational.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Shader\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\IndexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\VertexArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\VertexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Image\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\FrameBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Image\Sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Geometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Manager\ShaderManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Manager\ResourceManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\Transform2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\Random.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\fnl\include\fnl\FastNoiseLite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Include\Kross.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Include\Kross-Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\SpriteRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\Script.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Manager\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Text\Character.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Text\Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\TextRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Shape\Shape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\Rigidbody2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2ChainShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2CircleShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2EdgeShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2PolygonShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2Shape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Distance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2DynamicTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2TimeOfImpact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2BlockAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Draw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2FreeList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2GrowableBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2GrowableStack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2IntrusiveList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Settings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2SlabAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2StackAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Stat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2TrackedBlock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2Contact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2GearJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2Joint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Body.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2ContactManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Fixture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Island.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2TimeStep.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2WorldCallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleAssembly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleGroup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2StackQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Box2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Shape\Box.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Shape\Circle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Shape\Plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\PhysicsScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Manager\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\LineRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\ParticleEmitter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Physics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\Raycast2DCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Batch\Batch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Batch\Batch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Batch\BatchRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Image\Atlas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3native.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glew\include\GL\eglew.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glew\include\GL\glew.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glew\include\GL\glxew.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\glew\include\GL\wglew.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Vertex\WaterVertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Shader\ShaderFlags.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\PhysicsCallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Tilemap\Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Vertex\SpriteVertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Vertex\TextVertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Text\TextAlignment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Image\TextureType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\VertexBufferLayout.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Vertex\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Animation\Animation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Animation\Keyframe.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\Animator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\File-IO\FileSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Manager\AudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_audiosource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_bassboostfilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_biquadresonantfilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_bus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_c.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_dcremovalfilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_echofilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_fader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_fft.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_fftfilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_file_hack_off.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_file_hack_on.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_filter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_flangerfilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_freeverbfilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_lofifilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_monotone.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_noise.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_openmpt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_queue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_robotizefilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_sfxr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_speech.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_tedsid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_vic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_vizsn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_wav.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_waveshaperfilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\include\soloud_wavstream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\speech\darray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\speech\klatt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\speech\resonator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\speech\tts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\tedsid\sid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\tedsid\ted.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_flac.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_mp3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_wav.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\audiosource\wav\stb_vorbis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vendor\soloud\src\backend\miniaudio\miniaudio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Component\AudioPlayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Audio\AudioSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\File-IO\Serialiser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Vertex\LineVertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Filters\CollisionFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Data\RaycastData.h">
-      <Filter>Header Files</Filter>
-    <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\ColourMixingParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\ElasticParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Filters\ParticleType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\PowderParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\ReactiveParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\RepulsiveParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\SpringParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\StaticPressureParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\TensileParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\ViscousParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Data\CollisionData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="Source\Core\Animation\Animation.h" />
+    <ClInclude Include="Source\Core\Animation\Keyframe.h" />
+    <ClInclude Include="Source\Core\Application.h" />
+    <ClInclude Include="Source\Core\Audio\AudioSource.h" />
+    <ClInclude Include="Source\Core\Component\Animator.h" />
+    <ClInclude Include="Source\Core\Component\AudioPlayer.h" />
+    <ClInclude Include="Source\Core\Component\Camera.h" />
+    <ClInclude Include="Source\Core\Component\Component.h" />
+    <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
+    <ClInclude Include="Source\Core\Component\Renderer.h" />
+    <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
+    <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
+    <ClInclude Include="Source\Core\Layer.h" />
+    <ClInclude Include="Source\Core\Manager\AudioManager.h" />
+    <ClInclude Include="Source\Core\Manager\Time.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h" />
+    <ClInclude Include="Source\Core\Physics\Filters\CollisionFilter.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\Raycast2DCallback.h" />
+    <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h" />
+    <ClInclude Include="Source\Core\Physics\Data\RaycastData.h" />
+    <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ColourMixingParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ElasticParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
+    <ClInclude Include="Source\Core\Physics\Filters\ParticleType.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\PowderParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ReactiveParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\RepulsiveParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\SpringParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\StaticPressureParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\TensileParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ViscousParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Physics.h" />
+    <ClInclude Include="Source\Core\Physics\PhysicsScene.h" />
+    <ClInclude Include="Source\Core\Component\Rigidbody2D.h" />
+    <ClInclude Include="Source\Core\Component\Script.h" />
+    <ClInclude Include="Source\Core\Component\SpriteRenderer.h" />
+    <ClInclude Include="Source\Core\Component\TextRenderer.h" />
+    <ClInclude Include="Source\Core\Component\Transform2D.h" />
+    <ClInclude Include="Source\Core\Core.h" />
+    <ClInclude Include="Source\Core\File-IO\FileSystem.h" />
+    <ClInclude Include="Source\Core\Input.h" />
+    <ClInclude Include="Source\Core\Manager\ResourceManager.h" />
+    <ClInclude Include="Source\Core\Manager\SceneManager.h" />
+    <ClInclude Include="Source\Core\Manager\ShaderManager.h" />
+    <ClInclude Include="Source\Core\Math\Random.h" />
+    <ClInclude Include="Source\Core\Object.h" />
+    <ClInclude Include="Source\Core\Physics\Data\CollisionData.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Box.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Plane.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Shape.h" />
+    <ClInclude Include="Source\Core\Renderer\Batch\Batch.h" />
+    <ClInclude Include="Source\Core\Renderer\Batch\BatchRenderer.h" />
+    <ClInclude Include="Source\Core\Renderer\Image\Atlas.h" />
+    <ClInclude Include="Source\Core\Renderer\Image\TextureType.h" />
+    <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
+    <ClInclude Include="Source\Core\Renderer\Material.h" />
+    <ClInclude Include="Source\Core\Renderer\Shader\ShaderFlags.h" />
+    <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
+    <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
+    <ClInclude Include="Source\Core\Renderer\Geometry.h" />
+    <ClInclude Include="Source\Core\Renderer\Image\Sprite.h" />
+    <ClInclude Include="Source\Core\Renderer\Image\Texture.h" />
+    <ClInclude Include="Source\Core\Renderer\IndexBuffer.h" />
+    <ClInclude Include="Source\Core\Renderer\Shader\Shader.h" />
+    <ClInclude Include="Source\Core\Renderer\Text\Font.h" />
+    <ClInclude Include="Source\Core\Renderer\Text\TextAlignment.h" />
+    <ClInclude Include="Source\Core\Renderer\Tilemap\Tile.h" />
+    <ClInclude Include="Source\Core\Renderer\Tilemap\TileMap.h" />
+    <ClInclude Include="Source\Core\Renderer\Tilemap\TileSet.h" />
+    <ClInclude Include="Source\Core\Renderer\VertexArray.h" />
+    <ClInclude Include="Source\Core\Renderer\VertexBuffer.h" />
+    <ClInclude Include="Source\Core\Math\Math.h" />
+    <ClInclude Include="Source\Core\Renderer\VertexBufferLayout.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\LineVertex.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\TextVertex.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\Vertex.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\WaterVertex.h" />
+    <ClInclude Include="Source\Core\Renderer\Vertex\SpriteVertex.h" />
+    <ClInclude Include="Source\Core\Scene.h" />
+    <ClInclude Include="Source\Core\Window\Window.h" />
+    <ClInclude Include="Source\Core\Window\WindowProperties.h" />
+    <ClInclude Include="Source\Include\Kross-Engine.h" />
+    <ClInclude Include="Source\Include\Kross.h" />
+    <ClInclude Include="Source\Reference\Dummy.h" />
+    <ClInclude Include="Vendor\fnl\include\fnl\FastNoiseLite.h" />
+    <ClInclude Include="Vendor\glew\include\GL\eglew.h" />
+    <ClInclude Include="Vendor\glew\include\GL\glew.h" />
+    <ClInclude Include="Vendor\glew\include\GL\glxew.h" />
+    <ClInclude Include="Vendor\glew\include\GL\wglew.h" />
+    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="Vendor\glfw\include\GLFW\glfw3native.h" />
+    <ClInclude Include="Vendor\glm\include\glm\common.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\compute_common.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\compute_vector_relational.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\qualifier.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\setup.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_float.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_half.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat2x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat2x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat2x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat3x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat3x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat3x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat4x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat4x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_mat4x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_quat.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec1.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\type_vec4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\_features.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\_fixes.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\_noise.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\_swizzle.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\_swizzle_func.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\detail\_vectorize.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\exponential.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_clip_space.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_common.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double2x4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double3x4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_double4x4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float2x4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float3x4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_float4x4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int2x4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int3x4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_int4x4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_projection.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_relational.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_transform.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint2x4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint3x4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\matrix_uint4x4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_common.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_double.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_double_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_exponential.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_float.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_float_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_geometric.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_relational.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_transform.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\quaternion_trigonometric.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_common.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_constants.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_integer.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_int_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_packing.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_relational.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_uint_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\scalar_ulp.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool1.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool1_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_bool4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_common.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double1.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double1_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_double4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float1.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float1_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float2_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float3_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_float4_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int1.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int1_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_int4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_integer.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_packing.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_relational.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint1.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint1_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint2_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint3_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_uint4_sized.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\ext\vector_ulp.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\fwd.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\geometric.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\glm.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\bitfield.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\color_space.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\constants.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\epsilon.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\integer.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_access.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_integer.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_inverse.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\matrix_transform.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\noise.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\packing.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\quaternion.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\random.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\reciprocal.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\round.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\type_aligned.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\type_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\type_ptr.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\ulp.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtc\vec1.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\associated_min_max.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\bit.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\closest_point.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\color_encoding.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\color_space.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\color_space_YCoCg.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\common.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\compatibility.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\component_wise.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\dual_quaternion.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\easing.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\euler_angles.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\extend.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\extended_min_max.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\exterior_product.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\fast_exponential.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\fast_square_root.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\fast_trigonometry.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\functions.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\gradient_paint.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\handed_coordinate_space.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\hash.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\integer.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\intersect.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\io.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\log_base.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_cross_product.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_decompose.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_factorisation.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_interpolation.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_major_storage.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_operation.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_query.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\matrix_transform_2d.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\mixed_product.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\norm.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\normal.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\normalize_dot.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\number_precision.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\optimum_pow.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\orthonormalize.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\perpendicular.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\polar_coordinates.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\projection.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\quaternion.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\range.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\raw_data.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\rotate_normalized_axis.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\rotate_vector.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\scalar_multiplication.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\scalar_relational.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\spline.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\std_based_type.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\string_cast.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\texture.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\transform.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\transform2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\type_aligned.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\type_trait.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\vector_angle.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\vector_query.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\vec_swizzle.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\gtx\wrap.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\integer.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat2x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat2x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat2x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat3x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat3x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat3x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat4x2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat4x3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\mat4x4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\matrix.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\packing.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\common.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\exponential.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\geometric.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\integer.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\matrix.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\neon.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\packing.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\platform.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\trigonometric.h" />
+    <ClInclude Include="Vendor\glm\include\glm\simd\vector_relational.h" />
+    <ClInclude Include="Vendor\glm\include\glm\trigonometric.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\vec2.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\vec3.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\vec4.hpp" />
+    <ClInclude Include="Vendor\glm\include\glm\vector_relational.hpp" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Box2D.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Collision.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Distance.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2DynamicTree.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2BlockAllocator.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Draw.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2FreeList.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2GrowableBuffer.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2GrowableStack.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2IntrusiveList.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Math.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Settings.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2SlabAllocator.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2StackAllocator.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Stat.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Timer.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Common\b2TrackedBlock.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Body.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Fixture.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Island.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2World.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2Particle.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleAssembly.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleGroup.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleSystem.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2StackQueue.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.h" />
+    <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_audiosource.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_bassboostfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_biquadresonantfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_bus.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_c.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_dcremovalfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_echofilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_error.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_fader.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_fft.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_fftfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_file.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_file_hack_off.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_file_hack_on.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_filter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_flangerfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_freeverbfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_internal.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_lofifilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_misc.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_monotone.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_noise.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_openmpt.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_queue.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_robotizefilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_sfxr.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_speech.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_tedsid.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_thread.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_vic.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_vizsn.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_wav.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_waveshaperfilter.h" />
+    <ClInclude Include="Vendor\soloud\include\soloud_wavstream.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\darray.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\klatt.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\resonator.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\speech\tts.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\tedsid\sid.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\tedsid\ted.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_flac.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_mp3.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\dr_wav.h" />
+    <ClInclude Include="Vendor\soloud\src\audiosource\wav\stb_vorbis.h" />
+    <ClInclude Include="Vendor\soloud\src\backend\miniaudio\miniaudio.h" />
+    <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image.h" />
+    <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Core\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Reference\Dummy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Window\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\glm\include\glm\detail\glm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\IndexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\VertexArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\VertexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Image\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Shader\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\FrameBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Image\Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Manager\ShaderManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Manager\ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\Transform2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Math\Random.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\Script.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Manager\SceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Text\Font.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\TextRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2ChainShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2EdgeShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideCircle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideEdge.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollidePolygon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Distance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2DynamicTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2TimeOfImpact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2BlockAllocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2FreeList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Settings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2StackAllocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Stat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Common\b2TrackedBlock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Body.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2ContactManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Fixture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2Island.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2Particle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleAssembly.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleGroup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2ParticleSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Particle\b2VoronoiDiagram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Rope\b2Rope.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\Rigidbody2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Manager\Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Physics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Animation\Animation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\Animator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\File-IO\FileSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Manager\AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\monotone\soloud_monotone.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\noise\soloud_noise.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\openmpt\soloud_openmpt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\openmpt\soloud_openmpt_dll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\sfxr\soloud_sfxr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\speech\darray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\speech\klatt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\speech\resonator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\speech\soloud_speech.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\speech\tts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\sid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\soloud_tedsid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\tedsid\ted.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\vic\soloud_vic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\vizsn\soloud_vizsn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\wav\dr_impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\wav\soloud_wav.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\wav\soloud_wavstream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\audiosource\wav\stb_vorbis.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\alsa\soloud_alsa.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\coreaudio\soloud_coreaudio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\jack\soloud_jack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\miniaudio\soloud_miniaudio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\nosound\soloud_nosound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\null\soloud_null.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\openal\soloud_openal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\openal\soloud_openal_dll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\opensles\soloud_opensles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\oss\soloud_oss.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\portaudio\soloud_portaudio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\portaudio\soloud_portaudio_dll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl1_dll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\sdl\soloud_sdl2_dll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\sdl_static\soloud_sdl_static.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\sdl2_static\soloud_sdl2_static.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\vita_homebrew\soloud_vita_homebrew.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\wasapi\soloud_wasapi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\winmm\soloud_winmm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\backend\xaudio2\soloud_xaudio2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\c_api\soloud_c.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_audiosource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_bus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_3d.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_basicops.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_faderops.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_filterops.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_getters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_setters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_voicegroup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_core_voiceops.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_fader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_fft.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_fft_lut.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_filter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_misc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_queue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\core\soloud_thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_bassboostfilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_biquadresonantfilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_dcremovalfilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_echofilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_fftfilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_flangerfilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_freeverbfilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_lofifilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_robotizefilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\soloud\src\filter\soloud_waveshaperfilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Audio\AudioSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\AudioPlayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\File-IO\Serialiser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Vendor\glm\include\glm\detail\func_common.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_common_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_exponential.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_exponential_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_geometric.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_geometric_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_integer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_integer_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_matrix.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_matrix_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_packing.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_packing_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_trigonometric.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_trigonometric_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_vector_relational.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\func_vector_relational_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_half.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat2x2.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat2x3.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat2x4.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat3x2.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat3x3.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat3x4.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat4x2.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat4x3.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat4x4.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_mat4x4_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_quat.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_quat_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_vec1.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_vec2.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_vec3.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_vec4.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\detail\type_vec4_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\matrix_clip_space.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\matrix_common.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\matrix_projection.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\matrix_relational.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\matrix_transform.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\quaternion_common.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\quaternion_common_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\quaternion_exponential.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\quaternion_geometric.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\quaternion_relational.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\quaternion_transform.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\quaternion_trigonometric.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\scalar_common.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\scalar_constants.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\scalar_integer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\scalar_packing.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\scalar_relational.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\scalar_ulp.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\vector_common.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\vector_integer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\vector_packing.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\vector_relational.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\ext\vector_ulp.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\bitfield.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\color_space.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\constants.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\epsilon.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\integer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\matrix_access.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\matrix_inverse.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\matrix_transform.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\noise.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\packing.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\quaternion.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\quaternion_simd.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\random.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\reciprocal.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\round.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\type_precision.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\type_ptr.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtc\ulp.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\associated_min_max.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\bit.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\closest_point.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\color_encoding.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\color_space.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\color_space_YCoCg.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\common.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\compatibility.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\component_wise.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\dual_quaternion.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\easing.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\euler_angles.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\extend.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\extended_min_max.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\exterior_product.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\fast_exponential.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\fast_square_root.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\fast_trigonometry.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\float_notmalize.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\functions.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\gradient_paint.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\handed_coordinate_space.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\hash.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\integer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\intersect.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\io.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\log_base.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_cross_product.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_decompose.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_factorisation.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_interpolation.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_major_storage.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_operation.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_query.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\matrix_transform_2d.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\mixed_product.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\norm.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\normal.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\normalize_dot.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\number_precision.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\optimum_pow.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\orthonormalize.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\perpendicular.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\polar_coordinates.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\projection.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\quaternion.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\raw_data.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\rotate_normalized_axis.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\rotate_vector.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\scalar_relational.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\spline.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\std_based_type.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\string_cast.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\texture.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\transform.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\transform2.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\type_aligned.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\type_trait.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\vector_angle.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\vector_query.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Vendor\glm\include\glm\gtx\wrap.inl">
-      <Filter>Header Files</Filter>
-    </None>
+    <None Include="Vendor\glm\include\glm\detail\func_common.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_common_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_exponential.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_exponential_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_geometric.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_geometric_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_integer.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_integer_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_matrix.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_matrix_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_packing.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_packing_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_trigonometric.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_trigonometric_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_vector_relational.inl" />
+    <None Include="Vendor\glm\include\glm\detail\func_vector_relational_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_half.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat2x2.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat2x3.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat2x4.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat3x2.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat3x3.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat3x4.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat4x2.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat4x3.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat4x4.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_mat4x4_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_quat.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_quat_simd.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_vec1.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_vec2.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_vec3.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_vec4.inl" />
+    <None Include="Vendor\glm\include\glm\detail\type_vec4_simd.inl" />
+    <None Include="Vendor\glm\include\glm\ext\matrix_clip_space.inl" />
+    <None Include="Vendor\glm\include\glm\ext\matrix_common.inl" />
+    <None Include="Vendor\glm\include\glm\ext\matrix_projection.inl" />
+    <None Include="Vendor\glm\include\glm\ext\matrix_relational.inl" />
+    <None Include="Vendor\glm\include\glm\ext\matrix_transform.inl" />
+    <None Include="Vendor\glm\include\glm\ext\quaternion_common.inl" />
+    <None Include="Vendor\glm\include\glm\ext\quaternion_common_simd.inl" />
+    <None Include="Vendor\glm\include\glm\ext\quaternion_exponential.inl" />
+    <None Include="Vendor\glm\include\glm\ext\quaternion_geometric.inl" />
+    <None Include="Vendor\glm\include\glm\ext\quaternion_relational.inl" />
+    <None Include="Vendor\glm\include\glm\ext\quaternion_transform.inl" />
+    <None Include="Vendor\glm\include\glm\ext\quaternion_trigonometric.inl" />
+    <None Include="Vendor\glm\include\glm\ext\scalar_common.inl" />
+    <None Include="Vendor\glm\include\glm\ext\scalar_constants.inl" />
+    <None Include="Vendor\glm\include\glm\ext\scalar_integer.inl" />
+    <None Include="Vendor\glm\include\glm\ext\scalar_packing.inl" />
+    <None Include="Vendor\glm\include\glm\ext\scalar_relational.inl" />
+    <None Include="Vendor\glm\include\glm\ext\scalar_ulp.inl" />
+    <None Include="Vendor\glm\include\glm\ext\vector_common.inl" />
+    <None Include="Vendor\glm\include\glm\ext\vector_integer.inl" />
+    <None Include="Vendor\glm\include\glm\ext\vector_packing.inl" />
+    <None Include="Vendor\glm\include\glm\ext\vector_relational.inl" />
+    <None Include="Vendor\glm\include\glm\ext\vector_ulp.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\bitfield.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\color_space.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\constants.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\epsilon.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\integer.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\matrix_access.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\matrix_inverse.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\matrix_transform.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\noise.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\packing.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\quaternion.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\quaternion_simd.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\random.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\reciprocal.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\round.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\type_precision.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\type_ptr.inl" />
+    <None Include="Vendor\glm\include\glm\gtc\ulp.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\associated_min_max.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\bit.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\closest_point.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\color_encoding.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\color_space.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\color_space_YCoCg.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\common.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\compatibility.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\component_wise.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\dual_quaternion.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\easing.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\euler_angles.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\extend.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\extended_min_max.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\exterior_product.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\fast_exponential.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\fast_square_root.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\fast_trigonometry.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\float_notmalize.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\functions.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\gradient_paint.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\handed_coordinate_space.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\hash.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\integer.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\intersect.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\io.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\log_base.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_cross_product.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_decompose.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_factorisation.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_interpolation.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_major_storage.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_operation.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_query.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\matrix_transform_2d.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\mixed_product.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\norm.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\normal.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\normalize_dot.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\number_precision.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\optimum_pow.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\orthonormalize.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\perpendicular.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\polar_coordinates.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\projection.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\quaternion.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\raw_data.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\rotate_normalized_axis.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\rotate_vector.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\scalar_relational.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\spline.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\std_based_type.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\string_cast.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\texture.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\transform.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\transform2.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\type_aligned.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\type_trait.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\vector_angle.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\vector_query.inl" />
+    <None Include="Vendor\glm\include\glm\gtx\wrap.inl" />
     <None Include="Vendor\liquidfun\Box2D\Box2D\Documentation\footer.html" />
     <None Include="Vendor\soloud\doc\soloud.html" />
-    <None Include="Vendor\soloud\src\audiosource\speech\Elements.def">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Vendor\soloud\src\c_api\soloud.def">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="Vendor\soloud\src\audiosource\speech\Elements.def" />
+    <None Include="Vendor\soloud\src\c_api\soloud.def" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Source\Core\Text.txt" />
     <Text Include="Source\Core\File-IO\README.txt" />
+    <Text Include="Source\Core\Text.txt" />
   </ItemGroup>
 </Project>

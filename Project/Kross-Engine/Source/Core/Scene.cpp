@@ -87,9 +87,13 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         /* Update the physics step */
-        p_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), 8, 3, 3);
+        if(Application::GetWindow()->GetVSync() == 1)
+            p_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), 8, 3, 3);
 
-        //p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); / Not recommended. /
+        else
+        {
+            p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
+        }
 
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)

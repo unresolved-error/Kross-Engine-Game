@@ -24,7 +24,7 @@ namespace Kross
 
 		Vector2 m_Position = Vector2(0,0);
 		Vector2 m_LinearVelocity = Vector2(0,0);
-		Vector4 m_Color = Vector4(255, 255, 255, 255);
+		Vector4 m_Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
 		int m_ParticleID = 0;
 		bool m_IsParticleGroup = false;

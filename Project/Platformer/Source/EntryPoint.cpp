@@ -59,28 +59,6 @@ int main(int argc, char** argv)
 	tilemap->SetTileSet(ResourceManager::GetResource<TileSet>("DirtTileSet"));
 
 	scene->AttachObject(tileExample);
-
-	Object* tileExample1 = Object::OnCreate("TileMap");
-	tileExample1->GetTransform()->m_Position.x += 1.0f;
-	tileExample1->AttachComponent<TileMapRenderer>();
-	tileExample1->SetLayer(Layer::Background);
-
-	TileMapRenderer* tilemap1 = tileExample1->GetComponent<TileMapRenderer>();
-	tilemap1->SetTileMap(ResourceManager::GetResource<TileMap>("DirtTileMap"));
-	tilemap1->SetTileSet(ResourceManager::GetResource<TileSet>("DirtTileSet"));
-
-	scene->AttachObject(tileExample1);
-
-	Object* tileExample2 = Object::OnCreate("TileMap");
-	tileExample2->GetTransform()->m_Position.x += 2.0f;
-	tileExample2->AttachComponent<TileMapRenderer>();
-	tileExample2->SetLayer(Layer::Background);
-
-	TileMapRenderer* tilemap2 = tileExample2->GetComponent<TileMapRenderer>();
-	tilemap2->SetTileMap(ResourceManager::GetResource<TileMap>("DirtTileMap"));
-	tilemap2->SetTileSet(ResourceManager::GetResource<TileSet>("DirtTileSet"));
-
-	scene->AttachObject(tileExample2);
 	
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 	player->SetLayer(Layer::Background);
@@ -220,7 +198,7 @@ int main(int argc, char** argv)
 	//Object* particleEmitter = Object::OnCreate("Emitter");
 	//particleEmitter->SetStaticStatus(true);
 	//particleEmitter->AttachComponent<ParticleEmitter>();
-	//particleEmitter->GetTransform()->m_Position = Vector2(1.0f, 1.0f);
+	//particleEmitter->GetTransform()->m_Position = Vector2(3.0f, -3.0f);
 	//particleEmitter->SetLayer(Layer::Fluids);
 	//
 	//scene->AttachObject(particleEmitter);
@@ -239,33 +217,33 @@ int main(int argc, char** argv)
 	//
 	//particle->AttachParticle(tempParticle);
 	//particle->SpawnParticles();
+	
 	//
 	//
 	//
-	//
-	//Object* ppEmitter = Object::OnCreate("ppEmitter");
-	//ppEmitter->SetStaticStatus(true);
-	//ppEmitter->AttachComponent<ParticleEmitter>();
-	//ppEmitter->GetTransform()->m_Position = Vector2(-1.0f, 1.0f);
-	//ppEmitter->SetLayer(Layer::Fluids);
-	//
-	//scene->AttachObject(ppEmitter);
-	//
-	//ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
-	//WaterParticle* tempParticle2 = new WaterParticle();
-	//
-	//tempParticle2->ParticleGroup(false);
-	//particleEm->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
-	//
-	//particleEm->SetMaxCount(0);
-	//particleEm->SetGroupCount(1);
-	//
-	//tempParticle2->SetColor(Vector4(255.0f, 0.0f, 0.0f, 255.0f));
-	//particleEm->SetPosition(ppEmitter->GetTransform()->m_Position);
-	//tempParticle2->SetShape(0.5f);
-	//
-	//particleEm->AttachParticle(tempParticle2);
-	//particleEm->SpawnParticles();
+	Object* ppEmitter = Object::OnCreate("ppEmitter");
+	ppEmitter->SetStaticStatus(true);
+	ppEmitter->AttachComponent<ParticleEmitter>();
+	ppEmitter->GetTransform()->m_Position = Vector2(2.0f, -2.0f);
+	ppEmitter->SetLayer(Layer::Fluids);
+	
+	scene->AttachObject(ppEmitter);
+	
+	ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
+	WaterParticle* tempParticle2 = new WaterParticle();
+	
+	tempParticle2->ParticleGroup(false);
+	particleEm->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
+	
+	particleEm->SetMaxCount(0);
+	particleEm->SetGroupCount(1);
+	
+	tempParticle2->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	particleEm->SetPosition(ppEmitter->GetTransform()->m_Position);
+	tempParticle2->SetShape(0.5f);
+	
+	particleEm->AttachParticle(tempParticle2);
+	particleEm->SpawnParticles();
 
 
 
