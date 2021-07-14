@@ -66,6 +66,7 @@ namespace Kross
         List<Body*> m_CloseObjects;
         List<Body*> m_TileColliders;
         List<Box*> m_TileShapes;
+        List<Circle*> m_TileCornerShapes;
         List<FixtureDef*> m_Fixtures;
 
         bool m_TileMap = false;

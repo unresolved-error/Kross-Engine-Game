@@ -47,7 +47,7 @@ int main(int argc, char** argv)
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
 	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
 	textRenderer->SetTextSize(1.0f);
-	textRenderer->SetText("Huh? TileMaps!?");
+	textRenderer->SetText("Is this a collision map?");
 
 	Object* tileExample = Object::OnCreate("TileMap");
 	tileExample->AttachComponent<TileMapRenderer>();

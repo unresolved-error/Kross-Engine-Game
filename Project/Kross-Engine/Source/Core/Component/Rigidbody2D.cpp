@@ -189,70 +189,154 @@ namespace Kross
 
     void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits)
     {
-        /* Sets the shape type */
-        m_ShapeType = ShapeType::Circle;
+        if (!m_TileMap)
+        {
+            /* Sets the shape type */
+            m_ShapeType = ShapeType::Circle;
 
-        /* Create a bodyDef and set the variables */
-        BodyDef bodyDef;
-        bodyDef.type = b2_staticBody;
-        bodyDef.position.Set(pos.x, pos.y);
+            /* Create a bodyDef and set the variables */
+            BodyDef bodyDef;
+            bodyDef.type = b2_staticBody;
+            bodyDef.position.Set(pos.x, pos.y);
 
-        /* Creates the body and assigns it to the pointer */
-        p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData(GetLinkObject());
+            /* Creates the body and assigns it to the pointer */
+            p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+            p_Body->SetUserData(GetLinkObject());
 
-        /* Creates the cirlce */
-        CircleShape circleShape;
-        /* Sets the circles radius */
-        circleShape.m_radius = radius;
+            /* Creates the cirlce */
+            CircleShape circleShape;
+            /* Sets the circles radius */
+            circleShape.m_radius = radius;
 
-        /* Creates a fixtureDef and assigns the variables */
-        p_FixtureDef->shape = &circleShape;
-        p_FixtureDef->density = 0.5f;
-        p_FixtureDef->friction = 0.5f;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
+            /* Creates a fixtureDef and assigns the variables */
+            p_FixtureDef->shape = &circleShape;
+            p_FixtureDef->density = 0.5f;
+            p_FixtureDef->friction = 0.5f;
+            p_FixtureDef->filter.categoryBits = categoryBits;
+            p_FixtureDef->filter.maskBits = maskBits;
 
-        p_Body->CreateFixture(p_FixtureDef);
+            p_Body->CreateFixture(p_FixtureDef);
 
-        p_PhysicsScene->AttachBody(p_Body);
+            p_PhysicsScene->AttachBody(p_Body);
 
-        /* Assigns the shape to the pointer */
-        p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+            /* Assigns the shape to the pointer */
+            p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+        }
+        else
+        {
+            /* Sets the shape type */
+            m_ShapeType = ShapeType::Circle;
+
+            /* Create a bodyDef and set the variables */
+            BodyDef bodyDef;
+            bodyDef.type = b2_staticBody;
+            bodyDef.position.Set(pos.x, pos.y);
+
+            Body* tempBody;
+            FixtureDef* tempFixture = KROSS_NEW FixtureDef();
+            /* Creates the body and assigns it to the pointer */
+            tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+            tempBody->SetUserData(GetLinkObject());
+
+            /* Creates the cirlce */
+            CircleShape circleShape;
+            /* Sets the circles radius */
+            circleShape.m_radius = radius;
+
+            /* Creates a fixtureDef and assigns the variables */
+            tempFixture->shape = &circleShape;
+            tempFixture->density = 0.5f;
+            tempFixture->friction = 0.5f;
+            tempFixture->filter.categoryBits = categoryBits;
+            tempFixture->filter.maskBits = maskBits;
+
+            tempBody->CreateFixture(tempFixture);
+
+            p_PhysicsScene->AttachBody(tempBody);
+
+            /* Assigns the shape to the pointer */
+            Circle* tempCircle = KROSS_NEW Circle(radius, Vector2(0, 0));
+
+            m_TileCornerShapes.push_back(tempCircle);
+            m_Fixtures.push_back(tempFixture);
+            m_TileColliders.push_back(tempBody);
+        }
     }
 
     void Rigidbody2D::CreateWorldCircle(float radius, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits)
     {
-        /* Sets the shape type */
-        m_ShapeType = ShapeType::Circle;
+        if (!m_TileMap)
+        {
+            /* Sets the shape type */
+            m_ShapeType = ShapeType::Circle;
 
-        /* Create a bodyDef and set the variables */
-        BodyDef bodyDef;
-        bodyDef.type = b2_staticBody;
-        bodyDef.position.Set(pos.x, pos.y);
+            /* Create a bodyDef and set the variables */
+            BodyDef bodyDef;
+            bodyDef.type = b2_staticBody;
+            bodyDef.position.Set(pos.x, pos.y);
 
-        /* Creates the body and assigns it to the pointer */
-        p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData(GetLinkObject());
+            /* Creates the body and assigns it to the pointer */
+            p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+            p_Body->SetUserData(GetLinkObject());
 
-        /* Creates the cirlce */
-        CircleShape circleShape;
-        /* Sets the circles radius */
-        circleShape.m_radius = radius;
+            /* Creates the cirlce */
+            CircleShape circleShape;
+            /* Sets the circles radius */
+            circleShape.m_radius = radius;
 
-        /* Creates a fixtureDef and assigns the variables */
-        p_FixtureDef->shape = &circleShape;
-        p_FixtureDef->density = 0.5f;
-        p_FixtureDef->friction = friction;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
+            /* Creates a fixtureDef and assigns the variables */
+            p_FixtureDef->shape = &circleShape;
+            p_FixtureDef->density = 0.5f;
+            p_FixtureDef->friction = friction;
+            p_FixtureDef->filter.categoryBits = categoryBits;
+            p_FixtureDef->filter.maskBits = maskBits;
 
-        p_Body->CreateFixture(p_FixtureDef);
+            p_Body->CreateFixture(p_FixtureDef);
 
-        p_PhysicsScene->AttachBody(p_Body);
+            p_PhysicsScene->AttachBody(p_Body);
 
-        /* Assigns the shape to the pointer */
-        p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+            /* Assigns the shape to the pointer */
+            p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+        }
+        else
+        {
+            /* Sets the shape type */
+            m_ShapeType = ShapeType::Circle;
+
+            /* Create a bodyDef and set the variables */
+            BodyDef bodyDef;
+            bodyDef.type = b2_staticBody;
+            bodyDef.position.Set(pos.x, pos.y);
+
+            Body* tempBody;
+            FixtureDef* tempFixture = KROSS_NEW FixtureDef();
+            /* Creates the body and assigns it to the pointer */
+            tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+            tempBody->SetUserData(GetLinkObject());
+
+            /* Creates the cirlce */
+            CircleShape circleShape;
+            /* Sets the circles radius */
+            circleShape.m_radius = radius;
+
+            /* Creates a fixtureDef and assigns the variables */
+            tempFixture->shape = &circleShape;
+            tempFixture->density = 0.5f;
+            tempFixture->friction = friction;
+            tempFixture->filter.categoryBits = categoryBits;
+            tempFixture->filter.maskBits = maskBits;
+
+            tempBody->CreateFixture(tempFixture);
+
+            p_PhysicsScene->AttachBody(tempBody);
+
+            /* Assigns the shape to the pointer */
+            Circle* tempCircle = KROSS_NEW Circle(radius, Vector2(0, 0));
+
+            m_TileCornerShapes.push_back(tempCircle);
+            m_Fixtures.push_back(tempFixture);
+            m_TileColliders.push_back(tempBody);
+        }
     }
 
     void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits)
@@ -744,9 +828,14 @@ namespace Kross
         m_TileMap = true;
 
         List<Vector4> tileColliders;
+        List<Vector3> tileCornerColliders;
         Vector2 tileDimensions = tile->p_Sprite->GetGeometry()->GetSize();
         float width = 0;
         float height = 0;
+
+        float cuttOff = 0.1f;
+        bool hasAirAbove = false;
+        bool hasAirBelow = false;
 
         Vector2 objectPosition = GetLinkObject()->GetTransform()->m_Position;
         
@@ -755,53 +844,108 @@ namespace Kross
         int colliderCount = 0;
         List<Vector2> colliderPositions;
 
+
         /* Rows */
-         for (int y = 0; y < (int)tileMap->GetDimensions().y; y++)
-         {
-             for (int x = 0; x < (int)tileMap->GetDimensions().x; x++)
-             {
-                 //get a full tile
-                 if (tileMap->GetCellValue(x, y) != -1)
-                 {
-                     Vector2 tilePosition = Vector2(0.0f);
-                     Vector2 offsetPosition = Vector2(0.0f);
-                     offsetPosition.x = (tileDimensions.x) * x + tileDimensions.x / 2.0f;
-                     offsetPosition.y = -((tileDimensions.y) * y) - tileDimensions.y / 2.0f;
-                     
-                     tilePosition = objectPosition + offsetPosition;
-         
-                     colliderPositions.push_back(tilePosition);
-         
-                     //Get to a tile that is on the next row
-                     if (x == tileMap->GetDimensions().x - 1)
-                     {
-                         if (!colliderPositions.empty())
-                         {
-                             //Make a collision out of this list.
-                             width = (colliderPositions[0].x + (tileDimensions.x * colliderPositions.size())) - colliderPositions[0].x;
-                             tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
-                         }
-                         colliderPositions.clear();
-                     }
-                 }
-                
-                 //Get to an empty tile
-                 else {
-         
-                     if (!colliderPositions.empty()) 
-                     {
-                         //Make a collision out of this list.
-                         width = (colliderPositions[0].x + (tileDimensions.x * colliderPositions.size())) - colliderPositions[0].x;
-                         tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
-                     }
-                     colliderPositions.clear();
-                 }
-             }
-         }
+        for (int y = 0; y < (int)tileMap->GetDimensions().y; y++)
+        {
+            for (int x = 0; x < (int)tileMap->GetDimensions().x; x++)
+            {
+                //get a full tile
+                if (tileMap->GetCellValue(x, y) != -1)
+                {
+                    Vector2 tilePosition = Vector2(0.0f);
+                    Vector2 offsetPosition = Vector2(0.0f);
+                    offsetPosition.x = (tileDimensions.x) * x + tileDimensions.x / 2.0f;
+                    offsetPosition.y = -((tileDimensions.y) * y) - tileDimensions.y / 2.0f;
+                    
+                    tilePosition = objectPosition + offsetPosition;
+        
+                    colliderPositions.push_back(tilePosition);
+        
+                  
+                    if (y != 0 && y != tileMap->GetDimensions().y - 1)//Tile is required
+                    {
+                        if (tileMap->GetCellValue(x, y - 1) == -1)  //CELL HAS AIR
+                        {
+                            hasAirAbove = true;
+                        }
+                        if (tileMap->GetCellValue(x, y + 1) == -1)  //cell has air
+                        {
+                            hasAirBelow = true;
+                        }
+
+                    }
+                    else
+                    {
+                        hasAirBelow = true;
+                        hasAirAbove = true; 
+                    }
+                    
+        
+                    //Get to a tile that is on the next row
+                    if (x == tileMap->GetDimensions().x - 1)
+                    {
+                        if (!colliderPositions.empty() && (hasAirAbove || hasAirBelow))
+                        {
+                            //Make a collision out of this list.
+                            width = (colliderPositions[0].x + (tileDimensions.x * colliderPositions.size())) - colliderPositions[0].x;
+                            tileColliders.push_back(Vector4(width - cuttOff, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
+
+                            if (hasAirAbove) 
+                            {
+                                tileCornerColliders.push_back(Vector3(colliderPositions[0].x - ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y + ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+
+                                tileCornerColliders.push_back(Vector3(colliderPositions[colliderPositions.size() - 1].x + ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y + ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+                            }
+                            
+                            if(hasAirBelow)
+                            {
+                                tileCornerColliders.push_back(Vector3(colliderPositions[0].x - ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y - ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+
+                                tileCornerColliders.push_back(Vector3(colliderPositions[colliderPositions.size() - 1].x + ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y - ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+
+                            }
+                        }
+                        colliderPositions.clear();
+                        hasAirAbove = false;
+                        hasAirBelow = false;
+                    }
+                }
+               
+                //Get to an empty tile
+                else {
+        
+                    if (!colliderPositions.empty() && (hasAirAbove || hasAirBelow)) 
+                    {
+                        //Make a collision out of this list.
+                        width = (colliderPositions[0].x + (tileDimensions.x * colliderPositions.size())) - colliderPositions[0].x;
+                        tileColliders.push_back(Vector4(width - cuttOff, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
+
+                        if (hasAirAbove)
+                        {
+                            tileCornerColliders.push_back(Vector3(colliderPositions[0].x - ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y + ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+                            tileCornerColliders.push_back(Vector3(colliderPositions[colliderPositions.size() - 1].x + ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y + ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+                        }
+
+                        if (hasAirBelow)
+                        {
+                            tileCornerColliders.push_back(Vector3(colliderPositions[0].x - ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y - ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+                            tileCornerColliders.push_back(Vector3(colliderPositions[colliderPositions.size() - 1].x + ((tileDimensions.x / 2.0f) - (cuttOff / 2.0f)), colliderPositions[0].y -  ((tileDimensions.y / 2.0f) - (cuttOff / 2.0f)), cuttOff / 2.0f));
+
+                        }
+                    }
+
+                    colliderPositions.clear();
+                    hasAirAbove = false;
+                    hasAirBelow = false;
+                }
+            }
+        }
 
         colliderPositions.clear();
+        bool hasAir = false;
 
-        /* Collums, Collumbs */
+        ///* Collums, Collumbs */
         for (int x = 0; x < (int)tileMap->GetDimensions().x; x++)
         {
             for (int y = 0; y < (int)tileMap->GetDimensions().y; y++)
@@ -813,111 +957,73 @@ namespace Kross
                     Vector2 offsetPosition = Vector2(0.0f);
                     offsetPosition.x = (tileDimensions.x) * x + tileDimensions.x / 2.0f;
                     offsetPosition.y = -((tileDimensions.y) * y) - tileDimensions.y / 2.0f;
-
+        
                     tilePosition = objectPosition + offsetPosition;
-
+        
                     colliderPositions.push_back(tilePosition);
 
+                    if (!hasAir)
+                    {
+                        if (x != 0 && x != tileMap->GetDimensions().x - 1)//Tile is required
+                        {
+                            if (tileMap->GetCellValue(x - 1, y) == -1 || tileMap->GetCellValue(x + 1, y) == -1)  //CELL HAS AIR
+                            {
+                                hasAir = true;
+                            }
+                        }
+                        else
+                        {
+                            hasAir = true;
+                        }
+                    }
+        
                     //Get to a tile that is on the next row
                     if (y == tileMap->GetDimensions().y - 1)
                     {
-                        if (!colliderPositions.empty())
+                        if (!colliderPositions.empty() && hasAir)
                         {
                             //Make a collision out of this list.
                             height = (colliderPositions[0].y + (tileDimensions.y * colliderPositions.size())) - colliderPositions[0].y;
-                            tileColliders.push_back(Vector4(tileDimensions.x, height - 0.05f, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
-
-
-
+                            tileColliders.push_back(Vector4(tileDimensions.x, height - cuttOff, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
+        
+        
+        
                             //tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
                         }
                         colliderPositions.clear();
+                        hasAir = false;
                     }
                 }
-
+        
                 //Get to an empty tile
                 else {
-
-                    if (!colliderPositions.empty())
+        
+                    if (!colliderPositions.empty() && hasAir)
                     {
                         //Make a collision out of this list.
                         height = (colliderPositions[0].y + (tileDimensions.y * colliderPositions.size())) - colliderPositions[0].y;
-                        tileColliders.push_back(Vector4(tileDimensions.x, height - 0.05f, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
-
-
-
+                        tileColliders.push_back(Vector4(tileDimensions.x, height - cuttOff, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
+        
+        
+        
                         //tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
                     }
                     colliderPositions.clear();
+                    hasAir = false;
                 }
             }
         }
 
 
-        //for (int i = 0; i <= tilePosition.size(); i++)
-        //{
-        //    if (colliderCount == 0)
-        //    {
-        //        firstTile = previous;
-        //        //tileColliders.push_back(Vector4(previous.x - dimensions.x, previous.y + dimensions.y,
-        //        //    tilePosition[i].x + dimensions.x, tilePosition[i].y - dimensions.y));
-        //        colliderCount++;
-        //    }
-        //    if (tilePosition[i].x - previous.x == dimensions.x && tilePosition[i].y == previous.y)
-        //    {
-        //        colliderCount++;
-        //    }
-        //    else
-        //    {
-        //        if (colliderCount != 0)
-        //        {
-        //            width = (firstTile.x + (dimensions.x * colliderCount)) - firstTile.x;
-        //            tileColliders.push_back(Vector4(width - 0.05f, dimensions.y, (firstTile.x + (width * 0.5f)) - dimensions.x * 0.5f, firstTile.y));
-        //            colliderCount = 0;
-        //        }
-        //    }
-        //    previous = tilePosition[i];
-        //}
-        
-        //previous = tilePosition[0];
-        //colliderCount = 0;
-        //List<int> index;
-        ///* Collums */
-        //for (int i = 0; i <= tilePosition.size(); i++)
-        //{
-        //    for (int j = 0; j < tilePosition.size(); j++)
-        //    {
-        //        if (colliderCount == 0)
-        //        {
-        //            firstTile = previous;
-        //            colliderCount++;
-        //        }
-        //
-        //        if (tilePosition[j].x == previous.x)
-        //        {
-        //            if (tilePosition[j].y - tilePosition[i].y == dimensions.y)
-        //            {
-        //                colliderCount++;
-        //            }
-        //            else
-        //            {
-        //                if (colliderCount != 0)
-        //                {
-        //                    height = (firstTile.y + (dimensions.y * colliderCount)) - firstTile.y;
-        //                    tileColliders.push_back(Vector4(dimensions.x, height, firstTile.x, (firstTile.y + (height * 0.5f)) - dimensions.y * 0.5f));
-        //                    colliderCount = 0;
-        //                }
-        //            }
-        //
-        //            previous = tilePosition[i];
-        //        }
-        //    }
-        //}
-
-
         for (int i = 0; i < tileColliders.size(); i++)
         {
             CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), 0.5f, Vector2(tileColliders[i].z, tileColliders[i].w),
+                ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
+        }
+
+        for (int i = 0; i < tileCornerColliders.size(); i++)
+        {
+            CreateWorldCircle(tileCornerColliders[i].z, Vector2(tileCornerColliders[i].x, tileCornerColliders[i].y),
                 ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
         }
     }
