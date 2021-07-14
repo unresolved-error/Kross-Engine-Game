@@ -40,10 +40,9 @@
 #include "../Core/Physics/Physics.h"
 #include "../Core/Physics/PhysicsScene.h"
 
-#include "../Core/Physics/Collision/CollisionData.h"
 #include "../Core/Physics/Collision/ContactFilter.h"
-#include "../Core/Physics/Collision/PhysicsCallbacks.h"
 #include "../Core/Physics/Collision/Raycast2DCallback.h"
+#include "../Core/Physics/Data/CollisionData.h"
 
 #include "../Core/Physics/Particles/Particle.h"
 

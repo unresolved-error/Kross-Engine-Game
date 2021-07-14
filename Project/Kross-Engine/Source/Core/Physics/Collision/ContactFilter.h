@@ -5,21 +5,13 @@
  */
 
 #pragma once
-#include "../../Core.h"
 
+#include "../../Core.h"
 #include "../Physics.h"
 
 namespace Kross
 {
     class KROSS_API ParticleEmitter;
-
-    enum class KROSS_API CollisionFilter
-    {
-        Entity,
-        Ground,
-        Wall,
-        Fluids,
-    };
 
     class KROSS_API ContactFilter : public b2ContactFilter
     {

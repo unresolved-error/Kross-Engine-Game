@@ -5,30 +5,22 @@
  */
 
 #pragma once
-#include "../../Core.h"
 
-#include "Box2D/Box2D.h"
+#include "../../Core.h"
+#include "../Data/FluidCollisionData.h"
 
 namespace Kross
 {
     class KROSS_API ParticleEmitter;
 
-    struct KROSS_API FluidCollisionData
-    {
-        const b2ParticleSystem* p_ParticleSystem = nullptr;
-        List<int> m_ParticleIndexs;
-        bool m_Collision = false;
-
-    };
-
-    class KROSS_API FluidCollisionCallback : public b2QueryCallback
+    class KROSS_API AABBCollisionCallback : public b2QueryCallback
     {
     private:
-        FluidCollisionData* p_Data;
+        AABBCollisionData* p_Data;
 
     public:
-        FluidCollisionCallback();
-        ~FluidCollisionCallback();
+        AABBCollisionCallback();
+        ~AABBCollisionCallback();
 
 
         /// Called for each fixture found in the query AABB.
@@ -47,11 +39,10 @@ namespace Kross
         bool ShouldQueryParticleSystem(
             const b2ParticleSystem* particleSystem) override;
 
-        void SetFluidCollisionData(FluidCollisionData* data) { p_Data = data; }
+        void SetAABBCollisionData(AABBCollisionData* data) { p_Data = data; }
 
         /* Returns the fluid collision data */
-        FluidCollisionData* GetFluidCollisionData();
+        AABBCollisionData* GetAABBCollisionData();
 
     };
-
 }

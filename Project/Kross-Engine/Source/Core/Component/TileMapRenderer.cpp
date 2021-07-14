@@ -37,7 +37,6 @@ namespace Kross
 	}
 
 
-
 	Sprite* TileMapRenderer::MatchMapCell(int x, int y)
 	{
 		int cellVal = p_TileMap->GetCellValue(x, y);
@@ -68,7 +67,6 @@ namespace Kross
 
 		for (int y = p_TileMap->GetDimensions().y - 1; y >= 0; y--)
 		{
-		
 			for (int x = 0; x < p_TileMap->GetDimensions().x; x++) 
 			{
 				if (p_TileSet && p_TileMap->GetCellValue(x,y) != -1) 
@@ -81,8 +79,8 @@ namespace Kross
 					newTile->m_Offset.x = (geomSize.x) * x + geomSize.x / 2.0f;
 					newTile->m_Offset.y = -((geomSize.y) * y) - geomSize.y / 2.0f;
 					m_Tiles.push_back(newTile);
+					
 				}
-
 			}
 
 		}

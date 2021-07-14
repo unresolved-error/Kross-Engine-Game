@@ -432,32 +432,37 @@ namespace Kross
             static_assert(std::is_convertible<Type, WaterVertex>::value, "Type must be of Text Vertex!");
 
             /* Grab Information Needed to pass to the Renderer. */
-            b2Vec2* positions = emitter->GetParticleSystem()->GetPositionBuffer();
-            b2Vec2* velocities = emitter->GetParticleSystem()->GetVelocityBuffer();
-            int particleCount = emitter->GetParticleSystem()->GetParticleCount();
-            
-            /* Go through each Particle. */
-            for (int i = 0; i < particleCount; i++)
+            for (int j = 0; j < emitter->GetParticleSystem().size(); j++)
             {
-                /* Default Water Colour. */
-                Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
-            
-                /* Set the Vertex. */
-                WaterVertex waterDrop = WaterVertex(Vector2(positions[i].x, positions[i].y),
-                                                    Vector2(velocities[i].x, velocities[i].y),
-                                                    waterColour);
-                /* Grab the Vertex Count. */
-                int vertexCount = m_Data.size();
-            
-                /* Attach the Index. */
-                m_Indicies.push_back(vertexCount);
-            
-                /* Attach the Vertex Data. */
-                m_Data.push_back(waterDrop);
+                b2Vec2* positions = emitter->GetParticleSystem()[j]->GetPositionBuffer();
+                b2Vec2* velocities = emitter->GetParticleSystem()[j]->GetVelocityBuffer();
+                int particleCount = emitter->GetParticleSystem()[j]->GetParticleCount();
+
+
+                /* Go through each Particle. */
+                for (int i = 0; i < particleCount; i++)
+                {
+                    /* Default Water Colour. */
+                    //Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
+                    Colour waterColour = Colour(emitter->GetParticle(i)->GetColor());
+
+                    /* Set the Vertex. */
+                    WaterVertex waterDrop = WaterVertex(Vector2(positions[i].x, positions[i].y),
+                        Vector2(velocities[i].x, velocities[i].y),
+                        waterColour);
+                    /* Grab the Vertex Count. */
+                    int vertexCount = m_Data.size();
+
+                    /* Attach the Index. */
+                    m_Indicies.push_back(vertexCount);
+
+                    /* Attach the Vertex Data. */
+                    m_Data.push_back(waterDrop);
+                }
+
+                /* Update the Batch Size. */
+                m_BatchSize += particleCount;
             }
-            
-            /* Update the Batch Size. */
-            m_BatchSize += particleCount;
         }
 
         // Gets if the Batch is Full.

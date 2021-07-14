@@ -1152,9 +1152,6 @@
     <ClInclude Include="Source\Core\Physics\Shape\Plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\CollisionData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Physics\PhysicsScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1213,9 +1210,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collision\PhysicsCallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Renderer\Vertex\WaterVertex.h">
@@ -1422,13 +1416,54 @@
     <ClInclude Include="Source\Core\Renderer\Vertex\LineVertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Tilemap\TileMap.h">
+    <ClInclude Include="Source\Core\Physics\Filters\CollisionFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Renderer\Tilemap\TileSet.h">
+    <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Component\TileMapRenderer.h">
+    <ClInclude Include="Source\Core\Physics\Data\RaycastData.h">
+      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\ColourMixingParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\ElasticParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Filters\ParticleType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\PowderParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\ReactiveParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\RepulsiveParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\SpringParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\StaticPressureParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\TensileParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\ViscousParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Data\CollisionData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1700,9 +1735,6 @@
     <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Collision\PhysicsCallbacks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Renderer\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1940,13 +1972,7 @@
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Tilemap\TileMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Renderer\Tilemap\TileSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp">
+    <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

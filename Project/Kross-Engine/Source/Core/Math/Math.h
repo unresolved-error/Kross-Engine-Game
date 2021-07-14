@@ -35,3 +35,13 @@ inline static glm::vec3 GetVector3(const b2Vec3& vector)
 {
 	return glm::vec3(vector.x, vector.y, vector.z);
 }
+
+inline static b2Vec2 Getb2Vec2(const glm::vec2& vector)
+{
+	return b2Vec2(vector.x, vector.y);
+}
+
+inline static b2Vec3 Getb2Vec3(const glm::vec3& vector)
+{
+	return b2Vec3(vector.x, vector.y, vector.z);
+}

@@ -1,3 +1,9 @@
+/*
+ *  Author: Jake Warren.
+ *  Editors:
+ *      - Jake Warren.
+ */
+
 #include "Particle.h"
 
 #include "../../Core.h"
@@ -41,11 +47,11 @@ namespace Kross
 		particleDef.flags = GetParticleFlag();
 		particleDef.groupFlags = GetParticleGroupFlag();
 
-		particleDef.strength = 0.0f;
-
 		particleDef.shape = GetShape();
-		//particleDef.angle = GetAngle() + 0.01f;
-		//particleDef.angularVelocity = GetAngularVelocity() + 0.05f;
+		particleDef.strength = GetStrength();
+
+		particleDef.angle = GetAngle();
+		particleDef.angularVelocity = GetAngularVelocity();
 
 		particleDef.position.Set(GetPosition().x, GetPosition().y);
 		particleDef.color.Set(GetColor().r, GetColor().g, GetColor().b, GetColor().a);

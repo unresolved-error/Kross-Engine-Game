@@ -13,8 +13,11 @@
 
 #include "../Renderer/Shader/Shader.h"
 #include "../Renderer/LineRenderer.h"
-#include "../Physics/Collision/CollisionData.h"
+#include "../Physics/Data/CollisionData.h"
 #include "../Physics/Collision/ContactFilter.h"
+#include "../Renderer/Tilemap/Tile.h"
+#include "../Renderer/Tilemap/TileSet.h"
+#include "../Renderer/Tilemap/TileMap.h"
 
 namespace Kross
 {
@@ -57,9 +60,19 @@ namespace Kross
         b2MassData* p_MassData;
         RaycastData* p_RayData;
         ContactFilter* p_Filter;
-        FluidCollisionData* p_FluidData;
+        AABBCollisionData* p_AABBCollisionData;
+
+        List<AABBCollisionData*> m_AABBCollisions;
+        List<Body*> m_CloseObjects;
+        List<Body*> m_TileColliders;
+        List<Box*> m_TileShapes;
+        List<Circle*> m_TileCornerShapes;
+        List<FixtureDef*> m_Fixtures;
+
+        bool m_TileMap = false;
 
     protected:
+        friend class TileMapRenderer;
         friend class PhysicsScene;
         friend class Scene;
 
@@ -70,7 +83,7 @@ namespace Kross
         void OnUpdate() override;
 
         // Sends Draw Informatin to the Line Renderer.
-        void OnUpdateDrawInformation() const { p_DebugRenderer->DrawRigidBody(p_Body); };
+        void OnUpdateDrawInformation() const;
 
         // Attaches a Line Renderer.
         void AttachLineRenderer(LineRenderer* renderer) { p_DebugRenderer = renderer; };
@@ -84,7 +97,6 @@ namespace Kross
         PhysicsScene* GetPhysicsScene() const { return p_PhysicsScene; }
 
     public:
-
         Rigidbody2D();
         ~Rigidbody2D();
 
@@ -98,34 +110,45 @@ namespace Kross
             p_MassData->I = 0.0f;
         }
 
+
         /* Sets the Body for the RigidBody */
         void SetBody(Body* body) { p_Body = body; }
+
         /* Gets the Body for the RigidBody */
         Body* GetBody() const { return p_Body; }
 
+
         /* Apply a force to the body */
         void OnApplyForce(Vector2 force);
+
         /* Apply an impulse to the body */
         void OnApplyImpulse(Vector2 impulse);
+
 
         /* Creates a new dynamic circle */
         void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
         void CreateDynamicCircle(float radius, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
+
         /* Creates a new dynamic box */
         void CreateDynamicBox(Vector2 Dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
         void CreateDynamicBox(Vector2 Dimensions, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
 
+
         /* Creates a new static circle */
         void CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits);
         void CreateWorldCircle(float radius, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits);
+
         /* Creates a new static box */
         void CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits);
         void CreateWorldBox(Vector2 Dimensions, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits);
 
+
         /* Gets the Objects Position */
         Vector2 GetPosition() const;
+
         /* Gets the Objects velocity */
         Vector2 GetVelocity() const{ return Vector2(p_Body->GetLinearVelocity().x , p_Body->GetLinearVelocity().y); }
+
 
         /* Gets the friction of a specified object */
         float GetFriction();
@@ -133,10 +156,20 @@ namespace Kross
         /* Calculates the spring under the player */
         Vector2 SpringCalculation(Body* body1, Body* body2, float distance);
 
+
         /* Returns the current collision state */
-        CollisionState GetCollision() const { return m_CollisionState; }    
+        CollisionState GetCollision() const { return m_CollisionState; }
 
         /* Collides dynamic bodies with particles */
         Vector2 CollideParticles();
+
+
+        float CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos);
+    
+        float CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos);
+
+        void GetSurroundingObjects(float size, Body* body);
+
+        void CreateTileMapColliders(TileMap* tileMap, Tile* tile);
     };
 }

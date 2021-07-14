@@ -25,24 +25,25 @@ namespace Kross
 	{
 	private:
 		World* p_PhysicsWorld;
-		ParticleSystem* p_ParticleSystem;
+		List<ParticleSystem*> m_ParticleSystem;
 
 		List<Body*> m_bodies;
 
 	protected:
 		friend class Scene;
+		friend class ParticleEmitter;
 		/* Sets the Physics World */
 		void SetPhysicsWorld(World* world) { p_PhysicsWorld = world; }
 
-		/* Sets the Particle System */
-		void SetParticleSystem(ParticleSystem* particleSystem) { p_ParticleSystem = particleSystem; }
 
 	public:
 		PhysicsScene() :
-			p_PhysicsWorld		(nullptr), 
-			p_ParticleSystem	(nullptr) 
+			p_PhysicsWorld		(nullptr)
 		{};
 		~PhysicsScene();
+
+		/* Sets the Particle System */
+		void AddParticleSystem(ParticleSystem* particleSystem) { m_ParticleSystem.push_back(particleSystem); }
 
 		/* Adds the Body to a list of bodies */
 		void AttachBody(Body* body) { m_bodies.push_back(body); }
@@ -51,7 +52,9 @@ namespace Kross
 		World* GetPhysicsWorld() { return p_PhysicsWorld; }
 
 		/* Return the Particle System */
-		ParticleSystem* GetParticleSystem() { return p_ParticleSystem; }
+		List<ParticleSystem*> GetParticleSystem() { return m_ParticleSystem; }
+
+		List<Body*> GetBodyList() { return m_bodies; }
 
 	};
 }
