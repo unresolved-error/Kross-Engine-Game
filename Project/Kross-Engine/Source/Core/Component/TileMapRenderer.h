@@ -50,6 +50,8 @@ namespace Kross
 
 
     public:
+        ~TileMapRenderer();
+
         //Returns tileMap Pointer
         TileMap* GetTileMap() { return p_TileMap; };
         //Gets the tileset pointer

@@ -41,8 +41,7 @@ public:
 
 	float pan = 0.0f;
 
-	float previousTime = 0.0f;
-	float actualTime = 0.0f;
+	float timeElapsed = 0.0f;
 
 	int frameCount = 0;
 
@@ -54,8 +53,6 @@ public:
 		window = Application::GetWindow();
 
 		controllerID = Input::GetAvalibleController();
-
-		previousTime = Time::GetDeltaTime();
 
 		animator = GetLinkObject()->GetComponent<Animator>();
 
@@ -124,8 +121,8 @@ public:
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
 
 			//pan += Input::GetAxis(Axis::KeyboardHorizontal) * Time::GetDeltaTime();
-			pan = glm::clamp(pan, 0.0f, 1.0f);
-			audplayer->SetVolume(pan);
+			//pan = glm::clamp(pan, 0.0f, 1.0f);
+			audplayer->SetVolume(0.33f);
 
 			if (input.x == 0.0f && input.y == 0.0f)
 			{
@@ -188,6 +185,21 @@ public:
 		rigidBody->OnApplyForce(input * 0.5f);
 
 		textObj->GetLinkObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
+
+		if (timeElapsed >= 1.0f)
+		{
+			timeElapsed = 0.0f;
+			textObj->SetText(std::to_string(frameCount));
+			frameCount = 0;
+		}
+
+		else
+		{
+			frameCount++;
+			timeElapsed += Time::GetDeltaTime();
+		}
+
+		
 
 		//if (followPlayer)
 		//{

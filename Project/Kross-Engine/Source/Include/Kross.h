@@ -15,6 +15,7 @@
 
 #include "../Core/Application.h"
 #include "../Core/Input.h"
+#include "../Core/Layer.h"
 #include "../Core/Object.h"
 #include "../Core/Scene.h"
 
@@ -22,7 +23,6 @@
 #include "../Core/Animation/Keyframe.h"
 
 #include "../Core/Audio/AudioSource.h"
-
 
 #include "../Core/Component/Component.h"
 
@@ -33,7 +33,6 @@
 #include "../Core/Manager/ShaderManager.h"
 #include "../Core/Manager/Time.h"
 #include "../Core/Manager/AudioManager.h"
-
 
 #include "../Core/Math/Math.h"
 #include "../Core/Math/Random.h"
@@ -74,6 +73,10 @@
 #include "../Core/Renderer/Text/Character.h"
 #include "../Core/Renderer/Text/Font.h"
 #include "../Core/Renderer/Text/TextAlignment.h"
+
+#include "../Core/Renderer/Tilemap/Tile.h"
+#include "../Core/Renderer/Tilemap/TileMap.h"
+#include "../Core/Renderer/Tilemap/TileSet.h"
 
 #include "../Core/Renderer/Vertex/Vertex.h"
 
