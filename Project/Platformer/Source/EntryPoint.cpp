@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Idle"));
 	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Walk"));
 	
-	player->GetTransform()->m_Position = Vector2(0.0f, 0.0f);
+	player->GetTransform()->m_Position = Vector2(1.0f, -1.0f);
 	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
 	player->GetTransform()->m_Rotation = 0.0f;
 
@@ -247,6 +247,8 @@ int main(int argc, char** argv)
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 
+	tileExample->SetLayer(Layer::Ground);
+
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
 	scene->AttachObject(tileExample);
@@ -258,7 +260,7 @@ int main(int argc, char** argv)
 	
 
 	Rigidbody2D* tileMapCollider = tileExample->GetComponent<Rigidbody2D>();
-	tileMapCollider->CreateTileMapColliders(tilemap->GetTileMap(), tilemap->GetTileList());
+	tileMapCollider->CreateTileMapColliders(tilemap->GetTileMap(), tilemap->GetTileList()[0]);
 
 
 

@@ -739,51 +739,145 @@ namespace Kross
         p_AABBCollisionData->m_Fixture.clear();
     }
 
-    void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, List<Tile*> tiles)
+    void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile)
     {
         m_TileMap = true;
-        List<Vector2> tilePosition;
+
         List<Vector4> tileColliders;
-        Vector2 dimensions = tiles[0]->p_Sprite->GetGeometry()->GetSize();
+        Vector2 tileDimensions = tile->p_Sprite->GetGeometry()->GetSize();
         float width = 0;
         float height = 0;
 
-
-        for (int i = 0; i < tiles.size(); i++)
-        {
-            Vector2 pos = GetLinkObject()->GetTransform()->m_Position + tiles[i]->m_Offset;
-            tilePosition.push_back(pos);
-        }
+        Vector2 objectPosition = GetLinkObject()->GetTransform()->m_Position;
         
         Vector2 firstTile = Vector2(0,0);
-        Vector2 previous = tilePosition[0];
+        Vector2 previous = Vector2(-1.0f);
         int colliderCount = 0;
+        List<Vector2> colliderPositions;
 
         /* Rows */
-        for (int i = 0; i <= tilePosition.size(); i++)
+         for (int y = 0; y < (int)tileMap->GetDimensions().y; y++)
+         {
+             for (int x = 0; x < (int)tileMap->GetDimensions().x; x++)
+             {
+                 //get a full tile
+                 if (tileMap->GetCellValue(x, y) != -1)
+                 {
+                     Vector2 tilePosition = Vector2(0.0f);
+                     Vector2 offsetPosition = Vector2(0.0f);
+                     offsetPosition.x = (tileDimensions.x) * x + tileDimensions.x / 2.0f;
+                     offsetPosition.y = -((tileDimensions.y) * y) - tileDimensions.y / 2.0f;
+                     
+                     tilePosition = objectPosition + offsetPosition;
+         
+                     colliderPositions.push_back(tilePosition);
+         
+                     //Get to a tile that is on the next row
+                     if (x == tileMap->GetDimensions().x - 1)
+                     {
+                         if (!colliderPositions.empty())
+                         {
+                             //Make a collision out of this list.
+                             width = (colliderPositions[0].x + (tileDimensions.x * colliderPositions.size())) - colliderPositions[0].x;
+                             tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
+                         }
+                         colliderPositions.clear();
+                     }
+                 }
+                
+                 //Get to an empty tile
+                 else {
+         
+                     if (!colliderPositions.empty()) 
+                     {
+                         //Make a collision out of this list.
+                         width = (colliderPositions[0].x + (tileDimensions.x * colliderPositions.size())) - colliderPositions[0].x;
+                         tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
+                     }
+                     colliderPositions.clear();
+                 }
+             }
+         }
+
+        colliderPositions.clear();
+
+        /* Collums, Collumbs */
+        for (int x = 0; x < (int)tileMap->GetDimensions().x; x++)
         {
-            if (colliderCount == 0)
+            for (int y = 0; y < (int)tileMap->GetDimensions().y; y++)
             {
-                firstTile = previous;
-                //tileColliders.push_back(Vector4(previous.x - dimensions.x, previous.y + dimensions.y,
-                //    tilePosition[i].x + dimensions.x, tilePosition[i].y - dimensions.y));
-                colliderCount++;
-            }
-            if (tilePosition[i].x - previous.x == dimensions.x && tilePosition[i].y == previous.y)
-            {
-                colliderCount++;
-            }
-            else
-            {
-                if (colliderCount != 0)
+                //get a full tile
+                if (tileMap->GetCellValue(x, y) != -1)
                 {
-                    width = (firstTile.x + (dimensions.x * colliderCount)) - firstTile.x;
-                    tileColliders.push_back(Vector4(width - 0.05f, dimensions.y, (firstTile.x + (width * 0.5f)) - dimensions.x * 0.5f, firstTile.y));
-                    colliderCount = 0;
+                    Vector2 tilePosition = Vector2(0.0f);
+                    Vector2 offsetPosition = Vector2(0.0f);
+                    offsetPosition.x = (tileDimensions.x) * x + tileDimensions.x / 2.0f;
+                    offsetPosition.y = -((tileDimensions.y) * y) - tileDimensions.y / 2.0f;
+
+                    tilePosition = objectPosition + offsetPosition;
+
+                    colliderPositions.push_back(tilePosition);
+
+                    //Get to a tile that is on the next row
+                    if (y == tileMap->GetDimensions().y - 1)
+                    {
+                        if (!colliderPositions.empty())
+                        {
+                            //Make a collision out of this list.
+                            height = (colliderPositions[0].y + (tileDimensions.y * colliderPositions.size())) - colliderPositions[0].y;
+                            tileColliders.push_back(Vector4(tileDimensions.x, height - 0.05f, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
+
+
+
+                            //tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
+                        }
+                        colliderPositions.clear();
+                    }
+                }
+
+                //Get to an empty tile
+                else {
+
+                    if (!colliderPositions.empty())
+                    {
+                        //Make a collision out of this list.
+                        height = (colliderPositions[0].y + (tileDimensions.y * colliderPositions.size())) - colliderPositions[0].y;
+                        tileColliders.push_back(Vector4(tileDimensions.x, height - 0.05f, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
+
+
+
+                        //tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
+                    }
+                    colliderPositions.clear();
                 }
             }
-            previous = tilePosition[i];
         }
+
+
+        //for (int i = 0; i <= tilePosition.size(); i++)
+        //{
+        //    if (colliderCount == 0)
+        //    {
+        //        firstTile = previous;
+        //        //tileColliders.push_back(Vector4(previous.x - dimensions.x, previous.y + dimensions.y,
+        //        //    tilePosition[i].x + dimensions.x, tilePosition[i].y - dimensions.y));
+        //        colliderCount++;
+        //    }
+        //    if (tilePosition[i].x - previous.x == dimensions.x && tilePosition[i].y == previous.y)
+        //    {
+        //        colliderCount++;
+        //    }
+        //    else
+        //    {
+        //        if (colliderCount != 0)
+        //        {
+        //            width = (firstTile.x + (dimensions.x * colliderCount)) - firstTile.x;
+        //            tileColliders.push_back(Vector4(width - 0.05f, dimensions.y, (firstTile.x + (width * 0.5f)) - dimensions.x * 0.5f, firstTile.y));
+        //            colliderCount = 0;
+        //        }
+        //    }
+        //    previous = tilePosition[i];
+        //}
         
         //previous = tilePosition[0];
         //colliderCount = 0;
