@@ -64,11 +64,6 @@ namespace Kross
 		{
 			std::cout << "Kross Engine Running..." << std::endl;
 
-			std::cout << "Creating Atlas..." << std::endl;
-			Atlas* atlas = Atlas::OnCreate();
-			ResourceManager::AttachResource<Atlas>(atlas);
-
-			
 			SceneManager::OnStart();
 			std::cout << "Starting Main Loop..." << std::endl;
 
@@ -96,6 +91,9 @@ namespace Kross
 	{
 		s_Instance->p_Window->OnShutdown();
 		AudioManager::OnShutdown();
+
+		/* Writes the Manifest. */
+		ResourceManager::OnWriteManifest();
 
 		ResourceManager::OnDestroy();
 

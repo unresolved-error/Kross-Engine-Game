@@ -1,16 +1,11 @@
-#define _CRTBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
 #include <Kross.h>
 #include "PlayerMovement.h"
 
 using namespace Kross;
 
-int main(int argc, char** argv)
+// Runs the Engine / Game.
+void OnRun()
 {
-	_CrtMemState* memState = KROSS_NEW _CrtMemState();
-
 	Application::OnCreate();
 	Application::OnStart();
 
@@ -34,7 +29,7 @@ int main(int argc, char** argv)
 	Animator* animator = player->GetComponent<Animator>();
 	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Idle"));
 	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Walk"));
-	
+
 	player->GetTransform()->m_Position = Vector2(1.0f, -1.0f);
 	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
 	player->GetTransform()->m_Rotation = 0.0f;
@@ -59,12 +54,12 @@ int main(int argc, char** argv)
 	tilemap->SetTileSet(ResourceManager::GetResource<TileSet>("DirtTileSet"));
 
 	scene->AttachObject(tileExample);
-	
+
 	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 	player->SetLayer(Layer::Background);
 
 	player->AttachComponent<AudioPlayer>();
-	
+
 	SpriteRenderer* renderer = player->GetComponent<SpriteRenderer>();
 	renderer->SetMaterial(ResourceManager::GetResource<Material>("Player"));
 
@@ -189,12 +184,11 @@ int main(int argc, char** argv)
 	//	renderer->SetMaterial(groundMaterial);
 	//}
 
-
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.33f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment);
+	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.35f), player->GetTransform()->m_Position + Vector2(0.0f, 0.4f), true, ColliderFilters::Player, ColliderFilters::Environment);
+	//rigidBody->SetMass(0.00025f);//a (Vector2(0.5f, 0.5f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment);
+
 	//rigidBody->SetMass(1.25f);
-
-
 	//Object* particleEmitter = Object::OnCreate("Emitter");
 	//particleEmitter->SetStaticStatus(true);
 	//particleEmitter->AttachComponent<ParticleEmitter>();
@@ -217,31 +211,31 @@ int main(int argc, char** argv)
 	//
 	//particle->AttachParticle(tempParticle);
 	//particle->SpawnParticles();
-	
 	//
 	//
 	//
+
 	Object* ppEmitter = Object::OnCreate("ppEmitter");
 	ppEmitter->SetStaticStatus(true);
 	ppEmitter->AttachComponent<ParticleEmitter>();
 	ppEmitter->GetTransform()->m_Position = Vector2(2.0f, -2.0f);
 	ppEmitter->SetLayer(Layer::Fluids);
-	
+
 	scene->AttachObject(ppEmitter);
-	
+
 	ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
 	WaterParticle* tempParticle2 = new WaterParticle();
-	
+
 	tempParticle2->ParticleGroup(false);
 	particleEm->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
-	
+
 	particleEm->SetMaxCount(0);
 	particleEm->SetGroupCount(1);
-	
+
 	tempParticle2->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 	particleEm->SetPosition(ppEmitter->GetTransform()->m_Position);
 	tempParticle2->SetShape(0.5f);
-	
+
 	particleEm->AttachParticle(tempParticle2);
 	particleEm->SpawnParticles();
 
@@ -253,12 +247,12 @@ int main(int argc, char** argv)
 
 	scene->AttachObject(camera);
 	scene->AttachObject(textExample);
-	
+
 	//AudioSource* MarioJump = AudioSource::OnCreate("Resources/Audio/mario_jump.wav", "Mario-Jump");
 	//player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(MarioJump);
 	//
 	//player->GetComponent<AudioPlayer>()->PlaySoundEffect(MarioJump, 1, 0, false);
-	
+
 
 	Rigidbody2D* tileMapCollider = tileExample->GetComponent<Rigidbody2D>();
 	tileMapCollider->CreateTileMapColliders(tilemap->GetTileMap(), tilemap->GetTileList()[0]);
@@ -278,13 +272,36 @@ int main(int argc, char** argv)
 	Application::OnUpdate();
 	Application::OnShutdown();
 	Application::OnDestroy();
-
-	_CrtMemCheckpoint(memState);
-	_CrtMemDumpStatistics(memState);
-
-	delete memState;
-	_CrtDumpMemoryLeaks();
-	
-
-	return 0;
 }
+
+#ifndef KROSS_RELEASE
+
+	#define _CRTBG_MAP_ALLOC
+	#include <stdlib.h>
+	#include <crtdbg.h>
+	int main(int argc, char** argv)
+	{
+		_CrtMemState* memState = KROSS_NEW _CrtMemState();
+	
+		OnRun();
+	
+		_CrtMemCheckpoint(memState);
+		_CrtMemDumpStatistics(memState);
+	
+		delete memState;
+		_CrtDumpMemoryLeaks();
+		
+		return 0;
+	}
+
+#else
+	#include <Windows.h>
+
+	/* Run the program without the Debugging Console. */
+	int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)
+	{
+		OnRun();
+		return 0;
+	}
+
+#endif

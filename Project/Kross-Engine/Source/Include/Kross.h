@@ -14,6 +14,7 @@
  */
 
 #include "../Core/Application.h"
+#include "../Core/Debug.h"
 #include "../Core/Input.h"
 #include "../Core/Layer.h"
 #include "../Core/Object.h"
@@ -82,6 +83,8 @@
 #include "../Core/Window/Window.h"
 #include "../Core/Window/WindowProperties.h"
 
+/* ------ GLOABL FUNCTIONS ------ */
+
 Kross::Object* Kross::OnCreateObject(const std::string& name)
 {
 	/* Create an Empty Object with a name. */
@@ -144,3 +147,5 @@ Kross::Object* Kross::OnCreateObject(Kross::Object* object)
 	/* Return the Object. */
 	return object;
 };
+
+/* ------------------------------ */

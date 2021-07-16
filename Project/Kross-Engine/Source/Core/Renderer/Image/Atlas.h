@@ -36,11 +36,15 @@ namespace Kross
 			p_AtlasTexture			(nullptr),
 			m_IgnoreTextureTypes	(List<TextureType>()),
 			m_TextureOffsets		(std::unordered_map<Texture*, Vector2>()),
-			m_SpriteAtlasUVs		(std::unordered_map<Sprite*, AtlasSpriteData>())
+			m_AttachedTextures		(List<Texture*>()),
+			m_SpriteAtlasUVs		(std::unordered_map<Sprite*, AtlasSpriteData>()),
+			m_AttachedSprites		(List<Sprite*>())
 		{
 			/* Add the Ignore Types. */
 			m_IgnoreTextureTypes.push_back(TextureType::FontMap);
 			m_IgnoreTextureTypes.push_back(TextureType::PerlinMap);
+
+			/* NOTE! if you update this update the function GetIgnoreTextureTypes() ! */
 		};
 		~Atlas();
 
@@ -50,19 +54,25 @@ namespace Kross
 		List<TextureType> m_IgnoreTextureTypes;
 
 		std::unordered_map<Texture*, Vector2> m_TextureOffsets;
+		List<Texture*> m_AttachedTextures;
+
 		std::unordered_map<Sprite*, AtlasSpriteData> m_SpriteAtlasUVs;
+		List<Sprite*> m_AttachedSprites;
 
 	protected:
 		friend class BatchRenderer;
+		friend class FileSystem;
+
+		static List<TextureType> GetIgnoreTextureTypes();
 
 		// Sets the Texture.
 		void SetTexture(Texture* texture) { p_AtlasTexture = texture; };
 
-		// Sets Sprite Data.
-		void SetSpriteData(Sprite* sprite, AtlasSpriteData data) { m_SpriteAtlasUVs[sprite] = data; };
+		// Adds Sprite Data.
+		void AttachSpriteData(Sprite* sprite, AtlasSpriteData data);
 
-		// Sets the Texture Offset on the Atlas.
-		void SetTextureOffset(Texture* texture, Vector2 offset) { m_TextureOffsets[texture] = offset; };
+		// Adds the Texture Offset on the Atlas.
+		void AttachTextureOffset(Texture* texture, Vector2 offset);
 
 		// Check if the Texture should be Ignored.
 		bool ShouldIgnoreTexture(Texture* texture);
@@ -75,7 +85,7 @@ namespace Kross
 
 	public:
 		// Creates a Atlas from all existing textures.
-		static Atlas* OnCreate();
+		static Atlas* OnCreate(bool createNew = true);
 
 		// Destroys the Atlas specified.
 		static void OnDestroy(Atlas* atlas);

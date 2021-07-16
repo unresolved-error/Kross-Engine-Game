@@ -173,6 +173,7 @@
     <ClCompile Include="Vendor\soloud\src\filter\soloud_waveshaperfilter.cpp" />
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image.cpp" />
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp" />
+    <ClCompile Include="Source\Core\Debug.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -659,6 +660,7 @@
     <ClInclude Include="Vendor\soloud\src\backend\miniaudio\miniaudio.h" />
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image.h" />
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h" />
+    <ClInclude Include="Source\Core\Debug.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

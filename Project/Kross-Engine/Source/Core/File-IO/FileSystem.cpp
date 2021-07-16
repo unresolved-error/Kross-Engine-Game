@@ -10,10 +10,9 @@
 #define MANIFEST_FILEPATH "manifest.krs"
 #define LINE_DIVIDER "->"
 
-/* For Writing the Files. */
-#define ASSET_FILEPATH "Assets/"
-
 #include "../Manager/ResourceManager.h"
+
+#include "stb_image/stb_image.h"
 
 namespace Kross
 {
@@ -81,8 +80,88 @@ namespace Kross
 		}
 	}
 
+	std::string FileSystem::OnWriteAtlasData(Atlas* atlas)
+	{
+		/* Filepaths for everything. */
+		std::string atlasFilepath = "Assets/Atlas/0.krs";
+		std::string atlasSpriteDataFilepath = "Assets/Atlas/Sprite-Data/0.krs";
+		std::string atlasTextureDataFilepath = "Assets/Atlas/Texture-Data/0.krs";
+		std::string atlasTextureCountFilepath = "Assets/Atlas/Texture-Data/1.krs";
+		std::string atlasRawTextureFilepath = "Resources/Atlas/Atlas.png";
+
+		/* Creates the Directories if needed. */
+		OnCreateDirectory("Assets/Atlas/Sprite-Data/");
+		OnCreateDirectory("Assets/Atlas/Texture-Data/");
+
+		/* Opens up / Creates the file. Ready for Writing. */
+		std::ofstream atlasWriter;
+		atlasWriter.open(atlasFilepath);
+
+		/* Write the Data for the Global Atlas Data. */
+		atlasWriter << "ATLAS:\n";
+		atlasWriter << "TEXTURECOUNTDATA->" << atlasTextureCountFilepath << "->\n";
+		atlasWriter << "TEXTURE->" << atlasRawTextureFilepath << "->\n";
+		atlasWriter << "SPRITEDATA->" << atlasSpriteDataFilepath << "->\n";
+		atlasWriter << "TEXTUREDATA->" << atlasTextureDataFilepath << "->";
+
+		/* Close it to Finalise the File. */
+		atlasWriter.close();
+
+		/* Opens up / Creates the Sprite file. */
+		std::ofstream atlasSpriteWriter;
+		atlasSpriteWriter.open(atlasSpriteDataFilepath);
+
+		/* Write the File Header. */
+		atlasSpriteWriter << "ATLAS-SPRITE-DATA:\n";
+
+		/* Go through all of the sprites that were added to the Atlas. */
+		for(int i = 0; i < atlas->m_AttachedSprites.size(); i++)
+		{
+			Sprite* sprite = atlas->m_AttachedSprites[i];
+			AtlasSpriteData data = atlas->m_SpriteAtlasUVs[sprite];
+
+			if(i != atlas->m_AttachedSprites.size() - 1)
+				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << std::to_string(data.m_Offset.x) << "->" << std::to_string(data.m_Offset.y) << "->" << std::to_string(data.m_Ratio.x) << "->" << std::to_string(data.m_Ratio.y) << "->\n";
+
+			else
+				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << std::to_string(data.m_Offset.x) << "->" << std::to_string(data.m_Offset.y) << "->" << std::to_string(data.m_Ratio.x) << "->" << std::to_string(data.m_Ratio.y) << "->";
+		}
+
+		atlasSpriteWriter.close();
+
+		std::ofstream atlasTextureWriter;
+		atlasTextureWriter.open(atlasTextureDataFilepath);
+		atlasTextureWriter << "ATLAS-TEXTURE-DATA:\n";
+
+		for (int i = 0; i < atlas->m_AttachedTextures.size(); i++)
+		{
+			Texture* texture = atlas->m_AttachedTextures[i];
+			Vector2 offset = atlas->m_TextureOffsets[texture];
+
+			if (i != atlas->m_AttachedTextures.size() - 1)
+				atlasTextureWriter << "DATA->" << texture->GetName() << "->" << std::to_string(offset.x) << "->" << std::to_string(offset.y) << "->\n";
+
+			else
+				atlasTextureWriter << "DATA->" << texture->GetName() << "->" << std::to_string(offset.x) << "->" << std::to_string(offset.y) << "->";
+		}
+
+		atlasTextureWriter.close();
+
+		std::ofstream atlasTextureCountWriter;
+		atlasTextureCountWriter.open(atlasTextureCountFilepath);
+		atlasTextureCountWriter << "ATLAS-TEXTURE-COUNT-DATA:\n";
+		atlasTextureCountWriter << "COUNT->" << std::to_string(atlas->m_AttachedTextures.size()) << "->";
+
+		atlasTextureCountWriter.close();
+
+		return "YEW";
+	}
+
 	void FileSystem::OnReadManifestFile()
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Manifest..." << std::endl;
+
 		/* The Filepath for the Mainfest. */
 		std::string filepath = MANIFEST_FILEPATH;
 
@@ -168,6 +247,9 @@ namespace Kross
 
 				else if(assetType == "TILESET")
 					OnReadTileSet(assetFilepath);
+
+				else if (assetType == "ATLAS")
+					OnReadAtlas(assetFilepath);
 			}
 
 			fileStream.close();
@@ -181,6 +263,9 @@ namespace Kross
 
 	void FileSystem::OnReadTexture(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Texture from " << filepath <<"..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -272,6 +357,9 @@ namespace Kross
 
 	void FileSystem::OnReadTileMap(const std::string& filepath) 
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Tile Map from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -388,6 +476,9 @@ namespace Kross
 
 	void FileSystem::OnReadTileSet(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Tile Set from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -482,6 +573,9 @@ namespace Kross
 
 	void FileSystem::OnReadSprite(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Sprite from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -592,6 +686,9 @@ namespace Kross
 
 	void FileSystem::OnReadFont(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Font from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -679,6 +776,9 @@ namespace Kross
 
 	void FileSystem::OnReadShader(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Shader from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -766,6 +866,9 @@ namespace Kross
 
 	void FileSystem::OnReadMaterial(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Material from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -856,6 +959,9 @@ namespace Kross
 
 	void FileSystem::OnReadAnimation(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Animation from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -1025,8 +1131,489 @@ namespace Kross
 		}
 	}
 
+	void FileSystem::OnReadAtlas(const std::string& filepath)
+	{
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+
+		/* Parameter variables. */
+		std::string atlasTextureCountFilepath;
+		std::string atlasTextureFilepath;
+		std::string atlasSpriteDataFilepath;
+		std::string atlasTextureDataFilepath;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool ignoreFirstLine = true;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Ignore the first line. */
+				if (ignoreFirstLine)
+				{
+					ignoreFirstLine = false;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string atlasProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						atlasProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (atlasProperty == "TEXTURECOUNTDATA")
+							atlasTextureCountFilepath = line.substr(0, searchPosition);
+
+						else if (atlasProperty == "TEXTURE")
+							atlasTextureFilepath = line.substr(0, searchPosition);
+
+						else if (atlasProperty == "SPRITEDATA")
+							atlasSpriteDataFilepath = line.substr(0, searchPosition);
+
+						else if (atlasProperty == "TEXTUREDATA")
+							atlasTextureDataFilepath = line.substr(0, searchPosition);
+					}
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+
+			fileStream.close();
+
+			int textureCount = OnReadAtlasTextureCount(atlasTextureCountFilepath);
+
+			List<Texture*> textures = ResourceManager::GetTextures();
+			List<TextureType> ignoreTextures = Atlas::GetIgnoreTextureTypes();
+
+			int actualTextureCount = 0;
+
+			for (int i = 0; i < textures.size(); i++)
+			{
+				Texture* texture = textures[i];
+				bool ignore = false;
+
+				for (int j = 0; j < ignoreTextures.size(); j++)
+				{
+					if (texture->GetType() == ignoreTextures[j])
+					{
+						ignore = true;
+						break;
+					}
+				}
+
+				if (ignore)
+					continue;
+
+				actualTextureCount++;
+			}
+
+			Atlas* atlas;
+			if (textureCount != actualTextureCount)
+			{
+				std::cout << "\nCreating Atlas...\n" << std::endl;
+				atlas = Atlas::OnCreate();
+				ResourceManager::AttachResource<Atlas>(atlas);
+
+				return;
+			}
+
+			std::cout << "\nLoading Atlas...\n" << std::endl;
+
+			atlas = Atlas::OnCreate(false);
+			
+			OnPopulateAtlasTexture(atlasTextureFilepath, atlas);
+			OnPopulateAtlasSpriteData(atlasSpriteDataFilepath, atlas);
+			OnPopulateAtlasTextureData(atlasTextureDataFilepath, atlas);
+
+			ResourceManager::AttachResource<Atlas>(atlas);
+		}
+
+		else
+		{
+			fileStream.close();
+		}
+	}
+
+	int FileSystem::OnReadAtlasTextureCount(const std::string& filepath)
+	{
+		/* Display what we are loading. */
+		std::cout << "Loading Atlas Texture Count from " << filepath << "..." << std::endl;
+
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+
+		/* Parameter variables. */
+		std::string atlasTextureCount;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool ignoreFirstLine = true;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Ignore the first line. */
+				if (ignoreFirstLine)
+				{
+					ignoreFirstLine = false;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string atlasTextureCountProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						atlasTextureCountProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (atlasTextureCountProperty == "COUNT")
+							atlasTextureCount = line.substr(0, searchPosition);
+					}
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+
+			fileStream.close();
+
+			return std::stoi(atlasTextureCount);
+		}
+
+		else
+		{
+			fileStream.close();
+
+			return -1;
+		}
+	}
+
+	void FileSystem::OnPopulateAtlasSpriteData(const std::string& filepath, Atlas* atlas)
+	{
+		/* Display what we are loading. */
+		std::cout << "Loading Atlas Sprite Data from " << filepath << "..." << std::endl;
+
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+		
+		/* Parameter variables. */
+		List<std::string> spriteData;
+		
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+		
+			bool ignoreFirstLine = true;
+		
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Ignore the first line. */
+				if (ignoreFirstLine)
+				{
+					ignoreFirstLine = false;
+					continue;
+				}
+		
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+		
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string atlasSpriteDataProperty;
+				std::string lineSplitter = "->";
+		
+				int varSwitch = 0;
+		
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						atlasSpriteDataProperty = line.substr(0, searchPosition);
+		
+					/* Grab the Property Value. */
+					else
+					{
+						if (atlasSpriteDataProperty == "DATA")
+							spriteData.push_back(line);
+					}
+		
+					line.erase(0, searchPosition + lineSplitter.length());
+		
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+		
+			for (int i = 0; i < spriteData.size(); i++)
+			{
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string lineSplitter = "->";
+		
+				/* Keyframe Data Values. */
+				std::string spriteName, offsetX, offsetY, ratioX, ratioY;
+		
+		
+				int varSwitch = 0;
+		
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = spriteData[i].find(lineSplitter)) != std::string::npos && varSwitch != 5)
+				{
+					std::string value = spriteData[i].substr(0, searchPosition);
+		
+					switch (varSwitch)
+					{
+						case 0:
+						{
+							spriteName = value;
+							break;
+						}
+		
+						case 1:
+						{
+							offsetX = value;
+							break;
+						}
+		
+						case 2:
+						{
+							offsetY = value;
+							break;
+						}
+		
+						case 3:
+						{
+							ratioX = value;
+							break;
+						}
+		
+						case 4:
+						{
+							ratioY = value;
+							break;
+						}
+					}
+		
+					spriteData[i].erase(0, searchPosition + lineSplitter.length());
+		
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+
+				AtlasSpriteData data;
+				data.m_Offset = Vector2(std::stof(offsetX), std::stof(offsetY));
+				data.m_Ratio = Vector2(std::stof(ratioX), std::stof(ratioY));
+
+				atlas->AttachSpriteData(ResourceManager::GetResource<Sprite>(spriteName), data);
+			}
+		
+			fileStream.close();
+		}
+		
+		else
+		{
+			fileStream.close();
+		}
+	}
+
+	void FileSystem::OnPopulateAtlasTextureData(const std::string& filepath, Atlas* atlas)
+	{
+		/* Display what we are loading. */
+		std::cout << "Loading Atlas Texture Data from " << filepath << "..." << std::endl;
+
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+
+		/* Parameter variables. */
+		List<std::string> textureData;
+
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+
+			bool ignoreFirstLine = true;
+
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Ignore the first line. */
+				if (ignoreFirstLine)
+				{
+					ignoreFirstLine = false;
+					continue;
+				}
+
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string atlasTextureDataProperty;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						atlasTextureDataProperty = line.substr(0, searchPosition);
+
+					/* Grab the Property Value. */
+					else
+					{
+						if (atlasTextureDataProperty == "DATA")
+							textureData.push_back(line);
+					}
+
+					line.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+
+			for (int i = 0; i < textureData.size(); i++)
+			{
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string lineSplitter = "->";
+
+				/* Keyframe Data Values. */
+				std::string textureName, offsetX, offsetY;
+
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = textureData[i].find(lineSplitter)) != std::string::npos && varSwitch != 3)
+				{
+					std::string value = textureData[i].substr(0, searchPosition);
+
+					switch (varSwitch)
+					{
+						case 0:
+						{
+							textureName = value;
+							break;
+						}
+
+						case 1:
+						{
+							offsetX = value;
+							break;
+						}
+
+						case 2:
+						{
+							offsetY = value;
+							break;
+						}
+					}
+
+					textureData[i].erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+
+				Vector2 data;
+				data = Vector2(std::stof(offsetX), std::stof(offsetY));
+
+				atlas->AttachTextureOffset(ResourceManager::GetResource<Texture>(textureName), data);
+			}
+
+			fileStream.close();
+		}
+
+		else
+		{
+			fileStream.close();
+		}
+	}
+
+	void FileSystem::OnPopulateAtlasTexture(const std::string& filepath, Atlas* atlas)
+	{
+		/* Display what we are loading. */
+		std::cout << "Loading Atlas Texture from " << filepath << "..." << std::endl;
+
+		Texture* texture = Texture::OnCreateAtlas();
+
+		int width, height, bpp;
+		/* Write the Image to disk. */
+		stbi_set_flip_vertically_on_load(0);
+		texture->SetPixelData(stbi_load(filepath.c_str(), &width, &height, &bpp, 4));
+
+		/* Set basic Texture Properties. */
+		texture->SetName("Atlas");
+		texture->SetWidth(width);
+		texture->SetHeight(height);
+		texture->SetBitsPerPixel(bpp);
+		
+		/* Finalise the Data. */
+		texture->OnFinalise();
+
+		atlas->SetTexture(texture);
+
+	}
+
 	void FileSystem::OnReadAudioSource(const std::string& filepath)
 	{
+		/* Display what we are loading. */
+		std::cout << "Loading Audio Source from " << filepath << "..." << std::endl;
+
 		/* Open a Filestream. */
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
@@ -1102,5 +1689,15 @@ namespace Kross
 		{
 			fileStream.close();
 		}
+	}
+
+	bool FileSystem::OnCreateDirectory(const std::string& directory)
+	{
+		/* If the Directory already exists. */
+		if (DirectoryExists(directory))
+			return true;
+
+		/* If not, Create it. */
+		return std::filesystem::create_directory(directory);
 	}
 }

@@ -557,7 +557,7 @@ namespace Kross
 
                 if (p_RayData->hit)
                 {
-                    if (m_CollisionState == CollisionState::None)
+                    if (m_CollisionState == CollisionState::None || m_CollisionState == CollisionState::Exit)
                         m_CollisionState = CollisionState::Enter;
 
                     else if (m_CollisionState == CollisionState::Enter)

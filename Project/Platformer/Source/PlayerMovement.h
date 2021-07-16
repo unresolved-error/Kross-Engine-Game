@@ -35,7 +35,7 @@ public:
 	bool isGrounded = false;
 	int jumpCount = 0;
 
-	float moveSpeed = 5;
+	float moveSpeed = 10;
 
 	int controllerID = 0;
 
@@ -60,8 +60,11 @@ public:
 		defaultMaterial->p_Diffuse = ResourceManager::GetResource<Sprite>(0);
 
 		audplayer = GetLinkObject()->GetComponent<AudioPlayer>();
-	}
 
+		Debug::Log(GetLinkObject()->GetName() + " Position =");
+		Debug::Log(transform->m_Position);
+		Debug::EndLine();
+	}
 
 	void Update() override
 	{
@@ -148,7 +151,11 @@ public:
 				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
 
 			if (Input::GetKeyPressed(Key::Z))
-				std::cout << "Number of Objects: " << SceneManager::GetCurrentScene()->GetObjectCount() << std::endl;
+			{
+				Debug::LogError(GetLinkObject()->GetName() + " Position =");
+				Debug::Log(transform->m_Position);
+				Debug::EndLine();
+			}
 
 			if (Input::GetKeyDown(Key::Enter))
 			{
@@ -180,7 +187,7 @@ public:
 			}
 		}
 
-		rigidBody->OnApplyForce(input * 0.5f);
+		rigidBody->OnApplyForce(input);
 
 		textObj->GetLinkObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
 

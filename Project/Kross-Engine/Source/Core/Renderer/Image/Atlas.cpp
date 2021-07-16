@@ -15,15 +15,25 @@ namespace Kross
 	Atlas::~Atlas()
 	{
 		Texture::OnDestroy(p_AtlasTexture);
+
+		for (int i = 0; i < m_AttachedTextures.size(); i++)
+			m_AttachedTextures[i] = nullptr;
+
+		for (int i = 0; i < m_AttachedSprites.size(); i++)
+			m_AttachedSprites[i] = nullptr;
 	}
 
-	Atlas* Atlas::OnCreate()
+	Atlas* Atlas::OnCreate(bool createNew)
 	{
-		/* Grabs all of the Textures. */
-		List<Texture*> textures = ResourceManager::GetTextures();
-
 		/* Create an Empty Atlas. */
 		Atlas* atlas = KROSS_NEW Atlas();
+
+		/* If we don't need to create a fresh one. */
+		if (!createNew)
+			return atlas;
+
+		/* Grabs all of the Textures. */
+		List<Texture*> textures = ResourceManager::GetTextures();
 
 		/* Create a empty Atlas Texture. */
 		Texture* atlasTexture = Texture::OnCreateAtlas();
@@ -56,7 +66,7 @@ namespace Kross
 			}
 		
 			/* Record the Texture Offset for proper uv calculations. */
-			atlas->SetTextureOffset(texture, Vector2(0.0f, yOffset));
+			atlas->AttachTextureOffset(texture, Vector2(0.0f, yOffset));
 		
 			/* Quick Variable. */
 			int textureHeight = texture->GetHeight();
@@ -132,7 +142,7 @@ namespace Kross
 			AtlasSpriteData spriteData = AtlasSpriteData(offset, ratio);
 
 			/* Attach this Data. */
-			atlas->SetSpriteData(sprites[i], spriteData);
+			atlas->AttachSpriteData(sprites[i], spriteData);
 		}
 		
 		/* Returns the new Atlas. */
@@ -144,6 +154,28 @@ namespace Kross
 		/* Safe programming. Not really needed, but good to have. */
 		if (atlas)
 			delete atlas;
+	}
+
+	List<TextureType> Atlas::GetIgnoreTextureTypes()
+	{
+		List<TextureType> types = List<TextureType>();
+
+		types.push_back(TextureType::FontMap);
+		types.push_back(TextureType::PerlinMap);
+
+		return types;
+	}
+
+	void Atlas::AttachSpriteData(Sprite* sprite, AtlasSpriteData data)
+	{
+		m_SpriteAtlasUVs.emplace(sprite, data);
+		m_AttachedSprites.push_back(sprite);
+	}
+
+	void Atlas::AttachTextureOffset(Texture* texture, Vector2 offset)
+	{
+		m_TextureOffsets.emplace(texture, offset);
+		m_AttachedTextures.push_back(texture);
 	}
 
 	bool Atlas::ShouldIgnoreTexture(Texture* texture)

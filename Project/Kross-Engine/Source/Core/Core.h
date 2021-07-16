@@ -42,6 +42,8 @@ using List = std::vector<Type>;
 #include <string>
 #include <sstream>
 
+#include <filesystem>
+
 #include <unordered_map>
 #include <fstream>
 

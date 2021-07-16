@@ -62,9 +62,6 @@ namespace Kross
 		// Destroys an Instance of the Manager.
 		static void OnDestroy();
 
-		// Reads the Manifest File.
-		static void OnReadManifest();
-
 		// Base Template Class. (DO NOT USE)
 		template<typename Type>
 		static Type* GetResource(const std::string& name)
@@ -620,6 +617,7 @@ namespace Kross
 	protected:
 		friend class Sprite;
 		friend class Atlas;
+		friend class FileSystem;
 
 		friend class Application;
 
@@ -682,6 +680,13 @@ namespace Kross
 
 		// Grabs all of the Sprites Created.
 		static List<Sprite*> GetSprites() { return s_Instance->m_Sprites; };
+
+		// Reads the Manifest File.
+		static void OnReadManifest();
+
+		// Writes the Mainfest File.
+		static void OnWriteManifest();
+
 
 		// Adds a Atlas to the Resource Manager.
 		template<>
