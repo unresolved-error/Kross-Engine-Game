@@ -24,6 +24,7 @@ namespace Kross
 			m_Started				(false), 
 			m_Objects				(List<Object*>()), 
 			m_StaticObjects			(List<Object*>()),
+			m_ActualObjects			(List<Object*>()),
 			m_RigidbodyComponents	(List<Component*>()),
 			p_DebugRenderer			(KROSS_NEW LineRenderer()),
 			p_DebugShader			(nullptr),
@@ -59,6 +60,10 @@ namespace Kross
 
 		List<Object*> m_Objects;
 		List<Object*> m_StaticObjects;
+
+		// Editor Purposes only!
+		List<Object*> m_ActualObjects;
+
 		List<Component*> m_RigidbodyComponents;
 
 		// List of Layer Groups.
@@ -76,6 +81,7 @@ namespace Kross
 		
 	protected:
 		friend class SceneManager;
+		friend class Application;
 
 		// Starts the Objects.
 		void OnStart();
@@ -88,6 +94,9 @@ namespace Kross
 
 		// Renders the Objects.
 		void OnRender();
+
+		// Gets all of the Objects in the Scene.
+		List<Object*> GetObjects() const { return m_ActualObjects; };
 
 		// Updates the Primary Camera Aspect Ratio.
 		void OnUpdateCameraAspectRatio(float aspectRatio);

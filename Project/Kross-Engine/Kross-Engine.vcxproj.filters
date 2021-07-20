@@ -174,6 +174,14 @@
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image.cpp" />
     <ClCompile Include="Vendor\stb_image\include\stb_image\stb_image_write.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Source\Core\Editor\Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -661,6 +669,15 @@
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image.h" />
     <ClInclude Include="Vendor\stb_image\include\stb_image\stb_image_write.h" />
     <ClInclude Include="Source\Core\Debug.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imconfig.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui_internal.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imstb_textedit.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imstb_truetype.h" />
+    <ClInclude Include="Source\Core\Editor\Editor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

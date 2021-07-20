@@ -152,7 +152,7 @@ public:
 
 			if (Input::GetKeyPressed(Key::Z))
 			{
-				Debug::LogError(GetLinkObject()->GetName() + " Position =");
+				Debug::Log(GetLinkObject()->GetName() + " Position =");
 				Debug::Log(transform->m_Position);
 				Debug::EndLine();
 			}
@@ -167,13 +167,16 @@ public:
 				newbieTransform->m_Position = GetLinkObject()->GetTransform()->m_Position;
 				newbieTransform->m_Rotation = Random::GetRandomRange<float>(0.0f, 360.0f);
 				newbie->AttachComponent<SpriteRenderer>();
-
+				newbie->AttachComponent<Rigidbody2D>();
 
 				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
 				ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
 				ren->SetDepth(20);
 
-				OnCreateObject(newbie);
+				Rigidbody2D* rb = newbie->GetComponent<Rigidbody2D>();
+				SceneManager::GetCurrentScene()->AttachObject(newbie);
+				rb->CreateDynamicBox(Vector2(0.25f, 0.25f), newbieTransform->m_Position + Vector2(0.0f, 0.4f), false, ColliderFilters::Environment, ColliderFilters::Environment);
+
 				
 			}
 
@@ -241,7 +244,7 @@ public:
 		if (other->GetLayer() == Layer::Ground)
 			jumpCount = 0;
 
-		std::cout << "Entered collision with " << other->GetName() << std::endl;
+		Debug::LogLine("Entered collision with " + other->GetName());
 	}
 
 	void OnCollisionStay(Object* other)
@@ -259,6 +262,6 @@ public:
 				jumpCount++;
 		}
 
-		std::cout << "Exited collision with " << other->GetName() << std::endl;
+		Debug::LogLine("Exited collision with " + other->GetName());
 	}
 };

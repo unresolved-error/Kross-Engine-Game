@@ -5,6 +5,10 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Editor|x64">
+      <Configuration>Editor</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release-Debug|x64">
       <Configuration>Release-Debug</Configuration>
       <Platform>x64</Platform>
@@ -41,6 +45,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -53,6 +64,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -74,6 +88,12 @@
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\liquidfun\Box2D\</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -81,7 +101,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;; WITH_WINMM;;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -100,7 +120,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS; KROSS_RELEASE;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,7 +140,27 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)Vendor/glfw/lib/;$(ProjectDir)Vendor/glew/lib/;$(ProjectDir)Vendor\liquidfun\Box2D\Box2D\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glfw3.lib;glew32.lib;opengl32.lib;liquidfun.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS; KROSS_EDITOR; KROSS_DEBUG;</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +184,7 @@
     <ClInclude Include="Source\Core\Component\Renderer.h" />
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
     <ClInclude Include="Source\Core\Debug.h" />
+    <ClInclude Include="Source\Core\Editor\Editor.h" />
     <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
@@ -510,6 +551,14 @@
     <ClInclude Include="Vendor\glm\include\glm\vec3.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\vec4.hpp" />
     <ClInclude Include="Vendor\glm\include\glm\vector_relational.hpp" />
+    <ClInclude Include="Vendor\imgui\imgui\imconfig.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imgui_internal.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imstb_textedit.h" />
+    <ClInclude Include="Vendor\imgui\imgui\imstb_truetype.h" />
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Box2D.h" />
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.h" />
     <ClInclude Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2Collision.h" />
@@ -628,6 +677,7 @@
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
+    <ClCompile Include="Source\Core\Editor\Editor.cpp" />
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
@@ -665,6 +715,13 @@
     <ClCompile Include="Source\Core\Window\Window.cpp" />
     <ClCompile Include="Source\Reference\Dummy.cpp" />
     <ClCompile Include="Vendor\glm\include\glm\detail\glm.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Vendor\imgui\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2BroadPhase.cpp" />
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideCircle.cpp" />
     <ClCompile Include="Vendor\liquidfun\Box2D\Box2D\Collision\b2CollideEdge.cpp" />

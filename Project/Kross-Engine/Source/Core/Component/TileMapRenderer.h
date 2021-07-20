@@ -40,7 +40,7 @@ namespace Kross
 
 
     protected:
-        friend class RigidBody2D;
+        //friend class RigidBody2D;
         /* Friend classing Batch. */
         template<typename Type> friend class Batch;
         /* ^ I Hate this even more. Deklyn, what is this bs?*/

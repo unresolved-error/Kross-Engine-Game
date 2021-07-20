@@ -7,6 +7,7 @@ using namespace Kross;
 void OnRun()
 {
 	Application::OnCreate();
+	//ScriptRegistry()
 	Application::OnStart();
 
 	/* Create all Assets, Objects, Scenes etc. Bellow Start.*/
@@ -186,7 +187,6 @@ void OnRun()
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
 	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.35f), player->GetTransform()->m_Position + Vector2(0.0f, 0.4f), true, ColliderFilters::Player, ColliderFilters::Environment);
-	//rigidBody->SetMass(0.00025f);//a (Vector2(0.5f, 0.5f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment);
 
 	//rigidBody->SetMass(1.25f);
 	//Object* particleEmitter = Object::OnCreate("Emitter");
@@ -239,8 +239,6 @@ void OnRun()
 	particleEm->AttachParticle(tempParticle2);
 	particleEm->SpawnParticles();
 
-
-
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 
 	tileExample->SetLayer(Layer::Ground);
@@ -253,11 +251,8 @@ void OnRun()
 	//
 	//player->GetComponent<AudioPlayer>()->PlaySoundEffect(MarioJump, 1, 0, false);
 
-
 	Rigidbody2D* tileMapCollider = tileExample->GetComponent<Rigidbody2D>();
 	tileMapCollider->CreateTileMapColliders(tilemap->GetTileMap(), tilemap->GetTileList()[0]);
-
-
 
 	//AudioSource* BulletProof = AudioSource::OnCreate("Resources/Audio/bulletproof-soundroll-main-version-02-19-1873.mp3", "Bullet-Proof", true);
 	//AudioSource* BulletProof = ResourceManager::GetResource<AudioSource>("Bullet-Proof");

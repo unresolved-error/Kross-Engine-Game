@@ -17,6 +17,11 @@
 
 #include "Input.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 namespace Kross
 {
 	Application*	Application::s_Instance =	nullptr;
@@ -67,6 +72,17 @@ namespace Kross
 			SceneManager::OnStart();
 			std::cout << "Starting Main Loop..." << std::endl;
 
+			#ifdef KROSS_EDITOR
+
+			ImGui::CreateContext();
+
+			ImGui::StyleColorsDark();
+
+			ImGui_ImplGlfw_InitForOpenGL(s_Instance->p_Window->GetGLFWWindow(), true);
+			ImGui_ImplOpenGL3_Init("#version 460");
+
+			#endif
+
 			/* While the window isn't closed */
 			while (s_Instance->p_Window->GetClosedStatus() == false)
 			{
@@ -76,13 +92,56 @@ namespace Kross
 				SceneManager::OnUpdateSceneCameraAspectRatio(s_Instance->p_Window->GetApsectRatio());
 
 				SceneManager::OnUpdate();
+
+				#ifndef KROSS_EDITOR
 				SceneManager::OnPhysicsUpdate();
+				#endif
 
 				SceneManager::OnRender();
 
+				#ifdef KROSS_EDITOR
+
+				ImGui_ImplOpenGL3_NewFrame();
+				ImGui_ImplGlfw_NewFrame();
+				ImGui::NewFrame();
+
+				/* Do stuff here. */
+				ImGui::Begin("Scene Hierarchy");
+				List<Object*> objects = SceneManager::GetCurrentScene()->GetObjects();
+				if (ImGui::TreeNodeEx(SceneManager::GetCurrentScene()->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					for (int i = 0; i < objects.size(); i++)
+					{
+						if (ImGui::TreeNodeEx(objects[i]->GetName().c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf));
+						{
+							if (ImGui::IsItemHovered() && Input::GetKeyPressed(Key::Delete))
+								SceneManager::GetCurrentScene()->DetachObject(objects[i]);
+
+							ImGui::TreePop();
+						}
+					}
+					ImGui::TreePop();
+				}
+				
+				ImGui::End();
+
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+				#endif
+
 				s_Instance->p_Window->OnPollEvents();
+
 			}
 		}
+
+		#ifdef KROSS_DEBUG
+
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
+
+		#endif
 
 		return;
 	}

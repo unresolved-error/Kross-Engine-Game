@@ -296,6 +296,9 @@ namespace Kross
 
     void Scene::AttachObject(Object* object)
     {
+        /* Attch the Object to the global object list. */
+        m_ActualObjects.push_back(object);
+
         /* Start the object inside of the Scene. */
         if (m_Started)
             object->OnStart();
@@ -337,9 +340,9 @@ namespace Kross
     void Scene::DetachObject(const std::string& name)
     {
         /* Find the Object and remove it from the list. */
-        for (int i = 0; i < m_Objects.size(); i++)
+        for (int i = 0; i < m_ActualObjects.size(); i++)
         {
-            if (m_Objects[i]->GetName() == name)
+            if (m_ActualObjects[i]->GetName() == name)
                 DetachObject(i); /* If the Object has been found, remove it from the list. */
         }
     }
@@ -347,15 +350,45 @@ namespace Kross
     void Scene::DetachObject(Object* object)
     {
         /* Find the Object and remove it from the list. */
-        for (int i = 0; i < m_Objects.size(); i++)
+        for (int i = 0; i < m_ActualObjects.size(); i++)
         {
-            if (m_Objects[i] == object)
+            if (m_ActualObjects[i] == object)
                 DetachObject(i); /* If the Object has been found, remove it from the list. */
         }
     }
 
     void Scene::DetachObject(int index)
     {
-       /* Needs to be looked at... */
+        bool objectFound = false;
+        for (int i = 0; i < m_Objects.size(); i++)
+        {
+            if (m_Objects[i] == m_ActualObjects[index])
+            {
+                m_Objects[i] = nullptr;
+                m_Objects.erase(m_Objects.begin() + i);
+                objectFound = true;
+                break;
+            }
+        }
+
+        if (!objectFound)
+        {
+            for (int i = 0; i < m_StaticObjects.size(); i++)
+            {
+                if (m_StaticObjects[i] == m_ActualObjects[index])
+                {
+                    m_StaticObjects[i] = nullptr;
+                    m_StaticObjects.erase(m_StaticObjects.begin() + i);
+                    objectFound = true;
+                    break;
+                }
+            }
+        }
+
+        DetachObjectFromRenderQueue(m_ActualObjects[index]->GetLayer(), m_ActualObjects[index]);
+
+        Object::OnDestroy(m_ActualObjects[index]);
+        m_ActualObjects[index] = nullptr;
+        m_ActualObjects.erase(m_ActualObjects.begin() + index);
     }
 }
