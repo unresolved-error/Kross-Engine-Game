@@ -9,8 +9,7 @@
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/ShaderManager.h"
 
-#include "GL/glew.h"
-#include "../GLErrorCheck.h"
+#include "../ErrorHandle.h"
 #include "../../File-IO/FileSystem.h"
 
 namespace Kross
@@ -29,12 +28,12 @@ namespace Kross
 
 	void Shader::Attach()
 	{
-		glUseProgram(m_ShaderID);
+		OPENGL_CHECK(glUseProgram(m_ShaderID));
 	}
 
 	void Shader::Detach()
 	{
-		glUseProgram(0);
+		OPENGL_CHECK(glUseProgram(0));
 	}
 
 	Shader* Shader::OnCreate(const std::string& vertexFilepath, const std::string& fragmentFilepath, const std::string& name)
@@ -126,8 +125,8 @@ namespace Kross
 		const char* charSource = source.c_str();
 
 		/* Compile the shader. */
-		glShaderSource(shader, 1, &charSource, nullptr);
-		glCompileShader(shader);
+		OPENGL_CHECK(glShaderSource(shader, 1, &charSource, nullptr));
+		OPENGL_CHECK(glCompileShader(shader));
 
 		/* Retrieve its status. */
 		int status;
@@ -145,7 +144,7 @@ namespace Kross
 			std::cout << message << std::endl;
 
 			/* Destroy the defective shader. */
-			glDeleteShader(shader);
+			OPENGL_CHECK(glDeleteShader(shader));
 			return 0;
 		}
 
@@ -156,34 +155,27 @@ namespace Kross
 	void Shader::AttachShaders(unsigned int vertex, unsigned int fragment)
 	{
 		/* Attach the shaders. */
-		glAttachShader(m_ShaderID, vertex);
-		glAttachShader(m_ShaderID, fragment);
+		OPENGL_CHECK(glAttachShader(m_ShaderID, vertex));
+		OPENGL_CHECK(glAttachShader(m_ShaderID, fragment));
 
-		GLErrorCheck();
 		/* Validate the shader. */
-		glLinkProgram(m_ShaderID);
-
-		GLErrorCheck();
-		glValidateProgram(m_ShaderID);
+		OPENGL_CHECK(glLinkProgram(m_ShaderID));
+		OPENGL_CHECK(glValidateProgram(m_ShaderID));
 
 		/* No longer needing these so get rid of them. */
-		glDeleteShader(vertex);
-		glDeleteShader(fragment);
+		OPENGL_CHECK(glDeleteShader(vertex));
+		OPENGL_CHECK(glDeleteShader(fragment));
 	}
 
 	void Shader::AttachShaders(unsigned int vertex, unsigned int fragment, unsigned int geometry)
 	{
 		/* Attach the shaders. */
-		glAttachShader(m_ShaderID, vertex);
-		glAttachShader(m_ShaderID, fragment);
-		glAttachShader(m_ShaderID, geometry);
-
-		GLErrorCheck();
+		OPENGL_CHECK(glAttachShader(m_ShaderID, vertex));
+		OPENGL_CHECK(glAttachShader(m_ShaderID, fragment));
+		OPENGL_CHECK(glAttachShader(m_ShaderID, geometry));
 
 		/* Validate the shader. */
-		glLinkProgram(m_ShaderID);
-
-		GLErrorCheck();
+		OPENGL_CHECK(glLinkProgram(m_ShaderID));
 
 		int status;
 		glGetShaderiv(m_ShaderID, GL_LINK_STATUS, &status);
@@ -199,12 +191,12 @@ namespace Kross
 												/* This is to determain the type of shader */
 		}
 
-		glValidateProgram(m_ShaderID);
+		OPENGL_CHECK(glValidateProgram(m_ShaderID));
 
 		/* No longer needing these so get rid of them. */
-		glDeleteShader(vertex);
-		glDeleteShader(fragment);
-		glDeleteShader(geometry);
+		OPENGL_CHECK(glDeleteShader(vertex));
+		OPENGL_CHECK(glDeleteShader(fragment));
+		OPENGL_CHECK(glDeleteShader(geometry));
 	}
 
 	int Shader::GetUniformLocation(const std::string& variable)
@@ -216,10 +208,8 @@ namespace Kross
 			if (m_UniformCache.find(variable) != m_UniformCache.end())
 				return m_UniformCache[variable]; /* Return the Cached location. */
 
-			GLErrorCheck();
 			/* Get the location of the Variable. */
 			int location = glGetUniformLocation(m_ShaderID, variable.c_str());
-			GLErrorCheck();
 
 			if (location != -1)
 				m_UniformCache[variable] = location; /* Cache the location for next time it is searched. */
@@ -240,7 +230,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniform1i(GetUniformLocation(variable), value);
+		OPENGL_CHECK(glUniform1i(GetUniformLocation(variable), value));
 		Detach();
 	}
 
@@ -249,7 +239,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniform1i(GetUniformLocation(variable), value);
+		OPENGL_CHECK(glUniform1i(GetUniformLocation(variable), value));
 		Detach();
 	}
 
@@ -258,7 +248,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniform1f(GetUniformLocation(variable), value);
+		OPENGL_CHECK(glUniform1f(GetUniformLocation(variable), value));
 		Detach();
 	}
 
@@ -267,7 +257,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniform2fv(GetUniformLocation(variable), 1, &vector[0]);
+		OPENGL_CHECK(glUniform2fv(GetUniformLocation(variable), 1, &vector[0]));
 		Detach();
 	}
 
@@ -276,7 +266,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniform3fv(GetUniformLocation(variable), 1, &vector[0]);
+		OPENGL_CHECK(glUniform3fv(GetUniformLocation(variable), 1, &vector[0]));
 		Detach();
 	}
 
@@ -285,7 +275,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniform4fv(GetUniformLocation(variable), 1, &vector[0]);
+		OPENGL_CHECK(glUniform4fv(GetUniformLocation(variable), 1, &vector[0]));
 		Detach();
 	}
 
@@ -294,7 +284,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniformMatrix2fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]);
+		OPENGL_CHECK(glUniformMatrix2fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]));
 		Detach();
 	}
 
@@ -303,7 +293,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniformMatrix3fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]);
+		OPENGL_CHECK(glUniformMatrix3fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]));
 		Detach();
 	}
 
@@ -312,7 +302,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniformMatrix4fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]);
+		OPENGL_CHECK(glUniformMatrix4fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]));
 		Detach();
 	}
 
@@ -321,7 +311,7 @@ namespace Kross
 		Attach();
 
 		/* Set the value to the variable. */
-		glUniform1i(GetUniformLocation(variable), texture->GetSlot());
+		OPENGL_CHECK(glUniform1i(GetUniformLocation(variable), texture->GetSlot()));
 		Detach();
 	}
 }

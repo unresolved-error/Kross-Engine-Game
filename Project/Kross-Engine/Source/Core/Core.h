@@ -47,6 +47,8 @@ using List = std::vector<Type>;
 #include <unordered_map>
 #include <fstream>
 
+#define KROSS_ASSERT(x) if(!(x)) __debugbreak();
+
 #if defined _DEBUG || defined KROSS_DEBUG
     #define KROSS_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
     // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
