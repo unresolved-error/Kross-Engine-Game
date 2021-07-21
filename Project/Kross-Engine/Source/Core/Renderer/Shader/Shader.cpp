@@ -176,6 +176,21 @@ namespace Kross
 
 		/* Validate the shader. */
 		glLinkProgram(m_ShaderID);
+
+		int status;
+		glGetShaderiv(m_ShaderID, GL_LINK_STATUS, &status);
+		if (status == GL_FALSE)
+		{
+			/* Report it. */
+			char message[512];
+			glGetShaderInfoLog(m_ShaderID, sizeof(message), NULL, message);
+
+			/* Output the error. */										
+			std::cout << "[Error] Linking the Shader!" << std::endl;
+			std::cout << message << std::endl;
+												/* This is to determain the type of shader */
+		}
+
 		glValidateProgram(m_ShaderID);
 
 		/* No longer needing these so get rid of them. */
