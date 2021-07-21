@@ -160,24 +160,25 @@ public:
 			if (Input::GetKeyDown(Key::Enter))
 			{
 				Object* newbie = Object::OnCreate("Newbie");
-				newbie->SetLayer(Layer::Default);
+				newbie->SetLayer(Layer::Ground);
 				newbie->SetStaticStatus(true);
 
 				Transform2D* newbieTransform = newbie->GetTransform();
 				newbieTransform->m_Position = GetLinkObject()->GetTransform()->m_Position;
 				newbieTransform->m_Rotation = Random::GetRandomRange<float>(0.0f, 360.0f);
 				newbie->AttachComponent<SpriteRenderer>();
-				newbie->AttachComponent<Rigidbody2D>();
 
 				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
 				ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
 				ren->SetDepth(20);
 
-				Rigidbody2D* rb = newbie->GetComponent<Rigidbody2D>();
+				newbie->AttachComponent<Rigidbody2D>();
+				/* Wondering.. */
 				SceneManager::GetCurrentScene()->AttachObject(newbie);
-				rb->CreateDynamicBox(Vector2(0.25f, 0.25f), newbieTransform->m_Position + Vector2(0.0f, 0.4f), false, ColliderFilters::Environment, ColliderFilters::Environment);
 
-				
+
+				Rigidbody2D* rb = newbie->GetComponent<Rigidbody2D>();
+				rb->CreateWorldBox(Vector2(0.25f, 0.25f), newbieTransform->m_Position + Vector2(0.0f, 0.4f), ColliderFilters::Environment, ColliderFilters::Environment | ColliderFilters::Player);
 			}
 
 			if (Input::GetKeyPressed(Key::F11))

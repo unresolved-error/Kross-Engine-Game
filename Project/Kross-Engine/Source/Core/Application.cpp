@@ -13,6 +13,8 @@
 #include "Manager/Time.h"
 #include "Physics/Physics.h"
 
+#include "Debug.h"
+
 #include "Renderer/Image/Atlas.h"
 
 #include "Input.h"
@@ -65,12 +67,13 @@ namespace Kross
 	{
 
 		/* If the window was successfully Started. Run the Application. */
-		if (s_Instance->p_Window->GetInitialiseStatus() == true)
+		if (s_Instance->p_Window->GetInitialiseStatus())
 		{
-			std::cout << "Kross Engine Running..." << std::endl;
+			Debug::LogLine(std::string() + "Kross Engine Running...");
 
 			SceneManager::OnStart();
-			std::cout << "Starting Main Loop..." << std::endl;
+			Debug::Log(std::string() + "Starting Main Loop...");
+			Debug::EndLine();
 
 			#ifdef KROSS_EDITOR
 
@@ -112,7 +115,7 @@ namespace Kross
 				{
 					for (int i = 0; i < objects.size(); i++)
 					{
-						if (ImGui::TreeNodeEx(objects[i]->GetName().c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf));
+						if (ImGui::TreeNodeEx(objects[i]->GetName().c_str(), ImGuiTreeNodeFlags_Leaf));
 						{
 							if (ImGui::IsItemHovered() && Input::GetKeyPressed(Key::Delete))
 								SceneManager::GetCurrentScene()->DetachObject(objects[i]);
@@ -135,7 +138,7 @@ namespace Kross
 			}
 		}
 
-		#ifdef KROSS_DEBUG
+		#ifdef KROSS_EDITOR
 
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();

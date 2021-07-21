@@ -12,6 +12,11 @@ namespace Kross
 {
 	class KROSS_API Editor
 	{
-		// Define Shit here
+	private:
+
+	protected:
+
+	public:
+
 	};
 }

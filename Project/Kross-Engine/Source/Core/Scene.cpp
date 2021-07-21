@@ -296,12 +296,8 @@ namespace Kross
 
     void Scene::AttachObject(Object* object)
     {
-        /* Attch the Object to the global object list. */
+        /* Attach the Object to the global object list. */
         m_ActualObjects.push_back(object);
-
-        /* Start the object inside of the Scene. */
-        if (m_Started)
-            object->OnStart();
 
         /* Checks if the Object has a Camera. */
         SetCamera(object);
@@ -317,7 +313,7 @@ namespace Kross
             m_RigidbodyComponents.push_back(body);
         }
 
-        /* Check if the object is type Particleemitter */
+        /* Check if the object is type Particle Emitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
 
         /* If the object is a ParticleEmitter the physics scene is set */
@@ -335,6 +331,10 @@ namespace Kross
         /* If it's not. */
         else
             m_Objects.push_back(object); /* Attach the Object to the Dynamic List. */
+
+        /* Start the object inside of the Scene. */
+        if (m_Started)
+            object->OnStart();
     }
 
     void Scene::DetachObject(const std::string& name)
@@ -359,35 +359,51 @@ namespace Kross
 
     void Scene::DetachObject(int index)
     {
+        /* Always assume the object hasn't been found. */
         bool objectFound = false;
+
+        /* Go through the Dynamic Objects List. */
         for (int i = 0; i < m_Objects.size(); i++)
         {
+            /* If the Object that needs to be deleted is found. */
             if (m_Objects[i] == m_ActualObjects[index])
             {
+                /* Null it out on the dynamic list and erase. */
                 m_Objects[i] = nullptr;
                 m_Objects.erase(m_Objects.begin() + i);
+
+                /* We found the object, no need to search. */
                 objectFound = true;
                 break;
             }
         }
 
+        /* If we haven't found the object yet. */
         if (!objectFound)
         {
+            /* Go through the Static Objects List. */
             for (int i = 0; i < m_StaticObjects.size(); i++)
             {
+                /* If the Object that needs to be deleted is found. */
                 if (m_StaticObjects[i] == m_ActualObjects[index])
                 {
+                    /* Null it out on the static list and erase. */
                     m_StaticObjects[i] = nullptr;
                     m_StaticObjects.erase(m_StaticObjects.begin() + i);
-                    objectFound = true;
+
+                    /* Stop the search. */
                     break;
                 }
             }
         }
 
+        /* Remove it from the Render Queue. */
         DetachObjectFromRenderQueue(m_ActualObjects[index]->GetLayer(), m_ActualObjects[index]);
 
+        /* Destroy the Object. */
         Object::OnDestroy(m_ActualObjects[index]);
+
+        /* Erase it from the Global Objects list. */
         m_ActualObjects[index] = nullptr;
         m_ActualObjects.erase(m_ActualObjects.begin() + index);
     }
