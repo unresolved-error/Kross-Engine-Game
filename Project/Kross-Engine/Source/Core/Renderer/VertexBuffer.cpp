@@ -23,12 +23,12 @@ namespace Kross
 
 	void VertexBuffer::Attach()
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
+		OPENGL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID));
 	}
 
 	void VertexBuffer::Detach()
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		OPENGL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	}
 
 	void VertexBuffer::AttachVertexData(const void* data, unsigned int size)

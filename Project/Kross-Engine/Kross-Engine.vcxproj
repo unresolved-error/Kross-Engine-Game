@@ -137,7 +137,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
@@ -230,6 +230,7 @@
     <ClInclude Include="Source\Core\Physics\Shape\Shape.h" />
     <ClInclude Include="Source\Core\Renderer\Batch\Batch.h" />
     <ClInclude Include="Source\Core\Renderer\Batch\BatchRenderer.h" />
+    <ClInclude Include="Source\Core\Renderer\ErrorHandle.h" />
     <ClInclude Include="Source\Core\Renderer\Image\Atlas.h" />
     <ClInclude Include="Source\Core\Renderer\Image\TextureType.h" />
     <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
@@ -698,6 +699,7 @@
     <ClCompile Include="Source\Core\Math\Random.cpp" />
     <ClCompile Include="Source\Core\Object.cpp" />
     <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp" />
+    <ClCompile Include="Source\Core\Renderer\ErrorHandle.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp" />
     <ClCompile Include="Source\Core\Renderer\LineRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\Material.cpp" />

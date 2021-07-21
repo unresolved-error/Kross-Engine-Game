@@ -101,15 +101,15 @@ namespace Kross
 			Attach();
 
 			/* Making the Texture pixel perfect. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
 			/* Setting it to repeat. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 			/* Set the data. */
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, GetWidth(), GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, GetPixelData());
+			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, GetWidth(), GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, GetPixelData()));
 
 			Detach();
 		}
@@ -121,15 +121,20 @@ namespace Kross
 
 	void Texture::Attach()
 	{
-		glEnable(GL_TEXTURE_2D);
+		/* Something is broken. This may be needed else where. */
+		//if (glIsEnabled(GL_TEXTURE_2D) == GL_FALSE)
+		//{
+		//	OPENGL_CHECK(glEnable(GL_TEXTURE_2D));
+		//}
 
-		glActiveTexture(GL_TEXTURE0 + m_Slot);
-		glBindTexture(GL_TEXTURE_2D, m_TextureID);
+		/* Bind the Texture. */
+		OPENGL_CHECK(glActiveTexture(GL_TEXTURE0 + m_Slot));
+		OPENGL_CHECK(glBindTexture(GL_TEXTURE_2D, m_TextureID));
 	}
 
 	void Texture::Detach()
 	{
-		glBindTexture(GL_TEXTURE_2D, 0);
+		OPENGL_CHECK(glBindTexture(GL_TEXTURE_2D, 0));
 	}
 
 	Texture* Texture::OnCreate(const std::string& filepath, const std::string& name, TextureType type)
@@ -158,15 +163,15 @@ namespace Kross
 			texture->Attach();
 
 			/* Making the Texture pixel perfect. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
 			/* Setting it to repeat. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 			/* Set the data. */
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData());
+			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData()));
 
 			texture->Detach();
 
@@ -240,15 +245,15 @@ namespace Kross
 			texture->Attach();
 
 			/* Making the Texture pixel perfect. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
 			/* Setting it to repeat. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 			/* Set the data. */
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData());
+			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData()));
 
 			texture->Detach();
 
@@ -282,15 +287,15 @@ namespace Kross
 			texture->Attach();
 
 			/* Making the Texture pixel perfect. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
 			/* Setting it to repeat. */
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 			/* Set the data. */
-			glTexImage2D(GL_TEXTURE_2D, 0, internal, texture->GetWidth(), texture->GetHeight(), 0, format, type, texture->GetPixelData());
+			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, internal, texture->GetWidth(), texture->GetHeight(), 0, format, type, texture->GetPixelData()));
 
 			texture->Detach();
 

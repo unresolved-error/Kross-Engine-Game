@@ -52,6 +52,9 @@ namespace Kross
 		// Sets the Shader Name.
 		void SetName(const std::string& name) { m_Name = name; };
 
+		// Gets the Linking Status of the Linking of the Shader.
+		void GetLinkingStatus();
+
 		// Sets the Vertex Shader Filepath.
 		void SetVertexFilepath(const std::string& filepath) { m_VertexFilepath = filepath; };
 

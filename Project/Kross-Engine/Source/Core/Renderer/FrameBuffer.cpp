@@ -21,7 +21,7 @@ namespace Kross
 		Attach();
 
 		/* Set the Texture to write to. Write the screen data. */
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentID, m_WindowFrameTexture->GetTextureID(), 0);
+		OPENGL_CHECK(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentID, m_WindowFrameTexture->GetTextureID(), 0));
 
 		/* If the Frame Buffer doesn't complete itself. */
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -46,11 +46,11 @@ namespace Kross
 
 	void FrameBuffer::Attach()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferID);
+		OPENGL_CHECK(glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferID));
 	}
 
 	void FrameBuffer::Detach()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		OPENGL_CHECK(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 	}
 }

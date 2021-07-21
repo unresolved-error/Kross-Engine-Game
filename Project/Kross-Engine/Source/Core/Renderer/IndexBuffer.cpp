@@ -24,12 +24,12 @@ namespace Kross
 
 	void IndexBuffer::Attach()
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
+		OPENGL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID));
 	}
 
 	void IndexBuffer::Detach()
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		OPENGL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 	}
 
 	void IndexBuffer::AttachIndexData(const void* data, unsigned int count)
@@ -37,6 +37,6 @@ namespace Kross
 		m_Count = count;
 
 		Attach();
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW);
+		OPENGL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW));
 	}
 }

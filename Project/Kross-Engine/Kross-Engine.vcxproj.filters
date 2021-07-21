@@ -182,6 +182,7 @@
     <ClCompile Include="Vendor\imgui\imgui\imgui_demo.cpp" />
     <ClCompile Include="Vendor\imgui\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\Core\Editor\Editor.cpp" />
+    <ClCompile Include="Source\Core\Renderer\ErrorHandle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />

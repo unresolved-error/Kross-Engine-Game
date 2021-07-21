@@ -68,3 +68,5 @@ using List = std::vector<Type>;
 #else
     #error Kross-Engine only supports Windows!
 #endif
+
+#include "Renderer/ErrorHandle.h"

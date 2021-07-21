@@ -10,7 +10,8 @@
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/ShaderManager.h"
 
-#include "../ErrorHandle.h"
+#include "../../Debug.h"
+
 #include "../../File-IO/FileSystem.h"
 
 namespace Kross
@@ -141,8 +142,8 @@ namespace Kross
 			glGetShaderInfoLog(shader, sizeof(message), NULL, message);
 
 			/* Output the error. */					/* This is to determain the type of shader */
-			std::cout << "[Error] Compiling the " << ((type == GL_VERTEX_SHADER) ? "Vertex" : ((type == GL_FRAGMENT_SHADER) ? "Fragment" : "Geometry")) << " Shader!" << std::endl;
-			std::cout << message << std::endl;
+			Debug::LogGLErrorLine((std::string)"Compiling the " + (std::string)((type == GL_VERTEX_SHADER) ? "Vertex" : ((type == GL_FRAGMENT_SHADER) ? "Fragment" : "Geometry")) + (std::string)" Shader!");
+			Debug::LogGLErrorLine((std::string)message);
 
 			/* Destroy the defective shader. */
 			OPENGL_CHECK(glDeleteShader(shader));
@@ -159,8 +160,13 @@ namespace Kross
 		OPENGL_CHECK(glAttachShader(m_ShaderID, vertex));
 		OPENGL_CHECK(glAttachShader(m_ShaderID, fragment));
 
-		/* Validate the shader. */
+		/* Link Shaders. */
 		OPENGL_CHECK(glLinkProgram(m_ShaderID));
+
+		/* Check how the Linking went. */
+		GetLinkingStatus();
+
+		/* Validate the shader. */
 		OPENGL_CHECK(glValidateProgram(m_ShaderID));
 
 		/* No longer needing these so get rid of them. */
@@ -175,23 +181,13 @@ namespace Kross
 		OPENGL_CHECK(glAttachShader(m_ShaderID, fragment));
 		OPENGL_CHECK(glAttachShader(m_ShaderID, geometry));
 
-		/* Validate the shader. */
+		/* Link the Shader. */
 		OPENGL_CHECK(glLinkProgram(m_ShaderID));
 
-		int status;
-		glGetProgramiv(m_ShaderID, GL_LINK_STATUS, &status);
-		if (status == GL_FALSE)
-		{
-			/* Report it. */
-			char message[1024];
-			glGetProgramInfoLog(m_ShaderID, sizeof(message), NULL, message);
+		/* Check how the Linking went. */
+		GetLinkingStatus();
 
-			/* Output the error. */										
-			std::cout << "[Error] Linking the Shader!" << std::endl;
-			std::cout << message << std::endl;
-												/* This is to determain the type of shader */
-		}
-
+		/* Validate the shader. */
 		OPENGL_CHECK(glValidateProgram(m_ShaderID));
 
 		/* No longer needing these so get rid of them. */
@@ -224,6 +220,25 @@ namespace Kross
 
 		/* Return negative due to there being no Shader. */
 		return -1;
+	}
+
+	void Shader::GetLinkingStatus()
+	{
+		/* Status. */
+		int status;
+		glGetProgramiv(m_ShaderID, GL_LINK_STATUS, &status);
+
+		/* If the Status Returned false. */
+		if (status == GL_FALSE)
+		{
+			/* Report it. */
+			char message[1024];
+			glGetProgramInfoLog(m_ShaderID, sizeof(message), NULL, message);
+
+			/* Output the error. */
+			Debug::LogGLErrorLine((std::string)"Linking the Shader!");
+			Debug::LogGLErrorLine((std::string)message);
+		}
 	}
 
 	void Shader::SetUniform(const std::string& variable, bool value)
