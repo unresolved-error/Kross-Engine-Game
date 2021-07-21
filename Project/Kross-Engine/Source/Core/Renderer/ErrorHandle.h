@@ -33,11 +33,11 @@ namespace Kross
 		{
 			Debug::LogError("GL ERROR!");
 			Debug::Log((int)error);
-			Debug::Log(", Called on");
+			Debug::Log((std::string)", Called on");
 			Debug::Log((std::string)funcName);
-			Debug::Log("in");
+			Debug::Log((std::string)"in");
 			Debug::Log((std::string)fileName);
-			Debug::Log("on line");
+			Debug::Log((std::string)"on line");
 			Debug::LogLine((std::string)std::to_string(line));
 
 			return false;
