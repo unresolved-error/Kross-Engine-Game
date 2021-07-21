@@ -11,7 +11,7 @@ namespace Kross
 {
 	bool Debug::m_HasEnteredLog = false;
 
-	void Debug::Log(const std::string& message)
+	void Debug::Log(std::string message)
 	{
 		#ifdef KROSS_RELEASE
 		return;
@@ -32,7 +32,13 @@ namespace Kross
 		if (!Debug::m_HasEnteredLog)
 			Debug::StartLog();
 
-		std::cout << " " << std::to_string(value);
+		if(value)
+			std::cout << " True";
+
+		else
+			std::cout << " False";
+
+		
 	}
 
 	void Debug::Log(float value)
@@ -182,7 +188,7 @@ namespace Kross
 		}
 	}
 
-	void Debug::LogLine(const std::string& message)
+	void Debug::LogLine(std::string message)
 	{
 		Log(message);
 		EndLine();
@@ -248,7 +254,7 @@ namespace Kross
 		EndLine();
 	}
 
-	void Debug::LogWarning(const std::string& message)
+	void Debug::LogWarning(std::string message)
 	{
 		#ifdef KROSS_RELEASE
 		return;
@@ -260,13 +266,13 @@ namespace Kross
 		std::cout << " " << message;
 	}
 
-	void Debug::LogWarningLine(const std::string& message)
+	void Debug::LogWarningLine(std::string message)
 	{
 		LogWarning(message);
 		EndLine();
 	}
 
-	void Debug::LogError(const std::string& message)
+	void Debug::LogError(std::string message)
 	{
 		#ifdef KROSS_RELEASE
 		return;
@@ -278,9 +284,25 @@ namespace Kross
 		std::cout << " " << message;
 	}
 
-	void Debug::LogErrorLine(const std::string& message)
+	void Debug::LogErrorLine(std::string message)
 	{
 		LogError(message);
+		EndLine();
+	}
+	void Debug::LogGLError(std::string message)
+	{
+		#ifdef KROSS_RELEASE
+			return;
+		#endif
+
+		if (!Debug::m_HasEnteredLog)
+			Debug::StartGLError();
+
+		std::cout << " " << message;
+	}
+	void Debug::LogGLErrorLine(std::string message)
+	{
+		LogGLError(message);
 		EndLine();
 	}
 }

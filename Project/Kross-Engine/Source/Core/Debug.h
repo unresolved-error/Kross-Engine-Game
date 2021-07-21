@@ -20,10 +20,11 @@ namespace Kross
 		static void StartLog() { std::cout << "[Log]"; Debug::m_HasEnteredLog = true; };
 		static void StartWarning() { std::cout << "[Warning]"; Debug::m_HasEnteredLog = true; };
 		static void StartError() { std::cout << "[Error]"; Debug::m_HasEnteredLog = true; };
+		static void StartGLError() { std::cout << "[OpenGL Error]"; Debug::m_HasEnteredLog = true; };
 
 	public:
 		// Logs a Message.
-		static void Log(const std::string& message);
+		static void Log(std::string message);
 
 		// Logs a Message. (Bool)
 		static void Log(bool value);
@@ -56,7 +57,7 @@ namespace Kross
 		static void Log(Matrix4 matrix);
 
 		// Logs a Message on a single line.
-		static void LogLine(const std::string& message);
+		static void LogLine(std::string message);
 
 		// Logs a Message on a single line. (Bool)
 		static void LogLine(bool value);
@@ -89,19 +90,22 @@ namespace Kross
 		static void LogLine(Matrix4 matrix);
 
 		// Logs Warning a Message.
-		static void LogWarning(const std::string& message);
+		static void LogWarning(std::string message);
 
 		// Logs a Warning Message on a single line.
-		static void LogWarningLine(const std::string& message);
+		static void LogWarningLine(std::string message);
 
 		// Logs Error a Message.
-		static void LogError(const std::string& message);
+		static void LogError(std::string message);
 
 		// Logs a Error Message on a single line.
-		static void LogErrorLine(const std::string& message);
+		static void LogErrorLine(std::string message);
 
-		//static void LogFatal(); /* Keep here for safe Keeping. */
-		//static void LogFatalLine(); /* Keep here for safe Keeping. */
+		// Logs a OpenGL Error.
+		static void LogGLError(std::string message);
+
+		// Logs a OpenGL Error on a single line.
+		static void LogGLErrorLine(std::string message);
 
 		// Ends the Log Line.
 		static void EndLine() { std::cout << std::endl; Debug::m_HasEnteredLog = false; };
