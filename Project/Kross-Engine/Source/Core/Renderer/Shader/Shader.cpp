@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #include "Shader.h"
@@ -182,8 +183,8 @@ namespace Kross
 		if (status == GL_FALSE)
 		{
 			/* Report it. */
-			char message[512];
-			glGetShaderInfoLog(m_ShaderID, sizeof(message), NULL, message);
+			char message[1024];
+			glGetProgramInfoLog(m_ShaderID, sizeof(message), NULL, message);
 
 			/* Output the error. */										
 			std::cout << "[Error] Linking the Shader!" << std::endl;
