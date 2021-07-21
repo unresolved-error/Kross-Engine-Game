@@ -178,7 +178,7 @@ namespace Kross
 		OPENGL_CHECK(glLinkProgram(m_ShaderID));
 
 		int status;
-		glGetShaderiv(m_ShaderID, GL_LINK_STATUS, &status);
+		glGetProgramiv(m_ShaderID, GL_LINK_STATUS, &status);
 		if (status == GL_FALSE)
 		{
 			/* Report it. */

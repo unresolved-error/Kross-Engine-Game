@@ -31,8 +31,14 @@ namespace Kross
 		#ifdef KROSS_DEBUG
 		while (GLenum error = glGetError())
 		{
+			std::string errorCodeType;
+			if (error == GL_INVALID_OPERATION)
+			{
+				errorCodeType = "INVALID OPERATION";
+			}
+
 			Debug::LogError("GL ERROR!");
-			Debug::Log((int)error);
+			Debug::Log(errorCodeType);
 			Debug::Log((std::string)", Called on");
 			Debug::Log((std::string)funcName);
 			Debug::Log((std::string)"in");
