@@ -10,6 +10,7 @@
 #include "../../Manager/ShaderManager.h"
 
 #include "GL/glew.h"
+#include "../GLErrorCheck.h"
 #include "../../File-IO/FileSystem.h"
 
 namespace Kross
@@ -158,8 +159,11 @@ namespace Kross
 		glAttachShader(m_ShaderID, vertex);
 		glAttachShader(m_ShaderID, fragment);
 
+		GLErrorCheck();
 		/* Validate the shader. */
 		glLinkProgram(m_ShaderID);
+
+		GLErrorCheck();
 		glValidateProgram(m_ShaderID);
 
 		/* No longer needing these so get rid of them. */
@@ -174,8 +178,12 @@ namespace Kross
 		glAttachShader(m_ShaderID, fragment);
 		glAttachShader(m_ShaderID, geometry);
 
+		GLErrorCheck();
+
 		/* Validate the shader. */
 		glLinkProgram(m_ShaderID);
+
+		GLErrorCheck();
 
 		int status;
 		glGetShaderiv(m_ShaderID, GL_LINK_STATUS, &status);
@@ -208,8 +216,10 @@ namespace Kross
 			if (m_UniformCache.find(variable) != m_UniformCache.end())
 				return m_UniformCache[variable]; /* Return the Cached location. */
 
+			GLErrorCheck();
 			/* Get the location of the Variable. */
 			int location = glGetUniformLocation(m_ShaderID, variable.c_str());
+			GLErrorCheck();
 
 			if (location != -1)
 				m_UniformCache[variable] = location; /* Cache the location for next time it is searched. */
