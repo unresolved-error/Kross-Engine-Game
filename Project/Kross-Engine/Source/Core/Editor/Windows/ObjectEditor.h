@@ -15,9 +15,18 @@ namespace Kross
     {
     public:
 
+        ObjectEditor() :
+            p_SelectedObject(nullptr)
+        {};
+
+        ~ObjectEditor() {};
+
     private:
+        Object* p_SelectedObject;
 
     protected:
+        friend class SceneHierarchy;
+
         void Attach() override;
         
         void SetFlags() override;
