@@ -578,11 +578,17 @@ namespace Kross
                         m_CollisionState = CollisionState::None;
                 }
                 
+                #ifndef KROSS_EDITOR
                 /* Gets the object position and updates it with the position of the body */
                 GetLinkObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
 
                 /* Gets the object rotation and updates it with the angle of the body */
                 GetLinkObject()->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
+
+                #else
+
+                p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
+                #endif
 
                 p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
                 p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
@@ -601,11 +607,17 @@ namespace Kross
                     OnApplyForce(particleForce * (p_Body->GetMass() * 0.5f));
                 }
 
+                #ifndef KROSS_EDITOR
                 /* Gets the object position and updates it with the position of the body */
                 GetLinkObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
-            
+
                 /* Gets the object rotation and updates it with the angle of the body */
                 GetLinkObject()->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
+
+                #else
+
+                p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
+                #endif
 
                 p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
                 p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
@@ -1026,6 +1038,33 @@ namespace Kross
             CreateWorldCircle(tileCornerColliders[i].z, Vector2(tileCornerColliders[i].x, tileCornerColliders[i].y),
                 ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
         }
+    }
+
+    void Rigidbody2D::DeleteTileMapColliders()
+    {
+        for (int i = 0; i < m_TileColliders.size(); i++)
+        {
+            p_PhysicsScene->DetachBody(m_TileColliders[i]);
+            m_TileColliders[i] = nullptr;
+        }
+
+        m_TileColliders.clear();
+
+        for (int i = 0; i < m_TileCornerShapes.size(); i++)
+        {
+            delete m_TileCornerShapes[i];
+            m_TileCornerShapes[i] = nullptr;
+        }
+
+        m_TileCornerShapes.clear();
+
+        for (int i = 0; i < m_TileShapes.size(); i++)
+        {
+            delete m_TileShapes[i];
+            m_TileShapes[i] = nullptr;
+        }
+
+        m_TileShapes.clear();
     }
 
     float Rigidbody2D::GetFriction()

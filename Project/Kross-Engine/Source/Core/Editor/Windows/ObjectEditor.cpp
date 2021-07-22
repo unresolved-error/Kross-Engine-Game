@@ -6,6 +6,7 @@
 #include "ObjectEditor.h"
 
 #include "../Editor.h"
+#include "../../Debug.h"
 
 namespace Kross {
 
@@ -39,11 +40,10 @@ namespace Kross {
 			if (p_SelectedObject) {
 				for (int i = 0; i < p_SelectedObject->m_Components.size(); i++)
 				{
-
 					if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Transform2D))
 					{
 						Transform2D* transform = p_SelectedObject->GetComponent<Transform2D>();
-						Vector2 pos = transform->m_Position;
+						float posX = transform->m_Position.x, posY = transform->m_Position.y;
 
 						if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 						{
@@ -55,30 +55,46 @@ namespace Kross {
 
 							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
 							if (ImGui::Button("X"))
-								pos.x = 0.0f;
+								posX = 0.0f;
 
 							ImGui::SameLine();
 
-							ImGui::DragFloat("##X", &pos.x, 0.1f, FLT_MIN, FLT_MAX, "%.2fm");
+							ImGui::DragFloat("##X", &transform->m_Position.x, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
 							ImGui::PopItemWidth();
 							ImGui::SameLine();
 
 							if (ImGui::Button("Y"))
-								pos.y = 0.0f;
+								posY = 0.0f;
 
 							ImGui::SameLine();
 
-							ImGui::DragFloat("##Y", &pos.y, 0.1f, FLT_MIN, FLT_MAX, "%.2fm");
+							ImGui::DragFloat("##Y", &transform->m_Position.y, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
 							ImGui::PopItemWidth();
-							ImGui::SameLine();
+							ImGui::Columns(1);
 							ImGui::PopID();
 
-
-							transform->m_Position = pos;
+							//transform->m_Position = Vector2(posX, posY);
 
 						}
 					}
-					//else if component is type.... else if component is...
+					
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Rigidbody2D))
+					{
+						Rigidbody2D* rb = p_SelectedObject->GetComponent<Rigidbody2D>();
+						TileMapRenderer* tm = p_SelectedObject->GetComponent<TileMapRenderer>();
+
+						if (ImGui::CollapsingHeader("Rigidbody", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							if (tm)
+							{
+								if (ImGui::Button("Generate Colliders!"))
+								{
+									rb->DeleteTileMapColliders();
+									rb->CreateTileMapColliders(tm->GetTileMap(), tm->GetTileList()[0]);
+								}
+							}
+						}
+					}
 
 
 				}

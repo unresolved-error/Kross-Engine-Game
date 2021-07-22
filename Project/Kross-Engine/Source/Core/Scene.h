@@ -146,8 +146,13 @@ namespace Kross
 		Object* GetCamera() const { return p_Camera; };
 
 		// Sets the Gravity of the Scene.
-		void SetGravity(float gravity, Vector2 direction) { p_Physics->p_PhysicsWorld->SetGravity({ direction.x * gravity, direction.y * gravity }); };
+		void SetGravity(float gravity, Vector2 direction) { direction = glm::normalize(direction);  p_Physics->p_PhysicsWorld->SetGravity({ direction.x * gravity, direction.y * gravity }); };
 
+		// Gets the Direction of the Gravity.
+		Vector2 GetGravityDirection() const { return glm::normalize(Vector2((float)p_Physics->p_PhysicsWorld->GetGravity().x, (float)p_Physics->p_PhysicsWorld->GetGravity().y)); };
+
+		// Gets the Gravity Scalar.
+		float GetGravityScalar() const { return glm::length(Vector2((float)p_Physics->p_PhysicsWorld->GetGravity().x, (float)p_Physics->p_PhysicsWorld->GetGravity().y)); }
 	};
 
 	// Creates an Empty object and assigns a name to it.

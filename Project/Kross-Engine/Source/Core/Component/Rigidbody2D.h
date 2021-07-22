@@ -171,5 +171,7 @@ namespace Kross
         void GetSurroundingObjects(float size, Body* body);
 
         void CreateTileMapColliders(TileMap* tileMap, Tile* tile);
+
+        void DeleteTileMapColliders();
     };
 }

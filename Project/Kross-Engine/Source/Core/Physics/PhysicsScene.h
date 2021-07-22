@@ -48,6 +48,9 @@ namespace Kross
 		/* Adds the Body to a list of bodies */
 		void AttachBody(Body* body) { m_bodies.push_back(body); }
 
+		/* Deletes the Body from the list of bodies */
+		void DetachBody(Body* body);
+
 		/* Returns the Physics World */
 		World* GetPhysicsWorld() { return p_PhysicsWorld; }
 

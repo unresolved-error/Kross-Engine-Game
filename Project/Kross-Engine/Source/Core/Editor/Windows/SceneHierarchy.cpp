@@ -9,6 +9,8 @@
 #include "../../Input.h"
 #include "../Editor.h"
 
+#include "../../Debug.h"
+
 namespace Kross
 {
 	void SceneHierarchy::SetFlags()
@@ -75,6 +77,50 @@ namespace Kross
 
 				if (ImGui::BeginTabItem("Scene Properties"))
 				{
+					if (p_Scene)
+					{
+						ImGui::SetWindowFontScale(1.5f);
+						ImGui::Text(p_Scene->GetName().c_str());
+						ImGui::Spacing();
+						ImGui::SetWindowFontScale(1.0f);
+
+						ImGui::Text("Name:");
+						char name[50];
+						ImGui::PushID("Scene Name Input");
+						if (ImGui::InputTextEx("", p_Scene->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
+						{
+							p_Scene->SetName((std::string)name);
+						}
+						ImGui::PopID();
+
+						ImGui::Spacing();
+
+						ImGui::SetWindowFontScale(1.5f);
+						ImGui::Text("Gravity");
+						ImGui::Spacing();
+						ImGui::SetWindowFontScale(1.0f);
+
+						ImGui::Text("Scale:");
+						ImGui::PushID("Scene Gravity Scale");
+						float gravity = p_Scene->GetGravityScalar();
+						Debug::Log(gravity);
+						ImGui::DragFloat("", &gravity, 0.05f, FLT_MIN, FLT_MAX);
+
+						ImGui::PopID();
+
+						ImGui::Spacing();
+
+						ImGui::Text("Direction:");
+						ImGui::PushID("Scene Gravity Direction");
+						Vector2 direction = p_Scene->GetGravityDirection();
+						Debug::Log(direction);
+						ImGui::DragFloat2("", &direction[0], 0.05f, -1.0f, 1.0f);
+
+						ImGui::PopID();
+
+						p_Scene->SetGravity(gravity, direction);
+					}
+
 					ImGui::EndTabItem();
 				}
 
