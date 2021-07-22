@@ -2,15 +2,15 @@
 
 namespace Kross {
 
-	void SceneHierarchy::Attach()
+	void ObjectEditor::Attach()
 	{
 	}
 
-	void SceneHierarchy::SetFlags()
+	void ObjectEditor::SetFlags()
 	{
 	}
 
-	void SceneHierarchy::OnStart()
+	void ObjectEditor::OnStart()
 	{
 	}
 }
