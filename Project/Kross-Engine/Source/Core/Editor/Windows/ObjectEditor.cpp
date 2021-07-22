@@ -55,7 +55,7 @@ namespace Kross {
 
 							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
 							if (ImGui::Button("X"))
-								posX = 0.0f;
+								transform->m_Position.x = 0.0f;
 
 							ImGui::SameLine();
 
@@ -64,11 +64,57 @@ namespace Kross {
 							ImGui::SameLine();
 
 							if (ImGui::Button("Y"))
-								posY = 0.0f;
+								transform->m_Position.y = 0.0f;
 
 							ImGui::SameLine();
 
 							ImGui::DragFloat("##Y", &transform->m_Position.y, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							ImGui::PopItemWidth();
+							ImGui::Columns(1);
+							ImGui::PopID();
+
+							ImGui::PushID("Rotation");
+							ImGui::Columns(2);
+							ImGui::SetColumnWidth(0, 70.0f);
+							ImGui::Text("Rotation");
+							ImGui::NextColumn();
+
+							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+							if (ImGui::Button("0"))
+								transform->m_Rotation = 0.0f;
+
+							ImGui::SameLine();
+
+							ImGui::DragFloat("##R", &transform->m_Rotation, 0.1f, 0.0f, 360.0f, "%.2fd");
+							ImGui::PopItemWidth();
+							ImGui::SameLine();
+
+							ImGui::PopItemWidth();
+							ImGui::Columns(1);
+							ImGui::PopID();
+
+							ImGui::PushID("Scale");
+							ImGui::Columns(2);
+							ImGui::SetColumnWidth(0, 70.0f);
+							ImGui::Text("Scale");
+							ImGui::NextColumn();
+
+							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+							if (ImGui::Button("X"))
+								transform->m_Scale.x = 1.0f;
+
+							ImGui::SameLine();
+
+							ImGui::DragFloat("##X", &transform->m_Scale.x, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							ImGui::PopItemWidth();
+							ImGui::SameLine();
+
+							if (ImGui::Button("Y"))
+								transform->m_Scale.y = 1.0f;
+
+							ImGui::SameLine();
+
+							ImGui::DragFloat("##Y", &transform->m_Scale.y, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
 							ImGui::PopItemWidth();
 							ImGui::Columns(1);
 							ImGui::PopID();
