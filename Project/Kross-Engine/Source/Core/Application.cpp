@@ -19,6 +19,8 @@
 
 #include "Input.h"
 
+#include "Editor/Editor.h"
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -58,6 +60,7 @@ namespace Kross
 		Physics::OnCreate();
 		AudioManager::OnCreate();
 		AudioManager::OnStart();
+		Editor::OnCreate();
 
 		/* Reads the Manifest File. */
 		ResourceManager::OnReadManifest();
@@ -65,7 +68,6 @@ namespace Kross
 
 	void Application::OnUpdate()
 	{
-
 		/* If the window was successfully Started. Run the Application. */
 		if (s_Instance->p_Window->GetInitialiseStatus())
 		{
@@ -76,14 +78,7 @@ namespace Kross
 			Debug::EndLine();
 
 			#ifdef KROSS_EDITOR
-
-			ImGui::CreateContext();
-
-			ImGui::StyleColorsDark();
-
-			ImGui_ImplGlfw_InitForOpenGL(s_Instance->p_Window->GetGLFWWindow(), true);
-			ImGui_ImplOpenGL3_Init("#version 460");
-
+			Editor::OnStart(s_Instance->p_Window);
 			#endif
 
 			/* While the window isn't closed */
@@ -103,34 +98,44 @@ namespace Kross
 				SceneManager::OnRender();
 
 				#ifdef KROSS_EDITOR
+				Editor::NewFrame();
+				Editor::StylePush();
+				Editor::OnUpdate();
 
-				ImGui_ImplOpenGL3_NewFrame();
-				ImGui_ImplGlfw_NewFrame();
-				ImGui::NewFrame();
+				///* Do stuff here. */
+				//ImGui::Begin("Scene Hierarchy");
+				//List<Object*> objects = SceneManager::GetCurrentScene()->GetObjects();
+				//if (ImGui::TreeNodeEx(SceneManager::GetCurrentScene()->GetName().c_str()))
+				//{
+				//	for (int i = 0; i < objects.size(); i++)
+				//	{
+				//		if (ImGui::TreeNodeEx(objects[i]->GetName().c_str(), ImGuiTreeNodeFlags_Leaf));
+				//		{
+				//			if (ImGui::IsItemHovered() && Input::GetKeyPressed(Key::Delete))
+				//				SceneManager::GetCurrentScene()->DetachObject(objects[i]);
+				//
+				//			ImGui::TreePop();
+				//		}
+				//	}
+				//	ImGui::Begin("Other Window");
+				//
+				//	float value = 0.0f;
+				//	int other = 0;
+				//	ImGui::DragFloat("X Position", &value, FLT_MIN, FLT_MAX);
+				//	ImGui::SliderInt("Someting", &other, INT32_MIN, INT32_MAX);
+				//	if (ImGui::Button("Press Me"))
+				//	{
+				//		Debug::LogLine((std::string)"Button Pressed!");
+				//	}
+				//	ImGui::End();
+				//
+				//	ImGui::TreePop();
+				//}
+				//
+				//ImGui::End();
 
-				/* Do stuff here. */
-				ImGui::Begin("Scene Hierarchy");
-				List<Object*> objects = SceneManager::GetCurrentScene()->GetObjects();
-				if (ImGui::TreeNodeEx(SceneManager::GetCurrentScene()->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
-				{
-					for (int i = 0; i < objects.size(); i++)
-					{
-						if (ImGui::TreeNodeEx(objects[i]->GetName().c_str(), ImGuiTreeNodeFlags_Leaf));
-						{
-							if (ImGui::IsItemHovered() && Input::GetKeyPressed(Key::Delete))
-								SceneManager::GetCurrentScene()->DetachObject(objects[i]);
-
-							ImGui::TreePop();
-						}
-					}
-					ImGui::TreePop();
-				}
-				
-				ImGui::End();
-
-				ImGui::Render();
-				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+				Editor::StylePop();
+				Editor::OnRender();
 				#endif
 
 				s_Instance->p_Window->OnPollEvents();
@@ -139,11 +144,7 @@ namespace Kross
 		}
 
 		#ifdef KROSS_EDITOR
-
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
-		ImGui::DestroyContext();
-
+		Editor::OnShutdown();
 		#endif
 
 		return;
@@ -151,6 +152,8 @@ namespace Kross
 
 	void Application::OnShutdown()
 	{
+		Editor::OnDestroy();
+
 		s_Instance->p_Window->OnShutdown();
 		AudioManager::OnShutdown();
 
