@@ -19,16 +19,15 @@ namespace Kross
 {
 	class KROSS_API EditorWindow
 	{
-	private:
+	protected:
+		friend class Editor;
+
 		Scene* p_Scene;
 
 		std::string m_Title;
 		int m_Width, m_Height;
 
 		ImGuiWindowFlags_ m_WindowFlags;
-
-	protected:
-		friend class Editor;
 
 		// Sets the Window Flags.
 		virtual void SetFlags() = 0;
