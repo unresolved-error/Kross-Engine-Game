@@ -86,7 +86,7 @@ namespace Kross
 
 						ImGui::Text("Name:");
 						char name[50];
-						ImGui::PushID("Scene Name Input");
+						ImGui::PushID("Name Input");
 						if (ImGui::InputTextEx("", p_Scene->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
 						{
 							p_Scene->SetName((std::string)name);
@@ -101,7 +101,7 @@ namespace Kross
 						ImGui::SetWindowFontScale(1.0f);
 
 						ImGui::Text("Scale:");
-						ImGui::PushID("Scene Gravity Scale");
+						ImGui::PushID("Gravity Scale");
 						float gravity = p_Scene->GetGravityScalar();
 						Debug::Log(gravity);
 						ImGui::DragFloat("", &gravity, 0.05f, FLT_MIN, FLT_MAX);
@@ -111,10 +111,10 @@ namespace Kross
 						ImGui::Spacing();
 
 						ImGui::Text("Direction:");
-						ImGui::PushID("Scene Gravity Direction");
+						ImGui::PushID("Gravity Direction");
 						Vector2 direction = p_Scene->GetGravityDirection();
 						Debug::Log(direction);
-						ImGui::DragFloat2("", &direction[0], 0.05f, -1.0f, 1.0f);
+						ImGui::DragFloat("", &direction.x, 0.05f, -1.0f, 1.0f);
 
 						ImGui::PopID();
 
