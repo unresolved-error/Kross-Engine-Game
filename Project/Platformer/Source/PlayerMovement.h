@@ -8,13 +8,13 @@ class PlayerMovement : public Script
 {
 public:
 	PlayerMovement() :
-		transform	(nullptr),
-		renderer	(nullptr),
-		window		(nullptr),
-		rigidBody	(nullptr),
-		animator	(nullptr),
-		camera		(nullptr),
-		textObj		(nullptr)
+		transform(nullptr),
+		renderer(nullptr),
+		window(nullptr),
+		rigidBody(nullptr),
+		animator(nullptr),
+		camera(nullptr),
+		textObj(nullptr)
 	{};
 	~PlayerMovement() {};
 
@@ -78,135 +78,118 @@ public:
 		{
 			input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), 0.0f);
 
-			if (input.x == 0.0f && input.y == 0.0f)
-			{
-				animator->SetCurrentAnimation(0);
-			}
-			else
-			{
-				animator->SetCurrentAnimation(1);
-			}
-
-			if (Input::GetControllerButtonPressed(controllerID, Controller::A))
-			{
-				if (jumpCount < 1)
-				{
-					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-					jumpCount++;
-				}
-			}
-
-			if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))
-			{
-				followPlayer = !followPlayer;
-			}
-
-			if (Input::GetControllerAxis(controllerID, Controller::LeftTrigger, 0.9f) > 0.9f)
-			{
-				Object* newbie = OnCreateObject("Newbie", GetLinkObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
-				newbie->SetLayer(Layer::Default);
-				newbie->AttachComponent<SpriteRenderer>();
-
-				newbie->SetStaticStatus(true);
-
-				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
-				ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
-				ren->SetDepth(20);
-			}
-
-			if (Input::GetControllerButtonPressed(controllerID, Controller::DPadUp))
-			{
-				Window* window = Application::GetWindow();
-				if (window->GetFullscreen() == 0)
-				{
-					window->SetFullscreen(1);
-				}
-				else
-				{
-					window->SetFullscreen(0);
-				}
-			}
+			//if (input.x == 0.0f && input.y == 0.0f)
+			//{
+			//	animator->SetCurrentAnimation(0);
+			//}
+			//else
+			//{
+			//	animator->SetCurrentAnimation(1);
+			//}
+			//
+			//if (Input::GetControllerButtonPressed(controllerID, Controller::A))
+			//{
+			//	if (jumpCount < 1)
+			//	{
+			//		rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
+			//		jumpCount++;
+			//	}
+			//}
+			//
+			//if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))
+			//{
+			//	followPlayer = !followPlayer;
+			//}
+			//
+			//if (Input::GetControllerAxis(controllerID, Controller::LeftTrigger, 0.9f) > 0.9f)
+			//{
+			//	Object* newbie = OnCreateObject("Newbie", GetLinkObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
+			//	newbie->SetLayer(Layer::Default);
+			//	newbie->AttachComponent<SpriteRenderer>();
+			//
+			//	newbie->SetStaticStatus(true);
+			//
+			//	SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
+			//	ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
+			//	ren->SetDepth(20);
+			//}
+			//
+			//if (Input::GetControllerButtonPressed(controllerID, Controller::DPadUp))
+			//{
+			//	Window* window = Application::GetWindow();
+			//	if (window->GetFullscreen() == 0)
+			//	{
+			//		window->SetFullscreen(1);
+			//	}
+			//	else
+			//	{
+			//		window->SetFullscreen(0);
+			//	}
+			//}
 		}
 		else
 		{
 			controllerID = Input::GetAvalibleController();
 
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), 0.0f);
+		}
 
-			//pan += Input::GetAxis(Axis::KeyboardHorizontal) * Time::GetDeltaTime();
-			//pan = glm::clamp(pan, 0.0f, 1.0f);
-			audplayer->SetVolume(0.33f);
+		PlayerMove(input, Key::Space, Controller::A);
+		EnableGravity(Key::Q, Controller::B);
 
-			if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
+		camera->GetLinkObject()->GetTransform()->m_Position = GetLinkObject()->GetTransform()->m_Position;
+
+	}
+
+	void OnCollisionEnter(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			jumpCount = 0;
+		}
+
+		Debug::LogLine("Entered collision with " + other->GetName());
+	}
+
+	void OnCollisionStay(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			jumpCount = 0;
+		}
+		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
+	}
+
+	void OnCollisionExit(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			if (jumpCount == 0)
+				jumpCount++;
+		}
+
+		Debug::LogLine((std::string)"Exited collision with " + other->GetName());
+	}
+
+	void PlayerMove(Vector2 input, Key jump, Controller jumpC)
+	{
+		audplayer->SetVolume(0.33f);
+
+		if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
+		{
+			animator->SetCurrentAnimation(0);
+		}
+		else
+		{
+			animator->SetCurrentAnimation(1);
+		}
+
+		if (Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) && Input::GetControllerButtonPressed(controllerID, jumpC)))
+		{
+			if (jumpCount < 1)
 			{
-				animator->SetCurrentAnimation(0);
-			}
-			else
-			{
-				animator->SetCurrentAnimation(1);
-			}
-
-			if (Input::GetKeyPressed(Key::Space))
-			{
-				if (jumpCount < 1)
-				{
-					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-					jumpCount++;
-				}
-			}
-
-			if (Input::GetKeyPressed(Key::E))
-			{
-				followPlayer = !followPlayer;
-			}
-
-			if (Input::GetKeyPressed(Key::Q))
-			{
-				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
-			}
-
-			if (Input::GetKeyPressed(Key::Z))
-			{
-				Debug::Log(GetLinkObject()->GetName() + " Position =");
-				Debug::Log(transform->m_Position);
-				Debug::EndLine();
-			}
-
-			if (Input::GetKeyDown(Key::Enter))
-			{
-				Object* newbie = Object::OnCreate("Newbie");
-				newbie->SetLayer(Layer::Ground);
-				newbie->SetStaticStatus(true);
-
-				Transform2D* newbieTransform = newbie->GetTransform();
-				newbieTransform->m_Position = GetLinkObject()->GetTransform()->m_Position;
-				newbieTransform->m_Rotation = Random::GetRandomRange<float>(0.0f, 360.0f);
-				newbie->AttachComponent<SpriteRenderer>();
-
-				SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
-				ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
-				ren->SetDepth(20);
-
-				newbie->AttachComponent<Rigidbody2D>();
-				/* Wondering.. */
-				SceneManager::GetCurrentScene()->AttachObject(newbie);
-
-
-				Rigidbody2D* rb = newbie->GetComponent<Rigidbody2D>();
-				rb->CreateWorldBox(Vector2(0.25f, 0.25f), newbieTransform->m_Position + Vector2(0.0f, 0.4f), ColliderFilters::Environment, ColliderFilters::Environment | ColliderFilters::Player);
-			}
-
-			if (Input::GetKeyPressed(Key::F11))
-			{
-				Window* window = Application::GetWindow();
-				if (window->GetFullscreen() == 0)
-				{
-					window->SetFullscreen(1);
-				}
-				else
-				{
-					window->SetFullscreen(0);
-				}
+				rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
+				jumpCount++;
 			}
 		}
 
@@ -225,47 +208,6 @@ public:
 			}
 		}
 
-		textObj->GetLinkObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
-
-		if (timeElapsed >= 1.0f)
-		{
-			timeElapsed = 0.0f;
-			textObj->SetText(std::to_string(frameCount));
-			frameCount = 0;
-		}
-		else
-		{
-			frameCount++;
-			timeElapsed += Time::GetDeltaTime();
-		}
-
-		
-
-		//if (followPlayer)
-		//{
-		//	Transform2D* cameraTransform = camera->GetObject()->GetTransform();
-		
-		//	Vector2 direction = Vector2(0.0f);
-		//	float speed = 0.5f;
-		
-		//	Vector2 distance = (cameraTransform->m_Position - transform->m_Position);
-		//	Vector2 directionNorm = glm::normalize(transform->m_Position - cameraTransform->m_Position);
-		
-		//	float actualDistance = sqrt((distance.x * distance.x) + (distance.y * distance.y));
-		
-		//	if(actualDistance > speed)
-		//  {
-		//		cameraTransform->m_Position += directionNorm * speed;
-		//  }
-		//	else
-		//  {
-		//		cameraTransform->m_Position = transform->m_Position;
-		//  }
-		//}
-
-		Transform2D* cameraTransform = camera->GetLinkObject()->GetTransform();
-		cameraTransform->m_Position = transform->m_Position;
-
 		if (input.x > 0)
 		{
 			renderer->SetFlipX(false);
@@ -276,33 +218,11 @@ public:
 		}
 	}
 
-	void OnCollisionEnter(Object* other)
-	{		
-		if (other->GetLayer() == Layer::Ground)
-		{
-			jumpCount = 0;
-		}
-
-		Debug::LogLine("Entered collision with " + other->GetName());
-	}
-
-	void OnCollisionStay(Object* other)
+	void EnableGravity(Key key, Controller button)
 	{
-		if (other->GetLayer() == Layer::Ground)
+		if (Input::GetKeyPressed(key) || (Input::ControllerConnected(controllerID) && Input::GetControllerButtonPressed(controllerID, button)))
 		{
-			jumpCount = 0;
+			SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
 		}
-		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
-	}
-	
-	void OnCollisionExit(Object* other)
-	{
-		if (other->GetLayer() == Layer::Ground)
-		{
-			if (jumpCount == 0)
-				jumpCount++;
-		}
-
-		Debug::LogLine((std::string)"Exited collision with " + other->GetName());
 	}
 };
