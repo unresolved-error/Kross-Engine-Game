@@ -29,7 +29,7 @@ namespace Kross
 
 	public:
 		SceneHierarchy() :
-			p_SelectedObject(nullptr)
+			p_SelectedObject	(nullptr)
 		{};
 
 		~SceneHierarchy() {};

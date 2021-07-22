@@ -51,3 +51,4 @@ namespace Kross
 }
 
 #include "Windows/SceneHierarchy.h"
+#include "Windows/ObjectEditor.h"

@@ -61,6 +61,14 @@ namespace Kross
 		ImGui::NewFrame();
 	}
 
+	void Editor::AttachEditorWindow(EditorWindow* window)
+	{
+		s_Instance->m_EditorWindows.push_back(window);
+
+		if (typeid(*window) == typeid(ObjectEditor))
+			s_Instance->p_ObjectEditor = (ObjectEditor*)window;
+	};
+
 	void Editor::OnRender()
 	{
 		/* Render the Editor. */

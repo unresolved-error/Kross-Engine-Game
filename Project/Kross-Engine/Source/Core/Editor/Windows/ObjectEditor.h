@@ -26,6 +26,7 @@ namespace Kross
 
     protected:
         friend class SceneHierarchy;
+        friend class Editor;
 
         void Attach() override;
         

@@ -19,9 +19,11 @@ namespace Kross
 	private:
 		static Editor* s_Instance;
 		List<EditorWindow*> m_EditorWindows;
+		ObjectEditor* p_ObjectEditor;
 
 		Editor() :
-			m_EditorWindows	(List<EditorWindow*>())
+			m_EditorWindows	(List<EditorWindow*>()),
+			p_ObjectEditor	(nullptr)
 		{};
 
 		~Editor();
@@ -47,8 +49,8 @@ namespace Kross
 		static void NewFrame();
 
 	public:
-
-		static void AttachEditorWindow(EditorWindow* window) { s_Instance->m_EditorWindows.push_back(window); };
+		static void SetObjectEditorObject(Object* object) { s_Instance->p_ObjectEditor->p_SelectedObject = object; };
+		static void AttachEditorWindow(EditorWindow* window); 
 		//static void DetachEditorWindow(EditorWindow* window) { s_Instance->m_EditorWindows.push_back(window); };
 	};
 }

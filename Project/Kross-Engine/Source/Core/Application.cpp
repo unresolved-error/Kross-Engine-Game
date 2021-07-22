@@ -79,6 +79,7 @@ namespace Kross
 
 			#ifdef KROSS_EDITOR
 			Editor::AttachEditorWindow(KROSS_NEW SceneHierarchy());
+			Editor::AttachEditorWindow(KROSS_NEW ObjectEditor());
 
 			Editor::OnStart(s_Instance->p_Window);
 			#endif
@@ -100,6 +101,8 @@ namespace Kross
 				SceneManager::OnRender();
 
 				#ifdef KROSS_EDITOR
+				Editor::SetScene(SceneManager::GetCurrentScene());
+
 				Editor::NewFrame();
 				Editor::StylePush();
 				Editor::OnUpdate();

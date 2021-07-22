@@ -82,6 +82,7 @@ namespace Kross
 	protected:
 		friend class SceneManager;
 		friend class Application;
+		friend class SceneHierarchy;
 
 		// Starts the Objects.
 		void OnStart();

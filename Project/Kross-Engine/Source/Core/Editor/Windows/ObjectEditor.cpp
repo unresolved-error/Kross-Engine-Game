@@ -26,7 +26,7 @@ namespace Kross {
 
 	void ObjectEditor::SetFlags()
 	{
-		m_WindowFlags = ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize;
+		//m_WindowFlags = ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize;
 	}
 
 	void ObjectEditor::OnStart()
