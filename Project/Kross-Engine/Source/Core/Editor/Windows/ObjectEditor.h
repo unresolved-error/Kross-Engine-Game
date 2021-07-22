@@ -11,13 +11,18 @@
 
 namespace Kross
 {
-    class KROSS_API SceneHierarchy : public EditorWindow 
+    class KROSS_API ObjectEditor : public EditorWindow 
     {
     public:
 
     private:
 
     protected:
+        void Attach();
+        
+        void SetFlags();
+
+        void OnStart();
 
     };
 }
