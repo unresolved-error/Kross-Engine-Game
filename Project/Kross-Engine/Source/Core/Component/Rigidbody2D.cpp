@@ -835,7 +835,7 @@ namespace Kross
         p_AABBCollisionData->m_Fixture.clear();
     }
 
-    void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile)
+    void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
     {
         m_TileMap = true;
 
@@ -923,7 +923,6 @@ namespace Kross
                         hasAirBelow = false;
                     }
                 }
-               
                 //Get to an empty tile
                 else {
         
@@ -1006,7 +1005,6 @@ namespace Kross
                         hasAir = false;
                     }
                 }
-        
                 //Get to an empty tile
                 else {
         
@@ -1029,7 +1027,7 @@ namespace Kross
 
         for (int i = 0; i < tileColliders.size(); i++)
         {
-            CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), 0.5f, Vector2(tileColliders[i].z, tileColliders[i].w),
+            CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), friction, Vector2(tileColliders[i].z, tileColliders[i].w),
                 ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
         }
 
