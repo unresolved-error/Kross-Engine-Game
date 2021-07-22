@@ -18,11 +18,11 @@ namespace Kross
     private:
 
     protected:
-        void Attach();
+        void Attach() override;
         
-        void SetFlags();
+        void SetFlags() override;
 
-        void OnStart();
+        void OnStart() override;
 
     };
 }
