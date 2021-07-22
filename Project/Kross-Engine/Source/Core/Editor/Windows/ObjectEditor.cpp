@@ -5,15 +5,19 @@
  */
 #include "ObjectEditor.h"
 
+#include "../Editor.h"
+
 namespace Kross {
 
 	void ObjectEditor::Attach()
 	{
-		Vector2 viewPos = Editor::GetViewportPosition();
-		ImVec2 position = ImVec2(viewPos.x, viewPos.y);
-
 		Vector2 viewSize = Editor::GetViewportSize();
-		ImVec2 size = ImVec2(viewSize.x * 0.25, viewSize.y);
+		ImVec2 size = ImVec2(viewSize.x * 0.2f, viewSize.y);
+
+		Vector2 viewPos = Editor::GetViewportPosition();
+		ImVec2 position = ImVec2(viewPos.x + (viewSize.x - size.x), viewPos.y);
+
+		
 
 
 		
