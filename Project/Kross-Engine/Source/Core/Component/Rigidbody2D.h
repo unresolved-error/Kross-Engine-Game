@@ -170,7 +170,7 @@ namespace Kross
 
         void GetSurroundingObjects(float size, Body* body);
 
-        void CreateTileMapColliders(TileMap* tileMap, Tile* tile);
+        void CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction = 0.5f);
 
         void DeleteTileMapColliders();
     };
