@@ -9,6 +9,15 @@ namespace Kross {
 
 	void ObjectEditor::Attach()
 	{
+		Vector2 viewPos = Editor::GetViewportPosition();
+		ImVec2 position = ImVec2(viewPos.x, viewPos.y);
+
+		Vector2 viewSize = Editor::GetViewportSize();
+		ImVec2 size = ImVec2(viewSize.x * 0.25, viewSize.y);
+
+
+		
+
 		if (p_SelectedObject)
 		{
 			m_Title = p_SelectedObject->GetName() + " editor panel.";
@@ -20,6 +29,8 @@ namespace Kross {
 		
 
 		ImGui::Begin(m_Title.c_str(), NULL, m_WindowFlags);
+		ImGui::SetWindowPos(position);
+		ImGui::SetWindowSize(size);
 		ImGui::End();
 		
 	}
