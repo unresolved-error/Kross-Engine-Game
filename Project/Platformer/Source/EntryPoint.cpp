@@ -70,7 +70,6 @@ void OnRun()
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
 	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.35f), player->GetTransform()->m_Position + Vector2(0.0f, 0.4f), true, ColliderFilters::Player, ColliderFilters::Environment);
 
-	//rigidBody->SetMass(1.25f);
 	//Object* particleEmitter = Object::OnCreate("Emitter");
 	//particleEmitter->SetStaticStatus(true);
 	//particleEmitter->AttachComponent<ParticleEmitter>();
@@ -94,29 +93,32 @@ void OnRun()
 	//particle->AttachParticle(tempParticle);
 	//particle->SpawnParticles();
 
-	Object* ppEmitter = Object::OnCreate("ppEmitter");
-	ppEmitter->SetStaticStatus(true);
-	ppEmitter->AttachComponent<ParticleEmitter>();
-	ppEmitter->GetTransform()->m_Position = Vector2(2.0f, -2.0f);
-	ppEmitter->SetLayer(Layer::Fluids);
 
-	scene->AttachObject(ppEmitter);
 
-	ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
-	WaterParticle* tempParticle2 = new WaterParticle();
 
-	tempParticle2->ParticleGroup(false);
-	particleEm->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
-
-	particleEm->SetMaxCount(0);
-	particleEm->SetGroupCount(1);
-
-	tempParticle2->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-	particleEm->SetPosition(ppEmitter->GetTransform()->m_Position);
-	tempParticle2->SetShape(0.5f);
-
-	particleEm->AttachParticle(tempParticle2);
-	particleEm->SpawnParticles();
+	//Object* ppEmitter = Object::OnCreate("ppEmitter");
+	//ppEmitter->SetStaticStatus(true);
+	//ppEmitter->AttachComponent<ParticleEmitter>();
+	//ppEmitter->GetTransform()->m_Position = Vector2(2.0f, -2.0f);
+	//ppEmitter->SetLayer(Layer::Fluids);
+	//
+	//scene->AttachObject(ppEmitter);
+	//
+	//ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
+	//WaterParticle* tempParticle2 = new WaterParticle();
+	//
+	//tempParticle2->ParticleGroup(false);
+	//particleEm->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment);
+	//
+	//particleEm->SetMaxCount(0);
+	//particleEm->SetGroupCount(1);
+	//
+	//tempParticle2->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	//particleEm->SetPosition(ppEmitter->GetTransform()->m_Position);
+	//tempParticle2->SetShape(0.5f);
+	//
+	//particleEm->AttachParticle(tempParticle2);
+	//particleEm->SpawnParticles();
 
 	player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 
@@ -127,11 +129,11 @@ void OnRun()
 
 	//AudioSource* MarioJump = AudioSource::OnCreate("Resources/Audio/mario_jump.wav", "Mario-Jump");
 	//player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(MarioJump);
-	//
+	
 	//player->GetComponent<AudioPlayer>()->PlaySoundEffect(MarioJump, 1, 0, false);
 
 	Rigidbody2D* tileMapCollider = tileExample->GetComponent<Rigidbody2D>();
-	tileMapCollider->CreateTileMapColliders(tilemap->GetTileMap(), tilemap->GetTileList()[0], 0.25f);
+	tileMapCollider->CreateTileMapColliders(tilemap->GetTileMap(), tilemap->GetTileList()[0], 0.45f);
 
 	//AudioSource* BulletProof = AudioSource::OnCreate("Resources/Audio/bulletproof-soundroll-main-version-02-19-1873.mp3", "Bullet-Proof", true);
 	//AudioSource* BulletProof = ResourceManager::GetResource<AudioSource>("Bullet-Proof");

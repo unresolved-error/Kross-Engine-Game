@@ -67,7 +67,7 @@ namespace Kross
         /* Creates a fixtureDef and assigns the variables */
         p_FixtureDef->shape = &circleShape;
         p_FixtureDef->density = 0.5f;
-        p_FixtureDef->friction = 0.5f;
+        p_FixtureDef->friction = 1.0f;
         p_FixtureDef->filter.categoryBits = categoryBits;
         p_FixtureDef->filter.maskBits = maskBits;
 
@@ -138,7 +138,7 @@ namespace Kross
         /* Creates a fixtureDef and assigns all variables */
         p_FixtureDef->shape = &dynamicBox;
         p_FixtureDef->density = 1.0f;
-        p_FixtureDef->friction = 0.5f;
+        p_FixtureDef->friction = 1.0f;
         p_FixtureDef->filter.categoryBits = categoryBits;
         p_FixtureDef->filter.maskBits = maskBits;
 
@@ -533,7 +533,6 @@ namespace Kross
     void Rigidbody2D::OnUpdate()
     {
         float circleCastRad = 0.075f;
-        
         if (p_Box != nullptr)
         {
             /* Checks if the object is not static */
@@ -547,7 +546,7 @@ namespace Kross
                     OnApplyForce(particleForce * (p_Body->GetMass() * 0.5f));
                 }
 
-                float footSpringLength = 0.5f;
+                float footSpringLength = 0.25f;
 
                 GetSurroundingObjects(2.0f, p_Body);
                 

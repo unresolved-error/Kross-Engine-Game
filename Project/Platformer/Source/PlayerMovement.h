@@ -45,6 +45,10 @@ public:
 
 	int frameCount = 0;
 
+	float m_MaxGroundSpeed = 4.0f;
+	float m_MaxAirSpeed = 6.0f;
+	float m_JumpStrength = 0.3f;
+
 	void Start() override
 	{
 		transform = GetLinkObject()->GetTransform();
@@ -78,21 +82,24 @@ public:
 			{
 				animator->SetCurrentAnimation(0);
 			}
-
 			else
 			{
 				animator->SetCurrentAnimation(1);
 			}
 
 			if (Input::GetControllerButtonPressed(controllerID, Controller::A))
+			{
 				if (jumpCount < 1)
 				{
-					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.25f);
+					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
 					jumpCount++;
 				}
+			}
 
 			if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))
+			{
 				followPlayer = !followPlayer;
+			}
 
 			if (Input::GetControllerAxis(controllerID, Controller::LeftTrigger, 0.9f) > 0.9f)
 			{
@@ -111,12 +118,15 @@ public:
 			{
 				Window* window = Application::GetWindow();
 				if (window->GetFullscreen() == 0)
+				{
 					window->SetFullscreen(1);
+				}
 				else
+				{
 					window->SetFullscreen(0);
+				}
 			}
 		}
-
 		else
 		{
 			controllerID = Input::GetAvalibleController();
@@ -127,28 +137,33 @@ public:
 			//pan = glm::clamp(pan, 0.0f, 1.0f);
 			audplayer->SetVolume(0.33f);
 
-			if (input.x == 0.0f && input.y == 0.0f)
+			if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
 			{
 				animator->SetCurrentAnimation(0);
 			}
-
 			else
 			{
 				animator->SetCurrentAnimation(1);
 			}
 
 			if (Input::GetKeyPressed(Key::Space))
+			{
 				if (jumpCount < 1)
 				{
-					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.5f) * 0.25f);
+					rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
 					jumpCount++;
 				}
+			}
 
 			if (Input::GetKeyPressed(Key::E))
+			{
 				followPlayer = !followPlayer;
+			}
 
 			if (Input::GetKeyPressed(Key::Q))
+			{
 				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
+			}
 
 			if (Input::GetKeyPressed(Key::Z))
 			{
@@ -185,13 +200,30 @@ public:
 			{
 				Window* window = Application::GetWindow();
 				if (window->GetFullscreen() == 0)
+				{
 					window->SetFullscreen(1);
+				}
 				else
+				{
 					window->SetFullscreen(0);
+				}
 			}
 		}
 
-		rigidBody->OnApplyForce(input);
+		if (jumpCount == 0)
+		{
+			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
+			{
+				rigidBody->OnApplyForce(input);
+			}
+		}
+		else
+		{
+			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
+			{
+				rigidBody->OnApplyForce(input);
+			}
+		}
 
 		textObj->GetLinkObject()->GetTransform()->m_Position = transform->m_Position + Vector2(0.0f, 0.35f);
 
@@ -201,7 +233,6 @@ public:
 			textObj->SetText(std::to_string(frameCount));
 			frameCount = 0;
 		}
-
 		else
 		{
 			frameCount++;
@@ -213,37 +244,44 @@ public:
 		//if (followPlayer)
 		//{
 		//	Transform2D* cameraTransform = camera->GetObject()->GetTransform();
-		//
+		
 		//	Vector2 direction = Vector2(0.0f);
 		//	float speed = 0.5f;
-		//
+		
 		//	Vector2 distance = (cameraTransform->m_Position - transform->m_Position);
 		//	Vector2 directionNorm = glm::normalize(transform->m_Position - cameraTransform->m_Position);
-		//	
+		
 		//	float actualDistance = sqrt((distance.x * distance.x) + (distance.y * distance.y));
-		//
+		
 		//	if(actualDistance > speed)
+		//  {
 		//		cameraTransform->m_Position += directionNorm * speed;
-		//
+		//  }
 		//	else
+		//  {
 		//		cameraTransform->m_Position = transform->m_Position;
+		//  }
 		//}
 
 		Transform2D* cameraTransform = camera->GetLinkObject()->GetTransform();
 		cameraTransform->m_Position = transform->m_Position;
 
 		if (input.x > 0)
+		{
 			renderer->SetFlipX(false);
+		}
 		else if (input.x < 0)
+		{
 			renderer->SetFlipX(true);
+		}
 	}
 
 	void OnCollisionEnter(Object* other)
-	{
-		//isGrounded = true;
-		
+	{		
 		if (other->GetLayer() == Layer::Ground)
+		{
 			jumpCount = 0;
+		}
 
 		Debug::LogLine("Entered collision with " + other->GetName());
 	}
@@ -251,7 +289,9 @@ public:
 	void OnCollisionStay(Object* other)
 	{
 		if (other->GetLayer() == Layer::Ground)
+		{
 			jumpCount = 0;
+		}
 		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
 	}
 	
@@ -263,6 +303,6 @@ public:
 				jumpCount++;
 		}
 
-		Debug::LogLine("Exited collision with " + other->GetName());
+		Debug::LogLine((std::string)"Exited collision with " + other->GetName());
 	}
 };
