@@ -50,3 +50,5 @@ namespace Kross
 		virtual ~EditorWindow() {};
 	};
 }
+
+#include "Windows/SceneHierarchy.h"
