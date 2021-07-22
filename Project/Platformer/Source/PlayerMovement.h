@@ -46,8 +46,8 @@ public:
 	int frameCount = 0;
 
 	float m_MaxGroundSpeed = 4.0f;
-	float m_MaxAirSpeed = 6.0f;
-	float m_JumpStrength = 0.3f;
+	float m_MaxAirSpeed = 5.5f;
+	float m_JumpStrength = 0.4f;
 
 	void Start() override
 	{

@@ -548,13 +548,13 @@ namespace Kross
 
                 float footSpringLength = 0.25f;
 
-                GetSurroundingObjects(2.0f, p_Body);
+                GetSurroundingObjects(0.05f, p_Body);
                 
 
-                float distance = CalculateRayLength(footSpringLength, Vector2(0.0f, -1.0f),
-                    GetVector2(p_Body->GetPosition()));
-
-                if (p_RayData->hit)
+                //float distance = CalculateRayLength(footSpringLength, Vector2(0.0f, -1.0f),
+                //    GetVector2(p_Body->GetPosition()));
+                
+                if (m_CloseObjects.size() > 0)
                 {
                     if (m_CollisionState == CollisionState::None || m_CollisionState == CollisionState::Exit)
                         m_CollisionState = CollisionState::Enter;
@@ -564,11 +564,11 @@ namespace Kross
 
                     //OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
 
-                    p_RayData->hit = false;
+                    //p_RayData->hit = false;
                 }
                 else
                 {
-                    p_RayData->intersectionPoint = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - footSpringLength);
+                    //p_RayData->intersectionPoint = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - footSpringLength);
 
                     if (m_CollisionState == CollisionState::Enter || m_CollisionState == CollisionState::Stay)
                         m_CollisionState = CollisionState::Exit;
@@ -589,8 +589,8 @@ namespace Kross
                 p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
                 #endif
 
-                p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
-                p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
+                //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
+                //p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
             }
         }
         else if (p_Circle != nullptr)
@@ -618,13 +618,12 @@ namespace Kross
                 p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
                 #endif
 
-                p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
-                p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
+                //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
+                //p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
             }
         }
 
         m_AABBCollisions.clear();
-        m_CloseObjects.clear();
 
     }
 
@@ -785,6 +784,11 @@ namespace Kross
     {
         Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
+        for (int i = 0; i < m_CloseObjects.size(); i++)
+        {
+            m_CloseObjects[i] = nullptr;
+        }
+        m_CloseObjects.clear();
 
         /* Checks if it is a circle */
         if (shape->m_type == 0)
@@ -826,10 +830,10 @@ namespace Kross
             }
         }
 
-        //for (int i = 0; i < m_CloseObjects.size(); i++)
-        //{
-        //    std::cout << m_CloseObjects[i] << std::endl;
-        //}
+        for (int i = 0; i < m_CloseObjects.size(); i++)
+        {
+            std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() << std::endl;
+        }
 
         p_AABBCollisionData->m_Fixture.clear();
     }
