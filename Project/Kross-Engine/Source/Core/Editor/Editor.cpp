@@ -40,6 +40,10 @@ namespace Kross
 		/* Make use of the GLFW and OpenGL Backends. */
 		ImGui_ImplGlfw_InitForOpenGL(window->GetGLFWWindow(), true);
 		ImGui_ImplOpenGL3_Init("#version 460");
+
+		/* Starts the Editor Windows. */
+		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
+			s_Instance->m_EditorWindows[i]->OnStart();
 	}
 
 	void Editor::OnUpdate()

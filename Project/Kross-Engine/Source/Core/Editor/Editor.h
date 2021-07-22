@@ -45,7 +45,6 @@ namespace Kross
 		static void StylePop();
 
 		static void NewFrame();
-		static void OnRender();
 
 	public:
 

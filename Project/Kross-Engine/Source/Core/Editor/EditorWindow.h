@@ -27,7 +27,7 @@ namespace Kross
 		std::string m_Title;
 		int m_Width, m_Height;
 
-		ImGuiWindowFlags_ m_WindowFlags;
+		int m_WindowFlags;
 
 		// Sets the Window Flags.
 		virtual void SetFlags() = 0;

@@ -185,6 +185,9 @@
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
     <ClInclude Include="Source\Core\Debug.h" />
     <ClInclude Include="Source\Core\Editor\Editor.h" />
+    <ClInclude Include="Source\Core\Editor\EditorWindow.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
@@ -679,6 +682,8 @@
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
     <ClCompile Include="Source\Core\Editor\Editor.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\ObjectEditor.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\SceneHierarchy.cpp" />
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />

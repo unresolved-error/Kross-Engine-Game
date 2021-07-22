@@ -78,6 +78,8 @@ namespace Kross
 			Debug::EndLine();
 
 			#ifdef KROSS_EDITOR
+			Editor::AttachEditorWindow(KROSS_NEW SceneHierarchy());
+
 			Editor::OnStart(s_Instance->p_Window);
 			#endif
 

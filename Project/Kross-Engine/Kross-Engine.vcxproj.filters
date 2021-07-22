@@ -183,6 +183,8 @@
     <ClCompile Include="Vendor\imgui\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\Core\Editor\Editor.cpp" />
     <ClCompile Include="Source\Core\Renderer\ErrorHandle.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\SceneHierarchy.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\ObjectEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -680,6 +682,9 @@
     <ClInclude Include="Vendor\imgui\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Core\Editor\Editor.h" />
     <ClInclude Include="Source\Core\Renderer\ErrorHandle.h" />
+    <ClInclude Include="Source\Core\Editor\EditorWindow.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />
