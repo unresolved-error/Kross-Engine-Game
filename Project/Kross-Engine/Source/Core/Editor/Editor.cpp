@@ -48,6 +48,9 @@ namespace Kross
 
 	void Editor::OnUpdate()
 	{
+		/* Gets the Main Viewport. */
+		s_Instance->p_Viewport = ImGui::GetMainViewport();
+
 		/* Attach all of the Editor Windows to the ImGui Render Queue. */
 		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
 			s_Instance->m_EditorWindows[i]->Attach();
@@ -67,7 +70,22 @@ namespace Kross
 
 		if (typeid(*window) == typeid(ObjectEditor))
 			s_Instance->p_ObjectEditor = (ObjectEditor*)window;
-	};
+	}
+	Vector2 Editor::GetViewportPosition()
+	{
+		if(s_Instance->p_Viewport)
+			return Vector2(s_Instance->p_Viewport->WorkPos.x, s_Instance->p_Viewport->WorkPos.y);
+
+		return Vector2(0);
+	}
+
+	Vector2 Editor::GetViewportSize()
+	{
+		if (s_Instance->p_Viewport)
+			return Vector2(s_Instance->p_Viewport->WorkSize.x, s_Instance->p_Viewport->WorkSize.y);
+
+		return Vector2(0);
+	}
 
 	void Editor::OnRender()
 	{

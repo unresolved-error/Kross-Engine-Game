@@ -13,7 +13,7 @@ namespace Kross
 {
 	void SceneHierarchy::SetFlags()
 	{
-		m_WindowFlags = ImGuiWindowFlags_NoCollapse;// | ImGuiWindowFlags_NoTitleBar;
+		m_WindowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
 	}
 
 	void SceneHierarchy::OnStart()
@@ -28,7 +28,16 @@ namespace Kross
 
 	void SceneHierarchy::Attach()
 	{
+		Vector2 viewPosition = Editor::GetViewportPosition();
+		ImVec2 position = ImVec2(viewPosition.x, viewPosition.y);
+
+		Vector2 viewSize = Editor::GetViewportSize();
+		ImVec2 size = ImVec2(viewSize.x * 0.2f, viewSize.y);
+
 		ImGui::Begin(m_Title.c_str(), NULL, m_WindowFlags);
+
+		ImGui::SetWindowPos(position);
+		ImGui::SetWindowSize(size);
 
 			ImGui::BeginTabBar("Scene Tab Bar");
 
