@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #pragma once
@@ -44,6 +45,7 @@ namespace Kross
 
 	protected:
 		friend class Scene;
+		friend class ObjectEditor;
 
 		// Object Start Method.
 		void OnStart();
