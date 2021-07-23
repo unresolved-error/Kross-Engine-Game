@@ -119,7 +119,6 @@ namespace Kross {
 							ImGui::Columns(1);
 							ImGui::PopID();
 
-							//transform->m_Position = Vector2(posX, posY);
 
 						}
 					}
@@ -143,10 +142,22 @@ namespace Kross {
 					}
 
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Animator))
-					{}
+					{
+						Animator* anim = p_SelectedObject->GetComponent<Animator>();
+						if (ImGui::CollapsingHeader("Animator", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+						}
+					}
 
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(AudioPlayer))
-					{}
+					{
+						AudioPlayer* aplayer = p_SelectedObject->GetComponent<AudioPlayer>();
+						if (ImGui::CollapsingHeader("AudioPlayer", ImGuiTreeNodeFlags_DefaultOpen)) 
+						{
+						
+						}
+
+					}
 					
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Camera))
 					{
@@ -182,16 +193,140 @@ namespace Kross {
 					}
 
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(ParticleEmitter))
-					{}
+					{
+						ParticleEmitter* pEmit = p_SelectedObject->GetComponent<ParticleEmitter>();
+						if (ImGui::CollapsingHeader("ParticleEmitter", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+						}
+					}
 
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(SpriteRenderer))
-					{}
+					{
+						SpriteRenderer* rend = p_SelectedObject->GetComponent<SpriteRenderer>();
+						if (ImGui::CollapsingHeader("SpriteRenderer", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							Vector4 col = rend->GetColour();
+							float s_col[4] = { col.r, col.g, col.b, col.a };
+							Material* s_mat = rend->GetMaterial();
+							bool s_fx = rend->GetFlipX();
+							bool s_fy = rend->GetFlipY();
+
+							ImGui::Text("Flip X/Y");
+							ImGui::SameLine();
+							if (ImGui::Button("X")) {
+								s_fx = (!rend->GetFlipX());
+							}
+							ImGui::SameLine();
+							if (ImGui::Button("Y")) 
+							{
+								s_fy = (!rend->GetFlipY());
+							}
+							ImGui::Text("	");
+							ImGui::SameLine();
+
+							if (ImGui::CollapsingHeader(((rend->GetMaterial()) ? (std::string)(rend->GetMaterial()->GetName() + " - Material").c_str() : "Material").c_str(), ImGuiTreeNodeFlags_DefaultOpen) && rend->GetMaterial())
+							{
+								
+								std::string m_text = rend->GetMaterial()->GetName();
+								char m_cha[1024]{ '/0' };
+								strncpy_s(m_cha, m_text.c_str(), 1024);
+
+
+
+								ImGui::Text("	");
+								ImGui::SameLine();
+
+								ImGui::Text("Name");
+								
+								ImGui::Text("	");
+								ImGui::SameLine();
+
+								ImGui::InputText("##T", &m_cha[0], 1024);
+								std::string toSet = m_cha;
+								rend->GetMaterial()->SetName(toSet);
+
+
+								ImGui::Text("	");
+								ImGui::SameLine();
+								ImGui::Text("Diffuse");
+								/*TODO ASSET HANDLER*/
+
+								ImGui::Text("	");
+								ImGui::SameLine();
+								ImGui::Text("Normal");
+								/*TODO ASSET HANDLER*/
+
+								ImGui::Text("	");
+								ImGui::SameLine();
+								ImGui::Text("Specular");
+								/*TODO ASSET HANDLER*/
+
+							}
+
+
+							ImGui::Text("Colour");
+							ImGui::ColorPicker4("##C", s_col);
+							col = Vector4{ s_col[0],s_col[1], s_col[2], s_col[3] };
+
+
+							rend->SetColour(col);
+							rend->SetFlipX(s_fx);
+							rend->SetFlipY(s_fy);
+						}
+					}
 
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(TextRenderer))
-					{}
+					{
+						TextRenderer* rend = p_SelectedObject->GetComponent<TextRenderer>();
+						if (ImGui::CollapsingHeader("TextRenderer", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							Font* t_font = rend->GetFont();
+							float t_size = rend->GetTextSize();
+							std::string t_text = rend->GetText();
+							Vector4 col = rend->GetColour();
+							float t_col[4] = { col.r, col.g, col.b, col.a };
+
+							char t_cha[1024]{'/0'};
+							strncpy_s(t_cha, t_text.c_str(),1024);
+							
+
+							ImGui::Text("Text");
+							ImGui::InputText("##T", &t_cha[0], 1024);
+
+
+							ImGui::Text("Font");
+							/*TODO ASSET HANDLER*/
+
+							ImGui::Text("Colour");
+							ImGui::ColorPicker4("##C", t_col);
+
+							ImGui::Text("Size");
+							ImGui::SameLine();
+							ImGui::DragFloat("##S", &t_size, 0.1f, 0.5f, 40.0f, "%.2fm");
+
+
+							col = Vector4{t_col[0],t_col[1], t_col[2], t_col[3]};
+
+							
+							std::string toSet = t_cha;
+
+							rend->SetText(toSet);
+							rend->SetColour(col);
+							rend->SetFont(t_font);
+							rend->SetTextSize(t_size);
+
+
+						}
+					}
 
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(TileMapRenderer))
-					{}
+					{
+						TileMapRenderer* rend = p_SelectedObject->GetComponent<TileMapRenderer>();
+						if (ImGui::CollapsingHeader("TileMapRenderer", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+
+						}
+					}
 
 				}
 			}

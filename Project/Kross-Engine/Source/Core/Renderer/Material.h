@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #pragma once
@@ -26,6 +27,8 @@ namespace Kross
         std::string m_Name;
 
     protected:
+        friend class ObjectEditor;
+
         // Sets the Material Name.
         void SetName(const std::string& name) { m_Name = name; };
 
