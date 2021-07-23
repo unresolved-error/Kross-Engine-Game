@@ -24,8 +24,6 @@ namespace Kross
 		SetFlags();
 
 		m_Title = "Scene Panel";
-		m_Width = 120;
-		m_Height = 23045;
 	}
 
 	void SceneHierarchy::Attach()

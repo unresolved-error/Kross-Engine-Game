@@ -16,13 +16,15 @@ namespace Kross
     public:
 
         ObjectEditor() :
-            p_SelectedObject(nullptr)
+            p_SelectedObject    (nullptr),
+            p_PreviewPane       (nullptr)
         {};
 
         ~ObjectEditor() {};
 
     private:
         Object* p_SelectedObject;
+        AssetPreview* p_PreviewPane;
 
     protected:
         friend class SceneHierarchy;

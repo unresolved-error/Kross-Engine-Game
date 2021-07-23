@@ -25,7 +25,6 @@ namespace Kross
 		Scene* p_Scene;
 
 		std::string m_Title;
-		int m_Width, m_Height;
 
 		int m_WindowFlags;
 
@@ -42,8 +41,6 @@ namespace Kross
 		EditorWindow() :
 			p_Scene			(nullptr),
 			m_Title			(std::string()),
-			m_Width			(0),
-			m_Height		(0),
 			m_WindowFlags	(ImGuiWindowFlags_None)
 		{};
 		virtual ~EditorWindow() {};
@@ -52,3 +49,4 @@ namespace Kross
 
 #include "Windows/SceneHierarchy.h"
 #include "Windows/ObjectEditor.h"
+#include "Windows/AssetPreview.h"

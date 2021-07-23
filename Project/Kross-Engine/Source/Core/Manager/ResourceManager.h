@@ -621,6 +621,8 @@ namespace Kross
 
 		friend class Application;
 
+		friend class AssetPreview;
+
 		#pragma region GEOMETRY
 
 		// Gets Geometry by name from Resource Manager.

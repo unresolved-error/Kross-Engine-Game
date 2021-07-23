@@ -27,6 +27,12 @@ namespace Kross {
 		{
 			m_Title = "No Object Selected.";
 		};
+
+		if (p_PreviewPane && p_PreviewPane->IsClosed())
+		{
+			Editor::DetachEditorWindow(p_PreviewPane);
+			p_PreviewPane = nullptr;
+		}
 		
 
 		ImGui::Begin(m_Title.c_str(), NULL, m_WindowFlags);
@@ -249,17 +255,88 @@ namespace Kross {
 								ImGui::Text("	");
 								ImGui::SameLine();
 								ImGui::Text("Diffuse");
-								/*TODO ASSET HANDLER*/
+								ImGui::SameLine();
+								if (ImGui::Button(s_mat->p_Diffuse->GetName().c_str()))
+								{
+									if (!p_PreviewPane)
+									{
+										p_PreviewPane = KROSS_NEW AssetPreview();
+										p_PreviewPane->SetType(AssetType::Sprite);
+										p_PreviewPane->SetDimensions();
+										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										Editor::AttachEditorWindow(p_PreviewPane);
+									}
+
+									else if (p_PreviewPane->GetType() != AssetType::Sprite)
+									{
+										Editor::DetachEditorWindow(p_PreviewPane);
+
+										p_PreviewPane = KROSS_NEW AssetPreview();
+										p_PreviewPane->SetType(AssetType::Sprite);
+										p_PreviewPane->SetDimensions();
+										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										Editor::AttachEditorWindow(p_PreviewPane);
+									}
+									p_PreviewPane->SetAssetDestination(s_mat->p_Diffuse);
+								}
+
+
 
 								ImGui::Text("	");
 								ImGui::SameLine();
 								ImGui::Text("Normal");
-								/*TODO ASSET HANDLER*/
+								ImGui::SameLine();
+								if (ImGui::Button(s_mat->p_Normal->GetName().c_str()))
+								{
+									if (!p_PreviewPane)
+									{
+										p_PreviewPane = KROSS_NEW AssetPreview();
+										p_PreviewPane->SetType(AssetType::Sprite);
+										p_PreviewPane->SetDimensions();
+										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										Editor::AttachEditorWindow(p_PreviewPane);
+									}
+
+									else if (p_PreviewPane->GetType() != AssetType::Sprite)
+									{
+										Editor::DetachEditorWindow(p_PreviewPane);
+
+										p_PreviewPane = KROSS_NEW AssetPreview();
+										p_PreviewPane->SetType(AssetType::Sprite);
+										p_PreviewPane->SetDimensions();
+										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										Editor::AttachEditorWindow(p_PreviewPane);
+									}
+									p_PreviewPane->SetAssetDestination(s_mat->p_Normal);
+								}
 
 								ImGui::Text("	");
 								ImGui::SameLine();
 								ImGui::Text("Specular");
-								/*TODO ASSET HANDLER*/
+								ImGui::SameLine();
+								if (ImGui::Button(s_mat->p_Specular->GetName().c_str()))
+								{
+									if (!p_PreviewPane)
+									{
+										p_PreviewPane = KROSS_NEW AssetPreview();
+										p_PreviewPane->SetType(AssetType::Sprite);
+										p_PreviewPane->SetDimensions();
+										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										Editor::AttachEditorWindow(p_PreviewPane);
+									}
+
+									else if (p_PreviewPane->GetType() != AssetType::Sprite)
+									{
+										Editor::DetachEditorWindow(p_PreviewPane);
+
+										p_PreviewPane = KROSS_NEW AssetPreview();
+										p_PreviewPane->SetType(AssetType::Sprite);
+										p_PreviewPane->SetDimensions();
+										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										Editor::AttachEditorWindow(p_PreviewPane);
+									}
+									p_PreviewPane->SetAssetDestination(s_mat->p_Specular);
+								}
 
 							}
 
@@ -268,10 +345,31 @@ namespace Kross {
 							ImGui::ColorPicker4("##C", s_col);
 							col = Vector4{ s_col[0],s_col[1], s_col[2], s_col[3] };
 
+							if (p_PreviewPane && p_PreviewPane->GetSprite())
+							{
+								if (s_mat->p_Diffuse == p_PreviewPane->GetSpriteDestination())
+								{
+									s_mat->p_Diffuse = p_PreviewPane->GetSprite();
+									p_PreviewPane->SetAssetDestination(s_mat->p_Diffuse);
+								}
+
+								else if (s_mat->p_Normal == p_PreviewPane->GetSpriteDestination())
+								{
+									s_mat->p_Normal = p_PreviewPane->GetSprite();
+									p_PreviewPane->SetAssetDestination(s_mat->p_Normal);
+								}
+
+								else if (s_mat->p_Specular == p_PreviewPane->GetSpriteDestination())
+								{
+									s_mat->p_Specular = p_PreviewPane->GetSprite();
+									p_PreviewPane->SetAssetDestination(s_mat->p_Specular);
+								}
+							}
 
 							rend->SetColour(col);
 							rend->SetFlipX(s_fx);
 							rend->SetFlipY(s_fy);
+							rend->SetMaterial(s_mat);
 						}
 					}
 
@@ -309,6 +407,7 @@ namespace Kross {
 
 							
 							std::string toSet = t_cha;
+
 
 							rend->SetText(toSet);
 							rend->SetColour(col);

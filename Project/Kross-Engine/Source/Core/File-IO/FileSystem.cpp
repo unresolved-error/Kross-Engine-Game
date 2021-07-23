@@ -942,11 +942,20 @@ namespace Kross
 			if (materialDiffuseSprite != "*")
 				material->p_Diffuse = ResourceManager::GetResource<Sprite>(materialDiffuseSprite);
 
+			else
+				material->p_Diffuse = ResourceManager::GetResource<Sprite>("Diffuse");
+
 			if (materialNormalSprite != "*")
 				material->p_Normal = ResourceManager::GetResource<Sprite>(materialNormalSprite);
 
+			else
+				material->p_Normal = ResourceManager::GetResource<Sprite>("Normal");
+
 			if (materialSpecularSprite != "*")
 				material->p_Specular = ResourceManager::GetResource<Sprite>(materialSpecularSprite);
+
+			else
+				material->p_Specular = ResourceManager::GetResource<Sprite>("Specular");
 
 			fileStream.close();
 		}

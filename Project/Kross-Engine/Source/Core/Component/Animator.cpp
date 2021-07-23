@@ -35,6 +35,7 @@ namespace Kross
 
 	void Animator::OnUpdate()
 	{
+	#ifndef KROSS_EDITOR
 		/* If the Animation is Currently Playing. */
 		if (p_AnimationCurrent->GetPlayStatus() == true)
 		{
@@ -61,6 +62,8 @@ namespace Kross
 				if (p_Renderer) /* If we have a Renderer, set its Sprite. */
 					p_Renderer->SetMaterialDiffuseMap(currentKeyframe->GetSprite());
 		}
+	#endif 
+
 	}
 
 	void Animator::OnPlay()

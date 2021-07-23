@@ -44,6 +44,9 @@ namespace Kross
 		/* Starts the Editor Windows. */
 		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
 			s_Instance->m_EditorWindows[i]->OnStart();
+
+		/* Editor has Started. */
+		s_Instance->m_IsUpdating = true;
 	}
 
 	void Editor::OnUpdate()
@@ -70,6 +73,21 @@ namespace Kross
 
 		if (typeid(*window) == typeid(ObjectEditor))
 			s_Instance->p_ObjectEditor = (ObjectEditor*)window;
+
+		if (s_Instance->m_IsUpdating)
+			window->OnStart();
+	}
+	void Editor::DetachEditorWindow(EditorWindow* window)
+	{
+		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
+		{
+			if (s_Instance->m_EditorWindows[i] == window)
+			{
+				delete s_Instance->m_EditorWindows[i];
+				s_Instance->m_EditorWindows.erase(s_Instance->m_EditorWindows.begin() + i);
+				break;
+			}
+		}
 	}
 	Vector2 Editor::GetViewportPosition()
 	{

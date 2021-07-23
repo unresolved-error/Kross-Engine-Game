@@ -184,6 +184,8 @@ public:
 			animator->SetCurrentAnimation(1);
 		}
 
+		animator->OnStop();
+
 		if (Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) && Input::GetControllerButtonPressed(controllerID, jumpC)))
 		{
 			if (jumpCount < 1)
