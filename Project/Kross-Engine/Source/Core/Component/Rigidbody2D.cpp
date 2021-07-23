@@ -67,7 +67,7 @@ namespace Kross
         /* Creates a fixtureDef and assigns the variables */
         p_FixtureDef->shape = &circleShape;
         p_FixtureDef->density = 0.5f;
-        p_FixtureDef->friction = 0.5f;
+        p_FixtureDef->friction = 1.0f;
         p_FixtureDef->filter.categoryBits = categoryBits;
         p_FixtureDef->filter.maskBits = maskBits;
 
@@ -138,7 +138,7 @@ namespace Kross
         /* Creates a fixtureDef and assigns all variables */
         p_FixtureDef->shape = &dynamicBox;
         p_FixtureDef->density = 1.0f;
-        p_FixtureDef->friction = 0.5f;
+        p_FixtureDef->friction = 1.0f;
         p_FixtureDef->filter.categoryBits = categoryBits;
         p_FixtureDef->filter.maskBits = maskBits;
 
@@ -533,7 +533,6 @@ namespace Kross
     void Rigidbody2D::OnUpdate()
     {
         float circleCastRad = 0.075f;
-        
         if (p_Box != nullptr)
         {
             /* Checks if the object is not static */
@@ -547,15 +546,15 @@ namespace Kross
                     OnApplyForce(particleForce * (p_Body->GetMass() * 0.5f));
                 }
 
-                float footSpringLength = 0.5f;
+                float footSpringLength = 0.25f;
 
-                GetSurroundingObjects(2.0f, p_Body);
+                GetSurroundingObjects(0.05f, p_Body);
                 
 
-                float distance = CalculateRayLength(footSpringLength, Vector2(0.0f, -1.0f),
-                    GetVector2(p_Body->GetPosition()));
-
-                if (p_RayData->hit)
+                //float distance = CalculateRayLength(footSpringLength, Vector2(0.0f, -1.0f),
+                //    GetVector2(p_Body->GetPosition()));
+                
+                if (m_CloseObjects.size() > 0)
                 {
                     if (m_CollisionState == CollisionState::None || m_CollisionState == CollisionState::Exit)
                         m_CollisionState = CollisionState::Enter;
@@ -565,11 +564,11 @@ namespace Kross
 
                     //OnApplyForce(SpringCalculation(p_Body, p_RayData->body, distance) * p_RayData->intersectionNormal);
 
-                    p_RayData->hit = false;
+                    //p_RayData->hit = false;
                 }
                 else
                 {
-                    p_RayData->intersectionPoint = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - footSpringLength);
+                    //p_RayData->intersectionPoint = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - footSpringLength);
 
                     if (m_CollisionState == CollisionState::Enter || m_CollisionState == CollisionState::Stay)
                         m_CollisionState = CollisionState::Exit;
@@ -590,8 +589,8 @@ namespace Kross
                 p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
                 #endif
 
-                p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
-                p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
+                //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
+                //p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
             }
         }
         else if (p_Circle != nullptr)
@@ -619,13 +618,12 @@ namespace Kross
                 p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
                 #endif
 
-                p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
-                p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
+                //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
+                //p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, circleCastRad, 8);
             }
         }
 
         m_AABBCollisions.clear();
-        m_CloseObjects.clear();
 
     }
 
@@ -786,6 +784,11 @@ namespace Kross
     {
         Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
+        for (int i = 0; i < m_CloseObjects.size(); i++)
+        {
+            m_CloseObjects[i] = nullptr;
+        }
+        m_CloseObjects.clear();
 
         /* Checks if it is a circle */
         if (shape->m_type == 0)
@@ -827,15 +830,15 @@ namespace Kross
             }
         }
 
-        //for (int i = 0; i < m_CloseObjects.size(); i++)
-        //{
-        //    std::cout << m_CloseObjects[i] << std::endl;
-        //}
+        for (int i = 0; i < m_CloseObjects.size(); i++)
+        {
+            std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() << std::endl;
+        }
 
         p_AABBCollisionData->m_Fixture.clear();
     }
 
-    void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile)
+    void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
     {
         m_TileMap = true;
 
@@ -923,7 +926,6 @@ namespace Kross
                         hasAirBelow = false;
                     }
                 }
-               
                 //Get to an empty tile
                 else {
         
@@ -1006,7 +1008,6 @@ namespace Kross
                         hasAir = false;
                     }
                 }
-        
                 //Get to an empty tile
                 else {
         
@@ -1029,7 +1030,7 @@ namespace Kross
 
         for (int i = 0; i < tileColliders.size(); i++)
         {
-            CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), 0.5f, Vector2(tileColliders[i].z, tileColliders[i].w),
+            CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), friction, Vector2(tileColliders[i].z, tileColliders[i].w),
                 ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid);
         }
 
