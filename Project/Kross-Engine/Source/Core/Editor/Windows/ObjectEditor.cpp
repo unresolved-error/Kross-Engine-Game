@@ -96,6 +96,56 @@ namespace Kross {
 						}
 					}
 
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Animator))
+					{}
+
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(AudioPlayer))
+					{}
+					
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Camera))
+					{
+						Camera* cam = p_SelectedObject->GetComponent<Camera>();
+						if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							float c_size = cam->GetSize();
+							float c_near = cam->GetNear();
+							float c_far = cam->GetFar();
+
+							ImGui::Text("Size");
+							ImGui::SameLine();
+							ImGui::DragFloat("##S", &c_size, 0.1f, 0.5f, 40.0f, "%.2fm");
+							ImGui::Text("Near");
+							ImGui::SameLine();
+							ImGui::DragFloat("##N", &c_near, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							ImGui::Text("Far");
+							ImGui::SameLine();
+							ImGui::DragFloat("##F", &c_far, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+
+							cam->SetSize(c_size);
+							cam->SetFar(c_far);
+							cam->SetNear(c_near);
+
+							if (ImGui::Button("Reset Default")) {
+								cam->SetSize(5.0f);
+								cam->SetFar(1.0f);
+								cam->SetNear(-1.0f);
+							}
+
+
+						}
+					}
+
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(ParticleEmitter))
+					{}
+
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(SpriteRenderer))
+					{}
+
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(TextRenderer))
+					{}
+
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(TileMapRenderer))
+					{}
 
 				}
 			}
