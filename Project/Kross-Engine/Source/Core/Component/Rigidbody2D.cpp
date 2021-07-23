@@ -538,6 +538,7 @@ namespace Kross
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
+                #ifndef KROSS_EDITOR
                 Vector2 particleForce = CollideParticles();
 
                 if (p_AABBCollisionData->m_Collision)
@@ -577,7 +578,6 @@ namespace Kross
                         m_CollisionState = CollisionState::None;
                 }
                 
-                #ifndef KROSS_EDITOR
                 /* Gets the object position and updates it with the position of the body */
                 GetLinkObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
 
