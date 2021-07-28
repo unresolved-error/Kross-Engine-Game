@@ -11,6 +11,7 @@
 #include "../EditorWindow.h"
 
 #include "../../Manager/ResourceManager.h"
+#include "../../Input.h"
 
 namespace Kross
 {
@@ -71,32 +72,11 @@ namespace Kross
 		// Adds the Data to the Window. 
 		void Attach() override;
 
+		// Gets if the Current Node has been Selected.
+		bool SelectNode() const { return (ImGui::IsItemHovered() && Input::GetMouseButtonPressed(Mouse::Left)); };
+
 	public:
-		AssetPreview() :
-			m_Width						(0.0f),
-			m_Height					(0.0f),
-			m_PositionX					(0.0f),
-			m_PositionY					(0.0f),
-			m_WindowVarSet				(false), 
-			m_IsOpen					(true),
-			m_Type						(AssetType::None),
-			p_SelectedSprite			(nullptr),
-			p_SelectedTexture			(nullptr),
-			p_SelectedMaterial			(nullptr),
-			p_SelectedFont				(nullptr),
-			p_SelectedAnimation			(nullptr),
-			p_SelectedAudioSource		(nullptr),
-			p_SelectedTileMap			(nullptr),
-			p_SelectedTileSet			(nullptr),
-			p_DestinationSprite			(nullptr),
-			p_DestinationTexture		(nullptr),
-			p_DestinationMaterial		(nullptr),
-			p_DestinationFont			(nullptr),
-			p_DestinationAnimation		(nullptr),
-			p_DestinationAudioSource	(nullptr),
-			p_DestinationTileMap		(nullptr),
-			p_DestinationTileSet		(nullptr)
-		{};
+		AssetPreview();
 		~AssetPreview() {};
 
 		// Sets the Asset Type for the Window to display.
@@ -106,16 +86,58 @@ namespace Kross
 		AssetType GetType() const { return m_Type; };
 
 		// Sets the Dimensions for the Window.
-		void SetDimensions(float width = 256.0f, float height = 512.0f) { m_Width = width; m_Height = height; };
+		void SetDimensions(float width = 256.0f, float height = 384.0f) { m_Width = width; m_Height = height; };
 
 		// Sets the Position of the Window.
 		void SetPosition(float x, float y) { m_PositionX = x; m_PositionY = y; };
 
 		// Sets the Destination. (SPRITE)
-		void SetAssetDestination(Sprite* destination);
+		void SetSpriteDestination(Sprite* destination);
+
+		// Sets the Destination. (TEXTURE)
+		void SetTextureDestination(Texture* destination);
+
+		// Sets the Destination. (MATERIAL)
+		void SetMaterialDestination(Material* destination);
+
+		// Sets the Destination. (FONT)
+		void SetFontDestination(Font* destination);
+
+		// Sets the Destination. (ANIMATION)
+		void SetAnimationDestination(Animation* destination);
+
+		// Sets the Destination. (AUDIOSOURCE)
+		void SetAudioSourceDestination(AudioSource* destination);
+
+		// Sets the Destination. (TILEMAP)
+		void SetTileMapDestination(TileMap* destination);
+
+		// Sets the Destination. (TILESET)
+		void SetTileSetDestination(TileSet* destination);
 
 		// Gets Sprite Destination.
 		Sprite* GetSpriteDestination() const { return p_DestinationSprite; };
+
+		// Gets Texture Destination.
+		Texture* GetTextureDestination() const { return p_DestinationTexture; };
+
+		// Gets Material Destination.
+		Material* GetMaterialDestination() const { return p_DestinationMaterial; };
+
+		// Gets Font Destination.
+		Font* GetFontDestination() const { return p_DestinationFont; };
+
+		// Gets Animation Destination.
+		Animation* GetAnimationDestination() const { return p_DestinationAnimation; };
+
+		// Gets Audio Source Destination.
+		AudioSource* GetAudioSourceDestination() const { return p_DestinationAudioSource; };
+
+		// Gets Tile Map Destination.
+		TileMap* GetTileMapDestination() const { return p_DestinationTileMap; };
+
+		// Gets Tile Set Destination.
+		TileSet* GetTileSetDestination() const { return p_DestinationTileSet; };
 
 		// Gets the Sprite Selected (USE ONLY IF IN SPRITE MODE)
 		Sprite* GetSprite() { return p_SelectedSprite; };

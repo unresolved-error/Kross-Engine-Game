@@ -17,6 +17,7 @@
 #include "../Audio/AudioSource.h"
 #include "../Renderer/Tilemap/TileMap.h"
 #include "../Renderer/Tilemap/TileSet.h"
+#include "../Object.h"
 
 #include "ShaderManager.h"
 
@@ -695,8 +696,8 @@ namespace Kross
 		static void AttachResource<Atlas>(Atlas* atlas)
 		{
 			/* If we already have an Atlas. */
-			//if (s_Atlas)
-			//	Atlas::OnDestroy(s_Atlas); // NOT WORKING!
+			if (s_Instance->p_Atlas)
+				Atlas::OnDestroy(s_Instance->p_Atlas);
 
 			/* Set the New One. */
 			s_Instance->p_Atlas = atlas;

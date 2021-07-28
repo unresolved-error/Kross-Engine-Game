@@ -29,10 +29,10 @@ namespace Kross
 		friend class Application;
 
 		// Returns the success of the Start Method.
-		bool GetInitialiseStatus() const { return m_Initialised; };
+		bool Initialised() const { return m_Initialised; };
 
 		// Returns the Window close status.
-		bool GetClosedStatus() const { return glfwWindowShouldClose(p_GLFWWindow); };
+		bool Closed() const { return glfwWindowShouldClose(p_GLFWWindow); };
 
 		// Sets the Title.
 		void SetTitle(const std::string& title) { p_Properties->SetTitle(title); };

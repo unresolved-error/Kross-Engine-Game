@@ -940,22 +940,22 @@ namespace Kross
 			Material* material = Material::OnCreate(materialName);
 
 			if (materialDiffuseSprite != "*")
-				material->p_Diffuse = ResourceManager::GetResource<Sprite>(materialDiffuseSprite);
+				material->SetDiffuse(ResourceManager::GetResource<Sprite>(materialDiffuseSprite));
 
 			else
-				material->p_Diffuse = ResourceManager::GetResource<Sprite>("Diffuse");
+				material->SetDiffuse(ResourceManager::GetResource<Sprite>("Diffuse"));
 
 			if (materialNormalSprite != "*")
-				material->p_Normal = ResourceManager::GetResource<Sprite>(materialNormalSprite);
+				material->SetNormal(ResourceManager::GetResource<Sprite>(materialNormalSprite));
 
 			else
-				material->p_Normal = ResourceManager::GetResource<Sprite>("Normal");
+				material->SetNormal(ResourceManager::GetResource<Sprite>("Normal"));
 
 			if (materialSpecularSprite != "*")
-				material->p_Specular = ResourceManager::GetResource<Sprite>(materialSpecularSprite);
+				material->SetSpecular(ResourceManager::GetResource<Sprite>(materialSpecularSprite));
 
 			else
-				material->p_Specular = ResourceManager::GetResource<Sprite>("Specular");
+				material->SetSpecular(ResourceManager::GetResource<Sprite>("Specular"));
 
 			fileStream.close();
 		}

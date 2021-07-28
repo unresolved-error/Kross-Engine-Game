@@ -69,7 +69,7 @@ namespace Kross
 	void Application::OnUpdate()
 	{
 		/* If the window was successfully Started. Run the Application. */
-		if (s_Instance->p_Window->GetInitialiseStatus())
+		if (s_Instance->p_Window->Initialised())
 		{
 			Debug::LogLine(std::string() + "Kross Engine Running...");
 
@@ -85,7 +85,7 @@ namespace Kross
 			#endif
 
 			/* While the window isn't closed */
-			while (s_Instance->p_Window->GetClosedStatus() == false)
+			while (!s_Instance->p_Window->Closed())
 			{
 				s_Instance->p_Window->OnStart();
 
@@ -104,42 +104,11 @@ namespace Kross
 				Editor::SetScene(SceneManager::GetCurrentScene());
 
 				Editor::NewFrame();
+
 				Editor::StylePush();
 				Editor::OnUpdate();
-
-				///* Do stuff here. */
-				//ImGui::Begin("Scene Hierarchy");
-				//List<Object*> objects = SceneManager::GetCurrentScene()->GetObjects();
-				//if (ImGui::TreeNodeEx(SceneManager::GetCurrentScene()->GetName().c_str()))
-				//{
-				//	for (int i = 0; i < objects.size(); i++)
-				//	{
-				//		if (ImGui::TreeNodeEx(objects[i]->GetName().c_str(), ImGuiTreeNodeFlags_Leaf));
-				//		{
-				//			if (ImGui::IsItemHovered() && Input::GetKeyPressed(Key::Delete))
-				//				SceneManager::GetCurrentScene()->DetachObject(objects[i]);
-				//
-				//			ImGui::TreePop();
-				//		}
-				//	}
-				//	ImGui::Begin("Other Window");
-				//
-				//	float value = 0.0f;
-				//	int other = 0;
-				//	ImGui::DragFloat("X Position", &value, FLT_MIN, FLT_MAX);
-				//	ImGui::SliderInt("Someting", &other, INT32_MIN, INT32_MAX);
-				//	if (ImGui::Button("Press Me"))
-				//	{
-				//		Debug::LogLine((std::string)"Button Pressed!");
-				//	}
-				//	ImGui::End();
-				//
-				//	ImGui::TreePop();
-				//}
-				//
-				//ImGui::End();
-
 				Editor::StylePop();
+
 				Editor::OnRender();
 				#endif
 

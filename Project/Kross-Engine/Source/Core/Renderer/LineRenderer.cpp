@@ -164,10 +164,11 @@ namespace Kross
 				PolygonShape* thePoly = (PolygonShape*)theShape;
 				for (int i = 0; i < thePoly->m_count; i++)
 				{
-					//b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
+					b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
+					AddPointToLine({ thisPos.x, thisPos.y });
 
-					//AddPointToLine({ thisPos.x, thisPos.y });
-					AddPointToLine({ body->GetPosition().x + thePoly->m_vertices[i].x,  body->GetPosition().y + thePoly->m_vertices[i].y });
+					/* OLD */
+					//AddPointToLine({ body->GetPosition().x + thePoly->m_vertices[i].x,  body->GetPosition().y + thePoly->m_vertices[i].y });
 				}
 				FinishLineLoop();
 			}

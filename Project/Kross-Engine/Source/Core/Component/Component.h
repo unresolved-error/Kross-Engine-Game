@@ -20,22 +20,12 @@ namespace Kross
 	class KROSS_API Component
 	{
 	private:
-		Object* p_Object;
 
 	protected:
 		friend class Object;
 
 		// Sets the Object that the Component will be linked to.
-		void SetLinkObject(Object* object) { p_Object = object; c_Object = object; };
-
-	public:
-		Component() :
-			p_Object(nullptr), c_Object(nullptr)
-		{};
-
-		virtual ~Component() {};
-
-		const Object* c_Object;
+		void SetObject(Object* object) { c_Object = object; };
 
 		// Component Start Method.
 		virtual void OnStart() { return; };
@@ -52,8 +42,15 @@ namespace Kross
 		// Component Collision Exit Method.
 		virtual void OnCollisionExit(Object* other) { return; };
 
-		// Gets the Object that the Component is linked to.
-		Object* GetLinkObject() const { return p_Object; };
+	public:
+		Component() :
+			c_Object(nullptr)
+		{};
+
+		virtual ~Component() {};
+
+		// The Object the Component is Attached to. (READ ONLY)
+		const Object* c_Object;
 	};
 }
 

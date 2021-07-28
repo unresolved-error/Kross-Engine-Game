@@ -217,19 +217,8 @@ namespace Kross {
 							bool s_fx = rend->GetFlipX();
 							bool s_fy = rend->GetFlipY();
 
-							ImGui::Text("Flip X/Y");
-							ImGui::SameLine();
-							if (ImGui::Button("X")) {
-								s_fx = (!rend->GetFlipX());
-							}
-							ImGui::SameLine();
-							if (ImGui::Button("Y")) 
-							{
-								s_fy = (!rend->GetFlipY());
-							}
-							ImGui::Text("	");
-							ImGui::SameLine();
-
+							ImGui::Indent();
+							ImGui::Indent();
 							if (ImGui::CollapsingHeader(((rend->GetMaterial()) ? (std::string)(rend->GetMaterial()->GetName() + " - Material").c_str() : "Material").c_str(), ImGuiTreeNodeFlags_DefaultOpen) && rend->GetMaterial())
 							{
 								
@@ -237,23 +226,11 @@ namespace Kross {
 								char m_cha[1024]{ '/0' };
 								strncpy_s(m_cha, m_text.c_str(), 1024);
 
-
-
-								ImGui::Text("	");
-								ImGui::SameLine();
-
 								ImGui::Text("Name");
-								
-								ImGui::Text("	");
-								ImGui::SameLine();
-
 								ImGui::InputText("##T", &m_cha[0], 1024);
 								std::string toSet = m_cha;
 								rend->GetMaterial()->SetName(toSet);
 
-
-								ImGui::Text("	");
-								ImGui::SameLine();
 								ImGui::Text("Diffuse");
 								ImGui::SameLine();
 								if (ImGui::Button(s_mat->p_Diffuse->GetName().c_str()))
@@ -263,7 +240,7 @@ namespace Kross {
 										p_PreviewPane = KROSS_NEW AssetPreview();
 										p_PreviewPane->SetType(AssetType::Sprite);
 										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 										Editor::AttachEditorWindow(p_PreviewPane);
 									}
 
@@ -274,16 +251,12 @@ namespace Kross {
 										p_PreviewPane = KROSS_NEW AssetPreview();
 										p_PreviewPane->SetType(AssetType::Sprite);
 										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 										Editor::AttachEditorWindow(p_PreviewPane);
 									}
-									p_PreviewPane->SetAssetDestination(s_mat->p_Diffuse);
+									p_PreviewPane->SetSpriteDestination(s_mat->p_Diffuse);
 								}
 
-
-
-								ImGui::Text("	");
-								ImGui::SameLine();
 								ImGui::Text("Normal");
 								ImGui::SameLine();
 								if (ImGui::Button(s_mat->p_Normal->GetName().c_str()))
@@ -293,7 +266,7 @@ namespace Kross {
 										p_PreviewPane = KROSS_NEW AssetPreview();
 										p_PreviewPane->SetType(AssetType::Sprite);
 										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 										Editor::AttachEditorWindow(p_PreviewPane);
 									}
 
@@ -304,14 +277,12 @@ namespace Kross {
 										p_PreviewPane = KROSS_NEW AssetPreview();
 										p_PreviewPane->SetType(AssetType::Sprite);
 										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 										Editor::AttachEditorWindow(p_PreviewPane);
 									}
-									p_PreviewPane->SetAssetDestination(s_mat->p_Normal);
+									p_PreviewPane->SetSpriteDestination(s_mat->p_Normal);
 								}
 
-								ImGui::Text("	");
-								ImGui::SameLine();
 								ImGui::Text("Specular");
 								ImGui::SameLine();
 								if (ImGui::Button(s_mat->p_Specular->GetName().c_str()))
@@ -321,7 +292,7 @@ namespace Kross {
 										p_PreviewPane = KROSS_NEW AssetPreview();
 										p_PreviewPane->SetType(AssetType::Sprite);
 										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 										Editor::AttachEditorWindow(p_PreviewPane);
 									}
 
@@ -332,37 +303,49 @@ namespace Kross {
 										p_PreviewPane = KROSS_NEW AssetPreview();
 										p_PreviewPane->SetType(AssetType::Sprite);
 										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition(viewPos.x + viewSize.x / 2.0f, viewPos.y + viewSize.y / 2.0f);
+										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 										Editor::AttachEditorWindow(p_PreviewPane);
 									}
-									p_PreviewPane->SetAssetDestination(s_mat->p_Specular);
+									p_PreviewPane->SetSpriteDestination(s_mat->p_Specular);
 								}
-
 							}
+							ImGui::Unindent();
 
-
+							ImGui::Separator();
 							ImGui::Text("Colour");
 							ImGui::ColorPicker4("##C", s_col);
 							col = Vector4{ s_col[0],s_col[1], s_col[2], s_col[3] };
+
+							ImGui::Text("");
+
+							ImGui::Text("Flip X/Y");
+							if (ImGui::Button("X")) {
+								s_fx = (!rend->GetFlipX());
+							}
+							ImGui::SameLine();
+							if (ImGui::Button("Y"))
+							{
+								s_fy = (!rend->GetFlipY());
+							}
 
 							if (p_PreviewPane && p_PreviewPane->GetSprite())
 							{
 								if (s_mat->p_Diffuse == p_PreviewPane->GetSpriteDestination())
 								{
 									s_mat->p_Diffuse = p_PreviewPane->GetSprite();
-									p_PreviewPane->SetAssetDestination(s_mat->p_Diffuse);
+									p_PreviewPane->SetSpriteDestination(s_mat->p_Diffuse);
 								}
 
 								else if (s_mat->p_Normal == p_PreviewPane->GetSpriteDestination())
 								{
 									s_mat->p_Normal = p_PreviewPane->GetSprite();
-									p_PreviewPane->SetAssetDestination(s_mat->p_Normal);
+									p_PreviewPane->SetSpriteDestination(s_mat->p_Normal);
 								}
 
 								else if (s_mat->p_Specular == p_PreviewPane->GetSpriteDestination())
 								{
 									s_mat->p_Specular = p_PreviewPane->GetSprite();
-									p_PreviewPane->SetAssetDestination(s_mat->p_Specular);
+									p_PreviewPane->SetSpriteDestination(s_mat->p_Specular);
 								}
 							}
 
@@ -370,6 +353,9 @@ namespace Kross {
 							rend->SetFlipX(s_fx);
 							rend->SetFlipY(s_fy);
 							rend->SetMaterial(s_mat);
+
+
+							ImGui::Separator();
 						}
 					}
 
@@ -393,7 +379,30 @@ namespace Kross {
 
 
 							ImGui::Text("Font");
-							/*TODO ASSET HANDLER*/
+							ImGui::SameLine();
+							if (ImGui::Button(t_font->GetName().c_str()))
+							{
+								if (!p_PreviewPane)
+								{
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::Font);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+
+								else if (p_PreviewPane->GetType() != AssetType::Font)
+								{
+									Editor::DetachEditorWindow(p_PreviewPane);
+
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::Font);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+								p_PreviewPane->SetFontDestination(t_font);
+							}
 
 							ImGui::Text("Colour");
 							ImGui::ColorPicker4("##C", t_col);
@@ -408,13 +417,19 @@ namespace Kross {
 							
 							std::string toSet = t_cha;
 
+							if (p_PreviewPane && p_PreviewPane->GetFont())
+							{
+								if (t_font == p_PreviewPane->GetFontDestination())
+								{
+									t_font = p_PreviewPane->GetFont();
+									p_PreviewPane->SetFontDestination(t_font);
+								}
+							}
 
 							rend->SetText(toSet);
 							rend->SetColour(col);
 							rend->SetFont(t_font);
 							rend->SetTextSize(t_size);
-
-
 						}
 					}
 

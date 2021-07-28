@@ -76,12 +76,12 @@ namespace Kross
             static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
 
             /* Get all Material Sprites. */
-            Sprite* diffuseSprite = renderer->GetDiffuseMap();
-            Sprite* normalSprite = renderer->GetNormalMap();
-            Sprite* specularSprite = renderer->GetSpecularMap();
+            Sprite* diffuseSprite = renderer->GetMaterial()->GetDiffuse();
+            Sprite* normalSprite = renderer->GetMaterial()->GetNormal();
+            Sprite* specularSprite = renderer->GetMaterial()->GetSpecular();
 
             /* Quick Variables. */
-            Transform2D* transform = renderer->GetLinkObject()->GetTransform();
+            Transform2D* transform = renderer->c_Object->GetTransform();
 
             /* Update the Model. */
             Matrix4 model = Matrix4(1.0f);
@@ -251,7 +251,7 @@ namespace Kross
             static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
 
             /* Quick Variables. */
-            Transform2D* transform = renderer->GetLinkObject()->GetTransform();
+            Transform2D* transform = renderer->c_Object->GetTransform();
 
             for (int i = 0; i < renderer->m_Tiles.size(); i++)
             {

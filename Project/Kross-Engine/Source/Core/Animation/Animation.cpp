@@ -77,7 +77,7 @@ namespace Kross
 		m_KeyframeTime = m_Duration / (float)m_Keyframes.size();
 	}
 
-	void Animation::OnStop()
+	void Animation::Stop()
 	{
 		/* Reset the Animation. */
 		m_KeyframeCurrent = 0;

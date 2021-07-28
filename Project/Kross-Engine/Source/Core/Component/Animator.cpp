@@ -22,7 +22,7 @@ namespace Kross
 	void Animator::OnStart()
 	{
 		/* Grab the Object. */
-		Object* gameObject = GetLinkObject();
+		Object* gameObject = (Object*)c_Object;
 
 		/* Get the Components needed. */
 		p_Rigidbody = gameObject->GetComponent<Rigidbody2D>();
@@ -30,14 +30,14 @@ namespace Kross
 		p_Transform = gameObject->GetTransform();
 
 		/* Play the Current Animation. */
-		p_AnimationCurrent->OnPlay();
+		p_AnimationCurrent->Play();
 	}
 
 	void Animator::OnUpdate()
 	{
 	#ifndef KROSS_EDITOR
 		/* If the Animation is Currently Playing. */
-		if (p_AnimationCurrent->GetPlayStatus() == true)
+		if (p_AnimationCurrent->IsPlaying())
 		{
 			/* Update the Animation. */
 			p_AnimationCurrent->OnUpdate();
@@ -46,45 +46,45 @@ namespace Kross
 			Keyframe* currentKeyframe = p_AnimationCurrent->GetCurrentKeyframe();
 
 			/* Set Data Accordingly. */
-			if (!p_Rigidbody && GetLinkObject()->GetStaticStatus() == false)
+			if (!p_Rigidbody && !c_Object->IsStatic())
 			{
-				if (currentKeyframe->GetPositionData())
+				if (currentKeyframe->HasPositionData())
 					p_Transform->m_Position = currentKeyframe->GetPosition();
 
-				if (currentKeyframe->GetRotationData())
+				if (currentKeyframe->HasRotationData())
 					p_Transform->m_Rotation = currentKeyframe->GetRotation();
 
-				if (currentKeyframe->GetScaleData())
+				if (currentKeyframe->HasScaleData())
 					p_Transform->m_Scale = currentKeyframe->GetScale();
 			}
 
-			if (currentKeyframe->GetSpriteData())
+			if (currentKeyframe->HasSpriteData())
 				if (p_Renderer) /* If we have a Renderer, set its Sprite. */
-					p_Renderer->SetMaterialDiffuseMap(currentKeyframe->GetSprite());
+					p_Renderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
 		}
 	#endif 
 
 	}
 
-	void Animator::OnPlay()
+	void Animator::Play()
 	{
 		/* If the Current Animation isn't playing. */
-		if (p_AnimationCurrent->GetPlayStatus() == false)
-			p_AnimationCurrent->OnPlay(); /* Play it. */
+		if (!p_AnimationCurrent->IsPlaying())
+			p_AnimationCurrent->Play(); /* Play it. */
 	}
 
-	void Animator::OnPause()
+	void Animator::Pause()
 	{
 		/* If the Current Animation is playing. */
-		if (p_AnimationCurrent->GetPlayStatus() == true)
-			p_AnimationCurrent->OnPause(); /* Pause it. */
+		if (p_AnimationCurrent->IsPlaying())
+			p_AnimationCurrent->Pause(); /* Pause it. */
 	}
 
-	void Animator::OnStop()
+	void Animator::Stop()
 	{
 		/* If the Current Animation is playing. */
-		if (p_AnimationCurrent->GetPlayStatus() == false)
-			p_AnimationCurrent->OnStop(); /* Stop it. */
+		if (!p_AnimationCurrent->IsPlaying())
+			p_AnimationCurrent->Stop(); /* Stop it. */
 	}
 
 	void Animator::AttachAnimation(Animation* animation)
@@ -135,11 +135,11 @@ namespace Kross
 		// TODO: Dynamic stuff...
 
 		/* Stop the Current Animation. */
-		p_AnimationCurrent->OnStop();
+		p_AnimationCurrent->Stop();
 
 		/* Set and Play the other one. */
 		p_AnimationCurrent = animation;
-		p_AnimationCurrent->OnPlay();
+		p_AnimationCurrent->Play();
 	}
 
 	void Animator::SetCurrentAnimation(const std::string& name)
