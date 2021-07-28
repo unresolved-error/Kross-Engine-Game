@@ -163,36 +163,6 @@ public:
 
 	}
 
-	void OnCollisionEnter(Object* other)
-	{
-		if (other->GetLayer() == Layer::Ground)
-		{
-			jumpCount = 0;
-		}
-
-		Debug::LogLine("Entered collision with " + other->GetName());
-	}
-
-	void OnCollisionStay(Object* other)
-	{
-		if (other->GetLayer() == Layer::Ground)
-		{
-			jumpCount = 0;
-		}
-		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
-	}
-
-	void OnCollisionExit(Object* other)
-	{
-		if (other->GetLayer() == Layer::Ground)
-		{
-			if (jumpCount == 0)
-				jumpCount++;
-		}
-
-		Debug::LogLine((std::string)"Exited collision with " + other->GetName());
-	}
-
 	void PlayerMove(Vector2 input, Key jump, Controller jumpC)
 	{
 		if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
@@ -204,9 +174,9 @@ public:
 			animator->SetCurrentAnimation(1);
 		}
 
-		animator->Stop();
-
-		if (Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) && Input::GetControllerButtonPressed(controllerID, jumpC)))
+		if (rigidBody->GetPlayerState() != PlayerState::Jumping && rigidBody->GetPlayerState() != PlayerState::Falling &&
+			Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) &&
+			Input::GetControllerButtonPressed(controllerID, jumpC)))
 		{
 			if (jumpCount < 1)
 			{
@@ -247,4 +217,35 @@ public:
 			SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
 		}
 	}
+
+	void OnCollisionEnter(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			jumpCount = 0;
+		}
+
+		Debug::LogLine("Entered collision with " + other->GetName());
+	}
+
+	void OnCollisionStay(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			jumpCount = 0;
+		}
+		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
+	}
+
+	void OnCollisionExit(Object* other)
+	{
+		if (other->GetLayer() == Layer::Ground)
+		{
+			if (jumpCount == 0)
+				jumpCount++;
+		}
+
+		Debug::LogLine((std::string)"Exited collision with " + other->GetName());
+	}
+
 };

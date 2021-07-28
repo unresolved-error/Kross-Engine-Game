@@ -87,9 +87,10 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         /* Update the physics step */
-        if(Application::GetWindow()->GetVSync() == 1)
+        if (Application::GetWindow()->GetVSync() == 1)
+        {
             p_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), 8, 3, 3);
-
+        }
         else
         {
             p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
@@ -106,13 +107,20 @@ namespace Kross
                     for (int j = 0; j < body->m_CloseObjects.size(); j++)
                     {
                         if (body->GetCollision() == CollisionState::Enter)
+                        {
                             m_Objects[i]->OnCollisionEnter((Object*)body->m_CloseObjects[j]->GetUserData());
-
+                            break;
+                        }
                         else if (body->GetCollision() == CollisionState::Stay)
+                        {
                             m_Objects[i]->OnCollisionStay((Object*)body->m_CloseObjects[j]->GetUserData());
-
+                            break;
+                        }
                         else if (body->GetCollision() == CollisionState::Exit)
+                        {
                             m_Objects[i]->OnCollisionExit((Object*)body->m_CloseObjects[j]->GetUserData());
+                            break;
+                        }
                     }
                 }
             }

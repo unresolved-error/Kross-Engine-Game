@@ -151,18 +151,19 @@ namespace Kross
 		/* Safe Check. */
 		if (body)
 		{
+
 			Transform bodyTransform = body->GetTransform();
+
 			Fixture* thisFixture = body->GetFixtureList();
 
-			b2Shape* theShape = thisFixture->GetShape();
-			b2Shape::Type theShapeType = theShape->GetType();
-
-			this->SetColour((body->GetType() == BodyType::b2_staticBody) ? glm::vec3(0.0f, 0.0f, 1.0f) : glm::vec3(0.0f, 1.0f, 0.0f));
-
-			if (theShapeType == b2Shape::Type::e_polygon)
+			while (thisFixture != nullptr)
 			{
-				PolygonShape* thePoly = (PolygonShape*)theShape;
-				for (int i = 0; i < thePoly->m_count; i++)
+				b2Shape* theShape = thisFixture->GetShape();
+				b2Shape::Type theShapeType = theShape->GetType();
+
+				this->SetColour((body->GetType() == BodyType::b2_staticBody) ? glm::vec3(0.0f, 0.0f, 1.0f) : glm::vec3(0.0f, 1.0f, 0.0f));
+			
+				if (theShapeType == b2Shape::Type::e_polygon)
 				{
 					b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
 					AddPointToLine({ thisPos.x, thisPos.y });
@@ -170,21 +171,21 @@ namespace Kross
 					/* OLD */
 					//AddPointToLine({ body->GetPosition().x + thePoly->m_vertices[i].x,  body->GetPosition().y + thePoly->m_vertices[i].y });
 				}
-				FinishLineLoop();
-			}
-			else if (theShapeType == b2Shape::Type::e_circle)
-			{
-				CircleShape* theCircle = (CircleShape*)theShape;
-				this->DrawCircle({ bodyTransform.p.x, bodyTransform.p.y }, theCircle->m_radius);
-
-				if (body->GetType() != BodyType::b2_staticBody)
+				else if (theShapeType == b2Shape::Type::e_circle)
 				{
-					glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y };
-					b2Vec2 offset = { theCircle->m_radius, 0 };
-					offset = b2Mul(bodyTransform, offset);
-					DrawLineSegment(centre, { offset.x, offset.y });
-				}
+					CircleShape* theCircle = (CircleShape*)theShape;
+					//this->DrawCircle({ bodyTransform.p.x, bodyTransform.p.y }, theCircle->m_radius);
+					this->DrawCircle({ theCircle->m_p.x, theCircle->m_p.y }, theCircle->m_radius);
 
+					if (body->GetType() != BodyType::b2_staticBody)
+					{
+						glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y };
+						b2Vec2 offset = { theCircle->m_radius, 0 };
+						offset = b2Mul(bodyTransform, offset);
+						DrawLineSegment(centre, { offset.x, offset.y });
+					}
+				}
+				thisFixture = thisFixture->GetNext();
 			}
 		}
 	}

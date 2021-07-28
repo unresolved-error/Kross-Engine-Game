@@ -48,6 +48,7 @@
 #include "../Core/Physics/Particles/Particle.h"
 
 #include "../Core/Physics/Shape/Box.h"
+#include "../Core/Physics/Shape/Capsule.h"
 #include "../Core/Physics/Shape/Circle.h"
 #include "../Core/Physics/Shape/Plane.h"
 #include "../Core/Physics/Shape/Shape.h"

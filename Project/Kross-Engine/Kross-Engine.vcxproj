@@ -231,7 +231,9 @@
     <ClInclude Include="Source\Core\Math\Random.h" />
     <ClInclude Include="Source\Core\Object.h" />
     <ClInclude Include="Source\Core\Physics\Data\CollisionData.h" />
+    <ClInclude Include="Source\Core\Physics\PlayerState.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Box.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Capsule.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Plane.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Shape.h" />

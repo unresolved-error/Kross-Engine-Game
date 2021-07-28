@@ -688,6 +688,8 @@
     <ClInclude Include="Source\Core\Editor\EditorWindow.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
+    <ClInclude Include="Source\Core\Physics\PlayerState.h" />
+    <ClInclude Include="Source\Core\Physics\Shape\Capsule.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetPreview.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetDirectory.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetPanel.h" />

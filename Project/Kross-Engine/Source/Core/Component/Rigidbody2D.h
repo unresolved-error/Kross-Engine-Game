@@ -15,9 +15,12 @@
 #include "../Renderer/LineRenderer.h"
 #include "../Physics/Data/CollisionData.h"
 #include "../Physics/Collision/ContactFilter.h"
+#include "../Physics/Shape/Shape.h"
+#include "../Physics/PlayerState.h"
 #include "../Renderer/Tilemap/Tile.h"
 #include "../Renderer/Tilemap/TileSet.h"
 #include "../Renderer/Tilemap/TileMap.h"
+#include "../Physics/Filters/CollisionFilter.h"
 
 namespace Kross
 {
@@ -39,7 +42,7 @@ namespace Kross
         Environment = 0x0002,
         Fluid = 0x0004,
         BackGround = 0x0008,
-        Light = 0x0010,
+        Light = 0x0010
     };
 
 
@@ -49,12 +52,14 @@ namespace Kross
         Body* p_Body;
         PhysicsScene* p_PhysicsScene;
         Box* p_Box;
+        Capsule* p_Capsule;
         Circle* p_Circle;
 
         LineRenderer* p_DebugRenderer;
 
         ShapeType m_ShapeType;
         CollisionState m_CollisionState;
+        PlayerState m_PlayerState;
 
         FixtureDef* p_FixtureDef;
         b2MassData* p_MassData;
@@ -126,22 +131,18 @@ namespace Kross
 
 
         /* Creates a new dynamic circle */
-        void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
-        void CreateDynamicCircle(float radius, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
+        void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
 
         /* Creates a new dynamic box */
-        void CreateDynamicBox(Vector2 Dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
-        void CreateDynamicBox(Vector2 Dimensions, float friction, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits);
+        void CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
 
+        void CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
 
         /* Creates a new static circle */
-        void CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits);
-        void CreateWorldCircle(float radius, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits);
+        void CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
 
         /* Creates a new static box */
-        void CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits);
-        void CreateWorldBox(Vector2 Dimensions, float friction, Vector2 pos, uint16 categoryBits, uint16 maskBits);
-
+        void CreateWorldBox(Vector2 dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
 
         /* Gets the Objects Position */
         Vector2 GetPosition() const;
@@ -152,6 +153,12 @@ namespace Kross
 
         /* Gets the friction of a specified object */
         float GetFriction();
+
+        void SetCollisionState(CollisionState state) { m_CollisionState = state; }
+        CollisionState GetCollisionState() { return m_CollisionState; }
+
+        void SetPlayerState(PlayerState state) { m_PlayerState = state; }
+        PlayerState GetPlayerState() { return m_PlayerState; }
 
         /* Calculates the spring under the player */
         Vector2 SpringCalculation(Body* body1, Body* body2, float distance);
@@ -173,5 +180,14 @@ namespace Kross
         void CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction = 0.5f);
 
         void DeleteTileMapColliders();
+
+        /* Gets whatever is bellow the body */
+        /* When calling on a circle the length must not be larger than the radius */
+        /* Otherwise the length will default to the radius */
+        /* When calling on a box direction must only be on one axis */
+        void GetObjectsInDirection(float length, Body* body, Vector2 direction);
+
+        /* Checks for the players current state */
+        void CheckPlayerState();
     };
 }

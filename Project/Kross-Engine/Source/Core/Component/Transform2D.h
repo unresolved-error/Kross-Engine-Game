@@ -38,7 +38,7 @@ namespace Kross
 
 	public:
 		Transform2D() :
-			m_Rotation	(0.0f), 
+			m_Rotation	(0.0f),
 			m_Position	(Vector2(0.0f)),
 			m_Model		(Matrix4(1.0f)),
 			m_Scale		(Vector2(1.0f))

@@ -15,6 +15,7 @@
 #include "Shape/Shape.h"
 #include "Shape/Circle.h"
 #include "Shape/Box.h"
+#include "Shape/Capsule.h"
 #include "Shape/Plane.h"
 
 #include "Particles/Particle.h"
@@ -34,7 +35,6 @@ namespace Kross
 		friend class ParticleEmitter;
 		/* Sets the Physics World */
 		void SetPhysicsWorld(World* world) { p_PhysicsWorld = world; }
-
 
 	public:
 		PhysicsScene() :

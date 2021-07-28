@@ -2,7 +2,6 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
- *		- Deklyn Palmer.
  */
 #pragma once
 
@@ -12,7 +11,7 @@
 
 namespace Kross
 {
-	class KROSS_API Box : public Shape
+	class KROSS_API Capsule : public Shape
 	{
 	private:
 		float m_height;
@@ -20,13 +19,13 @@ namespace Kross
 
 	public:
 		/* Creates a new box using the dimensions and body */
-		Box(Vector2 dimensions, Vector2 offset) :
-			m_width		(dimensions.x),
-			m_height	(dimensions.y)
+		Capsule(Vector2 dimensions, Vector2 offset) :
+			m_width	(dimensions.x),
+			m_height(dimensions.y)
 		{};
 
 		/* Returns the shape type */
-		ShapeType GetShapeType() const { return ShapeType::Box; }
+		ShapeType GetShapeType() const { return ShapeType::Capsule; }
 
 		/* Returns the height */
 		float GetHeight() { return m_height; }
