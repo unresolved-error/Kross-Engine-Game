@@ -391,13 +391,13 @@ namespace Kross
 
 
 
-                for (int i = 0; i < m_CloseObjects.size(); i++)
-                {
-                    std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() <<
-                        " Pos X: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.x) <<
-                        " Pos Y: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.y) <<
-                        std::endl;
-                }
+                //for (int i = 0; i < m_CloseObjects.size(); i++)
+                //{
+                //    std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() <<
+                //        " Pos X: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.x) <<
+                //        " Pos Y: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.y) <<
+                //        std::endl;
+                //}
 
                 if (m_CloseObjects.size() > 0)
                 {

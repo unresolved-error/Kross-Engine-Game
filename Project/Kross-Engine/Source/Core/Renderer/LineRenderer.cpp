@@ -165,11 +165,16 @@ namespace Kross
 			
 				if (theShapeType == b2Shape::Type::e_polygon)
 				{
-					b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
-					AddPointToLine({ thisPos.x, thisPos.y });
+					PolygonShape* thePoly = (PolygonShape*)theShape;
+					for (int i = 0; i < thePoly->m_count; i++)
+					{
+						b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
+						AddPointToLine({ thisPos.x, thisPos.y });
 
-					/* OLD */
-					//AddPointToLine({ body->GetPosition().x + thePoly->m_vertices[i].x,  body->GetPosition().y + thePoly->m_vertices[i].y });
+						/* OLD */
+						//AddPointToLine({ body->GetPosition().x + thePoly->m_vertices[i].x,  body->GetPosition().y + thePoly->m_vertices[i].y });
+					}
+					FinishLineLoop();
 				}
 				else if (theShapeType == b2Shape::Type::e_circle)
 				{

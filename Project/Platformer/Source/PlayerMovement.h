@@ -212,7 +212,8 @@ public:
 
 	void EnableGravity(Key key, Controller button)
 	{
-		if (Input::GetKeyPressed(key) || (Input::ControllerConnected(controllerID) && Input::GetControllerButtonPressed(controllerID, button)))
+		if (Input::GetKeyPressed(key) || (Input::ControllerConnected(controllerID) &&
+			Input::GetControllerButtonPressed(controllerID, button)))
 		{
 			SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
 		}
