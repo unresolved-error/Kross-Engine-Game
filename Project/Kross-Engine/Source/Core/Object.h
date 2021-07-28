@@ -10,7 +10,6 @@
 #include "Core.h"
 
 #include "Layer.h"
-#include "Component/Component.h"
 
 namespace Kross
 {
@@ -46,6 +45,7 @@ namespace Kross
 	protected:
 		friend class Scene;
 		friend class ObjectEditor;
+		friend class Component;
 
 		// Object Start Method.
 		void OnStart();
@@ -208,3 +208,5 @@ namespace Kross
 		}
 	};
 }
+
+#include "Component/Component.h"

@@ -53,17 +53,17 @@ public:
 	{
 		transform = c_Object->GetTransform();
 		transform->m_Position = Vector2(0.0f);
-		renderer = ((Object*)c_Object)->GetComponent<SpriteRenderer>();
+		renderer = GetComponent<SpriteRenderer>();
 		window = Application::GetWindow();
 
 		controllerID = Input::GetAvalibleController();
 
-		animator = ((Object*)c_Object)->GetComponent<Animator>();
+		animator = GetComponent<Animator>();
 
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
 
-		audplayer = ((Object*)c_Object)->GetComponent<AudioPlayer>();
+		audplayer = GetComponent<AudioPlayer>();
 		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
 		audplayer->SetLoop(true);
 		audplayer->Play();
@@ -139,8 +139,6 @@ public:
 			pan += (float)((int)Input::GetKeyDown(Key::E) - (int)Input::GetKeyDown(Key::Q)) / 100.0f;
 			volume += (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow)) / 1000.0f;
 			audplayer->SetPan(pan);
-
-			playerGun->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
 
 			if (Input::GetKeyPressed(Key::P))
 			{
