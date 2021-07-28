@@ -10,7 +10,7 @@
 
 namespace Kross
 {
-	// Used for Rendering Objects. (LAST TO FIRST. NOTE! THESE ARE ADDED ENGINE SIDE!) 
+	// Used for Rendering Objects. (FIRST TO LAST. NOTE! THESE ARE ADDED ENGINE SIDE!) 
 	enum class KROSS_API Layer
 	{
 		/* Layers. */

@@ -2,6 +2,7 @@
  *  Author: Chris Deitch.
  *  Editors:
  *      - Chris Deitch.
+ *      - Deklyn Palmer.
  */
 
 #pragma once
@@ -26,15 +27,12 @@ namespace Kross
 
 
     protected:
-        friend class AudioSource;
-        
-        // Gets the Audio Engine.
-        static SoLoud::Soloud* GetAudioEngine() { return s_Instance->p_Soloud; };
+        friend class AudioPlayer;
+        friend class Application;
 
-    public:
         // Creates an Instance of the Manager.
         static void OnCreate();
-         
+
         //inits soloud.
         static void OnStart();
 
@@ -43,22 +41,18 @@ namespace Kross
 
         //deinits the soloud, AND Destroys an Instance of the Manager.
         static void OnDestroy();
+        
+        // Gets the Audio Engine.
+        static SoLoud::Soloud* GetAudioEngine() { return s_Instance->p_Soloud; };
 
-        //Attaches the player's SoLoudReference. Do not call from the manager, call from the player on creation.
-        static void OnAttachReference(AudioPlayer* player);
-
-
-        //Returns SoLoud instance.
-        SoLoud::Soloud* ReturnSoLoudReference() { return p_Soloud; };
-
+    public:
         //"Sets global volume. 1 is normal, 0 is mute.
         void SetGlobalVolume(float volume);
 
         //Get global volume, returns current vol, 1 is normal, 0 is mute.
         float GetGlobalVolume();
 
-
-
-
+        // Loads an Audio Source.
+        static void LoadAudioSource(AudioSource* audioSource);
     };
 }

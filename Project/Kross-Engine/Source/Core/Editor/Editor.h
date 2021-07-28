@@ -21,6 +21,8 @@ namespace Kross
 		List<EditorWindow*> m_EditorWindows;
 		ObjectEditor* p_ObjectEditor;
 
+		bool m_IsUpdating;
+
 		ImGuiViewport* p_Viewport;
 
 		Editor() :
@@ -53,6 +55,7 @@ namespace Kross
 	public:
 		static void SetObjectEditorObject(Object* object) { s_Instance->p_ObjectEditor->p_SelectedObject = object; };
 		static void AttachEditorWindow(EditorWindow* window); 
+		static void DetachEditorWindow(EditorWindow* window);
 
 		static Vector2 GetViewportPosition();
 		static Vector2 GetViewportSize();

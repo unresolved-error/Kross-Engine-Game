@@ -2,9 +2,12 @@
  *  Author: Chris Deitch.
  *  Editors:
  *      - Chris Deitch.
+ *      - Deklyn Palmer.
  */
 
 #include "AudioManager.h"
+
+#include "../Debug.h"
 
 namespace Kross
 {
@@ -38,19 +41,38 @@ namespace Kross
         if (s_Instance)
             delete s_Instance;
     }
-    void AudioManager::OnAttachReference(AudioPlayer* player)
-    {
-       player->SetAudioEngine(s_Instance->p_Soloud);
-    }
+
     void AudioManager::SetGlobalVolume(float volume)
     {
         p_Soloud->setGlobalVolume(volume);
        
     }
+
     float AudioManager::GetGlobalVolume()
     {
 
         return p_Soloud->getGlobalVolume();
          
+    }
+
+    void AudioManager::LoadAudioSource(AudioSource* audioSource)
+    {
+        unsigned int result;
+
+        /* Check if it is streamable or not. */
+        if (audioSource->IsStreamable())
+            result = audioSource->GetWavStream()->load(audioSource->GetFilepath().c_str());
+
+        else
+            result = audioSource->GetWav()->load(audioSource->GetFilepath().c_str());
+
+        /* Error Checking. */
+        if (result)
+        {
+            /* Get the Error Message. */
+            const char* errorMessage = s_Instance->p_Soloud->getErrorString(result);
+            Debug::LogErrorLine("Audio Source " + audioSource->GetName() + " Failed to Load! Filepath: " + audioSource->GetFilepath());
+            Debug::LogErrorLine("[" + std::to_string(result) + "] " + (std::string)errorMessage + "!");
+        }
     }
 }

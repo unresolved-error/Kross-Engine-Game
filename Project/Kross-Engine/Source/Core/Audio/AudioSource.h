@@ -29,7 +29,7 @@ namespace Kross
         const std::string GetFilepath() const { return m_Filepath; };
 
         // Gets the Audio Source Stream.
-        const bool GetStream() const { return m_IsStream; };
+        const bool IsStreamable() const { return m_IsStream; };
 
         // Gets the Source handle.
         SoLoud::handle GetHandle() const { return m_SourceHandle; };
@@ -37,6 +37,7 @@ namespace Kross
     protected:
         friend class ResourceManager;
         friend class AudioPlayer;
+        friend class AudioManager;
 
         // Sets the Audio Source Name.
         void SetName(const std::string& name) { m_Name = name; };
@@ -47,11 +48,14 @@ namespace Kross
         // Sets the Audio Source Stream.
         void SetStream(bool stream) { m_IsStream = stream; };
 
-        // Loads a Wav File.
-        void OnLoadWav();
-
         // Sets the Source handle.
         void SetHandle(SoLoud::handle handle) { m_SourceHandle = handle; };
+
+        // Gets the Wav.
+        SoLoud::Wav* GetWav() { return &m_WavFile; };
+
+        // Gets the Wav Stream.
+        SoLoud::WavStream* GetWavStream() { return &m_WavStreamFile; };
 
 
     private:

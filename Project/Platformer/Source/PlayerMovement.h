@@ -13,8 +13,7 @@ public:
 		window(nullptr),
 		rigidBody(nullptr),
 		animator(nullptr),
-		camera(nullptr),
-		textObj(nullptr)
+		camera(nullptr)
 	{};
 	~PlayerMovement() {};
 
@@ -28,7 +27,7 @@ public:
 	Animator* animator;
 
 	Camera* camera;
-	TextRenderer* textObj;
+	Object* playerGun;
 
 	bool followPlayer = false;
 
@@ -40,6 +39,7 @@ public:
 	int controllerID = 0;
 
 	float pan = 0.0f;
+	float volume = 1.0f;
 
 	float timeElapsed = 0.0f;
 
@@ -51,21 +51,24 @@ public:
 
 	void Start() override
 	{
-		transform = GetLinkObject()->GetTransform();
+		transform = c_Object->GetTransform();
 		transform->m_Position = Vector2(0.0f);
-		renderer = GetLinkObject()->GetComponent<SpriteRenderer>();
+		renderer = GetComponent<SpriteRenderer>();
 		window = Application::GetWindow();
 
 		controllerID = Input::GetAvalibleController();
 
-		animator = GetLinkObject()->GetComponent<Animator>();
+		animator = GetComponent<Animator>();
 
 		Material* defaultMaterial = Material::OnCreate("Default");
-		defaultMaterial->p_Diffuse = ResourceManager::GetResource<Sprite>(0);
+		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
 
-		audplayer = GetLinkObject()->GetComponent<AudioPlayer>();
+		audplayer = GetComponent<AudioPlayer>();
+		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
+		audplayer->SetLoop(true);
+		audplayer->Play();
 
-		Debug::Log(GetLinkObject()->GetName() + " Position =");
+		Debug::Log(((Object*)c_Object)->GetName() + " Position =");
 		Debug::Log(transform->m_Position);
 		Debug::EndLine();
 	}
@@ -132,12 +135,31 @@ public:
 			controllerID = Input::GetAvalibleController();
 
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), 0.0f);
+
+			pan += (float)((int)Input::GetKeyDown(Key::E) - (int)Input::GetKeyDown(Key::Q)) / 100.0f;
+			volume += (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow)) / 1000.0f;
+			audplayer->SetPan(pan);
+
+			if (Input::GetKeyPressed(Key::P))
+			{
+				if (audplayer->IsPlaying())
+					audplayer->Pause();
+
+				else
+					audplayer->Play();
+			}
+
+			if (Input::GetKeyPressed(Key::S))
+			{
+				if (audplayer->IsPlaying())
+					audplayer->Stop();
+			}
 		}
 
 		PlayerMove(input, Key::Space, Controller::A);
 		EnableGravity(Key::Q, Controller::B);
 
-		camera->GetLinkObject()->GetTransform()->m_Position = GetLinkObject()->GetTransform()->m_Position;
+		camera->c_Object->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
 
 	}
 
@@ -173,8 +195,6 @@ public:
 
 	void PlayerMove(Vector2 input, Key jump, Controller jumpC)
 	{
-		audplayer->SetVolume(0.33f);
-
 		if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
 		{
 			animator->SetCurrentAnimation(0);
@@ -183,6 +203,8 @@ public:
 		{
 			animator->SetCurrentAnimation(1);
 		}
+
+		animator->Stop();
 
 		if (Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) && Input::GetControllerButtonPressed(controllerID, jumpC)))
 		{

@@ -175,6 +175,7 @@
     <ClInclude Include="Source\Core\Animation\Animation.h" />
     <ClInclude Include="Source\Core\Animation\Keyframe.h" />
     <ClInclude Include="Source\Core\Application.h" />
+    <ClInclude Include="Source\Core\Audio\AudioProperties.h" />
     <ClInclude Include="Source\Core\Audio\AudioSource.h" />
     <ClInclude Include="Source\Core\Component\Animator.h" />
     <ClInclude Include="Source\Core\Component\AudioPlayer.h" />
@@ -186,6 +187,9 @@
     <ClInclude Include="Source\Core\Debug.h" />
     <ClInclude Include="Source\Core\Editor\Editor.h" />
     <ClInclude Include="Source\Core\Editor\EditorWindow.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\AssetDirectory.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\AssetPanel.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\AssetPreview.h" />
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
@@ -682,6 +686,9 @@
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
     <ClCompile Include="Source\Core\Editor\Editor.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\AssetDirectory.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\AssetPanel.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\AssetPreview.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\ObjectEditor.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\SceneHierarchy.cpp" />
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />

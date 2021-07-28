@@ -170,6 +170,6 @@ namespace Kross
 	// Creates a clone of the Object passed in.
 	Object* OnCreateObject(Object* object);
 	
-	//// Destroys the Object passed in.
-	//void OnDestroyObject(Object* object);
+	// Destroys the Object passed in.
+	void OnDestroyObject(Object* object);
 }

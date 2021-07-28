@@ -10,7 +10,6 @@
 #include "Core.h"
 
 #include "Layer.h"
-#include "Component/Component.h"
 
 namespace Kross
 {
@@ -46,6 +45,7 @@ namespace Kross
 	protected:
 		friend class Scene;
 		friend class ObjectEditor;
+		friend class Component;
 
 		// Object Start Method.
 		void OnStart();
@@ -100,10 +100,10 @@ namespace Kross
 		const Layer GetLayer() const { return m_Layer; };
 
 		// Gets the Object Static Status.
-		const bool GetStaticStatus() const { return m_Static; };
+		const bool IsStatic() const { return m_Static; };
 
 		// Gets the Object Enable Status.
-		const bool GetEnableStatus() const { return m_Enable; };
+		const bool Enabled() const { return m_Enable; };
 
 		// Gets the Object Parent.
 		Object* GetParentObject() const { return p_ParentObject; };
@@ -130,10 +130,10 @@ namespace Kross
 		void SetLayer(Layer layer) { m_Layer = layer; };
 
 		// Sets the Object Static Status.
-		void SetStaticStatus(bool value) { m_Static = value; };
+		void SetStatic(bool value) { m_Static = value; };
 
 		// Sets the Object Enable Status.
-		void SetEnableStatus(bool value) { m_Enable = value; };
+		void SetEnable(bool value) { m_Enable = value; };
 
 		// Adds a Component to the Object.
 		template<typename Type>
@@ -144,7 +144,7 @@ namespace Kross
 
 			/* Set up of the new Component. */
 			Component* component = KROSS_NEW Type();
-			component->SetLinkObject(this);
+			component->SetObject(this);
 
 			/* Then Check if the Component is a Renderer. */
 			if (std::is_convertible<Type*, Renderer*>::value)
@@ -208,3 +208,5 @@ namespace Kross
 		}
 	};
 }
+
+#include "Component/Component.h"

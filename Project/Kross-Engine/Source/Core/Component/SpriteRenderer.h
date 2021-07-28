@@ -39,15 +39,6 @@ namespace Kross
 		// Sets the Material.
 		void SetMaterial(Material* material) { p_Material = material; };
 
-		// Sets the Sprite.
-		void SetMaterialDiffuseMap(Sprite* sprite) { p_Material->p_Diffuse = sprite; };
-
-		// Sets the Sprite.
-		void SetMaterialNormalMap(Sprite* sprite) { p_Material->p_Normal = sprite; };
-
-		// Sets the Sprite.
-		void SetMaterialSpecularMap(Sprite* sprite) { p_Material->p_Specular = sprite; };
-
 		// Sets the Tint Colour.
 		void SetColour(Colour colour) { m_Colour = colour; };
 
@@ -59,15 +50,6 @@ namespace Kross
 
 		// Gets the Material.
 		Material* GetMaterial() const { return p_Material; };
-
-		// Gets the Texture Sprite.
-		Sprite* GetDiffuseMap() const { return p_Material->p_Diffuse; };
-
-		// Gets the Normal Map.
-		Sprite* GetNormalMap() const { return p_Material->p_Normal; };
-
-		// Gets the Specular Map.
-		Sprite* GetSpecularMap() const { return p_Material->p_Specular; };
 
 		// Gets the Tint Colour.
 		Colour GetColour() const { return m_Colour; };

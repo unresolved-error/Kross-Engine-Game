@@ -8,111 +8,187 @@
 #include "AudioPlayer.h"
 #include "../Manager/AudioManager.h"
 
+#include "../Debug.h"
+
 namespace Kross
 {
 	AudioPlayer::AudioPlayer()
-		: p_AudioEngine(nullptr), m_AudioHandle(0), p_AudioSrc(nullptr)
+		: m_AudioHandle(0), p_AudioSrc(nullptr), p_AudioProperties(KROSS_NEW AudioProperties()), m_IsPlaying(false), m_Stopped(true)
+	{}
+
+	void AudioPlayer::Play()
 	{
-		AudioManager::OnAttachReference(this);
-		//audioEngine = AudioManager::ReturnSoLoudReference();
-	}
-	
-	void AudioPlayer::AttachSoundToPlayer(AudioSource* toAttach)
-	{
-		p_AudioSrc = toAttach;
+
+	#ifndef KROSS_EDITOR
+		/* If the Current Audio Player Doesn't have a Audio Handle. */
+		if (!m_AudioHandle)
+		{
+			/* If the Sound if Streamable. */
+			if (p_AudioSrc->IsStreamable())
+			{
+				//Set the handle that the audioPlayer owns to this source's newly generated handle.
+				m_AudioHandle = AudioManager::GetAudioEngine()->play(*p_AudioSrc->GetWavStream(), p_AudioProperties->GetVolume(), p_AudioProperties->GetPan());
+
+				//collect the handle and add to the audio source as well. This is so the player can recover handles.
+				p_AudioSrc->SetHandle(m_AudioHandle);
+			}
+
+			/* Play it standardly. */
+			else
+			{
+				//Set the handle that the audioPlayer owns to this source's newly generated handle.
+				m_AudioHandle = AudioManager::GetAudioEngine()->play(*p_AudioSrc->GetWav(), p_AudioProperties->GetVolume(), p_AudioProperties->GetPan());
+
+				//collect the handle and add to the audio source as well. This is so the player can recover handles.
+				p_AudioSrc->SetHandle(m_AudioHandle);
+
+			}
+
+			/* Loop the Sound if Properties Allow. */
+			AudioManager::GetAudioEngine()->setLooping(m_AudioHandle, p_AudioProperties->GetLoop());
+		}
+
+		/* If we already do that means a sound has been loaded to this Audio Player. */
+		else
+		{
+			/* Un Pause. */
+			AudioManager::GetAudioEngine()->setPause(m_AudioHandle, false);
+
+			/* Loop the Sound if Properties Allow. */
+			AudioManager::GetAudioEngine()->setLooping(m_AudioHandle, p_AudioProperties->GetLoop());
+		}
+
+		/* Sound is Playing. */
+		m_IsPlaying = true;
+		m_Stopped = false;
+	#endif
 	}
 
-	void Kross::AudioPlayer::PlaySoundEffect(AudioSource* audioSrc, float volume, float pan, bool paused)
+	void AudioPlayer::Pause()
 	{
-		if (audioSrc->m_IsStream) 
+		/* If we have a Audio Handle. */
+		if (m_AudioHandle)
 		{
-			//Set the handle that the audioPlayer owns to this source's newly generated handle.
-			m_AudioHandle = p_AudioEngine->play(audioSrc->m_WavStreamFile, volume, pan, paused);
-			//collect the handle and add to the audio source as well. This is so the player can recover handles.
-			audioSrc->m_SourceHandle = m_AudioHandle;
+			AudioManager::GetAudioEngine()->setPause(m_AudioHandle, true);
 		}
-		else 
-		{
-			m_AudioHandle = p_AudioEngine->play(audioSrc->m_WavFile, volume, pan, paused);
-			
-			audioSrc->m_SourceHandle = m_AudioHandle;
-			
-		}
-	
+
+		/* No longer Playing. */
+		m_IsPlaying = false;
+		m_Stopped = false;
 	}
 
-	void AudioPlayer::PauseSound(bool paused)
+	void AudioPlayer::Stop()
 	{
-		p_AudioEngine->setPause(m_AudioHandle, paused);
+		/* If we have a Audio Handle. */
+		if (m_AudioHandle)
+		{
+			if (p_AudioSrc->IsStreamable())
+				AudioManager::GetAudioEngine()->stopAudioSource(*p_AudioSrc->GetWavStream());
+
+			else
+				AudioManager::GetAudioEngine()->stopAudioSource(*p_AudioSrc->GetWav());
+
+			/* Don't know if this is safe. */
+			m_AudioHandle = 0;
+			p_AudioSrc->SetHandle(0);
+
+		}
+
+		/* No longer Playing. */
+		m_IsPlaying = false;
+		m_Stopped = true;
 	}
 
 	void AudioPlayer::SeekSoundClipPoint(float seconds)
 	{
-		p_AudioEngine->seek(m_AudioHandle, seconds);
+		AudioManager::GetAudioEngine()->seek(m_AudioHandle, seconds);
 	}
 
 	void AudioPlayer::PauseSoundDelayed(float seconds)
 	{
-		p_AudioEngine->schedulePause(m_AudioHandle, seconds);
+		AudioManager::GetAudioEngine()->schedulePause(m_AudioHandle, seconds);
 	}
 
 	void AudioPlayer::SetPlaySpeed(float playSpeed)
 	{
-		p_AudioEngine->setRelativePlaySpeed(m_AudioHandle, playSpeed);
+		/* Set the Audio Properties. */
+		p_AudioProperties->SetPlaySpeed(playSpeed);
+
+		/* If we have a Audio Handle. */
+		if (m_AudioHandle)
+		{
+			AudioManager::GetAudioEngine()->setRelativePlaySpeed(m_AudioHandle, p_AudioProperties->GetPlaySpeed());
+		}
+
 	}
 
 	void AudioPlayer::SetPan(float pan)
 	{
-		p_AudioEngine->setPan(m_AudioHandle, pan);
+		/* Set the Audio Properties. */
+		p_AudioProperties->SetPan(pan);
+
+		/* If we have a Audio Handle. */
+		if (m_AudioHandle)
+		{
+			AudioManager::GetAudioEngine()->setPan(m_AudioHandle, p_AudioProperties->GetPan());
+		}
 	}
 
 	void AudioPlayer::SetVolume(float volume)
 	{
-		p_AudioEngine->setVolume(m_AudioHandle, volume);
+		/* Set the Audio Properties. */
+		p_AudioProperties->SetVolume(volume);
+
+		/* If we have a Audio Handle. */
+		if (m_AudioHandle)
+		{
+			float v = AudioManager::GetAudioEngine()->getVolume(m_AudioHandle);
+			Debug::Log(v);
+			AudioManager::GetAudioEngine()->setVolume(m_AudioHandle, glm::clamp(volume, 0.0f, 1.0f));
+		}
 	}
 
-	void AudioPlayer::SetIfLooping(bool looping)
+	void AudioPlayer::SetLoop(bool loop)
 	{
-		p_AudioEngine->setLooping(m_AudioHandle, looping);
+		/* Set the Audio Properties. */
+		p_AudioProperties->SetLoop(loop);
+
+		/* If we have a Audio Handle. */
+		if (m_AudioHandle)
+		{
+			AudioManager::GetAudioEngine()->setLooping(m_AudioHandle, p_AudioProperties->GetLoop());
+		}
 	}
 
 	void AudioPlayer::FadeVolume(float destinedVolume, float secondsToFade)
 	{
-		p_AudioEngine->fadeVolume(m_AudioHandle,destinedVolume,secondsToFade);
+		AudioManager::GetAudioEngine()->fadeVolume(m_AudioHandle,destinedVolume,secondsToFade);
 	}
 
 	void AudioPlayer::FadePan(float destinedPan, float secondsToFade)
 	{
-		p_AudioEngine->fadePan(m_AudioHandle, destinedPan, secondsToFade);
+		AudioManager::GetAudioEngine()->fadePan(m_AudioHandle, destinedPan, secondsToFade);
 	}
 
 	void AudioPlayer::FadeRelativePlaySpeed(float destinedSpeed, float secondsToFade)
 	{
-		p_AudioEngine->fadeRelativePlaySpeed(m_AudioHandle, destinedSpeed, secondsToFade);
+		AudioManager::GetAudioEngine()->fadeRelativePlaySpeed(m_AudioHandle, destinedSpeed, secondsToFade);
 	}
 
 	void AudioPlayer::OscillateVolume(float minVol, float maxVol, float seconds)
 	{
-		p_AudioEngine->oscillateVolume(m_AudioHandle,minVol, maxVol, seconds);
+		AudioManager::GetAudioEngine()->oscillateVolume(m_AudioHandle,minVol, maxVol, seconds);
 	}
 
 	void AudioPlayer::OscillatePan(float minPan, float maxPan, float seconds)
 	{
-		p_AudioEngine->oscillatePan(m_AudioHandle, minPan, maxPan, seconds);
+		AudioManager::GetAudioEngine()->oscillatePan(m_AudioHandle, minPan, maxPan, seconds);
 	}
 
 	void AudioPlayer::OscillateRelitivePlaySpeed(float minSpeed, float maxSpeed, float seconds)
 	{
-		p_AudioEngine->oscillateRelativePlaySpeed(m_AudioHandle, minSpeed, maxSpeed, seconds);
+		AudioManager::GetAudioEngine()->oscillateRelativePlaySpeed(m_AudioHandle, minSpeed, maxSpeed, seconds);
 	}
-
-	void AudioPlayer::StopThisSound()
-	{
-		p_AudioEngine->stop(m_AudioHandle);
-	}
-
-	
-
 }
 
 

@@ -138,7 +138,7 @@ namespace Kross
         for (int i = 0; i < m_Objects.size(); i++)
         {
             /* If the Obejct is Enabled. Add it.*/
-            if (m_Objects[i]->GetEnableStatus() == true && m_Objects[i]->GetRenderableStatus())
+            if (m_Objects[i]->Enabled() && m_Objects[i]->GetRenderableStatus())
             {
                 /* Keep Record of the index, so we know where in the list it is to remove it. */
                 List<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
@@ -324,7 +324,7 @@ namespace Kross
             emitter->SetPhysicsScene(p_Physics);
 
         /* If the Object is Static. */
-        if (object->GetStaticStatus() == true)
+        if (object->IsStatic())
         {
             /* Attach the Object to the Static list and place it in the render Queue. */
             AttachObjectToRenderQueue(object);

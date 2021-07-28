@@ -26,11 +26,45 @@ namespace Kross
     {
 		/* If we don't have a Font, early out. */
 		if (!p_Font)
+		{
+			/* If there are characters inside the character array, delete them. */
+			if (m_TextCharacters.size() != 0)
+			{
+				for (int i = 0; i < m_TextCharacters.size(); i++)
+				{
+					/* Delete and Null Out. */
+					delete m_TextCharacters[i];
+					m_TextCharacters[i] = nullptr;
+				}
+
+				/* Clear the List. */
+				m_TextCharacters.clear();
+
+			} /* FAIL SAFE FOR LEFT OVER CHARACTERS! */
+
 			return;
+		}
 
 		/* If we don't have a any Text, early out. */
 		if (m_Text.empty())
+		{
+			/* If there are characters inside the character array, delete them. */
+			if (m_TextCharacters.size() != 0)
+			{
+				for (int i = 0; i < m_TextCharacters.size(); i++)
+				{
+					/* Delete and Null Out. */
+					delete m_TextCharacters[i];
+					m_TextCharacters[i] = nullptr;
+				}
+
+				/* Clear the List. */
+				m_TextCharacters.clear();
+
+			} /* FAIL SAFE FOR LEFT OVER CHARACTERS! */
+
 			return;
+		}
 
 		/* We have different text so create Characters for it. */
 		if (m_PreviousText != m_Text || p_PreviousFont != p_Font)
@@ -76,12 +110,12 @@ namespace Kross
 		Sprite* spriteCharacter = m_TextCharacters[0]->GetSprite();
 
 		float xOffset = ((float)spriteCharacter->GetWidth() / (float)BASE_SPRITE_WIDTH_AND_HEIGHT) * m_Size;
-		float textLength = xOffset * m_Text.length(); /* Gets the Total Length of the Text in Screen / World Space. */
+		float textLength = xOffset * m_Text.size(); /* Gets the Total Length of the Text in Screen / World Space. */
 
 		float startPoint = 0.0f;
 
 		/* Object Variables. */
-		Vector2 objectPosition = GetLinkObject()->GetTransform()->m_Position;
+		Vector2 objectPosition = c_Object->GetTransform()->m_Position;
 
 		/* Get the Starting location for the Text. */
 		switch (m_Alignment)

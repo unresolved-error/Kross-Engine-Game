@@ -18,12 +18,12 @@ namespace Kross
 	private:
 		/* Transform Variables. */
 
-		Vector2 m_Position;	/* 0. */
-		float m_Rotation;	/* 1. */
-		Vector2 m_Scale;	/* 2. */
+		Vector2 m_Position;		/* 0. */
+		float m_Rotation;		/* 1. */
+		Vector2 m_Scale;		/* 2. */
 
 		/* Image Variables. */
-		Sprite* p_Sprite;	/* 3. */
+		Sprite* p_Sprite;		/* 3. */
 
 		/* Data Setting information. */
 		List<bool> m_DataSetPoints;
@@ -32,10 +32,10 @@ namespace Kross
 
 	public:
 		Keyframe() : 
-			m_Position			(Vector2(0.0f)), 
-			m_Rotation			(0.0f), 
-			m_Scale				(Vector2(1.0f)), 
-			p_Sprite			(nullptr), 
+			m_Position			(Vector2(0.0f)),
+			m_Rotation			(0.0f),
+			m_Scale				(Vector2(1.0f)),
+			p_Sprite			(nullptr),
 			m_DataSetPoints		(List<bool>(4))
 		{
 			/* Go through the Data Points and set them to false. */
@@ -44,16 +44,16 @@ namespace Kross
 		};
 
 		// Gets if the Position Data has been set.
-		const bool GetPositionData() const { return m_DataSetPoints[0]; };
+		const bool HasPositionData() const { return m_DataSetPoints[0]; };
 
 		// Gets if the Rotation Data has been set.
-		const bool GetRotationData() const { return m_DataSetPoints[1]; };
+		const bool HasRotationData() const { return m_DataSetPoints[1]; };
 
 		// Gets if the Scale Data has been set.
-		const bool GetScaleData() const { return m_DataSetPoints[2]; };
+		const bool HasScaleData() const { return m_DataSetPoints[2]; };
 
 		// Gets if the Sprite Data has been set.
-		const bool GetSpriteData() const { return m_DataSetPoints[3]; };
+		const bool HasSpriteData() const { return m_DataSetPoints[3]; };
 
 		// Gets the Position Data.
 		Vector2 GetPosition() const { return m_Position; };

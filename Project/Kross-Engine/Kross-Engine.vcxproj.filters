@@ -185,6 +185,9 @@
     <ClCompile Include="Source\Core\Renderer\ErrorHandle.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\SceneHierarchy.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\ObjectEditor.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\AssetPreview.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\AssetDirectory.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\AssetPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -685,6 +688,10 @@
     <ClInclude Include="Source\Core\Editor\EditorWindow.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\AssetPreview.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\AssetDirectory.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\AssetPanel.h" />
+    <ClInclude Include="Source\Core\Audio\AudioProperties.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

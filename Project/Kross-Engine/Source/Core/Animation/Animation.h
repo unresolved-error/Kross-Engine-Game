@@ -54,6 +54,15 @@ namespace Kross
 		// Update Method.
 		void OnUpdate();
 
+		// Plays the Animation.
+		void Play() { m_IsStopped = false; };
+
+		// Pauses the Animation.
+		void Pause() { m_IsStopped = true; };
+
+		// Stops the Animation.
+		void Stop();
+
 	public:
 		// Sets the Animation Time. (IN SECONDS)
 		void SetDuration(float duration);
@@ -65,16 +74,7 @@ namespace Kross
 		const float GetDuration() const { return m_Duration; };
 
 		// Gets if the Animation is Playing.
-		const bool GetPlayStatus() const { return !m_IsStopped; };
-
-		// Plays the Animation.
-		void OnPlay() { m_IsStopped = false; };
-
-		// Pauses the Animation.
-		void OnPause() { m_IsStopped = true; };
-
-		// Stops the Animation.
-		void OnStop();
+		const bool IsPlaying() const { return !m_IsStopped; };
 
 		// Adds a Keyframe.
 		void AttachKeyframe(Keyframe* keyframe);

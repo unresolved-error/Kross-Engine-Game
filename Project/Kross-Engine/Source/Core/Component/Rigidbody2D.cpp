@@ -55,7 +55,7 @@ namespace Kross
 
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData(GetLinkObject());
+        p_Body->SetUserData((Object*)c_Object);
 
         p_Body->SetFixedRotation(fixedRotation);
 
@@ -91,7 +91,7 @@ namespace Kross
 
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData(GetLinkObject());
+        p_Body->SetUserData((Object*)c_Object);
 
         p_Body->SetFixedRotation(fixedRotation);
 
@@ -128,7 +128,7 @@ namespace Kross
 
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData(GetLinkObject());
+        p_Body->SetUserData((Object*)c_Object);
 
         /* Creates the shape */
         PolygonShape dynamicBox;
@@ -164,7 +164,7 @@ namespace Kross
 
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData(GetLinkObject());
+        p_Body->SetUserData((Object*)c_Object);
 
         /* Creates the shape */
         PolygonShape dynamicBox;
@@ -201,7 +201,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            p_Body->SetUserData(GetLinkObject());
+            p_Body->SetUserData((Object*)c_Object);
 
             /* Creates the cirlce */
             CircleShape circleShape;
@@ -236,7 +236,7 @@ namespace Kross
             FixtureDef* tempFixture = KROSS_NEW FixtureDef();
             /* Creates the body and assigns it to the pointer */
             tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            tempBody->SetUserData(GetLinkObject());
+            tempBody->SetUserData((Object*)c_Object);
 
             /* Creates the cirlce */
             CircleShape circleShape;
@@ -277,7 +277,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            p_Body->SetUserData(GetLinkObject());
+            p_Body->SetUserData((Object*)c_Object);
 
             /* Creates the cirlce */
             CircleShape circleShape;
@@ -312,7 +312,7 @@ namespace Kross
             FixtureDef* tempFixture = KROSS_NEW FixtureDef();
             /* Creates the body and assigns it to the pointer */
             tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            tempBody->SetUserData(GetLinkObject());
+            tempBody->SetUserData((Object*)c_Object);
 
             /* Creates the cirlce */
             CircleShape circleShape;
@@ -353,7 +353,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            p_Body->SetUserData(GetLinkObject());
+            p_Body->SetUserData((Object*)c_Object);
 
             /* Creates the shape */
             PolygonShape dynamicBox;
@@ -391,7 +391,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            tempBody->SetUserData(GetLinkObject());
+            tempBody->SetUserData((Object*)c_Object);
             /* Creates the shape */
             PolygonShape dynamicBox;
             /* Sets the shape as a box */
@@ -431,7 +431,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            p_Body->SetUserData(GetLinkObject());
+            p_Body->SetUserData((Object*)c_Object);
             /* Creates the shape */
             PolygonShape dynamicBox;
             /* Sets the shape as a box */
@@ -467,7 +467,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            tempBody->SetUserData(GetLinkObject());
+            tempBody->SetUserData((Object*)c_Object);
             /* Creates the shape */
             PolygonShape dynamicBox;
             /* Sets the shape as a box */
@@ -538,6 +538,7 @@ namespace Kross
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
+                #ifndef KROSS_EDITOR
                 Vector2 particleForce = CollideParticles();
 
                 if (p_AABBCollisionData->m_Collision)
@@ -577,16 +578,15 @@ namespace Kross
                         m_CollisionState = CollisionState::None;
                 }
                 
-                #ifndef KROSS_EDITOR
                 /* Gets the object position and updates it with the position of the body */
-                GetLinkObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
+                c_Object->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
 
                 /* Gets the object rotation and updates it with the angle of the body */
-                GetLinkObject()->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
+                c_Object->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
 
                 #else
 
-                p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
+                p_Body->SetTransform(Getb2Vec2(c_Object->GetTransform()->m_Position), glm::radians(c_Object->GetTransform()->m_Rotation));
                 #endif
 
                 //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
@@ -608,14 +608,14 @@ namespace Kross
 
                 #ifndef KROSS_EDITOR
                 /* Gets the object position and updates it with the position of the body */
-                GetLinkObject()->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
+                c_Object->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
 
                 /* Gets the object rotation and updates it with the angle of the body */
-                GetLinkObject()->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
+                c_Object->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
 
                 #else
 
-                p_Body->SetTransform(Getb2Vec2(GetLinkObject()->GetTransform()->m_Position), glm::radians(GetLinkObject()->GetTransform()->m_Rotation));
+                p_Body->SetTransform(Getb2Vec2(c_Object->GetTransform()->m_Position), glm::radians(c_Object->GetTransform()->m_Rotation));
                 #endif
 
                 //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
@@ -642,7 +642,7 @@ namespace Kross
 
     Vector2 Rigidbody2D::GetPosition() const
     {
-        return Vector2(GetLinkObject()->GetTransform()->m_Position.x, GetLinkObject()->GetTransform()->m_Position.y);
+        return Vector2(c_Object->GetTransform()->m_Position.x, c_Object->GetTransform()->m_Position.y);
     }
     
     Vector2 Rigidbody2D::SpringCalculation(Body* body1, Body* body2, float dist)
@@ -852,7 +852,7 @@ namespace Kross
         bool hasAirAbove = false;
         bool hasAirBelow = false;
 
-        Vector2 objectPosition = GetLinkObject()->GetTransform()->m_Position;
+        Vector2 objectPosition = c_Object->GetTransform()->m_Position;
         
         Vector2 firstTile = Vector2(0,0);
         Vector2 previous = Vector2(-1.0f);

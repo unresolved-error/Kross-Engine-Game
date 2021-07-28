@@ -40,6 +40,8 @@ namespace Kross
 		/* ------------------------------- */
 
 	protected:
+		friend class ObjectEditor;
+
 		// Animators Start Method.
 		void OnStart() override;
 
@@ -57,13 +59,13 @@ namespace Kross
 		~Animator();
 
 		// Plays the Current Animation.
-		void OnPlay();
+		void Play();
 
 		// Pauses the Current Animation.
-		void OnPause();
+		void Pause();
 
 		// Stops the Current Animation.
-		void OnStop();
+		void Stop();
 
 		// Adds an Animation to the Animator.
 		void AttachAnimation(Animation* animation);

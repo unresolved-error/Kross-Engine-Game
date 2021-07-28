@@ -24,6 +24,9 @@ void OnRun()
 	player->AttachComponent<SpriteRenderer>();
 	player->AttachComponent<Rigidbody2D>();
 	player->AttachComponent<PlayerMovement>();
+	Debug::Log((int)sizeof(PlayerMovement));
+	Debug::LogLine((std::string)"Bytes");
+
 	player->AttachComponent<Animator>();
 	player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
 
@@ -31,7 +34,7 @@ void OnRun()
 	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Idle"));
 	animator->AttachAnimation(ResourceManager::GetResource<Animation>("Walk"));
 
-	player->GetTransform()->m_Position = Vector2(1.0f, -1.0f);
+	player->GetTransform()->m_Position = Vector2(3.0f, -2.0f);
 	player->GetTransform()->m_Scale = Vector2(1.0f, 1.0f);
 	player->GetTransform()->m_Rotation = 0.0f;
 
@@ -43,7 +46,7 @@ void OnRun()
 	textRenderer->SetFont(ResourceManager::GetResource<Font>(0));
 	textRenderer->SetColour(Colour(1.0f, 1.0f, 1.0f, 1.0f));
 	textRenderer->SetTextSize(1.0f);
-	textRenderer->SetText("Is this a collision map?");
+	textRenderer->SetText("");
 
 	Object* tileExample = Object::OnCreate("TileMap");
 	tileExample->AttachComponent<TileMapRenderer>();
@@ -56,7 +59,7 @@ void OnRun()
 
 	scene->AttachObject(tileExample);
 
-	player->GetComponent<PlayerMovement>()->textObj = textRenderer;
+	//player->GetComponent<PlayerMovement>()->textObj = textRenderer;
 	player->SetLayer(Layer::Background);
 
 	player->AttachComponent<AudioPlayer>();
@@ -68,7 +71,7 @@ void OnRun()
 
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.35f), player->GetTransform()->m_Position + Vector2(0.0f, 0.4f), true, ColliderFilters::Player, ColliderFilters::Environment);
+	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.35f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment);
 
 	//Object* particleEmitter = Object::OnCreate("Emitter");
 	//particleEmitter->SetStaticStatus(true);
