@@ -433,6 +433,60 @@ namespace Kross {
 							rend->SetTextSize(t_size);
 						}
 					}
+					
+					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Collider))
+					{
+					Collider* col = p_SelectedObject->GetComponent<Collider>();
+						if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							float c_Width = col->GetWidth();
+							float c_Height = col->GetHeight();
+							float c_Radius = col->GetRadius();
+							float c_Frict = col->GetFriction();
+							bool c_IsStatic = col->IsStatic();
+							bool c_FixedRot = col->IsRotationLocked();
+							bool c_IsTileMap = col->IsTileMapCollider();
+
+							ImGui::Text("Shape");
+							//m_Type(ShapeType::Box),
+
+							ImGui::Text("Width");
+							ImGui::SameLine();
+							ImGui::DragFloat("##c_Width", &c_Width, 0.1f, 0.0f, 100.0f, "%.2fm");
+
+							ImGui::Text("Height");
+							ImGui::SameLine();
+							ImGui::DragFloat("##He", &c_Height, 0.1f, 0.0f, 100.0f, "%.2fm");
+
+							ImGui::Text("Radius");
+							ImGui::SameLine();
+							ImGui::DragFloat("##Rad", &c_Radius, 0.1f, 0.0f, 100.0f, "%.2fm");
+
+							ImGui::Text("Friction");
+							ImGui::SameLine();
+							ImGui::DragFloat("##Frict", &c_Frict, 0.1f, 0.0f, 1.0f, "%.2fm");
+
+							ImGui::Text("Static?");
+							ImGui::SameLine();
+							ImGui::Checkbox("##S", &c_IsStatic);
+
+							ImGui::Text("Fixed Rotation?");
+							ImGui::SameLine();
+							ImGui::Checkbox("##FR", &c_FixedRot);
+
+							ImGui::Text("Tilemap?");
+							ImGui::SameLine();
+							ImGui::Checkbox("##TI", &c_IsTileMap);
+
+							col->SetWidth(c_Width);
+							col->SetHeight(c_Height);
+							col->SetRadius(c_Radius);
+							col->SetFriction(c_Frict);
+							col->SetStatic(c_IsStatic);
+							col->SetRotationLock(c_FixedRot);
+							col->SetTileMapCollider(c_IsTileMap);
+						}
+					}
 
 					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(TileMapRenderer))
 					{
