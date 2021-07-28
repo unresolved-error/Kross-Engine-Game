@@ -310,6 +310,7 @@ namespace Kross {
 								}
 							}
 							ImGui::Unindent();
+							ImGui::Unindent();
 
 							ImGui::Separator();
 							ImGui::Text("Colour");

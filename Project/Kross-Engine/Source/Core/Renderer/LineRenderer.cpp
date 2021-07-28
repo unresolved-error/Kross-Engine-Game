@@ -159,7 +159,7 @@ namespace Kross
 			b2Shape* theShape = thisFixture->GetShape();
 			b2Shape::Type theShapeType = theShape->GetType();
 
-			this->SetColour((body->GetType() == BodyType::b2_staticBody) ? glm::vec3(0.0f, 0.0f, 1.0f) : glm::vec3(0.0f, 1.0f, 0.0f));
+			this->SetColour((body->GetType() == BodyType::b2_staticBody) ? glm::vec3(0.0f, 0.5f, 1.0f) : glm::vec3(0.0f, 1.0f, 0.5f));
 			
 			if (theShapeType == b2Shape::Type::e_polygon)
 			{

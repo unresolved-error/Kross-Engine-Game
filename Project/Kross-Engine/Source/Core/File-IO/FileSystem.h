@@ -60,6 +60,9 @@ namespace Kross
 		// Reads in a Texture.
 		static void OnReadTexture(const std::string& filepath);
 
+		// Reads in a Prefab.
+		static void OnReadPrefab(const std::string& filepath);
+
 		// Reads in a TileMap
 		static void OnReadTileMap(const std::string& filepath);
 

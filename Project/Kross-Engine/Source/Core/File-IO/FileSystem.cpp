@@ -250,6 +250,9 @@ namespace Kross
 
 				else if (assetType == "ATLAS")
 					OnReadAtlas(assetFilepath);
+
+				else if (assetType == "PREFAB")
+					OnReadPrefab(assetFilepath);
 			}
 
 			fileStream.close();
@@ -346,6 +349,631 @@ namespace Kross
 			else
 				Texture::OnCreate(textureFilepath, textureName);
 
+			fileStream.close();
+		}
+
+		else
+		{
+			fileStream.close();
+		}
+	}
+
+	void FileSystem::OnReadPrefab(const std::string& filepath)
+	{
+		/* Display what we are loading. */
+		std::cout << "Loading Prefab from " << filepath << "..." << std::endl;
+
+		/* Open a Filestream. */
+		std::fstream fileStream;
+		fileStream.open(filepath.c_str());
+
+		/* Parameter variables. */
+		std::string prefabName;
+		std::string prefabStatic;
+		std::string prefabEnable;
+		std::string prefabLayer;
+		
+		std::string transformData;
+		List<std::string> animatorData;
+		List<std::string> audioPlayerData;
+		List<std::string> cameraData;
+		List<std::string> rigidbodyData;
+		List<std::string> spriteRendererData;
+		List<std::string> textRendererData;
+		List<std::string> tileMapRendererData;
+		
+		if (fileStream.is_open())
+		{
+			/* Variables for opening and reading the file. */
+			std::string line;
+		
+			bool ignoreFirstLine = true;
+
+			/* Create the Object. */
+			Object* object = Object::OnCreate();
+		
+			/* Read the file line by line. */
+			while (getline(fileStream, line))
+			{
+				/* Ignore the first line. */
+				if (ignoreFirstLine)
+				{
+					ignoreFirstLine = false;
+					continue;
+				}
+		
+				/* Ignore Comments. */
+				if (line.find("//") != std::string::npos)
+					continue;
+		
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string prefabProperty;
+				std::string lineSplitter = "->";
+		
+				int varSwitch = 0;
+		
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				{
+					/* Grab the Property Type. */
+					if (varSwitch == 0)
+						prefabProperty = line.substr(0, searchPosition);
+		
+					/* Grab the Property Value. */
+					else
+					{
+						if (prefabProperty == "NAME")
+							prefabName = line.substr(0, searchPosition);
+		
+						else if (prefabProperty == "STATIC")
+							prefabStatic = line.substr(0, searchPosition);
+
+						else if (prefabProperty == "ENABLE")
+							prefabEnable = line.substr(0, searchPosition);
+
+						else if (prefabProperty == "LAYER")
+							prefabLayer = line.substr(0, searchPosition);
+
+						else if (prefabProperty == "ANIMATOR")
+						{
+							object->AttachComponent<Animator>();
+							animatorData.push_back(line);
+						}
+
+						else if (prefabProperty == "AUDIO-PLAYER")
+						{
+							object->AttachComponent<AudioPlayer>();
+							audioPlayerData.push_back(line);
+						}
+
+						else if (prefabProperty == "CAMERA")
+						{
+							object->AttachComponent<Camera>();
+							cameraData.push_back(line);
+						}
+
+						else if (prefabProperty == "RIGIDBODY2D")
+						{
+							object->AttachComponent<Rigidbody2D>();
+							rigidbodyData.push_back(line);
+						}
+
+						else if (prefabProperty == "SPRITE-RENDERER")
+						{
+							object->AttachComponent<SpriteRenderer>();
+							spriteRendererData.push_back(line);
+						}
+
+						else if (prefabProperty == "TEXT-RENDERER")
+						{
+							object->AttachComponent<TextRenderer>();
+							textRendererData.push_back(line);
+						}
+
+						else if (prefabProperty == "TILEMAP-RENDERER")
+						{
+							object->AttachComponent<TileMapRenderer>();
+							tileMapRendererData.push_back(line);
+						}
+
+						else if (prefabProperty == "TRANSFORM2D")
+						{
+							transformData = line;
+						}
+
+					}
+		
+					line.erase(0, searchPosition + lineSplitter.length());
+		
+					/* Up the varaible switch. */
+					varSwitch++;
+				}
+			}
+		
+			/* Set Basic Properties. */
+			object->SetName(prefabName);
+			object->SetStatic((bool)std::stoi(prefabStatic));
+			object->SetEnable((bool)std::stoi(prefabEnable));
+			object->SetLayer((Layer)std::stoi(prefabLayer));
+			object->SetPrefab(true);
+
+			if (animatorData.size() > 0)
+			{
+				List<Animator*> animators = object->GetComponents<Animator>();
+				for (int i = 0; i < animatorData.size(); i++)
+				{
+					/* Quick Variables. */
+					size_t searchPosition = 0;
+					std::string lineSplitter = "->";
+
+					bool isFirst = true;
+
+					/* Keep Searching till we reach the end of the Line.*/
+					while ((searchPosition = animatorData[i].find(lineSplitter)) != std::string::npos)
+					{
+						std::string animationName = animatorData[i].substr(0, searchPosition);
+
+						Animation* animation = ResourceManager::GetResource<Animation>(animationName);
+
+						animators[i]->AttachAnimation(animation);
+
+						/* For Current Animation Setting. */
+						if (isFirst)
+						{
+							animators[i]->SetCurrentAnimation(0);
+							isFirst = false;
+						}
+
+						animatorData[i].erase(0, searchPosition + lineSplitter.length());
+					}
+				}
+			}
+
+			else if (audioPlayerData.size() > 0)
+			{
+				List<AudioPlayer*> audioPlayers = object->GetComponents<AudioPlayer>();
+				for (int i = 0; i < audioPlayerData.size(); i++)
+				{
+					/* Quick Variables. */
+					size_t searchPosition = 0;
+					std::string lineSplitter = "->";
+
+					int varSwitch = 0;
+
+					/* Keep Searching till we reach the end of the Line.*/
+					while ((searchPosition = audioPlayerData[i].find(lineSplitter)) != std::string::npos)
+					{
+						std::string value = audioPlayerData[i].substr(0, searchPosition);
+
+						switch (varSwitch)
+						{
+							case 0:
+							{
+								AudioSource* audioSource = ResourceManager::GetResource<AudioSource>(value);
+								audioPlayers[i]->SetAudioSource(audioSource);
+								break;
+							}
+
+							case 1:
+							{
+
+								audioPlayers[i]->SetLoop((bool)std::stoi(value));
+								break;
+							}
+
+							case 2:
+							{
+								audioPlayers[i]->SetPlaySpeed(std::stof(value));
+								break;
+							}
+
+							case 3:
+							{
+								audioPlayers[i]->SetVolume(std::stof(value));
+								break;
+							}
+
+							case 4:
+							{
+								audioPlayers[i]->SetPan(std::stof(value));
+								break;
+							}
+						}
+
+						audioPlayerData[i].erase(0, searchPosition + lineSplitter.length());
+
+						/* Up the Var Switch. */
+						varSwitch++;
+					}
+				}
+			}
+
+			else if (cameraData.size() > 0)
+			{
+				List<Camera*> cameras = object->GetComponents<Camera>();
+				for (int i = 0; i < cameraData.size(); i++)
+				{
+					/* Quick Variables. */
+					size_t searchPosition = 0;
+					std::string lineSplitter = "->";
+
+					int varSwitch = 0;
+
+					/* Keep Searching till we reach the end of the Line.*/
+					while ((searchPosition = cameraData[i].find(lineSplitter)) != std::string::npos)
+					{
+						std::string value = cameraData[i].substr(0, searchPosition);
+
+						switch (varSwitch)
+						{
+						case 0:
+						{
+							cameras[i]->SetSize(std::stof(value));
+							break;
+						}
+
+						case 1:
+						{
+
+							cameras[i]->SetNear(std::stof(value));
+							break;
+						}
+
+						case 2:
+						{
+							cameras[i]->SetFar(std::stof(value));
+							break;
+						}
+						}
+
+						cameraData[i].erase(0, searchPosition + lineSplitter.length());
+
+						/* Up the Var Switch. */
+						varSwitch++;
+					}
+				}
+			}
+		
+			else if (rigidbodyData.size() > 0)
+			{
+				Collider* collider = object->GetComponent<Collider>();
+
+				for (int i = 0; i < rigidbodyData.size(); i++)
+				{
+					/* Quick Variables. */
+					size_t searchPosition = 0;
+					std::string lineSplitter = "->";
+
+					int varSwitch = 0;
+
+					/* Keep Searching till we reach the end of the Line.*/
+					while ((searchPosition = rigidbodyData[i].find(lineSplitter)) != std::string::npos)
+					{
+						std::string value = rigidbodyData[i].substr(0, searchPosition);
+
+						switch (varSwitch)
+						{
+							case 0:
+							{
+								collider->SetShapeType((ShapeType)std::stoi(value));
+								break;
+							}
+
+							case 1:
+							{
+
+								collider->SetWidth(std::stof(value));
+								break;
+							}
+
+							case 2:
+							{
+								collider->SetHeight(std::stof(value));
+								break;
+							}
+
+							case 3:
+							{
+								collider->SetRadius(std::stof(value));
+								break;
+							}
+
+							case 4:
+							{
+
+								collider->SetFriction(std::stof(value));
+								break;
+							}
+
+							case 5:
+							{
+
+								collider->SetStatic((bool)std::stoi(value));
+								break;
+							}
+
+							case 6:
+							{
+								collider->SetTileMapCollider((bool)std::stoi(value));
+								break;
+							}
+
+							case 7:
+							{
+								collider->SetRotationLock((bool)std::stoi(value));
+								break;
+							}
+						}
+
+						rigidbodyData[i].erase(0, searchPosition + lineSplitter.length());
+
+						/* Up the Var Switch. */
+						varSwitch++;
+					}
+				}
+			}
+
+			else if (spriteRendererData.size() > 0)
+			{
+				List<SpriteRenderer*> renderers = object->GetComponents<SpriteRenderer>();
+
+				for (int i = 0; i < spriteRendererData.size(); i++)
+				{
+					/* Quick Variables. */
+					size_t searchPosition = 0;
+					std::string lineSplitter = "->";
+					Colour colour = Colour(1.0f);
+
+					int varSwitch = 0;
+
+					/* Keep Searching till we reach the end of the Line.*/
+					while ((searchPosition = spriteRendererData[i].find(lineSplitter)) != std::string::npos)
+					{
+						std::string value = spriteRendererData[i].substr(0, searchPosition);
+
+						switch (varSwitch)
+						{
+							case 0:
+							{
+								renderers[i]->SetMaterial(ResourceManager::GetResource<Material>(value));
+								break;
+							}
+
+							case 1:
+							{
+
+								colour.r = std::stof(value);
+								break;
+							}
+
+							case 2:
+							{
+								colour.g = std::stof(value);
+								break;
+							}
+
+							case 3:
+							{
+								colour.b = std::stof(value);
+								break;
+							}
+
+							case 4:
+							{
+
+								colour.a = std::stof(value);
+								break;
+							}
+
+							case 5:
+							{
+
+								renderers[i]->SetFlipX((bool)std::stoi(value));
+								break;
+							}
+
+							case 6:
+							{
+								renderers[i]->SetFlipY((bool)std::stoi(value));
+								break;
+							}
+
+							case 7:
+							{
+								renderers[i]->SetDepth(std::stoi(value));
+								break;
+							}
+						}
+
+						renderers[i]->SetColour(colour);
+
+						spriteRendererData[i].erase(0, searchPosition + lineSplitter.length());
+
+						/* Up the Var Switch. */
+						varSwitch++;
+					}
+				}
+			}
+
+			else if (textRendererData.size() > 0)
+			{
+				List<TextRenderer*> renderers = object->GetComponents<TextRenderer>();
+
+				for (int i = 0; i < textRendererData.size(); i++)
+				{
+					/* Quick Variables. */
+					size_t searchPosition = 0;
+					std::string lineSplitter = "->";
+					Colour colour = Colour(1.0f);
+
+					int varSwitch = 0;
+
+					/* Keep Searching till we reach the end of the Line.*/
+					while ((searchPosition = textRendererData[i].find(lineSplitter)) != std::string::npos)
+					{
+						std::string value = textRendererData[i].substr(0, searchPosition);
+
+						switch (varSwitch)
+							{
+							case 0:
+							{
+								renderers[i]->SetText(value);
+								break;
+							}
+
+							case 1:
+							{
+								renderers[i]->SetFont(ResourceManager::GetResource<Font>(value));
+								break;
+							}
+
+							case 2:
+							{
+								renderers[i]->SetTextAlignment((TextAlignment)std::stoi(value));
+								break;
+							}
+
+							case 3:
+							{
+
+								colour.r = std::stof(value);
+								break;
+							}
+
+							case 4:
+							{
+								colour.g = std::stof(value);
+								break;
+							}
+
+							case 5:
+							{
+								colour.b = std::stof(value);
+								break;
+							}
+
+							case 6:
+							{
+
+								colour.a = std::stof(value);
+								break;
+							}
+
+							case 7:
+							{
+
+								renderers[i]->SetTextSize(std::stof(value));
+								break;
+							}
+						}
+
+						renderers[i]->SetColour(colour);
+
+						textRendererData[i].erase(0, searchPosition + lineSplitter.length());
+
+						/* Up the Var Switch. */
+						varSwitch++;
+					}
+				}
+			}
+
+			else if (tileMapRendererData.size() > 0)
+			{
+				List<TileMapRenderer*> renderers = object->GetComponents<TileMapRenderer>();
+
+				for (int i = 0; i < tileMapRendererData.size(); i++)
+				{
+					/* Quick Variables. */
+					size_t searchPosition = 0;
+					std::string lineSplitter = "->";
+
+					int varSwitch = 0;
+
+					/* Keep Searching till we reach the end of the Line.*/
+					while ((searchPosition = tileMapRendererData[i].find(lineSplitter)) != std::string::npos)
+					{
+						std::string value = tileMapRendererData[i].substr(0, searchPosition);
+
+						switch (varSwitch)
+						{
+							case 0:
+							{
+								renderers[i]->SetTileSet(ResourceManager::GetResource<TileSet>(value));
+								break;
+							}
+
+							case 1:
+							{
+								renderers[i]->SetTileMap(ResourceManager::GetResource<TileMap>(value));
+								break;
+							}
+						}
+
+						tileMapRendererData[i].erase(0, searchPosition + lineSplitter.length());
+
+						/* Up the Var Switch. */
+						varSwitch++;
+					}
+				}
+			}
+
+			else if (!transformData.empty())
+			{
+				Transform2D* transform = object->GetTransform();
+
+				/* Quick Variables. */
+				size_t searchPosition = 0;
+				std::string lineSplitter = "->";
+
+				int varSwitch = 0;
+
+				/* Keep Searching till we reach the end of the Line.*/
+				while ((searchPosition = transformData.find(lineSplitter)) != std::string::npos)
+				{
+					std::string value = transformData.substr(0, searchPosition);
+
+					switch (varSwitch)
+					{
+						case 0:
+						{
+							transform->m_Position.x = std::stof(value);
+							break;
+						}
+
+						case 1:
+						{
+							transform->m_Position.y = std::stof(value);
+							break;
+						}
+						case 2:
+						{
+							transform->m_Rotation = std::stof(value);
+							break;
+						}
+
+						case 3:
+						{
+							transform->m_Scale.x = std::stof(value);
+							break;
+						}
+						case 4:
+						{
+							transform->m_Scale.y = std::stof(value);
+							break;
+						}
+					}
+
+					transformData.erase(0, searchPosition + lineSplitter.length());
+
+					/* Up the Var Switch. */
+					varSwitch++;
+				}
+			}
+
+			ResourceManager::AttachResource<Object>(object);
+
+			int breakhereyoucoward = 50;
 			fileStream.close();
 		}
 

@@ -180,7 +180,7 @@ namespace Kross
 
     void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction)
     {
-        if (!m_TileMap)
+        if (!GetComponent<Collider>()->IsTileMapCollider())
         {
             /* Sets the shape type */
             m_ShapeType = ShapeType::Circle;
@@ -256,7 +256,7 @@ namespace Kross
 
     void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction)
     {
-        if (!m_TileMap)
+        if (!GetComponent<Collider>()->IsTileMapCollider())
         {
             /* Sets the shape type */
             m_ShapeType = ShapeType::Box;
@@ -353,9 +353,9 @@ namespace Kross
         }
     }
 
-    void Rigidbody2D::OnUpdateDrawInformation() const
+    void Rigidbody2D::OnUpdateDrawInformation()
     {
-        if (!m_TileMap)
+        if (!GetComponent<Collider>()->IsTileMapCollider())
         {
             p_DebugRenderer->DrawRigidBody(p_Body);
         }
@@ -840,8 +840,6 @@ namespace Kross
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
     {
-        m_TileMap = true;
-
         List<Vector4> tileColliders;
         List<Vector3> tileCornerColliders;
         Vector2 tileDimensions = tile->p_Sprite->GetGeometry()->GetSize();

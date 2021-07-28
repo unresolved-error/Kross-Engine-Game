@@ -19,6 +19,8 @@ namespace Kross
 	class KROSS_API Renderer;
 
 	class KROSS_API Transform2D;
+	class KROSS_API Rigidbody2D;
+	class KROSS_API Collider;
 
 	class KROSS_API Object
 	{
@@ -28,7 +30,7 @@ namespace Kross
 		~Object();
 
 		std::string m_Name;
-		bool m_Static, m_Enable;
+		bool m_Static, m_Enable, m_Prefab;
 
 		List<Component*> m_Components;
 		List<Renderer*> m_RenderComponents;
@@ -102,6 +104,9 @@ namespace Kross
 		// Gets the Object Static Status.
 		const bool IsStatic() const { return m_Static; };
 
+		// Gets if the Object is a Prefab.
+		const bool IsPrefab() const { return m_Prefab; };
+
 		// Gets the Object Enable Status.
 		const bool Enabled() const { return m_Enable; };
 
@@ -129,11 +134,14 @@ namespace Kross
 		// Sets the Object Layer.
 		void SetLayer(Layer layer) { m_Layer = layer; };
 
-		// Sets the Object Static Status.
+		// Sets if the Object is Static.
 		void SetStatic(bool value) { m_Static = value; };
 
-		// Sets the Object Enable Status.
+		// Sets if the Object is Enabled.
 		void SetEnable(bool value) { m_Enable = value; };
+
+		// Sets if the Object is a Prefab. (DO NOT CALL, SERIALISER USE ONLY)
+		void SetPrefab(bool value) { m_Prefab = value; };
 
 		// Adds a Component to the Object.
 		template<typename Type>
@@ -141,6 +149,14 @@ namespace Kross
 		{
 			/* Check if the type passed through is a Child of Component. */
 			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
+
+			/* Checks if the Type Specified is a RigidBody. */
+			if (typeid(Type) == typeid(Rigidbody2D))
+			{
+				/* If we don't have a Collider. */
+				if (!GetComponent<Collider>())
+					AttachComponent<Collider>(); /* Attach it. */
+			}
 
 			/* Set up of the new Component. */
 			Component* component = KROSS_NEW Type();

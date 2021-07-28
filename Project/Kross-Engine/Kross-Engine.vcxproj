@@ -180,6 +180,7 @@
     <ClInclude Include="Source\Core\Component\Animator.h" />
     <ClInclude Include="Source\Core\Component\AudioPlayer.h" />
     <ClInclude Include="Source\Core\Component\Camera.h" />
+    <ClInclude Include="Source\Core\Component\Collider.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
