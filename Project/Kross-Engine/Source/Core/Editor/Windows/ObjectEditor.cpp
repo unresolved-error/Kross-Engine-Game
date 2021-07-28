@@ -439,6 +439,7 @@ namespace Kross {
 					Collider* col = p_SelectedObject->GetComponent<Collider>();
 						if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 						{
+							ShapeType c_Type = col->GetShapeType();
 							float c_Width = col->GetWidth();
 							float c_Height = col->GetHeight();
 							float c_Radius = col->GetRadius();
@@ -447,20 +448,60 @@ namespace Kross {
 							bool c_FixedRot = col->IsRotationLocked();
 							bool c_IsTileMap = col->IsTileMapCollider();
 
-							ImGui::Text("Shape");
-							//m_Type(ShapeType::Box),
+							if (ImGui::BeginCombo("##Shape", ((std::string)((std::string)((c_Type == ShapeType::Box) ? "Box" : ((c_Type == ShapeType::Circle) ? "Circle" : "Capsule")))).c_str(), ImGuiComboFlags_NoArrowButton))
+							{
+								if (ImGui::MenuItem("Box"))
+								{
+									col->SetShapeType(ShapeType::Box);
+								}
+								if (ImGui::MenuItem("Circle"))
+								{
+									col->SetShapeType(ShapeType::Circle);
+								}
+								if (ImGui::MenuItem("Capsule"))
+								{
+									col->SetShapeType(ShapeType::Capsule);
+								}
+								ImGui::EndCombo();
+							}
+							ImGui::Separator();
 
 							ImGui::Text("Width");
 							ImGui::SameLine();
-							ImGui::DragFloat("##c_Width", &c_Width, 0.1f, 0.0f, 100.0f, "%.2fm");
+							if(c_Type == ShapeType::Box)
+								ImGui::DragFloat("##c_Width", &c_Width, 0.1f, 0.0f, 100.0f, "%.2fm");
+
+							else
+							{
+								char buffer[512];
+								ImGui::InputTextEx("##c_Width", std::to_string(c_Width).c_str(), &buffer[0], 512, ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_ReadOnly);
+							}
 
 							ImGui::Text("Height");
 							ImGui::SameLine();
-							ImGui::DragFloat("##He", &c_Height, 0.1f, 0.0f, 100.0f, "%.2fm");
+							if (c_Type == ShapeType::Box || c_Type == ShapeType::Capsule)
+								ImGui::DragFloat("##c_Height", &c_Height, 0.1f, 0.0f, 100.0f, "%.2fm");
+
+							else
+							{
+								char buffer[512];
+								ImGui::InputTextEx("##c_Height", std::to_string(c_Height).c_str(), &buffer[0], 512, ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_ReadOnly);
+							}
 
 							ImGui::Text("Radius");
 							ImGui::SameLine();
-							ImGui::DragFloat("##Rad", &c_Radius, 0.1f, 0.0f, 100.0f, "%.2fm");
+							if (c_Type == ShapeType::Circle || c_Type == ShapeType::Capsule)
+							{
+								ImGui::PushTextWrapPos(-10.0f);
+								ImGui::DragFloat("##c_Rad", &c_Radius, 0.1f, 0.0f, 50.0f, "%.2fm");
+								ImGui::PopTextWrapPos();
+							}
+
+							else
+							{
+								char buffer[512];
+								ImGui::InputTextEx("##c_Rad", std::to_string(c_Radius).c_str(), &buffer[0], 512, ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_ReadOnly);
+							}
 
 							ImGui::Text("Friction");
 							ImGui::SameLine();
@@ -478,9 +519,14 @@ namespace Kross {
 							ImGui::SameLine();
 							ImGui::Checkbox("##TI", &c_IsTileMap);
 
-							col->SetWidth(c_Width);
+							if(c_Type == ShapeType::Box)
+								col->SetWidth(c_Width);
+
 							col->SetHeight(c_Height);
-							col->SetRadius(c_Radius);
+
+							if(c_Type == ShapeType::Circle || c_Type == ShapeType::Capsule)
+								col->SetRadius(c_Radius);
+
 							col->SetFriction(c_Frict);
 							col->SetStatic(c_IsStatic);
 							col->SetRotationLock(c_FixedRot);
