@@ -15,6 +15,7 @@ namespace Kross
     {
         Box,
         Circle,
+        Capsule,
         Plane,
         Count
     };
