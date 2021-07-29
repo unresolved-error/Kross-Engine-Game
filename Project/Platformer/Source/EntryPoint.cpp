@@ -24,8 +24,6 @@ void OnRun()
 	player->AttachComponent<SpriteRenderer>();
 	player->AttachComponent<Rigidbody2D>();
 	player->AttachComponent<PlayerMovement>();
-	Debug::Log((int)sizeof(PlayerMovement));
-	Debug::LogLine((std::string)"Bytes");
 
 	player->AttachComponent<Animator>();
 	player->GetComponent<PlayerMovement>()->camera = camera->GetComponent<Camera>();
@@ -62,7 +60,7 @@ void OnRun()
 	scene->AttachObject(tileExample);
 
 	//player->GetComponent<PlayerMovement>()->textObj = textRenderer;
-	player->SetLayer(Layer::Background);
+	player->SetLayer(Layer::Player);
 
 	player->AttachComponent<AudioPlayer>();
 

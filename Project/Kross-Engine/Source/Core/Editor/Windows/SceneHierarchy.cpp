@@ -15,7 +15,7 @@ namespace Kross
 {
 	void SceneHierarchy::SetFlags()
 	{
-		m_WindowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
+		m_WindowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
 	}
 
 	void SceneHierarchy::OnStart()
@@ -32,7 +32,7 @@ namespace Kross
 		ImVec2 position = ImVec2(viewPosition.x, viewPosition.y);
 
 		Vector2 viewSize = Editor::GetViewportSize();
-		ImVec2 size = ImVec2(viewSize.x * 0.2f, viewSize.y);
+		ImVec2 size = ImVec2(viewSize.x * 0.2f, viewSize.y * 0.7f);
 
 		ImGui::Begin(m_Title.c_str(), NULL, m_WindowFlags);
 
@@ -46,28 +46,32 @@ namespace Kross
 					/* If we have a scene. (Should always exist) */
 					if (p_Scene)
 					{
-						if (ImGui::TreeNodeEx(p_Scene->GetName().c_str()))
+						for (int i = 0; i < p_Scene->m_ActualObjects.size(); i++)
 						{
-							for (int i = 0; i < p_Scene->m_ActualObjects.size(); i++)
+							Object* object = p_Scene->m_ActualObjects[i];
+
+							/* works. */
+							if (ImGui::MenuItem(object->GetName().c_str(), "", (object == p_SelectedObject), object->Enabled()));
 							{
-								Object* object = p_Scene->m_ActualObjects[i];
-
-								if (ImGui::TreeNodeEx(object->GetName().c_str(), (object == p_SelectedObject) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+								if (ImGui::IsItemHovered() && Input::GetMouseButtonPressed(Mouse::Left))
 								{
-									if (ImGui::IsItemHovered() && Input::GetMouseButtonPressed(Mouse::Left))
+									if (object != p_SelectedObject)
 									{
-										if (object != p_SelectedObject)
-										{
-											p_SelectedObject = object;
-											Editor::SetObjectEditorObject(p_SelectedObject);
-										}
+										p_SelectedObject = object;
+										Editor::SetObjectEditorObject(p_SelectedObject);
+										Editor::SetMainMenuObject(p_SelectedObject);
 									}
-
-									ImGui::TreePop();
 								}
 							}
-							ImGui::TreePop();
-						}	
+						}
+
+						if (ImGui::BeginCombo("##AddObject", "Add Object", ImGuiComboFlags_NoArrowButton))
+						{
+							if (ImGui::MenuItem("Empty"))
+							{
+								// TODO: Blank Objects.
+							}
+						}
 					}
 
 					ImGui::EndTabItem();

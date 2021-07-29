@@ -21,11 +21,11 @@ namespace Kross {
 		
 		if (p_SelectedObject)
 		{
-			m_Title = p_SelectedObject->GetName() + " editor panel.";
+			m_Title = "Object Editor - " + p_SelectedObject->GetName();
 		}
 		else 
 		{
-			m_Title = "No Object Selected.";
+			m_Title = "Object Editor";
 		};
 
 		if (p_PreviewPane && p_PreviewPane->IsClosed())
@@ -46,10 +46,15 @@ namespace Kross {
 			if (p_SelectedObject) {
 				for (int i = 0; i < p_SelectedObject->m_Components.size(); i++)
 				{
-					if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Transform2D))
+					/* Create a Local instance of the Component we are looking at. */
+					Component* component = p_SelectedObject->m_Components[i];
+
+					/* For Removing Components, this is more than less the flag for detection. */
+					bool isOpen = true;
+
+					if (typeid(*component) == typeid(Transform2D))
 					{
-						Transform2D* transform = p_SelectedObject->GetComponent<Transform2D>();
-						float posX = transform->m_Position.x, posY = transform->m_Position.y;
+						Transform2D* transform = (Transform2D*)component;
 
 						if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 						{
@@ -128,13 +133,13 @@ namespace Kross {
 
 						}
 					}
-					
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Rigidbody2D))
+
+					else if (typeid(*component) == typeid(Rigidbody2D))
 					{
-						Rigidbody2D* rb = p_SelectedObject->GetComponent<Rigidbody2D>();
+						Rigidbody2D* rb = (Rigidbody2D*)component;
 						TileMapRenderer* tm = p_SelectedObject->GetComponent<TileMapRenderer>();
 
-						if (ImGui::CollapsingHeader("Rigidbody", ImGuiTreeNodeFlags_DefaultOpen))
+						if (ImGui::CollapsingHeader("Rigidbody", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 							if (tm)
 							{
@@ -145,30 +150,40 @@ namespace Kross {
 								}
 							}
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<Rigidbody2D>();
 					}
 
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Animator))
+					else if (typeid(*component) == typeid(Animator))
 					{
-						Animator* anim = p_SelectedObject->GetComponent<Animator>();
-						if (ImGui::CollapsingHeader("Animator", ImGuiTreeNodeFlags_DefaultOpen))
+						Animator* anim = (Animator*)component;
+						if (ImGui::CollapsingHeader("Animator", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<Animator>();
 					}
 
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(AudioPlayer))
+					else if (typeid(*component) == typeid(AudioPlayer))
 					{
-						AudioPlayer* aplayer = p_SelectedObject->GetComponent<AudioPlayer>();
-						if (ImGui::CollapsingHeader("AudioPlayer", ImGuiTreeNodeFlags_DefaultOpen)) 
+						AudioPlayer* aplayer = (AudioPlayer*)component;
+
+
+						if (ImGui::CollapsingHeader("AudioPlayer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
-						
+
 						}
 
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<AudioPlayer>();
 					}
-					
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Camera))
+
+					else if (typeid(*component) == typeid(Camera))
 					{
-						Camera* cam = p_SelectedObject->GetComponent<Camera>();
-						if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+						Camera* cam = (Camera*)component;
+						if (ImGui::CollapsingHeader("Camera", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 							float c_size = cam->GetSize();
 							float c_near = cam->GetNear();
@@ -196,20 +211,26 @@ namespace Kross {
 
 
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<Camera>();
 					}
 
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(ParticleEmitter))
+					else if (typeid(*component) == typeid(ParticleEmitter))
 					{
-						ParticleEmitter* pEmit = p_SelectedObject->GetComponent<ParticleEmitter>();
-						if (ImGui::CollapsingHeader("ParticleEmitter", ImGuiTreeNodeFlags_DefaultOpen))
+						ParticleEmitter* pEmit = (ParticleEmitter*)component;
+						if (ImGui::CollapsingHeader("ParticleEmitter", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<ParticleEmitter>();
 					}
 
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(SpriteRenderer))
+					else if (typeid(*component) == typeid(SpriteRenderer))
 					{
-						SpriteRenderer* rend = p_SelectedObject->GetComponent<SpriteRenderer>();
-						if (ImGui::CollapsingHeader("SpriteRenderer", ImGuiTreeNodeFlags_DefaultOpen))
+						SpriteRenderer* rend = (SpriteRenderer*)component;
+						if (ImGui::CollapsingHeader("SpriteRenderer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 							Vector4 col = rend->GetColour();
 							float s_col[4] = { col.r, col.g, col.b, col.a };
@@ -221,12 +242,13 @@ namespace Kross {
 							ImGui::Indent();
 							if (ImGui::CollapsingHeader(((rend->GetMaterial()) ? (std::string)(rend->GetMaterial()->GetName() + " - Material").c_str() : "Material").c_str(), ImGuiTreeNodeFlags_DefaultOpen) && rend->GetMaterial())
 							{
-								
+
 								std::string m_text = rend->GetMaterial()->GetName();
 								char m_cha[1024]{ '/0' };
 								strncpy_s(m_cha, m_text.c_str(), 1024);
 
-								ImGui::Text("Name");
+								float width = ImGui::GetContentRegionAvail().x;
+								ImGui::Text("Name:");
 								ImGui::InputText("##T", &m_cha[0], 1024);
 								std::string toSet = m_cha;
 								rend->GetMaterial()->SetName(toSet);
@@ -358,12 +380,15 @@ namespace Kross {
 
 							ImGui::Separator();
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<SpriteRenderer>();
 					}
 
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(TextRenderer))
+					else if (typeid(*component) == typeid(TextRenderer))
 					{
-						TextRenderer* rend = p_SelectedObject->GetComponent<TextRenderer>();
-						if (ImGui::CollapsingHeader("TextRenderer", ImGuiTreeNodeFlags_DefaultOpen))
+						TextRenderer* rend = (TextRenderer*)component;
+						if (ImGui::CollapsingHeader("TextRenderer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 							Font* t_font = rend->GetFont();
 							float t_size = rend->GetTextSize();
@@ -371,9 +396,9 @@ namespace Kross {
 							Vector4 col = rend->GetColour();
 							float t_col[4] = { col.r, col.g, col.b, col.a };
 
-							char t_cha[1024]{'/0'};
-							strncpy_s(t_cha, t_text.c_str(),1024);
-							
+							char t_cha[1024]{ '/0' };
+							strncpy_s(t_cha, t_text.c_str(), 1024);
+
 
 							ImGui::Text("Text");
 							ImGui::InputText("##T", &t_cha[0], 1024);
@@ -413,9 +438,9 @@ namespace Kross {
 							ImGui::DragFloat("##S", &t_size, 0.1f, 0.5f, 40.0f, "%.2fm");
 
 
-							col = Vector4{t_col[0],t_col[1], t_col[2], t_col[3]};
+							col = Vector4{ t_col[0],t_col[1], t_col[2], t_col[3] };
 
-							
+
 							std::string toSet = t_cha;
 
 							if (p_PreviewPane && p_PreviewPane->GetFont())
@@ -432,12 +457,15 @@ namespace Kross {
 							rend->SetFont(t_font);
 							rend->SetTextSize(t_size);
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<TextRenderer>();
 					}
-					
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(Collider))
+
+					else if (typeid(*component) == typeid(Collider))
 					{
-					Collider* col = p_SelectedObject->GetComponent<Collider>();
-						if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
+						Collider* col = (Collider*)component;
+						if (ImGui::CollapsingHeader("Collider", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 							ShapeType c_Type = col->GetShapeType();
 							float c_Width = col->GetWidth();
@@ -468,7 +496,7 @@ namespace Kross {
 
 							ImGui::Text("Width");
 							ImGui::SameLine();
-							if(c_Type == ShapeType::Box)
+							if (c_Type == ShapeType::Box)
 								ImGui::DragFloat("##c_Width", &c_Width, 0.1f, 0.0f, 100.0f, "%.2fm");
 
 							else
@@ -519,12 +547,12 @@ namespace Kross {
 							ImGui::SameLine();
 							ImGui::Checkbox("##TI", &c_IsTileMap);
 
-							if(c_Type == ShapeType::Box)
+							if (c_Type == ShapeType::Box)
 								col->SetWidth(c_Width);
 
 							col->SetHeight(c_Height);
 
-							if(c_Type == ShapeType::Circle || c_Type == ShapeType::Capsule)
+							if (c_Type == ShapeType::Circle || c_Type == ShapeType::Capsule)
 								col->SetRadius(c_Radius);
 
 							col->SetFriction(c_Frict);
@@ -532,24 +560,72 @@ namespace Kross {
 							col->SetRotationLock(c_FixedRot);
 							col->SetTileMapCollider(c_IsTileMap);
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<Collider>();
 					}
 
-					else if (typeid(*p_SelectedObject->m_Components[i]) == typeid(TileMapRenderer))
+					else if (typeid(*component) == typeid(TileMapRenderer))
 					{
-						TileMapRenderer* rend = p_SelectedObject->GetComponent<TileMapRenderer>();
-						if (ImGui::CollapsingHeader("TileMapRenderer", ImGuiTreeNodeFlags_DefaultOpen))
+						TileMapRenderer* rend = (TileMapRenderer*)component;
+						if (ImGui::CollapsingHeader("TileMapRenderer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 
 						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<TileMapRenderer>();
 					}
 
+				}
+
+				if (ImGui::BeginCombo("##AddComp", "Add Component", ImGuiComboFlags_NoArrowButton))
+				{
+					if (ImGui::MenuItem("Animator"))
+						p_SelectedObject->AttachComponent<Animator>();
+
+					if (ImGui::MenuItem("Audio Player"))
+						p_SelectedObject->AttachComponent<AudioPlayer>();
+
+					if (ImGui::MenuItem("Camera"))
+						p_SelectedObject->AttachComponent<Camera>();
+
+					if (ImGui::BeginMenu("Physics"))
+					{
+						if(ImGui::MenuItem("Collider"))
+							p_SelectedObject->AttachComponent<Collider>();
+
+						if (ImGui::MenuItem("Rigidbody2D"))
+							p_SelectedObject->AttachComponent<Rigidbody2D>();
+
+						ImGui::EndMenu();
+					}
+
+					if (ImGui::BeginMenu("Scripts"))
+					{
+						// TODO: Script Registry.
+
+						ImGui::EndMenu();
+					}
+
+					if (ImGui::BeginMenu("Rendering"))
+					{
+						if (ImGui::MenuItem("Sprite Renderer"))
+							p_SelectedObject->AttachComponent<SpriteRenderer>();
+
+						if (ImGui::MenuItem("Text Renderer"))
+							p_SelectedObject->AttachComponent<TextRenderer>();
+
+						if (ImGui::MenuItem("Tile Map Renderer"))
+							p_SelectedObject->AttachComponent<TileMapRenderer>();
+
+						ImGui::EndMenu();
+					}
 				}
 			}
 		}
 		ImGui::EndTabItem();
-
 		ImGui::EndTabBar();
-
 
 		ImGui::End();
 		
@@ -557,7 +633,7 @@ namespace Kross {
 
 	void ObjectEditor::SetFlags()
 	{
-		m_WindowFlags = ImGuiWindowFlags_::ImGuiWindowFlags_NoMove;
+		m_WindowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
 	}
 
 	void ObjectEditor::OnStart()

@@ -91,5 +91,8 @@ namespace Kross
 
 		// Grabs the OpenGL Window. (USE IF YOU KNOW WHAT YOUR DOING WITH IT)
 		GLFWwindow* GetGLFWWindow() const { return p_GLFWWindow; };
+
+		// Close the Window.
+		void CloseWindow() { glfwSetWindowShouldClose(p_GLFWWindow, 1); };
 	};
 }

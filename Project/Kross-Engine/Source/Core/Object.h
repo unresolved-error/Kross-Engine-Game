@@ -9,6 +9,7 @@
 
 #include "Core.h"
 
+#include "Debug.h"
 #include "Layer.h"
 
 namespace Kross
@@ -172,6 +173,66 @@ namespace Kross
 
 			/* Return the Component Type. */
 			return (Type*)component;
+		}
+
+		// Removes a Component from the Object.
+		template<typename Type>
+		void DetachComponent(int index = 0)
+		{
+			/* Check if the type passed through is a Child of Component. */
+			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
+
+			/* Search Index to match the Current Index. */
+			int searchedIndex = 0;
+
+			/* Go through the Components. */
+			for (int i = 0; i < m_Components.size(); i++)
+			{
+				/* Make a local variable for the currently looked at Component. */
+				Component* component = m_Components[i];
+
+				/* If it is the Type of Component we are looking for. */
+				if (typeid(*component) == typeid(Type))
+				{
+					/* If we are at the Search index. */
+					if (searchedIndex == index)
+					{
+						/* Then Check if the Component is a Renderer. */
+						if (std::is_convertible<Type*, Renderer*>::value)
+						{
+							/* Go through the Renderer Components. */
+							for (int r = 0; r < m_RenderComponents.size(); r++)
+							{
+								Renderer* renderComponent = (Renderer*)component;
+								/* Check if that Component is the One we are after. */
+								if (renderComponent == m_RenderComponents[r])
+								{
+									/* Erase it from the List. */
+									m_RenderComponents[r] = nullptr;
+									m_RenderComponents.erase(m_RenderComponents.begin() + r);
+									break;
+								}
+							}
+						}
+
+						/* Delete the Component. */
+						delete m_Components[i];
+						m_Components[i] = nullptr;
+
+						/* Erase the Null Pointer from the list. */
+						m_Components.erase(m_Components.begin() + i);
+						return;
+					}
+
+					/* If it isn't. */
+					else
+						searchedIndex++; /* Keep Searching. */
+				}
+			}
+
+			/* If we get here. Something Wasn't found. */
+			std::string componentName = "Name";//typeid(Type).name();
+			Debug::LogWarningLine("Component Type: " + componentName + "! Couldn't be deleted, as no Instance was found!");
 		}
 
 		// Gets the first Component that is of the Type specified.

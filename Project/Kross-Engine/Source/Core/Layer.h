@@ -16,12 +16,12 @@ namespace Kross
 		/* Layers. */
 		Default,
 		Light,
-		Player,
 		Environment,
 		Background,
 		
 		Wall,
 		Ground,
+		Player,
 
 		/* Important Layers. (DO NOT REMOVE) */
 		Fluids,

@@ -80,6 +80,9 @@ namespace Kross
 			#ifdef KROSS_EDITOR
 			Editor::AttachEditorWindow(KROSS_NEW SceneHierarchy());
 			Editor::AttachEditorWindow(KROSS_NEW ObjectEditor());
+			Editor::AttachEditorWindow(KROSS_NEW MainMenu());
+			Editor::AttachEditorWindow(KROSS_NEW AssetDirectory());
+			Editor::AttachEditorWindow(KROSS_NEW AssetPanel());
 
 			Editor::OnStart(s_Instance->p_Window);
 			#endif

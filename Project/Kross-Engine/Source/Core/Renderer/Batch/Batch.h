@@ -13,7 +13,7 @@
 #include "../../Component/Renderer.h"
 
 // How much Geometry can be passed in by default.
-#define MAX_BATCH_SIZE 512
+#define MAX_BATCH_SIZE 1024
 
 namespace Kross
 {
@@ -74,6 +74,10 @@ namespace Kross
         {
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
+
+            /* If the Renderer doesn't have a Material. */
+            if (!renderer->GetMaterial())
+                return; /* Early out. */
 
             /* Get all Material Sprites. */
             Sprite* diffuseSprite = renderer->GetMaterial()->GetDiffuse();

@@ -470,6 +470,10 @@ namespace Kross
                 //p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, 0.075f, 8);
             }
         }
+
+        #ifdef KROSS_DEBUG
+        OnUpdateDrawInformation();
+        #endif
     }
 
     void Rigidbody2D::OnApplyForce(Vector2 force)

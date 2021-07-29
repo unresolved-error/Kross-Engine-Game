@@ -25,7 +25,6 @@ namespace Kross
 			m_Objects				(List<Object*>()), 
 			m_StaticObjects			(List<Object*>()),
 			m_ActualObjects			(List<Object*>()),
-			m_RigidbodyComponents	(List<Component*>()),
 			p_DebugRenderer			(KROSS_NEW LineRenderer()),
 			p_DebugShader			(nullptr),
 			p_Camera				(nullptr), 
@@ -63,8 +62,6 @@ namespace Kross
 
 		// Editor Purposes only!
 		List<Object*> m_ActualObjects;
-
-		List<Component*> m_RigidbodyComponents;
 
 		// List of Layer Groups.
 		List<List<Renderer*>> m_RenderList; /* | Layer | Object | */

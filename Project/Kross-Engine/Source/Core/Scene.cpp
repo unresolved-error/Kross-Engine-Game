@@ -74,14 +74,6 @@ namespace Kross
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
             m_Objects[i]->OnUpdate();
-
-        #ifdef KROSS_DEBUG
-        for (int i = 0; i < m_RigidbodyComponents.size(); i++)
-        {
-            Rigidbody2D* body = (Rigidbody2D*)m_RigidbodyComponents[i];
-            body->OnUpdateDrawInformation();
-        }
-        #endif
     }
 
     void Scene::OnPhysicsUpdate()
@@ -321,7 +313,6 @@ namespace Kross
         {
             body->SetPhysicsScene(p_Physics);
             body->AttachLineRenderer(p_DebugRenderer);
-            m_RigidbodyComponents.push_back(body);
         }
 
         /* Check if the object is type Particle Emitter */
