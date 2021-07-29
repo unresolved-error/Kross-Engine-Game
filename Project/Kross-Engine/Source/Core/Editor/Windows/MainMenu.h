@@ -14,10 +14,16 @@ namespace Kross
 	{
 	public:
 
-		MainMenu()
+		MainMenu() :
+			p_SelectedObject (nullptr)
 		{};
 
 		~MainMenu() {};
+
+		void SetSelectedObject(Object* object) { p_SelectedObject = object; };
+
+	private:
+		Object* p_SelectedObject;
 
 	protected:
 		friend class SceneHierarchy;

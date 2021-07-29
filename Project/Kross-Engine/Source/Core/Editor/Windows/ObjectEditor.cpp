@@ -625,9 +625,7 @@ namespace Kross {
 			}
 		}
 		ImGui::EndTabItem();
-
 		ImGui::EndTabBar();
-
 
 		ImGui::End();
 		

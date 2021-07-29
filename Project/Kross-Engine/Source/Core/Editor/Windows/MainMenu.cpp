@@ -7,6 +7,8 @@
 #include "../../Core.h"
 
 #include "MainMenu.h"
+#include "../../Application.h"
+#include "../../Manager/SceneManager.h"
 
 namespace Kross
 {
@@ -29,7 +31,10 @@ namespace Kross
 			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S")) {}
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Exit")) {}
+			if (ImGui::MenuItem("Exit", "  Alt + F4")) 
+			{
+				Application::GetWindow()->CloseWindow();
+			}
 			ImGui::Separator();
 
 			ImGui::EndMenu();
@@ -73,20 +78,59 @@ namespace Kross
 			{
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Empty")) {}
-				if (ImGui::MenuItem("Camera")) {}
-				if (ImGui::MenuItem("Text")) {}
-				if (ImGui::MenuItem("Sprite")) {}
-				if (ImGui::MenuItem("Physical")) {}
-				if (ImGui::MenuItem("Tile Map")) {}
-				if (ImGui::MenuItem("Particle Emitter")) {}
-				ImGui::Separator();
+				if (ImGui::MenuItem("Empty"))
+				{
+					Object* object = Object::OnCreate();
+					SceneManager::GetCurrentScene()->AttachObject(object);
+				}
+				if (ImGui::MenuItem("Camera"))
+				{
+					Object* camera = Object::OnCreate("Camera");
+					camera->AttachComponent<Camera>();
+					SceneManager::GetCurrentScene()->AttachObject(camera);
+				}
+				if (ImGui::MenuItem("Text"))
+				{
+					Object* text = Object::OnCreate("Text");
+					text->AttachComponent<TextRenderer>();
+					SceneManager::GetCurrentScene()->AttachObject(text);
+				}
+				if (ImGui::MenuItem("Sprite"))
+				{
+					Object* sprite = Object::OnCreate("Sprite");
+					sprite->AttachComponent<SpriteRenderer>();
+					SceneManager::GetCurrentScene()->AttachObject(sprite);
+				}
+				if (ImGui::MenuItem("Rigidbody 2D"))
+				{
+					Object* rigidbody = Object::OnCreate("Rigidbody");
+					rigidbody->AttachComponent<Rigidbody2D>();
+					SceneManager::GetCurrentScene()->AttachObject(rigidbody);
+				}
+				if (ImGui::MenuItem("Tile Map"))
+				{
+					Object* tileMap = Object::OnCreate("Tile Map");
+					tileMap->AttachComponent<TileMapRenderer>();
+					SceneManager::GetCurrentScene()->AttachObject(tileMap);
+				}
+				if (ImGui::MenuItem("Particle Emitter"))
+				{
+					Object* particleEmitter = Object::OnCreate("Particle Emitter");
+					particleEmitter->AttachComponent<ParticleEmitter>();
+					SceneManager::GetCurrentScene()->AttachObject(particleEmitter);
+				}
+				if (ImGui::MenuItem("Audio Player"))
+				{
+					Object* audioPlayer = Object::OnCreate("Audio player");
+					audioPlayer->AttachComponent<AudioPlayer>();
+					SceneManager::GetCurrentScene()->AttachObject(audioPlayer);
+				}
 
+				ImGui::Separator();
 				ImGui::EndMenu();
 			}
+
 			ImGui::Separator();
-
-
 			ImGui::EndMenu();
 		}
 
@@ -148,6 +192,9 @@ namespace Kross
 *		// Creates the Menu items //
 * 		if (ImGui::MenuItem("Empty")) {}
 * 		if (ImGui::MenuItem("Item")) {}
+* 
+*		// When setting tool tips add two spaces before //
+*		if (ImGui::MenuItem("Exit", "  Alt + F4")) {}
 * 
 * 		// Bottom of menu separator //
 * 		ImGui::Separator();
