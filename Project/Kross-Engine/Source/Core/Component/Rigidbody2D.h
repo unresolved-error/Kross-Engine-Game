@@ -74,8 +74,6 @@ namespace Kross
         List<Circle*> m_TileCornerShapes;
         List<FixtureDef*> m_Fixtures;
 
-        bool m_TileMap = false;
-
     protected:
         friend class TileMapRenderer;
         friend class PhysicsScene;
@@ -88,7 +86,7 @@ namespace Kross
         void OnUpdate() override;
 
         // Sends Draw Informatin to the Line Renderer.
-        void OnUpdateDrawInformation() const;
+        void OnUpdateDrawInformation();
 
         // Attaches a Line Renderer.
         void AttachLineRenderer(LineRenderer* renderer) { p_DebugRenderer = renderer; };

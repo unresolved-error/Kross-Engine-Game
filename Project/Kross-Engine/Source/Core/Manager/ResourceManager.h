@@ -37,6 +37,7 @@ namespace Kross
 			m_AudioSources  (List<AudioSource*>()),
 			m_TileMaps		(List<TileMap*>()),
 			m_TileSets      (List<TileSet*>()),
+			m_Prefabs		(List<Object*>()),
 			p_Atlas			(nullptr)
 		{};
 		~ResourceManager();
@@ -53,6 +54,7 @@ namespace Kross
 		List<AudioSource*> m_AudioSources;
 		List<TileMap*> m_TileMaps;
 		List<TileSet*> m_TileSets;
+		List<Object*> m_Prefabs;
 
 		Atlas* p_Atlas;
 
@@ -610,6 +612,65 @@ namespace Kross
 		}
 
 #pragma endregion
+
+		#pragma region PREFABS
+
+		// Gets Prefab by name from Resource Manager.
+		template<>
+		static Object* GetResource<Object>(const std::string& name)
+		{
+			for (int i = 0; i < s_Instance->m_Prefabs.size(); i++)
+			{
+				/* If the name of the Prefab matches the name requested, return that Prefab. */
+				if (s_Instance->m_Prefabs[i]->GetName() == name)
+					return s_Instance->m_Prefabs[i];
+			}
+
+			/* If nothing was found. */
+			return nullptr;
+		}
+
+		// Gets Prefab by name from Resource Manager.
+		template<>
+		static Object* GetResource<Object>(int index)
+		{
+			/* If the Index is in the bounds of the List. */
+			if (index >= 0 && index < s_Instance->m_Prefabs.size())
+				return s_Instance->m_Prefabs[index];
+
+			/* If not, return null. */
+			return nullptr;
+		}
+
+		// Adds Prefab to the Resource Manager.
+		template<>
+		static void AttachResource<Object>(Object* object)
+		{
+			if(!object->IsPrefab())
+				s_Instance->m_Prefabs.push_back(object);
+		}
+
+		// Removes a Prefab from the Resource Manager.
+		template<>
+		static void DetachResource<Object>(Object* object)
+		{
+			/* Early out if the object is not a Prefab. */
+			if (!object->IsPrefab())
+				return;
+
+			/* Go through the Prefab List. */
+			for (int i = 0; i < s_Instance->m_Prefabs.size(); i++)
+			{
+				/* if the Prefab is the same as the one specified. Remove it.*/
+				if (s_Instance->m_Prefabs[i] == object)
+				{
+					Object::OnDestroy(s_Instance->m_Prefabs[i]);
+					s_Instance->m_Prefabs.erase(s_Instance->m_Prefabs.begin() + i);
+				}
+			}
+		}
+
+		#pragma endregion
 
 		// Gets the Atlas.
 		static Atlas* GetAtlas() { return s_Instance->p_Atlas; };

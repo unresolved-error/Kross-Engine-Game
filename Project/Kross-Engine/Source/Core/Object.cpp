@@ -18,7 +18,8 @@ namespace Kross
 		m_Layer			(Layer::Default),
 		p_ParentObject	(nullptr),
 		m_Static		(false),
-		m_Enable		(true)
+		m_Enable		(true),
+		m_Prefab		(false)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();

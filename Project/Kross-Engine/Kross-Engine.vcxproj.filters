@@ -696,6 +696,7 @@
     <ClInclude Include="Source\Core\Editor\Windows\AssetPanel.h" />
     <ClInclude Include="Source\Core\Audio\AudioProperties.h" />
     <ClInclude Include="Source\Core\Editor\Windows\MainMenu.h" />
+    <ClInclude Include="Source\Core\Component\Collider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

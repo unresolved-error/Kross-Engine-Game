@@ -57,6 +57,8 @@ void OnRun()
 	tilemap->SetTileMap(ResourceManager::GetResource<TileMap>("DirtTileMap"));
 	tilemap->SetTileSet(ResourceManager::GetResource<TileSet>("DirtTileSet"));
 
+	tileExample->GetComponent<Collider>()->SetTileMapCollider(true);
+
 	scene->AttachObject(tileExample);
 
 	//player->GetComponent<PlayerMovement>()->textObj = textRenderer;
