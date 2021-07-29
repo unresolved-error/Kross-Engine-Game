@@ -34,5 +34,11 @@ namespace Kross
 
 		// Adds the Data to the Window. 
 		void Attach() override;
+
+		// Sets the Asset Type.
+		void SetAssetType(AssetType type) { m_Type = type; };
+
+		// Gets the Asset Type.
+		AssetType GetAssetType() { return m_Type; };
 	};
 }

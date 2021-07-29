@@ -21,6 +21,7 @@ namespace Kross
 		List<EditorWindow*> m_EditorWindows;
 		ObjectEditor* p_ObjectEditor;
 		MainMenu* p_MainMenu;
+		AssetPanel* p_AssetPanel;
 
 		bool m_IsUpdating;
 
@@ -30,6 +31,7 @@ namespace Kross
 			m_EditorWindows	(List<EditorWindow*>()),
 			p_ObjectEditor	(nullptr),
 			p_MainMenu		(nullptr),
+			p_AssetPanel	(nullptr),
 			m_IsUpdating	(false),
 			p_Viewport		(nullptr)
 		{};
@@ -59,6 +61,7 @@ namespace Kross
 	public:
 		static void SetObjectEditorObject(Object* object) { s_Instance->p_ObjectEditor->p_SelectedObject = object; };
 		static void SetMainMenuObject(Object* object) { s_Instance->p_MainMenu->SetSelectedObject(object); };
+		static void SetAssetPanelAssetType(AssetType type) { s_Instance->p_AssetPanel->SetAssetType(type); }
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
 
