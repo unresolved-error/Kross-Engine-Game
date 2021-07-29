@@ -20,6 +20,7 @@ namespace Kross
 		static Editor* s_Instance;
 		List<EditorWindow*> m_EditorWindows;
 		ObjectEditor* p_ObjectEditor;
+		MainMenu* p_MainMenu;
 
 		bool m_IsUpdating;
 
@@ -27,7 +28,10 @@ namespace Kross
 
 		Editor() :
 			m_EditorWindows	(List<EditorWindow*>()),
-			p_ObjectEditor	(nullptr)
+			p_ObjectEditor	(nullptr),
+			p_MainMenu		(nullptr),
+			m_IsUpdating	(false),
+			p_Viewport		(nullptr)
 		{};
 
 		~Editor();
@@ -54,6 +58,7 @@ namespace Kross
 
 	public:
 		static void SetObjectEditorObject(Object* object) { s_Instance->p_ObjectEditor->p_SelectedObject = object; };
+		static void SetMainMenuObject(Object* object) { s_Instance->p_MainMenu->SetSelectedObject(object); };
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
 
