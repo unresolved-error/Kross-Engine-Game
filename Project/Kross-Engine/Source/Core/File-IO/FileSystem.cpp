@@ -346,6 +346,9 @@ namespace Kross
 
 				else if (textureType == "SPECULARMAP")
 					Texture::OnCreate(textureFilepath, textureName, TextureType::SpecularMap);
+
+				else if (textureType == "ENGINE")
+					Texture::OnCreate(textureFilepath, textureName, TextureType::Engine);
 			}
 
 			else
@@ -1134,8 +1137,6 @@ namespace Kross
 
 			/* Debugging Checkpoint. */
 			std::string debugCheckpoint = "50";
-
-			__debugbreak();
 
 			/* Close the File Stream. */
 			fileStream.close();

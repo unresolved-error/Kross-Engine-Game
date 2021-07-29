@@ -19,6 +19,8 @@ namespace Kross
 		PerlinMap,
 
 		// Font Texture.
-		FontMap
+		FontMap,
+
+		Engine
 	};
 }
