@@ -59,6 +59,7 @@ namespace Kross
 									{
 										p_SelectedObject = object;
 										Editor::SetObjectEditorObject(p_SelectedObject);
+										Editor::SetMainMenuObject(p_SelectedObject);
 									}
 								}
 							}

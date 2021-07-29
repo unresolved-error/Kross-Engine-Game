@@ -144,7 +144,13 @@ namespace Kross
 
 				if (ImGui::MenuItem("Animator")) {}
 				if (ImGui::MenuItem("Audio Player")) {}
-				if (ImGui::MenuItem("Camera")) {}
+				if (ImGui::MenuItem("Camera")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<Camera>())
+					{
+						Debug::LogWarningLine("Could not add Camera to Object: " + p_SelectedObject->GetName());
+					}
+				}
 				if (ImGui::MenuItem("Particle Emitter")) {}
 				if (ImGui::MenuItem("Rigidbody 2D")) {}
 				if (ImGui::MenuItem("Script")) {}

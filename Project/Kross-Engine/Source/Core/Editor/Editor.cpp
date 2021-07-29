@@ -74,6 +74,9 @@ namespace Kross
 		if (typeid(*window) == typeid(ObjectEditor))
 			s_Instance->p_ObjectEditor = (ObjectEditor*)window;
 
+		if (typeid(*window) == typeid(MainMenu))
+			s_Instance->p_MainMenu = (MainMenu*)window;
+
 		if (s_Instance->m_IsUpdating)
 			window->OnStart();
 	}
