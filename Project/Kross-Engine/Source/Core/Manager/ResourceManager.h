@@ -684,6 +684,7 @@ namespace Kross
 		friend class Application;
 
 		friend class AssetPreview;
+		friend class AssetPanel;
 
 		#pragma region GEOMETRY
 

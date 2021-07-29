@@ -30,6 +30,22 @@ namespace Kross
         ImVec2 size = ImVec2(viewSize.x * 0.2f, (viewSize.y * 0.31f));
 
         ImGui::Begin(m_Title.c_str(), NULL, m_WindowFlags);
+
+        if (ImGui::CollapsingHeader("Assets", ImGuiTreeNodeFlags_CollapsingHeader | ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::Indent();
+            ImGui::Indent();
+            for (int i = 1; i < (int)AssetType::Count; i++)
+            {
+                if (ImGui::MenuItem(m_TypeNames[i].c_str(), "", (m_TypeSelected == m_TypeNames[i])))
+                {
+                    Editor::SetAssetPanelAssetType((AssetType)i);
+                    m_TypeSelected = m_TypeNames[i];
+                }
+            }
+            ImGui::Unindent();
+            ImGui::Unindent();
+        }
         
         ImGui::SetWindowPos(position);
         ImGui::SetWindowSize(size);
