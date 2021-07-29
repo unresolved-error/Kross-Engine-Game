@@ -1146,6 +1146,164 @@ namespace Kross
 		}
 	}
 
+	void FileSystem::OnWritePrefab(const Object* prefab)
+	{
+		OnCreateDirectory("Assets/Prefabs/");
+
+		std::string filepath = ("Assets/Prefabs/" + prefab->GetName() + ".krs");
+
+		/* Display what we are loading. */
+		Debug::LogLine("Saving Prefab");
+
+
+		std::string breakChar("->");
+
+		/* Parameter variables. */
+		std::string prefabTitle("PREFAB:");
+		std::string prefabName("NAME->" + prefab->GetName() + "->");
+		std::string prefabStatic("STATIC->" + std::to_string((int)prefab->IsStatic()) + breakChar);
+		std::string prefabEnable("ENABLE->" + std::to_string((int)prefab->Enabled()) + breakChar);
+		std::string prefabLayer("LAYER->" + std::to_string((int)prefab->GetLayer()) + breakChar);
+
+		/* Transform is always on an object, and always one. */
+		std::string transformData("TRANSFORM2D->");
+		transformData += std::to_string(prefab->GetTransform()->m_Position.x) + breakChar;
+		transformData += std::to_string(prefab->GetTransform()->m_Position.y) + breakChar;
+		transformData += std::to_string(prefab->GetTransform()->m_Rotation) + breakChar;
+		transformData += std::to_string(prefab->GetTransform()->m_Scale.x) + breakChar;
+		transformData += std::to_string(prefab->GetTransform()->m_Scale.y) + breakChar;
+
+		/* Open the Filestream. */
+		std::ofstream prefabStream;
+		prefabStream.open(filepath.c_str());
+		prefabStream << prefabTitle + "\n";
+		prefabStream << prefabName + "\n";
+		prefabStream << prefabStatic + "\n";
+		prefabStream << prefabEnable + "\n";
+		prefabStream << prefabLayer + "\n";
+		prefabStream << "\n";
+		prefabStream << transformData + "\n";
+		prefabStream << "\n";
+
+
+		for (int i = 0; i < prefab->m_Components.size(); i++)
+		{
+			Component* comp = prefab->m_Components[i];
+			//Write each component. Check what it is.
+			if (typeid(*comp) == typeid(Animator))
+			{
+				Animator* anim = (Animator*)comp;
+				/*
+					current anim name
+					list of animation names -Current.
+					
+					ANIMATOR->currentAnimNAme->Name->name->name->
+
+				*/
+				prefabStream << anim->GetCurrentAnimation()->GetName() << "->";
+
+				//other animations
+				for (int i = 0; i < anim->m_Animations.size(); i++)
+				{
+					if (anim->m_Animations[i] != anim->GetCurrentAnimation()) 
+					{
+						prefabStream << anim->m_Animations[i]->GetName() << "->";
+					}
+
+				}
+
+			}
+			else if (typeid(*comp) == typeid(Camera))
+			{
+				Camera* cam = (Camera*)comp;
+				/*
+					SIZE->NEAR->FAR
+				*/
+				prefabStream << "AUDIO-PLAYER->";
+				prefabStream << cam->GetSize() << "->";
+				prefabStream << cam->GetNear() << "->";
+				prefabStream << cam->GetFar() << "->";
+
+			}
+			else if (typeid(*comp) == typeid(AudioPlayer))
+			{
+				AudioPlayer* aud = (AudioPlayer*)comp;
+				prefabStream << "AUDIO-PLAYER->";
+				prefabStream << aud->GetSource()->GetName() << "->";
+				prefabStream << (int)aud->GetProperties()->GetLoop() << "->";
+				prefabStream << aud->GetProperties()->GetPlaySpeed() << "->";
+				prefabStream << aud->GetProperties()->GetVolume() << "->";
+				prefabStream << aud->GetProperties()->GetPan() << "->";
+			}
+			else if (typeid(*comp) == typeid(Collider))
+			{
+				Collider* rig = (Collider*)comp;
+				prefabStream << "RIGIDBODY2D->";
+				prefabStream << (int)rig->GetShapeType() << "->";
+				prefabStream << rig->GetWidth() << "->";
+				prefabStream << rig->GetHeight() << "->";
+				prefabStream << rig->GetRadius() << "->";
+				prefabStream << rig->GetFriction() << "->";
+				prefabStream << (int)rig->IsStatic() << "->";
+				prefabStream << (int)rig->IsTileMapCollider() << "->";
+				prefabStream << (int)rig->IsRotationLocked() << "->";
+
+				
+			}
+			else if (typeid(*comp) == typeid(SpriteRenderer))
+			{
+				SpriteRenderer* sprR = (SpriteRenderer*)comp;
+				prefabStream << "SPRITE-RENDERER->";
+				prefabStream << sprR->GetMaterial()->GetName() + "->";
+				prefabStream << sprR->GetColour().r << "->";
+				prefabStream << sprR->GetColour().g << "->";
+				prefabStream << sprR->GetColour().b << "->";
+				prefabStream << sprR->GetColour().a << "->";
+				prefabStream << (int)sprR->GetFlipX() << "->";
+				prefabStream << (int)sprR->GetFlipY() << "->";
+				prefabStream << (int)sprR->GetDepth() << "->";
+		
+			}
+			else if (typeid(*comp) == typeid(TextRenderer))
+			{
+				TextRenderer* tr = (TextRenderer*)comp;
+				/*
+					Text->font->alignment->r->g->b->a->size->
+				*/
+
+				prefabStream << "TEXT-RENDERER->";
+				prefabStream << tr->GetText() << "->";
+				prefabStream << tr->GetFont()->GetName() << "->";
+				prefabStream << (int)tr->GetTextAlignment() << "->";
+				prefabStream << tr->GetColour().r << "->";
+				prefabStream << tr->GetColour().g << "->";
+				prefabStream << tr->GetColour().b << "->";
+				prefabStream << tr->GetColour().a << "->";
+				prefabStream << tr->GetTextSize() << "->";
+
+			}
+			else if (typeid(*comp) == typeid(TileMapRenderer))
+			{
+				TileMapRenderer* tmr = (TileMapRenderer*)comp;
+				/*tileSet -> tileMap*/
+				prefabStream << tmr->GetTileSet()->GetName() << "->";
+				prefabStream << tmr->GetTileMap()->GetName() << "->";
+
+
+			}
+
+			if (i != prefab->m_Components.size() - 1)
+			{
+				prefabStream << "\n";
+				prefabStream << "\n";
+			}
+
+		}
+
+		prefabStream.close();
+
+	}
+
 	void FileSystem::OnReadTileMap(const std::string& filepath) 
 	{
 		/* Display what we are loading. */
@@ -2500,4 +2658,5 @@ namespace Kross
 		/* If not, Create it. */
 		return std::filesystem::create_directory(directory);
 	}
+
 }

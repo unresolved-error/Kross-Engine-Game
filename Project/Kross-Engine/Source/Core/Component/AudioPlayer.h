@@ -47,6 +47,13 @@ namespace Kross
         // Gets the Pan.
         float GetPan() { return p_AudioProperties->GetPan(); };
 
+        // Gets the source.
+        AudioSource* GetSource() { return p_AudioSrc; };
+
+        // Gets the Pan.
+        AudioProperties* GetProperties() { return p_AudioProperties; };
+
+
         // Gets the Volume.
         float GetVolume() { return p_AudioProperties->GetVolume(); };
 

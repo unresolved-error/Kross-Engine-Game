@@ -49,6 +49,7 @@ namespace Kross
 		friend class Scene;
 		friend class ObjectEditor;
 		friend class Component;
+		friend class FileSystem;
 
 		// Object Start Method.
 		void OnStart();

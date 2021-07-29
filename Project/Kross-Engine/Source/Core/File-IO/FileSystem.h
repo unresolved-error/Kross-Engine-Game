@@ -24,6 +24,8 @@ namespace Kross
 		// Writes the Asset Engine Manifest File.
 		static void OnWriteManifestFile();
 
+		static void OnWritePrefab(const Object* prefab);
+
 		// Writes a Texture.
 		static void OnWriteTexture(const std::string& filepath);
 

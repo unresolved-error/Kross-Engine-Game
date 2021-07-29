@@ -41,6 +41,7 @@ namespace Kross
 
 	protected:
 		friend class ObjectEditor;
+		friend class FileSystem;
 
 		// Animators Start Method.
 		void OnStart() override;
