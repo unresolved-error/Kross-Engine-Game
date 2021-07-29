@@ -80,6 +80,7 @@ namespace Kross
 		friend class SceneManager;
 		friend class Application;
 		friend class SceneHierarchy;
+		friend class FileSystem;
 
 		// Starts the Objects.
 		void OnStart();

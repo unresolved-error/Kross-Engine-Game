@@ -60,6 +60,10 @@ namespace Kross
 		// Reads the Asset Engine Manifest File.
 		static void OnReadManifestFile();
 
+		//Reads the scene in.
+		static void OnReadScene(const std::string& filepath);
+		static List<Object*> OnReadObjects(const std::string& filepath);
+			
 		// Reads in a Texture.
 		static void OnReadTexture(const std::string& filepath);
 
