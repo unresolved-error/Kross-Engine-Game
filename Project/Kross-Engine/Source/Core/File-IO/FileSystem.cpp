@@ -13,6 +13,7 @@
 
 #include "../Debug.h"
 #include "../Manager/ResourceManager.h"
+#include "../Manager/SceneManager.h"
 
 #include "stb_image/stb_image.h"
 #include "../Scene.h"
@@ -248,7 +249,7 @@ namespace Kross
 				else if (assetType == "TILEMAP")
 					OnReadTileMap(assetFilepath);
 
-				else if(assetType == "TILESET")
+				else if (assetType == "TILESET")
 					OnReadTileSet(assetFilepath);
 
 				else if (assetType == "ATLAS")
@@ -256,6 +257,9 @@ namespace Kross
 
 				else if (assetType == "PREFAB")
 					OnReadPrefab(assetFilepath);
+
+				else if (assetType == "SCENE")
+					OnReadScene(assetFilepath);
 			}
 
 			fileStream.close();
@@ -276,7 +280,7 @@ namespace Kross
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
 
-		Scene* newScene;
+		Scene* newScene = Scene::OnCreate("CHANGE ME");
 		
 		std::string nameOfScene;
 		std::string gravity;
@@ -324,10 +328,10 @@ namespace Kross
 					{
 						if(sceneProperty == "NAME")
 						{
-							newScene->OnCreate(line.substr(0, searchPosition)); 
+							newScene->SetName(line.substr(0, searchPosition)); 
 							//Takes the next property and makes it the scene name and creates the Scene.
 						}
-						else if (sceneProperty == "GRAVITY") 
+						if (sceneProperty == "GRAVITY") 
 						{
 							switch (varSwitch)
 							{
@@ -351,7 +355,7 @@ namespace Kross
 								}
 							}
 						}
-						else if (sceneProperty == "OBJDATA")
+						if (sceneProperty == "OBJECTS")
 						{
 							kObjFilepath = line.substr(0, searchPosition);
 						}
@@ -371,13 +375,17 @@ namespace Kross
 		//NOW LOAD OBJECTS. THIS WILL BE ROUGH.
 		List<Object*> moo = OnReadObjects(kObjFilepath);
 
-		__debugbreak();
+		//__debugbreak();
 
 		for (int i = 0; i < moo.size(); i++)
 		{
-			
+			/* These Naming Conventions I swear to god. (MOO?) */
+			newScene->AttachObject(moo[i]);
 		}
-
+		
+		/* Got I hope this works. */
+		SceneManager::AttachScene(newScene);
+		SceneManager::SetCurrentScene(0);
 	}
 
 
@@ -403,7 +411,7 @@ namespace Kross
 		List<std::string> tileMapRendererData;
 
 		List<Object*> readInObjects;
-		Object* currentObject;
+		Object* currentObject = Object::OnCreate();
 
 		/* If the File Stream is Open. */
 		if (fileStream.is_open())
@@ -437,11 +445,644 @@ namespace Kross
 
 				if (line == "START->") 
 				{
-					currentObject = Object::OnCreate();
+					if(!currentObject)
+						currentObject = Object::OnCreate();
+
 					continue;
 				}
 				else if (line == "END->") 
 				{
+					/* Set Basic Properties. */
+					currentObject->SetName(objName);
+					currentObject->SetStatic((bool)std::stoi(objStatic));
+					currentObject->SetEnable((bool)std::stoi(objEnable));
+					currentObject->SetLayer((Layer)std::stoi(objLayer));
+					currentObject->SetPrefab(false);
+
+					/* Go through Animator Data. */
+					if (animatorData.size() > 0)
+					{
+						/* Access all animators on the Object. */
+						List<Animator*> animators = currentObject->GetComponents<Animator>();
+						for (int i = 0; i < animatorData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+
+							/* For setting the Current animation. */
+							bool isFirst = true;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = animatorData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Name of the Animation. */
+								std::string animationName = animatorData[i].substr(0, searchPosition);
+
+								/* Search for it. */
+								Animation* animation = ResourceManager::GetResource<Animation>(animationName);
+
+								/* If the animation exists. */
+								if (animation)
+								{
+									/* Add the Animation to the Animator. */
+									animators[i]->AttachAnimation(animation);
+
+									/* For Current Animation Setting. */
+									if (isFirst)
+									{
+										/* If its the First Animation being Searched, Set it a Current. */
+										animators[i]->SetCurrentAnimation(0);
+										isFirst = false;
+									}
+								}
+
+								/* If no Animation was Found. */
+								else
+									Debug::LogWarningLine("Animation: " + animationName + "! Not Found!");
+
+								/* Erase Data that has been used. */
+								animatorData[i].erase(0, searchPosition + lineSplitter.length());
+							}
+						}
+					}
+
+					/* Go through the Audio Player Data. */
+					if (audioPlayerData.size() > 0)
+					{
+						/* Grab all of the Audio Players on the Object. */
+						List<AudioPlayer*> audioPlayers = currentObject->GetComponents<AudioPlayer>();
+
+						/* Run through the List of Data. */
+						for (int i = 0; i < audioPlayerData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = audioPlayerData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Grab the Data Value. */
+								std::string value = audioPlayerData[i].substr(0, searchPosition);
+
+								/* Run through the Variable Placement Switch. */
+								switch (varSwitch)
+								{
+									/* Audio Source. */
+								case 0:
+								{
+									AudioSource* audioSource = ResourceManager::GetResource<AudioSource>(value);
+
+									/* If the Audio Source searched does exist. */
+									if (audioSource)
+										audioPlayers[i]->SetAudioSource(audioSource);
+
+									/* If not. */
+									else
+										Debug::LogWarningLine("Audio Source: " + value + "! Not Found!");
+
+									break;
+								}
+
+								/* Loop Setting. */
+								case 1:
+								{
+
+									audioPlayers[i]->SetLoop((bool)std::stoi(value));
+									break;
+								}
+
+								/* Play Speed Setting. */
+								case 2:
+								{
+									audioPlayers[i]->SetPlaySpeed(std::stof(value));
+									break;
+								}
+
+								/* Volume Setting. */
+								case 3:
+								{
+									audioPlayers[i]->SetVolume(std::stof(value));
+									break;
+								}
+
+								/* Pan Setting. */
+								case 4:
+								{
+									audioPlayers[i]->SetPan(std::stof(value));
+									break;
+								}
+								}
+
+								/* Erase any data that has been used. */
+								audioPlayerData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
+					/* Go through the Camera Data. */
+					if (cameraData.size() > 0)
+					{
+						/* Grab all of the Cameras on the Object. */
+						List<Camera*> cameras = currentObject->GetComponents<Camera>();
+
+						/* Go through all Camera Data. */
+						for (int i = 0; i < cameraData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = cameraData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Grab the Data Value. */
+								std::string value = cameraData[i].substr(0, searchPosition);
+
+								/* Camera Variable Setting. */
+								switch (varSwitch)
+								{
+									/* Camera Size. */
+								case 0:
+								{
+									cameras[i]->SetSize(std::stof(value));
+									break;
+								}
+
+								/* Camera Near Plane Clipping. */
+								case 1:
+								{
+
+									cameras[i]->SetNear(std::stof(value));
+									break;
+								}
+
+								/* Camera Far Plane Clipping. */
+								case 2:
+								{
+									cameras[i]->SetFar(std::stof(value));
+									break;
+								}
+								}
+
+								/* Erase data that is used. */
+								cameraData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
+					/* Go through Rigidbody Data. */
+					if (rigidbodyData.size() > 0)
+					{
+						/* Grab the Collider on the Object. */
+						Collider* collider = currentObject->GetComponent<Collider>();
+
+						/* Go through all of the Rigidbody Data. */
+						for (int i = 0; i < rigidbodyData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = rigidbodyData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Grab the Data value. */
+								std::string value = rigidbodyData[i].substr(0, searchPosition);
+
+								/* Collider Data Setting. */
+								switch (varSwitch)
+								{
+									/* Shape Type Setting. */
+								case 0:
+								{
+									collider->SetShapeType((ShapeType)std::stoi(value));
+									break;
+								}
+
+								/* Width Setting. */
+								case 1:
+								{
+
+									collider->SetWidth(std::stof(value));
+									break;
+								}
+
+								/* Height Setting. */
+								case 2:
+								{
+									collider->SetHeight(std::stof(value));
+									break;
+								}
+
+								/* Radius Setting. */
+								case 3:
+								{
+									collider->SetRadius(std::stof(value));
+									break;
+								}
+
+								/* Friction Setting. */
+								case 4:
+								{
+
+									collider->SetFriction(std::stof(value));
+									break;
+								}
+
+								/* Static Setting. */
+								case 5:
+								{
+
+									collider->SetStatic((bool)std::stoi(value));
+									break;
+								}
+
+								/* Tile Map Collision Check Setting. */
+								case 6:
+								{
+									collider->SetTileMapCollider((bool)std::stoi(value));
+									break;
+								}
+
+								/* Rotation Lock Setting. */
+								case 7:
+								{
+									collider->SetRotationLock((bool)std::stoi(value));
+									break;
+								}
+								}
+
+								/* Erase any data that we have used. */
+								rigidbodyData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
+					/* Go through the Sprite Renderer Data. */
+					if (spriteRendererData.size() > 0)
+					{
+						/* Get all Sprite Renderers on this Obejct. */
+						List<SpriteRenderer*> renderers = currentObject->GetComponents<SpriteRenderer>();
+
+						/* Go through all of the Data. */
+						for (int i = 0; i < spriteRendererData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Colour is Needed through this Process. */
+							Colour colour = Colour(1.0f);
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = spriteRendererData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Grab the Data Value. */
+								std::string value = spriteRendererData[i].substr(0, searchPosition);
+
+								/* Sprite Setting Switch. */
+								switch (varSwitch)
+								{
+									/* Material Setting. */
+								case 0:
+								{
+									Material* material = nullptr;
+									material = ResourceManager::GetResource<Material>(value);
+
+									/* If we have a material. */
+									if (material)
+										renderers[i]->SetMaterial(material);
+
+									/* If not Report it. */
+									else
+										Debug::LogWarningLine("Material: " + value + "! Not Found!");
+
+									break;
+								}
+
+								/* Red Value Setting. */
+								case 1:
+								{
+
+									colour.r = std::stof(value);
+									break;
+								}
+
+								/* Green Value Setting. */
+								case 2:
+								{
+									colour.g = std::stof(value);
+									break;
+								}
+
+								/* Blue Value Setting. */
+								case 3:
+								{
+									colour.b = std::stof(value);
+									break;
+								}
+
+								/* Alpha Value Setting. */
+								case 4:
+								{
+
+									colour.a = std::stof(value);
+									break;
+								}
+
+								/* Horizontal Flip Setting. */
+								case 5:
+								{
+
+									renderers[i]->SetFlipX((bool)std::stoi(value));
+									break;
+								}
+
+								/* Vertical Flip Setting. */
+								case 6:
+								{
+									renderers[i]->SetFlipY((bool)std::stoi(value));
+									break;
+								}
+
+								/* Depth Setting. */
+								case 7:
+								{
+									renderers[i]->SetDepth(std::stoi(value));
+									break;
+								}
+								}
+
+								/* Set the Colour Tint. */
+								renderers[i]->SetColour(colour);
+
+								/* Erase the data we have used. */
+								spriteRendererData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
+					/* Go through the Text Rendering Data. */
+					if (textRendererData.size() > 0)
+					{
+						/* Get all of the Text Renderers on the Object. */
+						List<TextRenderer*> renderers = currentObject->GetComponents<TextRenderer>();
+
+						/* Run through the Data. */
+						for (int i = 0; i < textRendererData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Used thoughout. */
+							Colour colour = Colour(1.0f);
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = textRendererData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Data Value. */
+								std::string value = textRendererData[i].substr(0, searchPosition);
+
+								/* Text Renderer Variable Setting. */
+								switch (varSwitch)
+								{
+									/* Text Setting. */
+								case 0:
+								{
+									renderers[i]->SetText(value);
+									break;
+								}
+
+								/* Font Setting. */
+								case 1:
+								{
+									Font* font = ResourceManager::GetResource<Font>(value);
+
+									/* If we have a font. */
+									if (font)
+										renderers[i]->SetFont(font);
+
+									/* If not. Report it. */
+									else
+										Debug::LogWarningLine("Font: " + value + "! Not Found!");
+
+									break;
+								}
+
+								/* Text Alignment Setting. */
+								case 2:
+								{
+									renderers[i]->SetTextAlignment((TextAlignment)std::stoi(value));
+									break;
+								}
+
+								/* Red Value Setting. */
+								case 3:
+								{
+
+									colour.r = std::stof(value);
+									break;
+								}
+
+								/* Green Value Setting. */
+								case 4:
+								{
+									colour.g = std::stof(value);
+									break;
+								}
+
+								/* Blue Value Setting. */
+								case 5:
+								{
+									colour.b = std::stof(value);
+									break;
+								}
+
+								/* Alpha Value Setting. */
+								case 6:
+								{
+									colour.a = std::stof(value);
+									break;
+								}
+
+								/* Text Size Setting. */
+								case 7:
+								{
+									renderers[i]->SetTextSize(std::stof(value));
+									break;
+								}
+								}
+
+								/* Set the Text Colour. */
+								renderers[i]->SetColour(colour);
+
+								/* Erase the Data just Used. */
+								textRendererData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
+					/* Go through the Tile Map Renderer Data. */
+					if (tileMapRendererData.size() > 0)
+					{
+						/* Get all Tile Map Renderers on the Object. */
+						List<TileMapRenderer*> renderers = currentObject->GetComponents<TileMapRenderer>();
+
+						/* Go through the Data. */
+						for (int i = 0; i < tileMapRendererData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = tileMapRendererData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Grab the Data Value. */
+								std::string value = tileMapRendererData[i].substr(0, searchPosition);
+
+								/* Variable Setting Switch. */
+								switch (varSwitch)
+								{
+									/* Tile Set Setting. */
+								case 0:
+								{
+									TileSet* tileSet = ResourceManager::GetResource<TileSet>(value);
+
+									/* If a Tile Set was Found. */
+									if (tileSet)
+										renderers[i]->SetTileSet(tileSet);
+
+									/* If not. Report it. */
+									else
+										Debug::LogWarningLine("Tile Set: " + value + "! Not Found!");
+
+									break;
+								}
+
+								/* Tile Map Setting. */
+								case 1:
+								{
+									TileMap* tileMap = ResourceManager::GetResource<TileMap>(value);
+
+									/* If a Tile Map was Found. */
+									if (tileMap)
+										renderers[i]->SetTileMap(tileMap);
+
+									/* If not. Report it. */
+									else
+										Debug::LogWarningLine("Tile Map: " + value + "! Not Found!");
+
+									break;
+								}
+								}
+
+								/* Erase the used up data. */
+								tileMapRendererData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
+					/* Go through the Transform Data. */
+					if (!transformData.empty())
+					{
+						/* Grab the Transform. */
+						Transform2D* transform = currentObject->GetTransform();
+
+						/* Quick Variables. */
+						size_t searchPosition = 0;
+						std::string lineSplitter = "->";
+						int varSwitch = 0;
+
+						/* Keep Searching till we reach the end of the Line.*/
+						while ((searchPosition = transformData.find(lineSplitter)) != std::string::npos)
+						{
+							/* Grab the Data Value. */
+							std::string value = transformData.substr(0, searchPosition);
+
+							/* Variable Setting. */
+							switch (varSwitch)
+							{
+								/* X Position Setting. */
+							case 0:
+							{
+								transform->m_Position.x = std::stof(value);
+								break;
+							}
+
+							/* Y Position Setting. */
+							case 1:
+							{
+								transform->m_Position.y = std::stof(value);
+								break;
+							}
+
+							/* Rotation Setting. */
+							case 2:
+							{
+								transform->m_Rotation = std::stof(value);
+								break;
+							}
+
+							/* X Scale Setting. */
+							case 3:
+							{
+								transform->m_Scale.x = std::stof(value);
+								break;
+							}
+
+							/* Y Scale Setting. */
+							case 4:
+							{
+								transform->m_Scale.y = std::stof(value);
+								break;
+							}
+							}
+
+							/* Remove the Data Used. */
+							transformData.erase(0, searchPosition + lineSplitter.length());
+
+							/* Up the Var Switch. */
+							varSwitch++;
+						}
+					}
+
+					animatorData.clear();
+					audioPlayerData.clear();
+					cameraData.clear();
+					rigidbodyData.clear();
+					spriteRendererData.clear();
+					textRendererData.clear();
+					tileMapRendererData.clear();
+					transformData = "";
+
 					readInObjects.push_back(currentObject);
 					currentObject = nullptr;
 					continue;
@@ -539,634 +1180,12 @@ namespace Kross
 				}
 			}
 
-			/* Set Basic Properties. */
-			currentObject->SetName(objName);
-			currentObject->SetStatic((bool)std::stoi(objStatic));
-			currentObject->SetEnable((bool)std::stoi(objEnable));
-			currentObject->SetLayer((Layer)std::stoi(objLayer));
-			currentObject->SetPrefab(true);
-
-			/* Go through Animator Data. */
-			if (animatorData.size() > 0)
-			{
-				/* Access all animators on the Object. */
-				List<Animator*> animators = currentObject->GetComponents<Animator>();
-				for (int i = 0; i < animatorData.size(); i++)
-				{
-					/* Quick Variables. */
-					size_t searchPosition = 0;
-					std::string lineSplitter = "->";
-
-					/* For setting the Current animation. */
-					bool isFirst = true;
-
-					/* Keep Searching till we reach the end of the Line.*/
-					while ((searchPosition = animatorData[i].find(lineSplitter)) != std::string::npos)
-					{
-						/* Get the Name of the Animation. */
-						std::string animationName = animatorData[i].substr(0, searchPosition);
-
-						/* Search for it. */
-						Animation* animation = ResourceManager::GetResource<Animation>(animationName);
-
-						/* If the animation exists. */
-						if (animation)
-						{
-							/* Add the Animation to the Animator. */
-							animators[i]->AttachAnimation(animation);
-
-							/* For Current Animation Setting. */
-							if (isFirst)
-							{
-								/* If its the First Animation being Searched, Set it a Current. */
-								animators[i]->SetCurrentAnimation(0);
-								isFirst = false;
-							}
-						}
-
-						/* If no Animation was Found. */
-						else
-							Debug::LogWarningLine("Animation: " + animationName + "! Not Found!");
-
-						/* Erase Data that has been used. */
-						animatorData[i].erase(0, searchPosition + lineSplitter.length());
-					}
-				}
-			}
-
-			/* Go through the Audio Player Data. */
-			if (audioPlayerData.size() > 0)
-			{
-				/* Grab all of the Audio Players on the Object. */
-				List<AudioPlayer*> audioPlayers = currentObject->GetComponents<AudioPlayer>();
-
-				/* Run through the List of Data. */
-				for (int i = 0; i < audioPlayerData.size(); i++)
-				{
-					/* Quick Variables. */
-					size_t searchPosition = 0;
-					std::string lineSplitter = "->";
-					int varSwitch = 0;
-
-					/* Keep Searching till we reach the end of the Line.*/
-					while ((searchPosition = audioPlayerData[i].find(lineSplitter)) != std::string::npos)
-					{
-						/* Grab the Data Value. */
-						std::string value = audioPlayerData[i].substr(0, searchPosition);
-
-						/* Run through the Variable Placement Switch. */
-						switch (varSwitch)
-						{
-							/* Audio Source. */
-						case 0:
-						{
-							AudioSource* audioSource = ResourceManager::GetResource<AudioSource>(value);
-
-							/* If the Audio Source searched does exist. */
-							if (audioSource)
-								audioPlayers[i]->SetAudioSource(audioSource);
-
-							/* If not. */
-							else
-								Debug::LogWarningLine("Audio Source: " + value + "! Not Found!");
-
-							break;
-						}
-
-						/* Loop Setting. */
-						case 1:
-						{
-
-							audioPlayers[i]->SetLoop((bool)std::stoi(value));
-							break;
-						}
-
-						/* Play Speed Setting. */
-						case 2:
-						{
-							audioPlayers[i]->SetPlaySpeed(std::stof(value));
-							break;
-						}
-
-						/* Volume Setting. */
-						case 3:
-						{
-							audioPlayers[i]->SetVolume(std::stof(value));
-							break;
-						}
-
-						/* Pan Setting. */
-						case 4:
-						{
-							audioPlayers[i]->SetPan(std::stof(value));
-							break;
-						}
-						}
-
-						/* Erase any data that has been used. */
-						audioPlayerData[i].erase(0, searchPosition + lineSplitter.length());
-
-						/* Up the Var Switch. */
-						varSwitch++;
-					}
-				}
-			}
-
-			/* Go through the Camera Data. */
-			if (cameraData.size() > 0)
-			{
-				/* Grab all of the Cameras on the Object. */
-				List<Camera*> cameras = currentObject->GetComponents<Camera>();
-
-				/* Go through all Camera Data. */
-				for (int i = 0; i < cameraData.size(); i++)
-				{
-					/* Quick Variables. */
-					size_t searchPosition = 0;
-					std::string lineSplitter = "->";
-					int varSwitch = 0;
-
-					/* Keep Searching till we reach the end of the Line.*/
-					while ((searchPosition = cameraData[i].find(lineSplitter)) != std::string::npos)
-					{
-						/* Grab the Data Value. */
-						std::string value = cameraData[i].substr(0, searchPosition);
-
-						/* Camera Variable Setting. */
-						switch (varSwitch)
-						{
-							/* Camera Size. */
-						case 0:
-						{
-							cameras[i]->SetSize(std::stof(value));
-							break;
-						}
-
-						/* Camera Near Plane Clipping. */
-						case 1:
-						{
-
-							cameras[i]->SetNear(std::stof(value));
-							break;
-						}
-
-						/* Camera Far Plane Clipping. */
-						case 2:
-						{
-							cameras[i]->SetFar(std::stof(value));
-							break;
-						}
-						}
-
-						/* Erase data that is used. */
-						cameraData[i].erase(0, searchPosition + lineSplitter.length());
-
-						/* Up the Var Switch. */
-						varSwitch++;
-					}
-				}
-			}
-
-			/* Go through Rigidbody Data. */
-			if (rigidbodyData.size() > 0)
-			{
-				/* Grab the Collider on the Object. */
-				Collider* collider = currentObject->GetComponent<Collider>();
-
-				/* Go through all of the Rigidbody Data. */
-				for (int i = 0; i < rigidbodyData.size(); i++)
-				{
-					/* Quick Variables. */
-					size_t searchPosition = 0;
-					std::string lineSplitter = "->";
-					int varSwitch = 0;
-
-					/* Keep Searching till we reach the end of the Line.*/
-					while ((searchPosition = rigidbodyData[i].find(lineSplitter)) != std::string::npos)
-					{
-						/* Grab the Data value. */
-						std::string value = rigidbodyData[i].substr(0, searchPosition);
-
-						/* Collider Data Setting. */
-						switch (varSwitch)
-						{
-							/* Shape Type Setting. */
-						case 0:
-						{
-							collider->SetShapeType((ShapeType)std::stoi(value));
-							break;
-						}
-
-						/* Width Setting. */
-						case 1:
-						{
-
-							collider->SetWidth(std::stof(value));
-							break;
-						}
-
-						/* Height Setting. */
-						case 2:
-						{
-							collider->SetHeight(std::stof(value));
-							break;
-						}
-
-						/* Radius Setting. */
-						case 3:
-						{
-							collider->SetRadius(std::stof(value));
-							break;
-						}
-
-						/* Friction Setting. */
-						case 4:
-						{
-
-							collider->SetFriction(std::stof(value));
-							break;
-						}
-
-						/* Static Setting. */
-						case 5:
-						{
-
-							collider->SetStatic((bool)std::stoi(value));
-							break;
-						}
-
-						/* Tile Map Collision Check Setting. */
-						case 6:
-						{
-							collider->SetTileMapCollider((bool)std::stoi(value));
-							break;
-						}
-
-						/* Rotation Lock Setting. */
-						case 7:
-						{
-							collider->SetRotationLock((bool)std::stoi(value));
-							break;
-						}
-						}
-
-						/* Erase any data that we have used. */
-						rigidbodyData[i].erase(0, searchPosition + lineSplitter.length());
-
-						/* Up the Var Switch. */
-						varSwitch++;
-					}
-				}
-			}
-
-			/* Go through the Sprite Renderer Data. */
-			if (spriteRendererData.size() > 0)
-			{
-				/* Get all Sprite Renderers on this Obejct. */
-				List<SpriteRenderer*> renderers = currentObject->GetComponents<SpriteRenderer>();
-
-				/* Go through all of the Data. */
-				for (int i = 0; i < spriteRendererData.size(); i++)
-				{
-					/* Quick Variables. */
-					size_t searchPosition = 0;
-					std::string lineSplitter = "->";
-					int varSwitch = 0;
-
-					/* Colour is Needed through this Process. */
-					Colour colour = Colour(1.0f);
-
-					/* Keep Searching till we reach the end of the Line.*/
-					while ((searchPosition = spriteRendererData[i].find(lineSplitter)) != std::string::npos)
-					{
-						/* Grab the Data Value. */
-						std::string value = spriteRendererData[i].substr(0, searchPosition);
-
-						/* Sprite Setting Switch. */
-						switch (varSwitch)
-						{
-							/* Material Setting. */
-						case 0:
-						{
-							Material* material = nullptr;
-							material = ResourceManager::GetResource<Material>(value);
-
-							/* If we have a material. */
-							if (material)
-								renderers[i]->SetMaterial(material);
-
-							/* If not Report it. */
-							else
-								Debug::LogWarningLine("Material: " + value + "! Not Found!");
-
-							break;
-						}
-
-						/* Red Value Setting. */
-						case 1:
-						{
-
-							colour.r = std::stof(value);
-							break;
-						}
-
-						/* Green Value Setting. */
-						case 2:
-						{
-							colour.g = std::stof(value);
-							break;
-						}
-
-						/* Blue Value Setting. */
-						case 3:
-						{
-							colour.b = std::stof(value);
-							break;
-						}
-
-						/* Alpha Value Setting. */
-						case 4:
-						{
-
-							colour.a = std::stof(value);
-							break;
-						}
-
-						/* Horizontal Flip Setting. */
-						case 5:
-						{
-
-							renderers[i]->SetFlipX((bool)std::stoi(value));
-							break;
-						}
-
-						/* Vertical Flip Setting. */
-						case 6:
-						{
-							renderers[i]->SetFlipY((bool)std::stoi(value));
-							break;
-						}
-
-						/* Depth Setting. */
-						case 7:
-						{
-							renderers[i]->SetDepth(std::stoi(value));
-							break;
-						}
-						}
-
-						/* Set the Colour Tint. */
-						renderers[i]->SetColour(colour);
-
-						/* Erase the data we have used. */
-						spriteRendererData[i].erase(0, searchPosition + lineSplitter.length());
-
-						/* Up the Var Switch. */
-						varSwitch++;
-					}
-				}
-			}
-
-			/* Go through the Text Rendering Data. */
-			if (textRendererData.size() > 0)
-			{
-				/* Get all of the Text Renderers on the Object. */
-				List<TextRenderer*> renderers = currentObject->GetComponents<TextRenderer>();
-
-				/* Run through the Data. */
-				for (int i = 0; i < textRendererData.size(); i++)
-				{
-					/* Quick Variables. */
-					size_t searchPosition = 0;
-					std::string lineSplitter = "->";
-					int varSwitch = 0;
-
-					/* Used thoughout. */
-					Colour colour = Colour(1.0f);
-
-					/* Keep Searching till we reach the end of the Line.*/
-					while ((searchPosition = textRendererData[i].find(lineSplitter)) != std::string::npos)
-					{
-						/* Get the Data Value. */
-						std::string value = textRendererData[i].substr(0, searchPosition);
-
-						/* Text Renderer Variable Setting. */
-						switch (varSwitch)
-						{
-							/* Text Setting. */
-						case 0:
-						{
-							renderers[i]->SetText(value);
-							break;
-						}
-
-						/* Font Setting. */
-						case 1:
-						{
-							Font* font = ResourceManager::GetResource<Font>(value);
-
-							/* If we have a font. */
-							if (font)
-								renderers[i]->SetFont(font);
-
-							/* If not. Report it. */
-							else
-								Debug::LogWarningLine("Font: " + value + "! Not Found!");
-
-							break;
-						}
-
-						/* Text Alignment Setting. */
-						case 2:
-						{
-							renderers[i]->SetTextAlignment((TextAlignment)std::stoi(value));
-							break;
-						}
-
-						/* Red Value Setting. */
-						case 3:
-						{
-
-							colour.r = std::stof(value);
-							break;
-						}
-
-						/* Green Value Setting. */
-						case 4:
-						{
-							colour.g = std::stof(value);
-							break;
-						}
-
-						/* Blue Value Setting. */
-						case 5:
-						{
-							colour.b = std::stof(value);
-							break;
-						}
-
-						/* Alpha Value Setting. */
-						case 6:
-						{
-							colour.a = std::stof(value);
-							break;
-						}
-
-						/* Text Size Setting. */
-						case 7:
-						{
-							renderers[i]->SetTextSize(std::stof(value));
-							break;
-						}
-						}
-
-						/* Set the Text Colour. */
-						renderers[i]->SetColour(colour);
-
-						/* Erase the Data just Used. */
-						textRendererData[i].erase(0, searchPosition + lineSplitter.length());
-
-						/* Up the Var Switch. */
-						varSwitch++;
-					}
-				}
-			}
-
-			/* Go through the Tile Map Renderer Data. */
-			if (tileMapRendererData.size() > 0)
-			{
-				/* Get all Tile Map Renderers on the Object. */
-				List<TileMapRenderer*> renderers = currentObject->GetComponents<TileMapRenderer>();
-
-				/* Go through the Data. */
-				for (int i = 0; i < tileMapRendererData.size(); i++)
-				{
-					/* Quick Variables. */
-					size_t searchPosition = 0;
-					std::string lineSplitter = "->";
-					int varSwitch = 0;
-
-					/* Keep Searching till we reach the end of the Line.*/
-					while ((searchPosition = tileMapRendererData[i].find(lineSplitter)) != std::string::npos)
-					{
-						/* Grab the Data Value. */
-						std::string value = tileMapRendererData[i].substr(0, searchPosition);
-
-						/* Variable Setting Switch. */
-						switch (varSwitch)
-						{
-							/* Tile Set Setting. */
-						case 0:
-						{
-							TileSet* tileSet = ResourceManager::GetResource<TileSet>(value);
-
-							/* If a Tile Set was Found. */
-							if (tileSet)
-								renderers[i]->SetTileSet(tileSet);
-
-							/* If not. Report it. */
-							else
-								Debug::LogWarningLine("Tile Set: " + value + "! Not Found!");
-
-							break;
-						}
-
-						/* Tile Map Setting. */
-						case 1:
-						{
-							TileMap* tileMap = ResourceManager::GetResource<TileMap>(value);
-
-							/* If a Tile Map was Found. */
-							if (tileMap)
-								renderers[i]->SetTileMap(tileMap);
-
-							/* If not. Report it. */
-							else
-								Debug::LogWarningLine("Tile Map: " + value + "! Not Found!");
-
-							break;
-						}
-						}
-
-						/* Erase the used up data. */
-						tileMapRendererData[i].erase(0, searchPosition + lineSplitter.length());
-
-						/* Up the Var Switch. */
-						varSwitch++;
-					}
-				}
-			}
-
-			/* Go through the Transform Data. */
-			if (!transformData.empty())
-			{
-				/* Grab the Transform. */
-				Transform2D* transform = object->GetTransform();
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string lineSplitter = "->";
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = transformData.find(lineSplitter)) != std::string::npos)
-				{
-					/* Grab the Data Value. */
-					std::string value = transformData.substr(0, searchPosition);
-
-					/* Variable Setting. */
-					switch (varSwitch)
-					{
-						/* X Position Setting. */
-					case 0:
-					{
-						transform->m_Position.x = std::stof(value);
-						break;
-					}
-
-					/* Y Position Setting. */
-					case 1:
-					{
-						transform->m_Position.y = std::stof(value);
-						break;
-					}
-
-					/* Rotation Setting. */
-					case 2:
-					{
-						transform->m_Rotation = std::stof(value);
-						break;
-					}
-
-					/* X Scale Setting. */
-					case 3:
-					{
-						transform->m_Scale.x = std::stof(value);
-						break;
-					}
-
-					/* Y Scale Setting. */
-					case 4:
-					{
-						transform->m_Scale.y = std::stof(value);
-						break;
-					}
-					}
-
-					/* Remove the Data Used. */
-					transformData.erase(0, searchPosition + lineSplitter.length());
-
-					/* Up the Var Switch. */
-					varSwitch++;
-				}
-			}
+			
 
 			
 
 			/* Debugging Checkpoint. */
 			std::string debugCheckpoint = "50";
-
-
 
 			/* Close the File Stream. */
 			fileStream.close();
@@ -1178,6 +1197,8 @@ namespace Kross
 			/* Fully Close the Stream. */
 			fileStream.close();
 		}
+
+		return readInObjects;
 	}
 
 	void FileSystem::OnReadTexture(const std::string& filepath)
