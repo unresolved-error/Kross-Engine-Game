@@ -44,6 +44,18 @@ namespace Kross {
 		if (ImGui::BeginTabItem("Component Hierarchy"))
 		{
 			if (p_SelectedObject) {
+
+				/*--------------------------------------------------------------------*/
+
+				if (ImGui::Button("Create as Prefab") && !p_SelectedObject->IsPrefab())
+				{
+					/* CHRIS, DO YOUR THING! */
+					/* LOL*/
+					/* LIKE LEGIT */
+				}
+
+				/*--------------------------------------------------------------------*/
+
 				for (int i = 0; i < p_SelectedObject->m_Components.size(); i++)
 				{
 					/* Create a Local instance of the Component we are looking at. */
