@@ -190,6 +190,7 @@
     <ClInclude Include="Source\Core\Editor\Windows\AssetDirectory.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetPanel.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetPreview.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\MainMenu.h" />
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
@@ -691,6 +692,7 @@
     <ClCompile Include="Source\Core\Editor\Windows\AssetDirectory.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\AssetPanel.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\AssetPreview.cpp" />
+    <ClCompile Include="Source\Core\Editor\Windows\MainMenu.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\ObjectEditor.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\SceneHierarchy.cpp" />
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />

@@ -50,3 +50,4 @@ namespace Kross
 #include "Windows/SceneHierarchy.h"
 #include "Windows/ObjectEditor.h"
 #include "Windows/AssetPreview.h"
+#include "Windows/MainMenu.h"
