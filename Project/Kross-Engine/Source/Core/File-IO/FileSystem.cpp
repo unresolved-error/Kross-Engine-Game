@@ -563,7 +563,7 @@ namespace Kross
 			}
 
 			/* Go through the Audio Player Data. */
-			else if (audioPlayerData.size() > 0)
+			if (audioPlayerData.size() > 0)
 			{
 				/* Grab all of the Audio Players on the Object. */
 				List<AudioPlayer*> audioPlayers = object->GetComponents<AudioPlayer>();
@@ -641,7 +641,7 @@ namespace Kross
 			}
 
 			/* Go through the Camera Data. */
-			else if (cameraData.size() > 0)
+			if (cameraData.size() > 0)
 			{
 				/* Grab all of the Cameras on the Object. */
 				List<Camera*> cameras = object->GetComponents<Camera>();
@@ -696,7 +696,7 @@ namespace Kross
 			}
 		
 			/* Go through Rigidbody Data. */
-			else if (rigidbodyData.size() > 0)
+			if (rigidbodyData.size() > 0)
 			{
 				/* Grab the Collider on the Object. */
 				Collider* collider = object->GetComponent<Collider>();
@@ -788,7 +788,7 @@ namespace Kross
 			}
 
 			/* Go through the Sprite Renderer Data. */
-			else if (spriteRendererData.size() > 0)
+			if (spriteRendererData.size() > 0)
 			{
 				/* Get all Sprite Renderers on this Obejct. */
 				List<SpriteRenderer*> renderers = object->GetComponents<SpriteRenderer>();
@@ -816,7 +816,8 @@ namespace Kross
 							/* Material Setting. */
 							case 0:
 							{
-								Material* material = ResourceManager::GetResource<Material>(value);
+								Material* material = nullptr;
+								material = ResourceManager::GetResource<Material>(value);
 
 								/* If we have a material. */
 								if (material)
@@ -895,7 +896,7 @@ namespace Kross
 			}
 
 			/* Go through the Text Rendering Data. */
-			else if (textRendererData.size() > 0)
+			if (textRendererData.size() > 0)
 			{
 				/* Get all of the Text Renderers on the Object. */
 				List<TextRenderer*> renderers = object->GetComponents<TextRenderer>();
@@ -1000,7 +1001,7 @@ namespace Kross
 			}
 
 			/* Go through the Tile Map Renderer Data. */
-			else if (tileMapRendererData.size() > 0)
+			if (tileMapRendererData.size() > 0)
 			{
 				/* Get all Tile Map Renderers on the Object. */
 				List<TileMapRenderer*> renderers = object->GetComponents<TileMapRenderer>();
@@ -1065,7 +1066,7 @@ namespace Kross
 			}
 
 			/* Go through the Transform Data. */
-			else if (!transformData.empty())
+			if (!transformData.empty())
 			{
 				/* Grab the Transform. */
 				Transform2D* transform = object->GetTransform();
@@ -1133,11 +1134,7 @@ namespace Kross
 
 			/* Debugging Checkpoint. */
 			std::string debugCheckpoint = "50";
-			
-			Debug::Log(debugCheckpoint);
-			Debug::Log(debugCheckpoint);
-			Debug::Log(debugCheckpoint);
-			Debug::LogError((std::string)debugCheckpoint);
+
 			__debugbreak();
 
 			/* Close the File Stream. */
