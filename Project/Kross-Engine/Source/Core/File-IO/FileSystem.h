@@ -20,6 +20,7 @@ namespace Kross
 		~FileSystem() {};
 	protected:
 		friend class ResourceManager;
+		friend class ObjectEditor;
 
 		// Writes the Asset Engine Manifest File.
 		static void OnWriteManifestFile();

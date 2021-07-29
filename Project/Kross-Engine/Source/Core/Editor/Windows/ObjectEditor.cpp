@@ -7,6 +7,8 @@
 
 #include "../Editor.h"
 #include "../../Debug.h"
+#include "../../File-IO/FileSystem.h"
+
 
 namespace Kross {
 
@@ -47,11 +49,9 @@ namespace Kross {
 
 				/*--------------------------------------------------------------------*/
 
-				if (ImGui::Button("Create as Prefab") && !p_SelectedObject->IsPrefab())
+				if (ImGui::Button("Create as Prefab"))
 				{
-					/* CHRIS, DO YOUR THING! */
-					/* LOL*/
-					/* LIKE LEGIT */
+					FileSystem::OnWritePrefab(p_SelectedObject);
 				}
 
 				/*--------------------------------------------------------------------*/

@@ -1132,7 +1132,13 @@ namespace Kross
 			ResourceManager::AttachResource<Object>(object);
 
 			/* Debugging Checkpoint. */
-			char debugCheckpoint = 50;
+			std::string debugCheckpoint = "50";
+			
+			Debug::Log(debugCheckpoint);
+			Debug::Log(debugCheckpoint);
+			Debug::Log(debugCheckpoint);
+			Debug::LogError((std::string)debugCheckpoint);
+			__debugbreak();
 
 			/* Close the File Stream. */
 			fileStream.close();
@@ -1181,9 +1187,7 @@ namespace Kross
 		prefabStream << prefabStatic + "\n";
 		prefabStream << prefabEnable + "\n";
 		prefabStream << prefabLayer + "\n";
-		prefabStream << "\n";
 		prefabStream << transformData + "\n";
-		prefabStream << "\n";
 
 
 		for (int i = 0; i < prefab->m_Components.size(); i++)
@@ -1200,6 +1204,8 @@ namespace Kross
 					ANIMATOR->currentAnimNAme->Name->name->name->
 
 				*/
+				prefabStream << "ANIMATOR->";
+
 				prefabStream << anim->GetCurrentAnimation()->GetName() << "->";
 
 				//other animations
@@ -1247,8 +1253,6 @@ namespace Kross
 				prefabStream << (int)rig->IsStatic() << "->";
 				prefabStream << (int)rig->IsTileMapCollider() << "->";
 				prefabStream << (int)rig->IsRotationLocked() << "->";
-
-				
 			}
 			else if (typeid(*comp) == typeid(SpriteRenderer))
 			{
@@ -1262,7 +1266,6 @@ namespace Kross
 				prefabStream << (int)sprR->GetFlipX() << "->";
 				prefabStream << (int)sprR->GetFlipY() << "->";
 				prefabStream << (int)sprR->GetDepth() << "->";
-		
 			}
 			else if (typeid(*comp) == typeid(TextRenderer))
 			{
@@ -1288,13 +1291,10 @@ namespace Kross
 				/*tileSet -> tileMap*/
 				prefabStream << tmr->GetTileSet()->GetName() << "->";
 				prefabStream << tmr->GetTileMap()->GetName() << "->";
-
-
 			}
 
 			if (i != prefab->m_Components.size() - 1)
 			{
-				prefabStream << "\n";
 				prefabStream << "\n";
 			}
 
