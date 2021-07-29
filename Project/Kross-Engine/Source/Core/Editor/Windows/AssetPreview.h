@@ -13,21 +13,10 @@
 #include "../../Manager/ResourceManager.h"
 #include "../../Input.h"
 
+#include "AssetType.h"
+
 namespace Kross
 {
-	enum class KROSS_API AssetType
-	{
-		None,
-		Sprite,
-		Texture,
-		Material,
-		Font,
-		Animation,
-		AudioSource,
-		TileMap,
-		TileSet,
-	};
-
 	class KROSS_API AssetPreview : public EditorWindow
 	{
 	private:

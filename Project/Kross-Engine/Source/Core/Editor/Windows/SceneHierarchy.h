@@ -9,6 +9,7 @@
 #include "../../Core.h"
 
 #include "../EditorWindow.h"
+#include "../../Layer.h"
 
 namespace Kross
 {
@@ -16,6 +17,7 @@ namespace Kross
 	{
 	private:
 		Object* p_SelectedObject;
+		List<bool> m_ViewLayer;
 
 	protected:
 		// Sets the Scene Hierarchy Window Flags.
@@ -29,7 +31,8 @@ namespace Kross
 
 	public:
 		SceneHierarchy() :
-			p_SelectedObject	(nullptr)
+			p_SelectedObject	(nullptr),
+			m_ViewLayer			(List<bool>((int)Layer::Count))
 		{};
 
 		~SceneHierarchy() {};

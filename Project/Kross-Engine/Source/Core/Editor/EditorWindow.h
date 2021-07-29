@@ -51,3 +51,5 @@ namespace Kross
 #include "Windows/ObjectEditor.h"
 #include "Windows/AssetPreview.h"
 #include "Windows/MainMenu.h"
+#include "Windows/AssetDirectory.h"
+#include "Windows/AssetPanel.h"

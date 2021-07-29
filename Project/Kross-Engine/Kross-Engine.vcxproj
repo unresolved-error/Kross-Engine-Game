@@ -192,6 +192,7 @@
     <ClInclude Include="Source\Core\Editor\Windows\AssetPanel.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetPreview.h" />
     <ClInclude Include="Source\Core\Editor\Windows\MainMenu.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\AssetType.h" />
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
