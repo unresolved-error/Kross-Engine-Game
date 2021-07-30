@@ -19,7 +19,8 @@ namespace Kross
 		p_ParentObject	(nullptr),
 		m_Static		(false),
 		m_Enable		(true),
-		m_Prefab		(false)
+		m_Prefab		(false),
+		m_Started		(false)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -34,7 +35,8 @@ namespace Kross
 		p_Transform		(nullptr), 
 		m_Layer			(Layer::Default),
 		m_Children		(List<Object*>()), 
-		p_ParentObject	(nullptr)
+		p_ParentObject	(nullptr),
+		m_Started		(false)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -81,6 +83,8 @@ namespace Kross
 		/* Start up Components. */
 		for (int i = 0; i < m_Components.size(); i++)
 			m_Components[i]->OnStart();
+
+		m_Started = true;
 	}
 
 	void Object::OnUpdate()

@@ -75,9 +75,10 @@ namespace Kross
         List<FixtureDef*> m_Fixtures;
 
     protected:
-        friend class TileMapRenderer;
         friend class PhysicsScene;
         friend class Scene;
+
+        friend class Object;
 
         /* Rigidbody2D start method */
         void OnStart() override;

@@ -106,22 +106,17 @@ namespace Kross
 						ImGui::SetWindowFontScale(1.0f);
 
 						ImGui::Text("Scale:");
-						ImGui::PushID("Gravity Scale");
 						float gravity = p_Scene->GetGravityScalar();
-						Debug::Log(gravity);
-						ImGui::DragFloat("", &gravity, 0.05f, FLT_MIN, FLT_MAX);
-
-						ImGui::PopID();
+						ImGui::SliderFloat("##Gravity", &gravity, 0.001f, 100.0f);
 
 						ImGui::Spacing();
 
 						ImGui::Text("Direction:");
-						ImGui::PushID("Gravity Direction");
 						Vector2 direction = p_Scene->GetGravityDirection();
-						Debug::Log(direction);
-						ImGui::DragFloat("", &direction.x, 0.05f, -1.0f, 1.0f);
-
-						ImGui::PopID();
+						float values[2]{ direction.x, direction.y };
+						ImGui::SliderFloat2("##Gravity-Direction", &values[0], -1.0f, 1.0f);
+						direction.x = values[0];
+						direction.y = values[1];
 
 						p_Scene->SetGravity(gravity, direction);
 					}

@@ -305,6 +305,9 @@ namespace Kross
         /* Checks if the Object has a Camera. */
         SetCamera(object);
 
+        object->SetPhysicsScene(p_Physics);
+        object->SetLineRenderer(p_DebugRenderer);
+
         /* Check if the object is type RigidBody2D */
         Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
 

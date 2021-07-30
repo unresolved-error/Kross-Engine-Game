@@ -64,6 +64,7 @@ namespace Kross {
 					/* For Removing Components, this is more than less the flag for detection. */
 					bool isOpen = true;
 
+					/* Transform. (DONE) */
 					if (typeid(*component) == typeid(Transform2D))
 					{
 						Transform2D* transform = (Transform2D*)component;
@@ -146,6 +147,7 @@ namespace Kross {
 						}
 					}
 
+					/* Rigidbody. (NEEDS TO BE WORKED ON) */
 					else if (typeid(*component) == typeid(Rigidbody2D))
 					{
 						Rigidbody2D* rb = (Rigidbody2D*)component;
@@ -167,17 +169,84 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<Rigidbody2D>();
 					}
 
+					/* Animator. (DONE) */
 					else if (typeid(*component) == typeid(Animator))
 					{
 						Animator* anim = (Animator*)component;
 						if (ImGui::CollapsingHeader("Animator", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
+							ImGui::Text("Primary Animation: ");
+							ImGui::SameLine();
+							Animation* animation = anim->GetCurrentAnimation();
+							if (ImGui::BeginCombo("##Animation-Choice", (animation) ? animation->GetName().c_str() : "Not-Set", ImGuiComboFlags_NoArrowButton))
+							{
+								for (int i = 0; i < anim->m_Animations.size(); i++)
+								{
+									Animation* indexAnimation = anim->m_Animations[i];
+									if (ImGui::MenuItem(indexAnimation->GetName().c_str(), "", (indexAnimation == animation)))
+									{
+										animation = indexAnimation;
+									}
+								}
+								ImGui::EndCombo();
+							}
+							anim->SetCurrentAnimation(animation->GetName());
+							ImGui::Separator();
+							ImGui::Text("Attached Animations:");
+							ImGui::Indent();
+
+							for (int i = 0; i < anim->m_Animations.size(); i++)
+							{
+								Animation* indexAnimation = anim->m_Animations[i];
+								std::string name = indexAnimation->GetName();
+								if (ImGui::MenuItem("X"))
+								{
+									anim->DetachAnimation(name);
+								}
+								ImGui::SameLine();
+								if (ImGui::MenuItem(name.c_str())) {};
+								
+							}
+
+							ImGui::Unindent();
+
+							if (ImGui::Button("Attach Animation"))
+							{
+								if (!p_PreviewPane)
+								{
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::Animation);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+
+								else if (p_PreviewPane->GetType() != AssetType::Animation)
+								{
+									Editor::DetachEditorWindow(p_PreviewPane);
+
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::Animation);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+							}
+
+							if (p_PreviewPane && p_PreviewPane->GetAnimation())
+							{
+								anim->AttachAnimation(KROSS_NEW Animation(*p_PreviewPane->GetAnimation()));
+								p_PreviewPane->SetAnimationDestination(nullptr);
+								Editor::DetachEditorWindow(p_PreviewPane);
+								p_PreviewPane = nullptr;
+							}
 						}
 
 						if (!isOpen)
 							p_SelectedObject->DetachComponent<Animator>();
 					}
 
+					/* Audio Player. (NEEDS TO BE WORKED ON) */
 					else if (typeid(*component) == typeid(AudioPlayer))
 					{
 						AudioPlayer* aplayer = (AudioPlayer*)component;
@@ -185,13 +254,14 @@ namespace Kross {
 
 						if (ImGui::CollapsingHeader("AudioPlayer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
-
+							// TODO:
 						}
 
 						if (!isOpen)
 							p_SelectedObject->DetachComponent<AudioPlayer>();
 					}
 
+					/* Camera. (DONE) */
 					else if (typeid(*component) == typeid(Camera))
 					{
 						Camera* cam = (Camera*)component;
@@ -228,6 +298,7 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<Camera>();
 					}
 
+					/* Particle Emitter. (NEEDS TO BE WORKED ON) */
 					else if (typeid(*component) == typeid(ParticleEmitter))
 					{
 						ParticleEmitter* pEmit = (ParticleEmitter*)component;
@@ -239,6 +310,7 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<ParticleEmitter>();
 					}
 
+					/* Sprite Renderer. (DONE) */
 					else if (typeid(*component) == typeid(SpriteRenderer))
 					{
 						SpriteRenderer* rend = (SpriteRenderer*)component;
@@ -250,97 +322,136 @@ namespace Kross {
 							bool s_fx = rend->GetFlipX();
 							bool s_fy = rend->GetFlipY();
 
-							ImGui::Indent();
-							ImGui::Indent();
-							if (ImGui::CollapsingHeader(((rend->GetMaterial()) ? (std::string)(rend->GetMaterial()->GetName() + " - Material").c_str() : "Material").c_str(), ImGuiTreeNodeFlags_DefaultOpen) && rend->GetMaterial())
+							if (ImGui::Button((s_mat) ? s_mat->GetName().c_str() : "Not-Selected"))
 							{
+								if (!p_PreviewPane)
+								{
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::Material);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
 
-								std::string m_text = rend->GetMaterial()->GetName();
+								else if (p_PreviewPane->GetType() != AssetType::Material)
+								{
+									Editor::DetachEditorWindow(p_PreviewPane);
+
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::Material);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+								p_PreviewPane->SetMaterialDestination(s_mat);
+							}
+
+							ImGui::Indent();
+							ImGui::Indent();
+							if (ImGui::CollapsingHeader(((rend->GetMaterial()) ? (std::string)(rend->GetMaterial()->GetName() + " - Material").c_str() : "Material").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+							{
 								char m_cha[1024]{ '/0' };
+								std::string m_text = "NULL";
+								if (s_mat)
+								{
+									m_text = rend->GetMaterial()->GetName();
+								}
 								strncpy_s(m_cha, m_text.c_str(), 1024);
 
 								float width = ImGui::GetContentRegionAvail().x;
 								ImGui::Text("Name:");
 								ImGui::InputText("##T", &m_cha[0], 1024);
 								std::string toSet = m_cha;
-								rend->GetMaterial()->SetName(toSet);
+								if (s_mat)
+								{
+									rend->GetMaterial()->SetName(toSet);
+								}
 
 								ImGui::Text("Diffuse");
 								ImGui::SameLine();
-								if (ImGui::Button(s_mat->p_Diffuse->GetName().c_str()))
+								if (ImGui::Button((s_mat) ? s_mat->p_Diffuse->GetName().c_str() : "NULL"))
 								{
-									if (!p_PreviewPane)
+									if (s_mat)
 									{
-										p_PreviewPane = KROSS_NEW AssetPreview();
-										p_PreviewPane->SetType(AssetType::Sprite);
-										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
-										Editor::AttachEditorWindow(p_PreviewPane);
-									}
+										if (!p_PreviewPane)
+										{
+											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane->SetType(AssetType::Sprite);
+											p_PreviewPane->SetDimensions();
+											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+											Editor::AttachEditorWindow(p_PreviewPane);
+										}
 
-									else if (p_PreviewPane->GetType() != AssetType::Sprite)
-									{
-										Editor::DetachEditorWindow(p_PreviewPane);
+										else if (p_PreviewPane->GetType() != AssetType::Sprite)
+										{
+											Editor::DetachEditorWindow(p_PreviewPane);
 
-										p_PreviewPane = KROSS_NEW AssetPreview();
-										p_PreviewPane->SetType(AssetType::Sprite);
-										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
-										Editor::AttachEditorWindow(p_PreviewPane);
+											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane->SetType(AssetType::Sprite);
+											p_PreviewPane->SetDimensions();
+											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+											Editor::AttachEditorWindow(p_PreviewPane);
+										}
+										p_PreviewPane->SetSpriteDestination(s_mat->p_Diffuse);
 									}
-									p_PreviewPane->SetSpriteDestination(s_mat->p_Diffuse);
 								}
 
 								ImGui::Text("Normal");
 								ImGui::SameLine();
-								if (ImGui::Button(s_mat->p_Normal->GetName().c_str()))
+								if (ImGui::Button((s_mat) ? s_mat->p_Normal->GetName().c_str() : "NULL"))
 								{
-									if (!p_PreviewPane)
+									if (s_mat)
 									{
-										p_PreviewPane = KROSS_NEW AssetPreview();
-										p_PreviewPane->SetType(AssetType::Sprite);
-										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
-										Editor::AttachEditorWindow(p_PreviewPane);
-									}
+										if (!p_PreviewPane)
+										{
+											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane->SetType(AssetType::Sprite);
+											p_PreviewPane->SetDimensions();
+											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+											Editor::AttachEditorWindow(p_PreviewPane);
+										}
 
-									else if (p_PreviewPane->GetType() != AssetType::Sprite)
-									{
-										Editor::DetachEditorWindow(p_PreviewPane);
+										else if (p_PreviewPane->GetType() != AssetType::Sprite)
+										{
+											Editor::DetachEditorWindow(p_PreviewPane);
 
-										p_PreviewPane = KROSS_NEW AssetPreview();
-										p_PreviewPane->SetType(AssetType::Sprite);
-										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
-										Editor::AttachEditorWindow(p_PreviewPane);
+											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane->SetType(AssetType::Sprite);
+											p_PreviewPane->SetDimensions();
+											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+											Editor::AttachEditorWindow(p_PreviewPane);
+										}
+										p_PreviewPane->SetSpriteDestination(s_mat->p_Normal);
 									}
-									p_PreviewPane->SetSpriteDestination(s_mat->p_Normal);
 								}
 
 								ImGui::Text("Specular");
 								ImGui::SameLine();
-								if (ImGui::Button(s_mat->p_Specular->GetName().c_str()))
+								if (ImGui::Button((s_mat) ? s_mat->p_Specular->GetName().c_str() : "NULL"))
 								{
-									if (!p_PreviewPane)
+									if (s_mat)
 									{
-										p_PreviewPane = KROSS_NEW AssetPreview();
-										p_PreviewPane->SetType(AssetType::Sprite);
-										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
-										Editor::AttachEditorWindow(p_PreviewPane);
-									}
+										if (!p_PreviewPane)
+										{
+											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane->SetType(AssetType::Sprite);
+											p_PreviewPane->SetDimensions();
+											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+											Editor::AttachEditorWindow(p_PreviewPane);
+										}
 
-									else if (p_PreviewPane->GetType() != AssetType::Sprite)
-									{
-										Editor::DetachEditorWindow(p_PreviewPane);
+										else if (p_PreviewPane->GetType() != AssetType::Sprite)
+										{
+											Editor::DetachEditorWindow(p_PreviewPane);
 
-										p_PreviewPane = KROSS_NEW AssetPreview();
-										p_PreviewPane->SetType(AssetType::Sprite);
-										p_PreviewPane->SetDimensions();
-										p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
-										Editor::AttachEditorWindow(p_PreviewPane);
+											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane->SetType(AssetType::Sprite);
+											p_PreviewPane->SetDimensions();
+											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+											Editor::AttachEditorWindow(p_PreviewPane);
+										}
+										p_PreviewPane->SetSpriteDestination(s_mat->p_Specular);
 									}
-									p_PreviewPane->SetSpriteDestination(s_mat->p_Specular);
 								}
 							}
 							ImGui::Unindent();
@@ -384,6 +495,15 @@ namespace Kross {
 								}
 							}
 
+							if (p_PreviewPane && p_PreviewPane->GetMaterial())
+							{
+								if (s_mat == p_PreviewPane->GetMaterialDestination())
+								{
+									s_mat = p_PreviewPane->GetMaterial();
+									p_PreviewPane->SetMaterialDestination(s_mat);
+								}
+							}
+
 							rend->SetColour(col);
 							rend->SetFlipX(s_fx);
 							rend->SetFlipY(s_fy);
@@ -397,10 +517,12 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<SpriteRenderer>();
 					}
 
+					/* Text Renderer. (DONE) */
 					else if (typeid(*component) == typeid(TextRenderer))
 					{
 						TextRenderer* rend = (TextRenderer*)component;
-						if (ImGui::CollapsingHeader("TextRenderer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+
+						if (ImGui::CollapsingHeader("Text Renderer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
 							Font* t_font = rend->GetFont();
 							float t_size = rend->GetTextSize();
@@ -418,7 +540,7 @@ namespace Kross {
 
 							ImGui::Text("Font");
 							ImGui::SameLine();
-							if (ImGui::Button(t_font->GetName().c_str()))
+							if (ImGui::Button((t_font) ? t_font->GetName().c_str() : "Not-Selected"))
 							{
 								if (!p_PreviewPane)
 								{
@@ -474,6 +596,7 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<TextRenderer>();
 					}
 
+					/* Collider. (DONE) */
 					else if (typeid(*component) == typeid(Collider))
 					{
 						Collider* col = (Collider*)component;
@@ -577,18 +700,87 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<Collider>();
 					}
 
+					/* Tile Map Renderer. (NEEDS TO BE WORKED ON) */
 					else if (typeid(*component) == typeid(TileMapRenderer))
 					{
 						TileMapRenderer* rend = (TileMapRenderer*)component;
-						if (ImGui::CollapsingHeader("TileMapRenderer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+						if (ImGui::CollapsingHeader("Tile Map Renderer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
+							ImGui::Text("Tile Set: ");
+							ImGui::SameLine();
+							if (ImGui::Button((rend->GetTileSet()) ? rend->GetTileSet()->GetName().c_str() : "Not-Set"))
+							{
+								if (!p_PreviewPane)
+								{
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::TileSet);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
 
+								else if (p_PreviewPane->GetType() != AssetType::TileSet)
+								{
+									Editor::DetachEditorWindow(p_PreviewPane);
+
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::TileSet);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+							}
+
+							ImGui::Separator();
+
+							ImGui::Text("Tile Map: ");
+							ImGui::SameLine();
+							if (ImGui::Button((rend->GetTileMap()) ? rend->GetTileMap()->GetName().c_str() : "Not-Set"))
+							{
+								if (!p_PreviewPane)
+								{
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::TileMap);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+
+								else if (p_PreviewPane->GetType() != AssetType::TileMap)
+								{
+									Editor::DetachEditorWindow(p_PreviewPane);
+
+									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane->SetType(AssetType::TileMap);
+									p_PreviewPane->SetDimensions();
+									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+									Editor::AttachEditorWindow(p_PreviewPane);
+								}
+							}
+
+							if (p_PreviewPane)
+							{
+								if (p_PreviewPane->GetTileSet())
+								{
+									rend->SetTileSet(p_PreviewPane->GetTileSet());
+									Editor::DetachEditorWindow(p_PreviewPane);
+									p_PreviewPane = nullptr;
+								}
+
+								else if (p_PreviewPane->GetTileMap())
+								{
+									rend->SetTileMap(p_PreviewPane->GetTileMap());
+									Editor::DetachEditorWindow(p_PreviewPane);
+									p_PreviewPane = nullptr;
+								}
+							}
 						}
 
 						if (!isOpen)
 							p_SelectedObject->DetachComponent<TileMapRenderer>();
 					}
 
+					ImGui::Separator();
 				}
 
 				if (ImGui::BeginCombo("##AddComp", "Add Component", ImGuiComboFlags_NoArrowButton))

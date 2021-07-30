@@ -189,6 +189,7 @@
     <ClCompile Include="Source\Core\Editor\Windows\AssetDirectory.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\AssetPanel.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\MainMenu.cpp" />
+    <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -698,6 +699,8 @@
     <ClInclude Include="Source\Core\Editor\Windows\MainMenu.h" />
     <ClInclude Include="Source\Core\Component\Collider.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetType.h" />
+    <ClInclude Include="Source\Core\Manager\ScriptRegistry.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\Profiler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

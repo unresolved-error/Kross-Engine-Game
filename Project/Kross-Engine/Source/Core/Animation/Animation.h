@@ -64,6 +64,14 @@ namespace Kross
 		void Stop();
 
 	public:
+		Animation(const Animation &other)
+		{
+			this->SetName(other.GetName());
+			this->SetDuration(other.GetDuration());
+
+			for (int i = 0; i < other.m_Keyframes.size(); i++)
+				this->AttachKeyframe(KROSS_NEW Keyframe(*other.m_Keyframes[i]));
+		}
 		// Sets the Animation Time. (IN SECONDS)
 		void SetDuration(float duration);
 

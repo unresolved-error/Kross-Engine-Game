@@ -103,6 +103,9 @@ namespace Kross
 		if (index < 0 || index >= m_Animations.size())
 			return;
 
+		/* Delete the Animation. */
+		delete m_Animations[index];
+
 		/* Remove the Animation from the List. */
 		m_Animations[index] = nullptr;
 		m_Animations.erase(m_Animations.begin() + index);
