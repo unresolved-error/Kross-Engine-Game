@@ -24,6 +24,7 @@ namespace Kross
 		{};
 		~ScriptRegistry();
 	protected:
+		friend class ObjectEditor;
 
 	public:
 		// Creates a Instance of Script Registry.

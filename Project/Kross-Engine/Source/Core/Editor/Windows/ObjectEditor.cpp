@@ -8,6 +8,7 @@
 #include "../Editor.h"
 #include "../../Debug.h"
 #include "../../File-IO/FileSystem.h"
+#include "../../Manager/ScriptRegistry.h"
 
 
 namespace Kross {
@@ -780,6 +781,17 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<TileMapRenderer>();
 					}
 
+					else
+					{
+						ImGui::CollapsingHeader(((Script*)component)->GetName().c_str(), &isOpen, ImGuiTreeNodeFlags_Leaf);
+
+						if (!isOpen)
+						{
+							delete p_SelectedObject->m_Components[i];
+							p_SelectedObject->m_Components.erase(p_SelectedObject->m_Components.begin() + i);
+						}
+					}
+
 					ImGui::Separator();
 				}
 
@@ -807,7 +819,16 @@ namespace Kross {
 
 					if (ImGui::BeginMenu("Scripts"))
 					{
-						// TODO: Script Registry.
+						for (int i = 0; i < ScriptRegistry::s_Instance->m_Scripts.size(); i++)
+						{
+							Script* script = ScriptRegistry::s_Instance->m_Scripts[i];
+							if (ImGui::MenuItem(script->GetName().c_str()))
+							{
+								Script* addScript = ScriptRegistry::GetScript(i);
+								addScript->c_Object = p_SelectedObject;
+								p_SelectedObject->m_Components.push_back(addScript);
+							}
+						}
 
 						ImGui::EndMenu();
 					}

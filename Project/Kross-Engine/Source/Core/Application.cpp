@@ -10,6 +10,7 @@
 #include "Manager/ResourceManager.h"
 #include "Manager/SceneManager.h"
 #include "Manager/AudioManager.h"
+#include "Manager/ScriptRegistry.h"
 #include "Manager/Time.h"
 #include "Physics/Physics.h"
 
@@ -138,6 +139,8 @@ namespace Kross
 		ResourceManager::OnWriteManifest();
 
 		ResourceManager::OnDestroy();
+
+		ScriptRegistry::OnDestroy();
 
 		AudioManager::OnDestroy();
 		ShaderManager::OnDestroy();

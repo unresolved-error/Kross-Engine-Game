@@ -14,7 +14,10 @@ public:
 		rigidBody(nullptr),
 		animator(nullptr),
 		camera(nullptr)
-	{};
+	{
+		/* Every Script Must do this! */
+		m_Name = "PlayerMovement";
+	};
 	~PlayerMovement() {};
 
 	Transform2D* transform;
@@ -26,7 +29,7 @@ public:
 
 	Animator* animator;
 
-	Camera* camera;
+	Object* camera;
 	Object* playerGun;
 
 	bool followPlayer = false;
@@ -49,6 +52,11 @@ public:
 	float m_MaxAirSpeed = 5.5f;
 	float m_JumpStrength = 0.4f;
 
+	Script* Duplicate() override
+	{
+		return KROSS_NEW PlayerMovement();
+	}
+
 	void Start() override
 	{
 		transform = c_Object->GetTransform();
@@ -57,6 +65,8 @@ public:
 		window = Application::GetWindow();
 
 		controllerID = Input::GetAvalibleController();
+
+		rigidBody = GetComponent<Rigidbody2D>();
 
 		animator = GetComponent<Animator>();
 
@@ -67,6 +77,8 @@ public:
 		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
 		audplayer->SetLoop(true);
 		audplayer->Play();
+
+		camera = SceneManager::GetCurrentScene()->GetCamera();
 
 		Debug::Log(((Object*)c_Object)->GetName() + " Position =");
 		Debug::Log(transform->m_Position);
@@ -159,7 +171,7 @@ public:
 		PlayerMove(input, Key::Space, Controller::A);
 		EnableGravity(Key::Q, Controller::B);
 
-		camera->c_Object->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
+		camera->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
 
 	}
 
@@ -224,6 +236,11 @@ public:
 		if (other->GetLayer() == Layer::Ground)
 		{
 			jumpCount = 0;
+		}
+
+		else if (other != c_Object)
+		{
+			other->SetLayer(Layer::Ground);
 		}
 
 		Debug::LogLine("Entered collision with " + other->GetName());

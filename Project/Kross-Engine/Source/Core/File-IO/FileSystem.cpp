@@ -14,6 +14,7 @@
 #include "../Debug.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
+#include "../Manager/ScriptRegistry.h"
 
 #include "stb_image/stb_image.h"
 #include "../Scene.h"
@@ -1163,6 +1164,14 @@ namespace Kross
 							tileMapRendererData.push_back(line);
 						}
 
+						else if (objProperty == "SCRIPT")
+						{
+							Script* script = ScriptRegistry::GetScript(line.substr(0, line.size() - 2));
+							script->c_Object = currentObject;
+							currentObject->m_Components.push_back(script);
+							Debug::LogLine(script->GetName() + " - Script was attached!");
+						}
+
 						/* Transform Component Property. */
 						else if (objProperty == "TRANSFORM2D")
 						{
@@ -1347,11 +1356,24 @@ namespace Kross
 					{
 						TileMapRenderer* tmr = (TileMapRenderer*)comp;
 						/*tileSet -> tileMap*/
+						fileStream << "TILEMAP-RENDERER->";
 						fileStream << tmr->GetTileSet()->GetName() << "->";
 						fileStream << tmr->GetTileMap()->GetName() << "->";
 						fileStream << "\n";
 					}
+					else if (typeid(*comp) == typeid(Transform2D))
+					{
+					}
+					else if (typeid(*comp) == typeid(Rigidbody2D))
+					{
 
+					}
+					else
+					{
+						Script* script = (Script*)scene->m_ActualObjects[j]->m_Components[k];
+						fileStream << "SCRIPT->";
+						fileStream << script->GetName() << "->\n";
+					}
 					comp = nullptr;
 				}
 

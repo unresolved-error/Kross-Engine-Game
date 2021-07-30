@@ -34,6 +34,7 @@
 #include "../Core/Manager/ShaderManager.h"
 #include "../Core/Manager/Time.h"
 #include "../Core/Manager/AudioManager.h"
+#include "../Core/Manager/ScriptRegistry.h"
 
 #include "../Core/Math/Math.h"
 #include "../Core/Math/Random.h"

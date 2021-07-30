@@ -7,7 +7,10 @@ using namespace Kross;
 void OnRun()
 {
 	Application::OnCreate();
-	//ScriptRegistry()
+
+	ScriptRegistry::OnCreate();
+	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
+
 	Application::OnStart();
 
 	/* Create all Assets, Objects, Scenes etc. Bellow Start.*/
