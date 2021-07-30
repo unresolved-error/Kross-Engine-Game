@@ -50,7 +50,7 @@ public:
 
 	float m_MaxGroundSpeed = 4.0f;
 	float m_MaxAirSpeed = 5.5f;
-	float m_JumpStrength = 0.4f;
+	float m_JumpStrength = 0.55f;
 
 	Script* Duplicate() override
 	{

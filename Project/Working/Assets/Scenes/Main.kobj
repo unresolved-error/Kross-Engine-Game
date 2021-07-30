@@ -5,8 +5,8 @@ NAME->Camera->
 STATIC->0->
 ENABLE->1->
 LAYER->0->
-TRANSFORM2D->0->0->0->1->1->
-CAMERA->5->-1->1->
+TRANSFORM2D->5->0->0->1->1->
+CAMERA->6->-1->1->
 END->
 
 START->
@@ -15,7 +15,7 @@ STATIC->0->
 ENABLE->1->
 LAYER->6->
 TRANSFORM2D->0->0->0->1->1->
-SPRITE-RENDERER->Ground->0->1->0.363095->1->0->0->0->
+SPRITE-RENDERER->Ground->0.99999->1->0.999994->1->0->0->0->
 RIGIDBODY2D->0->0.3->0.35->0.15->0.5->0->0->1->
 ANIMATOR->Idle->Walk->
 AUDIO-PLAYER->Bullet-Proof->1->1->1->0->
@@ -50,5 +50,14 @@ LAYER->0->
 TRANSFORM2D->-6->3->0->1->1->
 TILEMAP-RENDERER->DirtTileSet->DirtTileMap->
 RIGIDBODY2D->0->1->1->0.5->0.5->0->1->0->
+END->
+
+START->
+NAME->Sprite->
+STATIC->0->
+ENABLE->1->
+LAYER->0->
+TRANSFORM2D->4->1->0->1->1->
+SPRITE-RENDERER->Default->1->0->0->1->0->0->0->
 END->
 
