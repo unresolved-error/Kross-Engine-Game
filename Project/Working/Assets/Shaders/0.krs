@@ -1,0 +1,5 @@
+SHADER:
+NAME->TextShader->
+VERTEX->Resources/Shaders/text.vert->
+GEOMETRY->*->
+FRAGMENT->Resources/Shaders/text.frag->

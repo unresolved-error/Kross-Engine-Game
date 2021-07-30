@@ -22,8 +22,6 @@ mono_crash.*
 [Bb]inaries/
 [Bb]inaries-[Ii]ntermediate/
 
-[Ww]orking/
-
 *.zip
 *.txt
 
@@ -344,3 +342,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+Project/Working/glew32.dll
+Project/Working/imgui.ini
+Project/Working/Resources/
