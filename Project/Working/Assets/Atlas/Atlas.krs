@@ -1,5 +1,5 @@
 ATLAS:
-TEXTURECOUNTDATA->Assets/Atlas/Texture-Data/1.krs->
+TEXTURECOUNTDATA->Assets/Atlas/Texture-Data/atlasTextureCount.krs->
 TEXTURE->Resources/Atlas/Atlas.png->
-SPRITEDATA->Assets/Atlas/Sprite-Data/0.krs->
-TEXTUREDATA->Assets/Atlas/Texture-Data/0.krs->
+SPRITEDATA->Assets/Atlas/Sprite-Data/AtlasSpriteData.krs->
+TEXTUREDATA->Assets/Atlas/Texture-Data/atlasTexture.krs->
