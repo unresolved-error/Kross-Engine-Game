@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *      - Chris Deitch;
  */
 
 #include "../../Core.h"
@@ -9,6 +10,7 @@
 #include "MainMenu.h"
 #include "../../Application.h"
 #include "../../Manager/SceneManager.h"
+#include "../../File-IO/FileSystem.h"
 
 namespace Kross
 {
@@ -26,9 +28,18 @@ namespace Kross
 			if (ImGui::MenuItem("Open Scene", "  Crtl + O")) {}
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Save", "  Crtl + S")) {}
+			if (ImGui::MenuItem("Save", "  Crtl + S")) 
+			{	
+				FileSystem::OnWriteScene(SceneManager::GetCurrentScene());
+			}
 			if (ImGui::MenuItem("Save As"))	{}
-			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S")) {}
+			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S")) 
+			{
+				for (int i = 0; i < SceneManager::s_Instance->m_Scenes.size(); i++)
+				{
+					FileSystem::OnWriteScene(SceneManager::s_Instance->m_Scenes[i]);
+				}
+			}
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Exit", "  Alt + F4")) 

@@ -388,7 +388,6 @@ namespace Kross
 		SceneManager::SetCurrentScene(0);
 	}
 
-
 	List<Object*> FileSystem::OnReadObjects(const std::string& filepath)
 	{
 		/* Open a Filestream. */
@@ -1199,6 +1198,165 @@ namespace Kross
 		}
 
 		return readInObjects;
+	}
+
+	void FileSystem::OnWriteScene(Scene* sceneToSave)
+	{
+		std::string sceneFilepath = "Assets/Scenes/" + sceneToSave->GetName() + ".kscn";
+		std::string sceneObjFilepath = "Assets/Scenes/" + sceneToSave->GetName() + ".kobj";
+		Debug::Log("Saving Scene to " + sceneFilepath);
+
+		std::ofstream fileStream;
+		fileStream.open(sceneFilepath.c_str());
+
+		if (fileStream.is_open())
+		{
+			fileStream << "SCENE:\n";
+			fileStream << "NAME->" << sceneToSave->GetName() << "->\n";
+			fileStream << "GRAVITY->9.81->0.000->-1.000->\n";
+			fileStream << "OBJECTS->Assets/Scenes/" << sceneToSave->GetName() << ".kobj->\n";
+
+			fileStream.close();
+		}
+		else 
+		{
+			fileStream.close(); 
+		}
+		OnWriteObjects(sceneObjFilepath, sceneToSave);
+
+		Debug::Log("SCENE SAVED :D");
+	}
+
+	void FileSystem::OnWriteObjects(const std::string& filepath, Scene* scene) 
+	{
+		
+		Debug::LogLine("Saving objects to " + filepath + "...");
+		
+		std::ofstream fileStream;
+		fileStream.open(filepath.c_str());
+
+		if (fileStream.is_open()) {
+
+			fileStream << "OBJECTS:" << "\n\n";
+
+			for (int i = 0; i < scene->m_ActualObjects.size(); i++)
+			{
+				fileStream << "START->\n";
+				fileStream << "NAME->"+ scene->m_ActualObjects[i]->m_Name +"->\n";
+				fileStream << "STATIC->" + std::to_string((int)(scene->m_ActualObjects[i]->IsStatic())) + "->\n";
+				fileStream << "ENABLE->" + std::to_string((int)(scene->m_ActualObjects[i]->Enabled())) + "->\n";
+				fileStream << "LAYER->" + std::to_string((int)(scene->m_ActualObjects[i]->GetLayer())) + "->\n";
+
+				
+				for (int i = 0; i < scene->m_ActualObjects[i]->m_Components.size(); i++)
+				{
+					Component* comp = scene->m_ActualObjects[i]->m_Components[i];
+					//Write each component. Check what it is.
+					if (typeid(*comp) == typeid(Animator))
+					{
+						Animator* anim = (Animator*)comp;
+						fileStream << "ANIMATOR->";
+
+						fileStream << anim->GetCurrentAnimation()->GetName() << "->";
+
+						//other animations
+						for (int i = 0; i < anim->m_Animations.size(); i++)
+						{
+							if (anim->m_Animations[i] != anim->GetCurrentAnimation())
+							{
+								fileStream << anim->m_Animations[i]->GetName() << "->";
+							}
+
+						}
+						fileStream << "\n";
+					}
+					else if (typeid(*comp) == typeid(Camera))
+					{
+						Camera* cam = (Camera*)comp;
+						/*
+							SIZE->NEAR->FAR
+						*/
+						fileStream << "CAMERA->";
+						fileStream << cam->GetSize() << "->";
+						fileStream << cam->GetNear() << "->";
+						fileStream << cam->GetFar() << "->";
+						fileStream << "\n";
+					}
+					else if (typeid(*comp) == typeid(AudioPlayer))
+					{
+						AudioPlayer* aud = (AudioPlayer*)comp;
+						fileStream << "AUDIO-PLAYER->";
+						fileStream << aud->GetSource()->GetName() << "->";
+						fileStream << (int)aud->GetProperties()->GetLoop() << "->";
+						fileStream << aud->GetProperties()->GetPlaySpeed() << "->";
+						fileStream << aud->GetProperties()->GetVolume() << "->";
+						fileStream << aud->GetProperties()->GetPan() << "->";
+						fileStream << "\n";
+					}
+					else if (typeid(*comp) == typeid(Collider))
+					{
+						Collider* rig = (Collider*)comp;
+						fileStream << "RIGIDBODY2D->";
+						fileStream << (int)rig->GetShapeType() << "->";
+						fileStream << rig->GetWidth() << "->";
+						fileStream << rig->GetHeight() << "->";
+						fileStream << rig->GetRadius() << "->";
+						fileStream << rig->GetFriction() << "->";
+						fileStream << (int)rig->IsStatic() << "->";
+						fileStream << (int)rig->IsTileMapCollider() << "->";
+						fileStream << (int)rig->IsRotationLocked() << "->";
+						fileStream << "\n";
+					}
+					else if (typeid(*comp) == typeid(SpriteRenderer))
+					{
+						SpriteRenderer* sprR = (SpriteRenderer*)comp;
+						fileStream << "SPRITE-RENDERER->";
+						fileStream << sprR->GetMaterial()->GetName() + "->";
+						fileStream << sprR->GetColour().r << "->";
+						fileStream << sprR->GetColour().g << "->";
+						fileStream << sprR->GetColour().b << "->";
+						fileStream << sprR->GetColour().a << "->";
+						fileStream << (int)sprR->GetFlipX() << "->";
+						fileStream << (int)sprR->GetFlipY() << "->";
+						fileStream << (int)sprR->GetDepth() << "->";
+						fileStream << "\n";
+					}
+					else if (typeid(*comp) == typeid(TextRenderer))
+					{
+						TextRenderer* tr = (TextRenderer*)comp;
+						/*
+							Text->font->alignment->r->g->b->a->size->
+						*/
+
+						fileStream << "TEXT-RENDERER->";
+						fileStream << tr->GetText() << "->";
+						fileStream << tr->GetFont()->GetName() << "->";
+						fileStream << (int)tr->GetTextAlignment() << "->";
+						fileStream << tr->GetColour().r << "->";
+						fileStream << tr->GetColour().g << "->";
+						fileStream << tr->GetColour().b << "->";
+						fileStream << tr->GetColour().a << "->";
+						fileStream << tr->GetTextSize() << "->";
+						fileStream << "\n";
+					}
+					else if (typeid(*comp) == typeid(TileMapRenderer))
+					{
+						TileMapRenderer* tmr = (TileMapRenderer*)comp;
+						/*tileSet -> tileMap*/
+						fileStream << tmr->GetTileSet()->GetName() << "->";
+						fileStream << tmr->GetTileMap()->GetName() << "->";
+						fileStream << "\n";
+					}
+				}
+
+				fileStream << "END->\n";
+				fileStream << "\n";
+			}
+			fileStream.close();
+		}
+		else { fileStream.close(); }
+
+		Debug::LogLine("Objects Saved.");
 	}
 
 	void FileSystem::OnReadTexture(const std::string& filepath)
@@ -2130,13 +2288,6 @@ namespace Kross
 			if (typeid(*comp) == typeid(Animator))
 			{
 				Animator* anim = (Animator*)comp;
-				/*
-					current anim name
-					list of animation names -Current.
-					
-					ANIMATOR->currentAnimNAme->Name->name->name->
-
-				*/
 				prefabStream << "ANIMATOR->";
 
 				prefabStream << anim->GetCurrentAnimation()->GetName() << "->";
@@ -2158,7 +2309,7 @@ namespace Kross
 				/*
 					SIZE->NEAR->FAR
 				*/
-				prefabStream << "AUDIO-PLAYER->";
+				prefabStream << "CAMERA->";
 				prefabStream << cam->GetSize() << "->";
 				prefabStream << cam->GetNear() << "->";
 				prefabStream << cam->GetFar() << "->";

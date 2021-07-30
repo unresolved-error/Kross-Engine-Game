@@ -28,6 +28,7 @@ namespace Kross
 
     protected:
         friend class Application;
+        friend class MainMenu;
 
         // Creates an instance of the Scene Manager.
         static void OnCreate();
