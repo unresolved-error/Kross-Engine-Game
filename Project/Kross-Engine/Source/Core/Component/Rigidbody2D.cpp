@@ -333,6 +333,42 @@ namespace Kross
 
     void Rigidbody2D::OnStart()
     {
+        Collider* collider = GetComponent<Collider>();
+
+        //TODO: Add Collider Filter Data to Collider.
+        switch (collider->GetShapeType())
+        {
+        case Kross::ShapeType::Box:
+        {
+            if (collider->IsStatic())
+            {
+                CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, ColliderFilters::Default, ColliderFilters::Default);
+            }
+            else
+            {
+                CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Default, ColliderFilters::Default);
+            }
+            break;
+        }
+        case Kross::ShapeType::Circle:
+        {
+            if (collider->IsStatic())
+            {
+                CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, ColliderFilters::Default, ColliderFilters::Default);
+            }
+            else
+            {
+                CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Default, ColliderFilters::Default);
+            }
+            break;
+        }
+        case Kross::ShapeType::Capsule:
+        {
+            CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Default, ColliderFilters::Default);
+            break;
+        }
+        }
+
         /* Gets the body */
         p_Body = GetBody();
 

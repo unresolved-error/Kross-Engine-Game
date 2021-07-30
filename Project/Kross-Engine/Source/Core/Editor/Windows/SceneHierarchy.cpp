@@ -87,13 +87,15 @@ namespace Kross
 						ImGui::SetWindowFontScale(1.0f);
 
 						ImGui::Text("Name:");
-						char name[50];
-						ImGui::PushID("Name Input");
-						if (ImGui::InputTextEx("", p_Scene->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
+						char name[50]{ '\0' };
+						for (int i = 0; i < p_Scene->GetName().size(); i++)
+						{
+							name[i] = p_Scene->GetName()[i];
+						}
+						if (ImGui::InputTextEx("##Name", p_Scene->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
 						{
 							p_Scene->SetName((std::string)name);
 						}
-						ImGui::PopID();
 
 						ImGui::Spacing();
 
