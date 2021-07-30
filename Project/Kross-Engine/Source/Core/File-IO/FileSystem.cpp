@@ -1239,18 +1239,22 @@ namespace Kross
 
 			fileStream << "OBJECTS:" << "\n\n";
 
-			for (int i = 0; i < scene->m_ActualObjects.size(); i++)
+			for (int j = 0; j < scene->m_ActualObjects.size(); j++)
 			{
 				fileStream << "START->\n";
-				fileStream << "NAME->"+ scene->m_ActualObjects[i]->m_Name +"->\n";
-				fileStream << "STATIC->" + std::to_string((int)(scene->m_ActualObjects[i]->IsStatic())) + "->\n";
-				fileStream << "ENABLE->" + std::to_string((int)(scene->m_ActualObjects[i]->Enabled())) + "->\n";
-				fileStream << "LAYER->" + std::to_string((int)(scene->m_ActualObjects[i]->GetLayer())) + "->\n";
-
+				fileStream << "NAME->"+ scene->m_ActualObjects[j]->m_Name +"->\n";
+				fileStream << "STATIC->" + std::to_string((int)(scene->m_ActualObjects[j]->IsStatic())) + "->\n";
+				fileStream << "ENABLE->" + std::to_string((int)(scene->m_ActualObjects[j]->Enabled())) + "->\n";
+				fileStream << "LAYER->" + std::to_string((int)(scene->m_ActualObjects[j]->GetLayer())) + "->\n";
+				fileStream << "TRANSFORM2D->" + std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Position.x)) + "->" +
+					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Position.y)) + "->" +
+					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Rotation)) + "->" +
+					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Scale.x)) + "->" +
+					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Scale.y)) + "->" + "\n";
 				
-				for (int i = 0; i < scene->m_ActualObjects[i]->m_Components.size(); i++)
+				for (int k = 0; k < scene->m_ActualObjects[j]->m_Components.size(); k++)
 				{
-					Component* comp = scene->m_ActualObjects[i]->m_Components[i];
+					Component* comp = scene->m_ActualObjects[j]->m_Components[k];
 					//Write each component. Check what it is.
 					if (typeid(*comp) == typeid(Animator))
 					{
@@ -1347,6 +1351,8 @@ namespace Kross
 						fileStream << tmr->GetTileMap()->GetName() << "->";
 						fileStream << "\n";
 					}
+
+					comp = nullptr;
 				}
 
 				fileStream << "END->\n";
