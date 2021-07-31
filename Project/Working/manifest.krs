@@ -37,6 +37,8 @@ SPRITE->Assets/Sprites/sprSheetDirtTileMap.krs->
 // Load Animations.
 ANIMATION->Assets/Animations/animMarshalIdle.krs->
 ANIMATION->Assets/Animations/animMarshallWalk.krs->
+ANIMATION->Assets/Animations/animMarshallJumpUp.krs->
+ANIMATION->Assets/Animations/animMarshallJumpDown.krs->
 
 // Load the Font.
 FONT->Assets/Fonts/fntKrossFont.krs->

@@ -17,7 +17,7 @@ LAYER->6->
 TRANSFORM2D->0->0->0->1->1->
 SPRITE-RENDERER->Ground->0.99999->1->0.999994->1->0->0->0->
 RIGIDBODY2D->0->0.3->0.35->0.15->0.5->0->0->1->
-ANIMATOR->Idle->Walk->
+ANIMATOR->Idle->Walk->Jump-Up->Jump-Down->
 AUDIO-PLAYER->Bullet-Proof->1->1->1->0->
 SCRIPT->PlayerMovement->
 END->

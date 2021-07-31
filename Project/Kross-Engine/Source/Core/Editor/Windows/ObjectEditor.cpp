@@ -255,7 +255,9 @@ namespace Kross {
 
 						if (ImGui::CollapsingHeader("AudioPlayer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
-							// TODO:
+							ImGui::Text("Audio Source: ");
+							ImGui::SameLine();
+							//if(ImGui::Button();
 						}
 
 						if (!isOpen)
@@ -701,7 +703,7 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<Collider>();
 					}
 
-					/* Tile Map Renderer. (NEEDS TO BE WORKED ON) */
+					/* Tile Map Renderer. (DONE) */
 					else if (typeid(*component) == typeid(TileMapRenderer))
 					{
 						TileMapRenderer* rend = (TileMapRenderer*)component;

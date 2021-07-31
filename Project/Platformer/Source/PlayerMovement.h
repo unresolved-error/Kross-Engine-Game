@@ -177,18 +177,33 @@ public:
 
 	void PlayerMove(Vector2 input, Key jump, Controller jumpC)
 	{
-		if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
+		if (rigidBody->GetBody()->GetLinearVelocity().y <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().y >= -0.05f)
 		{
-			animator->SetCurrentAnimation(0);
+			if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
+			{
+				animator->SetCurrentAnimation(0);
+			}
+			else
+			{
+				animator->SetCurrentAnimation(1);
+			}
 		}
 		else
 		{
-			animator->SetCurrentAnimation(1);
+			if (rigidBody->GetBody()->GetLinearVelocity().y >= 0.05f)
+			{
+				animator->SetCurrentAnimation(2);
+			}
+
+			else if(rigidBody->GetBody()->GetLinearVelocity().y <= -0.05f)
+			{
+				animator->SetCurrentAnimation(3);
+			}
 		}
 
-		if (rigidBody->GetPlayerState() != PlayerState::Jumping && rigidBody->GetPlayerState() != PlayerState::Falling &&
-			Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) &&
-			Input::GetControllerButtonPressed(controllerID, jumpC)))
+		if ((rigidBody->GetPlayerState() != PlayerState::Jumping && rigidBody->GetPlayerState() != PlayerState::Falling) &&
+			(Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) &&
+			Input::GetControllerButtonPressed(controllerID, jumpC))))
 		{
 			if (jumpCount < 1)
 			{
