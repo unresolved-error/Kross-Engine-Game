@@ -412,4 +412,14 @@ namespace Kross
         m_ActualObjects[index] = nullptr;
         m_ActualObjects.erase(m_ActualObjects.begin() + index);
     }
+    Object* Scene::FindObject(std::string name)
+    {
+        for (int i = 0; i < m_ActualObjects.size(); i++)
+        {
+            if (m_ActualObjects[i]->GetName() == name)
+                return m_ActualObjects[i];
+        }
+
+        return nullptr;
+    }
 }

@@ -100,6 +100,7 @@ LAYER->0->
 TRANSFORM2D->23.900000->-2.900000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->0.99999->0.99999->1->1->0->0->
 RIGIDBODY2D->0->0.44->0.39->0.22->0.5->0->0->1->
-ANIMATOR->DonutWalk->DonutIdle->
+ANIMATOR->DonutIdle->DonutWalk->
+SCRIPT->EnemyMovement->
 END->
 
