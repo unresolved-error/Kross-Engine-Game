@@ -30,7 +30,7 @@ public:
 	Animator* animator;
 
 	Object* camera;
-	Object* playerGun;
+	Object* text;
 
 	bool followPlayer = false;
 
@@ -69,6 +69,8 @@ public:
 		rigidBody = GetComponent<Rigidbody2D>();
 
 		animator = GetComponent<Animator>();
+
+		text = SceneManager::GetCurrentScene()->FindObject("Text");
 
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
@@ -177,6 +179,25 @@ public:
 		EnableGravity(Key::Q, Controller::B);
 
 		camera->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
+
+		if (timeElapsed < 1.0f)
+		{
+			timeElapsed += Time::GetDeltaTime();
+			frameCount++;
+		}
+
+		if (text)
+		{
+			text->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + Vector2(0.0f, 1.5f);
+		}
+
+		if (timeElapsed >= 1.0f)
+		{
+			timeElapsed = 0.0f;
+			if(text)
+				text->GetComponent<TextRenderer>()->SetText(std::to_string(frameCount));
+			frameCount = 0;
+		}
 
 	}
 

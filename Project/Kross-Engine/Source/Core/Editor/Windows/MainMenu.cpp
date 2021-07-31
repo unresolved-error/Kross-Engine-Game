@@ -103,6 +103,7 @@ namespace Kross
 				if (ImGui::MenuItem("Text"))
 				{
 					Object* text = Object::OnCreate("Text");
+					text->SetLayer(Layer::UI);
 					text->AttachComponent<TextRenderer>();
 					SceneManager::GetCurrentScene()->AttachObject(text);
 				}

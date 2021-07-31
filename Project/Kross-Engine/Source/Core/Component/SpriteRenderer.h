@@ -32,6 +32,8 @@ namespace Kross
 		template<typename Type> friend class Batch;
 		/* ^ I Hate this even more. */
 
+		void OnStart() override;
+
 	public:
 		SpriteRenderer();
 		~SpriteRenderer();

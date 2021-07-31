@@ -10,7 +10,15 @@
 
 namespace Kross
 {
-	SpriteRenderer::SpriteRenderer() : 
+	void SpriteRenderer::OnStart()
+	{
+		#ifndef KROSS_EDITOR
+		if(p_Material)
+			p_Material = KROSS_NEW Material(*p_Material);
+		#endif
+	}
+
+	SpriteRenderer::SpriteRenderer() :
 		p_Material	(nullptr),
 		m_FlipX		(false),
 		m_FlipY		(false),
@@ -19,6 +27,10 @@ namespace Kross
 
 	SpriteRenderer::~SpriteRenderer()
 	{
+		#ifndef KROSS_EDITOR
+		Material::OnDestroy(p_Material);
+		#else
 		p_Material = nullptr;
+		#endif
 	}
 }
