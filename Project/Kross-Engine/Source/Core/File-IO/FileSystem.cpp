@@ -1222,8 +1222,10 @@ namespace Kross
 		{
 			fileStream << "SCENE:\n";
 			fileStream << "NAME->" << sceneToSave->GetName() << "->\n";
-			fileStream << "GRAVITY->9.81->0.000->-1.000->\n";
-			fileStream << "OBJECTS->Assets/Scenes/" << sceneToSave->GetName() << ".kobj->\n";
+			fileStream << "GRAVITY->" << std::to_string(sceneToSave->GetGravityScalar()) << "->"
+				<< std::to_string(sceneToSave->GetGravityDirection().x) << "->" 
+				<< std::to_string(sceneToSave->GetGravityDirection().y) << "->\n";
+			fileStream << "OBJECTS->Assets/Scenes/" << sceneToSave->GetName() << ".kobj->";
 
 			fileStream.close();
 		}
@@ -1255,11 +1257,11 @@ namespace Kross
 				fileStream << "STATIC->" + std::to_string((int)(scene->m_ActualObjects[j]->IsStatic())) + "->\n";
 				fileStream << "ENABLE->" + std::to_string((int)(scene->m_ActualObjects[j]->Enabled())) + "->\n";
 				fileStream << "LAYER->" + std::to_string((int)(scene->m_ActualObjects[j]->GetLayer())) + "->\n";
-				fileStream << "TRANSFORM2D->" + std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Position.x)) + "->" +
-					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Position.y)) + "->" +
-					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Rotation)) + "->" +
-					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Scale.x)) + "->" +
-					std::to_string((int)(scene->m_ActualObjects[j]->GetTransform()->m_Scale.y)) + "->" + "\n";
+				fileStream << "TRANSFORM2D->" + std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.y) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Rotation) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.y) + "->" + "\n";
 				
 				for (int k = 0; k < scene->m_ActualObjects[j]->m_Components.size(); k++)
 				{

@@ -30,7 +30,8 @@ namespace Kross
 		p_Transform = gameObject->GetTransform();
 
 		/* Play the Current Animation. */
-		p_AnimationCurrent->Play();
+		if(p_AnimationCurrent)
+			p_AnimationCurrent->Play();
 	}
 
 	void Animator::OnUpdate()

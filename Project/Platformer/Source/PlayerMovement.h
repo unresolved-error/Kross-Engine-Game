@@ -166,6 +166,11 @@ public:
 				if (audplayer->IsPlaying())
 					audplayer->Stop();
 			}
+
+			if (Input::GetKeyPressed(Key::G))
+			{
+				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
+			}
 		}
 
 		PlayerMove(input, Key::Space, Controller::A);
@@ -179,7 +184,7 @@ public:
 	{
 		if (rigidBody->GetBody()->GetLinearVelocity().y <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().y >= -0.05f)
 		{
-			if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
+			if (rigidBody->GetBody()->GetLinearVelocity().x <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().x >= -0.05f)
 			{
 				animator->SetCurrentAnimation(0);
 			}

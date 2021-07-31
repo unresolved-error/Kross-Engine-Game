@@ -191,7 +191,7 @@ namespace Kross {
 								}
 								ImGui::EndCombo();
 							}
-							anim->SetCurrentAnimation(animation->GetName());
+							anim->SetCurrentAnimation((animation) ? animation->GetName() : "NULL");
 							ImGui::Separator();
 							ImGui::Text("Attached Animations:");
 							ImGui::Indent();
@@ -850,8 +850,28 @@ namespace Kross {
 					}
 				}
 			}
+			ImGui::EndTabItem();
 		}
-		ImGui::EndTabItem();
+		
+		if (ImGui::BeginTabItem("Object Properties"))
+		{
+			if (p_SelectedObject)
+			{
+				ImGui::Text("Name: ");
+				ImGui::SameLine();
+				char name[64]{ '\0' };
+				for (int i = 0; i < p_SelectedObject->GetName().size(); i++)
+				{
+					name[i] = p_SelectedObject->GetName()[i];
+				}
+				if (ImGui::InputTextEx("##Obejct-Name", p_SelectedObject->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+					p_SelectedObject->SetName(name);
+				}
+			}
+			ImGui::EndTabItem();
+		}
+
 		ImGui::EndTabBar();
 
 		ImGui::End();
