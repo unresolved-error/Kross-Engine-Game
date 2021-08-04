@@ -7,6 +7,12 @@ using namespace Kross;
 class BackgroundManager : public Script
 {
 public:
+	BackgroundManager()
+	{
+		/* Every Script Must do this! */
+		m_Name = "BackgroundManager";
+	};
+	~BackgroundManager() {};
 	Object* sceneCam;
 	Transform2D* transform;
 
@@ -15,6 +21,11 @@ public:
 	Object* furthestSecondary;
 	Object* furthestOnScreen;
 	float furthestOffset = 15.0f;
+	float furthestScrollOffset = 0.0f;
+
+
+	//DO NOT USE DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
+	float furthestFollowSpeed = 3;
 
 
 	Script* Duplicate() override
@@ -45,42 +56,33 @@ public:
 		Transform2D* furthestPrimaryTransform = furthestPrimary->GetTransform();
 		Transform2D* furthestSecondaryTransform = furthestSecondary->GetTransform();
 		Transform2D* cameraTransform = sceneCam->GetTransform();
+		Debug::LogLine(furthestOnScreen->GetName());
+
+		furthestScrollOffset = fmod(cameraTransform->m_Position.x, (furthestOffset*furthestFollowSpeed));
+		furthestPrimaryTransform->m_Position.x = cameraTransform->m_Position.x  - furthestScrollOffset/furthestFollowSpeed;
+		furthestSecondaryTransform->m_Position.x = furthestPrimaryTransform->m_Position.x + furthestOffset;
+
+
+		//IF ITS WAY OUTTA RANGE, REMAKE IT BACK IN. THIS IS BAD.
+		if(furthestPrimaryTransform->m_Position.x < cameraTransform->m_Position.x - furthestOffset)
+		{
+			furthestPrimaryTransform->m_Position.x += (2 * furthestOffset);
+		}
+		if(furthestSecondaryTransform->m_Position.x < cameraTransform->m_Position.x - furthestOffset)
+		{
+			furthestSecondaryTransform->m_Position.x += (2 * furthestOffset);
+		}
+		if(furthestPrimaryTransform->m_Position.x > cameraTransform->m_Position.x + furthestOffset)
+		{
+			furthestPrimaryTransform->m_Position.x -= (2 * furthestOffset);
+		}
+		if(furthestSecondaryTransform->m_Position.x > cameraTransform->m_Position.x + furthestOffset)
+		{
+			furthestSecondaryTransform->m_Position.x -= (2 * furthestOffset);
+		}
 
 		
 
-		if ((cameraTransform->m_Position.x - furthestPrimaryTransform->m_Position.x)<=((cameraTransform->m_Position.x - furthestSecondaryTransform->m_Position.x)))
-		{
-			furthestOnScreen = furthestPrimary;
-
-			if (cameraTransform->m_Position.x >= furthestOnScreen->GetTransform()->m_Position.x)
-			{
-				///WE ARE CURRENTLY ON THE RIGHT SIDE OF ON SCREEN.
-				furthestSecondaryTransform->m_Position.x = furthestPrimaryTransform->m_Position.x + furthestOffset;
-			}
-			else 
-			{
-				///WE ARE CURRENTLY ON THE LEFT SIDE OF ON SCREEN.
-				furthestSecondaryTransform->m_Position.x = furthestPrimaryTransform->m_Position.x - furthestOffset;
-			}
-		}
-		else 
-		{
-			furthestOnScreen = furthestSecondary;
-
-			if (cameraTransform->m_Position.x >= furthestOnScreen->GetTransform()->m_Position.x)
-			{
-				///WE ARE CURRENTLY ON THE RIGHT SIDE OF ON SCREEN.
-				furthestPrimaryTransform->m_Position.x = furthestSecondaryTransform->m_Position.x + furthestOffset;
-			}
-			else
-			{
-				///WE ARE CURRENTLY ON THE LEFT SIDE OF ON SCREEN.
-				furthestPrimaryTransform->m_Position.x = furthestSecondaryTransform->m_Position.x - furthestOffset;
-			}
-
-
-		}
-		
 
 		
 	}
