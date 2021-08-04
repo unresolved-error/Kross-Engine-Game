@@ -244,11 +244,11 @@ public:
 			{
 				if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
 				{
-					rigidBody->OnApplyForce(input * 2.0f);
+					rigidBody->OnApplyForce(input);
 				}
 				else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
 				{
-					rigidBody->OnApplyForce(input * 2.0f);
+					rigidBody->OnApplyForce(input);
 				}
 			}
 		}
@@ -258,11 +258,11 @@ public:
 			{
 				if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
 				{
-					rigidBody->OnApplyForce(input * 2.0f);
+					rigidBody->OnApplyForce(input);
 				}
 				else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
 				{
-					rigidBody->OnApplyForce(input * 2.0f);
+					rigidBody->OnApplyForce(input);
 				}
 			}
 		}
