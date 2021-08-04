@@ -11,6 +11,8 @@ namespace Kross
 	Window* Input::s_Window = nullptr;
 	Input* Input::s_Instance = nullptr;
 
+	float Input::s_Scroll = 0.0f;
+
 	std::unordered_map<Key, int>			Input::s_KeyStateCache =			std::unordered_map<Key, int>();
 	std::unordered_map<Controller, int>		Input::s_ControllerStateCache =		std::unordered_map<Controller, int>();
 	std::unordered_map<Mouse, int>			Input::s_MouseStateCache =			std::unordered_map<Mouse, int>();
@@ -29,6 +31,13 @@ namespace Kross
 			delete s_Instance;
 		}
 	}
+
+	void Input::SetWindow(Window* window)
+	{
+		s_Window = window;
+
+		glfwSetScrollCallback(window->GetGLFWWindow(), ScrollCallback);
+	};
 
 	float Input::GetAxis(Axis axis)
 	{
@@ -196,6 +205,11 @@ namespace Kross
 
 		/* Return the Result. */
 		return result;
+	}
+
+	inline float Input::GetMouseScroll()
+	{
+		return s_Scroll;
 	}
 
 	Vector2 Input::GetMousePosition()
@@ -368,4 +382,9 @@ namespace Kross
 		/* Return NULL if none are connected. */
 		return -1;
 	}
+
+	void ScrollCallback(GLFWwindow* window, double x, double y)
+	{
+		Input::SetScrollValue((float)y);
+	};
 }

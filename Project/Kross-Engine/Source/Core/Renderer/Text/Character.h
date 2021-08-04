@@ -13,7 +13,7 @@
 
 namespace Kross
 {
-	struct KROSS_API Character
+	class KROSS_API Character
 	{
 	private:
 		Character() :

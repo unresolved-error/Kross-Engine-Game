@@ -1,6 +1,7 @@
 #include <Kross.h>
 #include "PlayerMovement.h"
 #include "EnemyMovement.h"
+#include "BackgroundManager.h"
 
 using namespace Kross;
 
@@ -12,6 +13,7 @@ void OnRun()
 	ScriptRegistry::OnCreate();
 	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW EnemyMovement());
+	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
 
 	Application::OnStart();
 

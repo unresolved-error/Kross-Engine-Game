@@ -11,6 +11,8 @@
 #include "Math/Math.h"
 #include "Window/Window.h"
 
+#include "Debug.h"
+
 #include "GLFW/glfw3.h"
 
 namespace Kross
@@ -151,12 +153,16 @@ namespace Kross
 		static Input* s_Instance;
 		static Window* s_Window;
 
+		static float s_Scroll;
+
 		static std::unordered_map<Key, int> s_KeyStateCache;
 		static std::unordered_map<Controller, int> s_ControllerStateCache;
 		static std::unordered_map<Mouse, int> s_MouseStateCache;
 
 	protected:
 		friend class Application;
+
+		friend void ScrollCallback(GLFWwindow* window, double x, double y);
 
 		// Creates an Instance of the Input Manager.
 		static void OnCreate();
@@ -165,7 +171,10 @@ namespace Kross
 		static void OnDestoy();
 
 		// Sets the Input Window, to grab events from the Window.
-		static void SetWindow(Window* window) { s_Window = window; };
+		static void SetWindow(Window* window);
+
+		// Sets the Scroll Wheel Value.
+		static void SetScrollValue(float value) { s_Scroll = value; };
 
 	public:
 		/* ---- AXIS ---- */
@@ -202,6 +211,9 @@ namespace Kross
 		// Gets whether or not the Mouse Button is Released.
 		static inline bool GetMouseButtonReleased(Mouse mouse);
 
+		// gets the Scroll of the Mouse Input.
+		static inline float GetMouseScroll();
+
 		// Gets the Mouse Position.
 		static Vector2 GetMousePosition();
 
@@ -229,4 +241,7 @@ namespace Kross
 
 		/* -------------- */
 	};
+
+
+	void ScrollCallback(GLFWwindow* window, double x, double y);
 }

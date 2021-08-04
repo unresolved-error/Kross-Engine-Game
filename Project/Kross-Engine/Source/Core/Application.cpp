@@ -94,6 +94,7 @@ namespace Kross
 				s_Instance->p_Window->OnStart();
 
 				Time::OnUpdateDeltaTime();
+
 				SceneManager::OnUpdateSceneCameraAspectRatio(s_Instance->p_Window->GetApsectRatio());
 
 				SceneManager::OnUpdate();
@@ -116,6 +117,7 @@ namespace Kross
 				Editor::OnRender();
 				#endif
 
+				Input::SetScrollValue(0.0f);
 				s_Instance->p_Window->OnPollEvents();
 
 			}
