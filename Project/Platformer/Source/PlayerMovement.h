@@ -249,7 +249,7 @@ public:
 		{
 			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
 			{
-				rigidBody->OnApplyForce(input);
+				rigidBody->OnApplyForce(input * 3.0f);
 			}
 		}
 
@@ -277,11 +277,6 @@ public:
 		if (other->GetLayer() == Layer::Ground)
 		{
 			jumpCount = 0;
-		}
-
-		else if (other != c_Object)
-		{
-			other->SetLayer(Layer::Ground);
 		}
 
 		Debug::LogLine("Entered collision with " + other->GetName());

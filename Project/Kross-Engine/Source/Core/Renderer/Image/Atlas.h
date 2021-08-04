@@ -11,6 +11,8 @@
 #include "Sprite.h"
 #include "TextureType.h"
 
+#include "../../Debug.h"
+
 namespace Kross
 {
 	struct KROSS_API AtlasSpriteData
@@ -45,12 +47,13 @@ namespace Kross
 			m_IgnoreTextureTypes.push_back(TextureType::PerlinMap);
 			m_IgnoreTextureTypes.push_back(TextureType::Engine);
 
+			Debug::LogLine("Created Atlas!");
 			/* NOTE! if you update this update the function GetIgnoreTextureTypes() ! */
 		};
 		~Atlas();
 
 		Texture* p_AtlasTexture;
-
+		
 		// Identifies what types to ignore when adding textures to the Atlas. (THIS NEEDS TO BE SET MANUALLY)
 		List<TextureType> m_IgnoreTextureTypes;
 

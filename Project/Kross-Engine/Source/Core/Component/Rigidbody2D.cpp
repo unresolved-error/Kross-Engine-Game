@@ -344,11 +344,11 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 }
                 else
                 {
-                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 }
                 break;
             }
@@ -356,17 +356,17 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 }
                 else
                 {
-                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 }
                 break;
             }
             case Kross::ShapeType::Capsule:
             {
-                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 break;
             }
             }

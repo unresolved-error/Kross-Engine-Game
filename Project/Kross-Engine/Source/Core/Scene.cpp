@@ -87,7 +87,7 @@ namespace Kross
         {
             p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
         }
-
+        
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
         {
@@ -128,12 +128,12 @@ namespace Kross
             Camera* camera = p_Camera->GetComponent<Camera>();
             ShaderManager::OnUpdateShaderVPMatrix(camera->GetView(), camera->GetProjection());
         }
-
+        
         /* Render all Game Objects. */
-
+        
         /* For removing the Objects from the Render Queue that are dynamic. */
         List<int> dynamicRenderQueueReferencePoints;
-
+        
         /* Go through the Dynamic Object List. To place them in the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)
         {
@@ -142,27 +142,27 @@ namespace Kross
             {
                 /* Keep Record of the index, so we know where in the list it is to remove it. */
                 List<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
-
+        
                 for(int j = 0; j < indexes.size(); j++)
                     dynamicRenderQueueReferencePoints.push_back(indexes[j]);
             }
         }
-
+        
         /* Render the Objects. */
         for (int l = 0; l < (int)Layer::Count; l++)
         {   
             for (int i = 0; i < m_RenderList[l].size(); i++)
-                m_BatchRenderers[l]->AttachRenderer(m_RenderList[l][i]);
-
+                m_BatchRenderers[l]->AttachRenderer(p_Camera->GetComponent<Camera>(), m_RenderList[l][i]);
+        
             m_BatchRenderers[l]->OnFinish();
         }
-
+        
         #ifdef KROSS_DEBUG
         /* Draw Debug Information. */
         p_DebugShader->Attach();
         p_DebugRenderer->UpdateFrame();
         #endif
-
+        
         /* Remove the Dynamic Objects from the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)
             DetachObjectFromRenderQueue(m_Objects[i]->GetLayer(), m_Objects[i]);
@@ -412,6 +412,7 @@ namespace Kross
         m_ActualObjects[index] = nullptr;
         m_ActualObjects.erase(m_ActualObjects.begin() + index);
     }
+
     Object* Scene::FindObject(std::string name)
     {
         for (int i = 0; i < m_ActualObjects.size(); i++)

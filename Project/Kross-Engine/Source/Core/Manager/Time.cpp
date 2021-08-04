@@ -25,7 +25,7 @@ namespace Kross
 	void Time::OnUpdateDeltaTime()
 	{
 		/* Get the Current frame Time. */
-		float currentTime = glfwGetTime();
+		float currentTime = (float)glfwGetTime();
 		
 		/* Update Delta Time. */
 		s_Instance->m_DeltaTime = (currentTime - s_Instance->m_PreviousTime);

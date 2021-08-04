@@ -86,6 +86,6 @@ namespace Kross
         static BatchRenderer* OnCreate(Layer layer);
         static void OnDestroy(BatchRenderer* renderer);
 
-        void AttachRenderer(Renderer* renderer);
+        void AttachRenderer(Camera* camera, Renderer* renderer);
     };
 }

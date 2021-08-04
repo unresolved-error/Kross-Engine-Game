@@ -6,6 +6,8 @@
 
 #include "Editor.h"
 
+#include "../Input.h"
+
 namespace Kross
 {
 	Editor* Editor::s_Instance = nullptr;

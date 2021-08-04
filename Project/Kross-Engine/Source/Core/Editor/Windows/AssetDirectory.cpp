@@ -8,6 +8,8 @@
 
 #include "../Editor.h"
 
+#include "../../Input.h"
+
 namespace Kross
 {
     void AssetDirectory::SetFlags()

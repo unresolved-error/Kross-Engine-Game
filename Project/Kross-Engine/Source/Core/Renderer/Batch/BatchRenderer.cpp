@@ -60,7 +60,7 @@ namespace Kross
             delete renderer;
     }
 
-    void BatchRenderer::AttachRenderer(Renderer* renderer)
+    void BatchRenderer::AttachRenderer(Camera* camera, Renderer* renderer)
     {
         /* The Renderer Type is Sprite Renderer. */
         if (typeid(*renderer) == typeid(SpriteRenderer))
@@ -70,7 +70,7 @@ namespace Kross
                 OnRender();
 
             /* Attach the Data. */
-            p_SpriteBatch->Attach((SpriteRenderer*)renderer);
+            p_SpriteBatch->Attach(camera, (SpriteRenderer*)renderer);
         }
 
         /* The Renderer Type is Text Renderer. */
@@ -81,7 +81,7 @@ namespace Kross
                 OnRender();
                 
             /* Attach the Data. */
-            p_TextBatch->Attach((TextRenderer*)renderer);
+            p_TextBatch->Attach(camera, (TextRenderer*)renderer);
         }
 
         /* The Renderer is a Particle Emitter. */
@@ -92,7 +92,7 @@ namespace Kross
                 OnRender();
 
             /* Attach the Data. */
-            p_WaterBatch->Attach((ParticleEmitter*)renderer);
+            p_WaterBatch->Attach(camera, (ParticleEmitter*)renderer);
         }
 
         /* The Renderer is a Particle Emitter. */
@@ -103,7 +103,7 @@ namespace Kross
                 OnRender();
 
             /* Attach the Data. */
-            p_SpriteBatch->Attach((TileMapRenderer*)renderer);
+            p_SpriteBatch->Attach(camera, (TileMapRenderer*)renderer);
         }
 
         return;
@@ -280,46 +280,24 @@ namespace Kross
 
     void BatchRenderer::OnClean()
     {
-        /* Destroy the Batch. */
+        /* Clearing the Batch. */
         switch (m_Layer)
         {
             case Layer::Fluids:
             {
-                delete p_WaterBatch;
+                p_WaterBatch->Clear();
                 break;
             }
 
             case Layer::UI:
             {
-                delete p_TextBatch;
+                p_TextBatch->Clear();
                 break;
             }
 
             default:
             {
-                delete p_SpriteBatch;
-                break;
-            }
-        }
-
-        /* Create a New Batch. */
-        switch (m_Layer)
-        {
-            case Layer::Fluids:
-            {
-                p_WaterBatch = KROSS_NEW Batch<WaterVertex>(p_Atlas);
-                break;
-            }
-
-            case Layer::UI:
-            {
-                p_TextBatch = KROSS_NEW Batch<TextVertex>(p_Atlas);
-                break;
-            }
-
-            default:
-            {
-                p_SpriteBatch = KROSS_NEW Batch<SpriteVertex>(p_Atlas);
+                p_SpriteBatch->Clear();
                 break;
             }
         }

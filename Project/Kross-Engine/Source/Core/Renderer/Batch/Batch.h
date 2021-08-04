@@ -13,8 +13,7 @@
 #include "../../Component/Renderer.h"
 
 // How much Geometry can be passed in by default.
-#define MAX_BATCH_SIZE 1024
-
+#define MAX_BATCH_SIZE 2048
 namespace Kross
 {
     template<typename Type>
@@ -70,7 +69,7 @@ namespace Kross
         };
 
         // Add Sprite Renderer Data to the Batch.
-        void Attach(SpriteRenderer* renderer)
+        void Attach(Camera* camera, SpriteRenderer* renderer)
         {
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
@@ -249,17 +248,27 @@ namespace Kross
         }
 
         // Add Tile Map Renderer Data to the Batch.
-        void Attach(TileMapRenderer* renderer)
+        void Attach(Camera* camera, TileMapRenderer* renderer)
         {
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
 
             /* Quick Variables. */
             Transform2D* transform = renderer->c_Object->GetTransform();
+            Transform2D* cameraTransform = camera->c_Object->GetTransform();
 
             for (int i = 0; i < renderer->m_Tiles.size(); i++)
             {
                 Tile* currentTile = renderer->m_Tiles[i];
+
+                float tileX = (transform->m_Position.x + currentTile->m_Offset.x);
+                float tileY = (transform->m_Position.y + currentTile->m_Offset.y);
+
+                if (tileX >= cameraTransform->m_Position.x + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    tileX <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    tileY >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    tileY <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
+                    continue;
                 /* Update the Model. */
                 Matrix4 model = Matrix4(1.0f);
 
@@ -344,7 +353,7 @@ namespace Kross
         }
 
         // Add Text Renderer Data to the Batch.
-        void Attach(TextRenderer* renderer)
+        void Attach(Camera* camera, TextRenderer* renderer)
         {
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, TextVertex>::value, "Type must be of Text Vertex!");
@@ -430,7 +439,7 @@ namespace Kross
         }
 
         // Add Particle Data from an Emitter to the Batch.
-        void Attach(ParticleEmitter* emitter)
+        void Attach(Camera* camera, ParticleEmitter* emitter)
         {
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, WaterVertex>::value, "Type must be of Text Vertex!");
@@ -474,6 +483,14 @@ namespace Kross
 
         // Gets if the Batch is Emptry.
         bool GetEmptyStatus() const { return (m_Data.size() == 0); };
+
+        void Clear()
+        {
+            m_Data.clear();
+            m_Indicies.clear();
+
+            m_BatchSize = 0;
+        }
         
     };
 }

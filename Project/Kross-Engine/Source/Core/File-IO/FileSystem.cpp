@@ -88,10 +88,10 @@ namespace Kross
 	std::string FileSystem::OnWriteAtlasData(Atlas* atlas)
 	{
 		/* Filepaths for everything. */
-		std::string atlasFilepath = "Assets/Atlas/0.krs";
-		std::string atlasSpriteDataFilepath = "Assets/Atlas/Sprite-Data/0.krs";
-		std::string atlasTextureDataFilepath = "Assets/Atlas/Texture-Data/0.krs";
-		std::string atlasTextureCountFilepath = "Assets/Atlas/Texture-Data/1.krs";
+		std::string atlasFilepath = "Assets/Atlas/Atlas.krs";
+		std::string atlasSpriteDataFilepath = "Assets/Atlas/Sprite-Data/SpriteData.krs";
+		std::string atlasTextureDataFilepath = "Assets/Atlas/Texture-Data/TextureData.krs";
+		std::string atlasTextureCountFilepath = "Assets/Atlas/Texture-Data/TextureCountData.krs";
 		std::string atlasRawTextureFilepath = "Resources/Atlas/Atlas.png";
 
 		/* Creates the Directories if needed. */
@@ -700,8 +700,16 @@ namespace Kross
 									break;
 								}
 
-								/* Static Setting. */
+								/* Mass Setting. */
 								case 5:
+								{
+
+									collider->SetMass(std::stof(value));
+									break;
+								}
+
+								/* Static Setting. */
+								case 6:
 								{
 
 									collider->SetStatic((bool)std::stoi(value));
@@ -709,14 +717,14 @@ namespace Kross
 								}
 
 								/* Tile Map Collision Check Setting. */
-								case 6:
+								case 7:
 								{
 									collider->SetTileMapCollider((bool)std::stoi(value));
 									break;
 								}
 
 								/* Rotation Lock Setting. */
-								case 7:
+								case 8:
 								{
 									collider->SetRotationLock((bool)std::stoi(value));
 									break;
@@ -1317,6 +1325,7 @@ namespace Kross
 						fileStream << rig->GetHeight() << "->";
 						fileStream << rig->GetRadius() << "->";
 						fileStream << rig->GetFriction() << "->";
+						fileStream << rig->GetMass() << "->";
 						fileStream << (int)rig->IsStatic() << "->";
 						fileStream << (int)rig->IsTileMapCollider() << "->";
 						fileStream << (int)rig->IsRotationLocked() << "->";

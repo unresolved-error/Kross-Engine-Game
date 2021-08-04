@@ -610,6 +610,7 @@ namespace Kross {
 							float c_Height = col->GetHeight();
 							float c_Radius = col->GetRadius();
 							float c_Frict = col->GetFriction();
+							float c_Mass = col->GetMass();
 							bool c_IsStatic = col->IsStatic();
 							bool c_FixedRot = col->IsRotationLocked();
 							bool c_IsTileMap = col->IsTileMapCollider();
@@ -673,6 +674,10 @@ namespace Kross {
 							ImGui::SameLine();
 							ImGui::DragFloat("##Frict", &c_Frict, 0.1f, 0.0f, 1.0f, "%.2fm");
 
+							ImGui::Text("Mass");
+							ImGui::SameLine();
+							ImGui::DragFloat("##Mass", &c_Mass, 0.1f, 0.0f, 100.0f, "%.2fm");
+
 							ImGui::Text("Static?");
 							ImGui::SameLine();
 							ImGui::Checkbox("##S", &c_IsStatic);
@@ -697,6 +702,7 @@ namespace Kross {
 							col->SetStatic(c_IsStatic);
 							col->SetRotationLock(c_FixedRot);
 							col->SetTileMapCollider(c_IsTileMap);
+							col->SetMass(c_Mass);
 						}
 
 						if (!isOpen)
@@ -867,6 +873,22 @@ namespace Kross {
 				if (ImGui::InputTextEx("##Obejct-Name", p_SelectedObject->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
 				{
 					p_SelectedObject->SetName(name);
+				}
+
+				ImGui::Spacing();
+
+				ImGui::Text("Layer:");
+				LayerName names = LayerName();
+				if (ImGui::BeginCombo("##Layer", names[(int)p_SelectedObject->GetLayer()].c_str(), ImGuiComboFlags_NoArrowButton))
+				{
+					for (int i = 0; i < (int)Layer::Count; i++)
+					{
+						if (ImGui::MenuItem(names[i].c_str()))
+						{
+							p_SelectedObject->SetLayer((Layer)i);
+						}
+					}
+					ImGui::EndCombo();
 				}
 			}
 			ImGui::EndTabItem();
