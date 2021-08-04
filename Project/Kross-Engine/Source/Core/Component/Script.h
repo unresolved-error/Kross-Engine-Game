@@ -40,7 +40,7 @@ namespace Kross
         ~Script() {};
 
         /* Use Wisely. */
-        virtual Script* Duplicate() = 0;
+        virtual Script* Duplicate() { return KROSS_NEW Script(); };
 
         virtual void Start() { Debug::LogLine((std::string)"Base Start!"); };
         virtual void Update() {};
