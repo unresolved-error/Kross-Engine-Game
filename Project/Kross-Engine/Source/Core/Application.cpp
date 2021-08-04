@@ -46,7 +46,7 @@ namespace Kross
 	void Application::OnCreate(const std::string& title, int width, int height)
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_ALLOCATION_REPORT(Application(title, width, height));
+			s_Instance = KROSS_NEW Application(title, width, height);
 	}
 
 	void Application::OnStart()

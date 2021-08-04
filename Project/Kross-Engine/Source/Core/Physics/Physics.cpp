@@ -20,7 +20,7 @@ namespace Kross
 	void Physics::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_ALLOCATION_REPORT(Physics());
+			s_Instance = KROSS_NEW Physics();
 	}
 
 	void Physics::OnDestroy()

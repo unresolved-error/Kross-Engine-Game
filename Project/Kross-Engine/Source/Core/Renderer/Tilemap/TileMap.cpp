@@ -18,7 +18,7 @@ namespace Kross
 
 	TileMap* TileMap::OnCreate(const std::string& name)
 	{
-		TileMap* map = KROSS_ALLOCATION_REPORT(TileMap());
+		TileMap* map = KROSS_NEW TileMap();
 		map->SetName(name);
 
 

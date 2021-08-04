@@ -39,8 +39,8 @@ namespace Kross
             p_IndexBuffer           (KROSS_NEW IndexBuffer()),
 
             p_VertexBufferLayout    (KROSS_NEW VertexBufferLayout()),
-            p_Atlas                 (atlas),
-            p_Texture               (nullptr),
+            p_Atlas                 (atlas), 
+            p_Texture               (nullptr), 
 
             p_SpriteBatch           (KROSS_NEW Batch<SpriteVertex>(atlas)),
             p_TextBatch             (KROSS_NEW Batch<TextVertex>(atlas)),

@@ -190,29 +190,29 @@ namespace Kross
 		/* ---- KEYS ---- */
 
 		// Gets whether or not the Key is Down. 
-		static bool GetKeyDown(Key key);
+		static inline bool GetKeyDown(Key key);
 
 		// Gets whether or not the Key is Pressed.
-		static bool GetKeyPressed(Key key);
+		static inline bool GetKeyPressed(Key key);
 
 		// Gets whether or not the Key is Released.
-		static bool GetKeyReleased(Key key);
+		static inline bool GetKeyReleased(Key key);
 
 		/* -------------- */
 
 		/* --- MOUSE ---- */
 
 		// Gets whether or not the Mouse Button is Down.
-		static bool GetMouseButtonDown(Mouse mouse);
+		static inline bool GetMouseButtonDown(Mouse mouse);
 
 		// Gets whether or not the Mouse Button is Pressed.
-		static bool GetMouseButtonPressed(Mouse mouse);
+		static inline bool GetMouseButtonPressed(Mouse mouse);
 
 		// Gets whether or not the Mouse Button is Released.
-		static bool GetMouseButtonReleased(Mouse mouse);
+		static inline bool GetMouseButtonReleased(Mouse mouse);
 
 		// gets the Scroll of the Mouse Input.
-		static float GetMouseScroll();
+		static inline float GetMouseScroll();
 
 		// Gets the Mouse Position.
 		static Vector2 GetMousePosition();
@@ -222,26 +222,26 @@ namespace Kross
 		/* - CONTROLLER - */
 
 		// Gets whether or not the Controller Button is Down.
-		static bool GetControllerButtonDown(int controllerID, Controller button);
+		static inline bool GetControllerButtonDown(int controllerID, Controller button);
 
 		// Gets whether or not the Controller Button is Pressed.
-		static bool GetControllerButtonPressed(int controllerID, Controller button);
+		static inline bool GetControllerButtonPressed(int controllerID, Controller button);
 
 		// Gets whether or not the Controller Button is Released.
-		static bool GetControllerButtonReleased(int controllerID, Controller button);
+		static inline bool GetControllerButtonReleased(int controllerID, Controller button);
 
 		// Gets if the  Controller Slot is Connected.
-		static bool ControllerConnected(int controllerID) { return (bool)glfwJoystickIsGamepad(controllerID); };
+		static inline bool ControllerConnected(int controllerID) { return (bool)glfwJoystickIsGamepad(controllerID); };
 
 		// Gets an Active Controller Slot.
-		static int GetAvalibleController();
+		static inline int GetAvalibleController();
 
 		// Gets the Max Number of Controller Slots.
-		static int MaxControllerSlots() { return GLFW_JOYSTICK_16 + 1; };
+		static inline int MaxControllerSlots() { return GLFW_JOYSTICK_16 + 1; };
 
 		/* -------------- */
 	};
 
-	// Scroll Wheel Callback
+
 	void ScrollCallback(GLFWwindow* window, double x, double y);
 }

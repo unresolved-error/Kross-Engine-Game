@@ -173,7 +173,7 @@ namespace Kross
 			}
 
 			/* Set up of the new Component. */
-			Component* component = KROSS_ALLOCATION_REPORT(Type());
+			Component* component = KROSS_NEW Type();
 			component->SetObject(this);
 
 			if (typeid(Type) == typeid(Rigidbody2D))

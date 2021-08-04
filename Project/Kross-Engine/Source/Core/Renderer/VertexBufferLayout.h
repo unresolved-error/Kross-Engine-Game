@@ -63,7 +63,7 @@ namespace Kross
 		VertexAttribute GetAttribute(int index) const { return m_Attributes[index]; };
 
 		// Gets the Attributes that have been loaded.
-		const int GetAttributeCount() const { return static_cast<int>(m_Attributes.size()); };
+		const int GetAttributeCount() const { return m_Attributes.size(); };
 
 	public:
 		// Base Template. (DO NOT USE)

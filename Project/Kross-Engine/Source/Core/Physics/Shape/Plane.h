@@ -20,10 +20,7 @@ namespace Kross
 		float m_DistanceToOrigin;
 
 	public:
-		Plane() :
-			m_Normal			(Vector2(0.0f)),
-			m_DistanceToOrigin	(0.0f)
-		{};
+
 		//Plane(Vector2 normal, float distanceToOrigin);
 
 		ShapeType GetShapeType() const { return ShapeType::Plane; }

@@ -49,18 +49,13 @@ using List = std::vector<Type>;
 
 #define KROSS_ASSERT(x) if(!(x)) __debugbreak();
 
-#define KROSS_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-
-#define KROSS_ALLOCATION_REPORT(x) KROSS_NEW x; \
-                            std::cout << "[Allocation] In file: " << __FILE__ << ", at " << __LINE__ << std::endl; 
-
-//#if defined _DEBUG || defined KROSS_DEBUG
-//    #define KROSS_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-//    // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
-//    // allocations to be of _CLIENT_BLOCK type
-//#else
-//    #define KROSS_NEW new
-//#endif
+#if defined _DEBUG || defined KROSS_DEBUG
+    #define KROSS_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+    // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+    // allocations to be of _CLIENT_BLOCK type
+#else
+    #define KROSS_NEW new
+#endif
 
 /* --- DLL Export and Import Functionality --- */
 

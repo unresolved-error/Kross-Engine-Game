@@ -15,7 +15,7 @@ namespace Kross
 	AudioSource* AudioSource::OnCreate(const std::string& filepath, const std::string& name, bool isStream)
 	{
 		/* Create a Blank Audio Source. */
-		AudioSource* audioSource = KROSS_ALLOCATION_REPORT(AudioSource());
+		AudioSource* audioSource = KROSS_NEW AudioSource();
 
 		/* Set up basic properties. */
 		audioSource->SetName(name);

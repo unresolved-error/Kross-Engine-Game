@@ -30,13 +30,13 @@ namespace Kross
 			#ifdef KROSS_EDITOR
 			p_EditorCamera			(nullptr),
 			#endif
-			p_Camera				(nullptr),
-			p_Physics				(KROSS_NEW PhysicsScene()),
+			p_Camera				(nullptr), 
+			p_Physics				(KROSS_NEW PhysicsScene()), 
 			p_WorldFilter			(KROSS_NEW ContactFilter())
 		{
 			/* Sets the physics world for Box2D */
 			//World* world = KROSS_NEW World({ 0.0f, -9.8f });
-			World* world = KROSS_ALLOCATION_REPORT(World({ 0.0f, 0.0f }));
+			World* world = KROSS_NEW World({ 0.0f, 0.0f });
 			world->SetContactFilter(p_WorldFilter);
 			p_Physics->SetPhysicsWorld(world);
 
@@ -153,7 +153,7 @@ namespace Kross
 		void DetachObject(int index);
 
 		// Gets the total Number of Objects in the Scene.
-		const int GetObjectCount() const { return static_cast<int>(m_Objects.size() + m_StaticObjects.size()); }
+		const int GetObjectCount() const { return m_Objects.size() + m_StaticObjects.size(); }
 
 		// Find a Object from the given name.
 		Object* FindObject(std::string name);

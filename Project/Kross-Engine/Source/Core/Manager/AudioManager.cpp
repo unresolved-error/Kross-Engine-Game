@@ -16,12 +16,12 @@ namespace Kross
     void Kross::AudioManager::OnCreate()
     {
         if (!s_Instance)
-            s_Instance = KROSS_ALLOCATION_REPORT(AudioManager());
+            s_Instance = KROSS_NEW AudioManager();
     }
 
     void Kross::AudioManager::OnStart()
     {
-        s_Instance->p_Soloud = KROSS_ALLOCATION_REPORT(SoLoud::Soloud);
+        s_Instance->p_Soloud = KROSS_NEW SoLoud::Soloud;
         SoLoud::result result = s_Instance->p_Soloud->init();
     }
 

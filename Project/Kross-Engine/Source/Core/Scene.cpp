@@ -309,7 +309,7 @@ namespace Kross
     Scene* Scene::OnCreate(const std::string& name)
     {
         /* Create the Scene. */
-        Scene* scene = KROSS_ALLOCATION_REPORT(Scene(name));
+        Scene* scene = KROSS_NEW Scene(name);
 
         /* Return the new Scene. */
         return scene;

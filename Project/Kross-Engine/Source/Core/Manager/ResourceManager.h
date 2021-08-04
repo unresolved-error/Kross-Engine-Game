@@ -409,7 +409,7 @@ namespace Kross
 			{
 				/* If the name of the Animation matches the name requested, return that Animation. */
 				if (s_Instance->m_Animations[i]->GetName() == name)
-					return  KROSS_ALLOCATION_REPORT(Animation(*s_Instance->m_Animations[i]));
+					return KROSS_NEW Animation(*s_Instance->m_Animations[i]);
 			}
 
 			/* If nothing was found. */
@@ -422,7 +422,7 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < s_Instance->m_Animations.size())
-				return  KROSS_ALLOCATION_REPORT(Animation(*s_Instance->m_Animations[index]));
+				return KROSS_NEW Animation(*s_Instance->m_Animations[index]);
 
 			/* If not, return null. */
 			return nullptr;

@@ -12,9 +12,7 @@
 #include "../Component/AudioPlayer.h"
 
 
-#ifndef WITH_WINMM
 #define WITH_WINMM
-#endif
 #include "soloud.h"
 #include "soloud_wav.h"
 

@@ -71,7 +71,7 @@ namespace Kross
 			{
 				if (p_TileSet && p_TileMap->GetCellValue(x,y) != -1) 
 				{
-					Tile* newTile = KROSS_ALLOCATION_REPORT(Tile());
+					Tile* newTile = KROSS_NEW Tile();
 
 					newTile->p_Sprite = MatchMapCell(x, y);
 

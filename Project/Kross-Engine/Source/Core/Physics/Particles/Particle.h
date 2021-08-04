@@ -81,14 +81,14 @@ namespace Kross
 		/* Sets the shape of the particle as a polygon */
 		void SetShape(Vector2 dim) 
 		{ 
-			PolygonShape* shape = KROSS_ALLOCATION_REPORT(PolygonShape());
+			PolygonShape* shape = KROSS_NEW PolygonShape();
 			shape->SetAsBox(dim.x, dim.y);
 			p_Shape = shape;
 		}
 		/* Sets the shape of the particle as a circle */
 		void SetShape(float radius) 
 		{
-			CircleShape* shape = KROSS_ALLOCATION_REPORT(CircleShape());
+			CircleShape* shape = KROSS_NEW CircleShape();
 			shape->m_radius = radius;
 			p_Shape = shape;
 		}

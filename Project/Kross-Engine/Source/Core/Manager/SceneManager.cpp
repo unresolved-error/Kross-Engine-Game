@@ -27,7 +27,7 @@ namespace Kross
 	void SceneManager::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_ALLOCATION_REPORT(SceneManager());
+			s_Instance = KROSS_NEW SceneManager();
 	}
 
 	void SceneManager::OnDestroy()

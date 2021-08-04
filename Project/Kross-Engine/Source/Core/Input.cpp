@@ -20,7 +20,7 @@ namespace Kross
 	void Input::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_ALLOCATION_REPORT(Input());
+			s_Instance = KROSS_NEW Input();
 	}
 
 	void Input::OnDestoy()
@@ -61,8 +61,8 @@ namespace Kross
 				if (s_Window)
 				{
 					/* Grab the Left and Right Values. */
-					float rightValue = static_cast<float>(glfwGetKey(window, (int)Key::D) + glfwGetKey(window, (int)Key::RightArrow));
-					float leftValue = static_cast<float>(glfwGetKey(window, (int)Key::A) + glfwGetKey(window, (int)Key::LeftArrow));
+					float rightValue = glfwGetKey(window, (int)Key::D) + glfwGetKey(window, (int)Key::RightArrow);
+					float leftValue = glfwGetKey(window, (int)Key::A) + glfwGetKey(window, (int)Key::LeftArrow);
 
 					/* Return 1 being fully Right and -1 being fully Left. */
 					return (float)(glm::sign(rightValue) - glm::sign(leftValue));

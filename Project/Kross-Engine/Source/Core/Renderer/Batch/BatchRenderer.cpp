@@ -26,7 +26,7 @@ namespace Kross
     {
         /* Quick Variables. */
         Atlas* atlas = ResourceManager::GetAtlas();
-        BatchRenderer* renderer = KROSS_ALLOCATION_REPORT(BatchRenderer(atlas, layer));
+        BatchRenderer* renderer = KROSS_NEW BatchRenderer(atlas, layer);
 
         /* Set what Vertex the Batch will be using. */
         switch (layer)
@@ -199,8 +199,8 @@ namespace Kross
                 p_VertexArray->Attach();
 
                 /* Set Data.*/
-                p_VertexBuffer->AttachVertexData(p_WaterBatch->m_Data.data(), static_cast<unsigned int>(p_WaterBatch->m_Data.size()) * static_cast<unsigned int>(sizeof(WaterVertex)));
-                p_IndexBuffer->AttachIndexData(p_WaterBatch->m_Indicies.data(), static_cast<unsigned int>(p_WaterBatch->m_Indicies.size()));
+                p_VertexBuffer->AttachVertexData(p_WaterBatch->m_Data.data(), p_WaterBatch->m_Data.size() * sizeof(WaterVertex));
+                p_IndexBuffer->AttachIndexData(p_WaterBatch->m_Indicies.data(), p_WaterBatch->m_Indicies.size());
 
                 /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
                 p_IndexBuffer->Attach();
@@ -225,8 +225,8 @@ namespace Kross
                 p_VertexArray->Attach();
 
                 /* Set Data.*/
-                p_VertexBuffer->AttachVertexData(p_TextBatch->m_Data.data(), static_cast<unsigned int>(p_TextBatch->m_Data.size()) * static_cast<unsigned int>(sizeof(TextVertex)));
-                p_IndexBuffer->AttachIndexData(p_TextBatch->m_Indicies.data(), static_cast<unsigned int>(p_TextBatch->m_Indicies.size()));
+                p_VertexBuffer->AttachVertexData(p_TextBatch->m_Data.data(), p_TextBatch->m_Data.size() * sizeof(TextVertex));
+                p_IndexBuffer->AttachIndexData(p_TextBatch->m_Indicies.data(),p_TextBatch->m_Indicies.size());
 
                 /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
                 p_IndexBuffer->Attach();
@@ -251,8 +251,8 @@ namespace Kross
                 p_VertexArray->Attach();
                   
                 /* Set Data.*/
-                p_VertexBuffer->AttachVertexData(p_SpriteBatch->m_Data.data(), static_cast<unsigned int>(p_SpriteBatch->m_Data.size()) * static_cast<unsigned int>(sizeof(SpriteVertex)));
-                p_IndexBuffer->AttachIndexData(p_SpriteBatch->m_Indicies.data(), static_cast<unsigned int>(p_SpriteBatch->m_Indicies.size()));
+                p_VertexBuffer->AttachVertexData(p_SpriteBatch->m_Data.data(), p_SpriteBatch->m_Data.size() * sizeof(SpriteVertex));
+                p_IndexBuffer->AttachIndexData(p_SpriteBatch->m_Indicies.data(), p_SpriteBatch->m_Indicies.size());
                 
                 /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
                 p_IndexBuffer->Attach();

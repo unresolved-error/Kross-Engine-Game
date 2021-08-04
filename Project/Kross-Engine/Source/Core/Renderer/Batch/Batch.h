@@ -227,7 +227,7 @@ namespace Kross
                                             renderer->GetColour());
             
             /* Grab the Current Vertex Count. */
-            int vertexCount = static_cast<int>(m_Data.size());
+            int vertexCount = m_Data.size();
             
             /* Attach the Indicies. */
             m_Indicies.push_back(0 + vertexCount);
@@ -416,7 +416,7 @@ namespace Kross
                     renderer->GetColour());
                     
                 /* Grab the Current Vertex Count. */
-                int vertexCount = static_cast<int>(m_Data.size());
+                int vertexCount = m_Data.size();
 
                 /* Attach the Indicies. */
                 m_Indicies.push_back(0 + vertexCount);
@@ -435,7 +435,7 @@ namespace Kross
             }
             
             /* Update the Size of the Batch. */
-            m_BatchSize += static_cast<int>(characterSprites.size());
+            m_BatchSize += characterSprites.size();
         }
 
         // Add Particle Data from an Emitter to the Batch.
@@ -464,7 +464,7 @@ namespace Kross
                         Vector2(velocities[i].x, velocities[i].y),
                         waterColour);
                     /* Grab the Vertex Count. */
-                    int vertexCount = static_cast<int>(m_Data.size());
+                    int vertexCount = m_Data.size();
 
                     /* Attach the Index. */
                     m_Indicies.push_back(vertexCount);

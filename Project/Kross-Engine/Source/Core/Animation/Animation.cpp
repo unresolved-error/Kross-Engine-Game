@@ -25,7 +25,7 @@ namespace Kross
 	Animation* Animation::OnCreate(const std::string& name)
 	{
 		/* Create a Blank animation. */
-		Animation* animation = KROSS_ALLOCATION_REPORT(Animation());
+		Animation* animation = new Animation();
 		animation->SetName(name);
 
 		/* Attach itself to the Resource Manager. */
