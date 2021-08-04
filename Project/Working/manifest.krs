@@ -1,0 +1,75 @@
+MANIFEST:
+
+// Load Shaders First.
+SHADER->Assets/Shaders/TextShader.krs->
+SHADER->Assets/Shaders/LineShader.krs->
+SHADER->Assets/Shaders/BatchShader.krs->
+SHADER->Assets/Shaders/WaterShader.krs->
+
+// Load Textures. (Make Sure Textures are loaded before sprites!)
+TEXTURE->Assets/Textures/Diffuse.krs->
+TEXTURE->Assets/Textures/Normal.krs->
+TEXTURE->Assets/Textures/Specular.krs->
+TEXTURE->Assets/Textures/Default.krs->
+TEXTURE->Assets/Textures/KrossFont.krs->
+TEXTURE->Assets/Textures/Particle.krs->
+TEXTURE->Assets/Textures/Marshall-Mellow.krs->
+TEXTURE->Assets/Textures/DirtTileTest.krs->
+TEXTURE->Assets/Textures/Tilemap.krs->
+TEXTURE->Assets/Textures/icoAnimation.krs->
+TEXTURE->Assets/Textures/icoAudio.krs->
+TEXTURE->Assets/Textures/icoFont.krs->
+TEXTURE->Assets/Textures/icoMaterial.krs->
+TEXTURE->Assets/Textures/icoSprite.krs->
+TEXTURE->Assets/Textures/icoTexture.krs->
+TEXTURE->Assets/Textures/icoTile-Map.krs->
+TEXTURE->Assets/Textures/icoTile-Set.krs->
+TEXTURE->Assets/Textures/AllSorts.krs->
+TEXTURE->Assets/Textures/Donut.krs->
+
+// Load Sprites. (Make sure Sprites are loaded before Materials and Animations!)
+SPRITE->Assets/Sprites/sprDiffuse.krs->
+SPRITE->Assets/Sprites/sprNormal.krs->
+SPRITE->Assets/Sprites/sprSpecular.krs->
+SPRITE->Assets/Sprites/sprParticleTexture.krs->
+SPRITE->Assets/Sprites/sprSheetMarshall-Mellow.krs->
+SPRITE->Assets/Sprites/sprDirt.krs->
+SPRITE->Assets/Sprites/sprSheetDirtTileMap.krs->
+SPRITE->Assets/Sprites/sprAllSorts.krs->
+SPRITE->Assets/Sprites/sprSheetDonut.krs->
+
+// Load Animations.
+ANIMATION->Assets/Animations/animMarshalIdle.krs->
+ANIMATION->Assets/Animations/animMarshallWalk.krs->
+ANIMATION->Assets/Animations/animMarshallJumpUp.krs->
+ANIMATION->Assets/Animations/animMarshallJumpDown.krs->
+ANIMATION->Assets/Animations/animDonutIdle.krs->
+ANIMATION->Assets/Animations/animDonutWalk.krs->
+
+// Load the Font.
+FONT->Assets/Fonts/fntKrossFont.krs->
+
+// Load Materials.
+MATERIAL->Assets/Materials/matPlayer.krs->
+MATERIAL->Assets/Materials/matGround.krs->
+MATERIAL->Assets/Materials/matDefault.krs->
+MATERIAL->Assets/Materials/matDonut.krs->
+
+// Load Audio Assets.
+AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->
+AUDIOSOURCE->Assets/Audio/audBulletProof.krs->
+
+// Loads in Tile Maps.
+TILEMAP->Assets/Tiles/TileMaps/0/tmDirt.krs-> 
+
+// Loads in Tile Sets.
+TILESET->Assets/Tiles/TileSets/tsDirt.krs-> 
+
+// Third Last load in the Atlas.
+ATLAS->Assets/Atlas/Atlas.krs->
+
+// Load in the Prefabs Second Last.
+PREFAB->Assets/Prefabs/Player.krs->
+
+// Lastly Scenes.
+SCENE->Assets/Scenes/Main.kscn->

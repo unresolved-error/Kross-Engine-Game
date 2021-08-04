@@ -1,0 +1,17 @@
+PREFAB:
+NAME->Dirt->
+STATIC->1->
+ENABLE->1->
+LAYER->0->
+
+// X, Y, Rotation, ScaleX, ScaleY
+TRANSFORM2D->0.0000->0.0000->0.0000->1.0000->1.0000->
+
+// Material, r, g, b, a, FlipX, FlipY, Depth 
+SPRITE-RENDERER->Ground->1.0000->1.0000->1.0000->1.0000->0->0->0->
+
+// Shape Type, width, height, radius, fricion, static, tilemap, locked rotation
+RIGIDBODY2D->0->2.0000->4.0000->1.0000->1.0000->0->0->1->
+
+// AUD SRC Name, loop, play speed, volume, pan 
+AUDIO-PLAYER->Mario-Jump->0->1.0000->0.5870->0.1000->

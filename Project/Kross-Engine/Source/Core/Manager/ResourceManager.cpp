@@ -144,6 +144,7 @@ namespace Kross
 		/* Load the Manifest File. */
 		FileSystem::OnReadManifestFile();
 	}
+
 	void ResourceManager::OnWriteManifest()
 	{
 		// Seeing if it writes things properly.

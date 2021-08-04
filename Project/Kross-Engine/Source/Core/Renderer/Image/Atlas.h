@@ -43,6 +43,7 @@ namespace Kross
 			/* Add the Ignore Types. */
 			m_IgnoreTextureTypes.push_back(TextureType::FontMap);
 			m_IgnoreTextureTypes.push_back(TextureType::PerlinMap);
+			m_IgnoreTextureTypes.push_back(TextureType::Engine);
 
 			/* NOTE! if you update this update the function GetIgnoreTextureTypes() ! */
 		};

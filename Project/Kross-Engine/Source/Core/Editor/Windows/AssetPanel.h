@@ -17,12 +17,14 @@ namespace Kross
 	{
 	private:
 		AssetType m_Type;
+		AssetTypeName m_TypeNames;
 
 	protected:
 
 	public:
 		AssetPanel() :
-			m_Type(AssetType::None)
+			m_Type			(AssetType::None),
+			m_TypeNames		(AssetTypeName())
 		{};
 		~AssetPanel() {};
 
@@ -34,5 +36,11 @@ namespace Kross
 
 		// Adds the Data to the Window. 
 		void Attach() override;
+
+		// Sets the Asset Type.
+		void SetAssetType(AssetType type) { m_Type = type; };
+
+		// Gets the Asset Type.
+		AssetType GetAssetType() { return m_Type; };
 	};
 }

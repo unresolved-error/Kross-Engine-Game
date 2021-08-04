@@ -23,6 +23,8 @@
 
 namespace Kross
 {
+	class KROSS_API Script;
+
 	class KROSS_API ResourceManager
 	{
 	private:
@@ -407,7 +409,7 @@ namespace Kross
 			{
 				/* If the name of the Animation matches the name requested, return that Animation. */
 				if (s_Instance->m_Animations[i]->GetName() == name)
-					return s_Instance->m_Animations[i];
+					return KROSS_NEW Animation(*s_Instance->m_Animations[i]);
 			}
 
 			/* If nothing was found. */
@@ -420,7 +422,7 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < s_Instance->m_Animations.size())
-				return s_Instance->m_Animations[index];
+				return KROSS_NEW Animation(*s_Instance->m_Animations[index]);
 
 			/* If not, return null. */
 			return nullptr;
@@ -666,6 +668,8 @@ namespace Kross
 				{
 					Object::OnDestroy(s_Instance->m_Prefabs[i]);
 					s_Instance->m_Prefabs.erase(s_Instance->m_Prefabs.begin() + i);
+
+					return;
 				}
 			}
 		}
@@ -684,6 +688,7 @@ namespace Kross
 		friend class Application;
 
 		friend class AssetPreview;
+		friend class AssetPanel;
 
 		#pragma region GEOMETRY
 

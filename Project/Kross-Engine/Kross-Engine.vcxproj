@@ -194,10 +194,12 @@
     <ClInclude Include="Source\Core\Editor\Windows\MainMenu.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetType.h" />
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
+    <ClInclude Include="Source\Core\Editor\Windows\Profiler.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
+    <ClInclude Include="Source\Core\Manager\ScriptRegistry.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
     <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h" />
     <ClInclude Include="Source\Core\Physics\Filters\CollisionFilter.h" />
@@ -699,6 +701,7 @@
     <ClCompile Include="Source\Core\Editor\Windows\SceneHierarchy.cpp" />
     <ClCompile Include="Source\Core\File-IO\Serialiser.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
+    <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
     <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp" />
     <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />

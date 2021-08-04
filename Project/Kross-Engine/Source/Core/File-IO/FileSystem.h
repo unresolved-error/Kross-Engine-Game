@@ -10,6 +10,7 @@
 #include "../Core.h"
 
 #include "../Manager/ResourceManager.h"
+#include "../Scene.h"
 
 namespace Kross
 {
@@ -20,9 +21,13 @@ namespace Kross
 		~FileSystem() {};
 	protected:
 		friend class ResourceManager;
+		friend class ObjectEditor;
+		friend class MainMenu;
 
 		// Writes the Asset Engine Manifest File.
 		static void OnWriteManifestFile();
+
+		static void OnWritePrefab(const Object* prefab);
 
 		// Writes a Texture.
 		static void OnWriteTexture(const std::string& filepath);
@@ -57,6 +62,16 @@ namespace Kross
 		// Reads the Asset Engine Manifest File.
 		static void OnReadManifestFile();
 
+		//Reads the scene in.
+		static void OnReadScene(const std::string& filepath);
+		//Reads in the objects in a scene. Important that this is not called by anyone but "OnReadScene"
+		static List<Object*> OnReadObjects(const std::string& filepath);
+
+		//SAVES Scene
+		static void OnWriteScene(Scene* sceneToSave);
+		//Saves the objects in the ".kobj". Important that this is not called by anything but OnWriteScene()
+		static void OnWriteObjects(const std::string& filepath, Scene* scene);
+			
 		// Reads in a Texture.
 		static void OnReadTexture(const std::string& filepath);
 

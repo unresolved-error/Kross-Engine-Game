@@ -320,6 +320,9 @@ namespace Kross
         /* Checks if the Object has a Camera. */
         SetCamera(object);
 
+        object->SetPhysicsScene(p_Physics);
+        object->SetLineRenderer(p_DebugRenderer);
+
         /* Check if the object is type RigidBody2D */
         Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
 
@@ -423,5 +426,15 @@ namespace Kross
         /* Erase it from the Global Objects list. */
         m_ActualObjects[index] = nullptr;
         m_ActualObjects.erase(m_ActualObjects.begin() + index);
+    }
+    Object* Scene::FindObject(std::string name)
+    {
+        for (int i = 0; i < m_ActualObjects.size(); i++)
+        {
+            if (m_ActualObjects[i]->GetName() == name)
+                return m_ActualObjects[i];
+        }
+
+        return nullptr;
     }
 }

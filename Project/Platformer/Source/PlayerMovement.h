@@ -14,7 +14,10 @@ public:
 		rigidBody(nullptr),
 		animator(nullptr),
 		camera(nullptr)
-	{};
+	{
+		/* Every Script Must do this! */
+		m_Name = "PlayerMovement";
+	};
 	~PlayerMovement() {};
 
 	Transform2D* transform;
@@ -26,8 +29,8 @@ public:
 
 	Animator* animator;
 
-	Camera* camera;
-	Object* playerGun;
+	Object* camera;
+	Object* text;
 
 	bool followPlayer = false;
 
@@ -49,6 +52,11 @@ public:
 	float m_MaxAirSpeed = 5.25f;
 	float m_JumpStrength = 0.4f;
 
+	Script* Duplicate() override
+	{
+		return KROSS_NEW PlayerMovement();
+	}
+
 	void Start() override
 	{
 		transform = c_Object->GetTransform();
@@ -58,7 +66,11 @@ public:
 
 		controllerID = Input::GetAvalibleController();
 
+		rigidBody = GetComponent<Rigidbody2D>();
+
 		animator = GetComponent<Animator>();
+
+		text = SceneManager::GetCurrentScene()->FindObject("Text");
 
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
@@ -67,6 +79,8 @@ public:
 		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
 		audplayer->SetLoop(true);
 		audplayer->Stop();
+
+		camera = SceneManager::GetCurrentScene()->GetCamera();
 
 		Debug::Log(((Object*)c_Object)->GetName() + " Position =");
 		Debug::Log(transform->m_Position);
@@ -154,29 +168,68 @@ public:
 				if (audplayer->IsPlaying())
 					audplayer->Stop();
 			}
+
+			if (Input::GetKeyPressed(Key::G))
+			{
+				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
+			}
 		}
 
 		PlayerMove(input, Key::Space, Controller::A);
 		EnableGravity(Key::Q, Controller::B);
 
-		camera->c_Object->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
+		camera->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
+
+		if (timeElapsed < 1.0f)
+		{
+			timeElapsed += Time::GetDeltaTime();
+			frameCount++;
+		}
+
+		if (text)
+		{
+			text->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + Vector2(0.0f, 1.5f);
+		}
+
+		if (timeElapsed >= 1.0f)
+		{
+			timeElapsed = 0.0f;
+			if(text)
+				text->GetComponent<TextRenderer>()->SetText(std::to_string(frameCount));
+			frameCount = 0;
+		}
 
 	}
 
 	void PlayerMove(Vector2 input, Key jump, Controller jumpC)
 	{
-		if (rigidBody->GetBody()->GetLinearVelocity().x == 0.0f)
+		if (rigidBody->GetBody()->GetLinearVelocity().y <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().y >= -0.05f)
 		{
-			animator->SetCurrentAnimation(0);
+			if (rigidBody->GetBody()->GetLinearVelocity().x <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().x >= -0.05f)
+			{
+				animator->SetCurrentAnimation(0);
+			}
+			else
+			{
+				animator->SetCurrentAnimation(1);
+			}
 		}
 		else
 		{
-			animator->SetCurrentAnimation(1);
+			if (rigidBody->GetBody()->GetLinearVelocity().y >= 0.05f)
+			{
+				animator->SetCurrentAnimation(2);
+			}
+
+			else if(rigidBody->GetBody()->GetLinearVelocity().y <= -0.05f)
+			{
+				animator->SetCurrentAnimation(3);
+			}
 		}
 
-		if (rigidBody->GetPlayerState() != PlayerState::Jumping && rigidBody->GetPlayerState() != PlayerState::Falling &&
-			Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) &&
-			Input::GetControllerButtonPressed(controllerID, jumpC)))
+		if ((rigidBody->GetPlayerState() != PlayerState::Jumping && rigidBody->GetPlayerState() != PlayerState::Falling) &&
+			(Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) &&
+			Input::GetControllerButtonPressed(controllerID, jumpC))))
 		{
 			if (jumpCount < 1)
 			{
@@ -224,6 +277,11 @@ public:
 		if (other->GetLayer() == Layer::Ground)
 		{
 			jumpCount = 0;
+		}
+
+		else if (other != c_Object)
+		{
+			other->SetLayer(Layer::Ground);
 		}
 
 		Debug::LogLine("Entered collision with " + other->GetName());

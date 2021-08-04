@@ -18,6 +18,8 @@ namespace Kross
     private:
 
     protected:
+        std::string m_Name;
+
         // Script Start Method.
         void OnStart() override;
 
@@ -37,11 +39,16 @@ namespace Kross
         Script() {};
         ~Script() {};
 
-        virtual void Start() {};
+        /* Use Wisely. */
+        virtual Script* Duplicate() = 0;
+
+        virtual void Start() { Debug::LogLine((std::string)"Base Start!"); };
         virtual void Update() {};
         virtual void CollisionEnter(Object* other) {};
         virtual void CollisionStay(Object* other) {};
         virtual void CollisionExit(Object* other) {};
+
+        std::string GetName() const { return m_Name; };
 
     };
 }

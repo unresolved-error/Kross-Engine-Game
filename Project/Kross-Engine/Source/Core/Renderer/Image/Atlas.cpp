@@ -162,6 +162,7 @@ namespace Kross
 
 		types.push_back(TextureType::FontMap);
 		types.push_back(TextureType::PerlinMap);
+		types.push_back(TextureType::Engine);
 
 		return types;
 	}

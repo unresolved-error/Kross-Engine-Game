@@ -59,9 +59,6 @@ namespace Kross
 		/* Creates a Blank Texture. (ATLAS) */
 		static Texture* OnCreateAtlas();
 
-		// Gets the Texture ID.
-		inline const unsigned int GetTextureID() const { return m_TextureID; };
-
 		// Gets the Texture PixelData.
 		inline unsigned char* GetPixelData() const { return p_PixelData; };
 
@@ -104,6 +101,9 @@ namespace Kross
 		
 		// Un Binds all Textures.
 		static void Detach();
+
+		// Gets the Texture ID. (USE RARELY)
+		inline const unsigned int GetTextureID() const { return m_TextureID; };
 
 		// Gets the Texture Name.
 		const std::string GetName() const { return m_Name; };

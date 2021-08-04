@@ -77,6 +77,9 @@ namespace Kross
 		if (typeid(*window) == typeid(MainMenu))
 			s_Instance->p_MainMenu = (MainMenu*)window;
 
+		if (typeid(*window) == typeid(AssetPanel))
+			s_Instance->p_AssetPanel = (AssetPanel*)window;
+
 		if (s_Instance->m_IsUpdating)
 			window->OnStart();
 	}

@@ -177,6 +177,7 @@
     <ClCompile Include="Source\EntryPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\EnemyMovement.h" />
     <ClInclude Include="Source\PlayerMovement.h" />
   </ItemGroup>
   <ItemGroup>

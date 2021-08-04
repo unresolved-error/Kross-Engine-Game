@@ -340,6 +340,51 @@ namespace Kross
 
     void Rigidbody2D::OnStart()
     {
+        Collider* collider = GetComponent<Collider>();
+
+        //TODO: Add Collider Filter Data to Collider.
+        if (!collider->IsTileMapCollider())
+        {
+            switch (collider->GetShapeType())
+            {
+            case Kross::ShapeType::Box:
+            {
+                if (collider->IsStatic())
+                {
+                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                }
+                else
+                {
+                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                }
+                break;
+            }
+            case Kross::ShapeType::Circle:
+            {
+                if (collider->IsStatic())
+                {
+                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                }
+                else
+                {
+                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                }
+                break;
+            }
+            case Kross::ShapeType::Capsule:
+            {
+                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player);
+                break;
+            }
+            }
+        }
+        else
+        {
+            TileMapRenderer* rend = GetComponent<TileMapRenderer>();
+            if (rend)
+                CreateTileMapColliders(rend->GetTileMap(), rend->GetTileList()[0]);
+        }
+
         /* Gets the body */
         p_Body = GetBody();
 
@@ -1142,13 +1187,13 @@ namespace Kross
         for (int i = 0; i < tileColliders.size(); i++)
         {
             CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), Vector2(tileColliders[i].z, tileColliders[i].w),
-                ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid, friction);
+                ColliderFilters::Environment, ColliderFilters::Player, friction);
         }
 
         for (int i = 0; i < tileCornerColliders.size(); i++)
         {
             CreateWorldCircle(tileCornerColliders[i].z, Vector2(tileCornerColliders[i].x, tileCornerColliders[i].y),
-                ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid, friction);
+                ColliderFilters::Environment, ColliderFilters::Player, friction);
         }
     }
 

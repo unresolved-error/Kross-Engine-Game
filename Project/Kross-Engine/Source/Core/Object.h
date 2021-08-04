@@ -12,6 +12,9 @@
 #include "Debug.h"
 #include "Layer.h"
 
+#include "Physics/PhysicsScene.h"
+#include "Renderer/LineRenderer.h"
+
 namespace Kross
 {
 	/* Forward declare the Component and Transform Class. */
@@ -31,10 +34,13 @@ namespace Kross
 		~Object();
 
 		std::string m_Name;
-		bool m_Static, m_Enable, m_Prefab;
+		bool m_Static, m_Enable, m_Prefab, m_Started;
 
 		List<Component*> m_Components;
 		List<Renderer*> m_RenderComponents;
+
+		PhysicsScene* p_Physics;
+		LineRenderer* p_DebugRenderer;
 
 		Transform2D* p_Transform;
 
@@ -49,6 +55,7 @@ namespace Kross
 		friend class Scene;
 		friend class ObjectEditor;
 		friend class Component;
+		friend class FileSystem;
 
 		// Object Start Method.
 		void OnStart();
@@ -67,6 +74,12 @@ namespace Kross
 
 		// Object Render Method.
 		//void OnRender();
+
+		// Sets the Physics Scene.
+		void SetPhysicsScene(PhysicsScene* physics) { p_Physics = physics; };
+
+		// Sets the Line Renderer.
+		void SetLineRenderer(LineRenderer* renderer) { p_DebugRenderer = renderer; };
 
 		// Adds a Child Object.
 		void AttachChildObject(Object* object);
@@ -163,12 +176,21 @@ namespace Kross
 			Component* component = KROSS_NEW Type();
 			component->SetObject(this);
 
+			if (typeid(Type) == typeid(Rigidbody2D))
+			{
+				((Rigidbody2D*)component)->SetPhysicsScene(p_Physics);
+				((Rigidbody2D*)component)->p_DebugRenderer = p_DebugRenderer;
+			}
+
 			/* Then Check if the Component is a Renderer. */
 			if (std::is_convertible<Type*, Renderer*>::value)
 				m_RenderComponents.push_back((Renderer*)component);
 
 			/* Add it to the list. */
 			m_Components.push_back(component);
+
+			if (m_Started)
+				component->OnStart();
 
 			/* Return the Component Type. */
 			return (Type*)component;

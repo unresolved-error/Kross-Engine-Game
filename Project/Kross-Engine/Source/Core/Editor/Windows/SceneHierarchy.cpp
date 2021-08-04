@@ -2,6 +2,7 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch.
  */
 
 #include "SceneHierarchy.h"
@@ -87,13 +88,15 @@ namespace Kross
 						ImGui::SetWindowFontScale(1.0f);
 
 						ImGui::Text("Name:");
-						char name[50];
-						ImGui::PushID("Name Input");
-						if (ImGui::InputTextEx("", p_Scene->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
+						char name[50]{ '\0' };
+						for (int i = 0; i < p_Scene->GetName().size(); i++)
+						{
+							name[i] = p_Scene->GetName()[i];
+						}
+						if (ImGui::InputTextEx("##Name", p_Scene->GetName().c_str(), &name[0], sizeof(name), ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_EnterReturnsTrue))
 						{
 							p_Scene->SetName((std::string)name);
 						}
-						ImGui::PopID();
 
 						ImGui::Spacing();
 
@@ -103,22 +106,17 @@ namespace Kross
 						ImGui::SetWindowFontScale(1.0f);
 
 						ImGui::Text("Scale:");
-						ImGui::PushID("Gravity Scale");
 						float gravity = p_Scene->GetGravityScalar();
-						Debug::Log(gravity);
-						ImGui::DragFloat("", &gravity, 0.05f, FLT_MIN, FLT_MAX);
-
-						ImGui::PopID();
+						ImGui::SliderFloat("##Gravity", &gravity, 0.001f, 100.0f);
 
 						ImGui::Spacing();
 
 						ImGui::Text("Direction:");
-						ImGui::PushID("Gravity Direction");
 						Vector2 direction = p_Scene->GetGravityDirection();
-						Debug::Log(direction);
-						ImGui::DragFloat("", &direction.x, 0.05f, -1.0f, 1.0f);
-
-						ImGui::PopID();
+						float values[2]{ direction.x, direction.y };
+						ImGui::SliderFloat2("##Gravity-Direction", &values[0], -1.0f, 1.0f);
+						direction.x = values[0];
+						direction.y = values[1];
 
 						p_Scene->SetGravity(gravity, direction);
 					}

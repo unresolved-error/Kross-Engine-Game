@@ -30,7 +30,8 @@ namespace Kross
 		p_Transform = gameObject->GetTransform();
 
 		/* Play the Current Animation. */
-		p_AnimationCurrent->Play();
+		if(p_AnimationCurrent)
+			p_AnimationCurrent->Play();
 	}
 
 	void Animator::OnUpdate()
@@ -102,6 +103,9 @@ namespace Kross
 		/* Early out if the Index is outside the bounds of the Array. */
 		if (index < 0 || index >= m_Animations.size())
 			return;
+
+		/* Delete the Animation. */
+		delete m_Animations[index];
 
 		/* Remove the Animation from the List. */
 		m_Animations[index] = nullptr;

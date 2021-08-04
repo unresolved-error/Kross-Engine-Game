@@ -56,12 +56,6 @@ namespace Kross
 		template<typename Type> friend class Batch;
 		/* ^ I Hate this even more. */
 
-		// Get the Sprite UV Ratio. (SHADER USE ONLY)
-		const Vector2 GetUVRatio() const { return m_UVRatio; };
-
-		// Get the Sprite UV Offset. (SHADER USE ONLY)
-		const Vector2 GetUVOffset() const { return m_UVOffset; };
-
 		// Get the Pixel Offset of the Orignial Texture. (ATLAS USE ONLY)
 		const Vector2 GetPixelOffset() const { return m_PixelOffset; }
 
@@ -137,5 +131,11 @@ namespace Kross
 
 		// Gets the  Sprite Texture.
 		Texture* GetTexture() const { return p_Texture; };
+
+		// Get the Sprite UV Ratio. (SHADER USE ONLY)
+		const Vector2 GetUVRatio() const { return m_UVRatio; };
+
+		// Get the Sprite UV Offset. (SHADER USE ONLY)
+		const Vector2 GetUVOffset() const { return m_UVOffset; };
 	};
 }
