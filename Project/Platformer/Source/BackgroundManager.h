@@ -22,8 +22,6 @@ public:
 	Object* furthestOnScreen;
 	float furthestOffset = 15.0f;
 	float furthestScrollOffset = 0.0f;
-
-
 	//DO NOT USE DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
 	float furthestFollowSpeed = 3;
 
@@ -56,7 +54,7 @@ public:
 		Transform2D* furthestPrimaryTransform = furthestPrimary->GetTransform();
 		Transform2D* furthestSecondaryTransform = furthestSecondary->GetTransform();
 		Transform2D* cameraTransform = sceneCam->GetTransform();
-		Debug::LogLine(furthestOnScreen->GetName());
+		
 
 		furthestScrollOffset = fmod(cameraTransform->m_Position.x, (furthestOffset*furthestFollowSpeed));
 		furthestPrimaryTransform->m_Position.x = cameraTransform->m_Position.x  - furthestScrollOffset/furthestFollowSpeed;
