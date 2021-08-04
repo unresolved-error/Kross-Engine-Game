@@ -73,6 +73,8 @@ namespace Kross
         List<Box*> m_TileShapes;
         List<Circle*> m_TileCornerShapes;
         List<FixtureDef*> m_Fixtures;
+        List<Body*> m_Bodies;
+
 
     protected:
         friend class TileMapRenderer;
@@ -111,8 +113,10 @@ namespace Kross
             p_MassData->mass = mass;
             p_MassData->center = { 0, 0 };
             p_MassData->I = 0.0f;
-        }
 
+            p_Body->SetMassData(p_MassData);
+        }
+        float GetMass() { return p_Body->GetMass(); }
 
         /* Sets the Body for the RigidBody */
         void SetBody(Body* body) { p_Body = body; }
@@ -187,5 +191,8 @@ namespace Kross
 
         /* Checks for the players current state */
         void CheckPlayerState();
+
+        /* Adds a fixture to the list of fixtures */
+        void AddFixtureDef(FixtureDef* fixture) { m_Fixtures.push_back(fixture); };
     };
 }

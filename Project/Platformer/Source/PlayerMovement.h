@@ -46,7 +46,7 @@ public:
 	int frameCount = 0;
 
 	float m_MaxGroundSpeed = 4.0f;
-	float m_MaxAirSpeed = 5.5f;
+	float m_MaxAirSpeed = 5.25f;
 	float m_JumpStrength = 0.4f;
 
 	void Start() override
@@ -66,7 +66,7 @@ public:
 		audplayer = GetComponent<AudioPlayer>();
 		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
 		audplayer->SetLoop(true);
-		audplayer->Play();
+		audplayer->Stop();
 
 		Debug::Log(((Object*)c_Object)->GetName() + " Position =");
 		Debug::Log(transform->m_Position);

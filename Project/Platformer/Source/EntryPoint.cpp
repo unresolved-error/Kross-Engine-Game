@@ -71,8 +71,8 @@ void OnRun()
 
 
 	Rigidbody2D* rigidBody = player->GetComponent<Rigidbody2D>();
-	rigidBody->CreateDynamicBox(Vector2(0.25f, 0.35f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment);
-
+	rigidBody->CreateDynamicCapsule(Vector2(0.25f, 0.15f), player->GetTransform()->m_Position, true, ColliderFilters::Player, ColliderFilters::Environment, 0.5f);
+	
 	//Object* particleEmitter = Object::OnCreate("Emitter");
 	//particleEmitter->SetStaticStatus(true);
 	//particleEmitter->AttachComponent<ParticleEmitter>();

@@ -70,11 +70,11 @@ namespace Kross
 		}
 		
 		/* Adds the "Create" menu */
-		if (ImGui::BeginMenu("Create"))
+		if (ImGui::BeginMenu("Object"))
 		{
 			ImGui::Separator();
 
-			if (ImGui::BeginMenu("Object"))
+			if (ImGui::BeginMenu("Create"))
 			{
 				ImGui::Separator();
 
@@ -83,12 +83,28 @@ namespace Kross
 					Object* object = Object::OnCreate();
 					SceneManager::GetCurrentScene()->AttachObject(object);
 				}
+				if (ImGui::MenuItem("Rigidbody 2D"))
+				{
+					Object* rigidbody = Object::OnCreate("Rigidbody");
+					rigidbody->AttachComponent<Rigidbody2D>();
+					SceneManager::GetCurrentScene()->AttachObject(rigidbody);
+				}
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Camera"))
 				{
 					Object* camera = Object::OnCreate("Camera");
 					camera->AttachComponent<Camera>();
 					SceneManager::GetCurrentScene()->AttachObject(camera);
 				}
+				if (ImGui::MenuItem("Particle Emitter"))
+				{
+					Object* particleEmitter = Object::OnCreate("Particle Emitter");
+					particleEmitter->AttachComponent<ParticleEmitter>();
+					SceneManager::GetCurrentScene()->AttachObject(particleEmitter);
+				}
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Text"))
 				{
 					Object* text = Object::OnCreate("Text");
@@ -101,29 +117,40 @@ namespace Kross
 					sprite->AttachComponent<SpriteRenderer>();
 					SceneManager::GetCurrentScene()->AttachObject(sprite);
 				}
-				if (ImGui::MenuItem("Rigidbody 2D"))
-				{
-					Object* rigidbody = Object::OnCreate("Rigidbody");
-					rigidbody->AttachComponent<Rigidbody2D>();
-					SceneManager::GetCurrentScene()->AttachObject(rigidbody);
-				}
 				if (ImGui::MenuItem("Tile Map"))
 				{
 					Object* tileMap = Object::OnCreate("Tile Map");
 					tileMap->AttachComponent<TileMapRenderer>();
 					SceneManager::GetCurrentScene()->AttachObject(tileMap);
 				}
-				if (ImGui::MenuItem("Particle Emitter"))
-				{
-					Object* particleEmitter = Object::OnCreate("Particle Emitter");
-					particleEmitter->AttachComponent<ParticleEmitter>();
-					SceneManager::GetCurrentScene()->AttachObject(particleEmitter);
-				}
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Audio Player"))
 				{
 					Object* audioPlayer = Object::OnCreate("Audio player");
 					audioPlayer->AttachComponent<AudioPlayer>();
 					SceneManager::GetCurrentScene()->AttachObject(audioPlayer);
+				}
+
+				ImGui::Separator();
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Prefab"))
+			{
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Save As New Prefab"))
+				{
+				}
+				if (ImGui::MenuItem("Save Prefab"))
+				{
+				}
+				if (ImGui::MenuItem("Load Prefab"))
+				{
+				}
+				if (ImGui::MenuItem("Delete Prefab"))
+				{
 				}
 
 				ImGui::Separator();
@@ -142,8 +169,15 @@ namespace Kross
 			{
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Animator")) {}
-				if (ImGui::MenuItem("Audio Player")) {}
+				if (ImGui::MenuItem("Rigidbody 2D")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<Rigidbody2D>())
+					{
+						Debug::LogWarningLine("Could not add a Rigidbody to Object: " + p_SelectedObject->GetName());
+					}
+				}
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Camera")) 
 				{
 					if (p_SelectedObject && !p_SelectedObject->AttachComponent<Camera>())
@@ -151,13 +185,63 @@ namespace Kross
 						Debug::LogWarningLine("Could not add Camera to Object: " + p_SelectedObject->GetName());
 					}
 				}
-				if (ImGui::MenuItem("Particle Emitter")) {}
-				if (ImGui::MenuItem("Rigidbody 2D")) {}
-				if (ImGui::MenuItem("Script")) {}
-				if (ImGui::MenuItem("Sprite Renderer")) {}
-				if (ImGui::MenuItem("Text Renderer")) {}
-				if (ImGui::MenuItem("Tile Map Renderer")) {}
-				if (ImGui::MenuItem("Transform 2D")) {}
+				if (ImGui::MenuItem("Animator")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<Animator>())
+					{
+						Debug::LogWarningLine("Could not add Animator to Object: " + p_SelectedObject->GetName());
+					}
+				}
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Particle Emitter"))
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<ParticleEmitter>())
+					{
+						Debug::LogWarningLine("Could not add Particle Emitter to Object: " + p_SelectedObject->GetName());
+					}
+				}
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Script")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<Script>())
+					{
+						Debug::LogWarningLine("Could not add Script to Object: " + p_SelectedObject->GetName());
+					}
+				}
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Sprite Renderer")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<SpriteRenderer>())
+					{
+						Debug::LogWarningLine("Could not add Sprite Renderer to Object: " + p_SelectedObject->GetName());
+					}
+				}
+				if (ImGui::MenuItem("Text Renderer")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<TextRenderer>())
+					{
+						Debug::LogWarningLine("Could not add Text Renderer to Object: " + p_SelectedObject->GetName());
+					}
+				}
+				if (ImGui::MenuItem("Tile Map Renderer")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<TileMapRenderer>())
+					{
+						Debug::LogWarningLine("Could not add Tile Map to Object: " + p_SelectedObject->GetName());
+					}
+				}
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Audio Player")) 
+				{
+					if (p_SelectedObject && !p_SelectedObject->AttachComponent<AudioPlayer>())
+					{
+						Debug::LogWarningLine("Could not add Audio Player to Object: " + p_SelectedObject->GetName());
+					}
+				}
 				ImGui::Separator();
 
 				ImGui::EndMenu();

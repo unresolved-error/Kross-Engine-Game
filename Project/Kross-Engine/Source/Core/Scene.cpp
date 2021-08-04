@@ -94,25 +94,40 @@ namespace Kross
             Rigidbody2D* body = m_Objects[i]->GetComponent<Rigidbody2D>();
             if (body)
             {
-                if (body->m_CloseObjects.size() > 0)
+               //if (body->m_CloseObjects.size() > 0)
+               //{
+               //    for (int j = 0; j < body->m_CloseObjects.size(); j++)
+               //    {
+               //        if (body->GetCollision() == CollisionState::Enter)
+               //        {
+               //            m_Objects[i]->OnCollisionEnter((Object*)body->m_CloseObjects[j]->GetUserData());
+               //            break;
+               //        }
+               //        else if (body->GetCollision() == CollisionState::Stay)
+               //        {
+               //            m_Objects[i]->OnCollisionStay((Object*)body->m_CloseObjects[j]->GetUserData());
+               //            break;
+               //        }
+               //        else if (body->GetCollision() == CollisionState::Exit)
+               //        {
+               //            m_Objects[i]->OnCollisionExit((Object*)body->m_CloseObjects[j]->GetUserData());
+               //            break;
+               //        }
+               //    }
+               //}
+                if (body->GetRayCollisionBody())
                 {
-                    for (int j = 0; j < body->m_CloseObjects.size(); j++)
+                    if (body->GetCollision() == CollisionState::Enter)
                     {
-                        if (body->GetCollision() == CollisionState::Enter)
-                        {
-                            m_Objects[i]->OnCollisionEnter((Object*)body->m_CloseObjects[j]->GetUserData());
-                            break;
-                        }
-                        else if (body->GetCollision() == CollisionState::Stay)
-                        {
-                            m_Objects[i]->OnCollisionStay((Object*)body->m_CloseObjects[j]->GetUserData());
-                            break;
-                        }
-                        else if (body->GetCollision() == CollisionState::Exit)
-                        {
-                            m_Objects[i]->OnCollisionExit((Object*)body->m_CloseObjects[j]->GetUserData());
-                            break;
-                        }
+                        m_Objects[i]->OnCollisionEnter((Object*)body->GetRayCollisionBody()->GetUserData());
+                    }
+                    else if (body->GetCollision() == CollisionState::Stay)
+                    {
+                        m_Objects[i]->OnCollisionStay((Object*)body->GetRayCollisionBody()->GetUserData());
+                    }
+                    else if (body->GetCollision() == CollisionState::Exit)
+                    {
+                        m_Objects[i]->OnCollisionExit((Object*)body->GetRayCollisionBody()->GetUserData());
                     }
                 }
             }
