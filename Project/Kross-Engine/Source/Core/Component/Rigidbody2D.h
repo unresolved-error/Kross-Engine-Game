@@ -75,7 +75,6 @@ namespace Kross
         List<FixtureDef*> m_Fixtures;
         List<Body*> m_Bodies;
 
-
     protected:
         friend class PhysicsScene;
         friend class Scene;

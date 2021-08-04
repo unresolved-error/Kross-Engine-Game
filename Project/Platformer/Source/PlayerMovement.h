@@ -240,16 +240,30 @@ public:
 
 		if (jumpCount == 0)
 		{
-			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
+			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed || rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
 			{
-				rigidBody->OnApplyForce(input);
+				if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
+				{
+					rigidBody->OnApplyForce(input * 2.0f);
+				}
+				else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
+				{
+					rigidBody->OnApplyForce(input * 2.0f);
+				}
 			}
 		}
 		else
 		{
-			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
+			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed || rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
 			{
-				rigidBody->OnApplyForce(input * 3.0f);
+				if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
+				{
+					rigidBody->OnApplyForce(input * 2.0f);
+				}
+				else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
+				{
+					rigidBody->OnApplyForce(input * 2.0f);
+				}
 			}
 		}
 

@@ -100,7 +100,7 @@ namespace Kross
         /* Creates the shape */
         PolygonShape dynamicBox;
         /* Sets the shape as a box */
-        dynamicBox.SetAsBox(dimensions.x / 2.0f, dimensions.y / 2.0f);
+        dynamicBox.SetAsBox(dimensions.x * 0.5f, dimensions.y * 0.5f);
 
         /* Creates a fixtureDef and assigns all variables */
         p_FixtureDef->shape = &dynamicBox;
@@ -124,62 +124,53 @@ namespace Kross
         /* Set the shape type */
         m_ShapeType = ShapeType::Capsule;
 
-        /* Create a bodyDef and set the variables */
-        BodyDef bodyDef;
+        b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(pos.x, pos.y);
-        
+        bodyDef.fixedRotation = true;
+
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData((Object*)c_Object);
-        
-        /* Creates the shape */
-        PolygonShape dynamicBox;
-        /* Sets the shape as a box */
-        dynamicBox.SetAsBox(dimensions.x * 0.5f, dimensions.y * 0.5f);
+        p_Body->SetUserData((Object*)c_Object);;
 
-        /* Creates a fixtureDefand assigns all variables */
-        p_FixtureDef->shape = &dynamicBox;
-        p_FixtureDef->density = 0.6f;
-        p_FixtureDef->friction = friction;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
-        
-        AddFixtureDef(p_FixtureDef);
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox((dimensions.x * 0.5f) - (dimensions.x * 0.05f), (dimensions.y - dimensions.x) * 0.5f);
 
+        b2FixtureDef boxFixtureDef;
+        boxFixtureDef.shape = &dynamicBox;
+        boxFixtureDef.density = 0.5f;
+        boxFixtureDef.friction = friction;
 
-        /* Bottom circle */
+        p_Body->CreateFixture(&boxFixtureDef);
+
+        /* bottom circle */
         b2CircleShape circleShape;
         circleShape.m_radius = dimensions.x * 0.5f;
-        circleShape.m_p.Set(0, 0 + dimensions.y * 0.5f);
-        
-        p_FixtureDef->shape = &circleShape;
-        p_FixtureDef->density = 0.6f;
-        p_FixtureDef->friction = friction;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
-        
-        AddFixtureDef(p_FixtureDef);
+        circleShape.m_p.Set(0.0f, (-dimensions.y + dimensions.x) * 0.5f);
 
+        b2FixtureDef bottomFixtureDef;
+        bottomFixtureDef.shape = &circleShape;
+        bottomFixtureDef.density = 0.5f;
+        bottomFixtureDef.friction = friction;
+
+        p_Body->CreateFixture(&bottomFixtureDef);
 
         /* Top circle */
-        circleShape.m_p.Set(0, 0 - dimensions.y * 0.5f);
-        
-        p_FixtureDef->shape = &circleShape;
-        p_FixtureDef->density = 0.6f;
-        p_FixtureDef->friction = friction;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
-        
-        AddFixtureDef(p_FixtureDef);
+        b2CircleShape topCircleShape;
+        topCircleShape.m_radius = dimensions.x * 0.5f;
+        topCircleShape.m_p.Set(0.0f, (dimensions.y - dimensions.x) * 0.5f);
+
+        b2FixtureDef topFixtureDef;
+        topFixtureDef.shape = &topCircleShape;
+        topFixtureDef.density = 0.5f;
+        topFixtureDef.friction = friction;
+
+        p_Body->CreateFixture(&topFixtureDef);
      
 
-        for (int i = 0; i < m_Fixtures.size(); i++)
-        {
-            p_Body->CreateFixture(m_Fixtures[i]);
-        }
         p_Body->SetFixedRotation(fixedRotation);
 
+        m_Bodies.push_back(p_Body);
         p_PhysicsScene->AttachBody(p_Body);
 
         p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0), m_Fixtures);
@@ -407,13 +398,17 @@ namespace Kross
 
     void Rigidbody2D::OnUpdateDrawInformation()
     {
-        //if (m_ShapeType == ShapeType::Capsule)
-        //{
-        //    p_DebugRenderer->DrawCapsule(GetVector2(p_Body->GetTransform().p), Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 8);
-        //}
+        
         if (!GetComponent<Collider>()->IsTileMapCollider())
         {
-            p_DebugRenderer->DrawRigidBody(p_Body);
+            if (m_ShapeType == ShapeType::Capsule)
+            {
+                p_DebugRenderer->DrawCapsule(p_Body, Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 8);
+            }
+            else
+            {
+                p_DebugRenderer->DrawRigidBody(p_Body);
+            }
         }
         else
         {
