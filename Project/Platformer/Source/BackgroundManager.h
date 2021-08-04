@@ -16,10 +16,10 @@ public:
 	Object* sceneCam;
 	Transform2D* transform;
 
-	List<Object*> furthestObjs;
+
+	//FURTHEST BACKGROUND MANAGEMENT.
 	Object* furthestPrimary;
 	Object* furthestSecondary;
-	Object* furthestOnScreen;
 	float furthestOffset = 15.0f;
 	float furthestScrollOffset = 0.0f;
 	//DO NOT USE DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -39,11 +39,8 @@ public:
 		furthestPrimary = SceneManager::GetCurrentScene()->FindObject("Furthest-A");
 		furthestSecondary = SceneManager::GetCurrentScene()->FindObject("Furthest-B");
 
-		furthestObjs.push_back(furthestPrimary);
-		furthestObjs.push_back(furthestSecondary);
 		furthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
 		furthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + furthestOffset;
-		furthestOnScreen = furthestPrimary;
 
 
 	}
