@@ -27,6 +27,9 @@ namespace Kross
 			m_ActualObjects			(List<Object*>()),
 			p_DebugRenderer			(KROSS_NEW LineRenderer()),
 			p_DebugShader			(nullptr),
+			#ifdef KROSS_EDITOR
+			p_EditorCamera			(nullptr),
+			#endif
 			p_Camera				(nullptr), 
 			p_Physics				(KROSS_NEW PhysicsScene()), 
 			p_WorldFilter			(KROSS_NEW ContactFilter())
@@ -50,6 +53,14 @@ namespace Kross
 				m_RenderList.push_back(List<Renderer*>());
 				m_BatchRenderers.push_back(BatchRenderer::OnCreate((Layer)i));
 			}
+
+			#ifdef KROSS_EDITOR
+			p_EditorCamera = Object::OnCreate("EditorCamera");
+			p_EditorCamera->AttachComponent<Camera>();
+
+			p_Camera = p_EditorCamera;
+			#endif
+
 		};
 		~Scene();
 
@@ -72,6 +83,10 @@ namespace Kross
 		Shader* p_DebugShader;
 
 		Object* p_Camera;
+		#ifdef KROSS_EDITOR
+		Object* p_EditorCamera;
+		#endif
+
 		PhysicsScene* p_Physics;
 
 		ContactFilter* p_WorldFilter;

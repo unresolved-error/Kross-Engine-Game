@@ -12,6 +12,8 @@
 #include "Manager/SceneManager.h"
 #include "Manager/Time.h"
 
+#include "Input.h"
+
 #include "Application.h"
 
 namespace Kross
@@ -43,6 +45,10 @@ namespace Kross
 
         m_BatchRenderers.clear();
 
+        #ifdef KROSS_EDITOR
+        delete p_EditorCamera;
+        #endif
+
         delete p_Physics;
         delete p_WorldFilter;
         delete p_DebugRenderer;
@@ -65,12 +71,31 @@ namespace Kross
         for (int i = 0; i < m_StaticObjects.size(); i++)
             m_StaticObjects[i]->OnStart();
 
+        #ifdef KROSS_EDITOR 
+        // Start the Editor Camera
+        p_EditorCamera->OnStart();
+        #endif
+
         /* Scene has Started. */
         m_Started = true;
     }
 
     void Scene::OnUpdate()
     {
+        #ifdef KROSS_EDITOR
+        float inputX = (float)((int)Input::GetKeyDown(Key::RightArrow) - (int)Input::GetKeyDown(Key::LeftArrow));
+        float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
+        Vector2 input = Vector2(inputX, inputY);
+
+        Camera* editorCamera = p_EditorCamera->GetComponent<Camera>();
+        editorCamera->SetSize(editorCamera->GetSize() + (-Input::GetMouseScroll() / 2.0f));
+
+        p_EditorCamera->GetTransform()->m_Position += input / 100.0f;
+        p_EditorCamera->OnUpdate();
+        #endif
+
+
+
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
             m_Objects[i]->OnUpdate();
