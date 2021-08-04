@@ -3121,7 +3121,7 @@ namespace Kross
 				std::string positionX, positionY, rotation, scaleX, scaleY, sprite;
 
 				/* Create the Keyframe. */
-				Keyframe* keyframe = KROSS_NEW Keyframe();
+				Keyframe* keyframe = KROSS_ALLOCATION_REPORT(Keyframe());
 
 				int varSwitch = 0;
 

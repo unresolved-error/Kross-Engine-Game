@@ -54,12 +54,19 @@ namespace Kross
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_Sprites.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Sprites[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                
-                Vector2 uvOffset = ResourceManager::s_Instance->m_Sprites[i]->GetUVOffset();
-                Vector2 uvRatio = ResourceManager::s_Instance->m_Sprites[i]->GetUVRatio();
+                Sprite* sprite = ResourceManager::s_Instance->m_Sprites[i];
+                unsigned int textureID = sprite->GetTexture()->GetTextureID();
+                void* imTextureID = (void*)textureID;
 
-                ImGui::ImageButton((void*)ResourceManager::s_Instance->m_Sprites[i]->GetTexture()->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), 
+                float textureWidth = static_cast<float>(texture->GetWidth());
+                float textureHeight = static_cast<float>(texture->GetHeight());
+
+                ImGui::BeginChild(sprite->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                
+                Vector2 uvOffset = sprite->GetUVOffset();
+                Vector2 uvRatio = sprite->GetUVRatio();
+
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight),
                     ImVec2((0.0f * uvRatio.x) + uvOffset.x, (0.0f * uvRatio.y) + uvOffset.y), 
                     ImVec2((1.0f * uvRatio.x) + uvOffset.x, (-1.0f * uvRatio.y) + uvOffset.y));
                 ImGui::Text(ResourceManager::s_Instance->m_Sprites[i]->GetName().c_str());
@@ -86,14 +93,20 @@ namespace Kross
         case Kross::AssetType::Texture:
         {
             texture = ResourceManager::GetResource<Texture>("Texture-Icon");
+
+            unsigned int textureID = texture->GetTextureID();
+            void* imTextureID = (void*)textureID;
+
+            float textureWidth = static_cast<float>(texture->GetWidth());
+            float textureHeight = static_cast<float>(texture->GetHeight());
             ImGui::Text("");
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_Textures.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Textures[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
+                ImGui::BeginChild(ResourceManager::s_Instance->m_Textures[i]->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
                 ImGui::Text(ResourceManager::s_Instance->m_Textures[i]->GetName().c_str());
                 ImGui::EndChild();
 
@@ -118,14 +131,21 @@ namespace Kross
         case Kross::AssetType::Material:
         {
             texture = ResourceManager::GetResource<Texture>("Material-Icon");
+
+            unsigned int textureID = texture->GetTextureID();
+            void* imTextureID = (void*)textureID;
+
+            float textureWidth = static_cast<float>(texture->GetWidth());
+            float textureHeight = static_cast<float>(texture->GetHeight());
+
             ImGui::Text("");
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_Materials.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Materials[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
+                ImGui::BeginChild(ResourceManager::s_Instance->m_Materials[i]->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
                 ImGui::Text(ResourceManager::s_Instance->m_Materials[i]->GetName().c_str());
                 ImGui::EndChild();
 
@@ -150,14 +170,21 @@ namespace Kross
         case Kross::AssetType::Font:
         {
             texture = ResourceManager::GetResource<Texture>("Font-Icon");
+
+            unsigned int textureID = texture->GetTextureID();
+            void* imTextureID = (void*)textureID;
+
+            float textureWidth = static_cast<float>(texture->GetWidth());
+            float textureHeight = static_cast<float>(texture->GetHeight());
+
             ImGui::Text("");
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_Fonts.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Fonts[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
+                ImGui::BeginChild(ResourceManager::s_Instance->m_Fonts[i]->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
                 ImGui::Text(ResourceManager::s_Instance->m_Fonts[i]->GetName().c_str());
                 ImGui::EndChild();
 
@@ -182,14 +209,21 @@ namespace Kross
         case Kross::AssetType::Animation:
         {
             texture = ResourceManager::GetResource<Texture>("Animation-Icon");
+
+            unsigned int textureID = texture->GetTextureID();
+            void* imTextureID = (void*)textureID;
+
+            float textureWidth = static_cast<float>(texture->GetWidth());
+            float textureHeight = static_cast<float>(texture->GetHeight());
+
             ImGui::Text("");
 
             int moveOver = 0;
-            int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
+            int moveOverMax = (int)(size.x / (textureWidth * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_Animations.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Animations[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
+                ImGui::BeginChild(ResourceManager::s_Instance->m_Animations[i]->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
                 ImGui::Text(ResourceManager::s_Instance->m_Animations[i]->GetName().c_str());
                 ImGui::EndChild();
 
@@ -214,14 +248,21 @@ namespace Kross
         case Kross::AssetType::AudioSource:
         {
             texture = ResourceManager::GetResource<Texture>("Audio-Icon");
+
+            unsigned int textureID = texture->GetTextureID();
+            void* imTextureID = (void*)textureID;
+
+            float textureWidth = static_cast<float>(texture->GetWidth());
+            float textureHeight = static_cast<float>(texture->GetHeight());
+
             ImGui::Text("");
 
             int moveOver = 0;
-            int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
+            int moveOverMax = (int)(size.x / (textureWidth * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_AudioSources.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_AudioSources[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
+                ImGui::BeginChild(ResourceManager::s_Instance->m_AudioSources[i]->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
                 ImGui::Text(ResourceManager::s_Instance->m_AudioSources[i]->GetName().c_str());
                 ImGui::EndChild();
 
@@ -246,14 +287,21 @@ namespace Kross
         case Kross::AssetType::TileMap:
         {
             texture = ResourceManager::GetResource<Texture>("Tile-Map-Icon");
+
+            unsigned int textureID = texture->GetTextureID();
+            void* imTextureID = (void*)textureID;
+
+            float textureWidth = static_cast<float>(texture->GetWidth());
+            float textureHeight = static_cast<float>(texture->GetHeight());
+
             ImGui::Text("");
 
             int moveOver = 0;
-            int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
+            int moveOverMax = (int)(size.x / (textureWidth * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_TileMaps.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_TileMaps[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
+                ImGui::BeginChild(ResourceManager::s_Instance->m_TileMaps[i]->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
                 ImGui::Text(ResourceManager::s_Instance->m_TileMaps[i]->GetName().c_str());
                 ImGui::EndChild();
 
@@ -278,14 +326,21 @@ namespace Kross
         case Kross::AssetType::TileSet:
         {
             texture = ResourceManager::GetResource<Texture>("Tile-Set-Icon");
+
+            unsigned int textureID = texture->GetTextureID();
+            void* imTextureID = (void*)textureID;
+
+            float textureWidth = static_cast<float>(texture->GetWidth());
+            float textureHeight = static_cast<float>(texture->GetHeight());
+
             ImGui::Text("");
 
             int moveOver = 0;
-            int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
+            int moveOverMax = (int)(size.x / (textureWidth * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::s_Instance->m_TileSets.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_TileSets[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
-                ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
+                ImGui::BeginChild(ResourceManager::s_Instance->m_TileSets[i]->GetName().c_str(), ImVec2(textureWidth * 1.5f, textureHeight + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::ImageButton(imTextureID, ImVec2(textureWidth, textureHeight), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
                 ImGui::Text(ResourceManager::s_Instance->m_TileSets[i]->GetName().c_str());
                 ImGui::EndChild();
 

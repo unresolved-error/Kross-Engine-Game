@@ -29,7 +29,7 @@ namespace Kross {
 
 	TileSet* TileSet::OnCreate(const std::string& name)
 	{
-		TileSet* tileset = KROSS_NEW TileSet();
+		TileSet* tileset = KROSS_ALLOCATION_REPORT(TileSet());
 		tileset->SetName(name);
 
 		return tileset;

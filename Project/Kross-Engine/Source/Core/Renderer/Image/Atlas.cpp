@@ -26,7 +26,7 @@ namespace Kross
 	Atlas* Atlas::OnCreate(bool createNew)
 	{
 		/* Create an Empty Atlas. */
-		Atlas* atlas = KROSS_NEW Atlas();
+		Atlas* atlas = KROSS_ALLOCATION_REPORT(Atlas());
 
 		/* If we don't need to create a fresh one. */
 		if (!createNew)
@@ -43,7 +43,7 @@ namespace Kross
 		const int height = 4096;
 
 		/* Creating a fresh block of Data for the Texture. */
-		unsigned char* data = KROSS_NEW unsigned char[width * height * 4];
+		unsigned char* data = KROSS_ALLOCATION_REPORT(unsigned char[width * height * 4]);
 		memset(data, (unsigned char)0, width * height * 4);
 
 		/* Iterate theough every Texture loaded in. */

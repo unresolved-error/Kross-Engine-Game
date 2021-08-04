@@ -96,7 +96,7 @@ namespace Kross
 							Sprite* sprite = ResourceManager::s_Instance->m_Sprites[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Sprite is the Selected One. */
-							if (ImGui::TreeNodeEx(sprite->GetName().c_str(), (sprite == p_SelectedSprite) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(sprite->GetName().c_str(), (sprite == p_SelectedSprite) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())
@@ -125,7 +125,7 @@ namespace Kross
 							Texture* texture = ResourceManager::s_Instance->m_Textures[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Texture is the Selected One. */
-							if (ImGui::TreeNodeEx(texture->GetName().c_str(), (texture == p_SelectedTexture) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(texture->GetName().c_str(), (texture == p_SelectedTexture) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())
@@ -154,7 +154,7 @@ namespace Kross
 							Material* material = ResourceManager::s_Instance->m_Materials[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Material is the Selected One. */
-							if (ImGui::TreeNodeEx(material->GetName().c_str(), (material == p_SelectedMaterial) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(material->GetName().c_str(), (material == p_SelectedMaterial) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())
@@ -183,7 +183,7 @@ namespace Kross
 							Font* font = ResourceManager::s_Instance->m_Fonts[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Font is the Selected One. */
-							if (ImGui::TreeNodeEx(font->GetName().c_str(), (font == p_SelectedFont) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(font->GetName().c_str(), (font == p_SelectedFont) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())
@@ -212,7 +212,7 @@ namespace Kross
 							Animation* animation = ResourceManager::s_Instance->m_Animations[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Animation is the Selected One. */
-							if (ImGui::TreeNodeEx(animation->GetName().c_str(), (animation == p_SelectedAnimation) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(animation->GetName().c_str(), (animation == p_SelectedAnimation) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())
@@ -241,7 +241,7 @@ namespace Kross
 							AudioSource* audioSource = ResourceManager::s_Instance->m_AudioSources[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Audio Source is the Selected One. */
-							if (ImGui::TreeNodeEx(audioSource->GetName().c_str(), (audioSource == p_SelectedAudioSource) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(audioSource->GetName().c_str(), (audioSource == p_SelectedAudioSource) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())
@@ -270,7 +270,7 @@ namespace Kross
 							TileMap* tileMap = ResourceManager::s_Instance->m_TileMaps[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Tile Map is the Selected One. */
-							if (ImGui::TreeNodeEx(tileMap->GetName().c_str(), (tileMap == p_SelectedTileMap) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(tileMap->GetName().c_str(), (tileMap == p_SelectedTileMap) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())
@@ -299,7 +299,7 @@ namespace Kross
 							TileSet* tileSet = ResourceManager::s_Instance->m_TileSets[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Tile Set is the Selected One. */
-							if (ImGui::TreeNodeEx(tileSet->GetName().c_str(), (tileSet == p_SelectedTileSet) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
+							if (ImGui::TreeNodeEx(tileSet->GetName().c_str(), (tileSet == p_SelectedTileSet) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf))
 							{
 								/* If we Select the Node. */
 								if (SelectNode())

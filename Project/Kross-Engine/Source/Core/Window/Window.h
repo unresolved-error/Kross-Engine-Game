@@ -57,7 +57,7 @@ namespace Kross
 
 	public:
 		Window() :
-			p_Properties	(KROSS_NEW WindowProperties()), 
+			p_Properties	(KROSS_NEW WindowProperties()),
 			p_GLFWWindow	(nullptr), 
 			m_Initialised	(false)
 		{};

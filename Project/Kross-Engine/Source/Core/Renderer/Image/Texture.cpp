@@ -90,7 +90,7 @@ namespace Kross
 		if (p_PixelData)
 			delete[] p_PixelData;
 
-		p_PixelData = KROSS_NEW unsigned char(width * height * bpp);
+		p_PixelData = KROSS_ALLOCATION_REPORT(unsigned char(width * height * bpp));
 	}
 
 	void Texture::OnFinalise()
@@ -146,7 +146,7 @@ namespace Kross
 		int width, height, bpp;
 
 		/* Creation of Texture. */
-		Texture* texture = KROSS_NEW Texture();
+		Texture* texture = KROSS_ALLOCATION_REPORT(Texture());
 		texture->SetName(name);
 		texture->SetFilepath(filepath);
 		texture->SetType(type);
@@ -190,7 +190,7 @@ namespace Kross
 	Texture* Texture::OnCreate(int width, int height, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset, PerlinNormaliseMode mode, const std::string& name)
 	{
 		/* Creation of Texture. */
-		Texture* texture = KROSS_NEW Texture();
+		Texture* texture = KROSS_ALLOCATION_REPORT(Texture());
 		texture->SetName(name);
 		texture->SetType(TextureType::PerlinMap);
 
@@ -205,7 +205,7 @@ namespace Kross
 		noise.SetFrequency(scale / 1000.0f);
 
 		noise.SetFractalType(FastNoiseLite::FractalType::FractalType_FBm);
-		noise.SetFractalOctaves((float)octaves);
+		noise.SetFractalOctaves(static_cast<int>(octaves));
 		noise.SetFractalLacunarity(lacunarity);
 		noise.SetFractalGain(0.5f);
 		noise.SetFractalWeightedStrength(0.0f);
@@ -219,7 +219,7 @@ namespace Kross
 		/* ------------------------------- */
 
 		/* Create new Texture Data. */
-		unsigned char* data = KROSS_NEW unsigned char[width * height * 4];
+		unsigned char* data = KROSS_ALLOCATION_REPORT(unsigned char[static_cast<__int64>(width) * static_cast<__int64>(height) * 4]);
 
 		/* Go through Texture Pixels. */
 		for(int y = 0; y < height; y++)
@@ -272,7 +272,7 @@ namespace Kross
 	Texture* Texture::OnCreate(int width, int height, unsigned char* data, int internal, int format, GLenum type, const std::string& name)
 	{
 		/* Creation of Texture. */
-		Texture* texture = KROSS_NEW Texture();
+		Texture* texture = KROSS_ALLOCATION_REPORT(Texture());
 		texture->SetName(name);
 		texture->SetType(TextureType::TextureMap);
 
@@ -311,7 +311,7 @@ namespace Kross
 	Texture* Texture::OnCreateAtlas()
 	{
 		/* return a blank Texture for the Atlas to mess around with. */
-		return KROSS_NEW Texture();
+		return  KROSS_ALLOCATION_REPORT(Texture());
 	}
 
 	void Texture::OnDestroy(Texture* texture)

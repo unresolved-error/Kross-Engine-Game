@@ -215,7 +215,7 @@ namespace Kross {
 							{
 								if (!p_PreviewPane)
 								{
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::Animation);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -226,7 +226,7 @@ namespace Kross {
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
 
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::Animation);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -329,7 +329,7 @@ namespace Kross {
 							{
 								if (!p_PreviewPane)
 								{
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT(AssetPreview());
 									p_PreviewPane->SetType(AssetType::Material);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -340,7 +340,7 @@ namespace Kross {
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
 
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::Material);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -378,7 +378,7 @@ namespace Kross {
 									{
 										if (!p_PreviewPane)
 										{
-											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 											p_PreviewPane->SetType(AssetType::Sprite);
 											p_PreviewPane->SetDimensions();
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -389,7 +389,7 @@ namespace Kross {
 										{
 											Editor::DetachEditorWindow(p_PreviewPane);
 
-											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 											p_PreviewPane->SetType(AssetType::Sprite);
 											p_PreviewPane->SetDimensions();
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -407,7 +407,7 @@ namespace Kross {
 									{
 										if (!p_PreviewPane)
 										{
-											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 											p_PreviewPane->SetType(AssetType::Sprite);
 											p_PreviewPane->SetDimensions();
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -418,7 +418,7 @@ namespace Kross {
 										{
 											Editor::DetachEditorWindow(p_PreviewPane);
 
-											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 											p_PreviewPane->SetType(AssetType::Sprite);
 											p_PreviewPane->SetDimensions();
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -436,7 +436,7 @@ namespace Kross {
 									{
 										if (!p_PreviewPane)
 										{
-											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 											p_PreviewPane->SetType(AssetType::Sprite);
 											p_PreviewPane->SetDimensions();
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -447,7 +447,7 @@ namespace Kross {
 										{
 											Editor::DetachEditorWindow(p_PreviewPane);
 
-											p_PreviewPane = KROSS_NEW AssetPreview();
+											p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 											p_PreviewPane->SetType(AssetType::Sprite);
 											p_PreviewPane->SetDimensions();
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -547,7 +547,7 @@ namespace Kross {
 							{
 								if (!p_PreviewPane)
 								{
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::Font);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -558,7 +558,7 @@ namespace Kross {
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
 
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::Font);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -721,7 +721,7 @@ namespace Kross {
 							{
 								if (!p_PreviewPane)
 								{
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::TileSet);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -732,7 +732,7 @@ namespace Kross {
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
 
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::TileSet);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -748,7 +748,7 @@ namespace Kross {
 							{
 								if (!p_PreviewPane)
 								{
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::TileMap);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
@@ -759,7 +759,7 @@ namespace Kross {
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
 
-									p_PreviewPane = KROSS_NEW AssetPreview();
+									p_PreviewPane =  KROSS_ALLOCATION_REPORT( AssetPreview());
 									p_PreviewPane->SetType(AssetType::TileMap);
 									p_PreviewPane->SetDimensions();
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));

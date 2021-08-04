@@ -24,7 +24,7 @@ namespace Kross
 	void ScriptRegistry::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_NEW ScriptRegistry();
+			s_Instance = KROSS_ALLOCATION_REPORT(ScriptRegistry());
 	}
 	void ScriptRegistry::OnDestroy()
 	{

@@ -11,9 +11,9 @@ void OnRun()
 	Application::OnCreate();
 
 	ScriptRegistry::OnCreate();
-	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
-	ScriptRegistry::Attach(KROSS_NEW EnemyMovement());
-	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
+	ScriptRegistry::Attach( KROSS_NEW PlayerMovement());
+	ScriptRegistry::Attach( KROSS_NEW EnemyMovement());
+	ScriptRegistry::Attach( KROSS_NEW BackgroundManager());
 
 	Application::OnStart();
 

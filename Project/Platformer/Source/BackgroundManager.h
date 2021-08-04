@@ -47,7 +47,7 @@ public:
 
 	Script* Duplicate() override
 	{
-		return KROSS_NEW BackgroundManager();
+		return  KROSS_ALLOCATION_REPORT(BackgroundManager());
 	}
 
 	void Start() override
@@ -56,8 +56,8 @@ public:
 		furthestPrimary = SceneManager::GetCurrentScene()->FindObject("Furthest-A");
 		furthestSecondary = SceneManager::GetCurrentScene()->FindObject("Furthest-B");
 		
-		secondFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("SecondFurthest-A");
-		secondFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("SecondFurthest-B");
+		secondFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("Mountains-A");
+		secondFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("Mountains-B");
 
 		closePrimary = SceneManager::GetCurrentScene()->FindObject("Close-A");
 		closeSecondary = SceneManager::GetCurrentScene()->FindObject("Close-B");

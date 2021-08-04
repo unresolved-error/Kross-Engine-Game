@@ -14,7 +14,7 @@ namespace Kross
 	{
 		#ifndef KROSS_EDITOR
 		if(p_Material)
-			p_Material = KROSS_NEW Material(*p_Material);
+			p_Material = KROSS_ALLOCATION_REPORT(Material(*p_Material));
 		#endif
 	}
 

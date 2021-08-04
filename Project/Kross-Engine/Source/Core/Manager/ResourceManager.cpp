@@ -130,7 +130,7 @@ namespace Kross
 	void ResourceManager::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_NEW ResourceManager();
+			s_Instance = KROSS_ALLOCATION_REPORT(ResourceManager());
 	}
 
 	void ResourceManager::OnDestroy()

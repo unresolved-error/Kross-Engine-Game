@@ -79,7 +79,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+        p_Circle = KROSS_ALLOCATION_REPORT(Circle(radius, Vector2(0, 0)));
     }
 
     void Rigidbody2D::CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
@@ -115,7 +115,7 @@ namespace Kross
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
-        p_Box = KROSS_NEW Box(dimensions, Vector2(0, 0));
+        p_Box = KROSS_ALLOCATION_REPORT(Box(dimensions, Vector2(0, 0)));
     }
 
     void Rigidbody2D::CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
@@ -175,7 +175,7 @@ namespace Kross
             p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
             p_Body->SetUserData((Object*)c_Object);
 
-        p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0));
+        p_Capsule = KROSS_ALLOCATION_REPORT(Capsule(dimensions, Vector2(0,0)));
     }
 
     void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction)
@@ -211,7 +211,7 @@ namespace Kross
             p_PhysicsScene->AttachBody(p_Body);
 
             /* Assigns the shape to the pointer */
-            p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
+            p_Circle = KROSS_ALLOCATION_REPORT(Circle(radius, Vector2(0, 0)));
         }
         else
         {
@@ -224,7 +224,7 @@ namespace Kross
             bodyDef.position.Set(pos.x, pos.y);
 
             Body* tempBody;
-            FixtureDef* tempFixture = KROSS_NEW FixtureDef();
+            FixtureDef* tempFixture = KROSS_ALLOCATION_REPORT(FixtureDef());
             /* Creates the body and assigns it to the pointer */
             tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
             tempBody->SetUserData((Object*)c_Object);
@@ -246,7 +246,7 @@ namespace Kross
             p_PhysicsScene->AttachBody(tempBody);
 
             /* Assigns the shape to the pointer */
-            Circle* tempCircle = KROSS_NEW Circle(radius, Vector2(0, 0));
+            Circle* tempCircle = KROSS_ALLOCATION_REPORT(Circle(radius, Vector2(0, 0)));
 
             m_TileCornerShapes.push_back(tempCircle);
             m_Fixtures.push_back(tempFixture);
@@ -287,7 +287,7 @@ namespace Kross
             p_PhysicsScene->AttachBody(p_Body);
 
             /* Assigns the shape to the pointer */
-            p_Box = KROSS_NEW Box(Dimensions, Vector2(0, 0));
+            p_Box = KROSS_ALLOCATION_REPORT(Box(Dimensions, Vector2(0, 0)));
         }
         else
         {
@@ -300,7 +300,7 @@ namespace Kross
             bodyDef.position.Set(pos.x, pos.y);
 
             Body* tempBody;
-            FixtureDef* tempFixture = KROSS_NEW FixtureDef();
+            FixtureDef* tempFixture = KROSS_ALLOCATION_REPORT(FixtureDef());
             Box* tempBox;
 
             /* Creates the body and assigns it to the pointer */
@@ -323,7 +323,7 @@ namespace Kross
             p_PhysicsScene->AttachBody(tempBody);
 
             /* Assigns the shape to the pointer */
-            tempBox = KROSS_NEW Box(Dimensions, Vector2(0, 0));
+            tempBox = KROSS_ALLOCATION_REPORT(Box(Dimensions, Vector2(0, 0)));
             
             m_TileShapes.push_back(tempBox);
             m_Fixtures.push_back(tempFixture);
@@ -597,7 +597,7 @@ namespace Kross
                 *(b2Shape*)shape, p_Body->GetTransform());
             p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
 
-            particleCount = p_AABBCollisionData->m_ParticleIndexs.size();
+            particleCount = static_cast<int>(p_AABBCollisionData->m_ParticleIndexs.size());
         }
 
         if (particleCount != 0)

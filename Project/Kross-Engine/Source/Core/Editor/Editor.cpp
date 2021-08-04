@@ -25,7 +25,7 @@ namespace Kross
 	void Editor::OnCreate()
 	{
 		if (!s_Instance)
-			s_Instance = KROSS_NEW Editor();
+			s_Instance = KROSS_ALLOCATION_REPORT(Editor());
 	}
 
 	void Editor::OnDestroy()

@@ -54,7 +54,7 @@ public:
 
 	Script* Duplicate() override
 	{
-		return KROSS_NEW PlayerMovement();
+		return KROSS_ALLOCATION_REPORT(PlayerMovement());
 	}
 
 	void Start() override
