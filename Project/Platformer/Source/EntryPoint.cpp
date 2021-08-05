@@ -2,6 +2,7 @@
 #include "PlayerMovement.h"
 #include "EnemyMovement.h"
 #include "BackgroundManager.h"
+#include "CameraLock.h"
 
 using namespace Kross;
 
@@ -14,6 +15,7 @@ void OnRun()
 	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW EnemyMovement());
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
+	ScriptRegistry::Attach(KROSS_NEW CameraLock());
 
 	Application::OnStart();
 
@@ -182,9 +184,9 @@ void OnRun()
 
 #else
 	#include <Windows.h>
-
+	
 	/* Run the program without the Debugging Console. */
-	int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)
+	int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)
 	{
 		OnRun();
 		return 0;

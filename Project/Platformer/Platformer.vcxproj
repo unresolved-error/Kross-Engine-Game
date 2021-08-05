@@ -182,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BackgroundManager.h" />
+    <ClInclude Include="Source\CameraLock.h" />
     <ClInclude Include="Source\EnemyMovement.h" />
     <ClInclude Include="Source\PlayerMovement.h" />
   </ItemGroup>

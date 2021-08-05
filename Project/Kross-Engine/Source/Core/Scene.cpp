@@ -186,7 +186,12 @@ namespace Kross
         /* Draw Debug Information. */
         p_DebugShader->Attach();
         p_DebugRenderer->UpdateFrame();
+
+        #else
+        p_DebugRenderer->Clear();
         #endif
+
+        
         
         /* Remove the Dynamic Objects from the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)

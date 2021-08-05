@@ -180,6 +180,9 @@ public:
 
 		camera->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
 
+		//camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, m_MinX, m_MaxX);
+		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.0f);
+
 		if (timeElapsed < 1.0f)
 		{
 			timeElapsed += Time::GetDeltaTime();
