@@ -45,13 +45,13 @@ public:
 	float thirdFurthestFollowSpeed = 3.5f;
 
 	//4thFURTHEST BACKGROUND MANAGEMENT.//Layer is called "background3"
-	Object* fouthFurthestPrimary;
-	Object* fouthFurthestSecondary;
-	List<Object*> fouthFurthestScenery; //Not used yet. For non repeating items.
-	float fouthFurthestOffset = 15.0f;
-	float fouthFurthestScrollOffset = 0.0f;
+	Object* fourthFurthestPrimary;
+	Object* fourthFurthestSecondary;
+	List<Object*> fourthFurthestScenery; //Not used yet. For non repeating items.
+	float fourthFurthestOffset = 15.0f;
+	float fourthFurthestScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
-	float fouthFurthestFollowSpeed = 3.0f;
+	float fourthFurthestFollowSpeed = 3.0f;
 
 	//3rd CLOSEST BACKGROUND MANAGEMENT.//Layer is called "background4"
 	Object* thirdClosePrimary;
@@ -103,14 +103,33 @@ public:
 	void Start() override
 	{
 		sceneCam = SceneManager::GetCurrentScene()->GetCamera();
+
 		furthestPrimary = SceneManager::GetCurrentScene()->FindObject("Furthest-A");
 		furthestSecondary = SceneManager::GetCurrentScene()->FindObject("Furthest-B");
 		
-		secondFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("Mountains-A");
-		secondFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("Mountains-B");
+		secondFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("SecondFurthest-A");
+		secondFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("SecondFurthest-B");
+
+		thirdFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("ThirdFurthest-A");
+		thirdFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("ThirdFurthest-B");
+
+		fourthFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("FourthFurthest-A");
+		fourthFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("FourthFurthest-B");
+
+
+		thirdClosePrimary = SceneManager::GetCurrentScene()->FindObject("ThirdClose-A");
+		thirdCloseSecondary = SceneManager::GetCurrentScene()->FindObject("ThirdClose-B");
+
+		secondClosePrimary = SceneManager::GetCurrentScene()->FindObject("SecondClose-A");
+		secondCloseSecondary = SceneManager::GetCurrentScene()->FindObject("SecondClose-B");
 
 		closePrimary = SceneManager::GetCurrentScene()->FindObject("Close-A");
 		closeSecondary = SceneManager::GetCurrentScene()->FindObject("Close-B");
+
+		foreGroundPrimary = SceneManager::GetCurrentScene()->FindObject("Foreground-A");
+		foreGroundSecondary = SceneManager::GetCurrentScene()->FindObject("Foreground-B");
+
+
 
 		if (furthestPrimary != nullptr && furthestSecondary != nullptr) {
 			furthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
@@ -120,12 +139,36 @@ public:
 			secondFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
 			secondFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + secondFurthestOffset;
 		}
+
+		if (thirdFurthestPrimary != nullptr && thirdFurthestSecondary != nullptr) {
+			thirdFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
+			thirdFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + thirdFurthestOffset;
+		}
+
+		if (fourthFurthestPrimary != nullptr && fourthFurthestSecondary != nullptr) {
+			fourthFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
+			fourthFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + fourthFurthestOffset;
+		}
+
+		if (thirdClosePrimary != nullptr && thirdCloseSecondary != nullptr) {
+			thirdClosePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
+			thirdCloseSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + thirdCloseOffset;
+		}
+
+		if (secondClosePrimary != nullptr && secondCloseSecondary != nullptr) {
+			secondClosePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
+			secondCloseSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + secondCloseOffset;
+		}
+
 		if (closePrimary != nullptr && closeSecondary != nullptr) {
 			closePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
 			closeSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + closeOffset;
 		}
 
-
+		if (foreGroundPrimary != nullptr && closeSecondary != nullptr) {
+			foreGroundPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
+			foreGroundSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + foreGroundOffset;
+		}
 
 	}
 
@@ -142,10 +185,34 @@ public:
 			ManageLayer(secondFurthestPrimary, secondFurthestSecondary, secondFurthestFollowSpeed, secondFurthestOffset, secondFurthestScrollOffset);
 		}
 
-		
+		if (thirdFurthestPrimary != nullptr && thirdFurthestSecondary != nullptr)
+		{
+			ManageLayer(thirdFurthestPrimary, thirdFurthestSecondary, thirdFurthestFollowSpeed, thirdFurthestOffset, thirdFurthestScrollOffset);
+		}
+
+		if (fourthFurthestPrimary != nullptr && fourthFurthestSecondary != nullptr)
+		{
+			ManageLayer(fourthFurthestPrimary, fourthFurthestSecondary, fourthFurthestFollowSpeed, fourthFurthestOffset, fourthFurthestScrollOffset);
+		}
+
+		if (thirdClosePrimary != nullptr && thirdCloseSecondary != nullptr)
+		{
+			ManageLayer(thirdClosePrimary, thirdCloseSecondary, thirdCloseFollowSpeed, thirdCloseOffset, thirdCloseScrollOffset);
+		}
+
+		if (secondClosePrimary != nullptr && secondCloseSecondary != nullptr)
+		{
+			ManageLayer(secondClosePrimary, secondCloseSecondary, secondCloseFollowSpeed, secondCloseOffset, secondCloseScrollOffset);
+		}
+
 		if (closePrimary != nullptr && closeSecondary != nullptr)
 		{
 			ManageLayer(closePrimary, closeSecondary, closeFollowSpeed, closeOffset, closeScrollOffset);
+		}
+
+		if (foreGroundPrimary != nullptr && foreGroundSecondary != nullptr)
+		{
+			ManageLayer(foreGroundPrimary, foreGroundSecondary, foreGroundFollowSpeed, foreGroundOffset, foreGroundScrollOffset);
 		}
 
 	}
