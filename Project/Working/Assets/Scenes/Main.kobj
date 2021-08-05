@@ -163,7 +163,7 @@ SPRITE-RENDERER->Mountains->1->1->1->1->0->0->0->
 END->
 
 START->
-NAME->ThirdFurthest-B->
+NAME->FourthFurthest-B->
 STATIC->0->
 ENABLE->1->
 LAYER->6->
@@ -172,7 +172,7 @@ SPRITE-RENDERER->Mountains1->1->1->1->1->0->0->0->
 END->
 
 START->
-NAME->ThirdFurthest-A->
+NAME->FourthFurthest-A->
 STATIC->0->
 ENABLE->1->
 LAYER->6->
@@ -196,5 +196,14 @@ ENABLE->1->
 LAYER->14->
 TRANSFORM2D->15.000000->-4.200000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Foreground-Candy->1->1->1->1->0->0->0->
+END->
+
+START->
+NAME->BluePop->
+STATIC->0->
+ENABLE->1->
+LAYER->6->
+TRANSFORM2D->0.500000->-2.000000->0.000000->1.000000->1.000000->
+SPRITE-RENDERER->Lollipop-Blue->1->1->1->1->0->0->0->
 END->
 

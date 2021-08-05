@@ -18,13 +18,13 @@ namespace Kross
 		Light,
 		Environment,
 		/*THE HIGHER THE BACKGROUND LAYER, THE CLOSER IT IS.*/
-		Background,
-		Background1,
-		Background2,
-		Background3,
-		Background4,
-		Background5,
-		Background6,
+		FurthestBackground,
+		SecondFurthestBackground,
+		ThirdFurthestBackground,
+		FourthFurthestBackground,
+		ThirdCloseBackground,
+		SecondCloseBackground,
+		CloseBackground,
 		Wall,
 		Ground,
 		Player,
@@ -51,13 +51,13 @@ namespace Kross
 			m_Names.push_back("Default");
 			m_Names.push_back("Light");
 			m_Names.push_back("Environment");
-			m_Names.push_back("Background");
-			m_Names.push_back("Background1");
-			m_Names.push_back("Background2");
-			m_Names.push_back("Background3");
-			m_Names.push_back("Background4");
-			m_Names.push_back("Background5");
-			m_Names.push_back("Background6");
+			m_Names.push_back("Furthest");
+			m_Names.push_back("SecondFurthestBackground");
+			m_Names.push_back("ThirdFurthestBackground");
+			m_Names.push_back("FourthFurthestBackground");
+			m_Names.push_back("ThirdCloseBackground");
+			m_Names.push_back("SecondCloseBackground");
+			m_Names.push_back("CloseBackground");
 
 			m_Names.push_back("Wall");
 			m_Names.push_back("Ground");
