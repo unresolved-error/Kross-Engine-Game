@@ -178,10 +178,17 @@ public:
 		PlayerMove(input, Key::Space, Controller::A);
 		EnableGravity(Key::Q, Controller::B);
 
-		camera->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
+		Vector2 cameraPosition = camera->GetTransform()->m_Position;
+		Vector2 playerPosition = c_Object->GetTransform()->m_Position;
+
+		
+
+		camera->GetTransform()->m_Position.x = Math::Lerp(cameraPosition.x, playerPosition.x, Time::GetDeltaTime() * 4.0f);
+		camera->GetTransform()->m_Position.y = Math::Lerp(cameraPosition.y, playerPosition.y, Time::GetDeltaTime() * 4.0f);
+
 
 		//camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, m_MinX, m_MaxX);
-		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.0f);
+		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.5f);
 
 		if (timeElapsed < 1.0f)
 		{

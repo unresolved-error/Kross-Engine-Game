@@ -190,6 +190,7 @@
     <ClCompile Include="Source\Core\Editor\Windows\AssetPanel.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\MainMenu.cpp" />
     <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
+    <ClCompile Include="Source\Core\Math\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />

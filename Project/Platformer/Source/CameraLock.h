@@ -30,7 +30,7 @@ public:
 
 	void Update() override
 	{
-		c_Object->GetTransform()->m_Position.x = glm::clamp(c_Object->GetTransform()->m_Position.x, m_MinX, m_MaxX);
-		c_Object->GetTransform()->m_Position.y = glm::clamp(c_Object->GetTransform()->m_Position.y, m_MinY, m_MaxY);
+		//c_Object->GetTransform()->m_Position.x = glm::clamp(c_Object->GetTransform()->m_Position.x, m_MinX, m_MaxX);
+		//c_Object->GetTransform()->m_Position.y = glm::clamp(c_Object->GetTransform()->m_Position.y, m_MinY, m_MaxY);
 	}
 };
