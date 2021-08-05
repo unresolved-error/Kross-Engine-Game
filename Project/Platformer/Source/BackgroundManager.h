@@ -29,7 +29,7 @@ public:
 	//2ndFURTHEST BACKGROUND MANAGEMENT.//Layer is called "background1"
 	Object* secondFurthestPrimary;
 	Object* secondFurthestSecondary;
-	List<Object*> SecondFurthestScenery; //Not used yet. For non repeating items.
+	List<Object*> secondFurthestScenery; //Not used yet. For non repeating items.
 	float secondFurthestOffset = 15.0f;
 	float secondFurthestScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -66,7 +66,7 @@ public:
 	//2nd CLOSEST BACKGROUND MANAGEMENT.//Layer is called "background5"
 	Object* secondClosePrimary;
 	Object* secondCloseSecondary;
-	List<Object*> SecondCloseScenery; //Not used yet. For non repeating items.
+	List<Object*> secondCloseScenery; //Not used yet. For non repeating items.
 	float secondCloseOffset = 15.0f;
 	float secondCloseScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -177,57 +177,64 @@ public:
 	{
 		if (furthestPrimary != nullptr && furthestSecondary != nullptr) 
 		{
-			ManageLayer(furthestPrimary, furthestSecondary, furthestFollowSpeed, furthestOffset, furthestScrollOffset);
+			ManageLayer(furthestPrimary, furthestSecondary, furthestFollowSpeed, furthestOffset, furthestScrollOffset, furthestScenery);
 		}
 
 		if (secondFurthestPrimary != nullptr && secondFurthestSecondary != nullptr)
 		{
-			ManageLayer(secondFurthestPrimary, secondFurthestSecondary, secondFurthestFollowSpeed, secondFurthestOffset, secondFurthestScrollOffset);
+			ManageLayer(secondFurthestPrimary, secondFurthestSecondary, secondFurthestFollowSpeed, secondFurthestOffset, secondFurthestScrollOffset, secondFurthestScenery);
 		}
 
 		if (thirdFurthestPrimary != nullptr && thirdFurthestSecondary != nullptr)
 		{
-			ManageLayer(thirdFurthestPrimary, thirdFurthestSecondary, thirdFurthestFollowSpeed, thirdFurthestOffset, thirdFurthestScrollOffset);
+			ManageLayer(thirdFurthestPrimary, thirdFurthestSecondary, thirdFurthestFollowSpeed, thirdFurthestOffset, thirdFurthestScrollOffset, thirdFurthestScenery);
 		}
 
 		if (fourthFurthestPrimary != nullptr && fourthFurthestSecondary != nullptr)
 		{
-			ManageLayer(fourthFurthestPrimary, fourthFurthestSecondary, fourthFurthestFollowSpeed, fourthFurthestOffset, fourthFurthestScrollOffset);
+			ManageLayer(fourthFurthestPrimary, fourthFurthestSecondary, fourthFurthestFollowSpeed, fourthFurthestOffset, fourthFurthestScrollOffset, fourthFurthestScenery);
 		}
 
 		if (thirdClosePrimary != nullptr && thirdCloseSecondary != nullptr)
 		{
-			ManageLayer(thirdClosePrimary, thirdCloseSecondary, thirdCloseFollowSpeed, thirdCloseOffset, thirdCloseScrollOffset);
+			ManageLayer(thirdClosePrimary, thirdCloseSecondary, thirdCloseFollowSpeed, thirdCloseOffset, thirdCloseScrollOffset, thirdCloseScenery);
 		}
 
 		if (secondClosePrimary != nullptr && secondCloseSecondary != nullptr)
 		{
-			ManageLayer(secondClosePrimary, secondCloseSecondary, secondCloseFollowSpeed, secondCloseOffset, secondCloseScrollOffset);
+			ManageLayer(secondClosePrimary, secondCloseSecondary, secondCloseFollowSpeed, secondCloseOffset, secondCloseScrollOffset, secondCloseScenery);
 		}
 
 		if (closePrimary != nullptr && closeSecondary != nullptr)
 		{
-			ManageLayer(closePrimary, closeSecondary, closeFollowSpeed, closeOffset, closeScrollOffset);
+			ManageLayer(closePrimary, closeSecondary, closeFollowSpeed, closeOffset, closeScrollOffset, closeScenery);
 		}
 
 		if (foreGroundPrimary != nullptr && foreGroundSecondary != nullptr)
 		{
-			ManageLayer(foreGroundPrimary, foreGroundSecondary, foreGroundFollowSpeed, foreGroundOffset, foreGroundScrollOffset);
+			ManageLayer(foreGroundPrimary, foreGroundSecondary, foreGroundFollowSpeed, foreGroundOffset, foreGroundScrollOffset, foreGroundScenery);
 		}
 
 	}
 
-	void ManageLayer(Object* primary, Object* secondary, float followSpeed, float offset, float &scrollOffset) 
+	void ManageLayer(Object* primary, Object* secondary, float followSpeed, float offset, float &scrollOffset, List<Object*> sceneryList) 
 	{
 		Transform2D* primaryTransform = primary->GetTransform();
 		Transform2D* secondaryTransform = secondary->GetTransform();
 		Transform2D* cameraTransform = sceneCam->GetTransform();
-
+		
 
 		scrollOffset = fmod(cameraTransform->m_Position.x, (offset * followSpeed));
 		primaryTransform->m_Position.x = cameraTransform->m_Position.x - scrollOffset / followSpeed;
 		secondaryTransform->m_Position.x = primaryTransform->m_Position.x + offset;
 
+		if (!sceneryList.empty()) 
+		{
+			for (int i = 0; i < sceneryList.size(); i++)
+			{
+				sceneryList[i]->GetTransform()->m_Position.x = cameraTransform->m_Position.x - scrollOffset / followSpeed;
+			}
+		}
 
 		//IF ITS WAY OUTTA RANGE, MOVE IT BACK IN.
 		if (primaryTransform->m_Position.x < cameraTransform->m_Position.x - offset)
@@ -247,6 +254,8 @@ public:
 			secondaryTransform->m_Position.x -= (2 * offset);
 		}
 	}
+
+
 
 
 };
