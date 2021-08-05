@@ -28,6 +28,7 @@ TEXTURE->Assets/Textures/AllSorts.krs->
 TEXTURE->Assets/Textures/Donut.krs->
 TEXTURE->Assets/Textures/BackgroundSky.krs->
 TEXTURE->Assets/Textures/BackgroundMountains.krs->
+TEXTURE->Assets/Textures/BackgroundMountains1.krs->
 
 // Load Sprites. (Make sure Sprites are loaded before Materials and Animations!)
 SPRITE->Assets/Sprites/sprDiffuse.krs->
@@ -41,6 +42,7 @@ SPRITE->Assets/Sprites/sprAllSorts.krs->
 SPRITE->Assets/Sprites/sprSheetDonut.krs->
 SPRITE->Assets/Sprites/sprBackgroundSky.krs->
 SPRITE->Assets/Sprites/sprMountains.krs->
+SPRITE->Assets/Sprites/sprMountains1.krs->
 
 // Load Animations.
 ANIMATION->Assets/Animations/animMarshalIdle.krs->
@@ -60,6 +62,7 @@ MATERIAL->Assets/Materials/matDefault.krs->
 MATERIAL->Assets/Materials/matDonut.krs->
 MATERIAL->Assets/Materials/matBackground.krs->
 MATERIAL->Assets/Materials/matMountains.krs->
+MATERIAL->Assets/Materials/matMountains1.krs->
 
 // Load Audio Assets.
 AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->
