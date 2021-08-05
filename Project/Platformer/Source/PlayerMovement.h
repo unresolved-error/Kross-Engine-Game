@@ -189,13 +189,14 @@ public:
 		if (text)
 		{
 			text->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + Vector2(0.0f, 1.5f);
+			text->GetComponent<TextRenderer>()->SetText("");
 		}
 
 		if (timeElapsed >= 1.0f)
 		{
 			timeElapsed = 0.0f;
-			if(text)
-				text->GetComponent<TextRenderer>()->SetText(std::to_string(frameCount));
+			//if(text)
+			//	text->GetComponent<TextRenderer>()->SetText(std::to_string(frameCount));
 			frameCount = 0;
 		}
 

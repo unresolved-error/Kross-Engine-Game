@@ -90,7 +90,7 @@ public:
 	float foreGroundOffset = 15.0f;
 	float foreGroundScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
-	float foreGroundFollowSpeed = -0.75f;
+	float foreGroundFollowSpeed = 0.75f;
 
 
 
