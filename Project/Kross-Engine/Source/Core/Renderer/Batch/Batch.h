@@ -107,18 +107,20 @@ namespace Kross
             /* Get UVs for all Sprites. */
             List<Vector2> uvs = List<Vector2>(12);
             /*
-                0 - 3 Diffuse UVs.
-                4 - 7 Normal UVs.
-                8 - 11 Specular UVs.
+                0 - 3 Diffuse UVs.      (TL, BR, TR, BL)
+                4 - 7 Normal UVs.       (TL, BR, TR, BL)
+                8 - 11 Specular UVs.    (TL, BR, TR, BL)
             */
+
+            float thisThing = (0.1f / 4096.0f);
 
             if (renderer->GetFlipX()) 
             {
                 /* Diffuse UVs. */
-                uvs[0].x = ((1.0f - 1.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
-                uvs[1].x = ((1.0f - 1.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
-                uvs[2].x = ((1.0f - 0.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
-                uvs[3].x = ((1.0f - 0.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
+                uvs[0].x = (((1.0f - 1.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) + thisThing;
+                uvs[1].x = (((1.0f - 1.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) + thisThing;
+                uvs[2].x = (((1.0f - 0.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) - thisThing;
+                uvs[3].x = (((1.0f - 0.0f) * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) - thisThing;
 
                 /* Normal UVs. */
                 uvs[4].x = ((1.0f - 1.0f) * normalData.m_Ratio.x) + normalData.m_Offset.x;
@@ -136,10 +138,10 @@ namespace Kross
             else
             {
                 /* Diffuse UVs. */
-                uvs[0].x = (1.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
-                uvs[1].x = (1.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
-                uvs[2].x = (0.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
-                uvs[3].x = (0.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x;
+                uvs[0].x = ((1.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) - thisThing;
+                uvs[1].x = ((1.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) - thisThing;
+                uvs[2].x = ((0.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) + thisThing;
+                uvs[3].x = ((0.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) + thisThing;
 
                 /* Normal UVs. */
                 uvs[4].x = (1.0f * normalData.m_Ratio.x) + normalData.m_Offset.x;
@@ -157,10 +159,10 @@ namespace Kross
             if (renderer->GetFlipY())
             {
                 /* Diffuse UVs. */
-                uvs[0].y = ((1.0f - 1.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
-                uvs[1].y = ((1.0f - 0.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
-                uvs[2].y = ((1.0f - 0.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
-                uvs[3].y = ((1.0f - 1.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
+                uvs[0].y = (((1.0f - 1.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) + thisThing;
+                uvs[1].y = (((1.0f - 0.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) - thisThing;
+                uvs[2].y = (((1.0f - 0.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) - thisThing;
+                uvs[3].y = (((1.0f - 1.0f) * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) + thisThing;
 
                 /* Normal UVs. */
                 uvs[4].y = ((1.0f - 1.0f) * normalData.m_Ratio.y) + normalData.m_Offset.y;
@@ -178,10 +180,10 @@ namespace Kross
             else
             {
                 /* Diffuse UVs. */
-                uvs[0].y = (1.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
-                uvs[1].y = (0.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
-                uvs[2].y = (0.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
-                uvs[3].y = (1.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y;
+                uvs[0].y = ((1.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) - thisThing;
+                uvs[1].y = ((0.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) + thisThing;
+                uvs[2].y = ((0.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) + thisThing;
+                uvs[3].y = ((1.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) - thisThing;
 
                 /* Normal UVs. */
                 uvs[4].y = (1.0f * normalData.m_Ratio.y) + normalData.m_Offset.y;
@@ -288,17 +290,19 @@ namespace Kross
                 /* Get UVs for Sprite. */
                 List<Vector2> uvs = List<Vector2>(4);
 
-                /* Diffuse UVs. */
-                uvs[0].x = (1.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
-                uvs[1].x = (1.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
-                uvs[2].x = (0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
-                uvs[3].x = (0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x;
+                float thisThing = (0.1f / 4096.0f);
 
                 /* Diffuse UVs. */
-                uvs[0].y = (1.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
-                uvs[1].y = (0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
-                uvs[2].y = (0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
-                uvs[3].y = (1.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y;
+                uvs[0].x = ((1.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x) - thisThing;
+                uvs[1].x = ((1.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x) - thisThing;
+                uvs[2].x = ((0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x) + thisThing;
+                uvs[3].x = ((0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x) + thisThing;
+
+                /* Diffuse UVs. */
+                uvs[0].y = ((1.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y) - thisThing;
+                uvs[1].y = ((0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y) + thisThing;
+                uvs[2].y = ((0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y) + thisThing;
+                uvs[3].y = ((1.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y) - thisThing;
 
                 /* Quick Variables. */
                 float halfWidth = geometry->GetSize().x / 2.0f;
@@ -479,10 +483,10 @@ namespace Kross
         }
 
         // Gets if the Batch is Full.
-        bool GetFullStatus() const { return (m_BatchSize >= m_MaxBatchSize); };
+        bool Full() const { return (m_BatchSize >= m_MaxBatchSize); };
 
         // Gets if the Batch is Emptry.
-        bool GetEmptyStatus() const { return (m_Data.size() == 0); };
+        bool Empty() const { return (m_Data.size() == 0); };
 
         void Clear()
         {
