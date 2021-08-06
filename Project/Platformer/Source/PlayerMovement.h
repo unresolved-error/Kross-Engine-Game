@@ -29,7 +29,10 @@ public:
 
 	Animator* animator;
 
+	Vector2 gunOffset = Vector2(0.0f, -0.11f);
+
 	Object* camera;
+	Object* gun;
 	Object* text;
 
 	bool followPlayer = false;
@@ -71,6 +74,7 @@ public:
 		animator = GetComponent<Animator>();
 
 		text = SceneManager::GetCurrentScene()->FindObject("Text");
+		gun = SceneManager::GetCurrentScene()->FindObject("Gun");
 
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
@@ -189,6 +193,10 @@ public:
 		camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, -1.25f, 178.75f);
 		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.5f);
 
+		if (gun)
+		{
+			gun->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + gunOffset;
+		}
 		if (timeElapsed < 1.0f)
 		{
 			timeElapsed += Time::GetDeltaTime();
