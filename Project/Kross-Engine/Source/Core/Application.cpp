@@ -40,7 +40,7 @@ namespace Kross
 		p_Window->SetVSync(1);
 
 		#ifndef KROSS_EDITOR
-		p_Window->SetFullscreen(1);
+		//p_Window->SetFullscreen(1);
 		#endif
 	}
 
