@@ -7,24 +7,23 @@ class GunMovement : public Script
 {
 public:
 	GunMovement() :
-		renderer(nullptr),
-		animator(nullptr)
+		renderer(nullptr)
 	{
 		/* Every Script Must do this! */
 		m_Name = "GunMovement";
 	};
 	~GunMovement() {};
 
+	Script* Duplicate() override
+	{
+		return KROSS_NEW GunMovement();
+	}
+	
+	
 	SpriteRenderer* renderer;
-
-	Animator* animator;
 
 	Object* player;
 	Camera* camera;
-	float currentAngleAimed;
-	float lockAngle;
-	Vector2 directionToMouseFromPlayer;
-	Vector2 playerLocation;
 	Window* window;
 		
 	Sprite* Degree0; //PURE RIGHT
@@ -47,18 +46,27 @@ public:
 
 		window =  Application::GetWindow();
 		renderer = GetComponent<SpriteRenderer>();
-		camera = (Camera*)SceneManager::GetCurrentScene()->FindObject("Camera");
-		animator = GetComponent<Animator>();
+		camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
 		player = SceneManager::GetCurrentScene()->FindObject("Player");
 
+
+		Degree0 = ResourceManager::GetResource<Sprite>("Gun1-1");
+		Degree22pt5 = ResourceManager::GetResource<Sprite>("Gun0-1");
+		Degree45 = ResourceManager::GetResource<Sprite>("Gun2-0");
+		Degree67pt5 = ResourceManager::GetResource<Sprite>("Gun1-0");
+		Degree90 = ResourceManager::GetResource<Sprite>("Gun0-0");
+		Degree270 = ResourceManager::GetResource<Sprite>("Gun2-2"); 
+		Degree292pt5 = ResourceManager::GetResource<Sprite>("Gun1-2"); 
+		Degree315 = ResourceManager::GetResource<Sprite>("Gun0-2");
+		Degree337pt5 = ResourceManager::GetResource<Sprite>("Gun2-1");
 		currentGunSprite = Degree0;
 	}
 
 	void Update() override 
 	{
-
 		Vector2 mousePos;
-		Vector2 mousePos = Input::GetMousePosition();
+
+		mousePos = Input::GetMousePosition();
 		Vector2 mousePoint = Vector2((mousePos.x / window->GetWidth()) * 4.0f - 2.0f, ((mousePos.y / window->GetHeight()) * 2.0f - 1.0f)) * camera->GetSize();
 		Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
 		bool flipX = false;
@@ -106,27 +114,28 @@ public:
 		}
 		else if (angle > 180 - 12.25 && angle <= 180 + 12.25)
 		{
-			currentGunSprite = Degree90; //LEFT
+			currentGunSprite = Degree0; //LEFT
 			flipX = true;
 		}
 		else if (angle > 202.5 - 12.25 && angle <= 202.5 + 12.25) 
 		{
-			Sprite* Degree202pt5;
+			currentGunSprite = Degree337pt5;
+			flipX = true;
 		}
 		else if (angle > 225 - 12.25 && angle <= 225 + 12.25) 
 		{
-			Sprite* Degree225; //LEFT UP DIAG
+			currentGunSprite = Degree315; //LEFT UP DIAG
+			flipX = true;
 		}
 		else if (angle > 247.5 - 12.25 && angle <= 247.5 + 12.25) 
 		{
-			Sprite* Degree247pt5;
+			currentGunSprite = Degree292pt5;
+			flipX = true;
 		}
-
-
-
 		else if (angle > 270 - 12.25 && angle <= 270 + 12.25)
 		{
 			currentGunSprite = Degree270; //UP
+			if (angle < 270) { flipX = true; }
 		}
 		else if (angle > 292.5 - 12.25 && angle <= 292.5 + 12.25) 
 		{
@@ -142,6 +151,8 @@ public:
 		}
 
 
+		renderer->SetFlipX(flipX);
+		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
 
 
 
