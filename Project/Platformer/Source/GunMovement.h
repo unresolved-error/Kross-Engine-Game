@@ -154,15 +154,8 @@ public:
 			currentGunSprite = Degree337pt5;
 		}
 
-
 		renderer->SetFlipX(flipX);
 		player->GetComponent<SpriteRenderer>()->SetFlipX(flipX);
 		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
-
-
-
 	}
-
-
-
 };
