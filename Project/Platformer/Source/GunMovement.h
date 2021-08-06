@@ -67,12 +67,16 @@ public:
 		Vector2 mousePos;
 
 		mousePos = Input::GetMousePosition();
-		Vector2 mousePoint = Vector2((mousePos.x / window->GetWidth()) * 4.0f - 2.0f, ((mousePos.y / window->GetHeight()) * 2.0f - 1.0f)) * camera->GetSize();
+		float aspectRatio = Application::GetWindow()->GetApsectRatio();
+		Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
 		Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
 		bool flipX = false;
 
-		float angle = glm::degrees(std::atan2(mousePosition.y - player->GetTransform()->m_Position.y, mousePosition.x - player->GetTransform()->m_Position.x));
+		float angle = glm::degrees(std::atan2(mousePosition.y - c_Object->GetTransform()->m_Position.y, -(mousePosition.x - c_Object->GetTransform()->m_Position.x)));
+		//float angle = glm::degrees(std::atan(mousePosition.y - c_Object->GetTransform()->m_Position.y, -(mousePosition.x - c_Object->GetTransform()->m_Position.x)));
+		angle += 180;
 
+		//c_Object->GetTransform()->m_Position = mousePosition;
 		if (angle > 360 - 12.25 || angle <= 12.25) //Case right
 		{
 			currentGunSprite = Degree0;
@@ -152,6 +156,7 @@ public:
 
 
 		renderer->SetFlipX(flipX);
+		player->GetComponent<SpriteRenderer>()->SetFlipX(flipX);
 		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
 
 

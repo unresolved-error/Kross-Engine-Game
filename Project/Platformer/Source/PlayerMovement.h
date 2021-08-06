@@ -82,7 +82,6 @@ public:
 		audplayer = GetComponent<AudioPlayer>();
 		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
 		audplayer->SetLoop(true);
-		audplayer->Play();
 
 		camera = SceneManager::GetCurrentScene()->GetCamera();
 
