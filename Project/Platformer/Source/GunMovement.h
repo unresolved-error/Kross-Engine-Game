@@ -41,6 +41,8 @@ public:
 
 	Sprite* currentGunSprite;
 
+	Vector2 toMouse;
+
 	void Start() override
 	{
 
@@ -72,6 +74,7 @@ public:
 		Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
 		bool flipX = false;
 
+		
 		float angle = glm::degrees(std::atan2(mousePosition.y - c_Object->GetTransform()->m_Position.y, -(mousePosition.x - c_Object->GetTransform()->m_Position.x)));
 		//float angle = glm::degrees(std::atan(mousePosition.y - c_Object->GetTransform()->m_Position.y, -(mousePosition.x - c_Object->GetTransform()->m_Position.x)));
 		angle += 180;
@@ -157,5 +160,21 @@ public:
 		renderer->SetFlipX(flipX);
 		player->GetComponent<SpriteRenderer>()->SetFlipX(flipX);
 		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
+
+		toMouse = Vector2((mousePosition.x - c_Object->GetTransform()->m_Position.x), mousePosition.y - c_Object->GetTransform()->m_Position.y);
+		
+		Vector2 toMouseNormd = glm::normalize(toMouse);
+		Vector2 toCrosshair = toMouseNormd * 1.5f;
+		Vector2 toEndOfGun = toMouseNormd * 0.3f;
+
+
+		LineRenderer* endOfGunDebug = c_Object->GetDebugRenderer();
+		Vector2 crossHairLocation = Vector2(toCrosshair + c_Object->GetTransform()->m_Position);
+		Vector2 endOfGunLocation = Vector2(toEndOfGun + c_Object->GetTransform()->m_Position);
+
+
+		endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
+		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1,0,0));
+
 	}
 };
