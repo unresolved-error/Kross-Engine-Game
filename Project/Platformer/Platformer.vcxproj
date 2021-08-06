@@ -181,6 +181,7 @@
     <ClCompile Include="Source\EntryPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GunMovement.h" />
     <ClInclude Include="Source\BackgroundManager.h" />
     <ClInclude Include="Source\CameraLock.h" />
     <ClInclude Include="Source\EnemyMovement.h" />

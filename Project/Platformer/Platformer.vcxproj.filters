@@ -35,5 +35,8 @@
     <ClInclude Include="Source\CameraLock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GunMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
