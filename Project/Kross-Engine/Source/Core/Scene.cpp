@@ -90,7 +90,7 @@ namespace Kross
         Camera* editorCamera = p_EditorCamera->GetComponent<Camera>();
         editorCamera->SetSize(editorCamera->GetSize() + (-Input::GetMouseScroll() / 2.0f));
 
-        p_EditorCamera->GetTransform()->m_Position += input / 100.0f;
+        p_EditorCamera->GetTransform()->m_Position += input * 3.0f * Time::GetDeltaTime();
         p_EditorCamera->OnUpdate();
         #endif
 

@@ -181,13 +181,12 @@ public:
 		Vector2 cameraPosition = camera->GetTransform()->m_Position;
 		Vector2 playerPosition = c_Object->GetTransform()->m_Position;
 
-		
+		//camera->GetTransform()->m_Position.x = Math::Lerp(cameraPosition.x, playerPosition.x, Time::GetDeltaTime() * 4.0f);
+		//camera->GetTransform()->m_Position.y = Math::Lerp(cameraPosition.y, playerPosition.y, Time::GetDeltaTime() * 4.0f);
 
-		camera->GetTransform()->m_Position.x = Math::Lerp(cameraPosition.x, playerPosition.x, Time::GetDeltaTime() * 4.0f);
-		camera->GetTransform()->m_Position.y = Math::Lerp(cameraPosition.y, playerPosition.y, Time::GetDeltaTime() * 4.0f);
+		camera->GetTransform()->m_Position = Math::Lerp(cameraPosition, playerPosition, Time::GetDeltaTime() * 4.0f);
 
-
-		//camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, m_MinX, m_MaxX);
+		camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, -1.25f, 178.75f);
 		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.5f);
 
 		if (timeElapsed < 1.0f)
