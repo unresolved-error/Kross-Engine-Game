@@ -137,7 +137,6 @@ namespace Kross
 
 		for (b2Fixture* thisFixture = body->GetFixtureList(); thisFixture; thisFixture = thisFixture->GetNext())
 		{
-
 			b2Shape* theShape = thisFixture->GetShape();
 			b2Shape::Type theShapeType = theShape->GetType();
 

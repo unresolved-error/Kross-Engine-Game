@@ -19,7 +19,7 @@ namespace Kross
 		Environment,
 		Background,
 		
-		Wall,
+		PhysicsObject,
 		Ground,
 		Player,
 
@@ -45,7 +45,7 @@ namespace Kross
 			m_Names.push_back("Light");
 			m_Names.push_back("Environment");
 			m_Names.push_back("Background");
-			m_Names.push_back("Wall");
+			m_Names.push_back("PhysicsObject");
 			m_Names.push_back("Ground");
 			m_Names.push_back("Player");
 			m_Names.push_back("Fluids");

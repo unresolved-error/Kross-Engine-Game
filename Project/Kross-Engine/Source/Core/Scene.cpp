@@ -142,15 +142,15 @@ namespace Kross
                //}
                 if (body->GetRayCollisionBody())
                 {
-                    if (body->GetCollision() == CollisionState::Enter)
+                    if (body->GetCollisionState() == CollisionState::Enter)
                     {
                         m_Objects[i]->OnCollisionEnter((Object*)body->GetRayCollisionBody()->GetUserData());
                     }
-                    else if (body->GetCollision() == CollisionState::Stay)
+                    else if (body->GetCollisionState() == CollisionState::Stay)
                     {
                         m_Objects[i]->OnCollisionStay((Object*)body->GetRayCollisionBody()->GetUserData());
                     }
-                    else if (body->GetCollision() == CollisionState::Exit)
+                    else if (body->GetCollisionState() == CollisionState::Exit)
                     {
                         m_Objects[i]->OnCollisionExit((Object*)body->GetRayCollisionBody()->GetUserData());
                     }

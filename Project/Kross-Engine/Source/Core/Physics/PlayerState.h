@@ -11,9 +11,10 @@
 namespace Kross
 {
 	/* Enum class for player states */
-	enum class KROSS_API PlayerState
+	enum class KROSS_API RigidbodyState
 	{
 		Idle,
+		Grounded,
 		Walking,
 		Running,
 		Jumping,

@@ -59,12 +59,11 @@ namespace Kross
 
         ShapeType m_ShapeType;
         CollisionState m_CollisionState;
-        PlayerState m_PlayerState;
+        RigidbodyState m_RigidbodyState;
+        ColliderFilters m_ColliderFilter;
 
-        FixtureDef* p_FixtureDef;
         b2MassData* p_MassData;
         RaycastData* p_RayData;
-        ContactFilter* p_Filter;
         AABBCollisionData* p_AABBCollisionData;
 
         List<AABBCollisionData*> m_AABBCollisions;
@@ -74,6 +73,8 @@ namespace Kross
         List<Circle*> m_TileCornerShapes;
         List<FixtureDef*> m_Fixtures;
         List<Body*> m_Bodies;
+
+        float m_Friction = 0.5f;
 
     protected:
         friend class PhysicsScene;
@@ -136,7 +137,7 @@ namespace Kross
         void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
 
         /* Creates a new dynamic box */
-        void CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
+        void CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction);
 
         void CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
 
@@ -152,35 +153,40 @@ namespace Kross
         /* Gets the Objects velocity */
         Vector2 GetVelocity() const{ return Vector2(p_Body->GetLinearVelocity().x , p_Body->GetLinearVelocity().y); }
 
-
-        /* Gets the friction of a specified object */
-        float GetFriction();
-
+        /* Sets the collision state of the rigidbody */
         void SetCollisionState(CollisionState state) { m_CollisionState = state; }
         CollisionState GetCollisionState() { return m_CollisionState; }
 
-        void SetPlayerState(PlayerState state) { m_PlayerState = state; }
-        PlayerState GetPlayerState() { return m_PlayerState; }
+        void SetRigidbodyState(RigidbodyState state) { m_RigidbodyState = state; }
+        RigidbodyState GetRigidbodyState() { return m_RigidbodyState; }
 
         /* Calculates the spring under the player */
         Vector2 SpringCalculation(Body* body1, Body* body2, float distance);
 
+        void SetFriction(float friction) { m_Friction = friction; }
+        float GetFriction() { return m_Friction; }
 
         /* Returns the current collision state */
-        CollisionState GetCollision() const { return m_CollisionState; }
+        CollisionState GetCollisionState() const { return m_CollisionState; }
 
         /* Collides dynamic bodies with particles */
         Vector2 CollideParticles();
 
-
-        float CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos);
-    
+        /* Creates a ray cast in a specified direction */
+        /* Returning the distance to an object if there is a hit */
+        RaycastData* CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos);
+        
+        /* Creates a circle cast in a specified direction */
+        /* Returning the distance to an object if there is a hit */
         float CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos);
 
+        /* Checks a specified AABB for objects */
         void GetSurroundingObjects(float size, Body* body);
 
+        /* Creates the colliders for the tile map */
         void CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction = 0.5f);
 
+        /* Deletes the tile map colliders */
         void DeleteTileMapColliders();
 
         /* Gets whatever is bellow the body */
@@ -190,9 +196,20 @@ namespace Kross
         void GetObjectsInDirection(float length, Body* body, Vector2 direction);
 
         /* Checks for the players current state */
-        void CheckPlayerState();
+        void UpdateRigidbodyState();
 
         /* Adds a fixture to the list of fixtures */
-        void AddFixtureDef(FixtureDef* fixture) { m_Fixtures.push_back(fixture); };
+        void AddFixtureDef(FixtureDef* fixture) { m_Fixtures.push_back(fixture); }
+
+        /* Gets the Raycast data */
+        RaycastData* GetRaycastData() { return p_RayData; }
+
+        /* Updates the collisions */
+        void CollisionUpdate();
+
+        /* Sets the collider filter */
+        void SetColliderFilter(ColliderFilters colliderFilter) { m_ColliderFilter = colliderFilter; }
+        /* Gets the collider filters */
+        ColliderFilters GetColliderFilters() { return m_ColliderFilter; }
     };
 }
