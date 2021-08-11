@@ -1,0 +1,5 @@
+SHADER:
+NAME->LineShader->
+VERTEX->Resources/Shaders/line.vert->
+GEOMETRY->*->
+FRAGMENT->Resources/Shaders/line.frag->

@@ -125,6 +125,61 @@ namespace Kross
 		}
 	}
 
+	void LineRenderer::DrawCapsule(Body* body, glm::vec2 dimensions, int segmentCount)
+	{
+		DrawCapsule(body, dimensions, currentColour, segmentCount);
+	}
+
+	void LineRenderer::DrawCapsule(Body* body, glm::vec2 dimensions, glm::vec3 colour, int segmentCount)
+	{
+		int side = 0;
+		b2Transform bodyTransform = body->GetTransform();
+
+		for (b2Fixture* thisFixture = body->GetFixtureList(); thisFixture; thisFixture = thisFixture->GetNext())
+		{
+			b2Shape* theShape = thisFixture->GetShape();
+			b2Shape::Type theShapeType = theShape->GetType();
+
+			this->SetColour((body->GetType() == b2BodyType::b2_staticBody) ? glm::vec3(1.0f, 0.0f, 0.0f) : glm::vec3(0.0f, 1.0f, 0.0f));
+
+			if (theShapeType == b2Shape::Type::e_polygon)
+			{
+				b2PolygonShape* thePoly = (b2PolygonShape*)theShape;
+				for (int i = 0; i < thePoly->m_count; i++)
+				{
+					b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
+					AddPointToLine({ thisPos.x, thisPos.y });
+				}
+				FinishLineLoop();
+			}
+			else if (theShapeType == b2Shape::Type::e_circle)
+			{
+				b2CircleShape* theCircle = (b2CircleShape*)theShape;
+
+				if (side == 0)
+				{
+					this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f,
+						(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) }, theCircle->m_radius);
+					side++;
+				}
+				else
+				{
+					this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f, 
+						(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) + (dimensions.y - dimensions.x) }, theCircle->m_radius);
+				}
+
+				if (body->GetType() != b2BodyType::b2_staticBody)
+				{
+					glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y + theCircle->m_p.y };
+					b2Vec2 offset = { theCircle->m_radius, 0 };
+					offset = b2Mul(bodyTransform, offset);
+					DrawLineSegment(centre, { centre.x + theCircle->m_radius, centre.y });
+				}
+			}
+		}
+
+	}
+
 	void LineRenderer::DrawRawShape(float* data, unsigned int pointCount)
 	{
 		DrawRawShape(data, pointCount, currentColour);
@@ -151,44 +206,46 @@ namespace Kross
 		/* Safe Check. */
 		if (body)
 		{
-
 			Transform bodyTransform = body->GetTransform();
 
-			Fixture* thisFixture = body->GetFixtureList();
-
-			b2Shape* theShape = thisFixture->GetShape();
-			b2Shape::Type theShapeType = theShape->GetType();
-
-			this->SetColour((body->GetType() == BodyType::b2_staticBody) ? glm::vec3(0.0f, 0.5f, 1.0f) : glm::vec3(0.0f, 1.0f, 0.5f));
-			
-			if (theShapeType == b2Shape::Type::e_polygon)
+			for (b2Fixture* thisFixture = body->GetFixtureList(); thisFixture; thisFixture = thisFixture->GetNext())
 			{
-				PolygonShape* thePoly = (PolygonShape*)theShape;
-				for (int i = 0; i < thePoly->m_count; i++)
-				{
-					b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
-					AddPointToLine({ thisPos.x, thisPos.y });
+				b2Shape* theShape = thisFixture->GetShape();
+				b2Shape::Type theShapeType = theShape->GetType();
 
-					/* OLD */
-					//AddPointToLine({ body->GetPosition().x + thePoly->m_vertices[i].x,  body->GetPosition().y + thePoly->m_vertices[i].y });
+				this->SetColour((body->GetType() == BodyType::b2_staticBody) ? glm::vec3(0.0f, 0.0f, 1.0f) : glm::vec3(0.0f, 1.0f, 0.0f));
+
+				if (theShapeType == b2Shape::Type::e_polygon)
+				{
+					PolygonShape* thePoly = (PolygonShape*)theShape;
+					for (int i = 0; i < thePoly->m_count; i++)
+					{
+						b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
+						AddPointToLine({ thisPos.x, thisPos.y });
+
+						/* OLD */
+						//AddPointToLine({ body->GetPosition().x + thePoly->m_vertices[i].x,  body->GetPosition().y + thePoly->m_vertices[i].y }); 
+					}
+					FinishLineLoop();
 				}
-				FinishLineLoop();
-			}
-			if (theShapeType == b2Shape::Type::e_circle)
-			{
-				CircleShape* theCircle = (CircleShape*)theShape;
-				this->DrawCircle({ bodyTransform.p.x, bodyTransform.p.y }, theCircle->m_radius);
-
-				if (body->GetType() != BodyType::b2_staticBody)
+				else if (theShapeType == b2Shape::Type::e_circle)
 				{
-					glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y };
-					b2Vec2 offset = { theCircle->m_radius, 0 };
-					offset = b2Mul(bodyTransform, offset);
-					DrawLineSegment(centre, { offset.x, offset.y });
+					CircleShape* theCircle = (CircleShape*)theShape;
+					this->DrawCircle({ bodyTransform.p.x, bodyTransform.p.y }, theCircle->m_radius);
+					//this->DrawCircle({ theCircle->m_p.x, theCircle->m_p.y }, theCircle->m_radius);
+					
+					if (body->GetType() != BodyType::b2_staticBody)
+					{
+						glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y + theCircle->m_p.y };
+						b2Vec2 offset = { theCircle->m_radius, 0 };
+						offset = b2Mul(bodyTransform, offset);
+						DrawLineSegment(centre, { centre.x + theCircle->m_radius, centre.y });
+					}
 				}
 			}
 		}
 	}
+
 
 	void LineRenderer::UpdateFrame()
 	{

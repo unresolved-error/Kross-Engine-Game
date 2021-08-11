@@ -21,33 +21,39 @@ namespace Kross
         p_DebugRenderer     (nullptr),
         m_ShapeType         (ShapeType::Count),
         m_CollisionState    (CollisionState::None),
-        m_PlayerState       (PlayerState::Idle),
-        p_FixtureDef        (KROSS_NEW FixtureDef()),
+        m_RigidbodyState    (RigidbodyState::Idle),
+        m_ColliderFilter    (ColliderFilters::Default),
         p_MassData          (KROSS_NEW b2MassData()),
         p_RayData           (KROSS_NEW RaycastData()),
-        p_Filter            (KROSS_NEW ContactFilter()),
         p_AABBCollisionData (KROSS_NEW AABBCollisionData())
     {}
 
     Rigidbody2D::~Rigidbody2D()
     {
+        if (p_Body)
+        {
+            p_PhysicsScene->DetachBody(p_Body);
+        }
+        else
+        {
+            std::cout << "Body was null\n";
+        }
         p_Body = nullptr;
+        p_RayData = nullptr;
         p_PhysicsScene = nullptr;
 
         delete p_Circle;
         delete p_Box;
         delete p_Capsule;
-
+        
         delete p_MassData;
-        delete p_RayData;
-        delete p_FixtureDef;
-
-        delete p_Filter;
+        
         delete p_AABBCollisionData;
     }
 
     void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
     {
+        SetFriction(friction);
         /* Sets the shape type */
         m_ShapeType = ShapeType::Circle;
 
@@ -68,14 +74,16 @@ namespace Kross
         circleShape.m_radius = radius;
 
         /* Creates a fixtureDef and assigns the variables */
-        p_FixtureDef->shape = &circleShape;
-        p_FixtureDef->density = 0.5f;
-        p_FixtureDef->friction = friction;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
+        FixtureDef fixtureDef;
+        fixtureDef.shape = &circleShape;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = m_Friction;
+        fixtureDef.filter.categoryBits = categoryBits;
+        fixtureDef.filter.maskBits = maskBits;
 
-        p_Body->CreateFixture(p_FixtureDef);
+        p_Body->CreateFixture(&fixtureDef);
 
+        m_Bodies.push_back(p_Body);
         p_PhysicsScene->AttachBody(p_Body);
 
         /* Assigns the shape to the pointer */
@@ -84,44 +92,9 @@ namespace Kross
 
     void Rigidbody2D::CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
     {
+        SetFriction(friction);
         /* Sets the shape type */
         m_ShapeType = ShapeType::Box;
-
-        /* Create a bodyDef and set the variables */
-        BodyDef bodyDef;
-        bodyDef.type = b2_dynamicBody;
-        bodyDef.position.Set(pos.x, pos.y);
-        //bodyDef.linearDamping = 2.0f;
-
-        /* Creates the body and assigns it to the pointer */
-        p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData((Object*)c_Object);
-
-        /* Creates the shape */
-        PolygonShape dynamicBox;
-        /* Sets the shape as a box */
-        dynamicBox.SetAsBox(dimensions.x / 2.0f, dimensions.y / 2.0f);
-
-        /* Creates a fixtureDef and assigns all variables */
-        p_FixtureDef->shape = &dynamicBox;
-        p_FixtureDef->density = 1.0f;
-        p_FixtureDef->friction = friction;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
-
-        p_Body->CreateFixture(p_FixtureDef);
-        p_Body->SetFixedRotation(fixedRotation);
-
-        p_PhysicsScene->AttachBody(p_Body);
-
-        /* Assigns the shape to the pointer */
-        p_Box = KROSS_NEW Box(dimensions, Vector2(0, 0));
-    }
-
-    void Rigidbody2D::CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
-    {
-        /* Set the shape type */
-        m_ShapeType = ShapeType::Capsule;
 
         /* Create a bodyDef and set the variables */
         BodyDef bodyDef;
@@ -138,48 +111,90 @@ namespace Kross
         dynamicBox.SetAsBox(dimensions.x * 0.5f, dimensions.y * 0.5f);
 
         /* Creates a fixtureDef and assigns all variables */
-        p_FixtureDef->shape = &dynamicBox;
-        p_FixtureDef->density = 1.0f;
-        p_FixtureDef->friction = friction;
-        p_FixtureDef->filter.categoryBits = categoryBits;
-        p_FixtureDef->filter.maskBits = maskBits;
+        FixtureDef fixtureDef;
+        fixtureDef.shape = &dynamicBox;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = m_Friction;
+        fixtureDef.filter.categoryBits = categoryBits;
+        fixtureDef.filter.maskBits = maskBits;
 
-        /* Bottom circle */
+        p_Body->CreateFixture(&fixtureDef);
+        p_Body->SetFixedRotation(fixedRotation);
+
+        m_Bodies.push_back(p_Body);
+        p_PhysicsScene->AttachBody(p_Body);
+
+        /* Assigns the shape to the pointer */
+        p_Box = KROSS_NEW Box(dimensions, Vector2(0, 0));
+    }
+
+    void Rigidbody2D::CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
+    {
+        SetFriction(friction);
+        /* Set the shape type */
+        m_ShapeType = ShapeType::Capsule;
+
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(pos.x, pos.y);
+        bodyDef.fixedRotation = true;
+
+        /* Creates the body and assigns it to the pointer */
+        p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+        p_Body->SetUserData((Object*)c_Object);;
+
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox((dimensions.x * 0.5f) - (dimensions.x * 0.05f), (dimensions.y - dimensions.x) * 0.5f);
+
+        b2FixtureDef boxFixtureDef;
+        boxFixtureDef.shape = &dynamicBox;
+        boxFixtureDef.density = 0.5f;
+        boxFixtureDef.friction = m_Friction;
+        boxFixtureDef.filter.categoryBits = categoryBits;
+        boxFixtureDef.filter.maskBits = maskBits;
+
+        p_Body->CreateFixture(&boxFixtureDef);
+
+        /* bottom circle */
         b2CircleShape circleShape;
         circleShape.m_radius = dimensions.x * 0.5f;
-        circleShape.m_p.Set(0.0f, (-dimensions.y + dimensions.x * 0.5f));
-        
-        b2FixtureDef bottomCircleDef;
-        bottomCircleDef.shape = &circleShape;
-        bottomCircleDef.density = 1.0f;
-        bottomCircleDef.friction = friction;
+        circleShape.m_p.Set(0.0f, (-dimensions.y + dimensions.x) * 0.5f);
 
-        p_Body->CreateFixture(&bottomCircleDef);
+        b2FixtureDef bottomFixtureDef;
+        bottomFixtureDef.shape = &circleShape;
+        bottomFixtureDef.density = 0.5f;
+        bottomFixtureDef.friction = m_Friction;
+        bottomFixtureDef.filter.categoryBits = categoryBits;
+        bottomFixtureDef.filter.maskBits = maskBits;
+
+        p_Body->CreateFixture(&bottomFixtureDef);
 
         /* Top circle */
         b2CircleShape topCircleShape;
-        circleShape.m_radius = dimensions.x * 0.5f;
-        topCircleShape.m_p.Set(0.0f, (dimensions.y - dimensions.x * 0.5f));
+        topCircleShape.m_radius = dimensions.x * 0.5f;
+        topCircleShape.m_p.Set(0.0f, (dimensions.y - dimensions.x) * 0.5f);
 
-        b2FixtureDef topCircleDef;
-        topCircleDef.shape = &topCircleShape;
-        topCircleDef.density = 1.0f;
-        topCircleDef.friction = friction;
+        b2FixtureDef topFixtureDef;
+        topFixtureDef.shape = &topCircleShape;
+        topFixtureDef.density = 0.5f;
+        topFixtureDef.friction = m_Friction;
+        topFixtureDef.filter.categoryBits = categoryBits;
+        topFixtureDef.filter.maskBits = maskBits;
 
-        p_Body->CreateFixture(&topCircleDef);
-        
-        p_Body->CreateFixture(p_FixtureDef);
+        p_Body->CreateFixture(&topFixtureDef);
+     
+
         p_Body->SetFixedRotation(fixedRotation);
 
-            /* Creates the body and assigns it to the pointer */
-            p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            p_Body->SetUserData((Object*)c_Object);
+        m_Bodies.push_back(p_Body);
+        p_PhysicsScene->AttachBody(p_Body);
 
-        p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0));
+        p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0), m_Fixtures);
     }
 
     void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction)
     {
+        SetFriction(friction);
         if (!GetComponent<Collider>()->IsTileMapCollider())
         {
             /* Sets the shape type */
@@ -200,13 +215,14 @@ namespace Kross
             circleShape.m_radius = radius;
 
             /* Creates a fixtureDef and assigns the variables */
-            p_FixtureDef->shape = &circleShape;
-            p_FixtureDef->density = 0.5f;
-            p_FixtureDef->friction = friction;
-            p_FixtureDef->filter.categoryBits = categoryBits;
-            p_FixtureDef->filter.maskBits = maskBits;
+            FixtureDef fixtureDef;
+            fixtureDef.shape = &circleShape;
+            fixtureDef.density = 0.5f;
+            fixtureDef.friction = m_Friction;
+            fixtureDef.filter.categoryBits = categoryBits;
+            fixtureDef.filter.maskBits = maskBits;
 
-            p_Body->CreateFixture(p_FixtureDef);
+            p_Body->CreateFixture(&fixtureDef);
 
             p_PhysicsScene->AttachBody(p_Body);
 
@@ -237,7 +253,7 @@ namespace Kross
             /* Creates a fixtureDef and assigns the variables */
             tempFixture->shape = &circleShape;
             tempFixture->density = 0.5f;
-            tempFixture->friction = friction;
+            tempFixture->friction = m_Friction;
             tempFixture->filter.categoryBits = categoryBits;
             tempFixture->filter.maskBits = maskBits;
 
@@ -256,6 +272,7 @@ namespace Kross
 
     void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction)
     {
+        SetFriction(friction);
         if (!GetComponent<Collider>()->IsTileMapCollider())
         {
             /* Sets the shape type */
@@ -276,13 +293,14 @@ namespace Kross
             dynamicBox.SetAsBox(Dimensions.x / 2.0f, Dimensions.y / 2.0f);
 
             /* Creates a fixtureDef and assigns all variables */
-            p_FixtureDef->shape = &dynamicBox;
-            p_FixtureDef->density = 1.0f;
-            p_FixtureDef->friction = friction;
-            p_FixtureDef->filter.categoryBits = categoryBits;
-            p_FixtureDef->filter.maskBits = maskBits;
+            FixtureDef fixtureDef;
+            fixtureDef.shape = &dynamicBox;
+            fixtureDef.density = 1.0f;
+            fixtureDef.friction = m_Friction;
+            fixtureDef.filter.categoryBits = categoryBits;
+            fixtureDef.filter.maskBits = maskBits;
 
-            p_Body->CreateFixture(p_FixtureDef);
+            p_Body->CreateFixture(&fixtureDef);
 
             p_PhysicsScene->AttachBody(p_Body);
 
@@ -314,7 +332,7 @@ namespace Kross
             /* Creates a fixtureDef and assigns all variables */
             tempFixture->shape = &dynamicBox;
             tempFixture->density = 1.0f;
-            tempFixture->friction = friction;
+            tempFixture->friction = m_Friction;
             tempFixture->filter.categoryBits = categoryBits;
             tempFixture->filter.maskBits = maskBits;
 
@@ -344,11 +362,13 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
+                    SetColliderFilter(ColliderFilters::Environment);
+                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 }
                 else
                 {
-                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
+                    SetColliderFilter(ColliderFilters::Player);
+                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 }
                 break;
             }
@@ -356,17 +376,20 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
+                    SetColliderFilter(ColliderFilters::Environment);
+                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 }
                 else
                 {
-                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
+                    SetColliderFilter(ColliderFilters::Player);
+                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 }
                 break;
             }
             case Kross::ShapeType::Capsule:
             {
-                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
+                SetColliderFilter(ColliderFilters::Player);
+                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetMass());
                 break;
             }
             }
@@ -400,9 +423,17 @@ namespace Kross
 
     void Rigidbody2D::OnUpdateDrawInformation()
     {
+        
         if (!GetComponent<Collider>()->IsTileMapCollider())
         {
-            p_DebugRenderer->DrawRigidBody(p_Body);
+            if (m_ShapeType == ShapeType::Capsule)
+            {
+                p_DebugRenderer->DrawCapsule(p_Body, Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 8);
+            }
+            else
+            {
+                p_DebugRenderer->DrawRigidBody(p_Body);
+            }
         }
         else
         {
@@ -424,66 +455,7 @@ namespace Kross
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
-                GetObjectsInDirection(0.1f, p_Body, Vector2(0.0f, -1.0f));
-                Vector2 particleForce = CollideParticles();
-
-                CheckPlayerState();
-
-                if (GetPlayerState() == PlayerState::Swimming)
-                {
-                    OnApplyForce(particleForce * (p_Body->GetMass() * 0.5f));
-                }
-
-
-
-                //for (int i = 0; i < m_CloseObjects.size(); i++)
-                //{
-                //    std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() <<
-                //        " Pos X: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.x) <<
-                //        " Pos Y: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.y) <<
-                //        std::endl;
-                //}
-
-                if (m_CloseObjects.size() > 0)
-                {
-                    if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
-                    {
-                        SetCollisionState(CollisionState::Enter);
-                    }
-                    else if (GetCollisionState() == CollisionState::Enter)
-                    {
-                        SetCollisionState(CollisionState::Stay);
-                    }
-                }
-                else
-                {
-                    //p_RayData->intersectionPoint = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - 0.5f);
-
-                    if (GetCollisionState() == CollisionState::Enter || GetCollisionState() == CollisionState::Stay)
-                    {
-                        SetCollisionState(CollisionState::Exit);
-                    }
-                    else if (GetCollisionState() == CollisionState::Exit)
-                    {
-                        SetCollisionState(CollisionState::None);
-                    }
-                }
-
-                #ifndef KROSS_EDITOR
-                /* Gets the object position and updates it with the position of the body */
-                c_Object->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
-
-                /* Gets the object rotation and updates it with the angle of the body */
-                c_Object->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
-
-                #else
-
-                p_Body->SetTransform(Getb2Vec2(c_Object->GetTransform()->m_Position), glm::radians(c_Object->GetTransform()->m_Rotation));
-                #endif
-
-                
-                //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
-                //p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, 0.075f, 8);
+                CollisionUpdate();
             }
         }
         else if (p_Circle != nullptr)
@@ -491,28 +463,16 @@ namespace Kross
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
-                Vector2 particleForce = CollideParticles();
+                CollisionUpdate();
+            }
+        }
+        else if (p_Capsule != nullptr)
+        {
+            /* Checks if the object is not static */
+            if (p_Body->GetType() != b2_staticBody)
+            {
 
-                if (p_AABBCollisionData->m_Collision)
-                {
-                    // player is swimming
-                    OnApplyForce(particleForce * (p_Body->GetMass() * 0.5f));
-                }
-
-                #ifndef KROSS_EDITOR
-                /* Gets the object position and updates it with the position of the body */
-                c_Object->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
-
-                /* Gets the object rotation and updates it with the angle of the body */
-                c_Object->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
-
-                #else
-
-                p_Body->SetTransform(Getb2Vec2(c_Object->GetTransform()->m_Position), glm::radians(c_Object->GetTransform()->m_Rotation));
-                #endif
-
-                //p_DebugRenderer->DrawLineSegment(GetVector2(p_Body->GetPosition()), p_RayData->intersectionPoint);
-                //p_DebugRenderer->DrawCircle(p_RayData->intersectionPoint, 0.075f, 8);
+                CollisionUpdate();
             }
         }
 
@@ -628,7 +588,7 @@ namespace Kross
         return averageVelocity;
     }
 
-    float Rigidbody2D::CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos)
+    RaycastData* Rigidbody2D::CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos)
     {
         p_RayData->maxFraction = maxFraction;
         p_RayData->direction = direction;
@@ -636,40 +596,38 @@ namespace Kross
 
         p_RayData = Physics::OnRayCast(p_RayData->pos, p_RayData->direction, p_Body, p_RayData->maxFraction);
 
-        return glm::length(p_RayData->intersectionPoint - GetVector2(p_Body->GetPosition()));
+        return p_RayData;
     }
 
     float Rigidbody2D::CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos)
     {
-        List<RaycastData*> outputs;
-        float closestFraction = 0;
+        float closestFraction = maxFraction;
 
         p_RayData->maxFraction = maxFraction;
 
-        p_RayData->pos = pos;
+        p_RayData->pos = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - (p_Capsule->GetHeight() * 0.5f));
         p_RayData->direction = direction;
-        p_RayData->intersectionPoint = pos + maxFraction * direction;
+        p_RayData->intersectionPoint = p_RayData->pos + maxFraction * direction;
 
-        GetSurroundingObjects(2.0f, p_Body);
+        GetSurroundingObjects(1.0f, p_Body);
 
-        for (int i = 0; i < p_AABBCollisionData->m_Fixture.size(); i++)
+
+        for (int i = 0; i < m_CloseObjects.size(); i++)
         {
-            if (p_AABBCollisionData->m_Fixture[i]->GetBody() != p_Body)
+            if (m_CloseObjects[i] != p_Body)
             {
                 p_RayData = Physics::OnCircleCast(p_RayData->pos, p_RayData->direction,
                     p_Body, p_RayData->maxFraction, circleCastRadius);
 
                 if (p_RayData->hit == true)
                 {
-                    p_RayData->body = p_AABBCollisionData->m_Fixture[i]->GetBody();
-                    outputs.push_back(p_RayData);
+                    p_RayData->body = m_CloseObjects[i];
                 }
             }
         }
         
-
+        //closestFraction = p_RayData->closestFraction;
         p_AABBCollisionData->m_Fixture.clear();
-        outputs.clear();
         
         return closestFraction;
     }
@@ -685,7 +643,7 @@ namespace Kross
         m_CloseObjects.clear();
 
         /* Checks if it is a circle */
-        if (shape->m_type == 0)
+        if (p_Circle != nullptr)
         {
             CircleShape circle = CircleShape();
             circle.m_radius += p_Circle->GetRadius() + size;
@@ -695,7 +653,7 @@ namespace Kross
                 circle, body->GetTransform());
         }
         /* Checks if it is a poly */
-        else if (shape->m_type == 2)
+        else if (p_Box != nullptr)
         {
             PolygonShape box = PolygonShape();
             box.SetAsBox((p_Box->GetWidth() + size) * 0.5f, (p_Box->GetHeight() + size) * 0.5f);
@@ -704,12 +662,28 @@ namespace Kross
             p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
                 box, body->GetTransform());
         }
+        else if (p_Capsule != nullptr)
+        {
+            PolygonShape box = PolygonShape();
 
-        float points[10] = { body->GetTransform().p.x + (p_Box->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Box->GetHeight() + size) * 0.5f,
-                    body->GetTransform().p.x + (p_Box->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Box->GetHeight() + size) * 0.5f,
-                    body->GetTransform().p.x - (p_Box->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Box->GetHeight() + size) * 0.5f,
-                    body->GetTransform().p.x - (p_Box->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Box->GetHeight() + size) * 0.5f,
-                    body->GetTransform().p.x + (p_Box->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Box->GetHeight() + size) * 0.5f
+            for (b2Fixture* thisFixture = body->GetFixtureList(); thisFixture; thisFixture = thisFixture->GetNext())
+            {
+                if (thisFixture->GetShape()->m_type == b2Shape::Type::e_polygon)
+                {
+                    box.SetAsBox((p_Capsule->GetWidth() + size) * 0.5f, (p_Capsule->GetHeight() + size) * 0.5f);
+                }
+            }
+
+            /* Queries shape AABB */
+            p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
+                box, body->GetTransform());
+        }
+
+        float points[10] = { body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+                             body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+                             body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+                             body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+                             body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
         };
 
         p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
@@ -732,10 +706,10 @@ namespace Kross
             }
         }
 
-        for (int i = 0; i < m_CloseObjects.size(); i++)
-        {
-            std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() << std::endl;
-        }
+        //for (int i = 0; i < m_CloseObjects.size(); i++)
+        //{
+        //    std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() << std::endl;
+        //}
 
         p_AABBCollisionData->m_Fixture.clear();
     }
@@ -754,7 +728,7 @@ namespace Kross
         m_Fixtures.clear();
 
         /* Checks if it is a circle */
-        if (shape->m_type == 0)
+        if (p_Circle != nullptr)
         {
             CircleShape circle = CircleShape();
 
@@ -775,7 +749,7 @@ namespace Kross
 
         }
         /* Checks if it is a poly */
-        else if (shape->m_type == 2)
+        else if (p_Box != nullptr)
         {
             b2Transform transform = body->GetTransform();
             PolygonShape box = PolygonShape();
@@ -821,12 +795,63 @@ namespace Kross
                 box.SetAsBox((p_Box->GetWidth() + length) * 0.5f, (p_Box->GetHeight() + length) * 0.5f);
             }
 
-
             /* Queries shape AABB */
             p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
                 box, transform);
-
         }
+        else if (p_Capsule != nullptr)
+        {
+            b2Transform transform = body->GetTransform();
+            PolygonShape capsule = PolygonShape();
+
+            /* checks for the direction for the box */
+            if (direction.x != 0 && direction.y == 0)
+            {
+                /* Sets left or right */
+                capsule.SetAsBox((p_Capsule->GetWidth() + length) * 0.5f, (p_Capsule->GetHeight()) * 0.4f);
+
+                transform.p.x = transform.p.x + (length * 0.55f) * direction.x;
+
+
+                float points[10] = { transform.p.x + (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y + p_Capsule->GetHeight() * 0.4f,
+                    transform.p.x + (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y - p_Capsule->GetHeight() * 0.4f,
+                    transform.p.x - (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y - p_Capsule->GetHeight() * 0.4f,
+                    transform.p.x - (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y + p_Capsule->GetHeight() * 0.4f,
+                    transform.p.x + (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y + p_Capsule->GetHeight() * 0.4f
+                };
+
+                p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
+            }
+            else if (direction.y != 0 && direction.x == 0)
+            {
+                /* Sets up or down */
+                capsule.SetAsBox((p_Capsule->GetWidth()) * 0.3f, (p_Capsule->GetHeight() + length) * 0.5f);
+
+                transform.p.y = transform.p.y + (length * 0.55f) * direction.y;
+
+                float points[10] = { transform.p.x + p_Capsule->GetWidth() * 0.3f, transform.p.y + (p_Capsule->GetHeight() + length) * 0.5f,
+                    transform.p.x + p_Capsule->GetWidth() * 0.3f, transform.p.y - (p_Capsule->GetHeight() + length) * 0.5f,
+                    transform.p.x - p_Capsule->GetWidth() * 0.3f, transform.p.y - (p_Capsule->GetHeight() + length) * 0.5f,
+                    transform.p.x - p_Capsule->GetWidth() * 0.3f, transform.p.y + (p_Capsule->GetHeight() + length) * 0.5f,
+                    transform.p.x + p_Capsule->GetWidth() * 0.3f, transform.p.y + (p_Capsule->GetHeight() + length) * 0.5f
+                };
+
+                p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
+                p_DebugRenderer->FinishLineLoop();
+            }
+            else
+            {
+                /* Sets a full box */
+                capsule.SetAsBox((p_Capsule->GetWidth() + length) * 0.5f, (p_Capsule->GetHeight() + length) * 0.5f);
+            }
+
+            /* Queries shape AABB */
+            p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
+                capsule, transform);
+        }
+
+
+
 
 
         p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
@@ -859,32 +884,101 @@ namespace Kross
         p_AABBCollisionData->m_Fixture.clear();
     }
 
-    void Rigidbody2D::CheckPlayerState()
+    void Rigidbody2D::UpdateRigidbodyState()
     {
-        if (p_AABBCollisionData->m_ParticleIndexs.size() != 0)
+        int time = 0;
+
+        if (p_AABBCollisionData->m_ParticleIndexs.size() > 10)
         {
-            SetPlayerState(PlayerState::Swimming);
-        }
-        else if (p_Body->GetLinearVelocity().y < 0.0f)
-        {
-            SetPlayerState(PlayerState::Falling);
-        }
-        else if (p_Body->GetLinearVelocity().y > 0.0f)
-        {
-            SetPlayerState(PlayerState::Jumping);
-        }
-        else if (p_Body->GetLinearVelocity().x < 2.0f && p_Body->GetLinearVelocity().x > -2.0f)
-        {
-            SetPlayerState(PlayerState::Walking);
-        }
-        else if (p_Body->GetLinearVelocity().x > 2.0f || p_Body->GetLinearVelocity().x < -2.0f)
-        {
-            SetPlayerState(PlayerState::Running);
+            SetRigidbodyState(RigidbodyState::Swimming);
         }
         else if (p_Body->GetLinearVelocity().x == 0.0f && p_Body->GetLinearVelocity().y == 0.0f)
         {
-            SetPlayerState(PlayerState::Idle);
+            SetRigidbodyState(RigidbodyState::Idle);
         }
+        else if (p_Body->GetLinearVelocity().y < -0.05f)
+        {
+            SetRigidbodyState(RigidbodyState::Falling);
+        }
+        else if (p_Body->GetLinearVelocity().y > 0.0f)
+        {
+            SetRigidbodyState(RigidbodyState::Jumping);
+        }
+        else if (p_Body->GetLinearVelocity().x <= 2.0f && p_Body->GetLinearVelocity().x >= -2.0f)
+        {
+            SetRigidbodyState(RigidbodyState::Walking);
+        }
+        else if (p_Body->GetLinearVelocity().x > 2.0f || p_Body->GetLinearVelocity().x < -2.0f)
+        {
+            SetRigidbodyState(RigidbodyState::Running);
+        }
+    }
+
+    void Rigidbody2D::CollisionUpdate()
+    {
+        RaycastData* down = KROSS_NEW RaycastData();
+
+        if (p_Box == nullptr)
+        {
+            //GetObjectsInDirection(0.1f, p_Body, Vector2(0.0f, -1.0f));
+
+            //float length = CalculateCircleCast(0.1f, 0.3, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - p_Capsule->GetHeight() * 0.5f - 0.025f));
+            
+            down = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), GetVector2(p_Body->GetPosition()));
+            Vector2 particleForce = CollideParticles();
+
+            UpdateRigidbodyState();
+
+
+            if (GetRigidbodyState() == RigidbodyState::Swimming)
+            {
+                OnApplyForce(particleForce * (p_Body->GetMass() * 0.25f));
+            }
+
+            if (down->hit)
+            {
+                /* Checks and sets the collision states for the rigidbody */
+                if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
+                {
+                    SetCollisionState(CollisionState::Enter);
+                }
+                else if (GetCollisionState() == CollisionState::Enter)
+                {
+                    SetCollisionState(CollisionState::Stay);
+                }
+
+                p_DebugRenderer->SetColour(Vector3(1.0f, 0.0f, 0.0f));
+                down->hit = false;
+            }
+            else
+            {
+                down->intersectionPoint = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - 0.3f);
+
+                /* Checks and sets the collision states for the rigidbody */
+                if (GetCollisionState() == CollisionState::Enter || GetCollisionState() == CollisionState::Stay)
+                {
+                    SetCollisionState(CollisionState::Exit);
+                }
+                else if (GetCollisionState() == CollisionState::Exit)
+                {
+                    SetCollisionState(CollisionState::None);
+                }
+                p_DebugRenderer->SetColour(Vector3(0.0f, 0.0f, 1.0f));
+            }
+            p_DebugRenderer->DrawLineSegment(down->pos, down->intersectionPoint);
+            p_DebugRenderer->DrawCircle(down->intersectionPoint, 0.1f, 8);
+        }
+
+        #ifndef KROSS_EDITOR
+        /* Gets the object position and updates it with the position of the body */
+        c_Object->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
+
+        /* Gets the object rotation and updates it with the angle of the body */
+        c_Object->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
+        #else
+        p_Body->SetTransform(Getb2Vec2(c_Object->GetTransform()->m_Position), glm::radians(c_Object->GetTransform()->m_Rotation));
+        #endif
+
     }
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
@@ -1111,10 +1205,5 @@ namespace Kross
         }
 
         m_TileShapes.clear();
-    }
-
-    float Rigidbody2D::GetFriction()
-    {
-        return p_Body->GetFixtureList()->GetFriction();
     }
 }

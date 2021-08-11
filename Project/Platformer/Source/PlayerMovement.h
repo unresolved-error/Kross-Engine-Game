@@ -52,8 +52,8 @@ public:
 	int frameCount = 0;
 
 	float m_MaxGroundSpeed = 4.0f;
-	float m_MaxAirSpeed = 5.5f;
-	float m_JumpStrength = 0.55f;
+	float m_MaxAirSpeed = 5.25f;
+	float m_JumpStrength = 0.4f;
 
 	Script* Duplicate() override
 	{
@@ -261,29 +261,53 @@ public:
 			}
 		}
 
-		if ((rigidBody->GetPlayerState() != PlayerState::Jumping && rigidBody->GetPlayerState() != PlayerState::Falling) &&
-			(Input::GetKeyPressed(jump) || (Input::ControllerConnected(controllerID) &&
-			Input::GetControllerButtonPressed(controllerID, jumpC))))
+		if (rigidBody->GetRigidbodyState() != RigidbodyState::Falling && 
+			Input::GetKeyPressed(jump) || Input::ControllerConnected(controllerID) &&
+			Input::GetControllerButtonPressed(controllerID, jumpC))
 		{
-			if (jumpCount < 1)
+			for (b2ContactEdge* thisContact = rigidBody->GetBody()->GetContactList(); thisContact; thisContact = thisContact->next)
 			{
-				rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-				jumpCount++;
+				if (thisContact->other == rigidBody->GetRaycastData()->body)
+				{
+					if (jumpCount < 1)
+					{
+						rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
+						jumpCount++;
+						break;
+					}
+				}
 			}
 		}
 
 		if (jumpCount == 0)
 		{
-			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
+			
+			if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
 			{
 				rigidBody->OnApplyForce(input);
+			}
+			else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
+			{
+				rigidBody->OnApplyForce(input);
+			}
+			else
+			{
+				rigidBody->OnApplyForce(input * 0.1f);
 			}
 		}
 		else
 		{
-			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
+			if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
 			{
-				rigidBody->OnApplyForce(input * 3.0f);
+				rigidBody->OnApplyForce(input);
+			}
+			else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
+			{
+				rigidBody->OnApplyForce(input);
+			}
+			else
+			{
+				rigidBody->OnApplyForce(input * 0.1f);
 			}
 		}
 
@@ -308,7 +332,8 @@ public:
 
 	void OnCollisionEnter(Object* other)
 	{
-		if (other->GetLayer() == Layer::Ground)
+		if (other->GetLayer() == Layer::Ground || 
+			other->GetLayer() == Layer::Player)
 		{
 			jumpCount = 0;
 		}
@@ -318,19 +343,22 @@ public:
 
 	void OnCollisionStay(Object* other)
 	{
-		if (other->GetLayer() == Layer::Ground)
+		if (other->GetLayer() == Layer::Ground ||
+			other->GetLayer() == Layer::Player)
 		{
 			jumpCount = 0;
 		}
-		//std::cout << "Continued colliding with " << other->GetName() << std::endl;
 	}
 
 	void OnCollisionExit(Object* other)
 	{
-		if (other->GetLayer() == Layer::Ground)
+		if (other->GetLayer() == Layer::Ground ||
+			other->GetLayer() == Layer::Player)
 		{
 			if (jumpCount == 0)
+			{
 				jumpCount++;
+			}
 		}
 
 		Debug::LogLine((std::string)"Exited collision with " + other->GetName());

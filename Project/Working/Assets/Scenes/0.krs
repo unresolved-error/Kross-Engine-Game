@@ -1,0 +1,8 @@
+SCENE:
+NAME->Main->
+GRAVITY->9.81->
+GRAVITYDIRECTION->[0.0,-1.0]->
+
+OBJECT->Assets/Scenes/0-Data/0.krs->
+OBJECT->Assets/Scenes/0-Data/1.krs->
+OBJECT->Assets/Scenes/0-Data/2.krs->
