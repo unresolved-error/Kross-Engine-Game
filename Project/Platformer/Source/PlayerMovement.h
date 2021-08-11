@@ -177,8 +177,10 @@ public:
 				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
 			}
 		}
-
-		PlayerMove(input, Key::Space, Controller::A);
+		if (transform->m_Position.x < 180) 
+		{
+			PlayerMove(input, Key::Space, Controller::A);
+		}
 		EnableGravity(Key::Q, Controller::B);
 
 		Vector2 cameraPosition = camera->GetTransform()->m_Position;
@@ -204,8 +206,23 @@ public:
 
 		if (text)
 		{
+			if (playerPosition.x < 170) 
+			{
+				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
+				textcol.a = 0;
+				text->GetComponent<TextRenderer>()->SetColour(textcol);
+			}
+			else if (playerPosition.x < 179.9)
+			{
+				float alph = (playerPosition.x-170) / 10;
+				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
+				textcol.a = alph;
+				text->GetComponent<TextRenderer>()->SetColour(textcol);
+			
+			}
+
 			text->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + Vector2(0.0f, 1.5f);
-			text->GetComponent<TextRenderer>()->SetText("");
+		
 		}
 
 		if (timeElapsed >= 1.0f)
