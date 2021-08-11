@@ -24,18 +24,14 @@ public:
 		return KROSS_NEW EndLevel();
 	}
 
-
 	void Start() override
 	{
 		renderer = GetComponent<TextRenderer>();
 		player = SceneManager::GetCurrentScene()->FindObject("Player");
 	}
 
-
 	void Update() override 
 	{
 		
 	}
-
-
 };
