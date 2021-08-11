@@ -333,7 +333,6 @@ public:
 	void OnCollisionEnter(Object* other)
 	{
 		if (other->GetLayer() == Layer::Ground || 
-			other->GetLayer() == Layer::PhysicsObject ||
 			other->GetLayer() == Layer::Player)
 		{
 			jumpCount = 0;
@@ -345,7 +344,6 @@ public:
 	void OnCollisionStay(Object* other)
 	{
 		if (other->GetLayer() == Layer::Ground ||
-			other->GetLayer() == Layer::PhysicsObject ||
 			other->GetLayer() == Layer::Player)
 		{
 			jumpCount = 0;
@@ -355,7 +353,6 @@ public:
 	void OnCollisionExit(Object* other)
 	{
 		if (other->GetLayer() == Layer::Ground ||
-			other->GetLayer() == Layer::PhysicsObject ||
 			other->GetLayer() == Layer::Player)
 		{
 			if (jumpCount == 0)
