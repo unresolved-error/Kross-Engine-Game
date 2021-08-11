@@ -103,6 +103,11 @@ namespace Kross
 		List<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
 
 	public:
+
+		const void DrawCross(Vector2 position) { p_DebugRenderer->DrawCross(position, 4.0f); };
+		
+		LineRenderer* GetDebugRenderer() const { return p_DebugRenderer; };
+
 		// Creates a Blank Object.
 		static Object* OnCreate(const std::string& name = "GameObject");
 
