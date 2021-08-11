@@ -29,7 +29,10 @@ public:
 
 	Animator* animator;
 
+	Vector2 gunOffset = Vector2(0.0f, -0.11f);
+
 	Object* camera;
+	Object* gun;
 	Object* text;
 
 	bool followPlayer = false;
@@ -71,6 +74,7 @@ public:
 		animator = GetComponent<Animator>();
 
 		text = SceneManager::GetCurrentScene()->FindObject("Text");
+		gun = SceneManager::GetCurrentScene()->FindObject("Gun");
 
 		Material* defaultMaterial = Material::OnCreate("Default");
 		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
@@ -78,7 +82,6 @@ public:
 		audplayer = GetComponent<AudioPlayer>();
 		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
 		audplayer->SetLoop(true);
-		audplayer->Stop();
 
 		camera = SceneManager::GetCurrentScene()->GetCamera();
 
@@ -174,12 +177,27 @@ public:
 				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
 			}
 		}
-
-		PlayerMove(input, Key::Space, Controller::A);
+		if (transform->m_Position.x < 180) 
+		{
+			PlayerMove(input, Key::Space, Controller::A);
+		}
 		EnableGravity(Key::Q, Controller::B);
 
-		camera->GetTransform()->m_Position = c_Object->GetTransform()->m_Position;
+		Vector2 cameraPosition = camera->GetTransform()->m_Position;
+		Vector2 playerPosition = c_Object->GetTransform()->m_Position;
 
+		//camera->GetTransform()->m_Position.x = Math::Lerp(cameraPosition.x, playerPosition.x, Time::GetDeltaTime() * 4.0f);
+		//camera->GetTransform()->m_Position.y = Math::Lerp(cameraPosition.y, playerPosition.y, Time::GetDeltaTime() * 4.0f);
+
+		camera->GetTransform()->m_Position = Math::Lerp(cameraPosition, playerPosition, Time::GetDeltaTime() * 4.0f);
+
+		camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, -1.25f, 178.75f);
+		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.5f);
+
+		if (gun)
+		{
+			gun->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + gunOffset;
+		}
 		if (timeElapsed < 1.0f)
 		{
 			timeElapsed += Time::GetDeltaTime();
@@ -188,14 +206,30 @@ public:
 
 		if (text)
 		{
+			if (playerPosition.x < 170) 
+			{
+				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
+				textcol.a = 0;
+				text->GetComponent<TextRenderer>()->SetColour(textcol);
+			}
+			else if (playerPosition.x < 179.9)
+			{
+				float alph = (playerPosition.x-170) / 10;
+				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
+				textcol.a = alph;
+				text->GetComponent<TextRenderer>()->SetColour(textcol);
+			
+			}
+
 			text->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + Vector2(0.0f, 1.5f);
+		
 		}
 
 		if (timeElapsed >= 1.0f)
 		{
 			timeElapsed = 0.0f;
-			if(text)
-				text->GetComponent<TextRenderer>()->SetText(std::to_string(frameCount));
+			//if(text)
+			//	text->GetComponent<TextRenderer>()->SetText(std::to_string(frameCount));
 			frameCount = 0;
 		}
 

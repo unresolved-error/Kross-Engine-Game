@@ -37,7 +37,11 @@ namespace Kross
 		p_Window->SetWidth(width);
 		p_Window->SetHeight(height);
 		p_Window->SetTitle(title);
-		p_Window->SetVSync(0);
+		p_Window->SetVSync(1);
+
+		#ifndef KROSS_EDITOR
+		//p_Window->SetFullscreen(1);
+		#endif
 	}
 
 	Application::~Application()

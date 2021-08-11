@@ -27,6 +27,11 @@ TEXTURE->Assets/Textures/icoTile-Set.krs->
 TEXTURE->Assets/Textures/AllSorts.krs->
 TEXTURE->Assets/Textures/Donut.krs->
 TEXTURE->Assets/Textures/BackgroundSky.krs->
+TEXTURE->Assets/Textures/BackgroundMountains.krs->
+TEXTURE->Assets/Textures/BackgroundMountains1.krs->
+TEXTURE->Assets/Textures/Foreground-Candy.krs->
+TEXTURE->Assets/Textures/LollipopBlue.krs->
+TEXTURE->Assets/Textures/Gun.krs->
 
 // Load Sprites. (Make sure Sprites are loaded before Materials and Animations!)
 SPRITE->Assets/Sprites/sprDiffuse.krs->
@@ -34,11 +39,16 @@ SPRITE->Assets/Sprites/sprNormal.krs->
 SPRITE->Assets/Sprites/sprSpecular.krs->
 SPRITE->Assets/Sprites/sprParticleTexture.krs->
 SPRITE->Assets/Sprites/sprSheetMarshall-Mellow.krs->
+SPRITE->Assets/Sprites/sprSheetGun.krs->
 SPRITE->Assets/Sprites/sprDirt.krs->
 SPRITE->Assets/Sprites/sprSheetDirtTileMap.krs->
 SPRITE->Assets/Sprites/sprAllSorts.krs->
 SPRITE->Assets/Sprites/sprSheetDonut.krs->
 SPRITE->Assets/Sprites/sprBackgroundSky.krs->
+SPRITE->Assets/Sprites/sprMountains.krs->
+SPRITE->Assets/Sprites/sprMountains1.krs->
+SPRITE->Assets/Sprites/sprForegroundCandy.krs->
+SPRITE->Assets/Sprites/sprLollipopBlue.krs->
 
 // Load Animations.
 ANIMATION->Assets/Animations/animMarshalIdle.krs->
@@ -57,6 +67,11 @@ MATERIAL->Assets/Materials/matGround.krs->
 MATERIAL->Assets/Materials/matDefault.krs->
 MATERIAL->Assets/Materials/matDonut.krs->
 MATERIAL->Assets/Materials/matBackground.krs->
+MATERIAL->Assets/Materials/matMountains.krs->
+MATERIAL->Assets/Materials/matMountains1.krs->
+MATERIAL->Assets/Materials/matForegroundCandy.krs->
+MATERIAL->Assets/Materials/matLollipopBlue.krs->
+MATERIAL->Assets/Materials/matGun.krs->
 
 // Load Audio Assets.
 AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->

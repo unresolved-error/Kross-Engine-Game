@@ -17,14 +17,21 @@ namespace Kross
 		Default,
 		Light,
 		Environment,
-		Background,
-		
-		PhysicsObject,
+		/*THE HIGHER THE BACKGROUND LAYER, THE CLOSER IT IS.*/
+		FurthestBackground,
+		SecondFurthestBackground,
+		ThirdFurthestBackground,
+		FourthFurthestBackground,
+		ThirdCloseBackground,
+		SecondCloseBackground,
+		CloseBackground,
+		Wall,
 		Ground,
 		Player,
 
 		/* Important Layers. (DO NOT REMOVE) */
 		Fluids,
+		ForeGround,
 		UI,
 
 		/* Layer Count. */
@@ -44,11 +51,21 @@ namespace Kross
 			m_Names.push_back("Default");
 			m_Names.push_back("Light");
 			m_Names.push_back("Environment");
-			m_Names.push_back("Background");
-			m_Names.push_back("PhysicsObject");
+			m_Names.push_back("Furthest");
+			m_Names.push_back("SecondFurthestBackground");
+			m_Names.push_back("ThirdFurthestBackground");
+			m_Names.push_back("FourthFurthestBackground");
+			m_Names.push_back("ThirdCloseBackground");
+			m_Names.push_back("SecondCloseBackground");
+			m_Names.push_back("CloseBackground");
+
+			m_Names.push_back("Wall");
 			m_Names.push_back("Ground");
 			m_Names.push_back("Player");
 			m_Names.push_back("Fluids");
+
+			m_Names.push_back("Foreground");
+			
 			m_Names.push_back("UI");
 
 			m_Names.push_back("None");

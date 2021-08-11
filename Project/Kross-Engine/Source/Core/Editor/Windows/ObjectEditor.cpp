@@ -324,6 +324,8 @@ namespace Kross {
 							Material* s_mat = rend->GetMaterial();
 							bool s_fx = rend->GetFlipX();
 							bool s_fy = rend->GetFlipY();
+							int s_depth = rend->GetDepth();
+
 
 							if (ImGui::Button((s_mat) ? s_mat->GetName().c_str() : "Not-Selected"))
 							{
@@ -477,6 +479,13 @@ namespace Kross {
 								s_fy = (!rend->GetFlipY());
 							}
 
+							ImGui::Text("Depth");
+							ImGui::SameLine();
+							ImGui::DragInt("##s_deppy", &s_depth,1,0,INTMAX_MAX);
+							
+							
+
+
 							if (p_PreviewPane && p_PreviewPane->GetSprite())
 							{
 								if (s_mat->p_Diffuse == p_PreviewPane->GetSpriteDestination())
@@ -511,7 +520,7 @@ namespace Kross {
 							rend->SetFlipX(s_fx);
 							rend->SetFlipY(s_fy);
 							rend->SetMaterial(s_mat);
-
+							rend->SetDepth(s_depth);
 
 							ImGui::Separator();
 						}

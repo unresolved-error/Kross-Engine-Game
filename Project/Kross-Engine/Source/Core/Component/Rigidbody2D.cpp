@@ -1170,13 +1170,13 @@ namespace Kross
         for (int i = 0; i < tileColliders.size(); i++)
         {
             CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), Vector2(tileColliders[i].z, tileColliders[i].w),
-                ColliderFilters::Environment, ColliderFilters::Player, friction);
+                ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid, friction);
         }
 
         for (int i = 0; i < tileCornerColliders.size(); i++)
         {
             CreateWorldCircle(tileCornerColliders[i].z, Vector2(tileCornerColliders[i].x, tileCornerColliders[i].y),
-                ColliderFilters::Environment, ColliderFilters::Player, friction);
+                ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid, friction);
         }
     }
 

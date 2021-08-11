@@ -9,6 +9,10 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "../Core.h"
+
+#include <cmath>
+
 #include "Box2D/Box2D.h"
 
 namespace Kross
@@ -22,6 +26,14 @@ namespace Kross
 	typedef glm::mat2 Matrix2;
 	typedef glm::mat3 Matrix3;
 	typedef glm::mat4 Matrix4;
+
+	class KROSS_API Math
+	{
+	public:
+		static float Lerp(float a, float b, float t);
+
+		static Vector2 Lerp(Vector2 a, Vector2 b, float t);
+	};
 }
 
 inline static glm::vec2 GetVector2(const b2Vec2& vector)

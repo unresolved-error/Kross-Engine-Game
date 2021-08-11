@@ -66,7 +66,7 @@ namespace Kross
         if (typeid(*renderer) == typeid(SpriteRenderer))
         {
             /* Check if the Batch Packet is Full. */
-            if (p_SpriteBatch->GetFullStatus() == true)
+            if (p_SpriteBatch->Full() == true)
                 OnRender();
 
             /* Attach the Data. */
@@ -77,7 +77,7 @@ namespace Kross
         else if (typeid(*renderer) == typeid(TextRenderer))
         {
             /* Check if the Batch Packet is Full. */
-            if (p_TextBatch->GetFullStatus() == true)
+            if (p_TextBatch->Full() == true)
                 OnRender();
                 
             /* Attach the Data. */
@@ -88,7 +88,7 @@ namespace Kross
         else if (typeid(*renderer) == typeid(ParticleEmitter))
         {
             /* Check if the Batch Packet is Full. */
-            if (p_WaterBatch->GetFullStatus() == true)
+            if (p_WaterBatch->Full() == true)
                 OnRender();
 
             /* Attach the Data. */
@@ -99,7 +99,7 @@ namespace Kross
         else if (typeid(*renderer) == typeid(TileMapRenderer))
         {
             /* Check if the Batch Packet is Full. */
-            if (p_SpriteBatch->GetFullStatus() == true)
+            if (p_SpriteBatch->Full() == true)
                 OnRender();
 
             /* Attach the Data. */
@@ -163,21 +163,21 @@ namespace Kross
             case Layer::Fluids:
             {
                 /* Check if it is Empty. */
-                shouldAbandon = p_WaterBatch->GetEmptyStatus();
+                shouldAbandon = p_WaterBatch->Empty();
                 break;
             }
 
             case Layer::UI:
             {
                 /* Check if it is Empty. */
-                shouldAbandon = p_TextBatch->GetEmptyStatus();
+                shouldAbandon = p_TextBatch->Empty();
                 break;
             }
 
             default:
             {
                 /* Check if it is Empty. */
-                shouldAbandon = p_SpriteBatch->GetEmptyStatus();
+                shouldAbandon = p_SpriteBatch->Empty();
                 break;
             }
         }

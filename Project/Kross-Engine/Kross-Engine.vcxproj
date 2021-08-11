@@ -710,6 +710,7 @@
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
+    <ClCompile Include="Source\Core\Math\Math.cpp" />
     <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp" />
     <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics.cpp" />

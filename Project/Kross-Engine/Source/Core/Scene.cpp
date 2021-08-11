@@ -90,7 +90,7 @@ namespace Kross
         Camera* editorCamera = p_EditorCamera->GetComponent<Camera>();
         editorCamera->SetSize(editorCamera->GetSize() + (-Input::GetMouseScroll() / 2.0f));
 
-        p_EditorCamera->GetTransform()->m_Position += input / 100.0f;
+        p_EditorCamera->GetTransform()->m_Position += input * 3.0f * Time::GetDeltaTime();
         p_EditorCamera->OnUpdate();
         #endif
 
@@ -103,10 +103,14 @@ namespace Kross
 
     void Scene::OnPhysicsUpdate()
     {
+        int refreshRate = Application::GetWindow()->GetScreenRefreshRate();
+        int velocityIterations = 2000 / refreshRate;
+        int positionIterations = 1000 / refreshRate;
+        int particleIterations = 500 / refreshRate;
         /* Update the physics step */
         if (Application::GetWindow()->GetVSync() == 1)
         {
-            p_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), 8, 3, 3);
+            p_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), velocityIterations, positionIterations, particleIterations);
         }
         else
         {
@@ -201,7 +205,12 @@ namespace Kross
         /* Draw Debug Information. */
         p_DebugShader->Attach();
         p_DebugRenderer->UpdateFrame();
+
+        #else
+        p_DebugRenderer->Clear();
         #endif
+
+        
         
         /* Remove the Dynamic Objects from the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)
