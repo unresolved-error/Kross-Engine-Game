@@ -25,7 +25,9 @@ namespace Kross
 
 	public:
 		
-		// Creating the Application. (CALL FIRST)
+		/**
+			Creating the Application. (CALL FIRST)
+		*/
 		static void OnCreate(const std::string& title = "Kross-Engine Application", int width = 1280, int height = 720);
 
 		// Initialising the Managers and Window. (CALL AFTER CREATE AND BEFORE UPDATE)

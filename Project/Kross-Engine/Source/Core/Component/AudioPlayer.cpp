@@ -99,12 +99,18 @@ namespace Kross
 		m_Stopped = true;
 	}
 
-	void AudioPlayer::SeekSoundClipPoint(float seconds)
+	void AudioPlayer::PlaySoundTimeStamped(float seconds)
 	{
+		/* Early out if the Seconds is in the Negatives. */
+		AudioManager::GetAudioEngine()->getStreamPosition(m_AudioHandle);
+		/**/
+		if (p_AudioSrc->IsStreamable())
+			return;
+
 		AudioManager::GetAudioEngine()->seek(m_AudioHandle, seconds);
 	}
 
-	void AudioPlayer::PauseSoundDelayed(float seconds)
+	void AudioPlayer::PauseSoundAfterElapsedTime(float seconds)
 	{
 		AudioManager::GetAudioEngine()->schedulePause(m_AudioHandle, seconds);
 	}

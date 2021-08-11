@@ -13,6 +13,10 @@
 
 namespace Kross
 {
+	/*!
+		\class Keyframe
+		\details Storage of Sprite, position, rotation and scaling information.
+	*/
 	class KROSS_API Keyframe
 	{
 	private:
@@ -31,6 +35,9 @@ namespace Kross
 	protected:
 
 	public:
+		/*!
+		    Keyframe Constuctor.
+		*/
 		Keyframe() : 
 			m_Position			(Vector2(0.0f)),
 			m_Rotation			(0.0f),
@@ -43,31 +50,49 @@ namespace Kross
 				m_DataSetPoints[i] = false;
 		};
 
-		// Gets if the Position Data has been set.
+		/*!
+			Gets if the Position Data has been set.
+		*/
 		const bool HasPositionData() const { return m_DataSetPoints[0]; };
 
-		// Gets if the Rotation Data has been set.
+		/*!
+			 Gets if the Rotation Data has been set.
+		*/
 		const bool HasRotationData() const { return m_DataSetPoints[1]; };
 
-		// Gets if the Scale Data has been set.
+		/*!
+			Gets if the Scale Data has been set.
+		*/
 		const bool HasScaleData() const { return m_DataSetPoints[2]; };
 
-		// Gets if the Sprite Data has been set.
+		/*!
+			Gets if the Sprite Data has been set.
+		*/
 		const bool HasSpriteData() const { return m_DataSetPoints[3]; };
 
-		// Gets the Position Data.
+		/*!
+			Gets the Position Data.
+		*/
 		Vector2 GetPosition() const { return m_Position; };
 
-		// Gets the Rotation Data.
+		/*!
+			Gets the Rotation Data.
+		*/
 		float GetRotation() const { return m_Rotation; };
 
-		// Gets the Scale Data.
+		/*!
+			Gets the Scale Data.
+		*/
 		Vector2 GetScale() const { return m_Scale; };
 
-		// Gets the Sprite Data.
+		/*!
+			Gets the Sprite Data.
+		*/
 		Sprite* GetSprite() const { return p_Sprite; };
 
-		// Set the Position Data.
+		/*!
+			Set the Position Data.
+		*/
 		void SetPosition(Vector2 position) 
 		{ 
 			/* Set Position. */
@@ -77,7 +102,9 @@ namespace Kross
 			m_DataSetPoints[0] = true; 
 		}
 
-		// Set the Rotation Data.
+		/*!
+			Set the Rotation Data.
+		*/
 		void SetRotation(float rotation)
 		{
 			/* Set Rotation. */
@@ -87,7 +114,9 @@ namespace Kross
 			m_DataSetPoints[1] = true;
 		}
 
-		// Set the Scale Data.
+		/*!
+			Set the Scale Data.
+		*/
 		void SetScale(Vector2 scale)
 		{
 			/* Set Scale. */
@@ -97,7 +126,9 @@ namespace Kross
 			m_DataSetPoints[2] = true;
 		}
 
-		// Set the Sprite Data.
+		/*!
+			Set the Sprite Data.
+		*/
 		void SetSprite(Sprite* sprite)
 		{
 			/* Set Sprite. */
@@ -107,7 +138,9 @@ namespace Kross
 			m_DataSetPoints[3] = true;
 		}
 
-		// Clears the Position Data.
+		/*!
+			Clears the Position Data.
+		*/
 		void ClearPosition()
 		{
 			/* Set Position. */
@@ -117,7 +150,9 @@ namespace Kross
 			m_DataSetPoints[0] = false;
 		}
 
-		// Clears the Rotation Data.
+		/*!
+			Clears the Rotation Data.
+		*/
 		void ClearRotation()
 		{
 			/* Set Rotation. */
@@ -127,7 +162,9 @@ namespace Kross
 			m_DataSetPoints[1] = false;
 		}
 
-		// Clears the Scale Data.
+		/*!
+			Clears the Scale Data.
+		*/
 		void ClearScale()
 		{
 			/* Set Scale. */
@@ -137,7 +174,9 @@ namespace Kross
 			m_DataSetPoints[2] = false;
 		}
 
-		// Clears the Sprite Data.
+		/*!
+			Clears the Sprite Data.
+		*/
 		void ClearSprite()
 		{
 			/* Set Scale. */
