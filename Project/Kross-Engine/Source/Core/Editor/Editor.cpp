@@ -97,6 +97,12 @@ namespace Kross
 			}
 		}
 	}
+
+	bool Editor::AnyWindowIsFocused()
+	{
+		return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow);
+	}
+
 	Vector2 Editor::GetViewportPosition()
 	{
 		if(s_Instance->p_Viewport)

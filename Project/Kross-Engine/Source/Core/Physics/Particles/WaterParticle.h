@@ -18,7 +18,7 @@ namespace Kross
         {
             AddParticleFlag(b2_waterParticle | b2_fixtureContactFilterParticle);
             AddParticleGroupFlag(b2_solidParticleGroup);
-            SetShape(1.0f);
+            SetShape(0.5f);
 
             //SetColor(Vector4(0.0f, 100.0f, 207.0f, 255.0f));
 

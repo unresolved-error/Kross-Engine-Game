@@ -65,6 +65,8 @@ namespace Kross
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
 
+		static bool AnyWindowIsFocused();
+
 		static Vector2 GetViewportPosition();
 		static Vector2 GetViewportSize();
 		//static void DetachEditorWindow(EditorWindow* window) { s_Instance->m_EditorWindows.push_back(window); };

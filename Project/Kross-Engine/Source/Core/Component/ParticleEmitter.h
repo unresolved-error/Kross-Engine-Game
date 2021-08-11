@@ -144,7 +144,7 @@ namespace Kross
         /* When paused the world step skips over the particle system */
         void SetPaused(bool paused) { p_ParticleSystem->SetPaused(paused); }
         /* Returns if the particle system is being updated int the world step */
-        bool GetNotPaused() { return p_ParticleSystem->GetPaused(); }
+        bool IsPaused() { return p_ParticleSystem->GetPaused(); }
 
         /* Changes the particle gravity scale */
         void SetGravityScale(float scale) { p_ParticleSystem->SetGravityScale(scale); }
