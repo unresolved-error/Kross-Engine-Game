@@ -51,8 +51,8 @@ public:
 
 	int frameCount = 0;
 
-	float m_MaxGroundSpeed = 4.0f;
-	float m_MaxAirSpeed = 5.25f;
+	float m_MaxGroundSpeed = 2.0f;
+	float m_MaxAirSpeed = 3.0f;
 	float m_JumpStrength = 0.4f;
 
 	Script* Duplicate() override

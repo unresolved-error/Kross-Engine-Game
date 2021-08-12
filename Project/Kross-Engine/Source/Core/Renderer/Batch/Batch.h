@@ -448,6 +448,8 @@ namespace Kross
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, WaterVertex>::value, "Type must be of Text Vertex!");
 
+            Transform2D* cameraTransform = camera->c_Object->GetTransform();
+
             /* Grab Information Needed to pass to the Renderer. */
             for (int j = 0; j < emitter->GetParticleSystem().size(); j++)
             {
@@ -459,9 +461,14 @@ namespace Kross
                 /* Go through each Particle. */
                 for (int i = 0; i < particleCount; i++)
                 {
+                    if (positions[i].x >= cameraTransform->m_Position.x + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                        positions[i].x <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
+                        positions[i].y >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                        positions[i].y <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
+                        continue;
                     /* Default Water Colour. */
                     Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
-                    //Colour waterColour = Colour(emitter->GetParticle(i)->GetColor()); // Not Working...
+                    //waterColour = emitter->GetParticle(i)->GetColor(); // Not Working...
 
                     /* Set the Vertex. */
                     WaterVertex waterDrop = WaterVertex(Vector2(positions[i].x, positions[i].y),

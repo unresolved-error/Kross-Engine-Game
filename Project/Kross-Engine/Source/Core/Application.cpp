@@ -41,6 +41,7 @@ namespace Kross
 
 		#ifndef KROSS_EDITOR
 		p_Window->SetFullscreen(0);
+		p_Window->HideCursor();
 		#endif
 	}
 
