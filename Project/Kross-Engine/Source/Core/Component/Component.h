@@ -110,5 +110,6 @@ namespace Kross
 #include "Collider.h"
 #include "Animator.h"
 #include "AudioPlayer.h"
+#include "ParticleProperties.h"
 
 #include "Renderer.h"

@@ -10,54 +10,32 @@
 
 namespace Kross
 {
-	Particle::~Particle()
+	void Particle::CreateParticleSystem(ParticleProperties* properties)
 	{
-		delete p_Shape;
-		delete p_Filter;
-	}
-	void Particle::CreateParticle(ParticleSystem* particleSystem)
-	{
-		particleSystem->CreateParticle(CreateParticleDef());
+		GetPhysicsScene()->GetPhysicsWorld()->CreateParticleSystem(properties->GetParticleSystemDef());
 	}
 
-	ParticleDef Particle::CreateParticleDef()
+	ParticleDef Particle::CreateParticleDef(ParticleProperties* properties)
 	{
-		/* Creates the particleDef and assigns all avaliable variables */
 		ParticleDef particleDef;
-		particleDef.flags = GetParticleFlag();
 
-		particleDef.position.Set(GetPosition().x, GetPosition().y);
-		particleDef.color.Set(GetColor().r, GetColor().g, GetColor().b, GetColor().a);
+		particleDef.flags = properties->GetParticleFlags();
 
-		particleDef.userData = GetCollisionFilter();
+		particleDef.position = properties->GetPosition();
+		particleDef.color = properties->GetColor();
 
-		return particleDef;
-	}
+		particleDef.velocity = properties->GetLinearVelocity();
 
-	void Particle::CreateParticleGroup(ParticleSystem* particleSystem)
-	{
-		particleSystem->CreateParticleGroup(CreateParticleGroupDef());
-	}
-
-	ParticleGroupDef Particle::CreateParticleGroupDef()
-	{
-		/* Creates the particleGroupDef and assigns all avaliable variables */
-		ParticleGroupDef particleDef;
-
-		particleDef.flags = GetParticleFlag();
-		particleDef.groupFlags = GetParticleGroupFlag();
-
-		particleDef.shape = GetShape();
-		particleDef.strength = GetStrength();
-
-		particleDef.angle = GetAngle();
-		particleDef.angularVelocity = GetAngularVelocity();
-
-		particleDef.position.Set(GetPosition().x, GetPosition().y);
-		particleDef.color.Set(GetColor().r, GetColor().g, GetColor().b, GetColor().a);
-
-		particleDef.userData = GetCollisionFilter();
+		particleDef.lifetime = properties->GetLifetime();
+		particleDef.userData = properties->GetUserData();
+		particleDef.group = properties->GetGroup();
 
 		return particleDef;
 	}
+
+	ParticleGroupDef Particle::CreateParticleGroupDef(ParticleProperties* properties)
+	{
+		return *properties->GetParticleGroupDef();
+	}
+
 }

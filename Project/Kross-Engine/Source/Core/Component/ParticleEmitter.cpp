@@ -11,6 +11,9 @@ namespace Kross
 {
 	void ParticleEmitter::OnStart()
 	{
+		ParticleProperties* properties = GetComponent<ParticleProperties>();
+
+
 		p_PhysicsScene = GetPhysicsScene();
 		
 		/* Creates the particle system */
