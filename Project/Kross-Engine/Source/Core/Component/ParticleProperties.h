@@ -17,11 +17,13 @@ namespace Kross
 	private:
 		ParticleSystemDef* p_ParticleSystemDef;
 		ParticleGroupDef* p_GroupDef;
+		b2Filter* p_Filter;
 
 	public:
 		ParticleProperties() :
 			p_ParticleSystemDef	(KROSS_NEW ParticleSystemDef()),
-			p_GroupDef			(KROSS_NEW ParticleGroupDef())
+			p_GroupDef			(KROSS_NEW ParticleGroupDef()),
+			p_Filter			(KROSS_NEW b2Filter())
 		{};
 
 		~ParticleProperties()
@@ -171,5 +173,14 @@ namespace Kross
 		/* Sets the lifetime granularity */
 		void SetLifetimeGranularity(float lifetime) { p_ParticleSystemDef->lifetimeGranularity = lifetime; }
 		float GetLifetimeGranularity() { return p_ParticleSystemDef->lifetimeGranularity; }
+
+		/* Sets the collider filters*/
+		void SetColliderFilters(uint16 categoryBits, uint16 maskBits)
+		{
+			p_Filter->categoryBits = categoryBits;
+			p_Filter->maskBits = maskBits;
+			SetUserData((void*)p_Filter);
+		}
+		b2Filter* GetColliderFilters() { return p_Filter; }
 	};
 }

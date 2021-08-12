@@ -118,7 +118,7 @@ void OnRun()
 	ppEmitter->SetLayer(Layer::Fluids);
 	
 	properties->AddParticleFlags(b2_waterParticle | b2_fixtureContactFilterParticle);
-	properties->SetUserData((void*)ColliderFilters::Fluid);
+	properties->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment | ColliderFilters::Fluid);
 	properties->SetRadius(0.025f);
 
 	SceneManager::GetCurrentScene()->AttachObject(ppEmitter);
