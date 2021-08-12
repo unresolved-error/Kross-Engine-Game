@@ -12,9 +12,16 @@
 
 namespace Kross
 {
+	/*!
+		\class Animation
+		\details Used for Sprite Animations or for timed / sequenced position, rotation and scaling.
+	*/
 	class KROSS_API Animation
 	{
 	private:
+		/*!
+		    Animation Contructor.
+		*/
 		Animation() :
 			m_Keyframes				(List<Keyframe*>()),
 			m_DynamicAnimations		(List<Animation*>()),
@@ -25,6 +32,9 @@ namespace Kross
 			m_KeyframeCurrent		(0),
 			m_IsStopped				(false)
 		{};
+		/*!
+		    Animation Destructor.
+		*/
 		~Animation();
 
 		List<Keyframe*> m_Keyframes;
@@ -40,30 +50,51 @@ namespace Kross
 		bool m_IsStopped;
 
 	protected:
+		/*!
+		    Gives Animator access to all Protected and Private areas of the class.
+		*/
 		friend class Animator;
 
-		// Gets the Current Keyframe.
+		/*!
+			Gets the Current Keyframe. 
+		*/
 		Keyframe* GetCurrentKeyframe() const { return m_Keyframes[m_KeyframeCurrent]; };
 
-		// Sets the Current Index.
+		/*!
+			Sets the Current Index.
+			\attention Index must be between 0 and Keyframe Size - 1!
+		*/
 		void SetCurrentKeyframe(int index) { m_KeyframeCurrent = index; };
 
-		// Sets the Animation Name.
+		/*! 
+			Sets the Animation Name.
+		*/
 		void SetName(const std::string& name) { m_Name = name; };
 
-		// Update Method.
+		/*!
+			The Update Method.
+		*/
 		void OnUpdate();
 
-		// Plays the Animation.
+		/*!
+			Plays the Animation.
+		*/
 		void Play() { m_IsStopped = false; };
 
-		// Pauses the Animation.
+		/*!
+			Pauses the Animation.
+		*/
 		void Pause() { m_IsStopped = true; };
 
-		// Stops the Animation.
+		/*!
+			Stops the Animation.
+		*/
 		void Stop();
 
 	public:
+		/*!
+			Copy Contructor.
+		*/
 		Animation(const Animation &other)
 		{
 			this->SetName(other.GetName());
@@ -74,28 +105,48 @@ namespace Kross
 			for (int i = 0; i < other.m_Keyframes.size(); i++)
 				this->AttachKeyframe(KROSS_NEW Keyframe(*other.m_Keyframes[i]));
 		}
-		// Sets the Animation Time. (IN SECONDS)
+
+		/*!
+			Sets the Animation Duration.
+			\note Duration is in Seconds.
+			\attention Must be above zero!
+		*/
 		void SetDuration(float duration);
 
-		// Gets the Animation Name.
+		/*!
+			Gets the Animation Name.
+		*/
 		const std::string GetName() const { return m_Name; };
 
-		// Gets the Animation Duration. (IN SECONDS)
+		/*!
+			Gets the Animation Duration.
+			\note Duration is in Seconds.
+		*/
 		const float GetDuration() const { return m_Duration; };
 
-		// Gets if the Animation is Playing.
+		/*!
+			Gets if the Animation is Playing.
+		*/
 		const bool IsPlaying() const { return !m_IsStopped; };
 
-		// Adds a Keyframe.
+		/*!
+			Adds a Keyframe.
+		*/
 		void AttachKeyframe(Keyframe* keyframe);
 
-		// Removes a Keyframe.
+		/*!
+			Removes a Keyframe.
+		*/
 		void DetachKeyFrame(int index);
 
-		// Creates a blank Animation.
+		/*!
+			Creates a blank Animation.
+		*/
 		static Animation* OnCreate(const std::string& name);
 
-		// Destroys the Animation Specified.
+		/*!
+			Destroys the Animation Specified.
+		*/
 		static void OnDestroy(Animation* animation);
 	};
 }

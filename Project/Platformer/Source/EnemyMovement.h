@@ -27,6 +27,13 @@ public:
 	float moveSpeed = 2.0f;
 	float previousY = 0.0f;
 
+	float agroRange = 8.0f;
+
+	Vector2 movementVector = Vector2(0.0f);
+
+	float elapsedWaitingTime = 0.0f;
+	float maxWaitingTime = 3.0f;
+
 	bool grounded = true;
 
 	float m_MaxGroundSpeed = 1.5f;
@@ -49,22 +56,36 @@ public:
 
 	void Update() override
 	{
-		Vector2 input = Vector2(0.0f);
+		
 
 		Transform2D* playerTransform = player->GetTransform();
 		Transform2D* transform = c_Object->GetTransform();
 
-		if (playerTransform->m_Position.x > transform->m_Position.x)
+		if (glm::length(transform->m_Position - playerTransform->m_Position) <= agroRange)
 		{
-			input.x = 1.0f;
-		}
+			if (playerTransform->m_Position.x > transform->m_Position.x)
+			{
+				movementVector.x = 1.0f;
+			}
 
+			else
+			{
+				movementVector.x = -1.0f;
+			}
+		}
 		else
 		{
-			input.x = -1.0f;
+			if (elapsedWaitingTime < maxWaitingTime)
+				elapsedWaitingTime += Time::GetDeltaTime();
+
+			else
+			{
+				elapsedWaitingTime = 0.0f;
+				movementVector.x = (float)Random::GetRandomRange<int>(-1, 1);
+			}
 		}
 
-		Move(input);
+		Move(movementVector);
 
 		previousY = transform->m_Position.y;
 

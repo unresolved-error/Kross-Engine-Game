@@ -1,7 +1,7 @@
 ANIMATION:
 NAME->Walk->
 DURATION->0.5->
-KEYFRAME->*->*->*->*->*->Marshall-Mellow0-0->
-KEYFRAME->*->*->*->*->*->Marshall-Mellow1-0->
-KEYFRAME->*->*->*->*->*->Marshall-Mellow0-0->
-KEYFRAME->*->*->*->*->*->Marshall-Mellow2-0->
+KEYFRAME->*->*->*->*->*->Marshall-Mellow0-2->
+KEYFRAME->*->*->*->*->*->Marshall-Mellow1-2->
+KEYFRAME->*->*->*->*->*->Marshall-Mellow0-2->
+KEYFRAME->*->*->*->*->*->Marshall-Mellow2-2->

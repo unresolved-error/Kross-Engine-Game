@@ -84,8 +84,8 @@ namespace Kross
 					{
 						for (int j = 0; j < 20; j++)
 						{
-							m_ParticleList[y]->SetPosition(Vector2(GetPosition().x + 0.005f * i,
-								GetPosition().y - 0.0045f * j));
+							m_ParticleList[y]->SetPosition(Vector2(GetPosition().x + 0.05f * i,
+								GetPosition().y - 0.045f * j));
 
 							OnCreateParticle(p_ParticleSystem, m_ParticleList[y]);
 						}

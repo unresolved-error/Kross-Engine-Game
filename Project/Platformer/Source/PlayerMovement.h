@@ -196,7 +196,16 @@ public:
 
 		if (gun)
 		{
-			gun->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + gunOffset;
+			Vector2 trueOffset;
+			if (renderer->GetFlipX())
+			{
+				trueOffset = Vector2(-1.0f, 1.0f);
+			}
+			else
+			{
+				trueOffset = Vector2(1.0f, 1.0f);
+			}
+			gun->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + (gunOffset * trueOffset);
 		}
 		if (timeElapsed < 1.0f)
 		{
