@@ -362,11 +362,15 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
+                    SetColliderFilter(ColliderFilters::Environment);
+                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position,
+                        GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 }
                 else
                 {
-                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
+                    SetColliderFilter(ColliderFilters::Player);
+                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(),
+                        GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 }
                 break;
             }
@@ -374,17 +378,23 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
+                    SetColliderFilter(ColliderFilters::Environment);
+                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, GetColliderFilters(),
+                        ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 }
                 else
                 {
-                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
+                    SetColliderFilter(ColliderFilters::Player);
+                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(),
+                        GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 }
                 break;
             }
             case Kross::ShapeType::Capsule:
             {
-                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(), ColliderFilters::Player, ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
+                SetColliderFilter(ColliderFilters::Player);
+                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(),
+                    GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 break;
             }
             }
@@ -421,8 +431,14 @@ namespace Kross
         
         if (!GetComponent<Collider>()->IsTileMapCollider())
         {
-            if(m_ShapeType == ShapeType::Capsule)
-            p_DebugRenderer->DrawRigidBody(p_Body);
+            if (m_ShapeType == ShapeType::Capsule)
+            {
+                p_DebugRenderer->DrawCapsule(p_Body, Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 16);
+            }
+            else
+            {
+                p_DebugRenderer->DrawRigidBody(p_Body);
+            }
         }
         else
         {
@@ -439,28 +455,11 @@ namespace Kross
         m_CloseObjects.clear();
         m_Fixtures.clear();
 
-        if (p_Box != nullptr)
+        if (p_Box != nullptr || p_Circle != nullptr || p_Capsule != nullptr)
         {
             /* Checks if the object is not static */
             if (p_Body->GetType() != b2_staticBody)
             {
-                CollisionUpdate();
-            }
-        }
-        else if (p_Circle != nullptr)
-        {
-            /* Checks if the object is not static */
-            if (p_Body->GetType() != b2_staticBody)
-            {
-                CollisionUpdate();
-            }
-        }
-        else if (p_Capsule != nullptr)
-        {
-            /* Checks if the object is not static */
-            if (p_Body->GetType() != b2_staticBody)
-            {
-
                 CollisionUpdate();
             }
         }
