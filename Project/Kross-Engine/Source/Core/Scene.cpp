@@ -375,7 +375,7 @@ namespace Kross
 
         /* Check if the object is type Particle Emitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
-
+        
         /* If the object is a ParticleEmitter the physics scene is set */
         if (emitter)
             emitter->SetPhysicsScene(p_Physics);

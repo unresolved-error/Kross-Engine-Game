@@ -18,8 +18,6 @@
 #include "Shape/Capsule.h"
 #include "Shape/Plane.h"
 
-#include "Particles/Particle.h"
-
 namespace Kross
 {
 	class KROSS_API PhysicsScene

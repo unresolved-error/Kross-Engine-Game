@@ -90,7 +90,7 @@ namespace Kross
             /* Check if the Batch Packet is Full. */
             if (p_WaterBatch->Full() == true)
                 OnRender();
-
+        
             /* Attach the Data. */
             p_WaterBatch->Attach(camera, (ParticleEmitter*)renderer);
         }

@@ -10,7 +10,6 @@
 
 #include "Component.h"
 
-
 namespace Kross
 {
 	class KROSS_API ParticleProperties : public Component
@@ -25,7 +24,17 @@ namespace Kross
 			p_GroupDef			(KROSS_NEW ParticleGroupDef())
 		{};
 
-		~ParticleProperties() {};
+		~ParticleProperties()
+		{
+			delete p_ParticleSystemDef;
+			delete p_GroupDef;
+		};
+
+		/* Returns the particle system def */
+		ParticleSystemDef* GetParticleSystemDef() { return p_ParticleSystemDef; }
+
+		/* Returns particle group def */
+		ParticleGroupDef* GetParticleGroupDef() { return p_GroupDef; }
 
 		/* Adds to the flags */
 		void AddParticleFlags(uint32 flags) { p_GroupDef->flags += flags; }
@@ -126,5 +135,41 @@ namespace Kross
 		/* Sets surface tension Normal strength */
 		void SetSurfaceTensionNormalStrength(float strength) { p_ParticleSystemDef->surfaceTensionNormalStrength = strength; }
 		float GetSurfaceTensionNormalStrength() { return p_ParticleSystemDef->surfaceTensionNormalStrength; }
+
+		/* Sets the repulsive strength*/
+		void SetRepulsive(float strength) { p_ParticleSystemDef->repulsiveStrength = strength; }
+		float GetRepulsiVe() { return p_ParticleSystemDef->repulsiveStrength; }
+
+		/* Sets the powder strength */
+		void SetPowder(float strength) { p_ParticleSystemDef->powderStrength = strength; }
+		float GetPowder() { return p_ParticleSystemDef->powderStrength; }
+
+		/* Sets the ejection strength */
+		void SetEjection(float strength) { p_ParticleSystemDef->ejectionStrength = strength; }
+		float GetEjection() { return p_ParticleSystemDef->ejectionStrength; }
+
+		/* Sets the static pressure strength */
+		void SetStaticPressureStrength(float strength) { p_ParticleSystemDef->staticPressureStrength = strength; }
+		float GetStaticPressureStrength() { return p_ParticleSystemDef->staticPressureStrength; }
+
+		/* Sets the static pressure relaxation */
+		void SetStaticPressureRelaxation(float relaxation) { p_ParticleSystemDef->staticPressureRelaxation = relaxation; }
+		float GetStaticPressureRelaxation() { return p_ParticleSystemDef->staticPressureRelaxation; }
+
+		/* Sets the static pressure iterations */
+		void SetStaticPressureIterations(int iterations) { p_ParticleSystemDef->staticPressureIterations = iterations; }
+		int GetStaticPressureIterations() { return p_ParticleSystemDef->staticPressureIterations; }
+
+		/* Sets the color mixing strength */
+		void SetColorMixing(float strength) { p_ParticleSystemDef->colorMixingStrength = strength; }
+		float GetColorMixing() { return p_ParticleSystemDef->colorMixingStrength; }
+
+		/* Sets the destroy by age */
+		void SetDestroyByAge(bool destroy) { p_ParticleSystemDef->destroyByAge = destroy; }
+		bool GetDestroyByAge() { return p_ParticleSystemDef->destroyByAge; }
+
+		/* Sets the lifetime granularity */
+		void SetLifetimeGranularity(float lifetime) { p_ParticleSystemDef->lifetimeGranularity = lifetime; }
+		float GetLifetimeGranularity() { return p_ParticleSystemDef->lifetimeGranularity; }
 	};
 }

@@ -41,5 +41,6 @@ namespace Kross
 #include "TextRenderer.h"
 #include "SpriteRenderer.h"
 #include "Rigidbody2D.h"
+#include "ParticleProperties.h"
 #include "ParticleEmitter.h"
 #include "TileMapRenderer.h"

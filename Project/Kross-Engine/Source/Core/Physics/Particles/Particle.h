@@ -9,9 +9,8 @@
 #include "../../Core.h"
 
 #include "../../Math/Math.h"
-#include "../Physics.h"
-#include "../Box2D/Box2D/Box2D.h"
 #include "../Filters/ParticleType.h"
+#include "../PhysicsScene.h"
 #include "../../Component/ParticleProperties.h"
 
 namespace Kross
@@ -33,13 +32,16 @@ namespace Kross
 
 		void SetPhysicsScene(PhysicsScene* physicsScene) { p_PhysicsScene = physicsScene; }
 		PhysicsScene* GetPhysicsScene() { return p_PhysicsScene; }
-
+		
 		/* Creates particle system */
-		void CreateParticleSystem(ParticleProperties* properties);
+		ParticleSystem* CreateParticleSystem(ParticleProperties* properties, PhysicsScene* physicsScene);
 
+		void SetParticleSystem(ParticleSystem* particleSystem) { p_ParticleSystem = particleSystem; }
+		ParticleSystem* GetParticleSystem() { return p_ParticleSystem; }
+		
 		/* Creates the particle def */
 		ParticleDef CreateParticleDef(ParticleProperties* properties);
-
+		
 		/* Creates the particle group def */
 		ParticleGroupDef CreateParticleGroupDef(ParticleProperties* properties);
 	};

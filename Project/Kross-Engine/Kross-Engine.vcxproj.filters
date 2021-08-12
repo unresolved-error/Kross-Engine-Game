@@ -215,18 +215,8 @@
     <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h" />
     <ClInclude Include="Source\Core\Physics\Data\RaycastData.h" />
     <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\ColourMixingParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\ElasticParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
     <ClInclude Include="Source\Core\Physics\Filters\ParticleType.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\PowderParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\ReactiveParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\RepulsiveParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\SpringParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\StaticPressureParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\TensileParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\ViscousParticle.h" />
-    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h" />
     <ClInclude Include="Source\Core\Physics\Physics.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsScene.h" />
     <ClInclude Include="Source\Core\Component\Rigidbody2D.h" />
@@ -702,6 +692,7 @@
     <ClInclude Include="Source\Core\Editor\Windows\AssetType.h" />
     <ClInclude Include="Source\Core\Manager\ScriptRegistry.h" />
     <ClInclude Include="Source\Core\Editor\Windows\Profiler.h" />
+    <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />
