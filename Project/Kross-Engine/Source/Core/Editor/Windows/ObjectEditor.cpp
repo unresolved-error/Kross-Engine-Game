@@ -883,6 +883,23 @@ namespace Kross {
 				{
 					p_SelectedObject->SetName(name);
 				}
+				ImGui::Spacing();
+
+				bool enable = p_SelectedObject->Enabled();
+				ImGui::Text("Enable: ");
+				ImGui::SameLine();
+				ImGui::Checkbox("##EnableObject", &enable);
+
+				p_SelectedObject->SetEnable(enable);
+
+				ImGui::Spacing();
+				
+				bool isStatic = p_SelectedObject->IsStatic();
+				ImGui::Text("Static: ");
+				ImGui::SameLine();
+				ImGui::Checkbox("##StaticObject", &isStatic);
+
+				p_SelectedObject->SetStatic(isStatic);
 
 				ImGui::Spacing();
 
