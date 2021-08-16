@@ -72,7 +72,7 @@ namespace Kross
 			Sets the Volume.
 			\attention Must be between 0.0 and 1.0!
 		*/
-		void SetVolume(float value) { m_Volume = (value > 1.0f) ? 1.0f : ((value < 0.0f) ? 0.0f : value); };
+		void SetVolume(float value) { m_Volume = glm::clamp(value, 0.0f, 1.0f); };
 
 		/*!
 			Sets the Pan.
@@ -81,7 +81,7 @@ namespace Kross
 			-1.0 for Left.
 			\attention Must be between -1.0 and 1.0!
 		*/
-		void SetPan(float value) { m_Pan = (value > 1.0f) ? 1.0f : ((value < -1.0f) ? -1.0f : value); };
+		void SetPan(float value) { m_Pan = glm::clamp(value, -1.0f, 1.0f); };
 
 		/*!
 			Sets the Play Speed.
@@ -91,7 +91,15 @@ namespace Kross
 			Etc..
 			\attention Must be above 0.0!
 		*/
-		void SetPlaySpeed(float value) { m_PlaySpeed = (value < 0.0f) ? 0.0f : value; };
+		void SetPlaySpeed(float value) 
+		{
+			/* If the Value is Bellow Zero. */
+			if (value < 0.0f)
+				value = 0.0f; /* Set it to Zero. */
+
+			/* Set the Play Speed. */
+			m_PlaySpeed = value;
+		};
 		
 		/*!
 			Sets the Loop ability.

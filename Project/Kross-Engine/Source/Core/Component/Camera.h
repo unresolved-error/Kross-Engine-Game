@@ -21,12 +21,19 @@ namespace Kross
         Matrix4 m_View;
 
     protected:
+        /*!
+            Gives Scene access to all Protected and Private areas of the class.
+        */
         friend class Scene;
 
-        // Camera Start Method.
+        /*!
+            Camera's Start Method.
+        */
         void OnStart() override;
 
-        // Camera Update Method.
+        /*!
+            Camera's Update Method.
+        */
         void OnUpdate() override;
 
         // Sets the Camera Aspect Ratio.
@@ -42,6 +49,9 @@ namespace Kross
         const Matrix4 GetView() const { return m_View; };
 
     public:
+        /*!
+            Camera's Constructor.
+        */
         Camera() : 
             m_Size          (2.0f),
             m_Near          (-1.0f),
@@ -50,16 +60,19 @@ namespace Kross
             m_Projection    (Matrix4(1.0f)),
             m_View          (Matrix4(1.0f))
         {};
+        /*!
+            Camera's Destructor.
+        */
         ~Camera() {};
 
         // Sets the Size of the Camera.
-        void SetSize(float value) { m_Size = value; };
+        void SetSize(float value) { m_Size = (value > 0.0f) ? value : 0.0001f; };
 
         // Sets the Near Plane.
-        void SetNear(float value) { m_Near = value; };
+        void SetNear(float value) { m_Near = (value == m_Far || value > m_Far) ? m_Far -0.0001f : value; };
 
         // Sets the Far Plane.
-        void SetFar(float value) { m_Far = value; };
+        void SetFar(float value) { m_Far = (value == m_Near || value < m_Near) ? m_Near + 0.0001f : value; };
 
         // Gets the Size of the Camera.
         float GetSize() const { return m_Size; };
