@@ -12,9 +12,6 @@
 #include "Component.h"
 #include "Renderer.h"
 
-/* ------ NOTE: ------ */
-
-
 namespace Kross
 {
 	/*!

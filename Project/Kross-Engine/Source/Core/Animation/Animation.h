@@ -95,16 +95,7 @@ namespace Kross
 		/*!
 			Copy Contructor.
 		*/
-		Animation(const Animation &other)
-		{
-			this->SetName(other.GetName());
-			this->SetDuration(other.GetDuration());
-
-			this->m_KeyframeCurrent = 0;
-
-			for (int i = 0; i < other.m_Keyframes.size(); i++)
-				this->AttachKeyframe(KROSS_NEW Keyframe(*other.m_Keyframes[i]));
-		}
+		Animation(const Animation& other);
 
 		/*!
 			Sets the Animation Duration.

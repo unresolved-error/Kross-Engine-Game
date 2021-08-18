@@ -65,14 +65,6 @@ namespace Kross
 								}
 							}
 						}
-
-						if (ImGui::BeginCombo("##AddObject", "Add Object", ImGuiComboFlags_NoArrowButton))
-						{
-							if (ImGui::MenuItem("Empty"))
-							{
-								// TODO: Blank Objects.
-							}
-						}
 					}
 
 					ImGui::EndTabItem();

@@ -46,6 +46,12 @@ namespace Kross
 		// The Initialise of the window. For creating OpenGL Contexts.
 		void OnInitialise();
 
+		// Hides the Cursor.
+		void HideCursor() { glfwSetInputMode(p_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); };
+
+		// UnHides the Cursor.
+		void UnHideCursor() { glfwSetInputMode(p_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };
+
 		// Start of the Window.
 		void OnStart(float r = 0.5f, float g = 0.5f, float b = 0.5f, float a = 0.5f);
 

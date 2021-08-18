@@ -11,7 +11,12 @@ namespace Kross
 	Animator::~Animator()
 	{
 		/* Clear the Data. */
-		m_Animations.clear();
+		for (int i = 0; i < m_Animations.size(); i++)
+		{
+			/* Destroy each Animation. */
+			Animation::OnDestroy(m_Animations[i]);
+			m_Animations[i] = nullptr;
+		}
 
 		/* Null everything out. */
 		p_AnimationCurrent = nullptr;
@@ -36,7 +41,9 @@ namespace Kross
 
 	void Animator::OnUpdate()
 	{
-	#ifndef KROSS_EDITOR
+		/* If the Engine State isn't in Editor. */
+		#ifndef KROSS_EDITOR
+
 		/* If the Animation is Currently Playing. */
 		if (p_AnimationCurrent->IsPlaying())
 		{
@@ -46,24 +53,28 @@ namespace Kross
 			/* Grab the Current Keyframe. */
 			Keyframe* currentKeyframe = p_AnimationCurrent->GetCurrentKeyframe();
 
-			/* Set Data Accordingly. */
+			/* If the object doesn't contain a Rigidbody or isn't static. */
 			if (!p_Rigidbody && !c_Object->IsStatic())
 			{
+				/* If the Position Data has been set. */
 				if (currentKeyframe->HasPositionData())
 					p_Transform->m_Position = currentKeyframe->GetPosition();
 
+				/* If the Rotation Data has been set. */
 				if (currentKeyframe->HasRotationData())
 					p_Transform->m_Rotation = currentKeyframe->GetRotation();
 
+				/* If the Scale Data has been set. */
 				if (currentKeyframe->HasScaleData())
 					p_Transform->m_Scale = currentKeyframe->GetScale();
 			}
 
+			/* If the Sprite Data has been set. */
 			if (currentKeyframe->HasSpriteData())
 				if (p_Renderer) /* If we have a Renderer, set its Sprite. */
 					p_Renderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
 		}
-	#endif 
+		#endif 
 
 	}
 

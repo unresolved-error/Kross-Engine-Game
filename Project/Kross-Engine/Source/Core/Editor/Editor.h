@@ -65,7 +65,8 @@ namespace Kross
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
 
-		static bool AnyWindowIsFocused();
+		static bool AnyWindowIsHovered() { return ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow); };
+		static bool AnyWindowIsActive() { return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow); };
 
 		static Vector2 GetViewportPosition();
 		static Vector2 GetViewportSize();
