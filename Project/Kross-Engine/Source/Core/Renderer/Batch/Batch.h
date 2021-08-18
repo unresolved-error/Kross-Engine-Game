@@ -452,12 +452,10 @@ namespace Kross
 
 
         
-            /* Go through each Particle. */
-            for (int j = 0; j < emitter->GetParticleSystem().size(); j++)
-            {
-                b2Vec2* positions = emitter->GetParticleSystem()[j]->GetPositionBuffer();
-                b2Vec2* velocities = emitter->GetParticleSystem()[j]->GetVelocityBuffer();
-                int particleCount = emitter->GetParticleSystem()[j]->GetParticleCount();
+          
+                b2Vec2* positions = emitter->GetParticleSystem()->GetPositionBuffer();
+                b2Vec2* velocities = emitter->GetParticleSystem()->GetVelocityBuffer();
+                int particleCount = emitter->GetParticleSystem()->GetParticleCount();
 
 
                 /* Go through each Particle. */
@@ -488,7 +486,7 @@ namespace Kross
 
                 /* Update the Batch Size. */
                 m_BatchSize += particleCount;
-            }
+            
             
         }
 
