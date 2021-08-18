@@ -11,7 +11,12 @@ namespace Kross
 	Animator::~Animator()
 	{
 		/* Clear the Data. */
-		m_Animations.clear();
+		for (int i = 0; i < m_Animations.size(); i++)
+		{
+			/* Destroy each Animation. */
+			Animation::OnDestroy(m_Animations[i]);
+			m_Animations[i] = nullptr;
+		}
 
 		/* Null everything out. */
 		p_AnimationCurrent = nullptr;

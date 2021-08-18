@@ -65,11 +65,21 @@ namespace Kross
         */
         ~Camera() {};
 
-        // Sets the Size of the Camera.
-        void SetSize(float value) { m_Size = (value > 0.0f) ? value : 0.0001f; };
+        /*!
+            Sets the Size of the Camera.
+        */
+        void SetSize(float value)
+        {
+            /* If the Value is Less than or Equal to Zero. */
+            if (value < 0.0f)
+                value = 0.0001f; /* Make One Ten Thousandth. */
+
+            /* Set Size. */
+            m_Size = value;
+        }
 
         // Sets the Near Plane.
-        void SetNear(float value) { m_Near = (value == m_Far || value > m_Far) ? m_Far -0.0001f : value; };
+        void SetNear(float value) { m_Near = (value == m_Far || value > m_Far) ? m_Far - 0.0001f : value; };
 
         // Sets the Far Plane.
         void SetFar(float value) { m_Far = (value == m_Near || value < m_Near) ? m_Near + 0.0001f : value; };
