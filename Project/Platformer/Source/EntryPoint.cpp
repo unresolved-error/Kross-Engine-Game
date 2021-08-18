@@ -107,22 +107,22 @@ void OnRun()
 	//particle->AttachParticle(tempParticle);
 	//particle->SpawnParticles();
 	
-	
-	Object* ppEmitter = Object::OnCreate("ppEmitter");
-	ppEmitter->SetStatic(true);
-	ParticleProperties* properties = ppEmitter->AttachComponent<ParticleProperties>();
-	ppEmitter->AttachComponent<ParticleEmitter>();
-	ppEmitter->GetTransform()->m_Position = Vector2(5.0f, -5.5f);
-	ppEmitter->SetLayer(Layer::Fluids);
-	
-	properties->AddParticleFlags(b2_waterParticle | b2_fixtureContactFilterParticle);
-	properties->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment | ColliderFilters::Fluid);
-	properties->SetRadius(0.025f);
-
-	SceneManager::GetCurrentScene()->AttachObject(ppEmitter);
-	
-	ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
-
+	//     
+	//     Object* ppEmitter = Object::OnCreate("ppEmitter");
+	//     ppEmitter->SetStatic(true);
+	//     ParticleProperties* properties = ppEmitter->AttachComponent<ParticleProperties>();
+	//     ppEmitter->AttachComponent<ParticleEmitter>();
+	//     ppEmitter->GetTransform()->m_Position = Vector2(5.0f, -5.5f);
+	//     ppEmitter->SetLayer(Layer::Fluids);
+	//     
+	//     properties->AddParticleFlags(b2_waterParticle | b2_fixtureContactFilterParticle);
+	//     properties->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment | ColliderFilters::Fluid);
+	//     properties->SetRadius(0.025f);
+	//     
+	//     SceneManager::GetCurrentScene()->AttachObject(ppEmitter);
+	//     
+	//     ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
+	//     
 	
 	//player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
 	//

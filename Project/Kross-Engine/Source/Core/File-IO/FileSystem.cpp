@@ -374,14 +374,14 @@ namespace Kross
 		else { fileStream.close(); }
 
 		//NOW LOAD OBJECTS. THIS WILL BE ROUGH.
-		List<Object*> moo = OnReadObjects(kObjFilepath);
+		List<Object*> readObj = OnReadObjects(kObjFilepath);
 
 		//__debugbreak();
 
-		for (int i = 0; i < moo.size(); i++)
+		for (int i = 0; i < readObj.size(); i++)
 		{
-			/* These Naming Conventions I swear to god. (MOO?) */
-			newScene->AttachObject(moo[i]);
+			
+			newScene->AttachObject(readObj[i]);
 		}
 		
 		/* Got I hope this works. */
@@ -409,6 +409,8 @@ namespace Kross
 		List<std::string> spriteRendererData;
 		List<std::string> textRendererData;
 		List<std::string> tileMapRendererData;
+		List<std::string> particleEmitterData;
+
 
 		List<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
@@ -1018,6 +1020,82 @@ namespace Kross
 						}
 					}
 
+					if (particleEmitterData.size() > 0) 
+					{
+						/* Get emitterProperties on the Object. */
+						ParticleProperties* emitterproperties = currentObject->GetComponent<ParticleProperties>();
+
+						uint16 cBts = 0;
+						uint16 mBts = 0;
+
+						/* Run through the Data. */
+						for (int i = 0; i < particleEmitterData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = particleEmitterData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Data Value. */
+								std::string value = particleEmitterData[i].substr(0, searchPosition);
+
+								/*particle Data setting*/
+								/*particleFlags->CatagoryBits->MaskBits->Radius*/
+								switch (varSwitch)
+								{
+									/* Particle Flags. */
+								case 0:
+								{
+									uint32 prtFlgs = 0;
+									int prtFlagsIntParse = std::stoi(value);
+									prtFlgs = static_cast<uint32>(prtFlagsIntParse);
+									emitterproperties->AddParticleFlags(prtFlgs);
+									break;
+								}
+
+								/* CatBits read in. */
+								case 1:
+								{
+									
+									int catBtsIntParse = std::stoi(value);
+									cBts = static_cast<uint16>(catBtsIntParse);
+									break;
+								}
+
+								/* MaskBits readIn. */
+								case 2:
+								{
+									int mskBtsIntParse = std::stoi(value);
+									mBts = static_cast<uint16>(mskBtsIntParse);
+									break;
+								}
+
+								/* Radius Setting. */
+								case 3:
+								{
+									float radFlt = std::stof(value);
+									emitterproperties->SetRadius(radFlt);
+									break;
+								}
+								}
+
+								emitterproperties->SetColliderFilters(cBts,mBts);
+
+
+
+								/* Erase the Data just Used. */
+								particleEmitterData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+
+					}
+
 					/* Go through the Transform Data. */
 					if (!transformData.empty())
 					{
@@ -1089,6 +1167,8 @@ namespace Kross
 					spriteRendererData.clear();
 					textRendererData.clear();
 					tileMapRendererData.clear();
+					particleEmitterData.clear();
+
 					transformData = "";
 
 					readInObjects.push_back(currentObject);
@@ -1170,6 +1250,14 @@ namespace Kross
 						{
 							currentObject->AttachComponent<TileMapRenderer>();
 							tileMapRendererData.push_back(line);
+						}
+
+						/* Particle Emitter Component Property. */
+						else if (objProperty == "EMITTER") 
+						{
+							currentObject->AttachComponent<ParticleEmitter>();
+							currentObject->AttachComponent<ParticleProperties>();
+							particleEmitterData.push_back(line);
 						}
 
 						else if (objProperty == "SCRIPT")
@@ -1377,6 +1465,22 @@ namespace Kross
 					}
 					else if (typeid(*comp) == typeid(Rigidbody2D))
 					{
+						
+					}
+					else if (typeid(*comp) == typeid(ParticleEmitter))
+					{
+						/*INTENTIONALLY LEFT BLANK. EMITTERS ARE ##NOT## USED TO WRITE PARTICLE INFORMATION*/
+						/*SEE BELOW FOR PARTICLE PROPERTIES.*/
+					}
+					else if (typeid(*comp) == typeid(ParticleProperties)) 
+					{
+						ParticleProperties* pep = (ParticleProperties*)comp;
+						/*particleFlags->CatagoryBits->MaskBits->Radius*/
+						fileStream << "EMITTER->";
+						fileStream << pep->GetParticleFlags() << "->";
+						fileStream << pep->GetColliderFilters()->categoryBits << "->";
+						fileStream << pep->GetColliderFilters()->maskBits << "->";
+						fileStream << pep->GetRadius() << "->\n";
 
 					}
 					else
@@ -2414,6 +2518,22 @@ namespace Kross
 				/*tileSet -> tileMap*/
 				prefabStream << tmr->GetTileSet()->GetName() << "->";
 				prefabStream << tmr->GetTileMap()->GetName() << "->";
+			}
+			else if (typeid(*comp) == typeid(ParticleEmitter))
+			{
+				/*INTENTIONALLY LEFT BLANK. EMITTERS ARE ##NOT## USED TO WRITE PARTICLE INFORMATION*/
+				/*SEE BELOW FOR PARTICLE PROPERTIES.*/
+			}
+			else if (typeid(*comp) == typeid(ParticleProperties))
+			{
+				ParticleProperties* pep = (ParticleProperties*)comp;
+				/*particleFlags->CatagoryBits->MaskBits->Radius*/
+				prefabStream << "EMITTER->";
+				prefabStream << pep->GetParticleFlags() << "->";
+				prefabStream << pep->GetColliderFilters()->categoryBits << "->";
+				prefabStream << pep->GetColliderFilters()->maskBits << "->";
+				prefabStream << pep->GetRadius() << "->\n";
+
 			}
 
 			if (i != prefab->m_Components.size() - 1)
