@@ -28,19 +28,20 @@ namespace Kross
 		p_PhysicsScene = nullptr;
 		p_ParticleSystem = nullptr;
 	}
+
 	void ParticleEmitter::SpawnParticle(ParticleDef particleDef)
 	{
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 75; i++)
 		{
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 75; j++)
 			{
-				particleDef.position = b2Vec2(4.5f + 0.05f * i, -3.0f + 0.05f * j);
+				particleDef.position = b2Vec2(5.0f + 0.05f * i, -2.0f + 0.05f * j);
 				p_ParticleSystem->CreateParticle(particleDef);
 			}
 		}
 	}
 	void ParticleEmitter::SpawnParticle(ParticleGroupDef particleDef)
 	{
-
+		p_ParticleSystem->CreateParticleGroup(particleDef);
 	}
 }

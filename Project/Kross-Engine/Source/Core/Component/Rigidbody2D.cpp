@@ -906,6 +906,8 @@ namespace Kross
     {
         RaycastData* down = KROSS_NEW RaycastData();
 
+        Vector2 particleForce = CollideParticles();
+        OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
         if (p_Box == nullptr)
         {
             //GetObjectsInDirection(0.1f, p_Body, Vector2(0.0f, -1.0f));
@@ -913,15 +915,10 @@ namespace Kross
             //float length = CalculateCircleCast(0.1f, 0.3, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - p_Capsule->GetHeight() * 0.5f - 0.025f));
             
             down = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), GetVector2(p_Body->GetPosition()));
-            Vector2 particleForce = CollideParticles();
 
             UpdateRigidbodyState();
 
 
-            if (GetRigidbodyState() == RigidbodyState::Swimming)
-            {
-                OnApplyForce(particleForce * (p_Body->GetMass() * 0.25f));
-            }
 
             if (down->hit)
             {

@@ -11,7 +11,9 @@ namespace Kross
 {
 	ParticleSystem* Particle::CreateParticleSystem(ParticleProperties* properties, PhysicsScene* physicsScene)
 	{
-		return physicsScene->GetPhysicsWorld()->CreateParticleSystem(properties->GetParticleSystemDef());
+		ParticleSystem* pSystem = physicsScene->GetPhysicsWorld()->CreateParticleSystem(properties->GetParticleSystemDef());
+		physicsScene->AddParticleSystem(pSystem);
+		return pSystem;
 	}
 	
 	ParticleDef Particle::CreateParticleDef(ParticleProperties* properties)

@@ -30,6 +30,7 @@ namespace Kross
 		{
 			delete p_ParticleSystemDef;
 			delete p_GroupDef;
+			delete p_Filter;
 		};
 
 		/* Returns the particle system def */
