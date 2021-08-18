@@ -313,6 +313,17 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<ParticleEmitter>();
 					}
 
+					else if (typeid(*component) == typeid(ParticleProperties))
+					{
+					ParticleProperties* pEmit = (ParticleProperties*)component;
+					if (ImGui::CollapsingHeader("ParticleProperties", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+					{
+					}
+
+					if (!isOpen)
+						p_SelectedObject->DetachComponent<ParticleProperties>();
+					}
+
 					/* Sprite Renderer. (DONE) */
 					else if (typeid(*component) == typeid(SpriteRenderer))
 					{
