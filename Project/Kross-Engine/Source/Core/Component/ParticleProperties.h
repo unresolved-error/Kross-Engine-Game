@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *		- Chris Deitch
  */
 
 #pragma once
@@ -41,10 +42,12 @@ namespace Kross
 
 		/* Adds to the flags */
 		void AddParticleFlags(uint32 flags) { p_GroupDef->flags += flags; }
+		void SetParticleFlags(uint32 flags) { p_GroupDef->flags = flags; }
 		uint32 GetParticleFlags() { return p_GroupDef->flags; }
 
 		/* Adds to the group flags */
 		void AddGroupFlags(uint32 flags) { p_GroupDef->groupFlags += flags; }
+		void SetGroupFlags(uint32 flags) { p_GroupDef->groupFlags = flags; }
 		uint32 GetGroupFlags() { return p_GroupDef->groupFlags; }
 
 		/* Sets the position */

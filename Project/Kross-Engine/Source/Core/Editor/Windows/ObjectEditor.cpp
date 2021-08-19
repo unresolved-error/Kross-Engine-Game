@@ -320,16 +320,118 @@ namespace Kross {
 					{
 
 						float pp_Rad = pEmit->GetRadius();
-						uint32 pp_Flag;
+						int particleCount;
+						uint32 pp_ParticleFlags = pEmit->GetParticleGroupDef()->flags;
+						uint16 pp_CatBits = pEmit->GetColliderFilters()->categoryBits;
+						uint16 pp_MaskBits = pEmit->GetColliderFilters()->maskBits;
 
+						//Debug::LogLine((int)(pp_ParticleFlags & b2_waterParticle));
+
+						if(ImGui::CollapsingHeader("ParticleFlags", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							ImGui::PushID("##sprungPartMart");
+							if (ImGui::MenuItem("SpringParticle", "", (pp_ParticleFlags & b2_springParticle)))
+							{
+								pp_ParticleFlags ^= b2_springParticle;
+							}
+							ImGui::PopID();
+							if (ImGui::MenuItem("ElasticParticle", "", (pp_ParticleFlags & b2_elasticParticle)))
+							{
+								pp_ParticleFlags ^= b2_elasticParticle;
+							}
+							if (ImGui::MenuItem("ViscousParticle", "", (pp_ParticleFlags & b2_viscousParticle)))
+							{
+								pp_ParticleFlags ^= b2_viscousParticle;
+							}
+							if (ImGui::MenuItem("PowderParticle", "", (pp_ParticleFlags & b2_powderParticle)))
+							{
+								pp_ParticleFlags ^= b2_powderParticle;
+							}
+							if (ImGui::MenuItem("TensileParticle", "", (pp_ParticleFlags & b2_tensileParticle)))
+							{
+								pp_ParticleFlags ^= b2_tensileParticle;
+							}
+							if (ImGui::MenuItem("ColorMixingParticle", "", (pp_ParticleFlags & b2_colorMixingParticle)))
+							{
+								pp_ParticleFlags ^= b2_colorMixingParticle;
+							}
+							if (ImGui::MenuItem("BarrierParticle", "", (pp_ParticleFlags & b2_barrierParticle)))
+							{
+								pp_ParticleFlags ^= b2_barrierParticle;
+							}
+							if (ImGui::MenuItem("StaticPressureParticle", "", (pp_ParticleFlags & b2_staticPressureParticle)))
+							{
+								pp_ParticleFlags ^= b2_staticPressureParticle;
+							}
+							if (ImGui::MenuItem("ReactiveParticle", "", (pp_ParticleFlags & b2_reactiveParticle)))
+							{
+								pp_ParticleFlags ^= b2_reactiveParticle;
+							}
+							if (ImGui::MenuItem("RepulsiveParticle", "", (pp_ParticleFlags & b2_repulsiveParticle)))
+							{
+								pp_ParticleFlags ^= b2_repulsiveParticle;
+							}
+							
+						}
+						
+						if (ImGui::CollapsingHeader("Category Bits", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+						{
+
+							if (ImGui::MenuItem("BackGround", "", (pp_CatBits & ColliderFilters::BackGround)))
+							{
+								pp_CatBits ^= ColliderFilters::BackGround;
+							}
+							if (ImGui::MenuItem("Environment", "", (pp_CatBits & ColliderFilters::Environment)))
+							{
+								pp_CatBits ^= ColliderFilters::Environment;
+							}
+							if (ImGui::MenuItem("Fluid", "", (pp_CatBits & ColliderFilters::Fluid)))
+							{
+								pp_CatBits ^= ColliderFilters::Fluid;
+							}
+							if (ImGui::MenuItem("Light", "", (pp_CatBits & ColliderFilters::Light)))
+							{
+								pp_CatBits ^= ColliderFilters::Light;
+							}
+							if (ImGui::MenuItem("Player", "", (pp_CatBits & ColliderFilters::Player)))
+							{
+								pp_CatBits ^= ColliderFilters::Player;
+							}
+						}
+
+						if (ImGui::CollapsingHeader("Mask Bits", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+						{
+
+							if (ImGui::MenuItem("BackGround", "", (pp_MaskBits & ColliderFilters::BackGround)))
+							{
+								pp_MaskBits ^= ColliderFilters::BackGround;
+							}
+							if (ImGui::MenuItem("Environment", "", (pp_MaskBits & ColliderFilters::Environment)))
+							{
+								pp_MaskBits ^= ColliderFilters::Environment;
+							}
+							if (ImGui::MenuItem("Fluid", "", (pp_MaskBits & ColliderFilters::Fluid)))
+							{
+								pp_MaskBits ^= ColliderFilters::Fluid;	
+							}
+							if (ImGui::MenuItem("Light", "", (pp_MaskBits & ColliderFilters::Light)))
+							{
+								pp_MaskBits ^= ColliderFilters::Light;
+							}
+							if (ImGui::MenuItem("Player", "", (pp_MaskBits & ColliderFilters::Player)))
+							{
+								pp_MaskBits ^= ColliderFilters::Player;
+							}
+						}
 
 						ImGui::Text("Radius");
 						ImGui::SameLine();
 						ImGui::DragFloat("##Rad", &pp_Rad, 0.005f, 0.005f, 1.0f, "%.3fm");
 
-
+						pEmit->SetGroupFlags(b2_rigidParticleGroup);
 						pEmit->SetRadius(pp_Rad);
-
+						pEmit->SetParticleFlags(pp_ParticleFlags);
+						pEmit->SetColliderFilters(pp_CatBits,pp_MaskBits);
 
 					}
 

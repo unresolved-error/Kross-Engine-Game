@@ -107,7 +107,7 @@ void OnRun()
 	//particle->AttachParticle(tempParticle);
 	//particle->SpawnParticles();
 	
-	//     
+	  
 	//     Object* ppEmitter = Object::OnCreate("ppEmitter");
 	//     ppEmitter->SetStatic(true);
 	//     ParticleProperties* properties = ppEmitter->AttachComponent<ParticleProperties>();
