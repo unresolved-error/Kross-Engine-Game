@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
     <ClInclude Include="Source\Core\Animation\Keyframe.h" />
+    <ClInclude Include="Source\Core\Animation\KeyframeDataFlags.h" />
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Audio\AudioProperties.h" />
     <ClInclude Include="Source\Core\Audio\AudioSource.h" />

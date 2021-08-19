@@ -702,6 +702,7 @@
     <ClInclude Include="Source\Core\Editor\Windows\AssetType.h" />
     <ClInclude Include="Source\Core\Manager\ScriptRegistry.h" />
     <ClInclude Include="Source\Core\Editor\Windows\Profiler.h" />
+    <ClInclude Include="Source\Core\Animation\KeyframeDataFlags.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

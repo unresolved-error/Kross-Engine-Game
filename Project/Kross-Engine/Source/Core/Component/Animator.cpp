@@ -57,20 +57,20 @@ namespace Kross
 			if (!p_Rigidbody && !c_Object->IsStatic())
 			{
 				/* If the Position Data has been set. */
-				if (currentKeyframe->HasPositionData())
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::PositionData)
 					p_Transform->m_Position = currentKeyframe->GetPosition();
 
 				/* If the Rotation Data has been set. */
-				if (currentKeyframe->HasRotationData())
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::RotationData)
 					p_Transform->m_Rotation = currentKeyframe->GetRotation();
 
 				/* If the Scale Data has been set. */
-				if (currentKeyframe->HasScaleData())
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::ScaleData)
 					p_Transform->m_Scale = currentKeyframe->GetScale();
 			}
 
 			/* If the Sprite Data has been set. */
-			if (currentKeyframe->HasSpriteData())
+			if (currentKeyframe->GetFlags() & KeyframeDataFlags::SpriteData)
 				if (p_Renderer) /* If we have a Renderer, set its Sprite. */
 					p_Renderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
 		}
