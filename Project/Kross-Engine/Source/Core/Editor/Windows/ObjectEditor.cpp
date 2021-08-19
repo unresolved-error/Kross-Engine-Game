@@ -318,6 +318,19 @@ namespace Kross {
 					ParticleProperties* pEmit = (ParticleProperties*)component;
 					if (ImGui::CollapsingHeader("ParticleProperties", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 					{
+
+						float pp_Rad = pEmit->GetRadius();
+						uint32 pp_Flag;
+
+
+						ImGui::Text("Radius");
+						ImGui::SameLine();
+						ImGui::DragFloat("##Rad", &pp_Rad, 0.005f, 0.005f, 1.0f, "%.3fm");
+
+
+						pEmit->SetRadius(pp_Rad);
+
+
 					}
 
 					if (!isOpen)
