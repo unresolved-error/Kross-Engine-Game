@@ -26,6 +26,9 @@ namespace Kross
 		// Logs a Message.
 		static void Log(std::string message);
 
+		// Logs a Message.
+		static void Log(const char* message);
+
 		// Logs a Message. (Bool)
 		static void Log(bool value);
 
@@ -58,6 +61,9 @@ namespace Kross
 
 		// Logs a Message on a single line.
 		static void LogLine(std::string message);
+
+		// Logs a Message on a single line.
+		static void LogLine(const char* message);
 
 		// Logs a Message on a single line. (Bool)
 		static void LogLine(bool value);
