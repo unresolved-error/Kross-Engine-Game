@@ -20,7 +20,6 @@
     <ClCompile Include="Source\Core\Component\Script.cpp" />
     <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
     <ClCompile Include="Source\Core\Component\TextRenderer.cpp" />
-    <ClCompile Include="Source\Core\Component\Transform2D.cpp" />
     <ClCompile Include="Source\Core\File-IO\FileSystem.cpp" />
     <ClCompile Include="Source\Core\Input.cpp" />
     <ClCompile Include="Source\Core\Manager\ResourceManager.cpp" />

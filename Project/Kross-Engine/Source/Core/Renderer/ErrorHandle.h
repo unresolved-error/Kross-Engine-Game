@@ -21,7 +21,13 @@
 
 namespace Kross
 {
+	/*!
+		Clears the Previous Error that OpenGL has recorded.
+	*/
 	void OpenGLClearError();
 
+	/*!
+		Checks the return status of a particular Function.
+	*/
 	bool OpenGLStatus(const char* funcName, const char* fileName, int line);
 }
