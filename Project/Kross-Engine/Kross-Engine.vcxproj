@@ -257,7 +257,7 @@
     <ClInclude Include="Source\Core\Renderer\Image\TextureType.h" />
     <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Material.h" />
-    <ClInclude Include="Source\Core\Renderer\Shader\ShaderFlags.h" />
+    <ClInclude Include="Source\Core\Renderer\Shader\ShaderType.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />

@@ -253,7 +253,6 @@
     <ClInclude Include="Source\Core\Renderer\Image\TextureType.h" />
     <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Material.h" />
-    <ClInclude Include="Source\Core\Renderer\Shader\ShaderFlags.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />
@@ -703,6 +702,7 @@
     <ClInclude Include="Source\Core\Manager\ScriptRegistry.h" />
     <ClInclude Include="Source\Core\Editor\Windows\Profiler.h" />
     <ClInclude Include="Source\Core\Animation\KeyframeDataFlags.h" />
+    <ClInclude Include="Source\Core\Renderer\Shader\ShaderType.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />
