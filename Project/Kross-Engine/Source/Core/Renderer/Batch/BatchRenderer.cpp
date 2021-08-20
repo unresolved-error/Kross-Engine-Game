@@ -33,7 +33,10 @@ namespace Kross
         {
             case Layer::Fluids:
             {
+                Window* window = Application::GetWindow();
+
                 renderer->p_VertexBufferLayout->SetLayoutType<WaterVertex>();
+                renderer->m_FrameBuffer = KROSS_NEW FrameBuffer(window->GetWidth(), window->GetHeight());
                 break;
             }
 
@@ -120,6 +123,7 @@ namespace Kross
             case Layer::Fluids:
             {
                 p_Shader = ResourceManager::GetResource<Shader>("WaterShader");
+                p_PostProcessShader = ResourceManager::GetResource<Shader>("WaterPostProcess");
 
                 /* Make sure the Batch Packet Updates its Atlas Pointer. */
                 p_WaterBatch->p_Atlas = p_Atlas;
@@ -190,8 +194,14 @@ namespace Kross
         {
             case Layer::Fluids:
             {
+                m_FrameBuffer->Attach();
+
+                /* Beacuse ay*/
+                glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+                glClear(GL_COLOR_BUFFER_BIT);
+
                 /* Set Shader Values. */
-                p_Shader->SetUniform("u_HalfSize", 0.03f);
+                p_Shader->SetUniform("u_HalfSize", 0.05f);
                 p_Shader->SetUniform("u_InverseAspect", 1.0f / Application::GetWindow()->GetApsectRatio());
                 p_Shader->SetUniform("u_Colour", Colour(0.28f, 0.71f, 0.91f, 1.0f));
 
@@ -211,6 +221,42 @@ namespace Kross
                 p_Shader->Attach();
                 p_VertexArray->Attach();
                 glDrawElements(GL_POINTS, p_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+                /* Detahc the Frame Buffer because we are finished with it. */
+                m_FrameBuffer->Detach();
+
+                /* Start the Data Transfer. */
+                p_VertexArray->Attach();
+
+                List<WaterVertex> data;
+                data.push_back(WaterVertex(Vector2(-1.0f, 1.0f), Vector2(0.0f), Colour(1.0f)));
+                data.push_back(WaterVertex(Vector2(1.0f, 1.0f), Vector2(1.0f, 0.0f), Colour(1.0f)));
+                data.push_back(WaterVertex(Vector2(-1.0f, -1.0f), Vector2(0.0f, 1.0f), Colour(1.0f)));
+                data.push_back(WaterVertex(Vector2(1.0f, -1.0f), Vector2(1.0f), Colour(1.0f)));
+
+                List<unsigned int> indicies;
+                indicies = { 0, 1, 2, 1, 3, 2 }; /* May need to be changed. */
+
+                /* Set Data.*/
+                p_VertexBuffer->AttachVertexData(data.data(),data.size() * sizeof(WaterVertex));
+                p_IndexBuffer->AttachIndexData(indicies.data(), indicies.size());
+
+                /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
+                p_IndexBuffer->Attach();
+                p_VertexArray->AttachVertexBufferToLayout(*p_VertexBuffer, p_VertexBufferLayout);
+                p_VertexArray->Detach();
+
+                p_PostProcessShader->Attach();
+
+                m_FrameBuffer->GetFrameTexture()->Attach();
+
+                p_PostProcessShader->SetUniform("colourTexture", m_FrameBuffer->GetFrameTexture());
+
+                p_PostProcessShader->Attach();
+                p_VertexArray->Attach();
+                glDrawElements(GL_TRIANGLES, p_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+                Texture::Detach();
 
                 break;
             }

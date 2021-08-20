@@ -5,6 +5,7 @@ SHADER->Assets/Shaders/TextShader.krs->
 SHADER->Assets/Shaders/LineShader.krs->
 SHADER->Assets/Shaders/BatchShader.krs->
 SHADER->Assets/Shaders/WaterShader.krs->
+SHADER->Assets/Shaders/PostProcessShader.krs->
 
 // Load Textures. (Make Sure Textures are loaded before sprites!)
 TEXTURE->Assets/Textures/Diffuse.krs->

@@ -30,9 +30,11 @@ namespace Kross
     class KROSS_API BatchRenderer
     {
     private:
-        BatchRenderer(Atlas* atlas, Layer layer) : 
-            p_Shader                (nullptr), 
-            p_PostProcessShader     (nullptr), 
+        BatchRenderer(Atlas* atlas, Layer layer) :
+            p_Shader                (nullptr),
+            p_PostProcessShader     (nullptr),
+
+            m_FrameBuffer           (nullptr),
 
             p_VertexArray           (KROSS_NEW VertexArray()),
             p_VertexBuffer          (KROSS_NEW VertexBuffer()),
@@ -52,6 +54,8 @@ namespace Kross
 
         Shader* p_Shader;
         Shader* p_PostProcessShader;
+
+        FrameBuffer* m_FrameBuffer;
 
         VertexArray* p_VertexArray;
         VertexBuffer* p_VertexBuffer;
