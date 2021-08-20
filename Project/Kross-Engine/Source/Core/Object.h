@@ -39,17 +39,15 @@ namespace Kross
 		List<Component*> m_Components;
 		List<Renderer*> m_RenderComponents;
 
-		PhysicsScene* p_Physics;
-		LineRenderer* p_DebugRenderer;
-
-		Transform2D* p_Transform;
+		PhysicsScene* m_Physics;
+		LineRenderer* m_DebugRenderer;
 
 		Layer m_Layer;
 
 		// Used for displaying its children and storing them.
 		List<Object*> m_Children;
 
-		Object* p_ParentObject;
+		Object* m_ParentObject;
 
 	protected:
 		friend class Scene;
@@ -76,10 +74,10 @@ namespace Kross
 		//void OnRender();
 
 		// Sets the Physics Scene.
-		void SetPhysicsScene(PhysicsScene* physics) { p_Physics = physics; };
+		void SetPhysicsScene(PhysicsScene* physics) { m_Physics = physics; };
 
 		// Sets the Line Renderer.
-		void SetLineRenderer(LineRenderer* renderer) { p_DebugRenderer = renderer; };
+		void SetLineRenderer(LineRenderer* renderer) { m_DebugRenderer = renderer; };
 
 		// Adds a Child Object.
 		void AttachChildObject(Object* object);
@@ -94,7 +92,7 @@ namespace Kross
 		void DetachChildObject(Object* object);
 
 		// Sets the Object Parent.
-		void SetParentObject(Object* object) { p_ParentObject = object; };
+		void SetParentObject(Object* object) { m_ParentObject = object; };
 
 		// Checks if the Object has a Render Component.
 		const bool GetRenderableStatus() const { return (m_RenderComponents.size() > 0); };
@@ -103,10 +101,11 @@ namespace Kross
 		List<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
 
 	public:
+		Transform2D* m_Transform;
 
-		const void DrawCross(Vector2 position) { p_DebugRenderer->DrawCross(position, 4.0f); };
+		const void DrawCross(Vector2 position) { m_DebugRenderer->DrawCross(position, 4.0f); };
 		
-		LineRenderer* GetDebugRenderer() const { return p_DebugRenderer; };
+		LineRenderer* GetDebugRenderer() const { return m_DebugRenderer; };
 
 		// Creates a Blank Object.
 		static Object* OnCreate(const std::string& name = "GameObject");
@@ -130,10 +129,7 @@ namespace Kross
 		const bool Enabled() const { return m_Enable; };
 
 		// Gets the Object Parent.
-		Object* GetParentObject() const { return p_ParentObject; };
-
-		// Gets the Object Transform.
-		Transform2D* GetTransform() const { return p_Transform; };
+		Object* GetParentObject() const { return m_ParentObject; };
 
 		// Gets all of the Object's Children.
 		const List<Object*> GetChildObjects() const { return m_Children; };

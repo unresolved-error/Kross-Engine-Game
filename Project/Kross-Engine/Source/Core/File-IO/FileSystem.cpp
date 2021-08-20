@@ -1022,7 +1022,7 @@ namespace Kross
 					if (!transformData.empty())
 					{
 						/* Grab the Transform. */
-						Transform2D* transform = currentObject->GetTransform();
+						Transform2D* transform = (Transform2D*)currentObject->m_Transform;
 
 						/* Quick Variables. */
 						size_t searchPosition = 0;
@@ -1265,11 +1265,11 @@ namespace Kross
 				fileStream << "STATIC->" + std::to_string((int)(scene->m_ActualObjects[j]->IsStatic())) + "->\n";
 				fileStream << "ENABLE->" + std::to_string((int)(scene->m_ActualObjects[j]->Enabled())) + "->\n";
 				fileStream << "LAYER->" + std::to_string((int)(scene->m_ActualObjects[j]->GetLayer())) + "->\n";
-				fileStream << "TRANSFORM2D->" + std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.x) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.y) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Rotation) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.x) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.y) + "->" + "\n";
+				fileStream << "TRANSFORM2D->" + std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Position.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Position.y) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Rotation) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Scale.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Scale.y) + "->" + "\n";
 				
 				for (int k = 0; k < scene->m_ActualObjects[j]->m_Components.size(); k++)
 				{
@@ -2204,7 +2204,7 @@ namespace Kross
 			if (!transformData.empty())
 			{
 				/* Grab the Transform. */
-				Transform2D* transform = object->GetTransform();
+				Transform2D* transform = (Transform2D*)object->m_Transform;
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2303,11 +2303,11 @@ namespace Kross
 
 		/* Transform is always on an object, and always one. */
 		std::string transformData("TRANSFORM2D->");
-		transformData += std::to_string(prefab->GetTransform()->m_Position.x) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Position.y) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Rotation) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Scale.x) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Scale.y) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Position.x) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Position.y) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Rotation) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Scale.x) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Scale.y) + breakChar;
 
 		/* Open the Filestream. */
 		std::ofstream prefabStream;

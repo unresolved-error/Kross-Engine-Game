@@ -25,7 +25,7 @@ namespace Kross
 		friend class Object;
 
 		// Sets the Object that the Component will be linked to.
-		void SetObject(Object* object) { c_Object = object; };
+		void SetObject(Object* object) { m_Object = object; };
 
 		// Component Start Method.
 		virtual void OnStart() { return; };
@@ -44,13 +44,13 @@ namespace Kross
 
 	public:
 		Component() :
-			c_Object(nullptr)
+			m_Object(nullptr)
 		{};
 
 		virtual ~Component() {};
 
 		// The Object the Component is Attached to. (READ ONLY)
-		const Object* c_Object;
+		Object* m_Object;
 
 		// Gets the first Component that is of the Type specified.
 		template<typename Type>
@@ -60,10 +60,10 @@ namespace Kross
 			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
 
 			/* Go through the Components list. */
-			for (int i = 0; i < c_Object->m_Components.size(); i++)
+			for (int i = 0; i < m_Object->m_Components.size(); i++)
 			{
 				/* Make a local variable for the currently looked at Component. */
-				Component* component = c_Object->m_Components[i];
+				Component* component = m_Object->m_Components[i];
 
 				/* Check if it is the Component Type we are looking for, then return it. */
 				if (typeid(Type) == typeid(*component))
@@ -85,10 +85,10 @@ namespace Kross
 			List<Type*> components = List<Type*>();
 
 			/* Go through the Components list. */
-			for (int i = 0; i < c_Object->m_Components.size(); i++)
+			for (int i = 0; i < m_Object->m_Components.size(); i++)
 			{
 				/* Make a local variable for the currently looked at Component. */
-				Component* component = c_Object->m_Components[i];
+				Component* component = m_Object->m_Components[i];
 
 				/* Check if it is the Component Type we are looking for, then add it. */
 				if (typeid(Type) == typeid(*component))

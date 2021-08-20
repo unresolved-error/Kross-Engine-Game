@@ -84,7 +84,7 @@ namespace Kross
             Sprite* specularSprite = renderer->GetMaterial()->GetSpecular();
 
             /* Quick Variables. */
-            Transform2D* transform = renderer->c_Object->GetTransform();
+            Transform2D* transform = (Transform2D*)renderer->c_Object->m_Transform;
 
             /* Update the Model. */
             Matrix4 model = Matrix4(1.0f);
@@ -256,8 +256,8 @@ namespace Kross
             static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
 
             /* Quick Variables. */
-            Transform2D* transform = renderer->c_Object->GetTransform();
-            Transform2D* cameraTransform = camera->c_Object->GetTransform();
+            Transform2D* transform = renderer->c_Object->m_Transform;
+            Transform2D* cameraTransform = camera->c_Object->m_Transform;
 
             for (int i = 0; i < renderer->m_Tiles.size(); i++)
             {
@@ -448,7 +448,7 @@ namespace Kross
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, WaterVertex>::value, "Type must be of Text Vertex!");
 
-            Transform2D* cameraTransform = camera->c_Object->GetTransform();
+            Transform2D* cameraTransform = camera->c_Object->m_Transform;
 
             /* Grab Information Needed to pass to the Renderer. */
             for (int j = 0; j < emitter->GetParticleSystem().size(); j++)

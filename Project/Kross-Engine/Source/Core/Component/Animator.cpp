@@ -32,7 +32,7 @@ namespace Kross
 		/* Get the Components needed. */
 		p_Rigidbody = gameObject->GetComponent<Rigidbody2D>();
 		p_Renderer = gameObject->GetComponent<SpriteRenderer>();
-		p_Transform = gameObject->GetTransform();
+		p_Transform = (Transform2D*)gameObject->m_Transform;
 
 		/* Play the Current Animation. */
 		if(p_AnimationCurrent)
