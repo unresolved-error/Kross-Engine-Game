@@ -93,6 +93,9 @@ namespace Kross
 			Editor::OnStart(s_Instance->p_Window);
 			#endif
 
+			FrameBuffer* waterFrameBuff = KROSS_NEW FrameBuffer(1280,720,5);
+
+
 			/* While the window isn't closed */
 			while (!s_Instance->p_Window->Closed())
 			{
@@ -107,7 +110,7 @@ namespace Kross
 				#ifndef KROSS_EDITOR
 				SceneManager::OnPhysicsUpdate();
 				#endif
-
+				
 				SceneManager::OnRender();
 
 				#ifdef KROSS_EDITOR
