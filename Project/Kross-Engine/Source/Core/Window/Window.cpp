@@ -12,10 +12,10 @@ namespace Kross
 {
 	Window::~Window()
 	{
-		delete p_Properties;
+		delete m_Properties;
 		
-		if (p_GLFWWindow)
-			glfwDestroyWindow(p_GLFWWindow);
+		if (m_GLFWWindow)
+			glfwDestroyWindow(m_GLFWWindow);
 
 		glfwTerminate();
 	}
@@ -52,9 +52,9 @@ namespace Kross
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		p_GLFWWindow = glfwCreateWindow(p_Properties->GetWidth(), p_Properties->GetHeight(), p_Properties->GetTitle().c_str(), NULL, NULL);
+		m_GLFWWindow = glfwCreateWindow(m_Properties->GetWidth(), m_Properties->GetHeight(), m_Properties->GetTitle().c_str(), NULL, NULL);
 
-		if (!p_GLFWWindow)
+		if (!m_GLFWWindow)
 		{
 			// Failed to Create Window.
 			m_Initialised = false;
@@ -62,7 +62,7 @@ namespace Kross
 		}
 
 		/* Set Context */
-		glfwMakeContextCurrent(p_GLFWWindow);
+		glfwMakeContextCurrent(m_GLFWWindow);
 
 		/* Initialise GLEW */
 		if (glewInit() != GLEW_OK)
@@ -81,17 +81,17 @@ namespace Kross
 		//glCullFace(GL_FRONT_AND_BACK);
 
 		/* VSync Switch */
-		glfwSwapInterval(p_Properties->GetVSync());
+		glfwSwapInterval(m_Properties->GetVSync());
 	}
 
 	void Window::OnPollEvents()
 	{
 		/* VSync Switch */
-		glfwSwapInterval(p_Properties->GetVSync());
+		glfwSwapInterval(m_Properties->GetVSync());
 
 		/* Get the Current Width and Height of the Window */
 		int Width, Height;
-		glfwGetWindowSize(p_GLFWWindow, &Width, &Height);
+		glfwGetWindowSize(m_GLFWWindow, &Width, &Height);
 
 		/* If the current width or height doesn't match the set width and height */
 		if (Width != GetWidth() || Height != GetHeight())
@@ -109,7 +109,7 @@ namespace Kross
 		glfwGetMonitorWorkarea(mainMonitor, NULL, NULL, &Width, &Height);
 
 		/* If we haven't changed the Window mode */
-		if (p_Properties->GetChangedWindowModeStatus() == false)
+		if (!m_Properties->ChangeWindowState())
 		{
 			/* Change the Window Mode based on the fullscreen flag */
 			switch (GetFullscreen())
@@ -122,24 +122,24 @@ namespace Kross
 					SetHeight(720);
 
 					/* Set the window to the middle of the screen */
-					glfwSetWindowMonitor(p_GLFWWindow, NULL, (int)(((float)GetWidth() / (float)Width) * GetWidth()) - (int)(GetWidth() / 2), (int)(((float)GetHeight() / (float)Height) * GetHeight()) - (int)(GetHeight() / 2), GetWidth(), GetHeight(), GLFW_DONT_CARE);
+					glfwSetWindowMonitor(m_GLFWWindow, NULL, (int)(((float)GetWidth() / (float)Width) * GetWidth()) - (int)(GetWidth() / 2), (int)(((float)GetHeight() / (float)Height) * GetHeight()) - (int)(GetHeight() / 2), GetWidth(), GetHeight(), GLFW_DONT_CARE);
 					break;
 				}
 
 				case 1:
 				{
 					/* Set the window to the top left of the screen */
-					glfwSetWindowMonitor(p_GLFWWindow, mainMonitor, 0, 0, Width, Height, GLFW_DONT_CARE);
+					glfwSetWindowMonitor(m_GLFWWindow, mainMonitor, 0, 0, Width, Height, GLFW_DONT_CARE);
 					break;
 				}
 			}
 			
 			/* Initiate that we have changed the window mode */
-			p_Properties->SetChangedWindowModeStatusDefault();
+			m_Properties->HasChangedWindowState();
 		}
 
 		/* Poll the Events */
-		glfwSwapBuffers(p_GLFWWindow);
+		glfwSwapBuffers(m_GLFWWindow);
 		glfwPollEvents();
 	}
 

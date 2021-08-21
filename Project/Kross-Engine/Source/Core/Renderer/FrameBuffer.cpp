@@ -25,7 +25,7 @@ namespace Kross
 		/* Create a Texture to write to. */
 		m_FrameBufferTexture = Texture::OnCreate(width, height, nullptr, GL_RGBA8, GL_RGBA, GL_UNSIGNED_BYTE, "FrameBuffer-WindowTexture");
 
-		Attach();
+		Bind();
 
 		/* Set the Texture to write to. Write the screen data. */
 		OPENGL_CHECK(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentID, m_FrameBufferTexture->GetTextureID(), 0));
@@ -38,7 +38,7 @@ namespace Kross
 			glDeleteFramebuffers(1, &m_FrameBufferID);
 		}
 
-		Detach();
+		UnBind();
 	}
 
 	FrameBuffer::~FrameBuffer()
@@ -51,12 +51,12 @@ namespace Kross
 			Texture::OnDestroy(m_FrameBufferTexture);
 	}
 
-	void FrameBuffer::Attach()
+	void FrameBuffer::Bind()
 	{
 		OPENGL_CHECK(glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferID));
 	}
 
-	void FrameBuffer::Detach()
+	void FrameBuffer::UnBind()
 	{
 		OPENGL_CHECK(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 	}

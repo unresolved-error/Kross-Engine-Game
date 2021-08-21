@@ -320,15 +320,17 @@ namespace Kross {
 					{
 
 						float pp_Rad = pEmit->GetRadius();
-						int particleCount;
+						int particleCount = pEmit->GetMaxCount();
 						uint32 pp_ParticleFlags = pEmit->GetParticleGroupDef()->flags;
 						uint16 pp_CatBits = pEmit->GetColliderFilters()->categoryBits;
 						uint16 pp_MaskBits = pEmit->GetColliderFilters()->maskBits;
 
 						//Debug::LogLine((int)(pp_ParticleFlags & b2_waterParticle));
 
+						ImGui::Indent();
 						if(ImGui::CollapsingHeader("ParticleFlags", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 						{
+							ImGui::Indent();
 							ImGui::PushID("##sprungPartMart");
 							if (ImGui::MenuItem("SpringParticle", "", (pp_ParticleFlags & b2_springParticle)))
 							{
@@ -371,12 +373,12 @@ namespace Kross {
 							{
 								pp_ParticleFlags ^= b2_repulsiveParticle;
 							}
-							
+							ImGui::Unindent();
 						}
 						
-						if (ImGui::CollapsingHeader("Category Bits", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+						if (ImGui::CollapsingHeader("Collider Mask", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 						{
-
+							ImGui::Indent();
 							if (ImGui::MenuItem("BackGround", "", (pp_CatBits & ColliderFilters::BackGround)))
 							{
 								pp_CatBits ^= ColliderFilters::BackGround;
@@ -397,11 +399,12 @@ namespace Kross {
 							{
 								pp_CatBits ^= ColliderFilters::Player;
 							}
+							ImGui::Unindent();
 						}
 
-						if (ImGui::CollapsingHeader("Mask Bits", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+						if (ImGui::CollapsingHeader("Collides With", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 						{
-
+							ImGui::Indent();
 							if (ImGui::MenuItem("BackGround", "", (pp_MaskBits & ColliderFilters::BackGround)))
 							{
 								pp_MaskBits ^= ColliderFilters::BackGround;
@@ -422,16 +425,23 @@ namespace Kross {
 							{
 								pp_MaskBits ^= ColliderFilters::Player;
 							}
+							ImGui::Unindent();
 						}
+						ImGui::Unindent();
 
-						ImGui::Text("Radius");
+						ImGui::Text("Particle Radius: ");
 						ImGui::SameLine();
 						ImGui::DragFloat("##Rad", &pp_Rad, 0.005f, 0.005f, 1.0f, "%.3fm");
+
+						ImGui::Text("Particle Count: ");
+						ImGui::SameLine();
+						ImGui::DragInt("##Count", &particleCount, 2,0, INT_MAX, "%d");
 
 						pEmit->SetGroupFlags(b2_rigidParticleGroup);
 						pEmit->SetRadius(pp_Rad);
 						pEmit->SetParticleFlags(pp_ParticleFlags);
 						pEmit->SetColliderFilters(pp_CatBits,pp_MaskBits);
+						pEmit->SetMaxCount(particleCount);
 
 					}
 
@@ -500,7 +510,7 @@ namespace Kross {
 
 								ImGui::Text("Diffuse");
 								ImGui::SameLine();
-								if (ImGui::Button((s_mat) ? s_mat->p_Diffuse->GetName().c_str() : "NULL"))
+								if (ImGui::Button((s_mat) ? s_mat->m_Diffuse->GetName().c_str() : "NULL"))
 								{
 									if (s_mat)
 									{
@@ -523,13 +533,13 @@ namespace Kross {
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 											Editor::AttachEditorWindow(p_PreviewPane);
 										}
-										p_PreviewPane->SetSpriteDestination(s_mat->p_Diffuse);
+										p_PreviewPane->SetSpriteDestination(s_mat->m_Diffuse);
 									}
 								}
 
 								ImGui::Text("Normal");
 								ImGui::SameLine();
-								if (ImGui::Button((s_mat) ? s_mat->p_Normal->GetName().c_str() : "NULL"))
+								if (ImGui::Button((s_mat) ? s_mat->m_Normal->GetName().c_str() : "NULL"))
 								{
 									if (s_mat)
 									{
@@ -552,13 +562,13 @@ namespace Kross {
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 											Editor::AttachEditorWindow(p_PreviewPane);
 										}
-										p_PreviewPane->SetSpriteDestination(s_mat->p_Normal);
+										p_PreviewPane->SetSpriteDestination(s_mat->m_Normal);
 									}
 								}
 
 								ImGui::Text("Specular");
 								ImGui::SameLine();
-								if (ImGui::Button((s_mat) ? s_mat->p_Specular->GetName().c_str() : "NULL"))
+								if (ImGui::Button((s_mat) ? s_mat->m_Specular->GetName().c_str() : "NULL"))
 								{
 									if (s_mat)
 									{
@@ -581,7 +591,7 @@ namespace Kross {
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 											Editor::AttachEditorWindow(p_PreviewPane);
 										}
-										p_PreviewPane->SetSpriteDestination(s_mat->p_Specular);
+										p_PreviewPane->SetSpriteDestination(s_mat->m_Specular);
 									}
 								}
 							}
@@ -614,22 +624,22 @@ namespace Kross {
 
 							if (p_PreviewPane && p_PreviewPane->GetSprite())
 							{
-								if (s_mat->p_Diffuse == p_PreviewPane->GetSpriteDestination())
+								if (s_mat->m_Diffuse == p_PreviewPane->GetSpriteDestination())
 								{
-									s_mat->p_Diffuse = p_PreviewPane->GetSprite();
-									p_PreviewPane->SetSpriteDestination(s_mat->p_Diffuse);
+									s_mat->m_Diffuse = p_PreviewPane->GetSprite();
+									p_PreviewPane->SetSpriteDestination(s_mat->m_Diffuse);
 								}
 
-								else if (s_mat->p_Normal == p_PreviewPane->GetSpriteDestination())
+								else if (s_mat->m_Normal == p_PreviewPane->GetSpriteDestination())
 								{
-									s_mat->p_Normal = p_PreviewPane->GetSprite();
-									p_PreviewPane->SetSpriteDestination(s_mat->p_Normal);
+									s_mat->m_Normal = p_PreviewPane->GetSprite();
+									p_PreviewPane->SetSpriteDestination(s_mat->m_Normal);
 								}
 
-								else if (s_mat->p_Specular == p_PreviewPane->GetSpriteDestination())
+								else if (s_mat->m_Specular == p_PreviewPane->GetSpriteDestination())
 								{
-									s_mat->p_Specular = p_PreviewPane->GetSprite();
-									p_PreviewPane->SetSpriteDestination(s_mat->p_Specular);
+									s_mat->m_Specular = p_PreviewPane->GetSprite();
+									p_PreviewPane->SetSpriteDestination(s_mat->m_Specular);
 								}
 							}
 
@@ -968,7 +978,7 @@ namespace Kross {
 							if (ImGui::MenuItem(script->GetName().c_str()))
 							{
 								Script* addScript = ScriptRegistry::GetScript(i);
-								addScript->c_Object = p_SelectedObject;
+								addScript->m_GameObject = p_SelectedObject;
 								p_SelectedObject->m_Components.push_back(addScript);
 							}
 						}

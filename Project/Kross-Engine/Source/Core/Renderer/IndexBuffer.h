@@ -25,15 +25,15 @@ namespace Kross
 		~IndexBuffer();
 
 		// Binds the Index Buffer.
-		void Attach();
+		void Bind();
 
 		// Un Binds the Index Buffer.
-		static void Detach();
+		static void UnBind();
 
 		// Gets the number of Indexes inside of the index data.
 		unsigned int GetCount() const { return m_Count; };
 
 		// Adds data to the Index Buffer.
-		void AttachIndexData(const void* data, unsigned int count);
+		void SetIndexData(const void* data, unsigned int count);
 	};
 }

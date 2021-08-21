@@ -8,6 +8,8 @@
 
 #include "../Core.h"
 
+#include "../Math/Math.h"
+
 namespace Kross
 {
 	struct KROSS_API WindowProperties
@@ -45,7 +47,7 @@ namespace Kross
 		const int GetFullscreen() const { return m_Fullscreen; };
 
 		// Gets the Fullscreen Window Mode Check.
-		const bool GetChangedWindowModeStatus() const { return m_ChangedWindowMode; };
+		const bool ChangeWindowState() const { return m_ChangedWindowMode; };
 
 		// Set the Title Property.
 		void SetTitle(const std::string& title) { m_Title = title; };
@@ -65,11 +67,12 @@ namespace Kross
 			if (m_Fullscreen != fullscreen) 
 			{
 				m_Fullscreen = ((fullscreen > 1) ? 1 : ((fullscreen < 0) ? 0 : fullscreen)); // This ternary clamps the fullscreen value from 1 to 0.
+				//m_Fullscreen = glm::clamp(m_Fullscreen, 0, 1); // This ternary clamps the fullscreen value from 1 to 0.
 				m_ChangedWindowMode = false;
 			}
 		};
 
 		// Resets the Window Mode Status (USE CAREFULLY)
-		void SetChangedWindowModeStatusDefault() { m_ChangedWindowMode = true; };
+		void HasChangedWindowState() { m_ChangedWindowMode = true; };
 	};
 }

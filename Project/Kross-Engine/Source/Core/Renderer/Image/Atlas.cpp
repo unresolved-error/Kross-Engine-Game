@@ -14,7 +14,7 @@ namespace Kross
 {
 	Atlas::~Atlas()
 	{
-		Texture::OnDestroy(p_AtlasTexture);
+		Texture::OnDestroy(m_AtlasTexture);
 
 		for (int i = 0; i < m_AttachedTextures.size(); i++)
 			m_AttachedTextures[i] = nullptr;
@@ -102,7 +102,7 @@ namespace Kross
 		atlasTexture->SetPixelData(data);
 
 		/* Finalise the Data. */
-		atlasTexture->OnFinalise();
+		atlasTexture->Finalise();
 
 		/* Set the Texture Atlas. */
 		atlas->SetTexture(atlasTexture);

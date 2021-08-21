@@ -23,20 +23,20 @@ namespace Kross
 		glDeleteVertexArrays(1, &m_VertexArrayID);
 	}
 
-	void VertexArray::Attach()
+	void VertexArray::Bind()
 	{
 		OPENGL_CHECK(glBindVertexArray(m_VertexArrayID));
 	}
 
-	void VertexArray::Detach()
+	void VertexArray::UnBind()
 	{
 		OPENGL_CHECK(glBindVertexArray(0));
 	}
 
 	void VertexArray::AttachVertexBufferToLayout(VertexBuffer& vertexBuffer, VertexBufferLayout* layout)
 	{
-		Attach();
-		vertexBuffer.Attach();
+		Bind();
+		vertexBuffer.Bind();
 
 		/* ---- Configure Layout. ---- */
 

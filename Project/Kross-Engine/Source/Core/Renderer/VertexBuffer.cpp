@@ -21,19 +21,19 @@ namespace Kross
 		glDeleteBuffers(1, &m_VertexBufferID);
 	}
 
-	void VertexBuffer::Attach()
+	void VertexBuffer::Bind()
 	{
 		OPENGL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID));
 	}
 
-	void VertexBuffer::Detach()
+	void VertexBuffer::UnBind()
 	{
 		OPENGL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	}
 
-	void VertexBuffer::AttachVertexData(const void* data, unsigned int size)
+	void VertexBuffer::SetVertexData(const void* data, unsigned int size)
 	{
-		Attach();
+		Bind();
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 	}
 }

@@ -21,15 +21,14 @@ namespace Kross
 	class KROSS_API Animator : public Component
 	{
 	private:
-		Animation* p_AnimationCurrent;
+		Animation* m_AnimationCurrent;
 		List<Animation*> m_Animations;
 
 		/* Keyframe Properties Components. */
 
-		Rigidbody2D* p_Rigidbody;
+		Rigidbody2D* m_Rigidbody;
 
-		SpriteRenderer* p_Renderer;
-		Transform2D* p_Transform;
+		SpriteRenderer* m_Renderer;
 
 		/* ------------------------------- */
 
@@ -59,11 +58,10 @@ namespace Kross
 			Animator's Constructor.
 		*/
 		Animator() :
-			p_AnimationCurrent	(nullptr),
+			m_AnimationCurrent	(nullptr),
 			m_Animations		(List<Animation*>()),
-			p_Rigidbody			(nullptr),
-			p_Renderer			(nullptr),
-			p_Transform			(nullptr)
+			m_Rigidbody			(nullptr),
+			m_Renderer			(nullptr)
 		{};
 		/*!
 			Animator's Destructor.
@@ -105,7 +103,7 @@ namespace Kross
 		/*!
 			Gets the Current Animation from the Animator.
 		*/
-		Animation* GetCurrentAnimation() const { return p_AnimationCurrent; };
+		Animation* GetCurrentAnimation() const { return m_AnimationCurrent; };
 
 		/*!
 			Sets the Current Animation.

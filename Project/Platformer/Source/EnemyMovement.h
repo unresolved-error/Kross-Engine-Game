@@ -58,12 +58,11 @@ public:
 	{
 		
 
-		Transform2D* playerTransform = player->GetTransform();
-		Transform2D* transform = c_Object->GetTransform();
+		Transform2D* playerTransform = player->m_Transform;
 
-		if (glm::length(transform->m_Position - playerTransform->m_Position) <= agroRange)
+		if (glm::length(m_GameObject->m_Transform->m_Position - playerTransform->m_Position) <= agroRange)
 		{
-			if (playerTransform->m_Position.x > transform->m_Position.x)
+			if (playerTransform->m_Position.x > m_GameObject->m_Transform->m_Position.x)
 			{
 				movementVector.x = 1.0f;
 			}
@@ -87,14 +86,13 @@ public:
 
 		Move(movementVector);
 
-		previousY = transform->m_Position.y;
+		previousY = m_GameObject->m_Transform->m_Position.y;
 
 	}
 
 	void Move(Vector2 input)
 	{
-		Transform2D* transform = c_Object->GetTransform();
-		Transform2D* playerTransform = player->GetTransform();
+		Transform2D* playerTransform = player->m_Transform;
 
 		if (rigidBody->GetBody()->GetLinearVelocity().x <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().x >= -0.05f)
 		{
@@ -128,7 +126,7 @@ public:
 
 	void OnCollisionStay(Object* other) override
 	{
-		if (other->GetLayer() == Layer::Ground && other != c_Object)
+		if (other->GetLayer() == Layer::Ground && other != m_GameObject)
 		{
 			grounded = true;
 		}

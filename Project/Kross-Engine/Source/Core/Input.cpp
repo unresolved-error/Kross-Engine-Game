@@ -8,33 +8,26 @@
 
 namespace Kross
 {
-	Window* Input::s_Window = nullptr;
-	Input* Input::s_Instance = nullptr;
-
-	float Input::s_Scroll = 0.0f;
-
-	std::unordered_map<Key, int>			Input::s_KeyStateCache =			std::unordered_map<Key, int>();
-	std::unordered_map<Controller, int>		Input::s_ControllerStateCache =		std::unordered_map<Controller, int>();
-	std::unordered_map<Mouse, int>			Input::s_MouseStateCache =			std::unordered_map<Mouse, int>();
+	Input* Input::m_Instance = nullptr;
 
 	void Input::OnCreate()
 	{
-		if (!s_Instance)
-			s_Instance = KROSS_NEW Input();
+		if (!m_Instance)
+			m_Instance = KROSS_NEW Input();
 	}
 
 	void Input::OnDestoy()
 	{
-		if (s_Instance)
+		if (m_Instance)
 		{
-			s_Window = nullptr;
-			delete s_Instance;
+			m_Instance->m_Window = nullptr;
+			delete m_Instance;
 		}
 	}
 
 	void Input::SetWindow(Window* window)
 	{
-		s_Window = window;
+		m_Instance->m_Window = window;
 
 		glfwSetScrollCallback(window->GetGLFWWindow(), ScrollCallback);
 	};
@@ -42,7 +35,7 @@ namespace Kross
 	float Input::GetAxis(Axis axis)
 	{
 		/* Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* Search which axis. */
 		switch (axis)
@@ -58,7 +51,7 @@ namespace Kross
 			case Axis::KeyboardHorizontal:
 			{
 				/* If there is a window. */
-				if (s_Window)
+				if (m_Instance->m_Window)
 				{
 					/* Grab the Left and Right Values. */
 					float rightValue = glfwGetKey(window, (int)Key::D) + glfwGetKey(window, (int)Key::RightArrow);
@@ -75,7 +68,7 @@ namespace Kross
 			case Axis::KeyboardVertical:
 			{
 				/* If there is a window. */
-				if (s_Window)
+				if (m_Instance->m_Window)
 				{
 					/* Grab the Up and Down Values. */
 					float upValue = (float)glfwGetKey(window, (int)Key::W) + (float)glfwGetKey(window, (int)Key::UpArrow);
@@ -100,7 +93,7 @@ namespace Kross
 	bool Input::GetKeyDown(Key key)
 	{
 		/* Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* Get whether or not the Key is down. */
 		return (bool)glfwGetKey(window, (int)key);
@@ -109,7 +102,7 @@ namespace Kross
 	bool Input::GetKeyPressed(Key key)
 	{
 		// Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* Get the Key status. */
 		int keyPress = glfwGetKey(window, (int)key);
@@ -118,11 +111,11 @@ namespace Kross
 		bool result = false;
 
 		/* Check if it's last state was released and its pressed. */
-		if (s_KeyStateCache[key] == GLFW_RELEASE && keyPress == GLFW_PRESS)
+		if (m_Instance->m_KeyStateCache[key] == GLFW_RELEASE && keyPress == GLFW_PRESS)
 			result = true; /* We have pressed the Key. */
 
 		/* Update the Cache. */
-		s_KeyStateCache[key] = keyPress;
+		m_Instance->m_KeyStateCache[key] = keyPress;
 		 
 		/* Return the Result. */
 		return result;
@@ -131,7 +124,7 @@ namespace Kross
 	bool Input::GetKeyReleased(Key key)
 	{
 		/* Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* Get the Key status. */
 		int keyRelease = glfwGetKey(window, (int)key);
@@ -140,11 +133,11 @@ namespace Kross
 		bool result = false;
 
 		/* Check if it's last state was pressed and its released. */
-		if (s_KeyStateCache[key] == GLFW_PRESS && keyRelease == GLFW_RELEASE)
+		if (m_Instance->m_KeyStateCache[key] == GLFW_PRESS && keyRelease == GLFW_RELEASE)
 			result = true; /* We have released the Key. */
 
 		/* Update the Cache. */
-		s_KeyStateCache[key] = keyRelease;
+		m_Instance->m_KeyStateCache[key] = keyRelease;
 
 		/* Return the Result. */
 		return result;
@@ -153,7 +146,7 @@ namespace Kross
 	bool Input::GetMouseButtonDown(Mouse mouse)
 	{
 		/* Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* If the Mouse specified isn't none. */
 		if (mouse != Mouse::None)
@@ -166,7 +159,7 @@ namespace Kross
 	bool Input::GetMouseButtonPressed(Mouse mouse)
 	{
 		/* Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* Get the Mouse status. */
 		int mousePress = glfwGetMouseButton(window, (int)mouse);
@@ -175,11 +168,11 @@ namespace Kross
 		bool result = false;
 
 		/* Check if it's last state was released and its pressed. */
-		if (s_MouseStateCache[mouse] == GLFW_RELEASE && mousePress == GLFW_PRESS)
+		if (m_Instance->m_MouseStateCache[mouse] == GLFW_RELEASE && mousePress == GLFW_PRESS)
 			result = true; /* We have pressed the Mouse Button. */
 
 		/* Update the Cache. */
-		s_MouseStateCache[mouse] = mousePress;
+		m_Instance->m_MouseStateCache[mouse] = mousePress;
 
 		/* Return the Result. */
 		return result;
@@ -188,7 +181,7 @@ namespace Kross
 	bool Input::GetMouseButtonReleased(Mouse mouse)
 	{
 		/* Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* Get the Mouse status. */
 		int mouseRelease = glfwGetMouseButton(window, (int)mouse);
@@ -197,11 +190,11 @@ namespace Kross
 		bool result = false;
 
 		/* Check if it's last state was pressed and its released. */
-		if (s_MouseStateCache[mouse] == GLFW_PRESS && mouseRelease == GLFW_RELEASE)
+		if (m_Instance->m_MouseStateCache[mouse] == GLFW_PRESS && mouseRelease == GLFW_RELEASE)
 			result = true; /* We have released the Mouse Button. */
 
 		/* Update the Cache. */
-		s_MouseStateCache[mouse] = mouseRelease;
+		m_Instance->m_MouseStateCache[mouse] = mouseRelease;
 
 		/* Return the Result. */
 		return result;
@@ -209,7 +202,7 @@ namespace Kross
 
 	inline float Input::GetMouseScroll()
 	{
-		return s_Scroll;
+		return m_Instance->m_Scroll;
 	}
 
 	Vector2 Input::GetMousePosition()
@@ -218,7 +211,7 @@ namespace Kross
 		double x, y;
 
 		/* Obtain the GLFW Window. */
-		GLFWwindow* window = s_Window->GetGLFWWindow();
+		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
 		/* Grab the Mouse position in WINDOW PIXEL SPACE. */
 		glfwGetCursorPos(window, &x, &y);
@@ -334,11 +327,11 @@ namespace Kross
 		bool result = false;
 
 		/* Check if it's last state was released and its pressed. */
-		if (s_ControllerStateCache[button] == GLFW_RELEASE && buttonPress == GLFW_PRESS)
+		if (m_Instance->m_ControllerStateCache[button] == GLFW_RELEASE && buttonPress == GLFW_PRESS)
 			result = true; /* We have pressed the Controller Button. */
 
 		/* Update the Cache. */
-		s_ControllerStateCache[button] = buttonPress;
+		m_Instance->m_ControllerStateCache[button] = buttonPress;
 
 		/* Return the Result. */
 		return result;
@@ -359,11 +352,11 @@ namespace Kross
 		bool result = false;
 
 		/* Check if it's last state was Pressed and its Released. */
-		if (s_ControllerStateCache[button] == GLFW_PRESS && buttonRelease == GLFW_RELEASE)
+		if (m_Instance->m_ControllerStateCache[button] == GLFW_PRESS && buttonRelease == GLFW_RELEASE)
 			result = true; /* We have Released the Controller Button. */
 
 		/* Update the Cache. */
-		s_ControllerStateCache[button] = buttonRelease;
+		m_Instance->m_ControllerStateCache[button] = buttonRelease;
 
 		/* Return the Result. */
 		return result;

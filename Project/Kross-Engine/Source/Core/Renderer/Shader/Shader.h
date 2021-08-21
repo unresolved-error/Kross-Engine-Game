@@ -44,7 +44,7 @@ namespace Kross
 		const unsigned int GetShaderID() const { return m_ShaderID; };
 
 		// Complies a certain shader type.
-		static unsigned int GetShaderCompileStatus(std::string source, int type);
+		static unsigned int CompileShader(std::string source, int type);
 
 		// Gets the Uniform Location.
 		int GetUniformLocation(const std::string& variable);
@@ -53,7 +53,7 @@ namespace Kross
 		void SetName(const std::string& name) { m_Name = name; };
 
 		// Gets the Linking Status of the Linking of the Shader.
-		void GetLinkingStatus();
+		void LinkShader();
 
 		// Sets the Vertex Shader Filepath.
 		void SetVertexFilepath(const std::string& filepath) { m_VertexFilepath = filepath; };
@@ -72,10 +72,10 @@ namespace Kross
 
 	public:
 		// Binds the Shader.
-		void Attach();
+		void Bind();
 
 		// Un Binds all Shaders.
-		static void Detach();
+		static void UnBind();
 
 		// Gets the Shader Name.
 		const std::string GetName() const { return m_Name; };

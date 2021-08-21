@@ -38,5 +38,5 @@ namespace Kross
 		// Adds the Data to the Window. 
 		void Attach() override;
 
-	}
+	};
 }

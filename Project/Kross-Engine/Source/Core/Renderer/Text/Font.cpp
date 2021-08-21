@@ -13,7 +13,7 @@ namespace Kross
 	Font::~Font()
 	{
 		/* Null out the Texture. */
-		p_Texture = nullptr;
+		m_Texture = nullptr;
 
 		/* Delete Original Characters. */
 		for (int i = 0; i < m_Characters.size(); i++)

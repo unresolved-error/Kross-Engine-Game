@@ -20,19 +20,19 @@ namespace Kross
 	class KROSS_API Sprite
 	{
 	private:
-		Sprite()
-			: p_Texture(nullptr), 
-			m_Width(0), 
-			m_Height(0), 
-			m_UVOffset(Vector2(0.0f,0.0f)),
-			m_UVRatio(Vector2(1.0f, 1.0f)),
-			m_Name(""),
-			m_Geometry(nullptr),
-			m_PixelOffset(Vector2(0.0f))
+		Sprite() : 
+			m_Texture		(nullptr), 
+			m_Width			(0), 
+			m_Height		(0), 
+			m_UVOffset		(Vector2(0.0f,0.0f)),
+			m_UVRatio		(Vector2(1.0f, 1.0f)),
+			m_Name			(""),
+			m_Geometry		(nullptr),
+			m_PixelOffset	(Vector2(0.0f))
 		{};
 		~Sprite();
 
-		Texture* p_Texture;
+		Texture* m_Texture;
 		int m_Width, m_Height;
 		
 		// (SHADER USE ONLY)
@@ -72,7 +72,7 @@ namespace Kross
 		void SetHeight(int height) { m_Height = height; };
 
 		// Sets the Sprite Texture.
-		void SetTexture(Texture* texture) { p_Texture = texture; };
+		void SetTexture(Texture* texture) { m_Texture = texture; };
 
 		// Sets the Pixel Offset. (ATLAS USE ONLY)
 		void SetPixelOffset(Vector2 offset) { m_PixelOffset = offset; };
@@ -84,7 +84,7 @@ namespace Kross
 		void SetUVOffset(const Vector2 offset) { m_UVOffset = offset; };
 
 		// Sets the Sprite Geometry Data.
-		void AttachGeometryData();
+		void SetGeometryData();
 
 	public:
 		// Creates a Sprite from a Texture.
@@ -130,7 +130,7 @@ namespace Kross
 		const int GetHeight() const { return m_Height; };
 
 		// Gets the  Sprite Texture.
-		Texture* GetTexture() const { return p_Texture; };
+		Texture* GetTexture() const { return m_Texture; };
 
 		// Get the Sprite UV Ratio. (SHADER USE ONLY)
 		const Vector2 GetUVRatio() const { return m_UVRatio; };

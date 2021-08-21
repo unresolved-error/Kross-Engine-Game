@@ -13,7 +13,7 @@ namespace Kross
 	Sprite::~Sprite()
 	{
 		/* Null out Texture and Geometry. */
-		p_Texture = nullptr;
+		m_Texture = nullptr;
 		m_Geometry = nullptr;
 	}
 
@@ -31,7 +31,7 @@ namespace Kross
 		sprite->SetUVOffset(Vector2(0.0f));
 
 		/* Add all of the Geometry Data needed. */
-		sprite->AttachGeometryData();
+		sprite->SetGeometryData();
 
 		/* Attach the Sprite to the Resource Manager. */
 		ResourceManager::AttachResource<Sprite>(sprite);
@@ -66,7 +66,7 @@ namespace Kross
 		sprite->SetUVOffset(Vector2((float)offset.x, (float)offset.y));
 
 		/* Add all of the Geometry Data needed. */
-		sprite->AttachGeometryData();
+		sprite->SetGeometryData();
 
 		/* Attach the Sprite to the Resource Manager. */
 		ResourceManager::AttachResource<Sprite>(sprite);
@@ -116,7 +116,7 @@ namespace Kross
 				sprite->SetUVOffset(Vector2(offset.x, offset.y));
 
 				/* Add all of the Geometry Data needed. */
-				sprite->AttachGeometryData();
+				sprite->SetGeometryData();
 
 				/* Add it to the List. */
 				spriteList.push_back(sprite);
@@ -169,7 +169,7 @@ namespace Kross
 				sprite->SetUVOffset(Vector2(offset.x, offset.y));
 
 				/* Add all of the Geometry Data needed. */
-				sprite->AttachGeometryData();
+				sprite->SetGeometryData();
 
 				/* Add it to the List. */
 				spriteList.push_back(sprite);
@@ -189,7 +189,7 @@ namespace Kross
 			delete sprite;
 	}
 
-	void Sprite::AttachGeometryData()
+	void Sprite::SetGeometryData()
 	{
 		/* Get the name of the Geometry. */
 		std::string name = std::to_string(m_Width) + "x" + std::to_string(m_Height);
@@ -213,12 +213,6 @@ namespace Kross
 
 		/* Set the Size of the Geometry. */
 		m_Geometry->SetSize(Vector2(width, height));
-
-		/* Add Vertexes. */
-		//m_Geometry->AttachVertex(Vertex(Vector2( width,  height), Vector2(1.0f, 1.0f), Colour(1.0f)));
-		//m_Geometry->AttachVertex(Vertex(Vector2( width, -height), Vector2(1.0f, 0.0f), Colour(1.0f)));
-		//m_Geometry->AttachVertex(Vertex(Vector2(-width, -height), Vector2(0.0f, 0.0f), Colour(1.0f)));
-		//m_Geometry->AttachVertex(Vertex(Vector2(-width,  height), Vector2(0.0f, 1.0f), Colour(1.0f)));
 
 		/* Attach new Geometry to the global resources. */
 		ResourceManager::AttachResource<Geometry>(m_Geometry);

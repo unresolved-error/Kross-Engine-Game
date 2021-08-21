@@ -12,6 +12,8 @@
 #include "../../Manager/SceneManager.h"
 #include "../../File-IO/FileSystem.h"
 
+#include "../Editor.h"
+
 namespace Kross
 {
 	void MainMenu::Attach()
@@ -31,6 +33,7 @@ namespace Kross
 			if (ImGui::MenuItem("Save", "  Crtl + S")) 
 			{	
 				FileSystem::OnWriteScene(SceneManager::GetCurrentScene());
+				m_SavedScene = true;
 			}
 			if (ImGui::MenuItem("Save As"))	{}
 			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S")) 
@@ -267,6 +270,39 @@ namespace Kross
 		}
 
 		ImGui::EndMainMenuBar();
+
+		if (m_SavedScene)
+		{
+			ImGui::Begin("Save Scene Alert!", &m_SavedScene, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+			Vector2 size = Editor::GetViewportSize() / 6.0f;
+			Vector2 position = Editor::GetViewportPosition() + Vector2(Editor::GetViewportSize().x / 2.0f, Editor::GetViewportSize().y * 0.345) - size / 2.0f;
+
+			ImGui::SetWindowPos(ImVec2(position.x, position.y));
+			ImGui::SetWindowSize(ImVec2(size.x, size.y));
+
+			if (p_Scene)
+			{
+				std::string message = p_Scene->GetName() + " Saved!";
+
+				for(int i = 0; i < 3; i++)
+					ImGui::Spacing();
+
+				float textWidth = ImGui::CalcTextSize(message.c_str()).x;
+				ImGui::SameLine((size.x - textWidth) / 2.0f);
+				ImGui::Text(message.c_str());
+
+				for (int i = 0; i < 3; i++)
+					ImGui::Spacing();
+
+				float buttonWidth = size.x / 2.0f;
+				ImGui::SameLine((size.x - buttonWidth) / 2.0f);
+				if (ImGui::Button("Okay", ImVec2(buttonWidth, 0.0f)))
+				{
+					m_SavedScene = false;
+				}
+			}
+			ImGui::End();
+		}
 	}
 
 	void MainMenu::SetFlags()

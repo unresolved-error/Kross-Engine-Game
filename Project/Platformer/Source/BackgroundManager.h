@@ -158,42 +158,42 @@ public:
 
 
 		if (furthestPrimary != nullptr && furthestSecondary != nullptr) {
-			furthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			furthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + furthestOffset;
+			furthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			furthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + furthestOffset;
 		}
 		if (secondFurthestPrimary != nullptr && secondFurthestSecondary != nullptr) {
-			secondFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			secondFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + secondFurthestOffset;
+			secondFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			secondFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + secondFurthestOffset;
 		}
 
 		if (thirdFurthestPrimary != nullptr && thirdFurthestSecondary != nullptr) {
-			thirdFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			thirdFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + thirdFurthestOffset;
+			thirdFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			thirdFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + thirdFurthestOffset;
 		}
 
 		if (fourthFurthestPrimary != nullptr && fourthFurthestSecondary != nullptr) {
-			fourthFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			fourthFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + fourthFurthestOffset;
+			fourthFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			fourthFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + fourthFurthestOffset;
 		}
 
 		if (thirdClosePrimary != nullptr && thirdCloseSecondary != nullptr) {
-			thirdClosePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			thirdCloseSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + thirdCloseOffset;
+			thirdClosePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			thirdCloseSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + thirdCloseOffset;
 		}
 
 		if (secondClosePrimary != nullptr && secondCloseSecondary != nullptr) {
-			secondClosePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			secondCloseSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + secondCloseOffset;
+			secondClosePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			secondCloseSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + secondCloseOffset;
 		}
 
 		if (closePrimary != nullptr && closeSecondary != nullptr) {
-			closePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			closeSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + closeOffset;
+			closePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			closeSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + closeOffset;
 		}
 
 		if (foreGroundPrimary != nullptr && closeSecondary != nullptr) {
-			foreGroundPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			foreGroundSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + foreGroundOffset;
+			foreGroundPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			foreGroundSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + foreGroundOffset;
 		}
 
 	}
@@ -252,7 +252,7 @@ public:
 
 			for (int i = 0; i < sceneryList.size(); i++)
 			{
-				xPos.push_back(sceneryList[i]->GetTransform()->m_Position.x);
+				xPos.push_back(sceneryList[i]->m_Transform->m_Position.x);
 			}
 			return xPos;
 		}
@@ -265,9 +265,9 @@ public:
 
 	void ManageLayer(Object* primary, Object* secondary, float followSpeed, float offset, float &scrollOffset, List<Object*> sceneryList, List<float> initSceneryXPos) 
 	{
-		Transform2D* primaryTransform = primary->GetTransform();
-		Transform2D* secondaryTransform = secondary->GetTransform();
-		Transform2D* cameraTransform = sceneCam->GetTransform();
+		Transform2D* primaryTransform = primary->m_Transform;
+		Transform2D* secondaryTransform = secondary->m_Transform;
+		Transform2D* cameraTransform = sceneCam->m_Transform;
 		
 
 		scrollOffset = fmod(cameraTransform->m_Position.x, (offset * followSpeed));
@@ -281,7 +281,7 @@ public:
 		{
 			for (int i = 0; i < sceneryList.size(); i++)
 			{
-				sceneryList[i]->GetTransform()->m_Position.x = cameraTransform->m_Position.x - (cameraTransform->m_Position.x / followSpeed) + initSceneryXPos[i];
+				sceneryList[i]->m_Transform->m_Position.x = cameraTransform->m_Position.x - (cameraTransform->m_Position.x / followSpeed) + initSceneryXPos[i];
 			}
 		}
 

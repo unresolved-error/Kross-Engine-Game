@@ -1080,9 +1080,16 @@ namespace Kross
 									emitterproperties->SetRadius(radFlt);
 									break;
 								}
+								case 4:
+								{
+									int count = std::stoi(value);
+									emitterproperties->SetMaxCount(count);
+									break;
+								}
 								}
 
 								emitterproperties->SetColliderFilters(cBts,mBts);
+								//edmitterproperties->Sys
 
 
 
@@ -1100,7 +1107,7 @@ namespace Kross
 					if (!transformData.empty())
 					{
 						/* Grab the Transform. */
-						Transform2D* transform = currentObject->GetTransform();
+						Transform2D* transform = currentObject->m_Transform;
 
 						/* Quick Variables. */
 						size_t searchPosition = 0;
@@ -1263,7 +1270,7 @@ namespace Kross
 						else if (objProperty == "SCRIPT")
 						{
 							Script* script = ScriptRegistry::GetScript(line.substr(0, line.size() - 2));
-							script->c_Object = currentObject;
+							script->m_GameObject = currentObject;
 							currentObject->m_Components.push_back(script);
 							Debug::LogLine(script->GetName() + " - Script was attached!");
 						}
@@ -1353,11 +1360,11 @@ namespace Kross
 				fileStream << "STATIC->" + std::to_string((int)(scene->m_ActualObjects[j]->IsStatic())) + "->\n";
 				fileStream << "ENABLE->" + std::to_string((int)(scene->m_ActualObjects[j]->Enabled())) + "->\n";
 				fileStream << "LAYER->" + std::to_string((int)(scene->m_ActualObjects[j]->GetLayer())) + "->\n";
-				fileStream << "TRANSFORM2D->" + std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.x) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.y) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Rotation) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.x) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.y) + "->" + "\n";
+				fileStream << "TRANSFORM2D->" + std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Position.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Position.y) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Rotation) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Scale.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Scale.y) + "->" + "\n";
 				
 				for (int k = 0; k < scene->m_ActualObjects[j]->m_Components.size(); k++)
 				{
@@ -1480,7 +1487,8 @@ namespace Kross
 						fileStream << pep->GetParticleFlags() << "->";
 						fileStream << pep->GetColliderFilters()->categoryBits << "->";
 						fileStream << pep->GetColliderFilters()->maskBits << "->";
-						fileStream << pep->GetRadius() << "->\n";
+						fileStream << pep->GetRadius() << "->";
+						fileStream << pep->GetMaxCount() << "->\n";
 
 					}
 					else
@@ -2308,7 +2316,7 @@ namespace Kross
 			if (!transformData.empty())
 			{
 				/* Grab the Transform. */
-				Transform2D* transform = object->GetTransform();
+				Transform2D* transform = object->m_Transform;
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2407,11 +2415,11 @@ namespace Kross
 
 		/* Transform is always on an object, and always one. */
 		std::string transformData("TRANSFORM2D->");
-		transformData += std::to_string(prefab->GetTransform()->m_Position.x) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Position.y) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Rotation) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Scale.x) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Scale.y) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Position.x) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Position.y) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Rotation) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Scale.x) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Scale.y) + breakChar;
 
 		/* Open the Filestream. */
 		std::ofstream prefabStream;
@@ -3804,7 +3812,7 @@ namespace Kross
 		texture->SetBitsPerPixel(bpp);
 		
 		/* Finalise the Data. */
-		texture->OnFinalise();
+		texture->Finalise();
 
 		atlas->SetTexture(texture);
 

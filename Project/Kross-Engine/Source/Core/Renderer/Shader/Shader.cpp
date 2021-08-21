@@ -28,12 +28,12 @@ namespace Kross
 			glDeleteProgram(m_ShaderID);
 	}
 
-	void Shader::Attach()
+	void Shader::Bind()
 	{
 		OPENGL_CHECK(glUseProgram(m_ShaderID));
 	}
 
-	void Shader::Detach()
+	void Shader::UnBind()
 	{
 		OPENGL_CHECK(glUseProgram(0));
 	}
@@ -51,8 +51,8 @@ namespace Kross
 		std::string fSource = FileSystem::GetFileContents(fragmentFilepath);
 
 		/* Compile the Shaders. */
-		unsigned int vShader = Shader::GetShaderCompileStatus(vSource, GL_VERTEX_SHADER);
-		unsigned int fShader = Shader::GetShaderCompileStatus(fSource, GL_FRAGMENT_SHADER);
+		unsigned int vShader = Shader::CompileShader(vSource, GL_VERTEX_SHADER);
+		unsigned int fShader = Shader::CompileShader(fSource, GL_FRAGMENT_SHADER);
 
 		/* Attach them to the overall Shader. */
 		shader->AttachShaders(vShader, fShader);
@@ -76,9 +76,9 @@ namespace Kross
 		std::string gSource = FileSystem::GetFileContents(geometryFilepath);
 
 		/* Compile the Shaders. */
-		unsigned int vShader = Shader::GetShaderCompileStatus(vSource, GL_VERTEX_SHADER);
-		unsigned int fShader = Shader::GetShaderCompileStatus(fSource, GL_FRAGMENT_SHADER);
-		unsigned int gShader = Shader::GetShaderCompileStatus(gSource, GL_GEOMETRY_SHADER);
+		unsigned int vShader = Shader::CompileShader(vSource, GL_VERTEX_SHADER);
+		unsigned int fShader = Shader::CompileShader(fSource, GL_FRAGMENT_SHADER);
+		unsigned int gShader = Shader::CompileShader(gSource, GL_GEOMETRY_SHADER);
 
 		/* Attach them to the overall Shader. */
 		shader->AttachShaders(vShader, fShader, gShader);
@@ -100,8 +100,8 @@ namespace Kross
 		std::string fSource = FileSystem::GetFileContents(shader->GetFragmentFilepath());
 
 		/* Compile the shaders. */
-		unsigned int vShader = Shader::GetShaderCompileStatus(vSource, GL_VERTEX_SHADER);
-		unsigned int fShader = Shader::GetShaderCompileStatus(fSource, GL_FRAGMENT_SHADER);
+		unsigned int vShader = Shader::CompileShader(vSource, GL_VERTEX_SHADER);
+		unsigned int fShader = Shader::CompileShader(fSource, GL_FRAGMENT_SHADER);
 
 		/* Attach them to the overall shader. */
 		reloadedShader->AttachShaders(vShader, fShader);
@@ -120,7 +120,7 @@ namespace Kross
 			delete shader;
 	}
 
-	unsigned int Shader::GetShaderCompileStatus(std::string source, int type)
+	unsigned int Shader::CompileShader(std::string source, int type)
 	{
 		/* Shader Compile Variables. */
 		unsigned int shader = glCreateShader(type);
@@ -164,7 +164,7 @@ namespace Kross
 		OPENGL_CHECK(glLinkProgram(m_ShaderID));
 
 		/* Check how the Linking went. */
-		GetLinkingStatus();
+		LinkShader();
 
 		/* Validate the shader. */
 		OPENGL_CHECK(glValidateProgram(m_ShaderID));
@@ -185,7 +185,7 @@ namespace Kross
 		OPENGL_CHECK(glLinkProgram(m_ShaderID));
 
 		/* Check how the Linking went. */
-		GetLinkingStatus();
+		LinkShader();
 
 		/* Validate the shader. */
 		OPENGL_CHECK(glValidateProgram(m_ShaderID));
@@ -222,7 +222,7 @@ namespace Kross
 		return -1;
 	}
 
-	void Shader::GetLinkingStatus()
+	void Shader::LinkShader()
 	{
 		/* Status. */
 		int status;
@@ -243,91 +243,81 @@ namespace Kross
 
 	void Shader::SetUniform(const std::string& variable, bool value)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniform1i(GetUniformLocation(variable), value));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, int value)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniform1i(GetUniformLocation(variable), value));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, float value)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniform1f(GetUniformLocation(variable), value));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, Vector2 vector)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniform2fv(GetUniformLocation(variable), 1, &vector[0]));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, Vector3 vector)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniform3fv(GetUniformLocation(variable), 1, &vector[0]));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, Vector4 vector)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniform4fv(GetUniformLocation(variable), 1, &vector[0]));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, Matrix2 matrix)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniformMatrix2fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, Matrix3 matrix)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniformMatrix3fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, Matrix4 matrix)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniformMatrix4fv(GetUniformLocation(variable), 1, GL_FALSE, &matrix[0][0]));
-		Detach();
 	}
 
 	void Shader::SetUniform(const std::string& variable, Texture* texture)
 	{
-		Attach();
+		Bind();
 
 		/* Set the value to the variable. */
 		OPENGL_CHECK(glUniform1i(GetUniformLocation(variable), texture->GetSlot()));
-		Detach();
 	}
 }

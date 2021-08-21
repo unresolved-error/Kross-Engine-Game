@@ -35,7 +35,7 @@ namespace Kross
 	{
 	private:
 		Atlas() : 
-			p_AtlasTexture			(nullptr),
+			m_AtlasTexture			(nullptr),
 			m_IgnoreTextureTypes	(List<TextureType>()),
 			m_TextureOffsets		(std::unordered_map<Texture*, Vector2>()),
 			m_AttachedTextures		(List<Texture*>()),
@@ -52,7 +52,7 @@ namespace Kross
 		};
 		~Atlas();
 
-		Texture* p_AtlasTexture;
+		Texture* m_AtlasTexture;
 		
 		// Identifies what types to ignore when adding textures to the Atlas. (THIS NEEDS TO BE SET MANUALLY)
 		List<TextureType> m_IgnoreTextureTypes;
@@ -70,7 +70,10 @@ namespace Kross
 		static List<TextureType> GetIgnoreTextureTypes();
 
 		// Sets the Texture.
-		void SetTexture(Texture* texture) { p_AtlasTexture = texture; };
+		void SetTexture(Texture* texture) { m_AtlasTexture = texture; };
+
+		// Gets the Texture.
+		Texture* GetTexture() const { return m_AtlasTexture; };
 
 		// Adds Sprite Data.
 		void AttachSpriteData(Sprite* sprite, AtlasSpriteData data);
@@ -80,9 +83,6 @@ namespace Kross
 
 		// Check if the Texture should be Ignored.
 		bool ShouldIgnoreTexture(Texture* texture);
-
-		// Gets the Texture.
-		Texture* GetTexture() const { return p_AtlasTexture; };
 
 		// Gets the Texture Offset.
 		Vector2 GetTextureOffset(Texture* texture) { return m_TextureOffsets[texture]; };

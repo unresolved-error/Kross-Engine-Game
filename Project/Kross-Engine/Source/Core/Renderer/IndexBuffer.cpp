@@ -22,21 +22,21 @@ namespace Kross
 		glDeleteBuffers(1, &m_IndexBufferID);
 	}
 
-	void IndexBuffer::Attach()
+	void IndexBuffer::Bind()
 	{
 		OPENGL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID));
 	}
 
-	void IndexBuffer::Detach()
+	void IndexBuffer::UnBind()
 	{
 		OPENGL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 	}
 
-	void IndexBuffer::AttachIndexData(const void* data, unsigned int count)
+	void IndexBuffer::SetIndexData(const void* data, unsigned int count)
 	{
 		m_Count = count;
 
-		Attach();
+		Bind();
 		OPENGL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW));
 	}
 }

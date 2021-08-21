@@ -7,49 +7,34 @@ using namespace Kross;
 class PlayerMovement : public Script
 {
 public:
-	PlayerMovement() :
-		transform(nullptr),
-		renderer(nullptr),
-		window(nullptr),
-		rigidBody(nullptr),
-		animator(nullptr),
-		camera(nullptr)
+	PlayerMovement()
 	{
 		/* Every Script Must do this! */
 		m_Name = "PlayerMovement";
 	};
 	~PlayerMovement() {};
 
-	Transform2D* transform;
-	SpriteRenderer* renderer;
-	Window* window;
-	Rigidbody2D* rigidBody;
+	Object* m_Camera = nullptr;
+	Object* m_Gun = nullptr;
 
-	AudioPlayer* audplayer = nullptr;
+	TextRenderer* m_TextRenderer = nullptr;
+	SpriteRenderer* m_SpriteRenderer = nullptr;
+	Window* m_Window = nullptr;
+	Rigidbody2D* m_RigidBody = nullptr;
+	AudioPlayer* m_AudioPlayer = nullptr;
+	Animator* m_Animator = nullptr;
 
-	Animator* animator;
+	Vector2 m_GunOffset = Vector2(0.0f, -0.11f);
+	Vector2 m_TextRendererOffset = Vector2(0.0f, 1.5f);
 
-	Vector2 gunOffset = Vector2(0.0f, -0.11f);
+	int m_ControllerID = 0;
+	int m_FrameCount = 0;
+	int m_JumpCount = 0;
 
-	Object* camera;
-	Object* gun;
-	Object* text;
+	float m_MoveSpeed = 10;
+	float m_TimeElapsed = 0.0f;
 
-	bool followPlayer = false;
-
-	bool isGrounded = false;
-	int jumpCount = 0;
-
-	float moveSpeed = 10;
-
-	int controllerID = 0;
-
-	float pan = 0.0f;
-	float volume = 1.0f;
-
-	float timeElapsed = 0.0f;
-
-	int frameCount = 0;
+	float m_VelocityThreshold = 0.05f;
 
 	float m_MaxGroundSpeed = 2.0f;
 	float m_MaxAirSpeed = 3.0f;
@@ -62,142 +47,95 @@ public:
 
 	void Start() override
 	{
-		transform = c_Object->GetTransform();
-		transform->m_Position = Vector2(0.0f);
-		renderer = GetComponent<SpriteRenderer>();
-		window = Application::GetWindow();
+		/* Grab All of the Local Components. */
+		m_SpriteRenderer = GetComponent<SpriteRenderer>();
+		m_RigidBody = GetComponent<Rigidbody2D>();
+		m_Animator = GetComponent<Animator>();
+		m_AudioPlayer = GetComponent<AudioPlayer>();
 
-		controllerID = Input::GetAvalibleController();
+		/* Grab External Object Related things. */
+		m_TextRenderer = SceneManager::GetCurrentScene()->FindObject("Text")->GetComponent<TextRenderer>();
+		m_Gun = SceneManager::GetCurrentScene()->FindObject("Gun");
+		m_Camera = SceneManager::GetCurrentScene()->GetCamera();
+		
+		/* Grab the Window. */
+		m_Window = Application::GetWindow();
 
-		rigidBody = GetComponent<Rigidbody2D>();
-
-		animator = GetComponent<Animator>();
-
-		text = SceneManager::GetCurrentScene()->FindObject("Text");
-		gun = SceneManager::GetCurrentScene()->FindObject("Gun");
-
-		Material* defaultMaterial = Material::OnCreate("Default");
-		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
-
-		audplayer = GetComponent<AudioPlayer>();
-		audplayer->SetAudioSource(ResourceManager::GetResource<AudioSource>("Bullet-Proof"));
-		audplayer->SetLoop(true);
-
-		camera = SceneManager::GetCurrentScene()->GetCamera();
-
-		Debug::Log(((Object*)c_Object)->GetName() + " Position =");
-		Debug::Log(transform->m_Position);
-		Debug::EndLine();
+		/* See if a Controller is Connected. */
+		m_ControllerID = Input::GetAvalibleController();
 	}
 
 	void Update() override
 	{
+		/* Create a Base Input Variable. */
 		Vector2 input = Vector2(0.0f);
 
-		if (Input::ControllerConnected(controllerID))
+		/* if the Controller is Connected. */
+		if (Input::ControllerConnected(m_ControllerID))
 		{
-			input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), 0.0f);
-
-			//if (input.x == 0.0f && input.y == 0.0f)
-			//{
-			//	animator->SetCurrentAnimation(0);
-			//}
-			//else
-			//{
-			//	animator->SetCurrentAnimation(1);
-			//}
-			//
-			//if (Input::GetControllerButtonPressed(controllerID, Controller::A))
-			//{
-			//	if (jumpCount < 1)
-			//	{
-			//		rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-			//		jumpCount++;
-			//	}
-			//}
-			//
-			//if (Input::GetControllerButtonPressed(controllerID, Controller::RightStick))
-			//{
-			//	followPlayer = !followPlayer;
-			//}
-			//
-			//if (Input::GetControllerAxis(controllerID, Controller::LeftTrigger, 0.9f) > 0.9f)
-			//{
-			//	Object* newbie = OnCreateObject("Newbie", GetLinkObject()->GetTransform()->m_Position, Random::GetRandomRange<float>(0.0f, 360.0f));
-			//	newbie->SetLayer(Layer::Default);
-			//	newbie->AttachComponent<SpriteRenderer>();
-			//
-			//	newbie->SetStaticStatus(true);
-			//
-			//	SpriteRenderer* ren = newbie->GetComponent<SpriteRenderer>();
-			//	ren->SetMaterial(ResourceManager::GetResource<Material>("Default"));
-			//	ren->SetDepth(20);
-			//}
-			//
-			//if (Input::GetControllerButtonPressed(controllerID, Controller::DPadUp))
-			//{
-			//	Window* window = Application::GetWindow();
-			//	if (window->GetFullscreen() == 0)
-			//	{
-			//		window->SetFullscreen(1);
-			//	}
-			//	else
-			//	{
-			//		window->SetFullscreen(0);
-			//	}
-			//}
+			/* Grab it's Input. */
+			input = Vector2(Input::GetControllerAxis(m_ControllerID, Controller::LeftStickHorizontal, 0.2f), 0.0f);
 		}
+
+		/* Use Keyboard and Mouse instead. */
 		else
 		{
-			controllerID = Input::GetAvalibleController();
+			/* Keep Checking if a Controller Gets Connected. */
+			m_ControllerID = Input::GetAvalibleController();
 
+			/* Grab the Input needed. */
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), 0.0f);
-
-			pan += (float)((int)Input::GetKeyDown(Key::E) - (int)Input::GetKeyDown(Key::Q)) / 100.0f;
-			volume += (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow)) / 1000.0f;
-			audplayer->SetPan(pan);
-
-			if (Input::GetKeyPressed(Key::P))
-			{
-				if (audplayer->IsPlaying())
-					audplayer->Pause();
-
-				else
-					audplayer->Play();
-			}
-
-			if (Input::GetKeyPressed(Key::S))
-			{
-				if (audplayer->IsPlaying())
-					audplayer->Stop();
-			}
-
-			if (Input::GetKeyPressed(Key::G))
-			{
-				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
-			}
 		}
-		if (transform->m_Position.x < 180) 
+
+		/* If the Object isn't at the End of a Level. */
+		if (m_GameObject->m_Transform->m_Position.x < 180) 
 		{
+			/* Move the Player. */
 			PlayerMove(input, Key::Space, Controller::A);
 		}
-		EnableGravity(Key::Q, Controller::B);
 
-		Vector2 cameraPosition = camera->GetTransform()->m_Position;
-		Vector2 playerPosition = c_Object->GetTransform()->m_Position;
+		/* Lerp the Camera's Position to the Players. */
+		m_Camera->m_Transform->m_Position = Math::Lerp(m_Camera->m_Transform->m_Position, m_GameObject->m_Transform->m_Position, Time::GetDeltaTime() * 4.0f);
 
-		//camera->GetTransform()->m_Position.x = Math::Lerp(cameraPosition.x, playerPosition.x, Time::GetDeltaTime() * 4.0f);
-		//camera->GetTransform()->m_Position.y = Math::Lerp(cameraPosition.y, playerPosition.y, Time::GetDeltaTime() * 4.0f);
+		/* Clamp the Camera Position. */
+		m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 178.75f);
+		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -2.0f, 1.5f);
 
-		camera->GetTransform()->m_Position = Math::Lerp(cameraPosition, playerPosition, Time::GetDeltaTime() * 4.0f);
+		/* --- FRAME COUNTER STUFF --- */
 
-		camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, -1.25f, 178.75f);
-		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.5f);
-
-		if (gun)
+		/* If the Elapsed Time hasn't hit a second yet. */
+		if (m_TimeElapsed < 1.0f)
 		{
+			/* Keep tickign up, add one to the Frame Counter. */
+			m_TimeElapsed += Time::GetDeltaTime();
+			m_FrameCount++;
+		}
+
+		/* If it happens to be a second or a little more. */
+		else
+		{
+			/* Reset Everything. */
+			m_TimeElapsed = 0.0f;
+
+			/*	
+				Normally text would be changed here... 
+				Display the previous Frame Count before resetting... 
+			*/
+
+			m_FrameCount = 0;
+		}
+
+		/* --------------------------- */
+
+		/* --- GUN RELATED THINGS --- */
+
+		/* If the Gun Obejct Exists. */
+		if (m_Gun)
+		{
+			/* Grab the True Offset. */
 			Vector2 trueOffset;
-			if (renderer->GetFlipX())
+
+			if (m_SpriteRenderer->GetFlipX())
 			{
 				trueOffset = Vector2(-1.0f, 1.0f);
 			}
@@ -205,172 +143,200 @@ public:
 			{
 				trueOffset = Vector2(1.0f, 1.0f);
 			}
-			gun->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + (gunOffset * trueOffset);
-		}
-		if (timeElapsed < 1.0f)
-		{
-			timeElapsed += Time::GetDeltaTime();
-			frameCount++;
-		}
-
-		if (text)
-		{
-			if (playerPosition.x < 170) 
-			{
-				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
-				textcol.a = 0;
-				text->GetComponent<TextRenderer>()->SetColour(textcol);
-			}
-			else if (playerPosition.x < 179.9)
-			{
-				float alph = (playerPosition.x-170) / 10;
-				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
-				textcol.a = alph;
-				text->GetComponent<TextRenderer>()->SetColour(textcol);
 			
+			/* Set the Guns Position based on the true offset. */
+			m_Gun->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + (m_GunOffset * trueOffset);
+		}
+
+		/* -------------------------- */
+
+		/* --- TEXT RENDERER STUFF --- */
+
+		/* If we have found a Text Renderer*/
+		if (m_TextRenderer)
+		{
+			/* If the Object less than 170 on the x. */
+			if (m_GameObject->m_Transform->m_Position.x < 170)
+			{
+				/* Grab the Colour and Extract it's alpha. */
+				Colour textcol = m_TextRenderer->GetColour();
+				textcol.a = 0;
+
+				/* Set its Colour. */
+				m_TextRenderer->SetColour(textcol);
 			}
 
-			text->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + Vector2(0.0f, 1.5f);
-		
+			/* If the Object is Less than 180 on the x but larger than 170. */
+			else if (m_GameObject->m_Transform->m_Position.x < 179.9)
+			{
+				/* Calculate its Alpha Value. */
+				float alph = (m_GameObject->m_Transform->m_Position.x - 170.0f) / 10.0f;
+
+				/* Grab the Colour and Extract it's alpha. */
+				Colour textcol = m_TextRenderer->GetColour();
+				textcol.a = alph;
+
+				/* Set its Colour. */
+				m_TextRenderer->SetColour(textcol);
+
+			}
+
+			/* Set the Text Renderer's  Position. */
+			m_TextRenderer->m_GameObject->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + m_TextRendererOffset;
+
 		}
 
-		if (timeElapsed >= 1.0f)
-		{
-			timeElapsed = 0.0f;
-			//if(text)
-			//	text->GetComponent<TextRenderer>()->SetText(std::to_string(frameCount));
-			frameCount = 0;
-		}
+		/* --------------------------- */
 
 	}
 
+	/*! 
+		Moves the Player Based on Input. 
+	*/
 	void PlayerMove(Vector2 input, Key jump, Controller jumpC)
 	{
-		if (rigidBody->GetBody()->GetLinearVelocity().y <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().y >= -0.05f)
+		/* Animation Setting.*/
+
+		/* If the Rigidbody's Velocity in the Vertical direction is inside of the threshold. */
+		if (m_RigidBody->GetBody()->GetLinearVelocity().y <= m_VelocityThreshold && m_RigidBody->GetBody()->GetLinearVelocity().y >= -m_VelocityThreshold)
 		{
-			if (rigidBody->GetBody()->GetLinearVelocity().x <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().x >= -0.05f)
+			/* If the Rigidbody's Velocity in the Horizontal direction is inside of the threshold. */
+			if (m_RigidBody->GetBody()->GetLinearVelocity().x <= m_VelocityThreshold && m_RigidBody->GetBody()->GetLinearVelocity().x >= -m_VelocityThreshold)
 			{
-				animator->SetCurrentAnimation(0);
+				/* Set to the Idle Animation. */
+				m_Animator->SetCurrentAnimation(0);
 			}
+			/* If the Horizontal Velocity has breached the threshold. */
 			else
 			{
-				animator->SetCurrentAnimation(1);
+				/* Set to the Walk Animation. */
+				m_Animator->SetCurrentAnimation(1);
 			}
 		}
+		/* If the Vertical Velocity has breached the threshold. */
 		else
 		{
-			if (rigidBody->GetBody()->GetLinearVelocity().y >= 0.05f)
+			/* If moving upwards. */
+			if (m_RigidBody->GetBody()->GetLinearVelocity().y >= m_VelocityThreshold)
 			{
-				animator->SetCurrentAnimation(2);
+				/* Set to the Jump Up Animation. */
+				m_Animator->SetCurrentAnimation(2);
 			}
 
-			else if(rigidBody->GetBody()->GetLinearVelocity().y <= -0.05f)
+			/* If moving downwards. */
+			else if(m_RigidBody->GetBody()->GetLinearVelocity().y <= -m_VelocityThreshold)
 			{
-				animator->SetCurrentAnimation(3);
+				/* Set to the Jump Down Animation. */
+				m_Animator->SetCurrentAnimation(3);
 			}
 		}
 
-		if (rigidBody->GetRigidbodyState() != RigidbodyState::Falling && 
-			Input::GetKeyPressed(jump) || Input::ControllerConnected(controllerID) &&
-			Input::GetControllerButtonPressed(controllerID, jumpC))
+		/* If the Rigidbody is falling and Jump Input has been detected. */
+		if (m_RigidBody->GetRigidbodyState() != RigidbodyState::Falling &&
+			Input::GetKeyPressed(jump) || Input::ControllerConnected(m_ControllerID) &&
+			Input::GetControllerButtonPressed(m_ControllerID, jumpC))
 		{
-			for (b2ContactEdge* thisContact = rigidBody->GetBody()->GetContactList(); thisContact; thisContact = thisContact->next)
+			/* Go through Contact List. */
+			for (b2ContactEdge* thisContact = m_RigidBody->GetBody()->GetContactList(); thisContact; thisContact = thisContact->next)
 			{
-				if (thisContact->other == rigidBody->GetRaycastData()->body)
+				/* if the current Contact other is the same body on Players Rigidbody. */
+				if (thisContact->other == m_RigidBody->GetRaycastData()->body)
 				{
-					if (jumpCount < 1)
+					/* If the jump Count is Less than One.*/
+					if (m_JumpCount < 1)
 					{
-						rigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-						jumpCount++;
+						/* Jump. */
+						m_RigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
+						m_JumpCount++;
 						break;
 					}
 				}
 			}
 		}
 
-		if (jumpCount == 0)
+		/* If the Player hasn't Jumped. */
+		if (m_JumpCount == 0)
 		{
-			
-			if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
+			/* Move Left or Right based on the Velocity Cap. */
+
+			if (input.x < 0 && m_RigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
 			{
-				rigidBody->OnApplyForce(input);
+				m_RigidBody->OnApplyForce(input);
 			}
-			else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
+			else if (input.x > 0 && m_RigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
 			{
-				rigidBody->OnApplyForce(input);
+				m_RigidBody->OnApplyForce(input);
 			}
 			else
 			{
-				rigidBody->OnApplyForce(input * 0.1f);
+				m_RigidBody->OnApplyForce(input * 0.1f);
 			}
 		}
+
+		/* If they have. */
 		else
 		{
-			if (input.x < 0 && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
+			/* Move Left or Right based on the Velocity Cap. */
+
+			if (input.x < 0 && m_RigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
 			{
-				rigidBody->OnApplyForce(input);
+				m_RigidBody->OnApplyForce(input);
 			}
-			else if (input.x > 0 && rigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
+			else if (input.x > 0 && m_RigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
 			{
-				rigidBody->OnApplyForce(input);
+				m_RigidBody->OnApplyForce(input);
 			}
 			else
 			{
-				rigidBody->OnApplyForce(input * 0.1f);
+				m_RigidBody->OnApplyForce(input * 0.1f);
 			}
 		}
+
+		/* Flip Based on the Input x Value. */
 
 		if (input.x > 0)
 		{
-			renderer->SetFlipX(false);
+			/* Face Right. */
+			m_SpriteRenderer->SetFlipX(false);
 		}
 		else if (input.x < 0)
 		{
-			renderer->SetFlipX(true);
-		}
-	}
-
-	void EnableGravity(Key key, Controller button)
-	{
-		if (Input::GetKeyPressed(key) || (Input::ControllerConnected(controllerID) &&
-			Input::GetControllerButtonPressed(controllerID, button)))
-		{
-			SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
+			/* Face Left. */
+			m_SpriteRenderer->SetFlipX(true);
 		}
 	}
 
 	void OnCollisionEnter(Object* other)
 	{
-		if (other->GetLayer() == Layer::Ground || 
-			other->GetLayer() == Layer::Player)
+		/* If the Object we have collided with is on the Ground or Player Layer. */
+		if (other->GetLayer() == Layer::Ground || other->GetLayer() == Layer::Player)
 		{
-			jumpCount = 0;
+			/* Reset the Jump Count. */
+			m_JumpCount = 0;
 		}
-
-		Debug::LogLine("Entered collision with " + other->GetName());
 	}
 
 	void OnCollisionStay(Object* other)
 	{
-		if (other->GetLayer() == Layer::Ground ||
-			other->GetLayer() == Layer::Player)
+		/* If the Object we have collided with is on the Ground or Player Layer. */
+		if (other->GetLayer() == Layer::Ground || other->GetLayer() == Layer::Player)
 		{
-			jumpCount = 0;
+			/* Reset the Jump Count. */
+			m_JumpCount = 0;
 		}
 	}
 
 	void OnCollisionExit(Object* other)
 	{
-		if (other->GetLayer() == Layer::Ground ||
-			other->GetLayer() == Layer::Player)
+		/* If the Object we have collided with is on the Ground or Player Layer. */
+		if (other->GetLayer() == Layer::Ground || other->GetLayer() == Layer::Player)
 		{
-			if (jumpCount == 0)
+			/* If the Jump Count equals 0. */
+			if (m_JumpCount == 0)
 			{
-				jumpCount++;
+				/* Increase it's value. */
+				m_JumpCount++;
 			}
 		}
-
-		Debug::LogLine((std::string)"Exited collision with " + other->GetName());
 	}
-
 };

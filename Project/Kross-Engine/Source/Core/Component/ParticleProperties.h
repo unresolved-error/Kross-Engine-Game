@@ -51,8 +51,8 @@ namespace Kross
 		uint32 GetGroupFlags() { return p_GroupDef->groupFlags; }
 
 		/* Sets the position */
-		void SetPosition(Vector2 pos) { p_GroupDef->position = Getb2Vec2(pos); }
-		b2Vec2 GetPosition() { return p_GroupDef->position; }
+		//void SetPosition(Vector2 pos) { p_GroupDef->position = Getb2Vec2(pos); }
+		//b2Vec2 GetPosition() { return p_GroupDef->position; }
 
 		/* Sets the angle */
 		void SetAngle(float angle) { p_GroupDef->angle = angle; }

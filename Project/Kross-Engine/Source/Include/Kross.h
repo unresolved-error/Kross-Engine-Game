@@ -103,7 +103,7 @@ Kross::Object* Kross::OnCreateObject(const std::string& name, Kross::Vector2 pos
 {
 	/* Create an Empty Object with a name. */
 	Kross::Object* object = Kross::Object::OnCreate(name);
-	object->GetTransform()->m_Position = position;
+	object->m_Transform->m_Position = position;
 
 	/* Attach it to the Current Scene. */
 	Kross::SceneManager::GetCurrentScene()->AttachObject(object);
@@ -116,8 +116,8 @@ Kross::Object* Kross::OnCreateObject(const std::string& name, Kross::Vector2 pos
 {
 	/* Create an Empty Object with a name. */
 	Kross::Object* object = Kross::Object::OnCreate(name);
-	object->GetTransform()->m_Position = position;
-	object->GetTransform()->m_Rotation = rotation;
+	object->m_Transform->m_Position = position;
+	object->m_Transform->m_Rotation = rotation;
 
 	/* Attach it to the Current Scene. */
 	Kross::SceneManager::GetCurrentScene()->AttachObject(object);
@@ -130,9 +130,9 @@ Kross::Object* Kross::OnCreateObject(const std::string& name, Kross::Vector2 pos
 {
 	/* Create an Empty Object with a name. */
 	Kross::Object* object = Kross::Object::OnCreate(name);
-	object->GetTransform()->m_Position = position;
-	object->GetTransform()->m_Rotation = rotation;
-	object->GetTransform()->m_Scale = scale;
+	object->m_Transform->m_Position = position;
+	object->m_Transform->m_Rotation = rotation;
+	object->m_Transform->m_Scale = scale;
 
 	/* Attach it to the Current Scene. */
 	Kross::SceneManager::GetCurrentScene()->AttachObject(object);

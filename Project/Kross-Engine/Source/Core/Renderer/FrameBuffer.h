@@ -20,8 +20,8 @@ namespace Kross
 	private:
 		unsigned int m_FrameBufferID;
 		unsigned int m_AttachmentID;
+
 		Texture* m_FrameBufferTexture;
-		//Geometry* m_Geometry;
 
 	protected:
 
@@ -31,12 +31,12 @@ namespace Kross
 		~FrameBuffer();
 
 		// Binds the Frame Buffer.
-		void Attach();
+		void Bind();
 
 		// Un Binds all Frame Buffers.
-		static void Detach();
+		static void UnBind();
 
 		// Gets the Frame Buffer generated Texture.
-		Texture* GetFrameTexture() const { return m_FrameBufferTexture; };
+		Texture* GetTexture() const { return m_FrameBufferTexture; };
 	};
 }
