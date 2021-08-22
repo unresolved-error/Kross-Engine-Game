@@ -186,7 +186,7 @@ namespace Kross
         /* Render all Game Objects. */
         
         /* For removing the Objects from the Render Queue that are dynamic. */
-        List<int> dynamicRenderQueueReferencePoints;
+        std::vector<int> dynamicRenderQueueReferencePoints;
         
         /* Go through the Dynamic Object List. To place them in the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)
@@ -195,7 +195,7 @@ namespace Kross
             if (m_Objects[i]->Enabled() && m_Objects[i]->GetRenderableStatus())
             {
                 /* Keep Record of the index, so we know where in the list it is to remove it. */
-                List<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
+                std::vector<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
         
                 for(int j = 0; j < indexes.size(); j++)
                     dynamicRenderQueueReferencePoints.push_back(indexes[j]);
@@ -234,10 +234,10 @@ namespace Kross
             m_Camera->GetComponent<Camera>()->SetAspectRatio(aspectRatio);
     }
 
-    List<int> Scene::AttachObjectToRenderQueue(Object* object)
+    std::vector<int> Scene::AttachObjectToRenderQueue(Object* object)
     {
         /* List of all the indexes Recorded on this Object. */
-        List<int> indexes = List<int>();
+        std::vector<int> indexes = std::vector<int>();
 
         /* If there is no renderer on the object. */
         if (!object->GetRenderableStatus())
@@ -250,7 +250,7 @@ namespace Kross
         int layer = (int)object->GetLayer();
 
         /* Renderer Component List. */
-        List<Renderer*> objectRenderList = object->GetRendererComponents();
+        std::vector<Renderer*> objectRenderList = object->GetRendererComponents();
 
         /* Go through the Object Render List. */
         for (int j = 0; j < objectRenderList.size(); j++)
@@ -320,7 +320,7 @@ namespace Kross
         if (!object->GetRenderableStatus())
             return;
 
-        List<Renderer*> objectRenderList = object->GetRendererComponents();
+        std::vector<Renderer*> objectRenderList = object->GetRendererComponents();
 
         for (int j = 0; j < objectRenderList.size(); j++)
         {

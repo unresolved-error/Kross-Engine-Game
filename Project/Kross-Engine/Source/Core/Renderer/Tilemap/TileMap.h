@@ -16,7 +16,7 @@ namespace Kross
         friend class FileSystem;
 
         //Takes the map indexs and sets them to m_MapSpriteIndexs
-        void SetMapIndexes(List<List<int>> mapIndexs);
+        void SetMapIndexes(std::vector<std::vector<int>> mapIndexs);
         void SetName(std::string name);
 
 
@@ -31,7 +31,7 @@ namespace Kross
         std::string GetName() const { return m_Name; };
 
         //returns m_MapSpriteIndexs
-        List<List<int>> GetMapIndexs()const { return m_MapSpriteIndexs; };
+        std::vector<std::vector<int>> GetMapIndexs()const { return m_MapSpriteIndexs; };
         
         int GetCellValue(int x, int y);
 
@@ -39,7 +39,7 @@ namespace Kross
 
 
     private:
-        List<List<int>> m_MapSpriteIndexs;
+        std::vector<std::vector<int>> m_MapSpriteIndexs;
         std::string m_Name;
 
 

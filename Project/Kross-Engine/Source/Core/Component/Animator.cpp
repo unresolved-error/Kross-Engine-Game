@@ -20,7 +20,7 @@ namespace Kross
 
 		/* Null everything out. */
 		m_AnimationCurrent = nullptr;
-		m_Renderer = nullptr;
+		m_SpriteRenderer = nullptr;
 		m_Rigidbody = nullptr;
 	}
 
@@ -28,7 +28,7 @@ namespace Kross
 	{
 		/* Get the Components needed. */
 		m_Rigidbody = m_GameObject->GetComponent<Rigidbody2D>();
-		m_Renderer = m_GameObject->GetComponent<SpriteRenderer>();
+		m_SpriteRenderer = m_GameObject->GetComponent<SpriteRenderer>();
 
 		/* Play the Current Animation. */
 		if(m_AnimationCurrent)
@@ -53,22 +53,22 @@ namespace Kross
 			if (!m_Rigidbody && !m_GameObject->IsStatic())
 			{
 				/* If the Position Data has been set. */
-				if (currentKeyframe->HasPositionData())
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::PositionData)
 					m_GameObject->m_Transform->m_Position = currentKeyframe->GetPosition();
 
 				/* If the Rotation Data has been set. */
-				if (currentKeyframe->HasRotationData())
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::RotationData)
 					m_GameObject->m_Transform->m_Rotation = currentKeyframe->GetRotation();
 
 				/* If the Scale Data has been set. */
-				if (currentKeyframe->HasScaleData())
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::ScaleData)
 					m_GameObject->m_Transform->m_Scale = currentKeyframe->GetScale();
 			}
 
 			/* If the Sprite Data has been set. */
-			if (currentKeyframe->HasSpriteData())
-				if (m_Renderer) /* If we have a Renderer, set its Sprite. */
-					m_Renderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
+			if (currentKeyframe->GetFlags() & KeyframeDataFlags::SpriteData)
+				if (m_SpriteRenderer) /* If we have a Renderer, set its Sprite. */
+					m_SpriteRenderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
 		}
 		#endif 
 

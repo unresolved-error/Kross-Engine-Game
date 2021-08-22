@@ -22,13 +22,13 @@ namespace Kross
 	{
 	private:
 		Animation* m_AnimationCurrent;
-		List<Animation*> m_Animations;
+		std::vector<Animation*> m_Animations;
 
 		/* Keyframe Properties Components. */
 
 		Rigidbody2D* m_Rigidbody;
 
-		SpriteRenderer* m_Renderer;
+		SpriteRenderer* m_SpriteRenderer;
 
 		/* ------------------------------- */
 
@@ -59,9 +59,9 @@ namespace Kross
 		*/
 		Animator() :
 			m_AnimationCurrent	(nullptr),
-			m_Animations		(List<Animation*>()),
+			m_Animations		(std::vector<Animation*>()),
 			m_Rigidbody			(nullptr),
-			m_Renderer			(nullptr)
+			m_SpriteRenderer	(nullptr)
 		{};
 		/*!
 			Animator's Destructor.

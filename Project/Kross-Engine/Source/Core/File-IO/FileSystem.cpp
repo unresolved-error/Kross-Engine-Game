@@ -374,7 +374,7 @@ namespace Kross
 		else { fileStream.close(); }
 
 		//NOW LOAD OBJECTS. THIS WILL BE ROUGH.
-		List<Object*> readObj = OnReadObjects(kObjFilepath);
+		std::vector<Object*> readObj = OnReadObjects(kObjFilepath);
 
 		//__debugbreak();
 
@@ -389,7 +389,7 @@ namespace Kross
 		SceneManager::SetCurrentScene(0);
 	}
 
-	List<Object*> FileSystem::OnReadObjects(const std::string& filepath)
+	std::vector<Object*> FileSystem::OnReadObjects(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -402,17 +402,17 @@ namespace Kross
 		std::string objLayer;
 
 		std::string transformData;
-		List<std::string> animatorData;
-		List<std::string> audioPlayerData;
-		List<std::string> cameraData;
-		List<std::string> rigidbodyData;
-		List<std::string> spriteRendererData;
-		List<std::string> textRendererData;
-		List<std::string> tileMapRendererData;
-		List<std::string> particleEmitterData;
+		std::vector<std::string> animatorData;
+		std::vector<std::string> audioPlayerData;
+		std::vector<std::string> cameraData;
+		std::vector<std::string> rigidbodyData;
+		std::vector<std::string> spriteRendererData;
+		std::vector<std::string> textRendererData;
+		std::vector<std::string> tileMapRendererData;
+		std::vector<std::string> particleEmitterData;
 
 
-		List<Object*> readInObjects;
+		std::vector<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
 
 		/* If the File Stream is Open. */
@@ -465,7 +465,7 @@ namespace Kross
 					if (animatorData.size() > 0)
 					{
 						/* Access all animators on the Object. */
-						List<Animator*> animators = currentObject->GetComponents<Animator>();
+						std::vector<Animator*> animators = currentObject->GetComponents<Animator>();
 						for (int i = 0; i < animatorData.size(); i++)
 						{
 							/* Quick Variables. */
@@ -513,7 +513,7 @@ namespace Kross
 					if (audioPlayerData.size() > 0)
 					{
 						/* Grab all of the Audio Players on the Object. */
-						List<AudioPlayer*> audioPlayers = currentObject->GetComponents<AudioPlayer>();
+						std::vector<AudioPlayer*> audioPlayers = currentObject->GetComponents<AudioPlayer>();
 
 						/* Run through the List of Data. */
 						for (int i = 0; i < audioPlayerData.size(); i++)
@@ -591,7 +591,7 @@ namespace Kross
 					if (cameraData.size() > 0)
 					{
 						/* Grab all of the Cameras on the Object. */
-						List<Camera*> cameras = currentObject->GetComponents<Camera>();
+						std::vector<Camera*> cameras = currentObject->GetComponents<Camera>();
 
 						/* Go through all Camera Data. */
 						for (int i = 0; i < cameraData.size(); i++)
@@ -746,7 +746,7 @@ namespace Kross
 					if (spriteRendererData.size() > 0)
 					{
 						/* Get all Sprite Renderers on this Obejct. */
-						List<SpriteRenderer*> renderers = currentObject->GetComponents<SpriteRenderer>();
+						std::vector<SpriteRenderer*> renderers = currentObject->GetComponents<SpriteRenderer>();
 
 						/* Go through all of the Data. */
 						for (int i = 0; i < spriteRendererData.size(); i++)
@@ -854,7 +854,7 @@ namespace Kross
 					if (textRendererData.size() > 0)
 					{
 						/* Get all of the Text Renderers on the Object. */
-						List<TextRenderer*> renderers = currentObject->GetComponents<TextRenderer>();
+						std::vector<TextRenderer*> renderers = currentObject->GetComponents<TextRenderer>();
 
 						/* Run through the Data. */
 						for (int i = 0; i < textRendererData.size(); i++)
@@ -959,7 +959,7 @@ namespace Kross
 					if (tileMapRendererData.size() > 0)
 					{
 						/* Get all Tile Map Renderers on the Object. */
-						List<TileMapRenderer*> renderers = currentObject->GetComponents<TileMapRenderer>();
+						std::vector<TileMapRenderer*> renderers = currentObject->GetComponents<TileMapRenderer>();
 
 						/* Go through the Data. */
 						for (int i = 0; i < tileMapRendererData.size(); i++)
@@ -1623,13 +1623,13 @@ namespace Kross
 		std::string prefabLayer;
 		
 		std::string transformData;
-		List<std::string> animatorData;
-		List<std::string> audioPlayerData;
-		List<std::string> cameraData;
-		List<std::string> rigidbodyData;
-		List<std::string> spriteRendererData;
-		List<std::string> textRendererData;
-		List<std::string> tileMapRendererData;
+		std::vector<std::string> animatorData;
+		std::vector<std::string> audioPlayerData;
+		std::vector<std::string> cameraData;
+		std::vector<std::string> rigidbodyData;
+		std::vector<std::string> spriteRendererData;
+		std::vector<std::string> textRendererData;
+		std::vector<std::string> tileMapRendererData;
 		
 		/* If the File Stream is Open. */
 		if (fileStream.is_open())
@@ -1765,7 +1765,7 @@ namespace Kross
 			if (animatorData.size() > 0)
 			{
 				/* Access all animators on the Object. */
-				List<Animator*> animators = object->GetComponents<Animator>();
+				std::vector<Animator*> animators = object->GetComponents<Animator>();
 				for (int i = 0; i < animatorData.size(); i++)
 				{
 					/* Quick Variables. */
@@ -1813,7 +1813,7 @@ namespace Kross
 			if (audioPlayerData.size() > 0)
 			{
 				/* Grab all of the Audio Players on the Object. */
-				List<AudioPlayer*> audioPlayers = object->GetComponents<AudioPlayer>();
+				std::vector<AudioPlayer*> audioPlayers = object->GetComponents<AudioPlayer>();
 
 				/* Run through the List of Data. */
 				for (int i = 0; i < audioPlayerData.size(); i++)
@@ -1891,7 +1891,7 @@ namespace Kross
 			if (cameraData.size() > 0)
 			{
 				/* Grab all of the Cameras on the Object. */
-				List<Camera*> cameras = object->GetComponents<Camera>();
+				std::vector<Camera*> cameras = object->GetComponents<Camera>();
 
 				/* Go through all Camera Data. */
 				for (int i = 0; i < cameraData.size(); i++)
@@ -2038,7 +2038,7 @@ namespace Kross
 			if (spriteRendererData.size() > 0)
 			{
 				/* Get all Sprite Renderers on this Obejct. */
-				List<SpriteRenderer*> renderers = object->GetComponents<SpriteRenderer>();
+				std::vector<SpriteRenderer*> renderers = object->GetComponents<SpriteRenderer>();
 
 				/* Go through all of the Data. */
 				for (int i = 0; i < spriteRendererData.size(); i++)
@@ -2146,7 +2146,7 @@ namespace Kross
 			if (textRendererData.size() > 0)
 			{
 				/* Get all of the Text Renderers on the Object. */
-				List<TextRenderer*> renderers = object->GetComponents<TextRenderer>();
+				std::vector<TextRenderer*> renderers = object->GetComponents<TextRenderer>();
 
 				/* Run through the Data. */
 				for (int i = 0; i < textRendererData.size(); i++)
@@ -2251,7 +2251,7 @@ namespace Kross
 			if (tileMapRendererData.size() > 0)
 			{
 				/* Get all Tile Map Renderers on the Object. */
-				List<TileMapRenderer*> renderers = object->GetComponents<TileMapRenderer>();
+				std::vector<TileMapRenderer*> renderers = object->GetComponents<TileMapRenderer>();
 				
 				/* Go through the Data. */
 				for (int i = 0; i < tileMapRendererData.size(); i++)
@@ -2625,7 +2625,7 @@ namespace Kross
 		/* Open Raw Data. */
 		fileStream.open(mapRawDataFilepath);
 
-		List<List<int>> dataConverted;
+		std::vector<std::vector<int>> dataConverted;
 
 		if (fileStream.is_open())
 		{
@@ -2638,7 +2638,7 @@ namespace Kross
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
-				List<std::string> data;
+				std::vector<std::string> data;
 				std::string lineSplitter = ",";
 
 				/* Keep Searching till we reach the end of the Line.*/
@@ -2653,7 +2653,7 @@ namespace Kross
 
 				data.push_back(line);
 
-				dataConverted.push_back(List<int>());
+				dataConverted.push_back(std::vector<int>());
 
 				for (int i = 0; i < data.size(); i++)
 				{
@@ -2754,7 +2754,7 @@ namespace Kross
 		/* Quick Variables. */
 		int width = std::stoi(spriteSheetWidth);
 		int height = std::stoi(spriteSheetHeight);
-		List<Sprite*> sprites;
+		std::vector<Sprite*> sprites;
 
 		for (int y = 0; y < height; y++)
 		{
@@ -3178,7 +3178,7 @@ namespace Kross
 		/* Parameter variables. */
 		std::string animationName;
 		std::string animationDuration;
-		List<std::string> animationKeyFrameData;
+		std::vector<std::string> animationKeyFrameData;
 
 		if (fileStream.is_open())
 		{
@@ -3414,8 +3414,8 @@ namespace Kross
 
 			int textureCount = OnReadAtlasTextureCount(atlasTextureCountFilepath);
 
-			List<Texture*> textures = ResourceManager::GetTextures();
-			List<TextureType> ignoreTextures = Atlas::GetIgnoreTextureTypes();
+			std::vector<Texture*> textures = ResourceManager::GetTextures();
+			std::vector<TextureType> ignoreTextures = Atlas::GetIgnoreTextureTypes();
 
 			int actualTextureCount = 0;
 
@@ -3550,7 +3550,7 @@ namespace Kross
 		fileStream.open(filepath.c_str());
 		
 		/* Parameter variables. */
-		List<std::string> spriteData;
+		std::vector<std::string> spriteData;
 		
 		if (fileStream.is_open())
 		{
@@ -3683,7 +3683,7 @@ namespace Kross
 		fileStream.open(filepath.c_str());
 
 		/* Parameter variables. */
-		List<std::string> textureData;
+		std::vector<std::string> textureData;
 
 		if (fileStream.is_open())
 		{

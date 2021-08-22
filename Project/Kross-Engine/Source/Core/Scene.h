@@ -22,9 +22,9 @@ namespace Kross
 		Scene(const std::string& name) : 
 			m_Name					(name), 
 			m_Started				(false), 
-			m_Objects				(List<Object*>()), 
-			m_StaticObjects			(List<Object*>()),
-			m_ActualObjects			(List<Object*>()),
+			m_Objects				(std::vector<Object*>()), 
+			m_StaticObjects			(std::vector<Object*>()),
+			m_ActualObjects			(std::vector<Object*>()),
 			m_DebugRenderer			(KROSS_NEW LineRenderer()),
 			m_DebugShader			(nullptr),
 			#ifdef KROSS_EDITOR
@@ -50,7 +50,7 @@ namespace Kross
 			/* Add lists on every Layer for Rendering. */
 			for (int i = 0; i < (int)Layer::Count; i++)
 			{
-				m_RenderList.push_back(List<Renderer*>());
+				m_RenderList.push_back(std::vector<Renderer*>());
 				m_BatchRenderers.push_back(BatchRenderer::OnCreate((Layer)i));
 			}
 
@@ -68,16 +68,16 @@ namespace Kross
 
 		bool m_Started;
 
-		List<Object*> m_Objects;
-		List<Object*> m_StaticObjects;
+		std::vector<Object*> m_Objects;
+		std::vector<Object*> m_StaticObjects;
 
 		// Editor Purposes only!
-		List<Object*> m_ActualObjects;
+		std::vector<Object*> m_ActualObjects;
 
 		// List of Layer Groups.
-		List<List<Renderer*>> m_RenderList; /* | Layer | Object | */
+		std::vector<std::vector<Renderer*>> m_RenderList; /* | Layer | Object | */
 
-		List<BatchRenderer*> m_BatchRenderers;
+		std::vector<BatchRenderer*> m_BatchRenderers;
 
 		LineRenderer* m_DebugRenderer;
 		Shader* m_DebugShader;
@@ -110,13 +110,13 @@ namespace Kross
 		void OnRender();
 
 		// Gets all of the Objects in the Scene.
-		List<Object*> GetObjects() const { return m_ActualObjects; };
+		std::vector<Object*> GetObjects() const { return m_ActualObjects; };
 
 		// Updates the Primary Camera Aspect Ratio.
 		void OnUpdateCameraAspectRatio(float aspectRatio);
 
 		// Places an object in the Render Queue.
-		List<int> AttachObjectToRenderQueue(Object* object);
+		std::vector<int> AttachObjectToRenderQueue(Object* object);
 
 		// Checks if the Object is a Camera Object and sets the Camera.
 		void SetCamera(Object* object);

@@ -75,10 +75,10 @@ namespace Kross
 		return sprite;
 	}
 
-	List<Sprite*> Sprite::OnCreate(Texture* texture, int width, int height)
+	std::vector<Sprite*> Sprite::OnCreate(Texture* texture, int width, int height)
 	{
 		/* Create the List. */
-		List<Sprite*> spriteList = List<Sprite*>();
+		std::vector<Sprite*> spriteList = std::vector<Sprite*>();
 
 		/* Get the Max Number of Sprites Up and Down. */
 		int maxHorizontalSprites = texture->GetWidth() / width;
@@ -129,10 +129,10 @@ namespace Kross
 		return spriteList;
 	}
 
-	List<Sprite*> Sprite::OnCreate(Texture* texture, int width, int height, const std::string& baseName)
+	std::vector<Sprite*> Sprite::OnCreate(Texture* texture, int width, int height, const std::string& baseName)
 	{
 		/* Create the List. */
-		List<Sprite*> spriteList = List<Sprite*>();
+		std::vector<Sprite*> spriteList = std::vector<Sprite*>();
 
 		/* Get the Max Number of Sprites Up and Down. */
 		int maxHorizontalSprites = texture->GetWidth() / width;

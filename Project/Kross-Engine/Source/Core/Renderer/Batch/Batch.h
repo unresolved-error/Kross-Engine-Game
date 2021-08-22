@@ -20,8 +20,8 @@ namespace Kross
     class KROSS_API Batch
     {
     private:
-        List<Type> m_Data;
-        List<unsigned int> m_Indicies;
+        std::vector<Type> m_Data;
+        std::vector<unsigned int> m_Indicies;
 
         Atlas* m_Atlas;
 
@@ -48,8 +48,8 @@ namespace Kross
 
     public:
         Batch(Atlas* atlas) : 
-            m_Data              (List<Type>()), 
-            m_Indicies          (List<unsigned int>()), 
+            m_Data              (std::vector<Type>()), 
+            m_Indicies          (std::vector<unsigned int>()), 
             m_Atlas             (atlas), 
             m_MaxBatchSize      (MAX_BATCH_SIZE), 
             m_BatchSize         (0)
@@ -105,7 +105,7 @@ namespace Kross
             Geometry* geometry = diffuseSprite->GetGeometry();
 
             /* Get UVs for all Sprites. */
-            List<Vector2> uvs = List<Vector2>(12);
+            std::vector<Vector2> uvs = std::vector<Vector2>(12);
             /*
                 0 - 3 Diffuse UVs.      (TL, BR, TR, BL)
                 4 - 7 Normal UVs.       (TL, BR, TR, BL)
@@ -288,7 +288,7 @@ namespace Kross
                 Geometry* geometry = currentTile->GetSprite()->GetGeometry();
 
                 /* Get UVs for Sprite. */
-                List<Vector2> uvs = List<Vector2>(4);
+                std::vector<Vector2> uvs = std::vector<Vector2>(4);
 
                 float thisThing = (0.1f / 4096.0f);
 
@@ -363,10 +363,10 @@ namespace Kross
             static_assert(std::is_convertible<Type, TextVertex>::value, "Type must be of Text Vertex!");
 
             /* Get all of the Characters from the Renderer. */
-            List<Character*> characters = renderer->m_TextCharacters;
+            std::vector<Character*> characters = renderer->m_TextCharacters;
 
             /* Get their Corresponding Sprites. */
-            List<Sprite*> characterSprites;
+            std::vector<Sprite*> characterSprites;
             for (int i = 0; i < characters.size(); i++)
                 characterSprites.push_back(characters[i]->GetSprite());
             
@@ -374,7 +374,7 @@ namespace Kross
             for (int i = 0; i < characterSprites.size(); i++)
             {
                 /* Quick Variables. */
-                List<Vector2> uvs = List<Vector2>(4);
+                std::vector<Vector2> uvs = std::vector<Vector2>(4);
                 Vector2 spriteRatio = characterSprites[i]->GetUVRatio();
                 Vector2 spriteOffset = characterSprites[i]->GetUVOffset();
 

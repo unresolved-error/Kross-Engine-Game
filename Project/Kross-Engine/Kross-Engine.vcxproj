@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
     <ClInclude Include="Source\Core\Animation\Keyframe.h" />
+    <ClInclude Include="Source\Core\Animation\KeyframeDataFlags.h" />
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Audio\AudioProperties.h" />
     <ClInclude Include="Source\Core\Audio\AudioSource.h" />
@@ -189,8 +190,8 @@
     <ClInclude Include="Source\Core\Component\Camera.h" />
     <ClInclude Include="Source\Core\Component\Collider.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
-    <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
+    <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
     <ClInclude Include="Source\Core\Debug.h" />
@@ -216,8 +217,18 @@
     <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h" />
     <ClInclude Include="Source\Core\Physics\Data\RaycastData.h" />
     <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ColourMixingParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ElasticParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
     <ClInclude Include="Source\Core\Physics\Filters\ParticleType.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\PowderParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ReactiveParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\RepulsiveParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\SpringParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\StaticPressureParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\TensileParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\ViscousParticle.h" />
+    <ClInclude Include="Source\Core\Physics\Particles\WaterParticle.h" />
     <ClInclude Include="Source\Core\Physics\Physics.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsScene.h" />
     <ClInclude Include="Source\Core\Component\Rigidbody2D.h" />
@@ -247,7 +258,7 @@
     <ClInclude Include="Source\Core\Renderer\Image\TextureType.h" />
     <ClInclude Include="Source\Core\Renderer\LineRenderer.h" />
     <ClInclude Include="Source\Core\Renderer\Material.h" />
-    <ClInclude Include="Source\Core\Renderer\Shader\ShaderFlags.h" />
+    <ClInclude Include="Source\Core\Renderer\Shader\ShaderType.h" />
     <ClInclude Include="Source\Core\Renderer\Text\Character.h" />
     <ClInclude Include="Source\Core\Renderer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Renderer\Geometry.h" />
@@ -710,7 +721,6 @@
     <ClCompile Include="Source\Core\Component\Script.cpp" />
     <ClCompile Include="Source\Core\Component\SpriteRenderer.cpp" />
     <ClCompile Include="Source\Core\Component\TextRenderer.cpp" />
-    <ClCompile Include="Source\Core\Component\Transform2D.cpp" />
     <ClCompile Include="Source\Core\File-IO\FileSystem.cpp" />
     <ClCompile Include="Source\Core\Input.cpp" />
     <ClCompile Include="Source\Core\Manager\ResourceManager.cpp" />

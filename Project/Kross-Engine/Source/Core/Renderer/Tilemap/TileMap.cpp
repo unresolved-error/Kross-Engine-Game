@@ -5,7 +5,7 @@ namespace Kross
 {
 
 
-	void Kross::TileMap::SetMapIndexes(List<List<int>> mapIndexs)
+	void Kross::TileMap::SetMapIndexes(std::vector<std::vector<int>> mapIndexs)
 	{
 		m_MapSpriteIndexs = mapIndexs;
 	}

@@ -65,7 +65,7 @@ namespace Kross
 		//Reads the scene in.
 		static void OnReadScene(const std::string& filepath);
 		//Reads in the objects in a scene. Important that this is not called by anyone but "OnReadScene"
-		static List<Object*> OnReadObjects(const std::string& filepath);
+		static std::vector<Object*> OnReadObjects(const std::string& filepath);
 
 		//SAVES Scene
 		static void OnWriteScene(Scene* sceneToSave);

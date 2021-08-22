@@ -181,7 +181,7 @@ public:
 
 			}
 
-			/* Set the Text Renderer's  Position. */
+			/* Set the Text Renderer's Position. */
 			m_TextRenderer->m_GameObject->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + m_TextRendererOffset;
 
 		}

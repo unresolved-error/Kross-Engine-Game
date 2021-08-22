@@ -24,9 +24,9 @@ namespace Kross
 	{
 	private:
 		World* p_PhysicsWorld;
-		List<ParticleSystem*> m_ParticleSystem;
+		std::vector<ParticleSystem*> m_ParticleSystem;
 
-		List<Body*> m_bodies;
+		std::vector<Body*> m_bodies;
 
 	protected:
 		friend class Scene;
@@ -53,9 +53,9 @@ namespace Kross
 		World* GetPhysicsWorld() { return p_PhysicsWorld; }
 
 		/* Return the Particle System */
-		List<ParticleSystem*> GetParticleSystem() { return m_ParticleSystem; }
+		std::vector<ParticleSystem*> GetParticleSystem() { return m_ParticleSystem; }
 
-		List<Body*> GetBodyList() { return m_bodies; }
+		std::vector<Body*> GetBodyList() { return m_bodies; }
 
 	};
 }

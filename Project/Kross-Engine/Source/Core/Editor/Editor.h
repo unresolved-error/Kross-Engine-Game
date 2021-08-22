@@ -18,7 +18,7 @@ namespace Kross
 	{
 	private:
 		static Editor* s_Instance;
-		List<EditorWindow*> m_EditorWindows;
+		std::vector<EditorWindow*> m_EditorWindows;
 		ObjectEditor* p_ObjectEditor;
 		MainMenu* p_MainMenu;
 		AssetPanel* p_AssetPanel;
@@ -28,7 +28,7 @@ namespace Kross
 		ImGuiViewport* p_Viewport;
 
 		Editor() :
-			m_EditorWindows	(List<EditorWindow*>()),
+			m_EditorWindows	(std::vector<EditorWindow*>()),
 			p_ObjectEditor	(nullptr),
 			p_MainMenu		(nullptr),
 			p_AssetPanel	(nullptr),

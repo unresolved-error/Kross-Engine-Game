@@ -39,17 +39,16 @@ namespace Kross
 		std::string m_Name;
 		bool m_Static, m_Enable, m_Prefab, m_Started;
 
-		List<Component*> m_Components;
-		List<Renderer*> m_RenderComponents;
+		std::vector<Component*> m_Components;
+		std::vector<Renderer*> m_RenderComponents;
 
 		PhysicsScene* m_Physics;
 		LineRenderer* m_DebugRenderer;
 
-
 		Layer m_Layer;
 
 		// Used for displaying its children and storing them.
-		List<Object*> m_Children;
+		std::vector<Object*> m_Children;
 
 		Object* m_ParentObject;
 
@@ -99,7 +98,7 @@ namespace Kross
 		const bool GetRenderableStatus() const { return (m_RenderComponents.size() > 0); };
 
 		// Gets all the Renderer Components on the Object.
-		List<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
+		std::vector<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
 
 	public:
 		Transform2D* m_Transform;
@@ -133,7 +132,7 @@ namespace Kross
 		Object* GetParentObject() const { return m_ParentObject; };
 
 		// Gets all of the Object's Children.
-		const List<Object*> GetChildObjects() const { return m_Children; };
+		const std::vector<Object*> GetChildObjects() const { return m_Children; };
 
 		// Gets a Child Object. (BY NAME)
 		Object* GetChildObject(const std::string& name);
@@ -295,13 +294,13 @@ namespace Kross
 
 		// Gets all of the Components that are of the Type specified.
 		template<typename Type>
-		List<Type*> GetComponents()
+		std::vector<Type*> GetComponents()
 		{
 			/* Check if the type passed through is a Child of Component. */
 			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
 
 			/* Variables. */
-			List<Type*> components = List<Type*>();
+			std::vector<Type*> components = std::vector<Type*>();
 
 			/* Go through the Components list. */
 			for (int i = 0; i < m_Components.size(); i++)

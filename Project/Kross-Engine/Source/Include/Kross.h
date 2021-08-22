@@ -70,7 +70,7 @@
 #include "../Core/Renderer/Image/TextureType.h"
 
 #include "../Core/Renderer/Shader/Shader.h"
-#include "../Core/Renderer/Shader/ShaderFlags.h"
+#include "../Core/Renderer/Shader/ShaderType.h"
 
 #include "../Core/Renderer/Text/Character.h"
 #include "../Core/Renderer/Text/Font.h"

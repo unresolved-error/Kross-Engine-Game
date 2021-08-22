@@ -12,8 +12,8 @@ namespace Kross
 {
 	Object::Object() :
 		m_Name			("GameObject"),
-		m_Components	(List<Component*>()),
-		m_Children		(List<Object*>()),
+		m_Components	(std::vector<Component*>()),
+		m_Children		(std::vector<Object*>()),
 		m_Transform		(nullptr), 
 		m_Layer			(Layer::Default),
 		m_ParentObject	(nullptr),
@@ -31,10 +31,10 @@ namespace Kross
 		m_Name			(name), 
 		m_Static		(false), 
 		m_Enable		(true), 
-		m_Components	(List<Component*>()), 
+		m_Components	(std::vector<Component*>()), 
 		m_Transform		(nullptr), 
 		m_Layer			(Layer::Default),
-		m_Children		(List<Object*>()), 
+		m_Children		(std::vector<Object*>()), 
 		m_ParentObject	(nullptr),
 		m_Started		(false)
 	{

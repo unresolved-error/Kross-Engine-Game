@@ -17,14 +17,14 @@ namespace Kross
     {
     private:
         SceneManager() :
-            m_Scenes        (List<Scene*>()),
+            m_Scenes        (std::vector<Scene*>()),
             p_CurrentScene  (nullptr)
         {};
         ~SceneManager();
 
         static SceneManager* s_Instance;
 
-        List<Scene*> m_Scenes;
+        std::vector<Scene*> m_Scenes;
         Scene* p_CurrentScene;
 
     protected:

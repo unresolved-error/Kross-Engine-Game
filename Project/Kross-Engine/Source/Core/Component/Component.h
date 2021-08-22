@@ -73,13 +73,13 @@ namespace Kross
 
 		// Gets all of the Components that are of the Type specified.
 		template<typename Type>
-		List<Type*> GetComponents()
+		std::vector<Type*> GetComponents()
 		{
 			/* Check if the type passed through is a Child of Component. */
 			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
 
 			/* Variables. */
-			List<Type*> components = List<Type*>();
+			std::vector<Type*> components = std::vector<Type*>();
 
 			/* Go through the Components list. */
 			for (int i = 0; i < m_GameObject->m_Components.size(); i++)

@@ -21,7 +21,7 @@ namespace Kross
 
 		Font* p_Font;
 		Font* p_PreviousFont;
-		List<Character*> m_TextCharacters;
+		std::vector<Character*> m_TextCharacters;
 
 		TextAlignment m_Alignment;
 
@@ -44,7 +44,7 @@ namespace Kross
 			p_PreviousFont(nullptr),
 			m_Text(std::string()),
 			m_PreviousText(std::string()),
-			m_TextCharacters(List<Character*>()),
+			m_TextCharacters(std::vector<Character*>()),
 			m_Alignment(TextAlignment::Center)
 		{};
 		~TextRenderer();

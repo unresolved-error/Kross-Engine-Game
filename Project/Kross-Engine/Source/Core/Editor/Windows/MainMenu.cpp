@@ -2,7 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
- *      - Chris Deitch;
+ *      - Chris Deitch.
  */
 
 #include "../../Core.h"

@@ -242,14 +242,14 @@ namespace Kross
                 m_VertexArray->Bind();
 
                 /* Full Screen Quad */
-                List<WaterVertex> data;
+                std::vector<WaterVertex> data;
                 data.push_back(WaterVertex(Vector2(-1.0f, 1.0f), Vector2(0.0f), Colour(1.0f)));
                 data.push_back(WaterVertex(Vector2(1.0f, 1.0f), Vector2(1.0f, 0.0f), Colour(1.0f)));
                 data.push_back(WaterVertex(Vector2(-1.0f, -1.0f), Vector2(0.0f, 1.0f), Colour(1.0f)));
                 data.push_back(WaterVertex(Vector2(1.0f, -1.0f), Vector2(1.0f), Colour(1.0f)));
 
                 /* Proper Indexing. */
-                List<unsigned int> indicies;
+                std::vector<unsigned int> indicies;
                 indicies = { 0, 1, 2, 1, 3, 2 }; /* May need to be changed. */
 
                 /* Set Data.*/

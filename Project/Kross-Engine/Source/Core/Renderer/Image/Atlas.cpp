@@ -33,7 +33,7 @@ namespace Kross
 			return atlas;
 
 		/* Grabs all of the Textures. */
-		List<Texture*> textures = ResourceManager::GetTextures();
+		std::vector<Texture*> textures = ResourceManager::GetTextures();
 
 		/* Create a empty Atlas Texture. */
 		Texture* atlasTexture = Texture::OnCreateAtlas();
@@ -108,7 +108,7 @@ namespace Kross
 		atlas->SetTexture(atlasTexture);
 
 		/* Gather Created Sprites. */
-		List<Sprite*> sprites = ResourceManager::GetSprites();
+		std::vector<Sprite*> sprites = ResourceManager::GetSprites();
 
 		/* Go through all of the Sprites. */
 		for (int i = 0; i < sprites.size(); i++)
@@ -156,9 +156,9 @@ namespace Kross
 			delete atlas;
 	}
 
-	List<TextureType> Atlas::GetIgnoreTextureTypes()
+	std::vector<TextureType> Atlas::GetIgnoreTextureTypes()
 	{
-		List<TextureType> types = List<TextureType>();
+		std::vector<TextureType> types = std::vector<TextureType>();
 
 		types.push_back(TextureType::FontMap);
 		types.push_back(TextureType::PerlinMap);

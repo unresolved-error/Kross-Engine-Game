@@ -18,15 +18,15 @@ namespace Kross
 		Font() : 
 			m_Name			(""), 
 			m_Texture		(nullptr), 
-			m_Characters	(List<Character*>()),
-			m_Sprites		(List<Sprite*>())
+			m_Characters	(std::vector<Character*>()),
+			m_Sprites		(std::vector<Sprite*>())
 		{};
 		~Font();
 
 		std::string m_Name;
 		Texture* m_Texture;
-		List<Character*> m_Characters;
-		List<Sprite*> m_Sprites;
+		std::vector<Character*> m_Characters;
+		std::vector<Sprite*> m_Sprites;
 
 	protected:
 		friend class TextRenderer;

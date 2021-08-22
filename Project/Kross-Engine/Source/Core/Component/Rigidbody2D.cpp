@@ -968,8 +968,8 @@ namespace Kross
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
     {
-        List<Vector4> tileColliders;
-        List<Vector3> tileCornerColliders;
+        std::vector<Vector4> tileColliders;
+        std::vector<Vector3> tileCornerColliders;
         Vector2 tileDimensions = tile->GetSprite()->GetGeometry()->GetSize();
         float width = 0;
         float height = 0;
@@ -983,7 +983,7 @@ namespace Kross
         Vector2 firstTile = Vector2(0,0);
         Vector2 previous = Vector2(-1.0f);
         int colliderCount = 0;
-        List<Vector2> colliderPositions;
+        std::vector<Vector2> colliderPositions;
 
 
         /* Rows */
