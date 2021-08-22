@@ -1547,16 +1547,13 @@ namespace Kross
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
-				std::string textureProperty;
-				std::string lineSplitter = "->";
-
-				int varSwitch = 0;
+				std::string textureProperty = "";
 
 				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
+				while ((searchPosition = line.find(LINE_DIVIDER)) != std::string::npos)
 				{
 					/* Grab the Property Type. */
-					if (varSwitch == 0)
+					if (textureProperty.empty())
 						textureProperty = line.substr(0, searchPosition);
 
 					/* Grab the Property Value. */
@@ -1572,11 +1569,7 @@ namespace Kross
 							textureType = line.substr(0, searchPosition);
 					}
 
-
-					line.erase(0, searchPosition + lineSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
+					line.erase(0, searchPosition + ((std::string)LINE_DIVIDER).length());
 				}
 			}
 

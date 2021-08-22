@@ -117,8 +117,7 @@ namespace Kross
 		// Reads in a Audio Source.
 		static void OnReadAudioSource(const std::string& filepath);
 
-		// Creates the Directory Specified and returns the success of the Creation.
-		static bool OnCreateDirectory(const std::string& directory);
+		
 
 	public:
 		// Obtains the file contents in a string. (LAID OUT AS REPRESENTED IN FILE)
@@ -129,5 +128,8 @@ namespace Kross
 
 		// Checks whether a relative Directory Exists.
 		static bool DirectoryExists(const std::string& directory) { return std::filesystem::is_directory(directory); };
+
+		// Creates the Directory Specified and returns the success of the Creation.
+		static bool OnCreateDirectory(const std::string& directory);
 	};
 }

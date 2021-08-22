@@ -92,7 +92,7 @@ namespace Kross
             float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
             Vector2 input = Vector2(inputX, inputY);
 
-            m_EditorCamera->GetTransform()->m_Position += input * 3.0f * Time::GetDeltaTime();
+            m_EditorCamera->m_Transform->m_Position += input * 3.0f * Time::GetDeltaTime();
         }
 
         if (!Editor::AnyWindowIsHovered())

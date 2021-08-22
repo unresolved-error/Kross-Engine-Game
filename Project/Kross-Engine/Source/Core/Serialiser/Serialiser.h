@@ -10,13 +10,6 @@
 
 namespace Kross
 {
-    class KROSS_API Serialiser
-    {
-    private:
-
-    protected:
-
-    public:
-
-    };
+    template<typename Type>
+    class KROSS_API Serialiser {};
 }
