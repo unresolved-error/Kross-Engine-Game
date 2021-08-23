@@ -8,6 +8,7 @@
 
 #include "Manager/ShaderManager.h"
 #include "Manager/ResourceManager.h"
+#include "File-IO/Manifest.h"
 #include "Manager/SceneManager.h"
 #include "Manager/AudioManager.h"
 #include "Manager/ScriptRegistry.h"
@@ -67,9 +68,12 @@ namespace Kross
 		AudioManager::OnCreate();
 		AudioManager::OnStart();
 		Editor::OnCreate();
+		Manifest::OnCreate();
+
+		//ResourceManager::OnReadManifest();
 
 		/* Reads the Manifest File. */
-		ResourceManager::OnReadManifest();
+		Manifest::Load("manifest.krs");
 	}
 
 	void Application::OnUpdate()
@@ -146,6 +150,8 @@ namespace Kross
 		ResourceManager::OnWriteManifest();
 
 		ResourceManager::OnDestroy();
+
+		Manifest::OnDestroy();
 
 		ScriptRegistry::OnDestroy();
 

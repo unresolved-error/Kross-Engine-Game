@@ -189,6 +189,8 @@
     <ClCompile Include="Source\Core\Editor\Windows\MainMenu.cpp" />
     <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
     <ClCompile Include="Source\Core\Math\Math.cpp" />
+    <ClCompile Include="Source\Core\File-IO\Logger.cpp" />
+    <ClCompile Include="Source\Core\File-IO\Manifest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -703,6 +705,9 @@
     <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
     <ClInclude Include="Source\Core\Serialiser\Serialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\TextureSerialiser.h" />
+    <ClInclude Include="Source\Core\Serialiser\ShaderSerialiser.h" />
+    <ClInclude Include="Source\Core\File-IO\Manifest.h" />
+    <ClInclude Include="Source\Core\File-IO\Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

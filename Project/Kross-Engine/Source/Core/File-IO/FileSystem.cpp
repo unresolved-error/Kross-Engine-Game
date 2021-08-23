@@ -19,6 +19,8 @@
 #include "stb_image/stb_image.h"
 #include "../Scene.h"
 
+#include "../Serialiser/Serialiser.h"
+
 namespace Kross
 {
 	std::string FileSystem::GetFileContents(const std::string& filepath)
@@ -160,116 +162,6 @@ namespace Kross
 		atlasTextureCountWriter.close();
 
 		return "YEW";
-	}
-
-	void FileSystem::OnReadManifestFile()
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Manifest..." << std::endl;
-
-		/* The Filepath for the Mainfest. */
-		std::string filepath = MANIFEST_FILEPATH;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool ignoreFirstLine = true;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* If the Line size is zero. */
-				if (line.empty())
-					continue;
-
-				/* Just so It doesn't read "MANIFEST:". */
-				if (ignoreFirstLine)
-				{
-					ignoreFirstLine = false;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string assetType;
-				std::string assetFilepath;
-				std::string manifestSplitter = "->";
-
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(manifestSplitter)) != std::string::npos && varSwitch != 2)
-				{
-					/* Grab the Asset Type. */
-					if (varSwitch == 0)
-						assetType = line.substr(0, searchPosition);
-
-					/* Grab the Asset Filepath. */
-					else
-						assetFilepath = line.substr(0, searchPosition);
-
-					line.erase(0, searchPosition + manifestSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
-				}
-
-				/* Determain how it gets loaded in. */
-
-				if (assetType == "SPRITE")
-					OnReadSprite(assetFilepath);
-
-				else if (assetType == "TEXTURE")
-					OnReadTexture(assetFilepath);
-
-				else if (assetType == "SHADER")
-					OnReadShader(assetFilepath);
-
-				else if (assetType == "FONT")
-					OnReadFont(assetFilepath);
-
-				else if (assetType == "MATERIAL")
-					OnReadMaterial(assetFilepath);
-
-				else if (assetType == "ANIMATION")
-					OnReadAnimation(assetFilepath);
-
-				else if (assetType == "AUDIOSOURCE")
-					OnReadAudioSource(assetFilepath);
-
-				else if (assetType == "TILEMAP")
-					OnReadTileMap(assetFilepath);
-
-				else if (assetType == "TILESET")
-					OnReadTileSet(assetFilepath);
-
-				else if (assetType == "ATLAS")
-					OnReadAtlas(assetFilepath);
-
-				else if (assetType == "PREFAB")
-					OnReadPrefab(assetFilepath);
-
-				else if (assetType == "SCENE")
-					OnReadScene(assetFilepath);
-			}
-
-			fileStream.close();
-		}
-
-		else
-		{
-			fileStream.close();
-		}
 	}
 
 	void FileSystem::OnReadScene(const std::string& filepath)
@@ -1508,96 +1400,6 @@ namespace Kross
 		else { fileStream.close(); }
 
 		Debug::LogLine("Objects Saved.");
-	}
-
-	void FileSystem::OnReadTexture(const std::string& filepath)
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Texture from " << filepath <<"..." << std::endl;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-
-		/* Parameter variables. */
-		std::string textureFilepath;
-		std::string textureName;
-		std::string textureType;
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool ignoreFirstLine = true;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* Just so It doesn't read "TEXTURE:". */
-				if (ignoreFirstLine)
-				{
-					ignoreFirstLine = false;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string textureProperty = "";
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(LINE_DIVIDER)) != std::string::npos)
-				{
-					/* Grab the Property Type. */
-					if (textureProperty.empty())
-						textureProperty = line.substr(0, searchPosition);
-
-					/* Grab the Property Value. */
-					else
-					{
-						if (textureProperty == "NAME")
-							textureName = line.substr(0, searchPosition);
-
-						else if (textureProperty == "FILEPATH")
-							textureFilepath = line.substr(0, searchPosition);
-
-						else if (textureProperty == "TYPE")
-							textureType = line.substr(0, searchPosition);
-					}
-
-					line.erase(0, searchPosition + ((std::string)LINE_DIVIDER).length());
-				}
-			}
-
-			if (textureType != "DEFAULT")
-			{
-				if (textureType == "FONTMAP")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::FontMap);
-
-				else if (textureType == "NORMALMAP")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::NormalMap);
-
-				else if (textureType == "SPECULARMAP")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::SpecularMap);
-
-				else if (textureType == "ENGINE")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::Engine);
-			}
-
-			else
-				Texture::OnCreate(textureFilepath, textureName);
-
-			fileStream.close();
-		}
-
-		else
-		{
-			fileStream.close();
-		}
 	}
 
 	void FileSystem::OnReadPrefab(const std::string& filepath)
@@ -2967,96 +2769,6 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnReadShader(const std::string& filepath)
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Shader from " << filepath << "..." << std::endl;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-
-		/* Parameter variables. */
-		std::string shaderName;
-		std::string shaderVertex;
-		std::string shaderGeometry;
-		std::string shaderFragment;
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool ignoreFirstLine = true;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* Ignore the first line. */
-				if (ignoreFirstLine)
-				{
-					ignoreFirstLine = false;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string shaderProperty;
-				std::string lineSplitter = "->";
-
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
-				{
-					/* Grab the Property Type. */
-					if (varSwitch == 0)
-						shaderProperty = line.substr(0, searchPosition);
-
-					/* Grab the Property Value. */
-					else
-					{
-						if (shaderProperty == "NAME")
-							shaderName = line.substr(0, searchPosition);
-
-						else if (shaderProperty == "VERTEX")
-							shaderVertex = line.substr(0, searchPosition);
-
-						else if (shaderProperty == "GEOMETRY")
-							shaderGeometry = line.substr(0, searchPosition);
-
-						else if (shaderProperty == "FRAGMENT")
-							shaderFragment = line.substr(0, searchPosition);
-					}
-
-					line.erase(0, searchPosition + lineSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
-				}
-			}
-			Shader* shader = nullptr;
-
-			if (shaderGeometry == "*")
-				shader = Shader::OnCreate(shaderVertex, shaderFragment, shaderName);
-			else
-				shader = Shader::OnCreate(shaderVertex, shaderFragment, shaderGeometry, shaderName);
-
-			ResourceManager::AttachResource<Shader>(shader);
-
-			fileStream.close();
-		}
-
-		else
-		{
-			fileStream.close();
-		}
-	}
-
 	void FileSystem::OnReadMaterial(const std::string& filepath)
 	{
 		/* Display what we are loading. */
@@ -3903,4 +3615,18 @@ namespace Kross
 		return std::filesystem::create_directory(directory);
 	}
 
+	bool FileSystem::FilepathExists(const std::string& filepath)
+	{
+		/* Open Up a File Stream. */
+		std::ifstream fileStream(filepath.c_str());
+
+		/* Check if the File Stream was able to Open.*/
+		bool result = fileStream.good();
+
+		/* Close File Stream. */
+		fileStream.close();
+
+		/* Return the Result. */
+		return result;
+	}
 }

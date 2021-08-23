@@ -10,8 +10,10 @@
 
 #include "Serialiser.h"
 
+#include "../Debug.h"
 #include "../Renderer/Image/Texture.h"
-#include "../Manager/ResourceManager.h"
+
+#include "../File-IO/Manifest.h"
 
 namespace Kross
 {
@@ -19,37 +21,41 @@ namespace Kross
 	class KROSS_API Serialiser<Texture>
 	{
 	public:
-		static void Serialise(std::string filepath)
+		/*!
+			Loads in a Texture from the Specified Directory.
+		*/
+		void Load(const std::string& filepath)
 		{
-			/* Display what we are loading. */
-			std::cout << "Loading Texture from " << filepath << "..." << std::endl;
+			/* Report and Early out if the Filepath doesn't exist. */
+			if (!FileSystem::FilepathExists(filepath))
+			{
+				Manifest::Logger()->WriteWarning("Creating Texture from File: [" + filepath + "] Failed!");
+				Manifest::Logger()->Write("--- Reasons:");
+
+				/* Report the Reason. */
+				Manifest::Logger()->Write("----- Kross Texture File is invalid! Filepath: [" + filepath + "]");
+				Manifest::Logger()->WriteSpace();
+
+				return;
+			}
 
 			/* Open a Filestream. */
 			std::fstream fileStream;
 			fileStream.open(filepath.c_str());
 
-			/* Parameter variables. */
-			std::string textureFilepath;
-			std::string textureName;
-			std::string textureType;
-
-			/* Variables for opening and reading the file. */
-			std::string line;
-
 			if (fileStream.is_open())
 			{
-				bool ignoreFirstLine = true;
+				/* Parameter variables. */
+				std::string textureFilepath = "";
+				std::string textureName = "";
+				std::string textureType = "";
+
+				/* Variables for opening and reading the file. */
+				std::string line;
 
 				/* Read the file line by line. */
 				while (getline(fileStream, line))
 				{
-					/* Just so It doesn't read "TEXTURE:". */
-					if (ignoreFirstLine)
-					{
-						ignoreFirstLine = false;
-						continue;
-					}
-
 					/* Ignore Comments. */
 					if (line.find("//") != std::string::npos)
 						continue;
@@ -83,25 +89,117 @@ namespace Kross
 					}
 				}
 
-				if (textureType != "DEFAULT")
+				/* Assume the Texture can be created. */
+				bool shouldCreate = true;
+				bool startedLog = false;
+
+				/* Report that the Texture Filepath is Missing. */
+				if (textureFilepath.empty())
 				{
-					if (textureType == "FONTMAP")
-						Texture::OnCreate(textureFilepath, textureName, TextureType::FontMap);
+					/* Start the Log if it hasn't yet. */
+					if (!startedLog)
+					{
+						/* Report the Failure. */
+						Manifest::Logger()->WriteWarning("Creating Texture from File: [" + filepath + "] Failed!");
+						Manifest::Logger()->Write("--- Reasons:");
+						startedLog = true;
+					}
 
-					else if (textureType == "NORMALMAP")
-						Texture::OnCreate(textureFilepath, textureName, TextureType::NormalMap);
-
-					else if (textureType == "SPECULARMAP")
-						Texture::OnCreate(textureFilepath, textureName, TextureType::SpecularMap);
-
-					else if (textureType == "ENGINE")
-						Texture::OnCreate(textureFilepath, textureName, TextureType::Engine);
+					/* Report the Reason. */
+					Manifest::Logger()->Write("----- Texture filepath not read in!");
+					shouldCreate = false;
 				}
 
-				else
-					Texture::OnCreate(textureFilepath, textureName);
+				/* Report that the Texture Name is Missing. */
+				if (textureName.empty())
+				{
+					/* Start the Log if it hasn't yet. */
+					if (!startedLog)
+					{
+						/* Report the Failure. */
+						Manifest::Logger()->WriteWarning("Creating Texture from File: [" + filepath + "] Failed!");
+						Manifest::Logger()->Write("--- Reasons:");
+						startedLog = true;
+					}
+
+					/* Report the Reason. */
+					Manifest::Logger()->Write("----- Texture name not read in!");
+					shouldCreate = false;
+				}
+
+				/* Report that the Texture Filepath is Invalid. */
+				if (!textureFilepath.empty() && !FileSystem::FilepathExists(textureFilepath))
+				{
+					/* Start the Log if it hasn't yet. */
+					if (!startedLog)
+					{
+						/* Report the Failure. */
+						Manifest::Logger()->WriteWarning("Creating Texture from File: [" + filepath + "] Failed!");
+						Manifest::Logger()->Write("--- Reasons:");
+						startedLog = true;
+					}
+
+					/* Report the Reason. */
+					Manifest::Logger()->Write("----- Texture filepath is invalid! Filepath: [" + textureFilepath + "]");
+					shouldCreate = false;
+				}
+
+				/* Report that the Texture Type is Missing. */
+				if (textureType.empty())
+				{
+					/* Start the Log if it hasn't yet. */
+					if (!startedLog)
+					{
+						/* Report the Failure. */
+						Manifest::Logger()->WriteWarning("Creating Texture from File: [" + filepath + "] Failed!");
+						Manifest::Logger()->Write("--- Reasons:");
+						startedLog = true;
+					}
+
+					/* Report the Reason. */
+					Manifest::Logger()->Write("----- Texture type not read in!");
+					shouldCreate = false;
+				}
+
+				/* End the Log. */
+				if (startedLog)
+				{
+					Manifest::Logger()->WriteSpace();
+				}
+
+				/* If we can create a Texture then create it. */
+				if (shouldCreate)
+				{
+					/* if it isn't a Default Type Texture. */
+					if (textureType != "DEFAULT")
+					{
+						/* Font Map Texture Creation. */
+						if (textureType == "FONTMAP")
+							Texture::OnCreate(textureFilepath, textureName, TextureType::FontMap);
+
+						/* Normal Map Creation. */
+						else if (textureType == "NORMALMAP")
+							Texture::OnCreate(textureFilepath, textureName, TextureType::NormalMap);
+
+						/* Specular Map Creation. */
+						else if (textureType == "SPECULARMAP")
+							Texture::OnCreate(textureFilepath, textureName, TextureType::SpecularMap);
+
+						/* Engine Texture Creation. */
+						else if (textureType == "ENGINE")
+							Texture::OnCreate(textureFilepath, textureName, TextureType::Engine);
+					}
+
+					/* Default Texture Creation. */
+					else
+						Texture::OnCreate(textureFilepath, textureName);
+
+					/* Log Success. */
+					Manifest::Logger()->WriteLog("Creating Texture from File: [" + filepath + "] Successful!");
+				}
 			}
 
+			/* Close the File Stream. */
 			fileStream.close();
 		}
 	};

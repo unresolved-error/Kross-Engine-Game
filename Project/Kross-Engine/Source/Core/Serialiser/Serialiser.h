@@ -13,3 +13,6 @@ namespace Kross
     template<typename Type>
     class KROSS_API Serialiser {};
 }
+
+#include "TextureSerialiser.h"
+#include "ShaderSerialiser.h"

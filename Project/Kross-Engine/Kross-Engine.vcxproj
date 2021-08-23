@@ -205,6 +205,8 @@
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
     <ClInclude Include="Source\Core\Editor\Windows\Profiler.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
+    <ClInclude Include="Source\Core\File-IO\Logger.h" />
+    <ClInclude Include="Source\Core\File-IO\Manifest.h" />
     <ClInclude Include="Source\Core\Serialiser\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
@@ -281,6 +283,7 @@
     <ClInclude Include="Source\Core\Renderer\Vertex\WaterVertex.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\SpriteVertex.h" />
     <ClInclude Include="Source\Core\Scene.h" />
+    <ClInclude Include="Source\Core\Serialiser\ShaderSerialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\TextureSerialiser.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Core\Window\WindowProperties.h" />
@@ -709,6 +712,8 @@
     <ClCompile Include="Source\Core\Editor\Windows\MainMenu.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\ObjectEditor.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\SceneHierarchy.cpp" />
+    <ClCompile Include="Source\Core\File-IO\Logger.cpp" />
+    <ClCompile Include="Source\Core\File-IO\Manifest.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />

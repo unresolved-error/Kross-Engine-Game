@@ -24,6 +24,9 @@ namespace Kross
 		friend class ObjectEditor;
 		friend class MainMenu;
 
+		// Temp.
+		friend class Manifest;
+
 		// Writes the Asset Engine Manifest File.
 		static void OnWriteManifestFile();
 
@@ -59,9 +62,6 @@ namespace Kross
 		// Writes the Atlas.
 		static std::string OnWriteAtlasData(Atlas* atlas);
 
-		// Reads the Asset Engine Manifest File.
-		static void OnReadManifestFile();
-
 		//Reads the scene in.
 		static void OnReadScene(const std::string& filepath);
 		//Reads in the objects in a scene. Important that this is not called by anyone but "OnReadScene"
@@ -71,9 +71,6 @@ namespace Kross
 		static void OnWriteScene(Scene* sceneToSave);
 		//Saves the objects in the ".kobj". Important that this is not called by anything but OnWriteScene()
 		static void OnWriteObjects(const std::string& filepath, Scene* scene);
-			
-		// Reads in a Texture.
-		static void OnReadTexture(const std::string& filepath);
 
 		// Reads in a Prefab.
 		static void OnReadPrefab(const std::string& filepath);
@@ -86,9 +83,6 @@ namespace Kross
 
 		// Reads in a Sprite.
 		static void OnReadSprite(const std::string& filepath);
-
-		// Reads in a Shader.
-		static void OnReadShader(const std::string& filepath);
 
 		// Reads in a Shader.
 		static void OnReadFont(const std::string& filepath);
@@ -131,5 +125,10 @@ namespace Kross
 
 		// Creates the Directory Specified and returns the success of the Creation.
 		static bool OnCreateDirectory(const std::string& directory);
+
+		/*!
+			Checks if the Filepath specified exists.
+		*/
+		static bool FilepathExists(const std::string& filepath);
 	};
 }

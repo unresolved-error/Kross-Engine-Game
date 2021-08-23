@@ -142,7 +142,7 @@ namespace Kross
 	void ResourceManager::OnReadManifest()
 	{
 		/* Load the Manifest File. */
-		FileSystem::OnReadManifestFile();
+		//FileSystem::OnReadManifestFile();
 	}
 
 	void ResourceManager::OnWriteManifest()
