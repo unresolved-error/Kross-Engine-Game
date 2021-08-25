@@ -13,7 +13,7 @@ void OnRun()
 	Application::OnCreate();
 
 	ScriptRegistry::OnCreate();
-	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
+	//ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW EnemyMovement());
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
 	ScriptRegistry::Attach(KROSS_NEW CameraLock());
@@ -108,43 +108,43 @@ void OnRun()
 	//particle->SpawnParticles();
 	
 	
-	Object* ppEmitter = Object::OnCreate("ppEmitter");
-	ppEmitter->SetStatic(true);
-	ParticleProperties* properties = ppEmitter->AttachComponent<ParticleProperties>();
-	ppEmitter->AttachComponent<ParticleEmitter>();
-	ppEmitter->GetTransform()->m_Position = Vector2(5.0f, -5.5f);
-	ppEmitter->SetLayer(Layer::Fluids);
+	//Object* ppEmitter = Object::OnCreate("ppEmitter");
+	//ppEmitter->SetStatic(true);
+	//ParticleProperties* properties = ppEmitter->AttachComponent<ParticleProperties>();
+	//ppEmitter->AttachComponent<ParticleEmitter>();
+	//ppEmitter->GetTransform()->m_Position = Vector2(5.0f, -5.5f);
+	//ppEmitter->SetLayer(Layer::Fluids);
 	
-	properties->AddParticleFlags(b2_waterParticle | b2_fixtureContactFilterParticle);
-	properties->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment | ColliderFilters::Fluid);
-	properties->SetRadius(0.025f);
-
-	SceneManager::GetCurrentScene()->AttachObject(ppEmitter);
+	//properties->AddParticleFlags(b2_waterParticle | b2_fixtureContactFilterParticle);
+	//properties->SetColliderFilters(ColliderFilters::Fluid, ColliderFilters::Environment | ColliderFilters::Fluid);
+	//properties->SetRadius(0.025f);
 	
-	ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
+	//SceneManager::GetCurrentScene()->AttachObject(ppEmitter);
+	
+	//ParticleEmitter* particleEm = ppEmitter->GetComponent<ParticleEmitter>();
 
 	
 	//player->GetComponent<PlayerMovement>()->rigidBody = rigidBody;
-	//
+	
 	//tileExample->SetLayer(Layer::Ground);
-	//
+	
 	//scene->AttachObject(camera);
 	//scene->AttachObject(textExample);
-	//
+	
 	////AudioSource* MarioJump = AudioSource::OnCreate("Resources/Audio/mario_jump.wav", "Mario-Jump");
 	////player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(MarioJump);
-	//
+	
 	////player->GetComponent<AudioPlayer>()->PlaySoundEffect(MarioJump, 1, 0, false);
-	//
+	
 	//Rigidbody2D* tileMapCollider = tileExample->GetComponent<Rigidbody2D>();
 	//tileMapCollider->CreateTileMapColliders(tilemap->GetTileMap(), tilemap->GetTileList()[0], 0.45f);
-	//
+	
 	////AudioSource* BulletProof = AudioSource::OnCreate("Resources/Audio/bulletproof-soundroll-main-version-02-19-1873.mp3", "Bullet-Proof", true);
 	////AudioSource* BulletProof = ResourceManager::GetResource<AudioSource>("Bullet-Proof");
 	////player->GetComponent<AudioPlayer>()->AttachSoundToPlayer(BulletProof);
 	////player->GetComponent<AudioPlayer>()->PlaySoundEffect(BulletProof,1,0,false);
 	////player->GetComponent<AudioPlayer>()->SetIfLooping(true);
-	//
+	
 	//SceneManager::AttachScene(scene);
 	//SceneManager::SetCurrentScene(0);
 

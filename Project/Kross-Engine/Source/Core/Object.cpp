@@ -89,6 +89,10 @@ namespace Kross
 
 	void Object::OnUpdate()
 	{
+		if (m_Name == "Player")
+		{
+			Debug::LogLine("I am updating");
+		}
 		if (!m_Static && m_Enable)
 		{
 			/* Update Components. */
