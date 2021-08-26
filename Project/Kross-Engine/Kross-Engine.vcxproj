@@ -193,6 +193,7 @@
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
+    <ClInclude Include="Source\Core\Component\RopeProperties.h" />
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
     <ClInclude Include="Source\Core\Debug.h" />
     <ClInclude Include="Source\Core\Editor\Editor.h" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
+    <ClInclude Include="Source\Core\Physics\Rope\Rope.h" />
     <ClInclude Include="Source\Core\Serialiser\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
@@ -703,6 +705,7 @@
     <ClCompile Include="Source\Core\Component\AudioPlayer.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Core\Component\RopeProperties.cpp" />
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
     <ClCompile Include="Source\Core\Editor\Editor.cpp" />
@@ -733,6 +736,7 @@
     <ClCompile Include="Source\Core\Manager\ShaderManager.cpp" />
     <ClCompile Include="Source\Core\Math\Random.cpp" />
     <ClCompile Include="Source\Core\Object.cpp" />
+    <ClCompile Include="Source\Core\Physics\Rope\Rope.cpp" />
     <ClCompile Include="Source\Core\Renderer\Batch\BatchRenderer.cpp" />
     <ClCompile Include="Source\Core\Renderer\ErrorHandle.cpp" />
     <ClCompile Include="Source\Core\Renderer\Image\Atlas.cpp" />
