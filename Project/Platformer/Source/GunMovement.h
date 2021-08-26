@@ -28,7 +28,7 @@ public:
 	Object* m_CrossHair = nullptr;
 
 	Object* player;
-	PlayerMovement* m_PlayerMovement = nullptr;
+	PlayerController* m_PlayerMovement = KROSS_NEW PlayerController();
 	Camera* camera;
 	Window* window;
 
@@ -59,7 +59,7 @@ public:
 		renderer = GetComponent<SpriteRenderer>();
 		camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
 		player = SceneManager::GetCurrentScene()->FindObject("Player");
-		m_PlayerMovement = player->GetComponent<PlayerMovement>();
+		//m_PlayerMovement = GetComponent<PlayerController>();
 
 		Degree0 = ResourceManager::GetResource<Sprite>("Gun1-1");
 		Degree22pt5 = ResourceManager::GetResource<Sprite>("Gun0-1");
@@ -95,7 +95,7 @@ public:
 
 		}
 
-		if (m_PlayerMovement->controllerID != -1 && Input::GetControllerAxis(m_PlayerMovement->controllerID, Controller::RightStickHorizontal, 0.2f) == 0.0f && Input::GetControllerAxis(m_PlayerMovement->controllerID, Controller::RightStickVertical, 0.2f) == 0.0f)
+		if (m_PlayerMovement->GetControllerID() != -1 && Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickHorizontal, 0.2f) == 0.0f && Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickVertical, 0.2f) == 0.0f)
 		{
 			float velX = player->GetComponent<Rigidbody2D>()->GetBody()->GetLinearVelocity().x;
 
@@ -156,9 +156,9 @@ public:
 		
 		Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
 
-		if (m_PlayerMovement->controllerID != -1)
+		if (m_PlayerMovement->GetControllerID() != -1)
 		{
-			mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->controllerID, Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->controllerID, Controller::RightStickVertical, 0.2f));
+			mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickVertical, 0.2f));
 			crossHairPos = mousePoint + c_Object->GetTransform()->m_Position;
 
 			if (mousePoint != Vector2(0.0f))

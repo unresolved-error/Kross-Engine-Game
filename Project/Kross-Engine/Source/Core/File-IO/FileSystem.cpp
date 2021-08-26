@@ -409,6 +409,7 @@ namespace Kross
 		List<std::string> spriteRendererData;
 		List<std::string> textRendererData;
 		List<std::string> tileMapRendererData;
+		List<std::string> playerControllerData;
 
 		List<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
@@ -1018,6 +1019,11 @@ namespace Kross
 						}
 					}
 
+					if (playerControllerData.size() > 0)
+					{
+						
+					}
+
 					/* Go through the Transform Data. */
 					if (!transformData.empty())
 					{
@@ -1089,6 +1095,7 @@ namespace Kross
 					spriteRendererData.clear();
 					textRendererData.clear();
 					tileMapRendererData.clear();
+					playerControllerData.clear();
 					transformData = "";
 
 					readInObjects.push_back(currentObject);
@@ -1184,6 +1191,12 @@ namespace Kross
 						else if (objProperty == "TRANSFORM2D")
 						{
 							transformData = line;
+						}
+
+						else if (objProperty == "PLAYER-CONTROLLER")
+						{
+							currentObject->AttachComponent<PlayerController>();
+							playerControllerData.push_back(line);
 						}
 
 					}

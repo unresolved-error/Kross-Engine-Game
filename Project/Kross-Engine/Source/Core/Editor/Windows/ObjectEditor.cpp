@@ -798,7 +798,7 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<TileMapRenderer>();
 					}
 
-					else
+					else if(typeid(*component) == typeid(Script))
 					{
 						ImGui::CollapsingHeader(((Script*)component)->GetName().c_str(), &isOpen, ImGuiTreeNodeFlags_Leaf);
 
@@ -830,6 +830,9 @@ namespace Kross {
 
 						if (ImGui::MenuItem("Rigidbody2D"))
 							p_SelectedObject->AttachComponent<Rigidbody2D>();
+
+						if (ImGui::MenuItem("Player Controller"))
+							p_SelectedObject->AttachComponent<PlayerController>();
 
 						ImGui::EndMenu();
 					}
