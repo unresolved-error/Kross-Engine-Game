@@ -88,7 +88,7 @@ public:
 		}
 
 		/* If the Object isn't at the End of a Level. */
-		if (m_GameObject->m_Transform->m_Position.x < 180) 
+		if (m_GameObject->m_Transform->m_Position.x < 217) 
 		{
 			/* Move the Player. */
 			PlayerMove(input, Key::Space, Controller::A);
@@ -98,7 +98,7 @@ public:
 		m_Camera->m_Transform->m_Position = Math::Lerp(m_Camera->m_Transform->m_Position, m_GameObject->m_Transform->m_Position, Time::GetDeltaTime() * 4.0f);
 
 		/* Clamp the Camera Position. */
-		m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 178.75f);
+		m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
 		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -2.0f, 1.5f);
 
 		/* --- FRAME COUNTER STUFF --- */
@@ -155,8 +155,8 @@ public:
 		/* If we have found a Text Renderer*/
 		if (m_TextRenderer)
 		{
-			/* If the Object less than 170 on the x. */
-			if (m_GameObject->m_Transform->m_Position.x < 170)
+			/* If the Object less than 188 on the x. */
+			if (m_GameObject->m_Transform->m_Position.x < 188)
 			{
 				/* Grab the Colour and Extract it's alpha. */
 				Colour textcol = m_TextRenderer->GetColour();
@@ -166,11 +166,11 @@ public:
 				m_TextRenderer->SetColour(textcol);
 			}
 
-			/* If the Object is Less than 180 on the x but larger than 170. */
-			else if (m_GameObject->m_Transform->m_Position.x < 179.9)
+			/* If the Object is Less than 217 on the x but larger than 188. */
+			else if (m_GameObject->m_Transform->m_Position.x < 216.9)
 			{
 				/* Calculate its Alpha Value. */
-				float alph = (m_GameObject->m_Transform->m_Position.x - 170.0f) / 10.0f;
+				float alph = (m_GameObject->m_Transform->m_Position.x - 188.0f) / 10.0f;
 
 				/* Grab the Colour and Extract it's alpha. */
 				Colour textcol = m_TextRenderer->GetColour();
