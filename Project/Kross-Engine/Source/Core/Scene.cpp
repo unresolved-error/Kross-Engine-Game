@@ -117,6 +117,7 @@ namespace Kross
         int velocityIterations = (int)glm::ceil((float)refreshRate / 9.0f);
         int positionIterations = refreshRate / 20;
         int particleIterations = refreshRate / 30;
+
         /* Update the physics step */
         if (Application::GetWindow()->GetVSync() == 1)
         {

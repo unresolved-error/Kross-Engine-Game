@@ -16,3 +16,4 @@ namespace Kross
 
 #include "TextureSerialiser.h"
 #include "ShaderSerialiser.h"
+#include "AudioSourceSerialiser.h"

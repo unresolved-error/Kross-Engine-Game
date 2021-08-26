@@ -116,7 +116,11 @@ namespace Kross
 					FileSystem::OnReadAnimation(assetFilepath);
 
 				else if (assetType == "AUDIOSOURCE")
-					FileSystem::OnReadAudioSource(assetFilepath);
+				{
+					Serialiser<AudioSource> serialiser = Serialiser<AudioSource>();
+					serialiser.Load(assetFilepath);
+					//FileSystem::OnReadAudioSource(assetFilepath);
+				}
 
 				else if (assetType == "TILEMAP")
 					FileSystem::OnReadTileMap(assetFilepath);

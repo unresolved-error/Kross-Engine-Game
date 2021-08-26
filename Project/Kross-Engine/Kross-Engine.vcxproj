@@ -207,6 +207,7 @@
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
+    <ClInclude Include="Source\Core\Serialiser\AudioSourceSerialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
