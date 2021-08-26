@@ -20,10 +20,10 @@ namespace Kross
     class KROSS_API Batch
     {
     private:
-        List<Type> m_Data;
-        List<unsigned int> m_Indicies;
+        std::vector<Type> m_Data;
+        std::vector<unsigned int> m_Indicies;
 
-        Atlas* p_Atlas;
+        Atlas* m_Atlas;
 
         unsigned int m_MaxBatchSize;
         unsigned int m_BatchSize;
@@ -48,9 +48,9 @@ namespace Kross
 
     public:
         Batch(Atlas* atlas) : 
-            m_Data              (List<Type>()), 
-            m_Indicies          (List<unsigned int>()), 
-            p_Atlas             (atlas), 
+            m_Data              (std::vector<Type>()), 
+            m_Indicies          (std::vector<unsigned int>()), 
+            m_Atlas             (atlas), 
             m_MaxBatchSize      (MAX_BATCH_SIZE), 
             m_BatchSize         (0)
         {
@@ -65,7 +65,7 @@ namespace Kross
             m_Indicies.clear();
 
             /* Null out the Atlas. */
-            p_Atlas = nullptr;
+            m_Atlas = nullptr;
         };
 
         // Add Sprite Renderer Data to the Batch.
@@ -84,7 +84,7 @@ namespace Kross
             Sprite* specularSprite = renderer->GetMaterial()->GetSpecular();
 
             /* Quick Variables. */
-            Transform2D* transform = renderer->c_Object->GetTransform();
+            Transform2D* transform = renderer->m_GameObject->m_Transform;
 
             /* Update the Model. */
             Matrix4 model = Matrix4(1.0f);
@@ -97,15 +97,15 @@ namespace Kross
             model = translation * rotation * scale;
 
             /* Get all the Sprite Data needed. */
-            AtlasSpriteData diffuseData = p_Atlas->GetSpriteData(diffuseSprite);
-            AtlasSpriteData normalData = p_Atlas->GetSpriteData(normalSprite);
-            AtlasSpriteData specularData = p_Atlas->GetSpriteData(specularSprite);
+            AtlasSpriteData diffuseData = m_Atlas->GetSpriteData(diffuseSprite);
+            AtlasSpriteData normalData = m_Atlas->GetSpriteData(normalSprite);
+            AtlasSpriteData specularData = m_Atlas->GetSpriteData(specularSprite);
 
             /* Get Diffuse Sprite Geometry. */
             Geometry* geometry = diffuseSprite->GetGeometry();
 
             /* Get UVs for all Sprites. */
-            List<Vector2> uvs = List<Vector2>(12);
+            std::vector<Vector2> uvs = std::vector<Vector2>(12);
             /*
                 0 - 3 Diffuse UVs.      (TL, BR, TR, BL)
                 4 - 7 Normal UVs.       (TL, BR, TR, BL)
@@ -256,15 +256,15 @@ namespace Kross
             static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
 
             /* Quick Variables. */
-            Transform2D* transform = renderer->c_Object->GetTransform();
-            Transform2D* cameraTransform = camera->c_Object->GetTransform();
+            Transform2D* transform = renderer->m_GameObject->m_Transform;
+            Transform2D* cameraTransform = camera->m_GameObject->m_Transform;
 
             for (int i = 0; i < renderer->m_Tiles.size(); i++)
             {
                 Tile* currentTile = renderer->m_Tiles[i];
 
-                float tileX = (transform->m_Position.x + currentTile->m_Offset.x);
-                float tileY = (transform->m_Position.y + currentTile->m_Offset.y);
+                float tileX = (transform->m_Position.x + currentTile->GetOffset().x);
+                float tileY = (transform->m_Position.y + currentTile->GetOffset().y);
 
                 if (tileX >= cameraTransform->m_Position.x + ((camera->GetSize() / 1.1f) * 1.5f) ||
                     tileX <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
@@ -275,20 +275,20 @@ namespace Kross
                 Matrix4 model = Matrix4(1.0f);
 
                 /* Update the Translation, Rotation and Scale Marixes. */
-                Matrix4 translation = glm::translate(Matrix4(1.0f), Vector3(transform->m_Position + currentTile->m_Offset, 0.0f));
+                Matrix4 translation = glm::translate(Matrix4(1.0f), Vector3(transform->m_Position + currentTile->GetOffset(), 0.0f));
                 Matrix4 rotation = glm::rotate(Matrix4(1.0f), glm::radians(transform->m_Rotation), Vector3(0.0f, 0.0f, 1.0f));
                 Matrix4 scale = glm::scale(Matrix4(1.0f), Vector3(transform->m_Scale, 0.0f));
 
                 model = translation * rotation * scale;
 
                 /* Get the Sprite Data needed. */
-                AtlasSpriteData spriteData = p_Atlas->GetSpriteData(currentTile->p_Sprite);
+                AtlasSpriteData spriteData = m_Atlas->GetSpriteData(currentTile->GetSprite());
 
                 /* Get Sprite Geometry. */
-                Geometry* geometry = currentTile->p_Sprite->GetGeometry();
+                Geometry* geometry = currentTile->GetSprite()->GetGeometry();
 
                 /* Get UVs for Sprite. */
-                List<Vector2> uvs = List<Vector2>(4);
+                std::vector<Vector2> uvs = std::vector<Vector2>(4);
 
                 float thisThing = (0.1f / 4096.0f);
 
@@ -363,10 +363,10 @@ namespace Kross
             static_assert(std::is_convertible<Type, TextVertex>::value, "Type must be of Text Vertex!");
 
             /* Get all of the Characters from the Renderer. */
-            List<Character*> characters = renderer->m_TextCharacters;
+            std::vector<Character*> characters = renderer->m_TextCharacters;
 
             /* Get their Corresponding Sprites. */
-            List<Sprite*> characterSprites;
+            std::vector<Sprite*> characterSprites;
             for (int i = 0; i < characters.size(); i++)
                 characterSprites.push_back(characters[i]->GetSprite());
             
@@ -374,7 +374,7 @@ namespace Kross
             for (int i = 0; i < characterSprites.size(); i++)
             {
                 /* Quick Variables. */
-                List<Vector2> uvs = List<Vector2>(4);
+                std::vector<Vector2> uvs = std::vector<Vector2>(4);
                 Vector2 spriteRatio = characterSprites[i]->GetUVRatio();
                 Vector2 spriteOffset = characterSprites[i]->GetUVOffset();
 
@@ -447,36 +447,46 @@ namespace Kross
         {
             /* Check if we have the Right Vertex Type First. */
             static_assert(std::is_convertible<Type, WaterVertex>::value, "Type must be of Text Vertex!");
+
+            Transform2D* cameraTransform = camera->m_GameObject->m_Transform;
+
+
         
-            /* Grab Information Needed to pass to the Renderer. */
-            b2Vec2* positions = emitter->GetParticleSystem()->GetPositionBuffer();
-            b2Vec2* velocities = emitter->GetParticleSystem()->GetVelocityBuffer();
-            int particleCount = emitter->GetParticleSystem()->GetParticleCount();
-        
-        
-            /* Go through each Particle. */
-            for (int i = 0; i < particleCount; i++)
-            {
-                /* Default Water Colour. */
-                Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
-                //Colour waterColour = Colour(emitter->GetParticle(i)->GetColor()); // Not Working...
-        
-                /* Set the Vertex. */
-                WaterVertex waterDrop = WaterVertex(Vector2(positions[i].x, positions[i].y),
-                    Vector2(velocities[i].x, velocities[i].y),
-                    waterColour);
-                /* Grab the Vertex Count. */
-                int vertexCount = m_Data.size();
-        
-                /* Attach the Index. */
-                m_Indicies.push_back(vertexCount);
-        
-                /* Attach the Vertex Data. */
-                m_Data.push_back(waterDrop);
-            }
-        
-            /* Update the Batch Size. */
-            m_BatchSize += particleCount;
+          
+                b2Vec2* positions = emitter->GetParticleSystem()->GetPositionBuffer();
+                b2Vec2* velocities = emitter->GetParticleSystem()->GetVelocityBuffer();
+                int particleCount = emitter->GetParticleSystem()->GetParticleCount();
+
+
+                /* Go through each Particle. */
+                for (int i = 0; i < particleCount; i++)
+                {
+                    if (positions[i].x >= cameraTransform->m_Position.x + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                        positions[i].x <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
+                        positions[i].y >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                        positions[i].y <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
+                        continue;
+                    /* Default Water Colour. */
+                    Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
+                    //waterColour = emitter->GetParticle(i)->GetColor(); // Not Working...
+
+                    /* Set the Vertex. */
+                    WaterVertex waterDrop = WaterVertex(Vector2(positions[i].x, positions[i].y),
+                        Vector2(velocities[i].x, velocities[i].y),
+                        waterColour);
+                    /* Grab the Vertex Count. */
+                    int vertexCount = m_Data.size();
+
+                    /* Attach the Index. */
+                    m_Indicies.push_back(vertexCount);
+
+                    /* Attach the Vertex Data. */
+                    m_Data.push_back(waterDrop);
+                }
+
+                /* Update the Batch Size. */
+                m_BatchSize += particleCount;
+            
             
         }
 

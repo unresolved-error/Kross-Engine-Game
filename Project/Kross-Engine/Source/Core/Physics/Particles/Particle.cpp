@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *      - Chris Deitch
  */
 
 
@@ -22,7 +23,7 @@ namespace Kross
 	
 		particleDef.flags = properties->GetParticleFlags();
 	
-		particleDef.position = properties->GetPosition();
+		particleDef.position = Getb2Vec2(properties->m_GameObject->m_Transform->m_Position);
 		particleDef.color = properties->GetColor();
 	
 		particleDef.velocity = properties->GetLinearVelocity();

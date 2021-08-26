@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *		- Deklyn Palmer.
  */
 #pragma once
 
@@ -15,7 +16,8 @@ namespace Kross
 	public:
 
 		MainMenu() :
-			p_SelectedObject (nullptr)
+			p_SelectedObject	(nullptr),
+			m_SavedScene		(false)
 		{};
 
 		~MainMenu() {};
@@ -24,6 +26,7 @@ namespace Kross
 
 	private:
 		Object* p_SelectedObject;
+		bool m_SavedScene;
 
 	protected:
 		friend class SceneHierarchy;

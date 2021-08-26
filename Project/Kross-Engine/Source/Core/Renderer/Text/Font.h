@@ -17,26 +17,26 @@ namespace Kross
 	private:
 		Font() : 
 			m_Name			(""), 
-			p_Texture		(nullptr), 
-			m_Characters	(List<Character*>()),
-			m_Sprites		(List<Sprite*>())
+			m_Texture		(nullptr), 
+			m_Characters	(std::vector<Character*>()),
+			m_Sprites		(std::vector<Sprite*>())
 		{};
 		~Font();
 
 		std::string m_Name;
-		Texture* p_Texture;
-		List<Character*> m_Characters;
-		List<Sprite*> m_Sprites;
+		Texture* m_Texture;
+		std::vector<Character*> m_Characters;
+		std::vector<Sprite*> m_Sprites;
 
 	protected:
 		friend class TextRenderer;
 		friend class BatchRenderer;
 
 		// Gets the Texture of the Font.
-		Texture* GetTexture() const { return p_Texture; };
+		Texture* GetTexture() const { return m_Texture; };
 
 		// Sets the Texture of the Font.
-		void SetTexture(Texture* texture) { p_Texture = texture; };
+		void SetTexture(Texture* texture) { m_Texture = texture; };
 
 		// Adds a Character to the Font.
 		void AttachCharacter(Character* character) { m_Characters.push_back(character); };

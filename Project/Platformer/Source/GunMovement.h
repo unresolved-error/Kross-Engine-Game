@@ -95,7 +95,7 @@ public:
 
 		}
 
-		if (m_PlayerMovement->GetControllerID() != -1 && Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickHorizontal, 0.2f) == 0.0f && Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickVertical, 0.2f) == 0.0f)
+		if (m_PlayerMovement->m_ControllerID != -1 && Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickHorizontal, 0.2f) == 0.0f && Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickVertical, 0.2f) == 0.0f)
 		{
 			float velX = player->GetComponent<Rigidbody2D>()->GetBody()->GetLinearVelocity().x;
 
@@ -128,18 +128,18 @@ public:
 		}
 		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
 
-		toMouse = Vector2((crossHairPos.x - c_Object->GetTransform()->m_Position.x), crossHairPos.y - c_Object->GetTransform()->m_Position.y);
+		toMouse = Vector2(crossHairPos.x - m_GameObject->m_Transform->m_Position.x, crossHairPos.y - m_GameObject->m_Transform->m_Position.y);
 		
 		Vector2 toMouseNormd = glm::normalize(toMouse);
 		Vector2 toCrosshair = toMouseNormd * 1.5f;
 		Vector2 toEndOfGun = toMouseNormd * 0.3f;
 
 
-		LineRenderer* endOfGunDebug = c_Object->GetDebugRenderer();
-		Vector2 crossHairLocation = Vector2(toCrosshair + c_Object->GetTransform()->m_Position);
-		Vector2 endOfGunLocation = Vector2(toEndOfGun + c_Object->GetTransform()->m_Position);
+		LineRenderer* endOfGunDebug = m_GameObject->GetDebugRenderer();
+		Vector2 crossHairLocation = Vector2(toCrosshair + m_GameObject->m_Transform->m_Position);
+		Vector2 endOfGunLocation = Vector2(toEndOfGun + m_GameObject->m_Transform->m_Position);
 
-		m_CrossHair->GetTransform()->m_Position = crossHairPos; //toCrosshair + c_Object->GetTransform()->m_Position;
+		m_CrossHair->m_Transform->m_Position = crossHairPos; //toCrosshair + c_Object->GetTransform()->m_Position;
 
 
 		//endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
@@ -156,14 +156,14 @@ public:
 		
 		Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
 
-		if (m_PlayerMovement->GetControllerID() != -1)
+		if (m_PlayerMovement->m_ControllerID != -1)
 		{
-			mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickVertical, 0.2f));
-			crossHairPos = mousePoint + c_Object->GetTransform()->m_Position;
+			mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickVertical, 0.2f));
+			crossHairPos = mousePoint + m_GameObject->m_Transform->m_Position;
 
 			if (mousePoint != Vector2(0.0f))
 			{
-				returnAngle = glm::degrees(glm::atan(crossHairPos.y - c_Object->GetTransform()->m_Position.y, -(crossHairPos.x - c_Object->GetTransform()->m_Position.x)));
+				returnAngle = glm::degrees(glm::atan(crossHairPos.y - m_GameObject->m_Transform->m_Position.y, -(crossHairPos.x - m_GameObject->m_Transform->m_Position.x)));
 			}
 			else
 			{
@@ -172,15 +172,15 @@ public:
 		
 			Vector2 controllerInputNormalised = glm::normalize(mousePoint);
 
-			crossHairPos = controllerInputNormalised + c_Object->GetTransform()->m_Position;
+			crossHairPos = controllerInputNormalised + m_GameObject->m_Transform->m_Position;
 		
 		}
 
 		else
 		{
-			crossHairPos = mousePoint + camera->c_Object->GetTransform()->m_Position;
+			crossHairPos = mousePoint + camera->m_GameObject->m_Transform->m_Position;
 
-			returnAngle = glm::degrees(std::atan2(crossHairPos.y - c_Object->GetTransform()->m_Position.y, -(crossHairPos.x - c_Object->GetTransform()->m_Position.x)));
+			returnAngle = glm::degrees(std::atan2(crossHairPos.y - m_GameObject->m_Transform->m_Position.y, -(crossHairPos.x - m_GameObject->m_Transform->m_Position.x)));
 		}
 
 		return crossHairPos;

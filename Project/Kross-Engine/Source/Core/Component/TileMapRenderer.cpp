@@ -73,11 +73,10 @@ namespace Kross
 				{
 					Tile* newTile = KROSS_NEW Tile();
 
-					newTile->p_Sprite = MatchMapCell(x, y);
+					newTile->SetSprite(MatchMapCell(x, y));
 
-					Vector2 geomSize = newTile->p_Sprite->GetGeometry()->GetSize();
-					newTile->m_Offset.x = (geomSize.x) * x + geomSize.x / 2.0f;
-					newTile->m_Offset.y = -((geomSize.y) * y) - geomSize.y / 2.0f;
+					Vector2 geomSize = newTile->GetSprite()->GetGeometry()->GetSize();
+					newTile->SetOffset(Vector2((geomSize.x) * x + geomSize.x / 2.0f, -((geomSize.y) * y) - geomSize.y / 2.0f));
 					m_Tiles.push_back(newTile);
 					
 				}

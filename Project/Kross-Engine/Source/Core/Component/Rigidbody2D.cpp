@@ -64,7 +64,7 @@ namespace Kross
 
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData((Object*)c_Object);
+        p_Body->SetUserData(m_GameObject);
 
         p_Body->SetFixedRotation(fixedRotation);
 
@@ -103,7 +103,7 @@ namespace Kross
 
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData((Object*)c_Object);
+        p_Body->SetUserData(m_GameObject);
 
         /* Creates the shape */
         PolygonShape dynamicBox;
@@ -141,7 +141,7 @@ namespace Kross
 
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-        p_Body->SetUserData((Object*)c_Object);;
+        p_Body->SetUserData(m_GameObject);
 
         b2PolygonShape dynamicBox;
         dynamicBox.SetAsBox((dimensions.x * 0.5f) - (dimensions.x * 0.05f), (dimensions.y - dimensions.x) * 0.5f);
@@ -207,7 +207,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            p_Body->SetUserData((Object*)c_Object);
+            p_Body->SetUserData(m_GameObject);
 
             /* Creates the cirlce */
             CircleShape circleShape;
@@ -243,7 +243,7 @@ namespace Kross
             FixtureDef* tempFixture = KROSS_NEW FixtureDef();
             /* Creates the body and assigns it to the pointer */
             tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            tempBody->SetUserData((Object*)c_Object);
+            tempBody->SetUserData(m_GameObject);
 
             /* Creates the cirlce */
             CircleShape circleShape;
@@ -285,7 +285,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            p_Body->SetUserData((Object*)c_Object);
+            p_Body->SetUserData(m_GameObject);
 
             /* Creates the shape */
             PolygonShape dynamicBox;
@@ -323,7 +323,7 @@ namespace Kross
 
             /* Creates the body and assigns it to the pointer */
             tempBody = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-            tempBody->SetUserData((Object*)c_Object);
+            tempBody->SetUserData(m_GameObject);
             /* Creates the shape */
             PolygonShape dynamicBox;
             /* Sets the shape as a box */
@@ -363,13 +363,13 @@ namespace Kross
                 if (collider->IsStatic())
                 {
                     SetColliderFilter(ColliderFilters::Environment);
-                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position,
+                    CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position,
                         GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player | ColliderFilters::Fluid, collider->GetFriction());
                 }
                 else
                 {
                     SetColliderFilter(ColliderFilters::Player);
-                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(),
+                    CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                         GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player | ColliderFilters::Fluid, collider->GetFriction());
                 }
                 break;
@@ -379,13 +379,13 @@ namespace Kross
                 if (collider->IsStatic())
                 {
                     SetColliderFilter(ColliderFilters::Environment);
-                    CreateWorldCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, GetColliderFilters(),
+                    CreateWorldCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, GetColliderFilters(),
                         ColliderFilters::Environment | ColliderFilters::Player | ColliderFilters::Fluid, collider->GetFriction());
                 }
                 else
                 {
                     SetColliderFilter(ColliderFilters::Player);
-                    CreateDynamicCircle(collider->GetRadius(), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(),
+                    CreateDynamicCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                         GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 }
                 break;
@@ -393,7 +393,7 @@ namespace Kross
             case Kross::ShapeType::Capsule:
             {
                 SetColliderFilter(ColliderFilters::Player);
-                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), c_Object->GetTransform()->m_Position, collider->IsRotationLocked(),
+                CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                     GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
                 break;
             }
@@ -484,7 +484,7 @@ namespace Kross
 
     Vector2 Rigidbody2D::GetPosition() const
     {
-        return Vector2(c_Object->GetTransform()->m_Position.x, c_Object->GetTransform()->m_Position.y);
+        return m_GameObject->m_Transform->m_Position;
     }
     
     Vector2 Rigidbody2D::SpringCalculation(Body* body1, Body* body2, float dist)
@@ -908,8 +908,7 @@ namespace Kross
         RaycastData* leftSideDown = KROSS_NEW RaycastData();
 
         Vector2 particleForce = CollideParticles();
-        OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
-
+        //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
         if (p_Box == nullptr)
         {            
             rightSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
@@ -960,21 +959,21 @@ namespace Kross
 
         #ifndef KROSS_EDITOR
         /* Gets the object position and updates it with the position of the body */
-        c_Object->GetTransform()->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
+        m_GameObject->m_Transform->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
 
         /* Gets the object rotation and updates it with the angle of the body */
-        c_Object->GetTransform()->m_Rotation = glm::degrees(p_Body->GetAngle());
+        m_GameObject->m_Transform->m_Rotation = glm::degrees(p_Body->GetAngle());
         #else
-        p_Body->SetTransform(Getb2Vec2(c_Object->GetTransform()->m_Position), glm::radians(c_Object->GetTransform()->m_Rotation));
+        p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
         #endif
 
     }
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
     {
-        List<Vector4> tileColliders;
-        List<Vector3> tileCornerColliders;
-        Vector2 tileDimensions = tile->p_Sprite->GetGeometry()->GetSize();
+        std::vector<Vector4> tileColliders;
+        std::vector<Vector3> tileCornerColliders;
+        Vector2 tileDimensions = tile->GetSprite()->GetGeometry()->GetSize();
         float width = 0;
         float height = 0;
 
@@ -982,12 +981,12 @@ namespace Kross
         bool hasAirAbove = false;
         bool hasAirBelow = false;
 
-        Vector2 objectPosition = c_Object->GetTransform()->m_Position;
+        Vector2 objectPosition = m_GameObject->m_Transform->m_Position;
         
         Vector2 firstTile = Vector2(0,0);
         Vector2 previous = Vector2(-1.0f);
         int colliderCount = 0;
-        List<Vector2> colliderPositions;
+        std::vector<Vector2> colliderPositions;
 
 
         /* Rows */

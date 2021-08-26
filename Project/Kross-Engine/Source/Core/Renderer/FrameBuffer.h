@@ -9,6 +9,9 @@
 #include "../Core.h"
 
 #include "Image/Texture.h"
+#include "VertexArray.h"
+#include "VertexBufferLayout.h"
+#include "IndexBuffer.h"
 
 namespace Kross
 {
@@ -17,26 +20,23 @@ namespace Kross
 	private:
 		unsigned int m_FrameBufferID;
 		unsigned int m_AttachmentID;
-		Texture* m_WindowFrameTexture;
+
+		Texture* m_FrameBufferTexture;
 
 	protected:
 
 	public:
-		FrameBuffer() : 
-			m_FrameBufferID			(0),
-			m_AttachmentID			(0),
-			m_WindowFrameTexture	(nullptr)
-		{};
+		FrameBuffer();
 		FrameBuffer(int width, int height, unsigned int attachmentID = 0);
 		~FrameBuffer();
 
 		// Binds the Frame Buffer.
-		void Attach();
+		void Bind();
 
 		// Un Binds all Frame Buffers.
-		static void Detach();
+		static void UnBind();
 
 		// Gets the Frame Buffer generated Texture.
-		Texture* GetFrameTexture() const { return m_WindowFrameTexture; };
+		Texture* GetTexture() const { return m_FrameBufferTexture; };
 	};
 }

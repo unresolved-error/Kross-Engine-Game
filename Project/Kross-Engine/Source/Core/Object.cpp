@@ -12,11 +12,11 @@ namespace Kross
 {
 	Object::Object() :
 		m_Name			("GameObject"),
-		m_Components	(List<Component*>()),
-		m_Children		(List<Object*>()),
-		p_Transform		(nullptr), 
+		m_Components	(std::vector<Component*>()),
+		m_Children		(std::vector<Object*>()),
+		m_Transform		(nullptr), 
 		m_Layer			(Layer::Default),
-		p_ParentObject	(nullptr),
+		m_ParentObject	(nullptr),
 		m_Static		(false),
 		m_Enable		(true),
 		m_Prefab		(false),
@@ -24,23 +24,23 @@ namespace Kross
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
-		p_Transform = GetComponent<Transform2D>();
+		m_Transform = GetComponent<Transform2D>();
 	}
 
 	Object::Object(const std::string& name) : 
 		m_Name			(name), 
 		m_Static		(false), 
 		m_Enable		(true), 
-		m_Components	(List<Component*>()), 
-		p_Transform		(nullptr), 
+		m_Components	(std::vector<Component*>()), 
+		m_Transform		(nullptr), 
 		m_Layer			(Layer::Default),
-		m_Children		(List<Object*>()), 
-		p_ParentObject	(nullptr),
+		m_Children		(std::vector<Object*>()), 
+		m_ParentObject	(nullptr),
 		m_Started		(false)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
-		p_Transform = GetComponent<Transform2D>();
+		m_Transform = GetComponent<Transform2D>();
 	}
 
 	Object::~Object()
@@ -55,11 +55,10 @@ namespace Kross
 		/* Clean up the Children from the heap. */
 		for (int i = 0; i < m_Children.size(); i++)
 		{
-			delete m_Children[i];
 			m_Children[i] = nullptr;
 		}
 
-		delete p_ParentObject;
+		m_ParentObject = nullptr;
 	}
 
 	Object* Object::OnCreate(const std::string& name)
@@ -134,34 +133,6 @@ namespace Kross
 
 		return;
 	}
-
-	//void Object::OnRender()
-	//{
-	//	/* Variables for Camera View Checking. */
-	//	Object* camera = SceneManager::GetCurrentScene()->GetCamera();
-	//	Camera* cameraComponent = camera->GetComponent<Camera>();
-	//
-	//	float cameraSize = (cameraComponent->GetSize() / 2.0f) + 3.0f;
-	//
-	//	Vector2 cameraPosition = camera->GetTransform()->m_Position;
-	//	Vector2 position = GetTransform()->m_Position;
-	//
-	//	/* If the Object is outside of camera View. Don't Render Anything. */
-	//	if (cameraPosition.x + cameraSize < position.x || cameraPosition.x - cameraSize > position.x)
-	//		return;
-	//
-	//	else if (cameraPosition.y + cameraSize < position.y || cameraPosition.y - cameraSize > position.y)
-	//		return;
-	//
-	//	if (m_Enable)
-	//	{
-	//		/* Render Components. */
-	//		for (int i = 0; i < m_RenderComponents.size(); i++)
-	//			m_RenderComponents[i]->OnRender();
-	//	}
-	//
-	//	return;
-	//}
 
 	void Object::AttachChildObject(Object* object)
 	{

@@ -19,7 +19,7 @@ namespace Kross
 		/* Good blue */
 		/* Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f) */
 
-		SpawnParticle(p_Particle->CreateParticleDef(properties));
+		SpawnParticle(p_Particle->CreateParticleDef(properties), properties->GetRadius() * 2.0f, properties->GetMaxCount());
 
 	}
 
@@ -29,13 +29,16 @@ namespace Kross
 		p_ParticleSystem = nullptr;
 	}
 
-	void ParticleEmitter::SpawnParticle(ParticleDef particleDef)
+	void ParticleEmitter::SpawnParticle(ParticleDef particleDef, float particleSize, int particleCount)
 	{
-		for (int i = 0; i < 75; i++)
+		int max = glm::floor(glm::sqrt(particleCount));
+		Vector2 initalPosition = m_GameObject->m_Transform->m_Position;
+
+		for (int y = 0; y < max; y++)
 		{
-			for (int j = 0; j < 75; j++)
+			for (int x = 0; x < max; x++)
 			{
-				particleDef.position = b2Vec2(5.0f + 0.05f * i, -2.0f + 0.05f * j);
+				particleDef.position = Getb2Vec2(initalPosition) + b2Vec2(-(((float)max * particleSize) / 2.0f) + particleSize * x, -(((float)max * particleSize) / 2.0f) + particleSize * y);
 				p_ParticleSystem->CreateParticle(particleDef);
 			}
 		}

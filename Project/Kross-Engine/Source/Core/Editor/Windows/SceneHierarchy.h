@@ -17,7 +17,7 @@ namespace Kross
 	{
 	private:
 		Object* p_SelectedObject;
-		List<bool> m_ViewLayer;
+		std::vector<bool> m_ViewLayer;
 
 	protected:
 		// Sets the Scene Hierarchy Window Flags.
@@ -32,7 +32,7 @@ namespace Kross
 	public:
 		SceneHierarchy() :
 			p_SelectedObject	(nullptr),
-			m_ViewLayer			(List<bool>((int)Layer::Count))
+			m_ViewLayer			(std::vector<bool>((int)Layer::Count))
 		{};
 
 		~SceneHierarchy() {};

@@ -87,6 +87,32 @@ namespace Kross
 		m_IsStopped = true;
 	}
 
+	Animation::Animation(const Animation& other) :
+		m_Keyframes				(std::vector<Keyframe*>()),
+		m_DynamicAnimations		(std::vector<Animation*>()),
+		m_Name					("Animation"),
+		m_Duration				(1.0f),
+		m_KeyframeTime			(0.0f),
+		m_KeyframeTimeElapsed	(0.0f),
+		m_KeyframeCurrent		(0),
+		m_IsStopped				(false)
+	{
+		/* If the Animation that has been passed in, isn't the Animation we wish to copy to. */
+		if (&other == this)
+			return; /* Early out. */
+
+		/* Set the Animation's Name and Duration to the Others. */
+		this->SetName(other.GetName());
+		this->SetDuration(other.GetDuration());
+
+		/* Default this Value. */
+		this->m_KeyframeCurrent = 0;
+
+		/* Go through each Keyframe and Duplicate it into the Animation.*/
+		for (int i = 0; i < other.m_Keyframes.size(); i++)
+			this->AttachKeyframe(KROSS_NEW Keyframe(*other.m_Keyframes[i]));
+	}
+
 	void Animation::AttachKeyframe(Keyframe* keyframe)
 	{
 		/* Attach the Keyframe. */

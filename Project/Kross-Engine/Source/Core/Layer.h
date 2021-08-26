@@ -43,7 +43,7 @@ namespace Kross
 	const struct KROSS_API LayerName
 	{
 	private:
-		List<std::string> m_Names;
+		std::vector<std::string> m_Names;
 
 	public:
 		LayerName()

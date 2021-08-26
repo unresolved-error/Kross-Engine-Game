@@ -30,46 +30,50 @@ namespace Kross
     class KROSS_API BatchRenderer
     {
     private:
-        BatchRenderer(Atlas* atlas, Layer layer) : 
-            p_Shader                (nullptr), 
-            p_PostProcessShader     (nullptr), 
+        BatchRenderer(Atlas* atlas, Layer layer) :
+            m_Shader                (nullptr),
+            m_PostProcessShader     (nullptr),
 
-            p_VertexArray           (KROSS_NEW VertexArray()),
-            p_VertexBuffer          (KROSS_NEW VertexBuffer()),
-            p_IndexBuffer           (KROSS_NEW IndexBuffer()),
+            m_FrameBuffer           (nullptr),
 
-            p_VertexBufferLayout    (KROSS_NEW VertexBufferLayout()),
-            p_Atlas                 (atlas), 
-            p_Texture               (nullptr), 
+            m_VertexArray           (KROSS_NEW VertexArray()),
+            m_VertexBuffer          (KROSS_NEW VertexBuffer()),
+            m_IndexBuffer           (KROSS_NEW IndexBuffer()),
 
-            p_SpriteBatch           (KROSS_NEW Batch<SpriteVertex>(atlas)),
-            p_TextBatch             (KROSS_NEW Batch<TextVertex>(atlas)),
-            p_WaterBatch            (KROSS_NEW Batch<WaterVertex>(atlas)),
+            m_VertexBufferLayout    (KROSS_NEW VertexBufferLayout()),
+            m_Atlas                 (atlas), 
+            m_Texture               (nullptr), 
+
+            m_SpriteBatch           (KROSS_NEW Batch<SpriteVertex>(atlas)),
+            m_TextBatch             (KROSS_NEW Batch<TextVertex>(atlas)),
+            m_WaterBatch            (KROSS_NEW Batch<WaterVertex>(atlas)),
 
             m_Layer                 (layer)
         {};
         ~BatchRenderer();
 
-        Shader* p_Shader;
-        Shader* p_PostProcessShader;
+        Shader* m_Shader;
+        Shader* m_PostProcessShader;
 
-        VertexArray* p_VertexArray;
-        VertexBuffer* p_VertexBuffer;
-        IndexBuffer* p_IndexBuffer;
+        FrameBuffer* m_FrameBuffer;
 
-        VertexBufferLayout* p_VertexBufferLayout;
+        VertexArray* m_VertexArray;
+        VertexBuffer* m_VertexBuffer;
+        IndexBuffer* m_IndexBuffer;
+
+        VertexBufferLayout* m_VertexBufferLayout;
 
         // Use Atlas for Standard Drawing.
-        Atlas* p_Atlas;
+        Atlas* m_Atlas;
 
         // Use Texture for Special Cases like Text Renderering..
-        Texture* p_Texture;
+        Texture* m_Texture;
         
         /* Batch Type to allow the Renderer to switch which one it uses. */
 
-        Batch<SpriteVertex>* p_SpriteBatch;
-        Batch<TextVertex>* p_TextBatch;
-        Batch<WaterVertex>* p_WaterBatch;
+        Batch<SpriteVertex>* m_SpriteBatch;
+        Batch<TextVertex>* m_TextBatch;
+        Batch<WaterVertex>* m_WaterBatch;
 
         Layer m_Layer;
 

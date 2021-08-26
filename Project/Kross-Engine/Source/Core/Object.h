@@ -26,6 +26,9 @@ namespace Kross
 	class KROSS_API Rigidbody2D;
 	class KROSS_API Collider;
 
+	class KROSS_API ParticleEmitter;
+	class KROSS_API ParticleProperties;
+
 	class KROSS_API Object
 	{
 	private:
@@ -36,20 +39,18 @@ namespace Kross
 		std::string m_Name;
 		bool m_Static, m_Enable, m_Prefab, m_Started;
 
-		List<Component*> m_Components;
-		List<Renderer*> m_RenderComponents;
+		std::vector<Component*> m_Components;
+		std::vector<Renderer*> m_RenderComponents;
 
-		PhysicsScene* p_Physics;
-		LineRenderer* p_DebugRenderer;
-
-		Transform2D* p_Transform;
+		PhysicsScene* m_Physics;
+		LineRenderer* m_DebugRenderer;
 
 		Layer m_Layer;
 
 		// Used for displaying its children and storing them.
-		List<Object*> m_Children;
+		std::vector<Object*> m_Children;
 
-		Object* p_ParentObject;
+		Object* m_ParentObject;
 
 	protected:
 		friend class Scene;
@@ -72,14 +73,11 @@ namespace Kross
 		// Object Collision Exit Method.
 		void OnCollisionExit(Object* other);
 
-		// Object Render Method.
-		//void OnRender();
-
 		// Sets the Physics Scene.
-		void SetPhysicsScene(PhysicsScene* physics) { p_Physics = physics; };
+		void SetPhysicsScene(PhysicsScene* physics) { m_Physics = physics; };
 
 		// Sets the Line Renderer.
-		void SetLineRenderer(LineRenderer* renderer) { p_DebugRenderer = renderer; };
+		void SetLineRenderer(LineRenderer* renderer) { m_DebugRenderer = renderer; };
 
 		// Adds a Child Object.
 		void AttachChildObject(Object* object);
@@ -94,19 +92,20 @@ namespace Kross
 		void DetachChildObject(Object* object);
 
 		// Sets the Object Parent.
-		void SetParentObject(Object* object) { p_ParentObject = object; };
+		void SetParentObject(Object* object) { m_ParentObject = object; };
 
 		// Checks if the Object has a Render Component.
 		const bool GetRenderableStatus() const { return (m_RenderComponents.size() > 0); };
 
 		// Gets all the Renderer Components on the Object.
-		List<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
+		std::vector<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
 
 	public:
+		Transform2D* m_Transform;
 
-		const void DrawCross(Vector2 position) { p_DebugRenderer->DrawCross(position, 4.0f); };
+		const void DrawCross(Vector2 position) { m_DebugRenderer->DrawCross(position, 4.0f); };
 		
-		LineRenderer* GetDebugRenderer() const { return p_DebugRenderer; };
+		LineRenderer* GetDebugRenderer() const { return m_DebugRenderer; };
 
 		// Creates a Blank Object.
 		static Object* OnCreate(const std::string& name = "GameObject");
@@ -130,13 +129,10 @@ namespace Kross
 		const bool Enabled() const { return m_Enable; };
 
 		// Gets the Object Parent.
-		Object* GetParentObject() const { return p_ParentObject; };
-
-		// Gets the Object Transform.
-		Transform2D* GetTransform() const { return p_Transform; };
+		Object* GetParentObject() const { return m_ParentObject; };
 
 		// Gets all of the Object's Children.
-		const List<Object*> GetChildObjects() const { return m_Children; };
+		const std::vector<Object*> GetChildObjects() const { return m_Children; };
 
 		// Gets a Child Object. (BY NAME)
 		Object* GetChildObject(const std::string& name);
@@ -177,14 +173,27 @@ namespace Kross
 					AttachComponent<Collider>(); /* Attach it. */
 			}
 
+			/* Checks if the Type Specified is a RigidBody. */
+			else if (typeid(Type) == typeid(ParticleEmitter))
+			{
+				/* If we don't have a Collider. */
+				if (!GetComponent<ParticleProperties>())
+					AttachComponent<ParticleProperties>(); /* Attach it. */
+			}
+
 			/* Set up of the new Component. */
 			Component* component = KROSS_NEW Type();
-			component->SetObject(this);
+			component->m_GameObject = this;
 
 			if (typeid(Type) == typeid(Rigidbody2D))
 			{
-				((Rigidbody2D*)component)->SetPhysicsScene(p_Physics);
-				((Rigidbody2D*)component)->p_DebugRenderer = p_DebugRenderer;
+				((Rigidbody2D*)component)->SetPhysicsScene(m_Physics);
+				((Rigidbody2D*)component)->p_DebugRenderer = m_DebugRenderer;
+			}
+
+			else if (typeid(Type) == typeid(ParticleEmitter))
+			{
+				((ParticleEmitter*)component)->SetPhysicsScene(m_Physics);
 			}
 
 			/* Then Check if the Component is a Renderer. */
@@ -285,13 +294,13 @@ namespace Kross
 
 		// Gets all of the Components that are of the Type specified.
 		template<typename Type>
-		List<Type*> GetComponents()
+		std::vector<Type*> GetComponents()
 		{
 			/* Check if the type passed through is a Child of Component. */
 			static_assert(std::is_convertible<Type*, Component*>::value, "Type must be of Component!");
 
 			/* Variables. */
-			List<Type*> components = List<Type*>();
+			std::vector<Type*> components = std::vector<Type*>();
 
 			/* Go through the Components list. */
 			for (int i = 0; i < m_Components.size(); i++)

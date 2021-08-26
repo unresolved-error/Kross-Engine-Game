@@ -24,11 +24,9 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+typedef _CrtMemState MemoryState;
 
 #include <vector>
-template<typename Type>
-// Renaming of std::vector.
-using List = std::vector<Type>;
 
 /* --- Random --- */
 #include <random>

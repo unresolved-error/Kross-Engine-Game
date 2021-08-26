@@ -5,12 +5,12 @@ SHADER->Assets/Shaders/TextShader.krs->
 SHADER->Assets/Shaders/LineShader.krs->
 SHADER->Assets/Shaders/BatchShader.krs->
 SHADER->Assets/Shaders/WaterShader.krs->
+SHADER->Assets/Shaders/PostProcessShader.krs->
 
 // Load Textures. (Make Sure Textures are loaded before sprites!)
 TEXTURE->Assets/Textures/Diffuse.krs->
 TEXTURE->Assets/Textures/Normal.krs->
 TEXTURE->Assets/Textures/Specular.krs->
-TEXTURE->Assets/Textures/Default.krs->
 TEXTURE->Assets/Textures/KrossFont.krs->
 TEXTURE->Assets/Textures/Particle.krs->
 TEXTURE->Assets/Textures/Marshall-Mellow.krs->
@@ -85,6 +85,7 @@ TILEMAP->Assets/Tiles/TileMaps/0/tmDirt.krs->
 
 // Loads in Tile Sets.
 TILESET->Assets/Tiles/TileSets/tsDirt.krs-> 
+TILESET->Assets/Tiles/TileSets/0.krs-> 
 
 // Third Last load in the Atlas.
 ATLAS->Assets/Atlas/Atlas.krs->

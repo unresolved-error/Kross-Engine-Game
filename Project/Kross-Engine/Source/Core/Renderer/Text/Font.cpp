@@ -13,7 +13,7 @@ namespace Kross
 	Font::~Font()
 	{
 		/* Null out the Texture. */
-		p_Texture = nullptr;
+		m_Texture = nullptr;
 
 		/* Delete Original Characters. */
 		for (int i = 0; i < m_Characters.size(); i++)
@@ -46,7 +46,7 @@ namespace Kross
 		font->SetTexture(texture);
 
 		/* Get the Character Sprites. */
-		List<Sprite*> characters = Sprite::OnCreate(texture, width, height);
+		std::vector<Sprite*> characters = Sprite::OnCreate(texture, width, height);
 
 		/* Create Characters and Assign the Sprites. */
 		for (int i = 0; i < characters.size(); i++)

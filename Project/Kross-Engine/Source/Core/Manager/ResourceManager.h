@@ -29,34 +29,34 @@ namespace Kross
 	{
 	private:
 		ResourceManager() :
-			m_Geometry		(List<Geometry*>()),
-			m_Shaders		(List<Shader*>()),
-			m_Sprites		(List<Sprite*>()),
-			m_Textures		(List<Texture*>()),
-			m_Materials		(List<Material*>()),
-			m_Fonts			(List<Font*>()),
-			m_Animations	(List<Animation*>()),
-			m_AudioSources  (List<AudioSource*>()),
-			m_TileMaps		(List<TileMap*>()),
-			m_TileSets      (List<TileSet*>()),
-			m_Prefabs		(List<Object*>()),
+			m_Geometry		(std::vector<Geometry*>()),
+			m_Shaders		(std::vector<Shader*>()),
+			m_Sprites		(std::vector<Sprite*>()),
+			m_Textures		(std::vector<Texture*>()),
+			m_Materials		(std::vector<Material*>()),
+			m_Fonts			(std::vector<Font*>()),
+			m_Animations	(std::vector<Animation*>()),
+			m_AudioSources  (std::vector<AudioSource*>()),
+			m_TileMaps		(std::vector<TileMap*>()),
+			m_TileSets      (std::vector<TileSet*>()),
+			m_Prefabs		(std::vector<Object*>()),
 			p_Atlas			(nullptr)
 		{};
 		~ResourceManager();
 
 		static ResourceManager* s_Instance;
 
-		List<Geometry*> m_Geometry;
-		List<Shader*> m_Shaders;
-		List<Sprite*> m_Sprites;
-		List<Texture*> m_Textures;
-		List<Material*> m_Materials;
-		List<Font*> m_Fonts;
-		List<Animation*> m_Animations;
-		List<AudioSource*> m_AudioSources;
-		List<TileMap*> m_TileMaps;
-		List<TileSet*> m_TileSets;
-		List<Object*> m_Prefabs;
+		std::vector<Geometry*> m_Geometry;
+		std::vector<Shader*> m_Shaders;
+		std::vector<Sprite*> m_Sprites;
+		std::vector<Texture*> m_Textures;
+		std::vector<Material*> m_Materials;
+		std::vector<Font*> m_Fonts;
+		std::vector<Animation*> m_Animations;
+		std::vector<AudioSource*> m_AudioSources;
+		std::vector<TileMap*> m_TileMaps;
+		std::vector<TileSet*> m_TileSets;
+		std::vector<Object*> m_Prefabs;
 
 		Atlas* p_Atlas;
 
@@ -115,6 +115,9 @@ namespace Kross
 					else
 						shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[i]->GetVertexFilepath(), s_Instance->m_Shaders[i]->GetFragmentFilepath(), s_Instance->m_Shaders[i]->GetName() + " - Copy");
 
+					/* Set the type. */
+					shaderCopy->SetType(s_Instance->m_Shaders[i]->GetType());
+
 					/* Remove the Shader from the Resource Manager that was just created. */
 					DetachResource<Shader>(shaderCopy);
 
@@ -144,6 +147,9 @@ namespace Kross
 
 				else
 					shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[index]->GetVertexFilepath(), s_Instance->m_Shaders[index]->GetFragmentFilepath(), s_Instance->m_Shaders[index]->GetName() + " - Copy");
+
+				/* Set the type. */
+				shaderCopy->SetType(s_Instance->m_Shaders[index]->GetType());
 
 				/* Remove the Shader from the Resource Manager that was just created. */
 				DetachResource<Shader>(shaderCopy);
@@ -745,10 +751,10 @@ namespace Kross
 		#pragma endregion
 
 		// Grabs all of the Textures loaded.
-		static List<Texture*> GetTextures() { return s_Instance->m_Textures; };
+		static std::vector<Texture*> GetTextures() { return s_Instance->m_Textures; };
 
 		// Grabs all of the Sprites Created.
-		static List<Sprite*> GetSprites() { return s_Instance->m_Sprites; };
+		static std::vector<Sprite*> GetSprites() { return s_Instance->m_Sprites; };
 
 		// Reads the Manifest File.
 		static void OnReadManifest();

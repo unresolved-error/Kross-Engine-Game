@@ -35,12 +35,12 @@ namespace Kross
 	{
 	private:
 		Atlas() : 
-			p_AtlasTexture			(nullptr),
-			m_IgnoreTextureTypes	(List<TextureType>()),
+			m_AtlasTexture			(nullptr),
+			m_IgnoreTextureTypes	(std::vector<TextureType>()),
 			m_TextureOffsets		(std::unordered_map<Texture*, Vector2>()),
-			m_AttachedTextures		(List<Texture*>()),
+			m_AttachedTextures		(std::vector<Texture*>()),
 			m_SpriteAtlasUVs		(std::unordered_map<Sprite*, AtlasSpriteData>()),
-			m_AttachedSprites		(List<Sprite*>())
+			m_AttachedSprites		(std::vector<Sprite*>())
 		{
 			/* Add the Ignore Types. */
 			m_IgnoreTextureTypes.push_back(TextureType::FontMap);
@@ -52,25 +52,28 @@ namespace Kross
 		};
 		~Atlas();
 
-		Texture* p_AtlasTexture;
+		Texture* m_AtlasTexture;
 		
 		// Identifies what types to ignore when adding textures to the Atlas. (THIS NEEDS TO BE SET MANUALLY)
-		List<TextureType> m_IgnoreTextureTypes;
+		std::vector<TextureType> m_IgnoreTextureTypes;
 
 		std::unordered_map<Texture*, Vector2> m_TextureOffsets;
-		List<Texture*> m_AttachedTextures;
+		std::vector<Texture*> m_AttachedTextures;
 
 		std::unordered_map<Sprite*, AtlasSpriteData> m_SpriteAtlasUVs;
-		List<Sprite*> m_AttachedSprites;
+		std::vector<Sprite*> m_AttachedSprites;
 
 	protected:
 		friend class BatchRenderer;
 		friend class FileSystem;
 
-		static List<TextureType> GetIgnoreTextureTypes();
+		static std::vector<TextureType> GetIgnoreTextureTypes();
 
 		// Sets the Texture.
-		void SetTexture(Texture* texture) { p_AtlasTexture = texture; };
+		void SetTexture(Texture* texture) { m_AtlasTexture = texture; };
+
+		// Gets the Texture.
+		Texture* GetTexture() const { return m_AtlasTexture; };
 
 		// Adds Sprite Data.
 		void AttachSpriteData(Sprite* sprite, AtlasSpriteData data);
@@ -80,9 +83,6 @@ namespace Kross
 
 		// Check if the Texture should be Ignored.
 		bool ShouldIgnoreTexture(Texture* texture);
-
-		// Gets the Texture.
-		Texture* GetTexture() const { return p_AtlasTexture; };
 
 		// Gets the Texture Offset.
 		Vector2 GetTextureOffset(Texture* texture) { return m_TextureOffsets[texture]; };

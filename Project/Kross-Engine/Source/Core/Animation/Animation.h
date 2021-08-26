@@ -23,8 +23,8 @@ namespace Kross
 		    Animation Contructor.
 		*/
 		Animation() :
-			m_Keyframes				(List<Keyframe*>()),
-			m_DynamicAnimations		(List<Animation*>()),
+			m_Keyframes				(std::vector<Keyframe*>()),
+			m_DynamicAnimations		(std::vector<Animation*>()),
 			m_Name					("Animation"),
 			m_Duration				(1.0f),
 			m_KeyframeTime			(0.0f),
@@ -37,8 +37,8 @@ namespace Kross
 		*/
 		~Animation();
 
-		List<Keyframe*> m_Keyframes;
-		List<Animation*> m_DynamicAnimations;
+		std::vector<Keyframe*> m_Keyframes;
+		std::vector<Animation*> m_DynamicAnimations;
 
 		std::string m_Name;
 
@@ -95,16 +95,7 @@ namespace Kross
 		/*!
 			Copy Contructor.
 		*/
-		Animation(const Animation &other)
-		{
-			this->SetName(other.GetName());
-			this->SetDuration(other.GetDuration());
-
-			this->m_KeyframeCurrent = 0;
-
-			for (int i = 0; i < other.m_Keyframes.size(); i++)
-				this->AttachKeyframe(KROSS_NEW Keyframe(*other.m_Keyframes[i]));
-		}
+		Animation(const Animation& other);
 
 		/*!
 			Sets the Animation Duration.

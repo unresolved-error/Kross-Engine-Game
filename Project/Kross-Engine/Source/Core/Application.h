@@ -18,8 +18,8 @@ namespace Kross
 		Application(const std::string& title, int width, int height);
 		~Application();
 
-		static Application* s_Instance;
-		Window* p_Window;
+		static Application* m_Instance;
+		Window* m_Window;
 
 	protected:
 
@@ -43,6 +43,6 @@ namespace Kross
 		static void OnDestroy();
 
 		// Gets the Window of the Application.
-		static Window* GetWindow() { return s_Instance->p_Window; };
+		static Window* GetWindow() { return m_Instance->m_Window; };
 	};
 }

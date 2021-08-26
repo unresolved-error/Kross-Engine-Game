@@ -8,7 +8,7 @@
 
 #include "../../Core.h"
 
-#include "ShaderFlags.h"
+#include "ShaderType.h"
 
 #include "../Image/Texture.h"
 #include "../../Math/Math.h"
@@ -26,7 +26,7 @@ namespace Kross
 		std::unordered_map<std::string, int> m_UniformCache;
 
 		std::string m_Name, m_VertexFilepath, m_FragmentFilepath, m_GeometryFilepath;
-		ShaderFlag m_Flag;
+		ShaderType m_Type;
 
 	protected:
 		friend class ResourceManager;
@@ -44,7 +44,7 @@ namespace Kross
 		const unsigned int GetShaderID() const { return m_ShaderID; };
 
 		// Complies a certain shader type.
-		static unsigned int GetShaderCompileStatus(std::string source, int type);
+		static unsigned int CompileShader(std::string source, int type);
 
 		// Gets the Uniform Location.
 		int GetUniformLocation(const std::string& variable);
@@ -53,7 +53,7 @@ namespace Kross
 		void SetName(const std::string& name) { m_Name = name; };
 
 		// Gets the Linking Status of the Linking of the Shader.
-		void GetLinkingStatus();
+		void LinkShader();
 
 		// Sets the Vertex Shader Filepath.
 		void SetVertexFilepath(const std::string& filepath) { m_VertexFilepath = filepath; };
@@ -72,10 +72,10 @@ namespace Kross
 
 	public:
 		// Binds the Shader.
-		void Attach();
+		void Bind();
 
 		// Un Binds all Shaders.
-		static void Detach();
+		static void UnBind();
 
 		// Gets the Shader Name.
 		const std::string GetName() const { return m_Name; };
@@ -92,11 +92,11 @@ namespace Kross
 		// Destroys the Shader specified.
 		static void OnDestroy(Shader* shader);
 
-		// Sets the Shader Flag. (USE WITH CAUTION)
-		void SetFlag(ShaderFlag flag) { m_Flag = flag; };
+		// Sets the Shader Type.
+		void SetType(ShaderType type) { m_Type = type; };
 
-		// Gets the Shader Flag.
-		ShaderFlag GetFlag() const { return m_Flag; };
+		// Gets the Shader Type.
+		ShaderType GetType() const { return m_Type; };
 
 		// Sets a Bool variable inside the Shader.
 		void SetUniform(const std::string& variable, bool value);

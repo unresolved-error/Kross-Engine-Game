@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *		- Chris Deitch
  */
 
 #pragma once
@@ -41,15 +42,17 @@ namespace Kross
 
 		/* Adds to the flags */
 		void AddParticleFlags(uint32 flags) { p_GroupDef->flags += flags; }
+		void SetParticleFlags(uint32 flags) { p_GroupDef->flags = flags; }
 		uint32 GetParticleFlags() { return p_GroupDef->flags; }
 
 		/* Adds to the group flags */
 		void AddGroupFlags(uint32 flags) { p_GroupDef->groupFlags += flags; }
+		void SetGroupFlags(uint32 flags) { p_GroupDef->groupFlags = flags; }
 		uint32 GetGroupFlags() { return p_GroupDef->groupFlags; }
 
 		/* Sets the position */
-		void SetPosition(Vector2 pos) { p_GroupDef->position = Getb2Vec2(pos); }
-		b2Vec2 GetPosition() { return p_GroupDef->position; }
+		//void SetPosition(Vector2 pos) { p_GroupDef->position = Getb2Vec2(pos); }
+		//b2Vec2 GetPosition() { return p_GroupDef->position; }
 
 		/* Sets the angle */
 		void SetAngle(float angle) { p_GroupDef->angle = angle; }

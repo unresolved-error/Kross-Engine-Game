@@ -10,13 +10,12 @@
 
 namespace Kross
 {
-    enum class KROSS_API ShaderFlag
+    enum class KROSS_API ShaderType
     {
-        None,
-        Text,
-        Fluid,
+        Standard,
+        PostProcess,
 
         /* Just in case. */
-        Count
+        Count,
     };
 }

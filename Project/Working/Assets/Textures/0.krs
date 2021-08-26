@@ -1,4 +1,3 @@
 TEXTURE:
-FILEPATH->Resources/Textures/Default/Diffuse.png->
-NAME->Diffuse->
-TYPE->DEFAULT->
+FILEPATH->Resources/Textures/DoesntExist.png->
+NAME->Default->

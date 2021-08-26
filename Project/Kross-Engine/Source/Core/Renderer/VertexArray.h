@@ -27,10 +27,10 @@ namespace Kross
 		~VertexArray();
 
 		// Binds the Vertex Array for using.
-		void Attach();
+		void Bind();
 
-		// Un Binds the current VertexArray. 
-		static void Detach();
+		// Un Binds the all VertexArrays. 
+		static void UnBind();
 
 		// Configures a VertexBuffer to a Layout.
 		void AttachVertexBufferToLayout(VertexBuffer& vertexBuffer, VertexBufferLayout* layout);

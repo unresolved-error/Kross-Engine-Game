@@ -16,11 +16,11 @@ namespace Kross
 	private:
 		float m_height;
 		float m_width;
-		List<FixtureDef*> m_Fixtures;
+		std::vector<FixtureDef*> m_Fixtures;
 
 	public:
 		/* Creates a new box using the dimensions and body */
-		Capsule(Vector2 dimensions, Vector2 offset, List<FixtureDef*> fixtures) :
+		Capsule(Vector2 dimensions, Vector2 offset, std::vector<FixtureDef*> fixtures) :
 			m_width	(dimensions.x),
 			m_height(dimensions.y)
 		{
@@ -39,6 +39,6 @@ namespace Kross
 		/* Returns the width */
 		float GetWidth() const { return m_width; }
 
-		List<FixtureDef*> GetFixtures() const { return m_Fixtures; }
+		std::vector<FixtureDef*> GetFixtures() const { return m_Fixtures; }
 	};
 }
