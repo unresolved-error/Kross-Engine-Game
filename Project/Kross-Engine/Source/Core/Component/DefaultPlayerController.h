@@ -16,13 +16,9 @@ namespace Kross
 	{
 	private:
 		Transform2D* transform;
-		//SpriteRenderer* renderer;
 		Window* window;
 		Rigidbody2D* rigidbody;
 
-		//AudioPlayer* audplayer = nullptr;
-
-		//Animator* animator;
 
 		Vector2 gunOffset = Vector2(0.0f, -0.11f);
 
@@ -46,8 +42,8 @@ namespace Kross
 
 		int frameCount = 0;
 
-		float m_MaxGroundSpeed = 4.0f;
-		float m_MaxAirSpeed = 5.25f;
+		float m_MaxGroundSpeed = 3.75f;
+		float m_MaxAirSpeed = 4.75f;
 		float m_JumpStrength = 0.4f;
 
 
@@ -60,10 +56,8 @@ namespace Kross
 
 	public:
 		DefaultPlayerController() :
-			//renderer	(nullptr),
 			window		(nullptr),
 			transform	(nullptr),
-			//animator	(nullptr),
 			camera		(nullptr),
 			gun			(nullptr),
 			text		(nullptr),
