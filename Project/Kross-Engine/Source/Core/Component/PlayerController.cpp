@@ -14,7 +14,7 @@ namespace Kross
 	void PlayerController::OnStart()
 	{
 		/* Initializes the objects transform */
-		transform = c_Object->GetTransform();
+		transform = m_GameObject->m_Transform;
 		transform->m_Position = Vector2(0.0f);
 
 		/* Gets any avaliable controllers */
@@ -59,15 +59,15 @@ namespace Kross
 		EnableGravity(Key::Q, Controller::B);
 
 		/* Gets the camera and player positions */
-		Vector2 cameraPosition = camera->GetTransform()->m_Position;
-		Vector2 playerPosition = c_Object->GetTransform()->m_Position;
+		Vector2 cameraPosition = camera->m_Transform->m_Position;
+		Vector2 playerPosition = m_GameObject->m_Transform->m_Position;
 
 		/* Moves the camera based on the players position */
-		camera->GetTransform()->m_Position = Math::Lerp(cameraPosition, playerPosition, Time::GetDeltaTime() * 4.0f);
+		camera->m_Transform->m_Position = Math::Lerp(cameraPosition, playerPosition, Time::GetDeltaTime() * 4.0f);
 
 		/* Clamps the mins and maxes for the camera */
-		camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, -1.25f, 178.75f);
-		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.5f);
+		camera->m_Transform->m_Position.x = glm::clamp(camera->m_Transform->m_Position.x, -1.25f, 178.75f);
+		camera->m_Transform->m_Position.y = glm::clamp(camera->m_Transform->m_Position.y, -2.0f, 1.5f);
 	}
 
 	void PlayerController::PlayerMove(Vector2 input, Key jump, Key jump2, Controller jumpC)

@@ -302,7 +302,7 @@ namespace Kross
 		std::vector<std::string> textRendererData;
 		std::vector<std::string> tileMapRendererData;
 		std::vector<std::string> particleEmitterData;
-		List<std::string> playerControllerData;
+		std::vector<std::string> playerControllerData;
 
 
 		std::vector<Object*> readInObjects;

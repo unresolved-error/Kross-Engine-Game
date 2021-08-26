@@ -95,7 +95,7 @@ public:
 
 		}
 
-		if (m_PlayerMovement->m_ControllerID != -1 && Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickHorizontal, 0.2f) == 0.0f && Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickVertical, 0.2f) == 0.0f)
+		if (m_PlayerMovement->GetControllerID() != -1 && Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickHorizontal, 0.2f) == 0.0f && Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickVertical, 0.2f) == 0.0f)
 		{
 			float velX = player->GetComponent<Rigidbody2D>()->GetBody()->GetLinearVelocity().x;
 
@@ -156,9 +156,9 @@ public:
 		
 		Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
 
-		if (m_PlayerMovement->m_ControllerID != -1)
+		if (m_PlayerMovement->GetControllerID() != -1)
 		{
-			mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickVertical, 0.2f));
+			mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->GetControllerID(), Controller::RightStickVertical, 0.2f));
 			crossHairPos = mousePoint + m_GameObject->m_Transform->m_Position;
 
 			if (mousePoint != Vector2(0.0f))
