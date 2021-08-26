@@ -107,7 +107,7 @@ namespace Kross
 #include "Transform2D.h"
 #include "Script.h"
 #include "Camera.h"
-#include "DefaultPlayerController.h"
+#include "PlayerController.h"
 #include "Collider.h"
 #include "Animator.h"
 #include "AudioPlayer.h"

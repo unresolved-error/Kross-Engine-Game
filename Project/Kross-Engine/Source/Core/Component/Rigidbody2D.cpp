@@ -909,14 +909,13 @@ namespace Kross
 
         Vector2 particleForce = CollideParticles();
         OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
+
         if (p_Box == nullptr)
         {            
             rightSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
             leftSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x - p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
 
             UpdateRigidbodyState();
-
-
 
             if (rightSideDown->hit  || leftSideDown->hit)
             {

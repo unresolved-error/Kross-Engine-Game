@@ -832,7 +832,7 @@ namespace Kross {
 							p_SelectedObject->AttachComponent<Rigidbody2D>();
 
 						if (ImGui::MenuItem("Player Controller"))
-							p_SelectedObject->AttachComponent<DefaultPlayerController>();
+							p_SelectedObject->AttachComponent<PlayerController>();
 
 						ImGui::EndMenu();
 					}

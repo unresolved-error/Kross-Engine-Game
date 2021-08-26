@@ -1,9 +1,9 @@
-#include "DefaultPlayerController.h"
 /*
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
  */
+#include "PlayerController.h"
 
 #include "../Manager/SceneManager.h"
 #include "../Manager/Time.h"
@@ -11,22 +11,19 @@
 
 namespace Kross
 {
-	void DefaultPlayerController::OnStart()
+	void PlayerController::OnStart()
 	{
+		/* Initializes the objects transform */
 		transform = c_Object->GetTransform();
 		transform->m_Position = Vector2(0.0f);
-		window = Application::GetWindow();
 
+		/* Gets any avaliable controllers */
 		controllerID = Input::GetAvalibleController();
 
+		/* Assigns the rigidbody */
 		rigidbody = GetComponent<Rigidbody2D>();
 
-		text = SceneManager::GetCurrentScene()->FindObject("Text");
-		gun = SceneManager::GetCurrentScene()->FindObject("Gun");
-
-		Material* defaultMaterial = Material::OnCreate("Default");
-		defaultMaterial->SetDiffuse(ResourceManager::GetResource<Sprite>(0));
-
+		/* Sets the camera */
 		camera = SceneManager::GetCurrentScene()->GetCamera();
 
 		Debug::Log("Position = ");
@@ -34,15 +31,14 @@ namespace Kross
 		Debug::EndLine();
 	}
 
-	void DefaultPlayerController::OnUpdate()
+	void PlayerController::OnUpdate()
 	{
 		Vector2 input = Vector2(0.0f);
 
-
+		/* Checks if the player is using a controller or a mouse & keyboard */
 		if (Input::ControllerConnected(controllerID))
 		{
 			input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), 0.0f);
-
 		}
 		else
 		{
@@ -56,63 +52,36 @@ namespace Kross
 			}
 		}
 
-		if (transform->m_Position.x < 180)
-		{
-			PlayerMove(input, Key::Space, Controller::A);
-		}
+		/* Takes the player input and actions the inputs */
+		PlayerMove(input, Key::Space, Key::W, Controller::A);
+		
+		/* Switches the gravity */
 		EnableGravity(Key::Q, Controller::B);
 
+		/* Gets the camera and player positions */
 		Vector2 cameraPosition = camera->GetTransform()->m_Position;
 		Vector2 playerPosition = c_Object->GetTransform()->m_Position;
 
-		//camera->GetTransform()->m_Position.x = Math::Lerp(cameraPosition.x, playerPosition.x, Time::GetDeltaTime() * 4.0f);
-		//camera->GetTransform()->m_Position.y = Math::Lerp(cameraPosition.y, playerPosition.y, Time::GetDeltaTime() * 4.0f);
-
+		/* Moves the camera based on the players position */
 		camera->GetTransform()->m_Position = Math::Lerp(cameraPosition, playerPosition, Time::GetDeltaTime() * 4.0f);
 
+		/* Clamps the mins and maxes for the camera */
 		camera->GetTransform()->m_Position.x = glm::clamp(camera->GetTransform()->m_Position.x, -1.25f, 178.75f);
 		camera->GetTransform()->m_Position.y = glm::clamp(camera->GetTransform()->m_Position.y, -2.0f, 1.5f);
-
-		if (text)
-		{
-			if (playerPosition.x < 170)
-			{
-				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
-				textcol.a = 0;
-				text->GetComponent<TextRenderer>()->SetColour(textcol);
-			}
-			else if (playerPosition.x < 179.9)
-			{
-				float alph = (playerPosition.x - 170) / 10;
-				Colour textcol = text->GetComponent<TextRenderer>()->GetColour();
-				textcol.a = alph;
-				text->GetComponent<TextRenderer>()->SetColour(textcol);
-		
-			}
-		
-			text->GetTransform()->m_Position = c_Object->GetTransform()->m_Position + Vector2(0.0f, 1.5f);
-		
-		}
-
 	}
 
-	void DefaultPlayerController::PlayerMove(Vector2 input, Key jump, Controller jumpC)
+	void PlayerController::PlayerMove(Vector2 input, Key jump, Key jump2, Controller jumpC)
 	{
+		/* Checks the player input and players states */
 		if (rigidbody->GetRigidbodyState() != RigidbodyState::Falling &&
-			Input::GetKeyPressed(jump) || Input::ControllerConnected(controllerID) &&
+			Input::GetKeyPressed(jump) || Input::GetKeyPressed(jump2) || Input::ControllerConnected(controllerID) &&
 			Input::GetControllerButtonPressed(controllerID, jumpC))
 		{
-			for (b2ContactEdge* thisContact = rigidbody->GetBody()->GetContactList(); thisContact; thisContact = thisContact->next)
+			if (jumpCount < 1)
 			{
-				if (thisContact->other == rigidbody->GetRaycastData()->body)
-				{
-					if (jumpCount < 1)
-					{
-						rigidbody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-						jumpCount++;
-						break;
-					}
-				}
+				/* Applys a jump impulse */
+				rigidbody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
+				jumpCount++;
 			}
 		}
 
@@ -136,22 +105,22 @@ namespace Kross
 		{
 			if (input.x < 0 && rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
 			{
-				rigidbody->OnApplyForce(input);
+				rigidbody->OnApplyForce(input * 0.65f);
 			}
 			else if (input.x > 0 && rigidbody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
 			{
-				rigidbody->OnApplyForce(input);
+				rigidbody->OnApplyForce(input * 0.65f);
 			}
 			else
 			{
 				rigidbody->OnApplyForce(input * 0.1f);
 			}
 		}
-
 	}
 
-	void DefaultPlayerController::EnableGravity(Key key, Controller button)
+	void PlayerController::EnableGravity(Key key, Controller button)
 	{
+		/* Checks the input to turn on gravity */
 		if (Input::GetKeyPressed(key) || (Input::ControllerConnected(controllerID) &&
 			Input::GetControllerButtonPressed(controllerID, button)))
 		{
@@ -159,8 +128,9 @@ namespace Kross
 		}
 	}
 
-	void DefaultPlayerController::OnCollisionEnter(Object* other)
+	void PlayerController::OnCollisionEnter(Object* other)
 	{
+		/* Sets the jump count if they land on the ground or an enemy */
 		if (other->GetLayer() == Layer::Ground ||
 			other->GetLayer() == Layer::Player)
 		{
@@ -170,8 +140,9 @@ namespace Kross
 		Debug::LogLine("Entered collision with " + other->GetName());
 	}
 
-	void DefaultPlayerController::OnCollisionStay(Object* other)
+	void PlayerController::OnCollisionStay(Object* other)
 	{
+		/* Sets the jump count if they stay on the ground or an enemy */
 		if (other->GetLayer() == Layer::Ground ||
 			other->GetLayer() == Layer::Player)
 		{
@@ -179,8 +150,9 @@ namespace Kross
 		}
 	}
 
-	void DefaultPlayerController::OnCollisionExit(Object* other)
+	void PlayerController::OnCollisionExit(Object* other)
 	{
+		/* Sets the jump count if they leave the ground or an enemy */
 		if (other->GetLayer() == Layer::Ground ||
 			other->GetLayer() == Layer::Player)
 		{

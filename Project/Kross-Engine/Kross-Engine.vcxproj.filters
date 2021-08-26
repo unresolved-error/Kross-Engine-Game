@@ -191,7 +191,7 @@
     <ClCompile Include="Source\Core\Editor\Windows\MainMenu.cpp" />
     <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
     <ClCompile Include="Source\Core\Math\Math.cpp" />
-    <ClCompile Include="Source\Core\Component\DefaultPlayerController.cpp" />
+    <ClCompile Include="Source\Core\Component\PlayerController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -694,7 +694,7 @@
     <ClInclude Include="Source\Core\Manager\ScriptRegistry.h" />
     <ClInclude Include="Source\Core\Editor\Windows\Profiler.h" />
     <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
-    <ClInclude Include="Source\Core\Component\DefaultPlayerController.h" />
+    <ClInclude Include="Source\Core\Component\PlayerController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

@@ -409,7 +409,7 @@ namespace Kross
 		List<std::string> spriteRendererData;
 		List<std::string> textRendererData;
 		List<std::string> tileMapRendererData;
-		List<std::string> defaultPlayerControllerData;
+		List<std::string> playerControllerData;
 
 		List<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
@@ -1019,7 +1019,7 @@ namespace Kross
 						}
 					}
 
-					if (defaultPlayerControllerData.size() > 0)
+					if (playerControllerData.size() > 0)
 					{
 						
 					}
@@ -1095,7 +1095,7 @@ namespace Kross
 					spriteRendererData.clear();
 					textRendererData.clear();
 					tileMapRendererData.clear();
-					defaultPlayerControllerData.clear();
+					playerControllerData.clear();
 					transformData = "";
 
 					readInObjects.push_back(currentObject);
@@ -1193,10 +1193,10 @@ namespace Kross
 							transformData = line;
 						}
 
-						else if (objProperty == "DEFAULT-PLAYER-CONTROLLER")
+						else if (objProperty == "PLAYER-CONTROLLER")
 						{
-							currentObject->AttachComponent<DefaultPlayerController>();
-							defaultPlayerControllerData.push_back(line);
+							currentObject->AttachComponent<PlayerController>();
+							playerControllerData.push_back(line);
 						}
 
 					}

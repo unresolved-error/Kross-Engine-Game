@@ -28,7 +28,7 @@ public:
 	Object* m_CrossHair = nullptr;
 
 	Object* player;
-	DefaultPlayerController* m_PlayerMovement = KROSS_NEW DefaultPlayerController();
+	PlayerController* m_PlayerMovement = KROSS_NEW PlayerController();
 	Camera* camera;
 	Window* window;
 
@@ -59,7 +59,7 @@ public:
 		renderer = GetComponent<SpriteRenderer>();
 		camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
 		player = SceneManager::GetCurrentScene()->FindObject("Player");
-		//m_PlayerMovement = player->GetComponent<DefaultPlayerController>();
+		//m_PlayerMovement = GetComponent<PlayerController>();
 
 		Degree0 = ResourceManager::GetResource<Sprite>("Gun1-1");
 		Degree22pt5 = ResourceManager::GetResource<Sprite>("Gun0-1");

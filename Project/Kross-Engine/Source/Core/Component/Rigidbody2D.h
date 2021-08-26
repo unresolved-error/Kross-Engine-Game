@@ -79,7 +79,7 @@ namespace Kross
     protected:
         friend class PhysicsScene;
         friend class Scene;
-        friend class DefaultPlayerController;
+        friend class PlayerController;
 
         friend class Object;
 
