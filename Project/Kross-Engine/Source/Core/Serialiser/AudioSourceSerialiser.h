@@ -1,3 +1,10 @@
+/*
+ *  Author: Chris Deitch.
+ *  Editors:
+ *      - Chris Deitch.
+ *		- Deklyn Palmer.
+ */
+
 #pragma once
 
 #include "../Core.h"

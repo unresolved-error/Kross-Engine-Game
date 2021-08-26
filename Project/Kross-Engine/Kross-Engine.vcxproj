@@ -286,6 +286,7 @@
     <ClInclude Include="Source\Core\Scene.h" />
     <ClInclude Include="Source\Core\Serialiser\ShaderSerialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\TextureSerialiser.h" />
+    <ClInclude Include="Source\Core\Serialiser\TileSetSerialiser.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Core\Window\WindowProperties.h" />
     <ClInclude Include="Source\Include\Kross-Engine.h" />

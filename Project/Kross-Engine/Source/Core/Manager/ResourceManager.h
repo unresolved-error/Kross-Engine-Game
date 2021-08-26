@@ -115,6 +115,9 @@ namespace Kross
 					else
 						shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[i]->GetVertexFilepath(), s_Instance->m_Shaders[i]->GetFragmentFilepath(), s_Instance->m_Shaders[i]->GetName() + " - Copy");
 
+					/* Set the type. */
+					shaderCopy->SetType(s_Instance->m_Shaders[i]->GetType());
+
 					/* Remove the Shader from the Resource Manager that was just created. */
 					DetachResource<Shader>(shaderCopy);
 
@@ -144,6 +147,9 @@ namespace Kross
 
 				else
 					shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[index]->GetVertexFilepath(), s_Instance->m_Shaders[index]->GetFragmentFilepath(), s_Instance->m_Shaders[index]->GetName() + " - Copy");
+
+				/* Set the type. */
+				shaderCopy->SetType(s_Instance->m_Shaders[index]->GetType());
 
 				/* Remove the Shader from the Resource Manager that was just created. */
 				DetachResource<Shader>(shaderCopy);

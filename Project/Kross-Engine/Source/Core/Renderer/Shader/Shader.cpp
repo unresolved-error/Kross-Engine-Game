@@ -17,7 +17,7 @@
 namespace Kross
 {
 	Shader::Shader()
-		: m_ShaderID(0), m_Name(""), m_VertexFilepath(""), m_FragmentFilepath(""), m_GeometryFilepath(""), m_Type(ShaderType::None)
+		: m_ShaderID(0), m_Name(""), m_VertexFilepath(""), m_FragmentFilepath(""), m_GeometryFilepath(""), m_Type(ShaderType::Standard)
 	{
 		m_ShaderID = glCreateProgram();
 	}

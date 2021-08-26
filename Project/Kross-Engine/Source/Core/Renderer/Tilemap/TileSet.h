@@ -19,6 +19,7 @@ namespace Kross
     protected:
 
         friend class FileSystem;
+        template<typename Type> friend class Serialiser;
 
 
         std::string m_Name;

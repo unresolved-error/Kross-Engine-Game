@@ -78,9 +78,6 @@ namespace Kross
 		// Reads in a TileMap
 		static void OnReadTileMap(const std::string& filepath);
 
-		// Reads in a TileSet
-		static void OnReadTileSet(const std::string& filepath);
-
 		// Reads in a Sprite.
 		static void OnReadSprite(const std::string& filepath);
 
@@ -107,9 +104,6 @@ namespace Kross
 
 		// Reads in the Atlas Texture and Applies it to the Atlas.
 		static void OnPopulateAtlasTexture(const std::string& filepath, Atlas* atlas);
-
-		// Reads in a Audio Source.
-		static void OnReadAudioSource(const std::string& filepath);
 
 		
 

@@ -119,14 +119,17 @@ namespace Kross
 				{
 					Serialiser<AudioSource> serialiser = Serialiser<AudioSource>();
 					serialiser.Load(assetFilepath);
-					//FileSystem::OnReadAudioSource(assetFilepath);
 				}
 
 				else if (assetType == "TILEMAP")
 					FileSystem::OnReadTileMap(assetFilepath);
 
 				else if (assetType == "TILESET")
-					FileSystem::OnReadTileSet(assetFilepath);
+				{
+					Serialiser<TileSet> serialiser = Serialiser<TileSet>();
+					serialiser.Load(assetFilepath);
+					//FileSystem::OnReadTileSet(assetFilepath);
+				}
 
 				else if (assetType == "ATLAS")
 					FileSystem::OnReadAtlas(assetFilepath);

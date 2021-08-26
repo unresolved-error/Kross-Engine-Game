@@ -709,6 +709,7 @@
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
     <ClInclude Include="Source\Core\Serialiser\AudioSourceSerialiser.h" />
+    <ClInclude Include="Source\Core\Serialiser\TileSetSerialiser.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

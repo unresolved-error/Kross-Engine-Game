@@ -49,6 +49,7 @@ namespace Kross
 			{
 				/* Parameter variables. */
 				std::string shaderName = "";
+				std::string shaderType = "";
 				std::string shaderVertex = "";
 				std::string shaderGeometry = "";
 				std::string shaderFragment = "";
@@ -80,6 +81,9 @@ namespace Kross
 							if (shaderProperty == "NAME") /* Extract Name. */
 								shaderName = line.substr(0, searchPosition);
 
+							if (shaderProperty == "TYPE") /* Extract Type. */
+								shaderType = line.substr(0, searchPosition);
+
 							else if (shaderProperty == "VERTEX") /* Extract Vertex Shader Filepath. */
 								shaderVertex = line.substr(0, searchPosition);
 
@@ -99,7 +103,7 @@ namespace Kross
 				bool shouldCreate = true;
 				bool startedLog = false;
 
-				/* Report that the Texture Filepath is Missing. */
+				/* Report that the Shader Name is Missing. */
 				if (shaderName.empty())
 				{
 					/* Start the Log if it hasn't yet. */
@@ -112,11 +116,28 @@ namespace Kross
 					}
 
 					/* Report the Reason. */
-					Manifest::Logger()->Write("----- Shader name not read in!");
+					Manifest::Logger()->Write("----- Shader Name not read in!");
 					shouldCreate = false;
 				}
 
-				/* Report that the Texture Name is Missing. */
+				/* Report that the Shader Type is Missing. */
+				if (shaderType.empty())
+				{
+					/* Start the Log if it hasn't yet. */
+					if (!startedLog)
+					{
+						/* Report the Failure. */
+						Manifest::Logger()->WriteWarning("Creating Shader from File: [" + filepath + "] Failed!");
+						Manifest::Logger()->Write("--- Reasons:");
+						startedLog = true;
+					}
+
+					/* Report the Reason. */
+					Manifest::Logger()->Write("----- Shader Type not read in!");
+					shouldCreate = false;
+				}
+
+				/* Report that the Shader Vertex Filepath is Missing. */
 				if (shaderVertex.empty())
 				{
 					/* Start the Log if it hasn't yet. */
@@ -133,7 +154,7 @@ namespace Kross
 					shouldCreate = false;
 				}
 
-				/* Report that the Texture Name is Missing. */
+				/* Report that the Shader Vertex Filepath is invalid. */
 				if (!shaderVertex.empty() && !FileSystem::FilepathExists(shaderVertex))
 				{
 					/* Start the Log if it hasn't yet. */
@@ -150,7 +171,7 @@ namespace Kross
 					shouldCreate = false;
 				}
 
-				/* Report that the Texture Type is Missing. */
+				/* Report that the Shader Fragment Filepath is Missing. */
 				if (shaderFragment.empty())
 				{
 					/* Start the Log if it hasn't yet. */
@@ -167,7 +188,7 @@ namespace Kross
 					shouldCreate = false;
 				}
 
-				/* Report that the Texture Type is Missing. */
+				/* Report that the Shader Fragment Filepath is invalid. */
 				if (!shaderFragment.empty() && !FileSystem::FilepathExists(shaderFragment))
 				{
 					/* Start the Log if it hasn't yet. */
@@ -184,7 +205,7 @@ namespace Kross
 					shouldCreate = false;
 				}
 
-				/* Report that the Texture Type is Missing. */
+				/* Report that the Shader Geometry Filepath is invalid. */
 				if (!shaderGeometry.empty() && !FileSystem::FilepathExists(shaderGeometry))
 				{
 					/* Start the Log if it hasn't yet. */
@@ -225,6 +246,9 @@ namespace Kross
 					{
 						shader = Shader::OnCreate(shaderVertex, shaderFragment, shaderGeometry, shaderName);
 					}
+
+					/* Set the Shader Type. */
+					shader->SetType((ShaderType)std::stoi(shaderType));
 
 					/* Attach it as a Resource. */
 					ResourceManager::AttachResource<Shader>(shader);
