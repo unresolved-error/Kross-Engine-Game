@@ -114,9 +114,9 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         int refreshRate = Application::GetWindow()->GetScreenRefreshRate();
-        int velocityIterations = 8;
-        int positionIterations = 3;
-        int particleIterations = 2;
+        int velocityIterations = (int)glm::ceil((float)refreshRate / 9.0f);
+        int positionIterations = refreshRate / 20;
+        int particleIterations = refreshRate / 30;
         /* Update the physics step */
         if (Application::GetWindow()->GetVSync() == 1)
         {

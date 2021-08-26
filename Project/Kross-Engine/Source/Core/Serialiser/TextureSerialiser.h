@@ -165,6 +165,7 @@ namespace Kross
 				if (startedLog)
 				{
 					Manifest::Logger()->WriteSpace();
+					Manifest::SetLoadSuccess(false);
 				}
 
 				/* If we can create a Texture then create it. */

@@ -79,7 +79,7 @@ namespace Kross
 	void Application::OnUpdate()
 	{
 		/* If the window was successfully Started. Run the Application. */
-		if (m_Instance->m_Window->Initialised())
+		if (m_Instance->m_Window->Initialised() && Manifest::SuccessfulLoad())
 		{
 			Debug::LogLine("Kross Engine Running...");
 
@@ -106,7 +106,7 @@ namespace Kross
 
 				SceneManager::OnUpdateSceneCameraAspectRatio(m_Instance->m_Window->GetApsectRatio());
 
-				SceneManager::OnUpdate();
+				SceneManager::OnUpdate(); /* Got to be looked at. */
 
 				#ifndef KROSS_EDITOR
 				SceneManager::OnPhysicsUpdate();
@@ -132,15 +132,23 @@ namespace Kross
 			}
 		}
 
-		#ifdef KROSS_EDITOR
-		Editor::OnShutdown();
-		#endif
+		else if (!Manifest::SuccessfulLoad())
+		{
+			Debug::Spacing();
+			Debug::LogErrorLine("Failed to Start! Read manifest-log.txt for details.");
+			Debug::Spacing();
+		}
 
 		return;
 	}
 
 	void Application::OnShutdown()
 	{
+		#ifdef KROSS_EDITOR
+		if(Manifest::SuccessfulLoad())
+			Editor::OnShutdown();
+		#endif
+
 		Editor::OnDestroy();
 
 		m_Instance->m_Window->OnShutdown();

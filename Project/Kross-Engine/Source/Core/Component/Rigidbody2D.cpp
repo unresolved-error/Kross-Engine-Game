@@ -907,7 +907,7 @@ namespace Kross
         RaycastData* down = KROSS_NEW RaycastData();
 
         Vector2 particleForce = CollideParticles();
-        OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
+        //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
         if (p_Box == nullptr)
         {
             //GetObjectsInDirection(0.1f, p_Body, Vector2(0.0f, -1.0f));

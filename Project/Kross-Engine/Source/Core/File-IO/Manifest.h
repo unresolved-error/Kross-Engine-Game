@@ -17,13 +17,13 @@ namespace Kross
 	private:
 		static Manifest* m_Instance;
 
+		bool m_ManifestLoaded;
 		Kross::Logger* m_Logger;
 
 		Manifest() :
-			m_Logger	(KROSS_NEW Kross::Logger())
-		{
-			m_Logger = KROSS_NEW Kross::Logger();
-		};
+			m_ManifestLoaded	(true),
+			m_Logger			(KROSS_NEW Kross::Logger())
+		{};
 		~Manifest();
 
 	protected:
@@ -33,6 +33,11 @@ namespace Kross
 			Gets the Logger.
 		*/
 		static Kross::Logger* Logger() { return m_Instance->m_Logger; };
+
+		/*!
+			Manifest failed to load. 
+		*/
+		static void SetLoadSuccess(bool value) { m_Instance->m_ManifestLoaded = value; };
 
 	public:
 		/*!
@@ -45,6 +50,10 @@ namespace Kross
 		*/
 		static void OnDestroy();
 
+		/*!
+			Gets if the Manifest has Loaded.
+		*/
+		static bool SuccessfulLoad() { return m_Instance->m_ManifestLoaded; };
 		/*!
 			Loads a Manifest File.
 		*/

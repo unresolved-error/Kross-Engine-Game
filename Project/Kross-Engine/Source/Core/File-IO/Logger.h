@@ -23,6 +23,11 @@ namespace Kross
 		*/
 		void Dump(const std::string& title, const std::string& filepath);
 
+		/*!
+			Gets the Time the Log was Recorded.
+		*/
+		std::string GetLogTime();
+
 	public:
 		Logger() :
 			m_LogLines	(std::vector<std::string>())
@@ -37,17 +42,17 @@ namespace Kross
 		/*!
 			Adds Log line to the Logger to Output.
 		*/
-		void WriteLog(const std::string& line) { m_LogLines.push_back("[Log] " + line); };
+		void WriteLog(const std::string& line);
 
 		/*!
 			Adds Warning line to the Logger to Output.
 		*/
-		void WriteWarning(const std::string& line) { m_LogLines.push_back("[Warning] " + line); };
+		void WriteWarning(const std::string& line);
 
 		/*!
 			Adds Error line to the Logger to Output.
 		*/
-		void WriteError(const std::string& line) { m_LogLines.push_back("[Error] " + line); };
+		void WriteError(const std::string& line);
 
 		/*!
 			Adds Spacing to the Logger to Output.

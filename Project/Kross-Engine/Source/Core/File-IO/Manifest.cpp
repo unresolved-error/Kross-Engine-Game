@@ -33,11 +33,17 @@ namespace Kross
 		/* Report and Early out if the Filepath doesn't exist. */
 		if (!FileSystem::FilepathExists(filepath))
 		{
-			/* Write that it failed to Open the Manifest. */
-			m_Instance->m_Logger->WriteError("Manifest Filepath does not Exist!");
-			m_Instance->m_Logger->Write("\t Filepath: " + filepath);
+			m_Instance->m_Logger->WriteError("Reading Manifest File: [" + filepath + "] Failed!");
+			m_Instance->m_Logger->Write("--- Reasons:");
 
-			m_Instance->m_Logger->Dump("Kross Manifest Log", "log.txt");
+			/* Report the Reason. */
+			m_Instance->m_Logger->Write("----- Manifest File is invalid! Filepath: [" + filepath + "]");
+			m_Instance->m_Logger->WriteSpace();
+
+			m_Instance->m_Logger->Dump("Kross Manifest Log", "manifest-log.txt");
+
+			/* Failed to Load. */
+			m_Instance->m_ManifestLoaded = false;
 
 			return;
 		}
@@ -132,8 +138,22 @@ namespace Kross
 		/* Close the stream. */
 		fileStream.close();
 
+		/* If the Manifest was Successully Loaded. */
+		if (m_Instance->m_ManifestLoaded)
+		{
+			/* Log Success. */
+			m_Instance->m_Logger->WriteLog("Reading Manifest File: [" + filepath + "] Successful!");
+		}
+
+		/* If it wasn't. */
+		else
+		{
+			/* Log Failure. */
+			m_Instance->m_Logger->WriteError("Reading Manifest File: [" + filepath + "] Failed!");
+		}
+
 		/* Dump the Logger Report. */
-		m_Instance->m_Logger->Dump("Kross Manifest Log", "log.txt");
+		m_Instance->m_Logger->Dump("Kross Manifest Log", "manifest-log.txt");
 	}
 
 	void Manifest::Write(const std::string& filepath)

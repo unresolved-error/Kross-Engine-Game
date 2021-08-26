@@ -4,7 +4,6 @@ MANIFEST:
 SHADER->Assets/Shaders/TextShader.krs->
 SHADER->Assets/Shaders/LineShader.krs->
 SHADER->Assets/Shaders/BatchShader.krs->
-SHADER->Assets/Shaders/0.krs->
 SHADER->Assets/Shaders/WaterShader.krs->
 SHADER->Assets/Shaders/PostProcessShader.krs->
 
@@ -22,7 +21,6 @@ TEXTURE->Assets/Textures/icoAudio.krs->
 TEXTURE->Assets/Textures/icoFont.krs->
 TEXTURE->Assets/Textures/icoMaterial.krs->
 TEXTURE->Assets/Textures/icoSprite.krs->
-TEXTURE->Assets/Textures/0.krs->
 TEXTURE->Assets/Textures/icoTexture.krs->
 TEXTURE->Assets/Textures/icoTile-Map.krs->
 TEXTURE->Assets/Textures/icoTile-Set.krs->
@@ -35,7 +33,6 @@ TEXTURE->Assets/Textures/Foreground-Candy.krs->
 TEXTURE->Assets/Textures/LollipopBlue.krs->
 TEXTURE->Assets/Textures/Gun.krs->
 TEXTURE->Assets/Textures/CrossHair.krs->
-TEXTURE->Assets/Textures/DiePlease.krs->
 
 // Load Sprites. (Make sure Sprites are loaded before Materials and Animations!)
 SPRITE->Assets/Sprites/sprDiffuse.krs->
