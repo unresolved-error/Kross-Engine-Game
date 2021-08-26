@@ -87,7 +87,7 @@ namespace Kross
 
 		if (jumpCount == 0)
 		{
-
+			/* Applys force when on the ground*/
 			if (input.x < 0 && rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
 			{
 				rigidbody->OnApplyForce(input);
@@ -103,6 +103,7 @@ namespace Kross
 		}
 		else
 		{
+			/* Applys force while the player is in the air */
 			if (input.x < 0 && rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
 			{
 				rigidbody->OnApplyForce(input * 0.65f);
