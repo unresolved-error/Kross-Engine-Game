@@ -13,7 +13,9 @@ namespace Kross
 
     Rope* Rope::CreateRope(RopeProperties* properties, PhysicsScene* physicsScene)
     {
+
         Rope* newRope= KROSS_NEW Rope();
+        newRope->SetPhysicsScene(physicsScene);
         //startConnection = KROSS_NEW b2Body() ... ect; position of postitionsToSet[0]
         //endConnection = KROSS_NEW b2Body() ... ect; position of   positionsToSet[positionsToSet.size - 1]
 
@@ -39,7 +41,7 @@ namespace Kross
                 BodyDef bodyDef;
                 bodyDef.type = b2_dynamicBody;
                 bodyDef.position.Set(positionOfNewBody.x, positionOfNewBody.y);
-                Body* body = physicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+                Body* body = newRope->GetPhysicsScene()->GetPhysicsWorld()->CreateBody(&bodyDef);
                 CircleShape circular;
                 circular.m_radius = (properties->GetLinkSize() * 0.5f);
                 FixtureDef fixDef;
