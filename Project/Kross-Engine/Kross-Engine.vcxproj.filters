@@ -191,6 +191,8 @@
     <ClCompile Include="Source\Core\Math\Math.cpp" />
     <ClCompile Include="Source\Core\File-IO\Logger.cpp" />
     <ClCompile Include="Source\Core\File-IO\Manifest.cpp" />
+    <ClCompile Include="Source\Core\Component\RopeProperties.cpp" />
+    <ClCompile Include="Source\Core\Physics\Rope\Rope.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -708,6 +710,9 @@
     <ClInclude Include="Source\Core\Serialiser\ShaderSerialiser.h" />
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
+    <ClInclude Include="Source\Core\Component\RopeProperties.h" />
+    <ClInclude Include="Source\Core\Physics\Rope\Rope.h" />
+    <ClInclude Include="Source\Core\Component\RopeEmitter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

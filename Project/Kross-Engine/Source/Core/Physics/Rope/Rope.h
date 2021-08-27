@@ -39,13 +39,13 @@ namespace Kross
         void SetPhysicsScene(PhysicsScene* physicsScene) { p_PhysicsScene = physicsScene; }
         PhysicsScene* GetPhysicsScene() { return p_PhysicsScene; }
 
-        static Rope* CreateRope(RopeProperties* properties, PhysicsScene* physicsScene);
+        void SpawnRope(RopeProperties* properties);
         
         void WeldStartToObject(b2Body* bodyToConnectTo) { objectTheStartIsConnectedTo = bodyToConnectTo; };
         void WeldEndToObject(b2Body* bodyToConnectTo) { objectTheEndIsConnectedTo = bodyToConnectTo; };
 
 
-        void DeleteSegment(b2Body* segmentToDelete);
+        void DeleteSegment(b2Body* segmentToDelete) {  };
         void AttachStartPoint();
         void AttachEndPoint();
         void SetStartPointStatic();

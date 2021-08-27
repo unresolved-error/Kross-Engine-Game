@@ -11,11 +11,9 @@ namespace Kross
 {
 
 
-    Rope* Rope::CreateRope(RopeProperties* properties, PhysicsScene* physicsScene)
+    void Rope::SpawnRope(RopeProperties* properties)
     {
-
-        Rope* newRope= KROSS_NEW Rope();
-        newRope->SetPhysicsScene(physicsScene);
+        if (!p_PhysicsScene) { return; }
         //startConnection = KROSS_NEW b2Body() ... ect; position of postitionsToSet[0]
         //endConnection = KROSS_NEW b2Body() ... ect; position of   positionsToSet[positionsToSet.size - 1]
 
@@ -41,7 +39,7 @@ namespace Kross
                 BodyDef bodyDef;
                 bodyDef.type = b2_dynamicBody;
                 bodyDef.position.Set(positionOfNewBody.x, positionOfNewBody.y);
-                Body* body = newRope->GetPhysicsScene()->GetPhysicsWorld()->CreateBody(&bodyDef);
+                Body* body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
                 CircleShape circular;
                 circular.m_radius = (properties->GetLinkSize() * 0.5f);
                 FixtureDef fixDef;
@@ -50,8 +48,8 @@ namespace Kross
                 fixDef.filter.maskBits = properties->filterBits.maskBits;
 
                 body->CreateFixture(&fixDef);
-                physicsScene->AttachBody(body);
-                newRope->segments.push_back(body);
+                p_PhysicsScene->AttachBody(body);
+                segments.push_back(body);
 
             }
         }
@@ -59,16 +57,16 @@ namespace Kross
 
 
         ///3: Generate a list of b2Revolute Joints that are between each join in the chain. (each joint requires body "A" and body "B")
-        for (int i =0; i <= newRope->segments.size()-2; i++)
+        for (int i =0; i <= segments.size()-2; i++)
         {
             //create a revolute joint between j and j+1;
             b2RevoluteJointDef* revJointDef = KROSS_NEW b2RevoluteJointDef();
-            revJointDef->bodyA = newRope->segments[i];
-            revJointDef->bodyB = newRope->segments[i+1];
+            revJointDef->bodyA = segments[i];
+            revJointDef->bodyB = segments[i+1];
             revJointDef->localAnchorA = Getb2Vec2(Vector2(0,1));
             revJointDef->localAnchorB = Getb2Vec2(Vector2(0,-1));
-            newRope->joinsBetweenSegments.push_back(
-                (b2RevoluteJoint*)newRope->p_PhysicsScene->GetPhysicsWorld()->CreateJoint(revJointDef)
+            joinsBetweenSegments.push_back(
+                (b2RevoluteJoint*)p_PhysicsScene->GetPhysicsWorld()->CreateJoint(revJointDef)
             );
           
               
@@ -76,8 +74,6 @@ namespace Kross
 
         ///4: Generate 2 end point b2Weld joints for the connection to the object hanging from this rope and the roof or whatever its attached too.
 
-
-        return newRope;
     }
 
 

@@ -193,6 +193,7 @@
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
+    <ClInclude Include="Source\Core\Component\RopeEmitter.h" />
     <ClInclude Include="Source\Core\Component\RopeProperties.h" />
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
     <ClInclude Include="Source\Core\Debug.h" />
