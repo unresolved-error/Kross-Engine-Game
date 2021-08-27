@@ -33,20 +33,6 @@ void AttachScripts()
 
 		Application::OnStart();
 
-		Object* rope = Object::OnCreate();
-
-		RopeProperties* properties = rope->AttachComponent<RopeProperties>();
-		std::vector<Vector2> positions;
-		positions.push_back(Vector2(1, 1));
-		positions.push_back(Vector2(5, 5));
-		properties->SetLinkSize(1.0f);
-
-		
-		properties->SetPositions(positions);
-		Rope* theActualRope = Rope::CreateRope(properties, properties->GetPhysicsScene());
-
-
-
 		Application::OnUpdate();
 		Application::OnShutdown();
 		Application::OnDestroy();

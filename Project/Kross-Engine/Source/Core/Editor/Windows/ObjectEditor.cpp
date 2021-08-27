@@ -2,6 +2,7 @@
  *  Author: Chris Deitch.
  *  Editors:
  *      - Chris Deitch.
+ *		- Deklyn Palmer.
  */
 #include "ObjectEditor.h"
 
@@ -934,6 +935,87 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<TileMapRenderer>();
 					}
 
+					/* Tile Map Renderer. (DONE) */
+					//else if (typeid(*component) == typeid(RopeProperties))
+					//{
+					//RopeProperties* properties = (RopeProperties*)component;
+					//if (ImGui::CollapsingHeader("Rope Properties", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+					//{
+					//	ImGui::Text("Positions:");
+					//	std::vector<Vector2> positions = properties->GetPositions();
+					//
+					//	ImGui::Indent();
+					//	for (int i = 0; i < positions.size(); i++)
+					//	{
+					//		std::string label = "##Position" + std::to_string(i);
+					//		float position[2] { positions[i].x, positions[i].y};
+					//		ImGui::DragFloat2(label.c_str(), &position[0], 0.01f, FLT_MIN, FLT_MAX);
+					//
+					//		ImGui::SameLine();
+					//		if (ImGui::Button("X"))
+					//		{
+					//			positions.erase(positions.begin() + i);
+					//			continue;
+					//		}
+					//
+					//		positions[i] = Vector2(position[0], position[1]);
+					//	}
+					//	ImGui::Unindent();
+					//
+					//	if (ImGui::Button("Add Position"))
+					//	{
+					//		positions.push_back(Vector2(0.0f));
+					//	}
+					//
+					//	ImGui::Separator();
+					//
+					//	//ImGui::Text("Tile Map: ");
+					//	//ImGui::SameLine();
+					//	//if (ImGui::Button((rend->GetTileMap()) ? rend->GetTileMap()->GetName().c_str() : "Not-Set"))
+					//	//{
+					//	//	if (!p_PreviewPane)
+					//	//	{
+					//	//		p_PreviewPane = KROSS_NEW AssetPreview();
+					//	//		p_PreviewPane->SetType(AssetType::TileMap);
+					//	//		p_PreviewPane->SetDimensions();
+					//	//		p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+					//	//		Editor::AttachEditorWindow(p_PreviewPane);
+					//	//	}
+					//	//
+					//	//	else if (p_PreviewPane->GetType() != AssetType::TileMap)
+					//	//	{
+					//	//		Editor::DetachEditorWindow(p_PreviewPane);
+					//	//
+					//	//		p_PreviewPane = KROSS_NEW AssetPreview();
+					//	//		p_PreviewPane->SetType(AssetType::TileMap);
+					//	//		p_PreviewPane->SetDimensions();
+					//	//		p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
+					//	//		Editor::AttachEditorWindow(p_PreviewPane);
+					//	//	}
+					//	//}
+					//	//
+					//	//if (p_PreviewPane)
+					//	//{
+					//	//	if (p_PreviewPane->GetTileSet())
+					//	//	{
+					//	//		rend->SetTileSet(p_PreviewPane->GetTileSet());
+					//	//		Editor::DetachEditorWindow(p_PreviewPane);
+					//	//		p_PreviewPane = nullptr;
+					//	//	}
+					//	//
+					//	//	else if (p_PreviewPane->GetTileMap())
+					//	//	{
+					//	//		rend->SetTileMap(p_PreviewPane->GetTileMap());
+					//	//		Editor::DetachEditorWindow(p_PreviewPane);
+					//	//		p_PreviewPane = nullptr;
+					//	//	}
+					//	//}
+					//}
+					//
+					//if (!isOpen)
+					//	p_SelectedObject->DetachComponent<TileMapRenderer>();
+					//}
+					//
 					else
 					{
 						ImGui::CollapsingHeader(((Script*)component)->GetName().c_str(), &isOpen, ImGuiTreeNodeFlags_Leaf);
@@ -966,6 +1048,18 @@ namespace Kross {
 
 						if (ImGui::MenuItem("Rigidbody2D"))
 							p_SelectedObject->AttachComponent<Rigidbody2D>();
+
+						if (ImGui::MenuItem("Particle Emitter"))
+							p_SelectedObject->AttachComponent<ParticleEmitter>();
+
+						if (ImGui::MenuItem("Particle Properties"))
+							p_SelectedObject->AttachComponent<ParticleProperties>();
+
+						//if (ImGui::MenuItem("Rope Emitter"))
+						//	p_SelectedObject->AttachComponent<RopeEmitter>();
+						//
+						//if (ImGui::MenuItem("Rope Properties"))
+						//	p_SelectedObject->AttachComponent<RopeProperties>();
 
 						ImGui::EndMenu();
 					}

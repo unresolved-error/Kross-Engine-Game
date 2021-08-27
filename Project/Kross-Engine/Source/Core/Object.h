@@ -29,6 +29,9 @@ namespace Kross
 	class KROSS_API ParticleEmitter;
 	class KROSS_API ParticleProperties;
 
+	class KROSS_API RopeEmitter;
+	class KROSS_API RopeProperties;
+
 	class KROSS_API Object
 	{
 	private:
@@ -181,6 +184,14 @@ namespace Kross
 					AttachComponent<ParticleProperties>(); /* Attach it. */
 			}
 
+			/* Checks if the Type Specified is a RigidBody. */
+			//else if (typeid(Type) == typeid(RopeEmitter))
+			//{
+			//	/* If we don't have a Collider. */
+			//	if (!GetComponent<RopeProperties>())
+			//		AttachComponent<RopeProperties>(); /* Attach it. */
+			//}
+
 			/* Set up of the new Component. */
 			Component* component = KROSS_NEW Type();
 			component->m_GameObject = this;
@@ -195,6 +206,12 @@ namespace Kross
 			{
 				((ParticleEmitter*)component)->SetPhysicsScene(m_Physics);
 			}
+
+			//else if (typeid(Type) == typeid(RopeEmitter))
+			//{
+			//	((RopeEmitter*)component)->SetPhysicsScene(m_Physics);
+			//	((RopeEmitter*)component)->m_DebugRenderer = m_DebugRenderer;
+			//}
 
 			/* Then Check if the Component is a Renderer. */
 			if (std::is_convertible<Type*, Renderer*>::value)

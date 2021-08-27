@@ -43,3 +43,4 @@ namespace Kross
 #include "Rigidbody2D.h"
 #include "ParticleEmitter.h"
 #include "TileMapRenderer.h"
+#include "RopeAvatar.h"

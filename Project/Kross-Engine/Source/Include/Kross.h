@@ -87,7 +87,7 @@
 
 
 //ROPE
-#include "../Core/Physics/Rope/Rope.h"
+//#include "../Core/Physics/Rope/Rope.h"
 
 /* ------ GLOABL FUNCTIONS ------ */
 
