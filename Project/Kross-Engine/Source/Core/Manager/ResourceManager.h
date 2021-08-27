@@ -40,11 +40,11 @@ namespace Kross
 			m_TileMaps		(std::vector<TileMap*>()),
 			m_TileSets      (std::vector<TileSet*>()),
 			m_Prefabs		(std::vector<Object*>()),
-			p_Atlas			(nullptr)
+			m_Atlas			(nullptr)
 		{};
 		~ResourceManager();
 
-		static ResourceManager* s_Instance;
+		static ResourceManager* m_Instance;
 
 		std::vector<Geometry*> m_Geometry;
 		std::vector<Shader*> m_Shaders;
@@ -58,7 +58,7 @@ namespace Kross
 		std::vector<TileSet*> m_TileSets;
 		std::vector<Object*> m_Prefabs;
 
-		Atlas* p_Atlas;
+		Atlas* m_Atlas;
 
 	public:
 		// Creates an Instance of the Manager.
@@ -101,22 +101,23 @@ namespace Kross
 		template<>
 		static Shader* GetResource<Shader>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Shaders.size(); i++)
+			for (int i = 0; i < m_Instance->m_Shaders.size(); i++)
 			{
 				/* If the name of the Shader matches the name requested, return that Shader. */
-				if (s_Instance->m_Shaders[i]->GetName() == name)
+				if (m_Instance->m_Shaders[i]->GetName() == name)
 				{
 					Shader* shaderCopy;
+					Shader* shader = m_Instance->m_Shaders[i];
 
 					/* Return a copy of the Shader so that whatever is using it can have its own version of it. */
-					if(s_Instance->m_Shaders[i]->GetGeometryFilepath() != "")
-						shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[i]->GetVertexFilepath(), s_Instance->m_Shaders[i]->GetFragmentFilepath(), s_Instance->m_Shaders[i]->GetGeometryFilepath(), s_Instance->m_Shaders[i]->GetName() + " - Copy");
+					if(m_Instance->m_Shaders[i]->GetGeometryFilepath() != "")
+						shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetGeometryFilepath(), shader->GetName());
 
 					else
-						shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[i]->GetVertexFilepath(), s_Instance->m_Shaders[i]->GetFragmentFilepath(), s_Instance->m_Shaders[i]->GetName() + " - Copy");
+						shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetName());
 
 					/* Set the type. */
-					shaderCopy->SetType(s_Instance->m_Shaders[i]->GetType());
+					shaderCopy->SetType(shader->GetType());
 
 					/* Remove the Shader from the Resource Manager that was just created. */
 					DetachResource<Shader>(shaderCopy);
@@ -137,19 +138,20 @@ namespace Kross
 		static Shader* GetResource<Shader>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Shaders.size())
+			if (index >= 0 && index < m_Instance->m_Shaders.size())
 			{
 				Shader* shaderCopy;
+				Shader* shader = m_Instance->m_Shaders[index];
 
 				/* Return a copy of the Shader so that whatever is using it can have its own version of it. */
-				if (s_Instance->m_Shaders[index]->GetGeometryFilepath() != "")
-					shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[index]->GetVertexFilepath(), s_Instance->m_Shaders[index]->GetFragmentFilepath(), s_Instance->m_Shaders[index]->GetGeometryFilepath(), s_Instance->m_Shaders[index]->GetName() + " - Copy");
+				if (shader->GetGeometryFilepath() != "")
+					shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetGeometryFilepath(), shader->GetName());
 
 				else
-					shaderCopy = Shader::OnCreate(s_Instance->m_Shaders[index]->GetVertexFilepath(), s_Instance->m_Shaders[index]->GetFragmentFilepath(), s_Instance->m_Shaders[index]->GetName() + " - Copy");
+					shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetName());
 
 				/* Set the type. */
-				shaderCopy->SetType(s_Instance->m_Shaders[index]->GetType());
+				shaderCopy->SetType(shader->GetType());
 
 				/* Remove the Shader from the Resource Manager that was just created. */
 				DetachResource<Shader>(shaderCopy);
@@ -168,7 +170,7 @@ namespace Kross
 		template<>
 		static void AttachResource<Shader>(Shader* shader)
 		{
-			s_Instance->m_Shaders.push_back(shader);
+			m_Instance->m_Shaders.push_back(shader);
 		}
 
 		// Removes a Shader from the  Resource Manager.
@@ -176,13 +178,13 @@ namespace Kross
 		static void DetachResource<Shader>(Shader* shader)
 		{
 			/* Go through the Shader List. */
-			for (int i = 0; i < s_Instance->m_Shaders.size(); i++)
+			for (int i = 0; i < m_Instance->m_Shaders.size(); i++)
 			{
 				/* if the Shader is the same as the one specified. Remove it.*/
-				if (s_Instance->m_Shaders[i] == shader)
+				if (m_Instance->m_Shaders[i] == shader)
 				{
-					Shader::OnDestroy(s_Instance->m_Shaders[i]);
-					s_Instance->m_Shaders.erase(s_Instance->m_Shaders.begin() + i);
+					Shader::OnDestroy(m_Instance->m_Shaders[i]);
+					m_Instance->m_Shaders.erase(m_Instance->m_Shaders.begin() + i);
 				}
 			}
 		}
@@ -195,11 +197,11 @@ namespace Kross
 		template<>
 		static Sprite* GetResource<Sprite>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Sprites.size(); i++)
+			for (int i = 0; i < m_Instance->m_Sprites.size(); i++)
 			{
 				/* If the name of the Sprite matches the name requested, return that Sprite. */
-				if (s_Instance->m_Sprites[i]->GetName() == name)
-					return s_Instance->m_Sprites[i];
+				if (m_Instance->m_Sprites[i]->GetName() == name)
+					return m_Instance->m_Sprites[i];
 			}
 
 			/* If nothing was found. */
@@ -211,8 +213,8 @@ namespace Kross
 		static Sprite* GetResource<Sprite>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Sprites.size())
-				return s_Instance->m_Sprites[index];
+			if (index >= 0 && index < m_Instance->m_Sprites.size())
+				return m_Instance->m_Sprites[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -222,7 +224,7 @@ namespace Kross
 		template<>
 		static void AttachResource<Sprite>(Sprite* sprite)
 		{
-			s_Instance->m_Sprites.push_back(sprite);
+			m_Instance->m_Sprites.push_back(sprite);
 		}
 
 		// Removes a Sprite from the  Resource Manager.
@@ -230,13 +232,13 @@ namespace Kross
 		static void DetachResource<Sprite>(Sprite* sprite)
 		{
 			/* Go through the Sprite List. */
-			for (int i = 0; i < s_Instance->m_Sprites.size(); i++)
+			for (int i = 0; i < m_Instance->m_Sprites.size(); i++)
 			{
 				/* if the Sprte is the  same as the one specified. Remove it.*/
-				if (s_Instance->m_Sprites[i] == sprite)
+				if (m_Instance->m_Sprites[i] == sprite)
 				{
-					Sprite::OnDestroy(s_Instance->m_Sprites[i]);
-					s_Instance->m_Sprites.erase(s_Instance->m_Sprites.begin() + i);
+					Sprite::OnDestroy(m_Instance->m_Sprites[i]);
+					m_Instance->m_Sprites.erase(m_Instance->m_Sprites.begin() + i);
 				}
 			}
 		}
@@ -249,11 +251,11 @@ namespace Kross
 		template<>
 		static Texture* GetResource<Texture>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Textures.size(); i++)
+			for (int i = 0; i < m_Instance->m_Textures.size(); i++)
 			{
 				/* If the name of the Texture matches the name requested, return that Texture. */
-				if (s_Instance->m_Textures[i]->GetName() == name)
-					return s_Instance->m_Textures[i];
+				if (m_Instance->m_Textures[i]->GetName() == name)
+					return m_Instance->m_Textures[i];
 			}
 
 			/* If nothing was found. */
@@ -265,8 +267,8 @@ namespace Kross
 		static Texture* GetResource<Texture>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Textures.size())
-				return s_Instance->m_Textures[index];
+			if (index >= 0 && index < m_Instance->m_Textures.size())
+				return m_Instance->m_Textures[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -276,7 +278,7 @@ namespace Kross
 		template<>
 		static void AttachResource<Texture>(Texture* texture)
 		{
-			s_Instance->m_Textures.push_back(texture);
+			m_Instance->m_Textures.push_back(texture);
 		}
 
 		// Removes a Texture from the  Resource Manager.
@@ -284,13 +286,13 @@ namespace Kross
 		static void DetachResource<Texture>(Texture* texture)
 		{
 			/* Go through the Texture List. */
-			for (int i = 0; i < s_Instance->m_Textures.size(); i++)
+			for (int i = 0; i < m_Instance->m_Textures.size(); i++)
 			{
 				/* if the Texture is the same as the one specified. Remove it.*/
-				if (s_Instance->m_Textures[i] == texture)
+				if (m_Instance->m_Textures[i] == texture)
 				{
-					Texture::OnDestroy(s_Instance->m_Textures[i]);
-					s_Instance->m_Textures.erase(s_Instance->m_Textures.begin() + i);
+					Texture::OnDestroy(m_Instance->m_Textures[i]);
+					m_Instance->m_Textures.erase(m_Instance->m_Textures.begin() + i);
 				}
 			}
 		}
@@ -303,11 +305,11 @@ namespace Kross
 		template<>
 		static Font* GetResource<Font>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Fonts.size(); i++)
+			for (int i = 0; i < m_Instance->m_Fonts.size(); i++)
 			{
 				/* If the name of the Font matches the name requested, return that Font. */
-				if (s_Instance->m_Fonts[i]->GetName() == name)
-					return s_Instance->m_Fonts[i];
+				if (m_Instance->m_Fonts[i]->GetName() == name)
+					return m_Instance->m_Fonts[i];
 			}
 
 			/* If nothing was found. */
@@ -319,8 +321,8 @@ namespace Kross
 		static Font* GetResource<Font>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Fonts.size())
-				return s_Instance->m_Fonts[index];
+			if (index >= 0 && index < m_Instance->m_Fonts.size())
+				return m_Instance->m_Fonts[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -330,7 +332,7 @@ namespace Kross
 		template<>
 		static void AttachResource<Font>(Font* font)
 		{
-			s_Instance->m_Fonts.push_back(font);
+			m_Instance->m_Fonts.push_back(font);
 		}
 
 		// Removes a Font from the Resource Manager.
@@ -338,13 +340,13 @@ namespace Kross
 		static void DetachResource<Font>(Font* font)
 		{
 			/* Go through the Font List. */
-			for (int i = 0; i < s_Instance->m_Fonts.size(); i++)
+			for (int i = 0; i < m_Instance->m_Fonts.size(); i++)
 			{
 				/* if the Font is the same as the one specified. Remove it.*/
-				if (s_Instance->m_Fonts[i] == font)
+				if (m_Instance->m_Fonts[i] == font)
 				{
-					Font::OnDestroy(s_Instance->m_Fonts[i]);
-					s_Instance->m_Fonts.erase(s_Instance->m_Fonts.begin() + i);
+					Font::OnDestroy(m_Instance->m_Fonts[i]);
+					m_Instance->m_Fonts.erase(m_Instance->m_Fonts.begin() + i);
 				}
 			}
 		}
@@ -357,11 +359,11 @@ namespace Kross
 		template<>
 		static Material* GetResource<Material>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Materials.size(); i++)
+			for (int i = 0; i < m_Instance->m_Materials.size(); i++)
 			{
 				/* If the name of the Material matches the name requested, return that Material. */
-				if (s_Instance->m_Materials[i]->GetName() == name)
-					return s_Instance->m_Materials[i];
+				if (m_Instance->m_Materials[i]->GetName() == name)
+					return m_Instance->m_Materials[i];
 			}
 
 			/* If nothing was found. */
@@ -373,8 +375,8 @@ namespace Kross
 		static Material* GetResource<Material>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Materials.size())
-				return s_Instance->m_Materials[index];
+			if (index >= 0 && index < m_Instance->m_Materials.size())
+				return m_Instance->m_Materials[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -384,7 +386,7 @@ namespace Kross
 		template<>
 		static void AttachResource<Material>(Material* material)
 		{
-			s_Instance->m_Materials.push_back(material);
+			m_Instance->m_Materials.push_back(material);
 		}
 
 		// Removes a Material from the Resource Manager.
@@ -392,13 +394,13 @@ namespace Kross
 		static void DetachResource<Material>(Material* material)
 		{
 			/* Go through the Material List. */
-			for (int i = 0; i < s_Instance->m_Materials.size(); i++)
+			for (int i = 0; i < m_Instance->m_Materials.size(); i++)
 			{
 				/* if the Material is the same as the one specified. Remove it.*/
-				if (s_Instance->m_Materials[i] == material)
+				if (m_Instance->m_Materials[i] == material)
 				{
-					Material::OnDestroy(s_Instance->m_Materials[i]);
-					s_Instance->m_Materials.erase(s_Instance->m_Materials.begin() + i);
+					Material::OnDestroy(m_Instance->m_Materials[i]);
+					m_Instance->m_Materials.erase(m_Instance->m_Materials.begin() + i);
 				}
 			}
 		}
@@ -411,11 +413,11 @@ namespace Kross
 		template<>
 		static Animation* GetResource<Animation>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Animations.size(); i++)
+			for (int i = 0; i < m_Instance->m_Animations.size(); i++)
 			{
 				/* If the name of the Animation matches the name requested, return that Animation. */
-				if (s_Instance->m_Animations[i]->GetName() == name)
-					return KROSS_NEW Animation(*s_Instance->m_Animations[i]);
+				if (m_Instance->m_Animations[i]->GetName() == name)
+					return KROSS_NEW Animation(*m_Instance->m_Animations[i]);
 			}
 
 			/* If nothing was found. */
@@ -427,8 +429,8 @@ namespace Kross
 		static Animation* GetResource<Animation>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Animations.size())
-				return KROSS_NEW Animation(*s_Instance->m_Animations[index]);
+			if (index >= 0 && index < m_Instance->m_Animations.size())
+				return KROSS_NEW Animation(*m_Instance->m_Animations[index]);
 
 			/* If not, return null. */
 			return nullptr;
@@ -438,7 +440,7 @@ namespace Kross
 		template<>
 		static void AttachResource<Animation>(Animation* animation)
 		{
-			s_Instance->m_Animations.push_back(animation);
+			m_Instance->m_Animations.push_back(animation);
 		}
 
 		// Removes a Animation from the Resource Manager.
@@ -446,13 +448,13 @@ namespace Kross
 		static void DetachResource<Animation>(Animation* animation)
 		{
 			/* Go through the Animation List. */
-			for (int i = 0; i < s_Instance->m_Animations.size(); i++)
+			for (int i = 0; i < m_Instance->m_Animations.size(); i++)
 			{
 				/* if the Animation is the same as the one specified. Remove it.*/
-				if (s_Instance->m_Animations[i] == animation)
+				if (m_Instance->m_Animations[i] == animation)
 				{
-					Animation::OnDestroy(s_Instance->m_Animations[i]);
-					s_Instance->m_Animations.erase(s_Instance->m_Animations.begin() + i);
+					Animation::OnDestroy(m_Instance->m_Animations[i]);
+					m_Instance->m_Animations.erase(m_Instance->m_Animations.begin() + i);
 				}
 			}
 		}
@@ -465,11 +467,11 @@ namespace Kross
 		template<>
 		static AudioSource* GetResource<AudioSource>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_AudioSources.size(); i++)
+			for (int i = 0; i < m_Instance->m_AudioSources.size(); i++)
 			{
 				/* If the name of the Audio Source matches the name requested, return that Audio Source. */
-				if (s_Instance->m_AudioSources[i]->GetName() == name)
-					return s_Instance->m_AudioSources[i];
+				if (m_Instance->m_AudioSources[i]->GetName() == name)
+					return m_Instance->m_AudioSources[i];
 			}
 
 			/* If nothing was found. */
@@ -481,8 +483,8 @@ namespace Kross
 		static AudioSource* GetResource<AudioSource>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_AudioSources.size())
-				return s_Instance->m_AudioSources[index];
+			if (index >= 0 && index < m_Instance->m_AudioSources.size())
+				return m_Instance->m_AudioSources[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -492,7 +494,7 @@ namespace Kross
 		template<>
 		static void AttachResource<AudioSource>(AudioSource* audioSource)
 		{
-			s_Instance->m_AudioSources.push_back(audioSource);
+			m_Instance->m_AudioSources.push_back(audioSource);
 		}
 
 		// Removes a Audio Source from the Resource Manager.
@@ -500,13 +502,13 @@ namespace Kross
 		static void DetachResource<AudioSource>(AudioSource* audioSource)
 		{
 			/* Go through the Audio Sources List. */
-			for (int i = 0; i < s_Instance->m_AudioSources.size(); i++)
+			for (int i = 0; i < m_Instance->m_AudioSources.size(); i++)
 			{
 				/* if the Audio Source is the same as the one specified. Remove it.*/
-				if (s_Instance->m_AudioSources[i] == audioSource)
+				if (m_Instance->m_AudioSources[i] == audioSource)
 				{
-					AudioSource::OnDestroy(s_Instance->m_AudioSources[i]);
-					s_Instance->m_AudioSources.erase(s_Instance->m_AudioSources.begin() + i);
+					AudioSource::OnDestroy(m_Instance->m_AudioSources[i]);
+					m_Instance->m_AudioSources.erase(m_Instance->m_AudioSources.begin() + i);
 				}
 			}
 		}
@@ -519,11 +521,11 @@ namespace Kross
 		template<>
 		static TileMap* GetResource<TileMap>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_TileMaps.size(); i++)
+			for (int i = 0; i < m_Instance->m_TileMaps.size(); i++)
 			{
 				/* If the name of the Audio Source matches the name requested, return that Audio Source. */
-				if (s_Instance->m_TileMaps[i]->GetName() == name)
-					return s_Instance->m_TileMaps[i];
+				if (m_Instance->m_TileMaps[i]->GetName() == name)
+					return m_Instance->m_TileMaps[i];
 			}
 
 			/* If nothing was found. */
@@ -535,8 +537,8 @@ namespace Kross
 		static TileMap* GetResource<TileMap>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_TileMaps.size())
-				return s_Instance->m_TileMaps[index];
+			if (index >= 0 && index < m_Instance->m_TileMaps.size())
+				return m_Instance->m_TileMaps[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -546,7 +548,7 @@ namespace Kross
 		template<>
 		static void AttachResource<TileMap>(TileMap* TileMap)
 		{
-			s_Instance->m_TileMaps.push_back(TileMap);
+			m_Instance->m_TileMaps.push_back(TileMap);
 		}
 
 		// Removes a TileMap from the Resource Manager.
@@ -554,13 +556,13 @@ namespace Kross
 		static void DetachResource<TileMap>(TileMap* TileMap)
 		{
 			/* Go through the TileMap List. */
-			for (int i = 0; i < s_Instance->m_TileMaps.size(); i++)
+			for (int i = 0; i < m_Instance->m_TileMaps.size(); i++)
 			{
 				/* if the TileMap is the same as the one specified. Remove it.*/
-				if (s_Instance->m_TileMaps[i] == TileMap)
+				if (m_Instance->m_TileMaps[i] == TileMap)
 				{
-					TileMap::OnDestroy(s_Instance->m_TileMaps[i]);
-					s_Instance->m_TileMaps.erase(s_Instance->m_TileMaps.begin() + i);
+					TileMap::OnDestroy(m_Instance->m_TileMaps[i]);
+					m_Instance->m_TileMaps.erase(m_Instance->m_TileMaps.begin() + i);
 				}
 			}
 		}
@@ -573,11 +575,11 @@ namespace Kross
 		template<>
 		static TileSet* GetResource<TileSet>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_TileSets.size(); i++)
+			for (int i = 0; i < m_Instance->m_TileSets.size(); i++)
 			{
 				/* If the name of the TileSet matches the name requested, return that TileSet. */
-				if (s_Instance->m_TileSets[i]->GetName() == name)
-					return s_Instance->m_TileSets[i];
+				if (m_Instance->m_TileSets[i]->GetName() == name)
+					return m_Instance->m_TileSets[i];
 			}
 
 			/* If nothing was found. */
@@ -589,8 +591,8 @@ namespace Kross
 		static TileSet* GetResource<TileSet>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_TileSets.size())
-				return s_Instance->m_TileSets[index];
+			if (index >= 0 && index < m_Instance->m_TileSets.size())
+				return m_Instance->m_TileSets[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -600,7 +602,7 @@ namespace Kross
 		template<>
 		static void AttachResource<TileSet>(TileSet* TileSet)
 		{
-			s_Instance->m_TileSets.push_back(TileSet);
+			m_Instance->m_TileSets.push_back(TileSet);
 		}
 
 		// Removes a TileSet from the Resource Manager.
@@ -608,13 +610,13 @@ namespace Kross
 		static void DetachResource<TileSet>(TileSet* TileSet)
 		{
 			/* Go through the TileSet List. */
-			for (int i = 0; i < s_Instance->m_TileSets.size(); i++)
+			for (int i = 0; i < m_Instance->m_TileSets.size(); i++)
 			{
 				/* if the TileSet is the same as the one specified. Remove it.*/
-				if (s_Instance->m_TileSets[i] == TileSet)
+				if (m_Instance->m_TileSets[i] == TileSet)
 				{
-					TileSet::OnDestroy(s_Instance->m_TileSets[i]);
-					s_Instance->m_TileSets.erase(s_Instance->m_TileSets.begin() + i);
+					TileSet::OnDestroy(m_Instance->m_TileSets[i]);
+					m_Instance->m_TileSets.erase(m_Instance->m_TileSets.begin() + i);
 				}
 			}
 		}
@@ -627,11 +629,11 @@ namespace Kross
 		template<>
 		static Object* GetResource<Object>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Prefabs.size(); i++)
+			for (int i = 0; i < m_Instance->m_Prefabs.size(); i++)
 			{
 				/* If the name of the Prefab matches the name requested, return that Prefab. */
-				if (s_Instance->m_Prefabs[i]->GetName() == name)
-					return s_Instance->m_Prefabs[i];
+				if (m_Instance->m_Prefabs[i]->GetName() == name)
+					return m_Instance->m_Prefabs[i];
 			}
 
 			/* If nothing was found. */
@@ -643,8 +645,8 @@ namespace Kross
 		static Object* GetResource<Object>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Prefabs.size())
-				return s_Instance->m_Prefabs[index];
+			if (index >= 0 && index < m_Instance->m_Prefabs.size())
+				return m_Instance->m_Prefabs[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -655,7 +657,7 @@ namespace Kross
 		static void AttachResource<Object>(Object* object)
 		{
 			if(!object->IsPrefab())
-				s_Instance->m_Prefabs.push_back(object);
+				m_Instance->m_Prefabs.push_back(object);
 		}
 
 		// Removes a Prefab from the Resource Manager.
@@ -667,13 +669,13 @@ namespace Kross
 				return;
 
 			/* Go through the Prefab List. */
-			for (int i = 0; i < s_Instance->m_Prefabs.size(); i++)
+			for (int i = 0; i < m_Instance->m_Prefabs.size(); i++)
 			{
 				/* if the Prefab is the same as the one specified. Remove it.*/
-				if (s_Instance->m_Prefabs[i] == object)
+				if (m_Instance->m_Prefabs[i] == object)
 				{
-					Object::OnDestroy(s_Instance->m_Prefabs[i]);
-					s_Instance->m_Prefabs.erase(s_Instance->m_Prefabs.begin() + i);
+					Object::OnDestroy(m_Instance->m_Prefabs[i]);
+					m_Instance->m_Prefabs.erase(m_Instance->m_Prefabs.begin() + i);
 
 					return;
 				}
@@ -683,7 +685,7 @@ namespace Kross
 		#pragma endregion
 
 		// Gets the Atlas.
-		static Atlas* GetAtlas() { return s_Instance->p_Atlas; };
+		static Atlas* GetAtlas() { return m_Instance->m_Atlas; };
 
 	/* ------ Protected has been moved down here due to this function overload. ------ */
 	protected:
@@ -702,11 +704,11 @@ namespace Kross
 		template<>
 		static Geometry* GetResource<Geometry>(const std::string& name)
 		{
-			for (int i = 0; i < s_Instance->m_Geometry.size(); i++)
+			for (int i = 0; i < m_Instance->m_Geometry.size(); i++)
 			{
 				/* If the name of the Geometry matches the name requested, return that Geometry. */
-				if (s_Instance->m_Geometry[i]->GetName() == name)
-					return s_Instance->m_Geometry[i];
+				if (m_Instance->m_Geometry[i]->GetName() == name)
+					return m_Instance->m_Geometry[i];
 			}
 
 			/* If nothing was found. */
@@ -718,8 +720,8 @@ namespace Kross
 		static Geometry* GetResource<Geometry>(int index)
 		{
 			/* If the Index is in the bounds of the List. */
-			if (index >= 0 && index < s_Instance->m_Geometry.size())
-				return s_Instance->m_Geometry[index];
+			if (index >= 0 && index < m_Instance->m_Geometry.size())
+				return m_Instance->m_Geometry[index];
 
 			/* If not, return null. */
 			return nullptr;
@@ -729,7 +731,7 @@ namespace Kross
 		template<>
 		static void AttachResource<Geometry>(Geometry* geometry)
 		{
-			s_Instance->m_Geometry.push_back(geometry);
+			m_Instance->m_Geometry.push_back(geometry);
 		}
 
 		// Removes a Geometry from the  Resource Manager.
@@ -737,13 +739,13 @@ namespace Kross
 		static void DetachResource<Geometry>(Geometry* geometry)
 		{
 			/* Go through the Geometry List. */
-			for (int i = 0; i < s_Instance->m_Geometry.size(); i++)
+			for (int i = 0; i < m_Instance->m_Geometry.size(); i++)
 			{
 				/* if the Geometry is the same as the one specified. Remove it.*/
-				if (s_Instance->m_Geometry[i] == geometry)
+				if (m_Instance->m_Geometry[i] == geometry)
 				{
-					delete s_Instance->m_Geometry[i];
-					s_Instance->m_Geometry.erase(s_Instance->m_Geometry.begin() + i);
+					delete m_Instance->m_Geometry[i];
+					m_Instance->m_Geometry.erase(m_Instance->m_Geometry.begin() + i);
 				}
 			}
 		}
@@ -751,13 +753,10 @@ namespace Kross
 		#pragma endregion
 
 		// Grabs all of the Textures loaded.
-		static std::vector<Texture*> GetTextures() { return s_Instance->m_Textures; };
+		static std::vector<Texture*> GetTextures() { return m_Instance->m_Textures; };
 
 		// Grabs all of the Sprites Created.
-		static std::vector<Sprite*> GetSprites() { return s_Instance->m_Sprites; };
-
-		// Reads the Manifest File.
-		static void OnReadManifest();
+		static std::vector<Sprite*> GetSprites() { return m_Instance->m_Sprites; };
 
 		// Writes the Mainfest File.
 		static void OnWriteManifest();
@@ -768,11 +767,11 @@ namespace Kross
 		static void AttachResource<Atlas>(Atlas* atlas)
 		{
 			/* If we already have an Atlas. */
-			if (s_Instance->p_Atlas)
-				Atlas::OnDestroy(s_Instance->p_Atlas);
+			if (m_Instance->m_Atlas)
+				Atlas::OnDestroy(m_Instance->m_Atlas);
 
 			/* Set the New One. */
-			s_Instance->p_Atlas = atlas;
+			m_Instance->m_Atlas = atlas;
 		}
 	};
 }

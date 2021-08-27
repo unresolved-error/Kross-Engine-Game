@@ -8,7 +8,7 @@
 
 namespace Kross
 {
-	ScriptRegistry* ScriptRegistry::s_Instance = nullptr;
+	ScriptRegistry* ScriptRegistry::m_Instance = nullptr;
 
 	ScriptRegistry::~ScriptRegistry()
 	{
@@ -23,58 +23,57 @@ namespace Kross
 
 	void ScriptRegistry::OnCreate()
 	{
-		if (!s_Instance)
-			s_Instance = KROSS_NEW ScriptRegistry();
+		if (!m_Instance)
+			m_Instance = KROSS_NEW ScriptRegistry();
 	}
 	void ScriptRegistry::OnDestroy()
 	{
-		if (s_Instance)
-			delete s_Instance;
+		if (m_Instance)
+			delete m_Instance;
 	}
 
 	void ScriptRegistry::Attach(Script* script)
 	{
-		s_Instance->m_Scripts.push_back(script);
+		m_Instance->m_Scripts.push_back(script);
 	}
 	void ScriptRegistry::Detach(std::string name)
 	{
-		for (int i = 0; i < s_Instance->m_Scripts.size(); i++)
+		for (int i = 0; i < m_Instance->m_Scripts.size(); i++)
 		{
-			if (s_Instance->m_Scripts[i]->GetName() == name)
+			if (m_Instance->m_Scripts[i]->GetName() == name)
 			{
-				delete s_Instance->m_Scripts[i];
-				s_Instance->m_Scripts.erase(s_Instance->m_Scripts.begin() + i);
+				delete m_Instance->m_Scripts[i];
+				m_Instance->m_Scripts.erase(m_Instance->m_Scripts.begin() + i);
 			}
 		}
 	}
 	void ScriptRegistry::Detach(int index)
 	{
-		if (index < 0 && index >= s_Instance->m_Scripts.size())
+		if (index < 0 && index >= m_Instance->m_Scripts.size())
 			return;
 
-		delete s_Instance->m_Scripts[index];
-		s_Instance->m_Scripts.erase(s_Instance->m_Scripts.begin() + index);
+		delete m_Instance->m_Scripts[index];
+		m_Instance->m_Scripts.erase(m_Instance->m_Scripts.begin() + index);
 	}
 	void ScriptRegistry::Detach(Script* script)
 	{
-		for (int i = 0; i < s_Instance->m_Scripts.size(); i++)
+		for (int i = 0; i < m_Instance->m_Scripts.size(); i++)
 		{
-			if (s_Instance->m_Scripts[i] == script)
+			if (m_Instance->m_Scripts[i] == script)
 			{
-				delete s_Instance->m_Scripts[i];
-				s_Instance->m_Scripts.erase(s_Instance->m_Scripts.begin() + i);
+				delete m_Instance->m_Scripts[i];
+				m_Instance->m_Scripts.erase(m_Instance->m_Scripts.begin() + i);
 			}
 		}
 	}
 
 	Script* ScriptRegistry::GetScript(std::string name)
 	{
-		for (int i = 0; i < s_Instance->m_Scripts.size(); i++)
+		for (int i = 0; i < m_Instance->m_Scripts.size(); i++)
 		{
-			if (s_Instance->m_Scripts[i]->GetName() == name)
+			if (m_Instance->m_Scripts[i]->GetName() == name)
 			{
-				//return KROSS_NEW Script(*s_Instance->m_Scripts[i]);
-				return s_Instance->m_Scripts[i]->Duplicate();
+				return m_Instance->m_Scripts[i]->Duplicate();
 			}
 		}
 
@@ -82,9 +81,9 @@ namespace Kross
 	}
 	Script* ScriptRegistry::GetScript(int index)
 	{
-		if(index < 0 && index >= s_Instance->m_Scripts.size())
+		if(index < 0 && index >= m_Instance->m_Scripts.size())
 			return nullptr;
 
-		return s_Instance->m_Scripts[index]->Duplicate();
+		return m_Instance->m_Scripts[index]->Duplicate();
 	}
 }

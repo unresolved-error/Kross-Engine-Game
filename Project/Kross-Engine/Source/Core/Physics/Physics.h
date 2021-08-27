@@ -39,7 +39,7 @@ namespace Kross
     private:
         //static b2RayCastInput input;
 
-        static Physics* s_Instance;
+        static Physics* m_Instance;
 
         Body* p_Body;
 
@@ -79,6 +79,6 @@ namespace Kross
         static RaycastData* OnCircleCast(Vector2 pos, Vector2 direction, Body* body, float max, float radius);
 
         // Gets the Fluid Collision Callback.
-        static AABBCollisionCallback* GetAABBCollisionCallback() { return s_Instance->p_AABBCollisionCallback; };
+        static AABBCollisionCallback* GetAABBCollisionCallback() { return m_Instance->p_AABBCollisionCallback; };
     };
 }

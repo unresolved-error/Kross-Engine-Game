@@ -20,7 +20,7 @@ namespace Kross
 		{};
 		~ShaderManager();
 
-		static ShaderManager* s_Instance;
+		static ShaderManager* m_Instance;
 
 		std::vector<Shader*> m_Shaders;
 

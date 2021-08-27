@@ -38,9 +38,9 @@ namespace Kross
 			if (ImGui::MenuItem("Save As"))	{}
 			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S")) 
 			{
-				for (int i = 0; i < SceneManager::s_Instance->m_Scenes.size(); i++)
+				for (int i = 0; i < SceneManager::m_Instance->m_Scenes.size(); i++)
 				{
-					FileSystem::OnWriteScene(SceneManager::s_Instance->m_Scenes[i]);
+					FileSystem::OnWriteScene(SceneManager::m_Instance->m_Scenes[i]);
 				}
 			}
 			ImGui::Separator();

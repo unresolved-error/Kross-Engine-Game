@@ -8,18 +8,18 @@
 
 namespace Kross
 {
-	Time*	Time::s_Instance =		nullptr;
+	Time*	Time::m_Instance =		nullptr;
 
 	void Time::OnCreate()
 	{
-		if (!s_Instance)
-			s_Instance = KROSS_NEW Time();
+		if (!m_Instance)
+			m_Instance = KROSS_NEW Time();
 	}
 
 	void Time::OnDestroy()
 	{
-		if (s_Instance)
-			delete s_Instance;
+		if (m_Instance)
+			delete m_Instance;
 	}
 
 	void Time::OnUpdateDeltaTime()
@@ -28,7 +28,7 @@ namespace Kross
 		float currentTime = (float)glfwGetTime();
 		
 		/* Update Delta Time. */
-		s_Instance->m_DeltaTime = (currentTime - s_Instance->m_PreviousTime);
-		s_Instance->m_PreviousTime = currentTime;
+		m_Instance->m_DeltaTime = (currentTime - m_Instance->m_PreviousTime);
+		m_Instance->m_PreviousTime = currentTime;
 	}
 }

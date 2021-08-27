@@ -128,17 +128,24 @@ namespace Kross
 				{
 					Serialiser<TileSet> serialiser = Serialiser<TileSet>();
 					serialiser.Load(assetFilepath);
-					//FileSystem::OnReadTileSet(assetFilepath);
 				}
 
 				else if (assetType == "ATLAS")
 					FileSystem::OnReadAtlas(assetFilepath);
 
-				else if (assetType == "PREFAB")
+				else if (assetType == "PREFAB") 
 					FileSystem::OnReadPrefab(assetFilepath);
 
 				else if (assetType == "SCENE")
 					FileSystem::OnReadScene(assetFilepath);
+
+				else
+				{
+					if (!assetType.empty())
+					{
+						m_Instance->m_Logger->WriteError("Trying to Interperer ");
+					}
+				}
 			}
 		}
 

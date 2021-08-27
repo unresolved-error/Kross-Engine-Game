@@ -15,7 +15,7 @@ namespace Kross
 	class KROSS_API ScriptRegistry
 	{
 	private:
-		static ScriptRegistry* s_Instance;
+		static ScriptRegistry* m_Instance;
 
 		std::vector<Script*> m_Scripts;
 

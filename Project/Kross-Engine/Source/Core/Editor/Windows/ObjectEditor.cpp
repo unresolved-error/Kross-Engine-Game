@@ -972,9 +972,9 @@ namespace Kross {
 
 					if (ImGui::BeginMenu("Scripts"))
 					{
-						for (int i = 0; i < ScriptRegistry::s_Instance->m_Scripts.size(); i++)
+						for (int i = 0; i < ScriptRegistry::m_Instance->m_Scripts.size(); i++)
 						{
-							Script* script = ScriptRegistry::s_Instance->m_Scripts[i];
+							Script* script = ScriptRegistry::m_Instance->m_Scripts[i];
 							if (ImGui::MenuItem(script->GetName().c_str()))
 							{
 								Script* addScript = ScriptRegistry::GetScript(i);

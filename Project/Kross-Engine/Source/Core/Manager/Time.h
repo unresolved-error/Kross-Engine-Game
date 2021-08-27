@@ -22,7 +22,7 @@ namespace Kross
         {};
         ~Time() {};
 
-        static Time* s_Instance;
+        static Time* m_Instance;
 
         float m_DeltaTime;
         float m_PreviousTime;
@@ -41,6 +41,6 @@ namespace Kross
 
     public:
         /* Returns the current delta time */
-        static const float GetDeltaTime() { return s_Instance->m_DeltaTime; };
+        static const float GetDeltaTime() { return m_Instance->m_DeltaTime; };
     };
 }
