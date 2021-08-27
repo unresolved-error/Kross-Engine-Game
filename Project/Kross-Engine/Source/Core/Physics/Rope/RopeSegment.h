@@ -22,6 +22,8 @@ namespace Kross
 
 		void Destroy(PhysicsScene* scene) { scene->DetachBody(m_Body); m_Body = nullptr; };
 
+		Body* GetBody() const { return m_Body; };
+
 	protected:
 		friend class RopeAvatar;
 

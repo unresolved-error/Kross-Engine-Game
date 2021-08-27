@@ -7,7 +7,7 @@
 /* --------- INFORMATION --------- */
 /*
  * THIS IS TO WRAP COMPONENTS THAT RENDER THINGS!
- */
+ *
 /* ------------------------------- */
 #pragma once
 

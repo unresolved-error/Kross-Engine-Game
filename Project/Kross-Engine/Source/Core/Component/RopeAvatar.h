@@ -10,7 +10,8 @@
 #include "../Core.h"
 
 #include "Renderer.h"
-#include "../Physics/PhysicsScene.h"
+#include "../Physics/Rope/RopeSegment.h"
+#include "../Renderer/LineRenderer.h"
 
 namespace Kross
 {
@@ -18,7 +19,7 @@ namespace Kross
 	{
 	private:
 		std::vector<Vector2> m_BasePositions;
-		//std::vector<RopeSegments*> m_Segments;
+		std::vector<RopeSegment*> m_Segments;
 
 		Body* m_StartBody;
 		Body* m_EndBody;
@@ -41,8 +42,18 @@ namespace Kross
 
 		PhysicsScene* m_PhysicsScene;
 
+		LineRenderer* m_DebugRenderer;
+
 	protected:
 		friend class Object;
+
+		void OnStart() override;
+
+		void OnUpdate() override;
+
+		void OnUpdateDrawInformation();
+
+		void SetDebugRenderer(LineRenderer* renderer) { m_DebugRenderer = renderer; };
 
 		/*!
 			Sets the Physics Scene.
@@ -74,7 +85,7 @@ namespace Kross
 		/*!
 			Spawns the Rope.
 		*/
-		void SpawnRope() {};
+		void SpawnRope();
 
 		/*!
 			Sets the Start's Connected Body.
