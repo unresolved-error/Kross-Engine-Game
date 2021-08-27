@@ -44,8 +44,10 @@ namespace Kross
 
 		for (int i = 0; i < m_BasePositions.size() - 1; i++)
 		{
+			int nextOneAcross = i + 1;
+
 			Vector2 positionA = m_BasePositions[i];
-			Vector2 positionB = m_BasePositions[i + (short)1];
+			Vector2 positionB = m_BasePositions[nextOneAcross];
 
 			float totalDistance = glm::length(positionA - positionB);
 
@@ -86,8 +88,10 @@ namespace Kross
 		{
 			b2RevoluteJointDef* jointDef = KROSS_NEW b2RevoluteJointDef();
 
+			int nextOneAcross = i + 1;
+
 			jointDef->bodyA = m_Segments[i]->GetBody();
-			jointDef->bodyB = m_Segments[i + 1]->GetBody();
+			jointDef->bodyB = m_Segments[nextOneAcross]->GetBody();
 
 			jointDef->localAnchorA = b2Vec2(0, -1); /* See if this Explodes. */
 			jointDef->localAnchorB = b2Vec2(0, 1);
