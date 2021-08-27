@@ -13,7 +13,7 @@ namespace Kross
 	{
 		ParticleProperties* properties = GetComponent<ParticleProperties>();
 
-		GetPhysicsScene();
+	//	GetPhysicsScene();
 
 		p_ParticleSystem = p_Particle->CreateParticleSystem(properties, p_PhysicsScene);
 		/* Good blue */

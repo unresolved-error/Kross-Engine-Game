@@ -26,7 +26,6 @@ namespace Kross
     class KROSS_API ParticleEmitter : public Renderer
     {
     private:
-        friend class PhyscisScene;
         friend class Particle;
 
         PhysicsScene* p_PhysicsScene;

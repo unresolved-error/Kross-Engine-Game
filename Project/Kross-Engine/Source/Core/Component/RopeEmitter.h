@@ -18,7 +18,6 @@ namespace Kross
     class KROSS_API RopeEmitter : public Renderer
     {
     private:
-        friend class PhyscisScene; ////LOL WE NEVER NOTICED.
         PhysicsScene* p_PhysicsScene;
         Rope* p_Rope;
 
