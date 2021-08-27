@@ -1155,7 +1155,7 @@ namespace Kross
 						else if (objProperty == "EMITTER") 
 						{
 							currentObject->AttachComponent<ParticleEmitter>();
-							currentObject->AttachComponent<ParticleProperties>();
+							//currentObject->AttachComponent<ParticleProperties>();
 							particleEmitterData.push_back(line);
 						}
 

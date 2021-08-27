@@ -450,44 +450,42 @@ namespace Kross
 
             Transform2D* cameraTransform = camera->m_GameObject->m_Transform;
 
+            b2Vec2* positions = emitter->GetParticleSystem()->GetPositionBuffer();
+            b2Vec2* velocities = emitter->GetParticleSystem()->GetVelocityBuffer();
+            int particleCount = emitter->GetParticleSystem()->GetParticleCount();
 
-        
-          
-                b2Vec2* positions = emitter->GetParticleSystem()->GetPositionBuffer();
-                b2Vec2* velocities = emitter->GetParticleSystem()->GetVelocityBuffer();
-                int particleCount = emitter->GetParticleSystem()->GetParticleCount();
+            /* Go through each Particle. */
+            for (int i = 0; i < particleCount; i++)
+            {
+                Vector2 actualPosition = GetVector2(positions[i]);
 
+                #ifdef KROSS_EDITOR
+                actualPosition = -(actualPosition - emitter->m_GameObject->m_Transform->m_Position) + emitter->m_GameObject->m_Transform->m_Position;
+                #endif
 
-                /* Go through each Particle. */
-                for (int i = 0; i < particleCount; i++)
-                {
-                    if (positions[i].x >= cameraTransform->m_Position.x + ((camera->GetSize() / 1.1f) * 1.5f) ||
-                        positions[i].x <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
-                        positions[i].y >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
-                        positions[i].y <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
-                        continue;
-                    /* Default Water Colour. */
-                    Colour waterColour = Colour(0.28f, 0.71f, 0.91f, 1.0f);
-                    //waterColour = emitter->GetParticle(i)->GetColor(); // Not Working...
+                if (actualPosition.x >= cameraTransform->m_Position.x + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    actualPosition.x <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    actualPosition.y >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    actualPosition.y <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
+                    continue;
 
-                    /* Set the Vertex. */
-                    WaterVertex waterDrop = WaterVertex(Vector2(positions[i].x, positions[i].y),
-                        Vector2(velocities[i].x, velocities[i].y),
-                        waterColour);
-                    /* Grab the Vertex Count. */
-                    int vertexCount = m_Data.size();
+                /* Set the Vertex. */
+                WaterVertex waterDrop = WaterVertex(Vector2(actualPosition.x, actualPosition.y),
+                    Vector2(velocities[i].x, velocities[i].y),
+                    Colour(0.28f, 0.71f, 0.91f, 1.0f));
 
-                    /* Attach the Index. */
-                    m_Indicies.push_back(vertexCount);
+                /* Grab the Vertex Count. */
+                int vertexCount = m_Data.size();
 
-                    /* Attach the Vertex Data. */
-                    m_Data.push_back(waterDrop);
-                }
+                /* Attach the Index. */
+                m_Indicies.push_back(vertexCount);
 
-                /* Update the Batch Size. */
-                m_BatchSize += particleCount;
-            
-            
+                /* Attach the Vertex Data. */
+                m_Data.push_back(waterDrop);
+            }
+
+            /* Update the Batch Size. */
+            m_BatchSize += particleCount;
         }
 
         // Gets if the Batch is Full.

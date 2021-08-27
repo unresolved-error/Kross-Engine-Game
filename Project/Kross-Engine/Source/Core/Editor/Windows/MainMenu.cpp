@@ -114,8 +114,6 @@ namespace Kross
 				if (ImGui::MenuItem("Particle Emitter"))
 				{
 					Object* particleEmitter = Object::OnCreate("Particle Emitter");
-
-					particleEmitter->AttachComponent<ParticleProperties>();
 					particleEmitter->AttachComponent<ParticleEmitter>();
 					
 					SceneManager::GetCurrentScene()->AttachObject(particleEmitter);
