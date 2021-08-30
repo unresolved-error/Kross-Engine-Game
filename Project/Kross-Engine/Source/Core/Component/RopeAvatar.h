@@ -21,10 +21,10 @@ namespace Kross
 		std::vector<Vector2> m_BasePositions;
 		std::vector<RopeSegment*> m_Segments;
 
-		Body* m_StartBody;
-		Body* m_EndBody;
+		Body* m_StartAnchorBody;
+		Body* m_EndAnchorBody;
 
-		/* Both for the Objects that gent connected to the Rope. */
+		/* Both for the Objects that get connected to the Rope. */
 
 		Body* m_StartBodyConnectedBody;
 		Body* m_EndBodyConnectedBody;
@@ -34,7 +34,7 @@ namespace Kross
 		bool m_IsBreakable;
 		bool m_IsStartStatic;
 
-		/* Joins between Segments. */
+		/* Joints between Segments. */
 		std::vector<b2RevoluteJoint*> m_RevolutionJoints;
 
 		b2WeldJoint* m_StartWeld;
@@ -68,8 +68,8 @@ namespace Kross
 	public:
 		RopeAvatar() :
 			m_BasePositions				(std::vector<Vector2>()),
-			m_StartBody					(nullptr),
-			m_EndBody					(nullptr),
+			m_StartAnchorBody					(nullptr),
+			m_EndAnchorBody					(nullptr),
 			m_StartBodyConnectedBody	(nullptr),
 			m_EndBodyConnectedBody		(nullptr),
 			m_ChainLinkLength			(0.1f),
