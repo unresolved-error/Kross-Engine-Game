@@ -17,3 +17,4 @@ namespace Kross
 #include "SpriteVertex.h"
 #include "TextVertex.h"
 #include "WaterVertex.h"
+#include "PostProcessVertex.h"

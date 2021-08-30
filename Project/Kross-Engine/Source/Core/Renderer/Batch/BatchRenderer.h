@@ -31,24 +31,31 @@ namespace Kross
     {
     private:
         BatchRenderer(Atlas* atlas, Layer layer) :
-            m_Shader                (nullptr),
-            m_PostProcessShader     (nullptr),
+            m_Shader                            (nullptr),
+            m_PostProcessShader                 (nullptr),
 
-            m_FrameBuffer           (nullptr),
+            m_FrameBuffer                       (nullptr),
 
-            m_VertexArray           (KROSS_NEW VertexArray()),
-            m_VertexBuffer          (KROSS_NEW VertexBuffer()),
-            m_IndexBuffer           (KROSS_NEW IndexBuffer()),
+            m_VertexArray                       (KROSS_NEW VertexArray()),
+            m_VertexBuffer                      (KROSS_NEW VertexBuffer()),
+            m_IndexBuffer                       (KROSS_NEW IndexBuffer()),
 
-            m_VertexBufferLayout    (KROSS_NEW VertexBufferLayout()),
-            m_Atlas                 (atlas), 
-            m_Texture               (nullptr), 
+            m_VertexBufferLayout                (KROSS_NEW VertexBufferLayout()),
 
-            m_SpriteBatch           (KROSS_NEW Batch<SpriteVertex>(atlas)),
-            m_TextBatch             (KROSS_NEW Batch<TextVertex>(atlas)),
-            m_WaterBatch            (KROSS_NEW Batch<WaterVertex>(atlas)),
+            m_PostProcessVertexArray            (KROSS_NEW VertexArray()),
+            m_PostProcessVertexBuffer           (KROSS_NEW VertexBuffer()),
+            m_PostProcessIndexBuffer            (KROSS_NEW IndexBuffer()),
 
-            m_Layer                 (layer)
+            m_PostProcessVertexBufferLayout     (KROSS_NEW VertexBufferLayout()),
+
+            m_Atlas                             (atlas), 
+            m_Texture                           (nullptr), 
+
+            m_SpriteBatch                       (KROSS_NEW Batch<SpriteVertex>(atlas)),
+            m_TextBatch                         (KROSS_NEW Batch<TextVertex>(atlas)),
+            m_WaterBatch                        (KROSS_NEW Batch<WaterVertex>(atlas)),
+
+            m_Layer                             (layer)
         {};
         ~BatchRenderer();
 
@@ -62,6 +69,12 @@ namespace Kross
         IndexBuffer* m_IndexBuffer;
 
         VertexBufferLayout* m_VertexBufferLayout;
+
+        VertexArray* m_PostProcessVertexArray;
+        VertexBuffer* m_PostProcessVertexBuffer;
+        IndexBuffer* m_PostProcessIndexBuffer;
+
+        VertexBufferLayout* m_PostProcessVertexBufferLayout;
 
         // Use Atlas for Standard Drawing.
         Atlas* m_Atlas;

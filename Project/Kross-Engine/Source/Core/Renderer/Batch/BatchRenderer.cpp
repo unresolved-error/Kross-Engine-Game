@@ -21,6 +21,12 @@ namespace Kross
 
         delete m_VertexBufferLayout;
 
+        delete m_PostProcessVertexArray;
+        delete m_PostProcessVertexBuffer;
+        delete m_PostProcessIndexBuffer;
+
+        delete m_PostProcessVertexBufferLayout;
+
         if (m_FrameBuffer)
             delete m_FrameBuffer;
     }
@@ -228,7 +234,7 @@ namespace Kross
                 /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
                 m_IndexBuffer->Bind();
                 m_VertexArray->AttachVertexBufferToLayout(*m_VertexBuffer, m_VertexBufferLayout);
-                m_VertexArray->UnBind();
+                VertexArray::UnBind();
 
                 /* Render the Batch. */
                 m_Shader->Bind();
@@ -236,7 +242,7 @@ namespace Kross
                 glDrawElements(GL_POINTS, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
                 /* Detahc the Frame Buffer because we are finished with it. */
-                m_FrameBuffer->UnBind();
+                FrameBuffer::UnBind();
 
                 /* Start the Data Transfer. */
                 m_VertexArray->Bind();
@@ -259,7 +265,7 @@ namespace Kross
                 /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
                 m_IndexBuffer->Bind();
                 m_VertexArray->AttachVertexBufferToLayout(*m_VertexBuffer, m_VertexBufferLayout);
-                m_VertexArray->UnBind();
+                VertexArray::UnBind();
 
                 /* Bind the Frame Buffer Texture. */
                 m_FrameBuffer->GetTexture()->Bind();
