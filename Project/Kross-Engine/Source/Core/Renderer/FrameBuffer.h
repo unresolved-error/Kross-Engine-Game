@@ -38,5 +38,8 @@ namespace Kross
 
 		// Gets the Frame Buffer generated Texture.
 		Texture* GetTexture() const { return m_FrameBufferTexture; };
+
+		// Clears the Buffer Texture.
+		void ClearBuffer();
 	};
 }

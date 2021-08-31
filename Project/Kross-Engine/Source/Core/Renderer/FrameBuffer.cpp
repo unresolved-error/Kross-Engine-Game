@@ -9,11 +9,10 @@
 namespace Kross
 {
 	FrameBuffer::FrameBuffer() :
-		m_FrameBufferID(0),
-		m_AttachmentID(0),
-		m_FrameBufferTexture(nullptr)
-	{
-	}
+		m_FrameBufferID			(0),
+		m_AttachmentID			(0),
+		m_FrameBufferTexture	(nullptr)
+	{}
 
 	FrameBuffer::FrameBuffer(int width, int height, unsigned int attachmentID)	:
 		m_FrameBufferID(0),
@@ -59,5 +58,11 @@ namespace Kross
 	void FrameBuffer::UnBind()
 	{
 		OPENGL_CHECK(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+	}
+
+	void FrameBuffer::ClearBuffer()
+	{
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 	}
 }
