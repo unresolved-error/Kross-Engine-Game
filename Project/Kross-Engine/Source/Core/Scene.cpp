@@ -121,7 +121,8 @@ namespace Kross
         /* Update the physics step */
         if (Application::GetWindow()->GetVSync() == 1)
         {
-            m_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), velocityIterations, positionIterations, particleIterations);
+            /* TO DO */
+            m_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), 4, 1, 1);
         }
         else
         {
