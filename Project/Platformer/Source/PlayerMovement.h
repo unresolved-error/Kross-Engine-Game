@@ -18,6 +18,7 @@ public:
 	Object* m_Gun = nullptr;
 
 	TextRenderer* m_TextRenderer = nullptr;
+	PlayerController* m_Controller = nullptr;
 	SpriteRenderer* m_SpriteRenderer = nullptr;
 	Window* m_Window = nullptr;
 	Rigidbody2D* m_RigidBody = nullptr;
@@ -29,16 +30,10 @@ public:
 
 	int m_ControllerID = 0;
 	int m_FrameCount = 0;
-	int m_JumpCount = 0;
 
-	float m_MoveSpeed = 10;
 	float m_TimeElapsed = 0.0f;
 
 	float m_VelocityThreshold = 0.05f;
-
-	float m_MaxGroundSpeed = 2.0f;
-	float m_MaxAirSpeed = 3.0f;
-	float m_JumpStrength = 0.4f;
 
 	Script* Duplicate() override
 	{
@@ -52,6 +47,7 @@ public:
 		m_RigidBody = GetComponent<Rigidbody2D>();
 		m_Animator = GetComponent<Animator>();
 		m_AudioPlayer = GetComponent<AudioPlayer>();
+		m_Controller = GetComponent<PlayerController>();
 
 		/* Grab External Object Related things. */
 		m_TextRenderer = SceneManager::GetCurrentScene()->FindObject("Text")->GetComponent<TextRenderer>();
@@ -88,10 +84,13 @@ public:
 		}
 
 		/* If the Object isn't at the End of a Level. */
-		if (m_GameObject->m_Transform->m_Position.x < 217) 
+		if (m_GameObject->m_Transform->m_Position.x < 217.0f) 
 		{
 			/* Move the Player. */
-			PlayerMove(input, Key::Space, Controller::A);
+			VisualUpdate(input);
+			m_Controller->Move(input);
+			Vector2 jumpDir = Vector2(0.0f, (float)Input::GetKeyPressed(Key::Space));
+			m_Controller->Jump(jumpDir);
 		}
 
 		/* Lerp the Camera's Position to the Players. */
@@ -193,7 +192,7 @@ public:
 	/*! 
 		Moves the Player Based on Input. 
 	*/
-	void PlayerMove(Vector2 input, Key jump, Controller jumpC)
+	void VisualUpdate(Vector2 input)
 	{
 		/* Animation Setting.*/
 
@@ -231,67 +230,6 @@ public:
 			}
 		}
 
-		/* If the Rigidbody is falling and Jump Input has been detected. */
-		if (m_RigidBody->GetRigidbodyState() != RigidbodyState::Falling &&
-			Input::GetKeyPressed(jump) || Input::ControllerConnected(m_ControllerID) &&
-			Input::GetControllerButtonPressed(m_ControllerID, jumpC))
-		{
-			/* Go through Contact List. */
-			for (b2ContactEdge* thisContact = m_RigidBody->GetBody()->GetContactList(); thisContact; thisContact = thisContact->next)
-			{
-				/* if the current Contact other is the same body on Players Rigidbody. */
-				if (thisContact->other == m_RigidBody->GetRaycastData()->body)
-				{
-					/* If the jump Count is Less than One.*/
-					if (m_JumpCount < 1)
-					{
-						/* Jump. */
-						m_RigidBody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-						m_JumpCount++;
-						break;
-					}
-				}
-			}
-		}
-
-		/* If the Player hasn't Jumped. */
-		if (m_JumpCount == 0)
-		{
-			/* Move Left or Right based on the Velocity Cap. */
-
-			if (input.x < 0 && m_RigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
-			{
-				m_RigidBody->OnApplyForce(input);
-			}
-			else if (input.x > 0 && m_RigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
-			{
-				m_RigidBody->OnApplyForce(input);
-			}
-			else
-			{
-				m_RigidBody->OnApplyForce(input * 0.1f);
-			}
-		}
-
-		/* If they have. */
-		else
-		{
-			/* Move Left or Right based on the Velocity Cap. */
-
-			if (input.x < 0 && m_RigidBody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
-			{
-				m_RigidBody->OnApplyForce(input);
-			}
-			else if (input.x > 0 && m_RigidBody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
-			{
-				m_RigidBody->OnApplyForce(input);
-			}
-			else
-			{
-				m_RigidBody->OnApplyForce(input * 0.1f);
-			}
-		}
-
 		/* Flip Based on the Input x Value. */
 
 		if (input.x > 0)
@@ -303,40 +241,6 @@ public:
 		{
 			/* Face Left. */
 			m_SpriteRenderer->SetFlipX(true);
-		}
-	}
-
-	void OnCollisionEnter(Object* other)
-	{
-		/* If the Object we have collided with is on the Ground or Player Layer. */
-		if (other->GetLayer() == Layer::Ground || other->GetLayer() == Layer::Player)
-		{
-			/* Reset the Jump Count. */
-			m_JumpCount = 0;
-		}
-	}
-
-	void OnCollisionStay(Object* other)
-	{
-		/* If the Object we have collided with is on the Ground or Player Layer. */
-		if (other->GetLayer() == Layer::Ground || other->GetLayer() == Layer::Player)
-		{
-			/* Reset the Jump Count. */
-			m_JumpCount = 0;
-		}
-	}
-
-	void OnCollisionExit(Object* other)
-	{
-		/* If the Object we have collided with is on the Ground or Player Layer. */
-		if (other->GetLayer() == Layer::Ground || other->GetLayer() == Layer::Player)
-		{
-			/* If the Jump Count equals 0. */
-			if (m_JumpCount == 0)
-			{
-				/* Increase it's value. */
-				m_JumpCount++;
-			}
 		}
 	}
 };

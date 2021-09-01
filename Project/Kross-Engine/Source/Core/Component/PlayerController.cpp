@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *		- Deklyn Palmer.
  */
 #include "PlayerController.h"
 
@@ -11,159 +12,130 @@
 
 namespace Kross
 {
+	PlayerController::~PlayerController()
+	{
+		m_Rigidbody = nullptr;
+	}
+
 	void PlayerController::OnStart()
 	{
-		/* Initializes the objects transform */
-		transform = m_GameObject->m_Transform;
-		transform->m_Position = Vector2(0.0f);
-
-		/* Gets any avaliable controllers */
-		controllerID = Input::GetAvalibleController();
-
 		/* Assigns the rigidbody */
-		rigidbody = GetComponent<Rigidbody2D>();
-
-		/* Sets the camera */
-		camera = SceneManager::GetCurrentScene()->GetCamera();
-
-		Debug::Log("Position = ");
-		Debug::Log(transform->m_Position);
-		Debug::EndLine();
+		m_Rigidbody = GetComponent<Rigidbody2D>();
 	}
 
-	void PlayerController::OnUpdate()
+	Layer PlayerController::GetJumpResetLayer(int index) const
 	{
-		Vector2 input = Vector2(0.0f);
+		/* If the index is outside the bounds of the array, early out. */
+		if (index < 0 || index >= m_JumpResetLayers.size())
+			return Layer::None;
 
-		/* Checks if the player is using a controller or a mouse & keyboard */
-		if (Input::ControllerConnected(controllerID))
-		{
-			input = Vector2(Input::GetControllerAxis(controllerID, Controller::LeftStickHorizontal, 0.2f), 0.0f);
-		}
-		else
-		{
-			controllerID = Input::GetAvalibleController();
-
-			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), 0.0f);
-			
-			if (Input::GetKeyPressed(Key::G))
-			{
-				SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
-			}
-		}
-
-		/* Takes the player input and actions the inputs */
-		PlayerMove(input, Key::Space, Key::W, Controller::A);
-		
-		/* Switches the gravity */
-		EnableGravity(Key::Q, Controller::B);
-
-		/* Gets the camera and player positions */
-		Vector2 cameraPosition = camera->m_Transform->m_Position;
-		Vector2 playerPosition = m_GameObject->m_Transform->m_Position;
-
-		/* Moves the camera based on the players position */
-		camera->m_Transform->m_Position = Math::Lerp(cameraPosition, playerPosition, Time::GetDeltaTime() * 4.0f);
-
-		/* Clamps the mins and maxes for the camera */
-		camera->m_Transform->m_Position.x = glm::clamp(camera->m_Transform->m_Position.x, -1.25f, 178.75f);
-		camera->m_Transform->m_Position.y = glm::clamp(camera->m_Transform->m_Position.y, -2.0f, 1.5f);
+		/* Return the Layer. */
+		return m_JumpResetLayers[index];
 	}
 
-	void PlayerController::PlayerMove(Vector2 input, Key jump, Key jump2, Controller jumpC)
+	void PlayerController::AttachJumpResetLayer(Layer layer)
 	{
-		/* Checks the player input and players states */
-		if (rigidbody->GetRigidbodyState() != RigidbodyState::Falling &&
-			Input::GetKeyPressed(jump) || Input::GetKeyPressed(jump2) || Input::ControllerConnected(controllerID) &&
-			Input::GetControllerButtonPressed(controllerID, jumpC))
+		/* Go through the Reset Layers and ind if the Layer has already been added. */
+		for (int i = 0; i < m_JumpResetLayers.size(); i++)
 		{
-			if (jumpCount < 1)
-			{
-				/* Applys a jump impulse */
-				rigidbody->OnApplyImpulse(Vector2(0.0f, 1.0f) * m_JumpStrength);
-				jumpCount++;
-			}
+			if (m_JumpResetLayers[i] == layer)
+				return; /* Early out if it has. */
 		}
 
-		if (jumpCount == 0)
+		/* Otherwise attach it. */
+		m_JumpResetLayers.push_back(layer);
+	}
+
+	void PlayerController::DetachJumpResetLayer(int index)
+	{
+		/* If the index is outside the bounds of the array, early out. */
+		if (index < 0 || index >= m_JumpResetLayers.size())
+			return;
+
+		/* Erase the Layer from the array. */
+		m_JumpResetLayers.erase(m_JumpResetLayers.begin() + index);
+	}
+
+	void PlayerController::Move(Vector2 moveDirection)
+	{
+		/* If we are on the Ground. */
+		if (m_JumpCount == 0)
 		{
-			/* Applys force when on the ground*/
-			if (input.x < 0 && rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
+			/* Applys force while the player is on the ground. */
+			if (moveDirection != Vector2(0.0f) && m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_GroundSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().x < m_GroundSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_GroundSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().y < m_GroundSpeed)
 			{
-				rigidbody->OnApplyForce(input);
-			}
-			else if (input.x > 0 && rigidbody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
-			{
-				rigidbody->OnApplyForce(input);
+				m_Rigidbody->OnApplyForce(moveDirection);
 			}
 			else
 			{
-				rigidbody->OnApplyForce(input * 0.1f);
+				m_Rigidbody->OnApplyForce(moveDirection * 0.1f);
 			}
 		}
+		/* If we aren't. */
 		else
 		{
 			/* Applys force while the player is in the air */
-			if (input.x < 0 && rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed)
+			if (moveDirection != Vector2(0.0f) && m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_AirSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().x < m_AirSpeed && 
+				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_AirSpeed	&&
+				m_Rigidbody->GetBody()->GetLinearVelocity().y < m_AirSpeed)
 			{
-				rigidbody->OnApplyForce(input * 0.65f);
-			}
-			else if (input.x > 0 && rigidbody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed)
-			{
-				rigidbody->OnApplyForce(input * 0.65f);
+				m_Rigidbody->OnApplyForce(moveDirection * 0.65f);
 			}
 			else
 			{
-				rigidbody->OnApplyForce(input * 0.1f);
+				m_Rigidbody->OnApplyForce(moveDirection * 0.1f);
 			}
 		}
 	}
 
-	void PlayerController::EnableGravity(Key key, Controller button)
+	void PlayerController::Jump(Vector2 jumpDirection)
 	{
-		/* Checks the input to turn on gravity */
-		if (Input::GetKeyPressed(key) || (Input::ControllerConnected(controllerID) &&
-			Input::GetControllerButtonPressed(controllerID, button)))
+		/* Checks the Rigidbody State and if the Controller hasn't hit max jump count.  */
+		if (m_Rigidbody->GetRigidbodyState() != RigidbodyState::Falling && m_JumpCount < m_MaxJumpCount)
 		{
-			SceneManager::GetCurrentScene()->SetGravity(9.81f, Vector2(0.0f, -1.0f));
+			/* Applys a jump impulse */
+			m_Rigidbody->OnApplyImpulse(jumpDirection * m_JumpStrength);
+			m_JumpCount++;
 		}
 	}
 
 	void PlayerController::OnCollisionEnter(Object* other)
 	{
-		/* Sets the jump count if they land on the ground or an enemy */
-		if (other->GetLayer() == Layer::Ground ||
-			other->GetLayer() == Layer::Player)
+		/* Reset the Jump Count. */
+		for (int i = 0; i < m_JumpResetLayers.size(); i++)
 		{
-			jumpCount = 0;
+			if (other->GetLayer() == m_JumpResetLayers[i])
+			{
+				m_JumpCount = 0;
+			}
 		}
-
-		Debug::LogLine("Entered collision with " + other->GetName());
 	}
 
 	void PlayerController::OnCollisionStay(Object* other)
 	{
-		/* Sets the jump count if they stay on the ground or an enemy */
-		if (other->GetLayer() == Layer::Ground ||
-			other->GetLayer() == Layer::Player)
+		/* Reset the Jump Count. */
+		for (int i = 0; i < m_JumpResetLayers.size(); i++)
 		{
-			jumpCount = 0;
+			if (other->GetLayer() == m_JumpResetLayers[i])
+			{
+				m_JumpCount = 0;
+			}
 		}
 	}
 
 	void PlayerController::OnCollisionExit(Object* other)
 	{
-		/* Sets the jump count if they leave the ground or an enemy */
-		if (other->GetLayer() == Layer::Ground ||
-			other->GetLayer() == Layer::Player)
+		/* Reset the Jump Count. */
+		for (int i = 0; i < m_JumpResetLayers.size(); i++)
 		{
-			if (jumpCount == 0)
+			if (other->GetLayer() == m_JumpResetLayers[i])
 			{
-				jumpCount++;
+				m_JumpCount = 0;
 			}
 		}
-
-		Debug::LogLine((std::string)"Exited collision with " + other->GetName());
 	}
-
 }

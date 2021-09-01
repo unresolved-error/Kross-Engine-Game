@@ -52,6 +52,7 @@ namespace Kross {
 
 				if (ImGui::Button("Create as Prefab"))
 				{
+					
 					FileSystem::OnWritePrefab(p_SelectedObject);
 				}
 
@@ -206,7 +207,7 @@ namespace Kross {
 								}
 								ImGui::SameLine();
 								if (ImGui::MenuItem(name.c_str())) {};
-								
+
 							}
 
 							ImGui::Unindent();
@@ -315,138 +316,138 @@ namespace Kross {
 
 					else if (typeid(*component) == typeid(ParticleProperties))
 					{
-					ParticleProperties* pEmit = (ParticleProperties*)component;
-					if (ImGui::CollapsingHeader("ParticleProperties", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
-					{
-
-						float pp_Rad = pEmit->GetRadius();
-						int particleCount = pEmit->GetMaxCount();
-						uint32 pp_ParticleFlags = pEmit->GetParticleGroupDef()->flags;
-						uint16 pp_CatBits = pEmit->GetColliderFilters()->categoryBits;
-						uint16 pp_MaskBits = pEmit->GetColliderFilters()->maskBits;
-
-						//Debug::LogLine((int)(pp_ParticleFlags & b2_waterParticle));
-
-						ImGui::Indent();
-						if(ImGui::CollapsingHeader("ParticleFlags", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+						ParticleProperties* pEmit = (ParticleProperties*)component;
+						if (ImGui::CollapsingHeader("ParticleProperties", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
+
+							float pp_Rad = pEmit->GetRadius();
+							int particleCount = pEmit->GetMaxCount();
+							uint32 pp_ParticleFlags = pEmit->GetParticleGroupDef()->flags;
+							uint16 pp_CatBits = pEmit->GetColliderFilters()->categoryBits;
+							uint16 pp_MaskBits = pEmit->GetColliderFilters()->maskBits;
+
+							//Debug::LogLine((int)(pp_ParticleFlags & b2_waterParticle));
+
 							ImGui::Indent();
-							ImGui::PushID("##sprungPartMart");
-							if (ImGui::MenuItem("SpringParticle", "", (pp_ParticleFlags & b2_springParticle)))
+							if (ImGui::CollapsingHeader("ParticleFlags", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 							{
-								pp_ParticleFlags ^= b2_springParticle;
+								ImGui::Indent();
+								ImGui::PushID("##sprungPartMart");
+								if (ImGui::MenuItem("SpringParticle", "", (pp_ParticleFlags & b2_springParticle)))
+								{
+									pp_ParticleFlags ^= b2_springParticle;
+								}
+								ImGui::PopID();
+								if (ImGui::MenuItem("ElasticParticle", "", (pp_ParticleFlags & b2_elasticParticle)))
+								{
+									pp_ParticleFlags ^= b2_elasticParticle;
+								}
+								if (ImGui::MenuItem("ViscousParticle", "", (pp_ParticleFlags & b2_viscousParticle)))
+								{
+									pp_ParticleFlags ^= b2_viscousParticle;
+								}
+								if (ImGui::MenuItem("PowderParticle", "", (pp_ParticleFlags & b2_powderParticle)))
+								{
+									pp_ParticleFlags ^= b2_powderParticle;
+								}
+								if (ImGui::MenuItem("TensileParticle", "", (pp_ParticleFlags & b2_tensileParticle)))
+								{
+									pp_ParticleFlags ^= b2_tensileParticle;
+								}
+								if (ImGui::MenuItem("ColorMixingParticle", "", (pp_ParticleFlags & b2_colorMixingParticle)))
+								{
+									pp_ParticleFlags ^= b2_colorMixingParticle;
+								}
+								if (ImGui::MenuItem("BarrierParticle", "", (pp_ParticleFlags & b2_barrierParticle)))
+								{
+									pp_ParticleFlags ^= b2_barrierParticle;
+								}
+								if (ImGui::MenuItem("StaticPressureParticle", "", (pp_ParticleFlags & b2_staticPressureParticle)))
+								{
+									pp_ParticleFlags ^= b2_staticPressureParticle;
+								}
+								if (ImGui::MenuItem("ReactiveParticle", "", (pp_ParticleFlags & b2_reactiveParticle)))
+								{
+									pp_ParticleFlags ^= b2_reactiveParticle;
+								}
+								if (ImGui::MenuItem("RepulsiveParticle", "", (pp_ParticleFlags & b2_repulsiveParticle)))
+								{
+									pp_ParticleFlags ^= b2_repulsiveParticle;
+								}
+								ImGui::Unindent();
 							}
-							ImGui::PopID();
-							if (ImGui::MenuItem("ElasticParticle", "", (pp_ParticleFlags & b2_elasticParticle)))
+
+							if (ImGui::CollapsingHeader("Collider Mask", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 							{
-								pp_ParticleFlags ^= b2_elasticParticle;
+								ImGui::Indent();
+								if (ImGui::MenuItem("BackGround", "", (pp_CatBits & ColliderFilters::BackGround)))
+								{
+									pp_CatBits ^= ColliderFilters::BackGround;
+								}
+								if (ImGui::MenuItem("Environment", "", (pp_CatBits & ColliderFilters::Environment)))
+								{
+									pp_CatBits ^= ColliderFilters::Environment;
+								}
+								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & ColliderFilters::Fluid)))
+								{
+									pp_CatBits ^= ColliderFilters::Fluid;
+								}
+								if (ImGui::MenuItem("Light", "", (pp_CatBits & ColliderFilters::Light)))
+								{
+									pp_CatBits ^= ColliderFilters::Light;
+								}
+								if (ImGui::MenuItem("Player", "", (pp_CatBits & ColliderFilters::Player)))
+								{
+									pp_CatBits ^= ColliderFilters::Player;
+								}
+								ImGui::Unindent();
 							}
-							if (ImGui::MenuItem("ViscousParticle", "", (pp_ParticleFlags & b2_viscousParticle)))
+
+							if (ImGui::CollapsingHeader("Collides With", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 							{
-								pp_ParticleFlags ^= b2_viscousParticle;
-							}
-							if (ImGui::MenuItem("PowderParticle", "", (pp_ParticleFlags & b2_powderParticle)))
-							{
-								pp_ParticleFlags ^= b2_powderParticle;
-							}
-							if (ImGui::MenuItem("TensileParticle", "", (pp_ParticleFlags & b2_tensileParticle)))
-							{
-								pp_ParticleFlags ^= b2_tensileParticle;
-							}
-							if (ImGui::MenuItem("ColorMixingParticle", "", (pp_ParticleFlags & b2_colorMixingParticle)))
-							{
-								pp_ParticleFlags ^= b2_colorMixingParticle;
-							}
-							if (ImGui::MenuItem("BarrierParticle", "", (pp_ParticleFlags & b2_barrierParticle)))
-							{
-								pp_ParticleFlags ^= b2_barrierParticle;
-							}
-							if (ImGui::MenuItem("StaticPressureParticle", "", (pp_ParticleFlags & b2_staticPressureParticle)))
-							{
-								pp_ParticleFlags ^= b2_staticPressureParticle;
-							}
-							if (ImGui::MenuItem("ReactiveParticle", "", (pp_ParticleFlags & b2_reactiveParticle)))
-							{
-								pp_ParticleFlags ^= b2_reactiveParticle;
-							}
-							if (ImGui::MenuItem("RepulsiveParticle", "", (pp_ParticleFlags & b2_repulsiveParticle)))
-							{
-								pp_ParticleFlags ^= b2_repulsiveParticle;
+								ImGui::Indent();
+								if (ImGui::MenuItem("BackGround", "", (pp_MaskBits & ColliderFilters::BackGround)))
+								{
+									pp_MaskBits ^= ColliderFilters::BackGround;
+								}
+								if (ImGui::MenuItem("Environment", "", (pp_MaskBits & ColliderFilters::Environment)))
+								{
+									pp_MaskBits ^= ColliderFilters::Environment;
+								}
+								if (ImGui::MenuItem("Fluid", "", (pp_MaskBits & ColliderFilters::Fluid)))
+								{
+									pp_MaskBits ^= ColliderFilters::Fluid;
+								}
+								if (ImGui::MenuItem("Light", "", (pp_MaskBits & ColliderFilters::Light)))
+								{
+									pp_MaskBits ^= ColliderFilters::Light;
+								}
+								if (ImGui::MenuItem("Player", "", (pp_MaskBits & ColliderFilters::Player)))
+								{
+									pp_MaskBits ^= ColliderFilters::Player;
+								}
+								ImGui::Unindent();
 							}
 							ImGui::Unindent();
-						}
-						
-						if (ImGui::CollapsingHeader("Collider Mask", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
-						{
-							ImGui::Indent();
-							if (ImGui::MenuItem("BackGround", "", (pp_CatBits & ColliderFilters::BackGround)))
-							{
-								pp_CatBits ^= ColliderFilters::BackGround;
-							}
-							if (ImGui::MenuItem("Environment", "", (pp_CatBits & ColliderFilters::Environment)))
-							{
-								pp_CatBits ^= ColliderFilters::Environment;
-							}
-							if (ImGui::MenuItem("Fluid", "", (pp_CatBits & ColliderFilters::Fluid)))
-							{
-								pp_CatBits ^= ColliderFilters::Fluid;
-							}
-							if (ImGui::MenuItem("Light", "", (pp_CatBits & ColliderFilters::Light)))
-							{
-								pp_CatBits ^= ColliderFilters::Light;
-							}
-							if (ImGui::MenuItem("Player", "", (pp_CatBits & ColliderFilters::Player)))
-							{
-								pp_CatBits ^= ColliderFilters::Player;
-							}
-							ImGui::Unindent();
+
+							ImGui::Text("Particle Radius: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##Rad", &pp_Rad, 0.005f, 0.005f, 1.0f, "%.3fm");
+
+							ImGui::Text("Particle Count: ");
+							ImGui::SameLine();
+							ImGui::DragInt("##Count", &particleCount, 2, 0, INT_MAX, "%d");
+
+							pEmit->SetGroupFlags(b2_rigidParticleGroup);
+							pEmit->SetRadius(pp_Rad);
+							pEmit->SetParticleFlags(pp_ParticleFlags);
+							pEmit->SetColliderFilters(pp_CatBits, pp_MaskBits);
+							pEmit->SetMaxCount(particleCount);
+
 						}
 
-						if (ImGui::CollapsingHeader("Collides With", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
-						{
-							ImGui::Indent();
-							if (ImGui::MenuItem("BackGround", "", (pp_MaskBits & ColliderFilters::BackGround)))
-							{
-								pp_MaskBits ^= ColliderFilters::BackGround;
-							}
-							if (ImGui::MenuItem("Environment", "", (pp_MaskBits & ColliderFilters::Environment)))
-							{
-								pp_MaskBits ^= ColliderFilters::Environment;
-							}
-							if (ImGui::MenuItem("Fluid", "", (pp_MaskBits & ColliderFilters::Fluid)))
-							{
-								pp_MaskBits ^= ColliderFilters::Fluid;	
-							}
-							if (ImGui::MenuItem("Light", "", (pp_MaskBits & ColliderFilters::Light)))
-							{
-								pp_MaskBits ^= ColliderFilters::Light;
-							}
-							if (ImGui::MenuItem("Player", "", (pp_MaskBits & ColliderFilters::Player)))
-							{
-								pp_MaskBits ^= ColliderFilters::Player;
-							}
-							ImGui::Unindent();
-						}
-						ImGui::Unindent();
-
-						ImGui::Text("Particle Radius: ");
-						ImGui::SameLine();
-						ImGui::DragFloat("##Rad", &pp_Rad, 0.005f, 0.005f, 1.0f, "%.3fm");
-
-						ImGui::Text("Particle Count: ");
-						ImGui::SameLine();
-						ImGui::DragInt("##Count", &particleCount, 2,0, INT_MAX, "%d");
-
-						pEmit->SetGroupFlags(b2_rigidParticleGroup);
-						pEmit->SetRadius(pp_Rad);
-						pEmit->SetParticleFlags(pp_ParticleFlags);
-						pEmit->SetColliderFilters(pp_CatBits,pp_MaskBits);
-						pEmit->SetMaxCount(particleCount);
-
-					}
-
-					if (!isOpen)
-						p_SelectedObject->DetachComponent<ParticleProperties>();
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<ParticleProperties>();
 					}
 
 					/* Sprite Renderer. (DONE) */
@@ -617,9 +618,9 @@ namespace Kross {
 
 							ImGui::Text("Depth");
 							ImGui::SameLine();
-							ImGui::DragInt("##s_deppy", &s_depth,1,0,INTMAX_MAX);
-							
-							
+							ImGui::DragInt("##s_deppy", &s_depth, 1, 0, INTMAX_MAX);
+
+
 
 
 							if (p_PreviewPane && p_PreviewPane->GetSprite())
@@ -932,6 +933,33 @@ namespace Kross {
 
 						if (!isOpen)
 							p_SelectedObject->DetachComponent<TileMapRenderer>();
+					}
+
+					else if (typeid(*component) == typeid(PlayerController))
+					{
+						PlayerController* controller = (PlayerController*)component;
+						if (ImGui::CollapsingHeader("Player Controller", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							ImGui::Text("Work on meee.....");
+							//std::vector<Layer> layers;
+							//LayerName names = LayerName();
+							//ImGui::Indent();
+							//for (int i = 0; i < layers.size(); i++)
+							//{
+							//	if (ImGui::MenuItem(names[(int)layers[i]].c_str()))
+							//	{
+							//		if (ImGui::IsItemHovered())
+							//		{
+							//			ImGui::
+							//		}
+							//	}
+							//}
+							//ImGui::Unindent();
+							//
+						}
+
+						if (!isOpen)
+							p_SelectedObject->DetachComponent<PlayerController>();
 					}
 
 					else if(typeid(*component) == typeid(Script))

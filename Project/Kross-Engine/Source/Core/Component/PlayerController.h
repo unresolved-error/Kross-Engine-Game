@@ -2,6 +2,7 @@
  *  Author: Jake Warren.
  *  Editors:
  *      - Jake Warren.
+ *		- Deklyn Palmer.
  */
 #pragma once
 
@@ -15,44 +16,64 @@ namespace Kross
 	class KROSS_API PlayerController : public Component
 	{
 	private:
-		Transform2D* transform;
-		Rigidbody2D* rigidbody;
+		Rigidbody2D* m_Rigidbody;
 
+		std::vector<Layer> m_JumpResetLayers;
 
-		Object* camera;
+		int m_MaxJumpCount;
+		int m_JumpCount;
 
-		int jumpCount = 0;
-
-		int controllerID = 0;
-
-		float m_MaxGroundSpeed = 3.75f;
-		float m_MaxAirSpeed = 4.75f;
-		float m_JumpStrength = 0.4f;
+		float m_GroundSpeed;
+		float m_AirSpeed;
+		float m_JumpStrength;
 
 
 	protected:
 		friend class Rigidbody2D;
+		friend class FileSystem;
 
 		void OnStart() override;
 
-		void OnUpdate() override;
+		void OnCollisionEnter(Object* other) override;
+
+		void OnCollisionStay(Object* other) override;
+
+		void OnCollisionExit(Object* other) override;
 
 	public:
 		PlayerController() :
-			transform	(nullptr),
-			camera		(nullptr),
-			rigidbody	(nullptr)
+			m_Rigidbody			(nullptr),
+			m_JumpResetLayers	(std::vector<Layer>()),
+
+			m_MaxJumpCount		(1),
+			m_JumpCount			(0),
+
+			m_GroundSpeed		(3.75f),
+			m_AirSpeed			(4.75f),
+			m_JumpStrength		(0.4f)
 		{};
-		~PlayerController() {};
+		~PlayerController();
 
-		void PlayerMove(Vector2 input, Key jump, Key jump2, Controller jumpC);
+		void Move(Vector2 moveDirection);
 
-		void EnableGravity(Key key, Controller button);
+		void Jump(Vector2 jumpDirection);
 
-		void OnCollisionEnter(Object* other);
-		void OnCollisionStay(Object* other);
-		void OnCollisionExit(Object* other);
+		const int GetMaxJumpCount() const { return m_MaxJumpCount; };
+		const int GetJumpCount() const { return m_JumpCount; };
+		const float GetGroundSpeed() const { return m_GroundSpeed; };
+		const float GetAirSpeed() const { return m_AirSpeed; };
+		const float GetJumpStrength() const { return m_JumpStrength; };
 
-		int GetControllerID() { return controllerID; }
+		std::vector<Layer> GetJumpResetLayers() const { return m_JumpResetLayers; };
+		Layer GetJumpResetLayer(int index) const;
+
+		void SetMaxJumpCount(int value) { m_MaxJumpCount = value; };
+		void SetGroundSpeed(float value) { m_GroundSpeed = value; };
+		void SetAirSpeed(float value) { m_AirSpeed = value; };
+		void SetJumpStrength(float value) { m_JumpStrength = value; };
+
+		void AttachJumpResetLayer(Layer layer);
+		void DetachJumpResetLayer(int index);
+
 	};
 }

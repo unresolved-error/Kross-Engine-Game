@@ -998,7 +998,92 @@ namespace Kross
 
 					if (playerControllerData.size() > 0)
 					{
-						
+						/* Get the Player Controller on the Object. */
+						PlayerController* controller = currentObject->GetComponent<PlayerController>();
+
+						/* Run through the Data. */
+						for (int i = 0; i < playerControllerData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = playerControllerData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Data Value. */
+								std::string value = playerControllerData[i].substr(0, searchPosition);
+
+								switch (varSwitch)
+								{
+									/* Particle Flags. */
+								case 0:
+								{
+									std::string data = value;
+									data.erase(remove(data.begin(), data.end(), '['), data.end());
+									data.erase(remove(data.begin(), data.end(), ']'), data.end());
+
+									std::vector<int> rawLayerData;
+
+									size_t searchPositionData = 0;
+									std::string divider = ",";
+									while ((searchPositionData = data.find(divider)) != std::string::npos)
+									{
+										std::string dataValue = data.substr(0, searchPositionData);
+										rawLayerData.push_back(std::stoi(dataValue));
+
+										data.erase(0, searchPositionData + divider.length());
+									}
+
+									rawLayerData.push_back(std::stoi(data));
+
+									for (int j = 0; j < rawLayerData.size(); j++)
+									{
+										controller->AttachJumpResetLayer((Layer)rawLayerData[j]);
+									}
+									break;
+								}
+
+								/* CatBits read in. */
+								case 1:
+								{
+
+									int maxJumpCount = std::stoi(value);
+									controller->SetMaxJumpCount(maxJumpCount);
+									break;
+								}
+
+								/* MaskBits readIn. */
+								case 2:
+								{
+									float groundSpeed = std::stof(value);
+									controller->SetGroundSpeed(groundSpeed);
+									break;
+								}
+
+								/* Radius Setting. */
+								case 3:
+								{
+									float airSpeed = std::stof(value);
+									controller->SetAirSpeed(airSpeed);
+									break;
+								}
+								case 4:
+								{
+									float jumpStrength = std::stof(value);
+									controller->SetJumpStrength(jumpStrength);
+									break;
+								}
+								}
+
+								/* Erase the Data just Used. */
+								playerControllerData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
 					}
 
 					/* Go through the Transform Data. */
@@ -1195,10 +1280,6 @@ namespace Kross
 				}
 			}
 
-			
-
-			
-
 			/* Debugging Checkpoint. */
 			std::string debugCheckpoint = "50";
 
@@ -1394,6 +1475,26 @@ namespace Kross
 						fileStream << pep->GetRadius() << "->";
 						fileStream << pep->GetMaxCount() << "->\n";
 
+					}
+					else if (typeid(*comp) == typeid(PlayerController))
+					{
+						PlayerController* controller = (PlayerController*)comp;
+						fileStream << "PLAYER-CONTROLLER->";
+						fileStream << "[";
+						for (int i = 0; i < controller->m_JumpResetLayers.size(); i++)
+						{
+							fileStream << (int)controller->m_JumpResetLayers[i];
+
+							if (i != controller->m_JumpResetLayers.size() - 1)
+							{
+								fileStream << ",";
+							}
+						}
+						fileStream << "]->";
+						fileStream << controller->m_MaxJumpCount << "->";
+						fileStream << controller->m_GroundSpeed << "->";
+						fileStream << controller->m_AirSpeed << "->";
+						fileStream << controller->m_JumpStrength << "->\n";
 					}
 					else
 					{
