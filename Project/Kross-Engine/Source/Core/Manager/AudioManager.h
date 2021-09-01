@@ -22,8 +22,8 @@ namespace Kross
     {
     private:
        
-        static AudioManager* s_Instance;
-        SoLoud::Soloud* p_Soloud;
+        static AudioManager* m_Instance;
+        SoLoud::Soloud* m_SoloudEngine;
 
 
     protected:
@@ -43,14 +43,14 @@ namespace Kross
         static void OnDestroy();
         
         // Gets the Audio Engine.
-        static SoLoud::Soloud* GetAudioEngine() { return s_Instance->p_Soloud; };
+        static SoLoud::Soloud* AudioEngine() { return m_Instance->m_SoloudEngine; };
 
     public:
         //"Sets global volume. 1 is normal, 0 is mute.
-        void SetGlobalVolume(float volume);
+        static void SetGlobalVolume(float volume);
 
         //Get global volume, returns current vol, 1 is normal, 0 is mute.
-        float GetGlobalVolume();
+        static float GetGlobalVolume();
 
         // Loads an Audio Source.
         static void LoadAudioSource(AudioSource* audioSource);

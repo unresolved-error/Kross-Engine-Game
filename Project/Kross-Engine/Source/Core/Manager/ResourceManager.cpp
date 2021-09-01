@@ -9,7 +9,7 @@
 
 namespace Kross
 {
-	ResourceManager*	ResourceManager::s_Instance =		nullptr;
+	ResourceManager*	ResourceManager::m_Instance =		nullptr;
 
 	ResourceManager::~ResourceManager()
 	{
@@ -124,30 +124,24 @@ namespace Kross
 		m_TileSets.~vector();
 
 		/* Destroy the Atlas. */
-		Atlas::OnDestroy(p_Atlas);
+		Atlas::OnDestroy(m_Atlas);
 	}
 
 	void ResourceManager::OnCreate()
 	{
-		if (!s_Instance)
-			s_Instance = KROSS_NEW ResourceManager();
+		if (!m_Instance)
+			m_Instance = KROSS_NEW ResourceManager();
 	}
 
 	void ResourceManager::OnDestroy()
 	{
-		if (s_Instance)
-			delete s_Instance;
-	}
-
-	void ResourceManager::OnReadManifest()
-	{
-		/* Load the Manifest File. */
-		FileSystem::OnReadManifestFile();
+		if (m_Instance)
+			delete m_Instance;
 	}
 
 	void ResourceManager::OnWriteManifest()
 	{
 		// Seeing if it writes things properly.
-		FileSystem::OnWriteAtlasData(s_Instance->p_Atlas);
+		FileSystem::OnWriteAtlasData(m_Instance->m_Atlas);
 	}
 }

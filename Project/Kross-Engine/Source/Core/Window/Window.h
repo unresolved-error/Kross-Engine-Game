@@ -20,8 +20,8 @@ namespace Kross
 	private:
 		~Window();
 
-		WindowProperties* p_Properties;
-		GLFWwindow* p_GLFWWindow;
+		WindowProperties* m_Properties;
+		GLFWwindow* m_GLFWWindow;
 
 		bool m_Initialised;
 
@@ -32,25 +32,25 @@ namespace Kross
 		bool Initialised() const { return m_Initialised; };
 
 		// Returns the Window close status.
-		bool Closed() const { return glfwWindowShouldClose(p_GLFWWindow); };
+		bool Closed() const { return glfwWindowShouldClose(m_GLFWWindow); };
 
 		// Sets the Title.
-		void SetTitle(const std::string& title) { p_Properties->SetTitle(title); };
+		void SetTitle(const std::string& title) { m_Properties->SetTitle(title); };
 
 		// Sets the Width.
-		void SetWidth(int width) { p_Properties->SetWidth(width); };
+		void SetWidth(int width) { m_Properties->SetWidth(width); };
 
 		// Sets the Height.
-		void SetHeight(int height) { p_Properties->SetHeight(height); };
+		void SetHeight(int height) { m_Properties->SetHeight(height); };
 
 		// The Initialise of the window. For creating OpenGL Contexts.
 		void OnInitialise();
 
 		// Hides the Cursor.
-		void HideCursor() { glfwSetInputMode(p_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); };
+		void HideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); };
 
 		// UnHides the Cursor.
-		void UnHideCursor() { glfwSetInputMode(p_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };
+		void UnHideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };
 
 		// Start of the Window.
 		void OnStart(float r = 0.5f, float g = 0.5f, float b = 0.5f, float a = 0.5f);
@@ -63,42 +63,42 @@ namespace Kross
 
 	public:
 		Window() :
-			p_Properties	(KROSS_NEW WindowProperties()), 
-			p_GLFWWindow	(nullptr), 
+			m_Properties	(KROSS_NEW WindowProperties()), 
+			m_GLFWWindow	(nullptr), 
 			m_Initialised	(false)
 		{};
 		
 		// Gets the Title of the Window.
-		const std::string& GetTitle() const { return p_Properties->GetTitle(); };
+		const std::string& GetTitle() const { return m_Properties->GetTitle(); };
 
 		// Gets the Width of the Window.
-		const int GetWidth() const { return p_Properties->GetWidth(); };
+		const int GetWidth() const { return m_Properties->GetWidth(); };
 
 		// Gets the Height of the Window.
-		const int GetHeight() const { return p_Properties->GetHeight(); };
+		const int GetHeight() const { return m_Properties->GetHeight(); };
 
 		// Gets the VSync of the Window.
-		const int GetVSync() const { return p_Properties->GetVSync(); };
+		const int GetVSync() const { return m_Properties->GetVSync(); };
 
 		// Gets the Fullscreen Mode of the Window.
-		const int GetFullscreen() const { return p_Properties->GetFullscreen(); };
+		const int GetFullscreen() const { return m_Properties->GetFullscreen(); };
 
 		// Gets the Aspect Ratio of the Window.
-		float GetApsectRatio() const { return (float)p_Properties->GetWidth() / (float)p_Properties->GetHeight(); };
+		float GetApsectRatio() const { return (float)m_Properties->GetWidth() / (float)m_Properties->GetHeight(); };
 		
 		// Gets the Refresh Rate of the Screen.
 		const int GetScreenRefreshRate() const;
 
 		// Sets the VSync.
-		void SetVSync(int vSync) { p_Properties->SetVSync(vSync); };
+		void SetVSync(int vSync) { m_Properties->SetVSync(vSync); };
 
 		// Set the window to fullscreen borderless.
-		void SetFullscreen(int fullscreen) { p_Properties->SetFullscreen(fullscreen); };
+		void SetFullscreen(int fullscreen) { m_Properties->SetFullscreen(fullscreen); };
 
 		// Grabs the OpenGL Window. (USE IF YOU KNOW WHAT YOUR DOING WITH IT)
-		GLFWwindow* GetGLFWWindow() const { return p_GLFWWindow; };
+		GLFWwindow* GetGLFWWindow() const { return m_GLFWWindow; };
 
 		// Close the Window.
-		void CloseWindow() { glfwSetWindowShouldClose(p_GLFWWindow, 1); };
+		void CloseWindow() { glfwSetWindowShouldClose(m_GLFWWindow, 1); };
 	};
 }

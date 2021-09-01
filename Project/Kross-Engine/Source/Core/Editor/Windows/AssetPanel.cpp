@@ -52,17 +52,17 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_Sprites.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_Sprites.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Sprites[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_Sprites[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 
-                Vector2 uvOffset = ResourceManager::s_Instance->m_Sprites[i]->GetUVOffset();
-                Vector2 uvRatio = ResourceManager::s_Instance->m_Sprites[i]->GetUVRatio();
+                Vector2 uvOffset = ResourceManager::m_Instance->m_Sprites[i]->GetUVOffset();
+                Vector2 uvRatio = ResourceManager::m_Instance->m_Sprites[i]->GetUVRatio();
 
-                ImGui::ImageButton((void*)ResourceManager::s_Instance->m_Sprites[i]->GetTexture()->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), 
+                ImGui::ImageButton((void*)ResourceManager::m_Instance->m_Sprites[i]->GetTexture()->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), 
                     ImVec2((0.0f * uvRatio.x) + uvOffset.x, (0.0f * uvRatio.y) + uvOffset.y), 
                     ImVec2((1.0f * uvRatio.x) + uvOffset.x, (-1.0f * uvRatio.y) + uvOffset.y));
-                ImGui::Text(ResourceManager::s_Instance->m_Sprites[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_Sprites[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)
@@ -90,11 +90,11 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_Textures.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_Textures.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Textures[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_Textures[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
-                ImGui::Text(ResourceManager::s_Instance->m_Textures[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_Textures[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)
@@ -122,11 +122,11 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_Materials.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_Materials.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Materials[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_Materials[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
-                ImGui::Text(ResourceManager::s_Instance->m_Materials[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_Materials[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)
@@ -154,11 +154,11 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_Fonts.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_Fonts.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Fonts[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_Fonts[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
-                ImGui::Text(ResourceManager::s_Instance->m_Fonts[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_Fonts[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)
@@ -186,11 +186,11 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_Animations.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_Animations.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_Animations[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_Animations[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
-                ImGui::Text(ResourceManager::s_Instance->m_Animations[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_Animations[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)
@@ -218,11 +218,11 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_AudioSources.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_AudioSources.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_AudioSources[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_AudioSources[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
-                ImGui::Text(ResourceManager::s_Instance->m_AudioSources[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_AudioSources[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)
@@ -250,11 +250,11 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_TileMaps.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_TileMaps.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_TileMaps[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_TileMaps[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
-                ImGui::Text(ResourceManager::s_Instance->m_TileMaps[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_TileMaps[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)
@@ -282,11 +282,11 @@ namespace Kross
 
             int moveOver = 0;
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
-            for (int i = 0; i < ResourceManager::s_Instance->m_TileSets.size(); i++)
+            for (int i = 0; i < ResourceManager::m_Instance->m_TileSets.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::s_Instance->m_TileSets[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                ImGui::BeginChild(ResourceManager::m_Instance->m_TileSets[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 ImGui::ImageButton((void*)texture->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), ImVec2(0.0f, 0.0f), ImVec2(1.0f, -1.0f));
-                ImGui::Text(ResourceManager::s_Instance->m_TileSets[i]->GetName().c_str());
+                ImGui::Text(ResourceManager::m_Instance->m_TileSets[i]->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)

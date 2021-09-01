@@ -16,13 +16,13 @@ namespace Kross
 	{
 	private:
 		ShaderManager() :
-			m_Shaders	(List<Shader*>())
+			m_Shaders	(std::vector<Shader*>())
 		{};
 		~ShaderManager();
 
-		static ShaderManager* s_Instance;
+		static ShaderManager* m_Instance;
 
-		List<Shader*> m_Shaders;
+		std::vector<Shader*> m_Shaders;
 
 	protected:
 		friend class Application;

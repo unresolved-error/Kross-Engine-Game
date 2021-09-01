@@ -19,6 +19,7 @@
 #include "Vertex/SpriteVertex.h"
 #include "Vertex/TextVertex.h"
 #include "Vertex/WaterVertex.h"
+#include "Vertex/PostProcessVertex.h"
 
 /* !------------------! */
 
@@ -54,7 +55,7 @@ namespace Kross
 	class KROSS_API VertexBufferLayout
 	{
 	private:
-		List<VertexAttribute> m_Attributes;
+		std::vector<VertexAttribute> m_Attributes;
 
 	protected:
 		friend class VertexArray;
@@ -78,7 +79,7 @@ namespace Kross
 		void SetLayoutType<LineVertex>()
 		{
 			/* Pre Allocate 2 for adding the Attributes. */
-			m_Attributes = List<VertexAttribute>(2);
+			m_Attributes = std::vector<VertexAttribute>(2);
 
 			/* Position Layout. */
 			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(LineVertex), (unsigned int)offsetof(LineVertex, LineVertex::m_Position));
@@ -92,7 +93,7 @@ namespace Kross
 		void SetLayoutType<SpriteVertex>()
 		{
 			/* Pre Allocate 6 for adding the Attributes. */
-			m_Attributes = List<VertexAttribute>(6);
+			m_Attributes = std::vector<VertexAttribute>(6);
 
 			/* Position Layout. */
 			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(SpriteVertex), (unsigned int)offsetof(SpriteVertex, SpriteVertex::m_Position));
@@ -118,7 +119,7 @@ namespace Kross
 		void SetLayoutType<TextVertex>()
 		{
 			/* Pre Allocate 3 for adding the Attributes. */
-			m_Attributes = List<VertexAttribute>(3);
+			m_Attributes = std::vector<VertexAttribute>(3);
 
 			/* Position Layout. */
 			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(TextVertex), (unsigned int)offsetof(TextVertex, TextVertex::m_Position));
@@ -135,7 +136,7 @@ namespace Kross
 		void SetLayoutType<WaterVertex>()
 		{
 			/* Pre Allocate 3 for adding the Attributes. */
-			m_Attributes = List<VertexAttribute>(3);
+			m_Attributes = std::vector<VertexAttribute>(3);
 
 			/* Position Layout. */
 			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(WaterVertex), (unsigned int)offsetof(WaterVertex, WaterVertex::m_Position));
@@ -145,6 +146,23 @@ namespace Kross
 
 			/* Colour Layout. */
 			m_Attributes[2] = VertexAttribute(2, 4, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(WaterVertex), (unsigned int)offsetof(WaterVertex, WaterVertex::m_Colour));
+		}
+
+		// Sets the Layout to be of type Post Process Vertex.
+		template<>
+		void SetLayoutType<PostProcessVertex>()
+		{
+			/* Pre Allocate 3 for adding the Attributes. */
+			m_Attributes = std::vector<VertexAttribute>(3);
+
+			/* Position Layout. */
+			m_Attributes[0] = VertexAttribute(0, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(PostProcessVertex), (unsigned int)offsetof(PostProcessVertex, PostProcessVertex::m_Position));
+
+			/* UVs Layout. */
+			m_Attributes[1] = VertexAttribute(1, 2, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(PostProcessVertex), (unsigned int)offsetof(PostProcessVertex, PostProcessVertex::m_UVs));
+
+			/* Colour Layout. */
+			m_Attributes[2] = VertexAttribute(2, 4, GL_FLOAT, GL_FALSE, (unsigned int)sizeof(PostProcessVertex), (unsigned int)offsetof(PostProcessVertex, PostProcessVertex::m_Colour));
 		}
 	};
 }

@@ -29,7 +29,7 @@ namespace Kross
 	const struct KROSS_API AssetTypeName
 	{
 	private:
-		List<std::string> m_Names;
+		std::vector<std::string> m_Names;
 
 	public:
 		AssetTypeName()

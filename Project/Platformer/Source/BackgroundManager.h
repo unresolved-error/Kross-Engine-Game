@@ -20,8 +20,8 @@ public:
 	//FURTHEST BACKGROUND MANAGEMENT. //Layer is called "background"
 	Object* furthestPrimary;
 	Object* furthestSecondary;
-	List<Object*> furthestScenery; //Not used yet. For non repeating items.
-	List<float> furthestSceneryInitXPos;
+	std::vector<Object*> furthestScenery; //Not used yet. For non repeating items.
+	std::vector<float> furthestSceneryInitXPos;
 	float furthestOffset = 15.0f;
 	float furthestScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -30,8 +30,8 @@ public:
 	//2ndFURTHEST BACKGROUND MANAGEMENT.//Layer is called "background1"
 	Object* secondFurthestPrimary;
 	Object* secondFurthestSecondary;
-	List<Object*> secondFurthestScenery; //Not used yet. For non repeating items.
-	List<float> secondFurthestSceneryInitXPos;
+	std::vector<Object*> secondFurthestScenery; //Not used yet. For non repeating items.
+	std::vector<float> secondFurthestSceneryInitXPos;
 	float secondFurthestOffset = 15.0f;
 	float secondFurthestScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -40,8 +40,8 @@ public:
 	//3ndFURTHEST BACKGROUND MANAGEMENT.//Layer is called "background2"
 	Object* thirdFurthestPrimary;
 	Object* thirdFurthestSecondary;
-	List<Object*> thirdFurthestScenery; //Not used yet. For non repeating items.
-	List<float> thirdFurthestSceneryInitXPos;
+	std::vector<Object*> thirdFurthestScenery; //Not used yet. For non repeating items.
+	std::vector<float> thirdFurthestSceneryInitXPos;
 	float thirdFurthestOffset = 15.0f;
 	float thirdFurthestScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -50,8 +50,8 @@ public:
 	//4thFURTHEST BACKGROUND MANAGEMENT.//Layer is called "background3"
 	Object* fourthFurthestPrimary;
 	Object* fourthFurthestSecondary;
-	List<Object*> fourthFurthestScenery; //Not used yet. For non repeating items.
-	List<float> fourthFurthestSceneryInitXPos;
+	std::vector<Object*> fourthFurthestScenery; //Not used yet. For non repeating items.
+	std::vector<float> fourthFurthestSceneryInitXPos;
 	float fourthFurthestOffset = 15.0f;
 	float fourthFurthestScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -60,8 +60,8 @@ public:
 	//3rd CLOSEST BACKGROUND MANAGEMENT.//Layer is called "background4"
 	Object* thirdClosePrimary;
 	Object* thirdCloseSecondary;
-	List<Object*> thirdCloseScenery; //Not used yet. For non repeating items.
-	List<float> thirdCloseSceneryInitXPos;
+	std::vector<Object*> thirdCloseScenery; //Not used yet. For non repeating items.
+	std::vector<float> thirdCloseSceneryInitXPos;
 	float thirdCloseOffset = 15.0f;
 	float thirdCloseScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -71,8 +71,8 @@ public:
 	//2nd CLOSEST BACKGROUND MANAGEMENT.//Layer is called "background5"
 	Object* secondClosePrimary;
 	Object* secondCloseSecondary;
-	List<Object*> secondCloseScenery; //Not used yet. For non repeating items.
-	List<float> secondCloseSceneryInitXPos;
+	std::vector<Object*> secondCloseScenery; //Not used yet. For non repeating items.
+	std::vector<float> secondCloseSceneryInitXPos;
 	float secondCloseOffset = 15.0f;
 	float secondCloseScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -82,8 +82,8 @@ public:
 	//CLOSE BACKGROUND MANAGEMENT. //Layer is called "background6"
 	Object* closePrimary;
 	Object* closeSecondary;
-	List<Object*> closeScenery; //Not used yet. For non repeating items.
-	List<float> closeSceneryInitXPos;
+	std::vector<Object*> closeScenery; //Not used yet. For non repeating items.
+	std::vector<float> closeSceneryInitXPos;
 	float closeOffset = 15.0f;
 	float closeScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -93,8 +93,8 @@ public:
 	//CLOSE BACKGROUND MANAGEMENT. //Layer is called "background6"
 	Object* foreGroundPrimary;
 	Object* foreGroundSecondary;
-	List<Object*> foreGroundScenery; //Not used yet. For non repeating items.
-	List<float> foreGroundSceneryInitXPos;
+	std::vector<Object*> foreGroundScenery; //Not used yet. For non repeating items.
+	std::vector<float> foreGroundSceneryInitXPos;
 	float foreGroundOffset = 15.0f;
 	float foreGroundScrollOffset = 0.0f;
 	//DECIMAL FOR FOREGROUND, ABOVE 1 FOR BACK GROUND. IF THIS IS '2' THE BACK GROUND WILL MOVE AT HALF THE RATE OF THE PLAYGROUND. AT "0.5" IT WILL MOVE TWICE AS QUICKLY.
@@ -158,42 +158,42 @@ public:
 
 
 		if (furthestPrimary != nullptr && furthestSecondary != nullptr) {
-			furthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			furthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + furthestOffset;
+			furthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			furthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + furthestOffset;
 		}
 		if (secondFurthestPrimary != nullptr && secondFurthestSecondary != nullptr) {
-			secondFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			secondFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + secondFurthestOffset;
+			secondFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			secondFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + secondFurthestOffset;
 		}
 
 		if (thirdFurthestPrimary != nullptr && thirdFurthestSecondary != nullptr) {
-			thirdFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			thirdFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + thirdFurthestOffset;
+			thirdFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			thirdFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + thirdFurthestOffset;
 		}
 
 		if (fourthFurthestPrimary != nullptr && fourthFurthestSecondary != nullptr) {
-			fourthFurthestPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			fourthFurthestSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + fourthFurthestOffset;
+			fourthFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			fourthFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + fourthFurthestOffset;
 		}
 
 		if (thirdClosePrimary != nullptr && thirdCloseSecondary != nullptr) {
-			thirdClosePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			thirdCloseSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + thirdCloseOffset;
+			thirdClosePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			thirdCloseSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + thirdCloseOffset;
 		}
 
 		if (secondClosePrimary != nullptr && secondCloseSecondary != nullptr) {
-			secondClosePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			secondCloseSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + secondCloseOffset;
+			secondClosePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			secondCloseSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + secondCloseOffset;
 		}
 
 		if (closePrimary != nullptr && closeSecondary != nullptr) {
-			closePrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			closeSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + closeOffset;
+			closePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			closeSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + closeOffset;
 		}
 
 		if (foreGroundPrimary != nullptr && closeSecondary != nullptr) {
-			foreGroundPrimary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x;
-			foreGroundSecondary->GetTransform()->m_Position.x = sceneCam->GetTransform()->m_Position.x + foreGroundOffset;
+			foreGroundPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
+			foreGroundSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + foreGroundOffset;
 		}
 
 	}
@@ -244,30 +244,30 @@ public:
 	}
 
 	
-	List<float> SetInitialSceneryXpos(List<Object*> sceneryList)
+	std::vector<float> SetInitialSceneryXpos(std::vector<Object*> sceneryList)
 	{
 		if (!sceneryList.empty()) 
 		{
-			List<float> xPos;
+			std::vector<float> xPos;
 
 			for (int i = 0; i < sceneryList.size(); i++)
 			{
-				xPos.push_back(sceneryList[i]->GetTransform()->m_Position.x);
+				xPos.push_back(sceneryList[i]->m_Transform->m_Position.x);
 			}
 			return xPos;
 		}
 		else 
 		{
-			return List<float>();
+			return std::vector<float>();
 		}
 	
 	}
 
-	void ManageLayer(Object* primary, Object* secondary, float followSpeed, float offset, float &scrollOffset, List<Object*> sceneryList, List<float> initSceneryXPos) 
+	void ManageLayer(Object* primary, Object* secondary, float followSpeed, float offset, float &scrollOffset, std::vector<Object*> sceneryList, std::vector<float> initSceneryXPos) 
 	{
-		Transform2D* primaryTransform = primary->GetTransform();
-		Transform2D* secondaryTransform = secondary->GetTransform();
-		Transform2D* cameraTransform = sceneCam->GetTransform();
+		Transform2D* primaryTransform = primary->m_Transform;
+		Transform2D* secondaryTransform = secondary->m_Transform;
+		Transform2D* cameraTransform = sceneCam->m_Transform;
 		
 
 		scrollOffset = fmod(cameraTransform->m_Position.x, (offset * followSpeed));
@@ -281,7 +281,7 @@ public:
 		{
 			for (int i = 0; i < sceneryList.size(); i++)
 			{
-				sceneryList[i]->GetTransform()->m_Position.x = cameraTransform->m_Position.x - (cameraTransform->m_Position.x / followSpeed) + initSceneryXPos[i];
+				sceneryList[i]->m_Transform->m_Position.x = cameraTransform->m_Position.x - (cameraTransform->m_Position.x / followSpeed) + initSceneryXPos[i];
 			}
 		}
 

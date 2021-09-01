@@ -19,6 +19,8 @@
 #include "stb_image/stb_image.h"
 #include "../Scene.h"
 
+#include "../Serialiser/Serialiser.h"
+
 namespace Kross
 {
 	std::string FileSystem::GetFileContents(const std::string& filepath)
@@ -162,116 +164,6 @@ namespace Kross
 		return "YEW";
 	}
 
-	void FileSystem::OnReadManifestFile()
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Manifest..." << std::endl;
-
-		/* The Filepath for the Mainfest. */
-		std::string filepath = MANIFEST_FILEPATH;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool ignoreFirstLine = true;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* If the Line size is zero. */
-				if (line.empty())
-					continue;
-
-				/* Just so It doesn't read "MANIFEST:". */
-				if (ignoreFirstLine)
-				{
-					ignoreFirstLine = false;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string assetType;
-				std::string assetFilepath;
-				std::string manifestSplitter = "->";
-
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(manifestSplitter)) != std::string::npos && varSwitch != 2)
-				{
-					/* Grab the Asset Type. */
-					if (varSwitch == 0)
-						assetType = line.substr(0, searchPosition);
-
-					/* Grab the Asset Filepath. */
-					else
-						assetFilepath = line.substr(0, searchPosition);
-
-					line.erase(0, searchPosition + manifestSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
-				}
-
-				/* Determain how it gets loaded in. */
-
-				if (assetType == "SPRITE")
-					OnReadSprite(assetFilepath);
-
-				else if (assetType == "TEXTURE")
-					OnReadTexture(assetFilepath);
-
-				else if (assetType == "SHADER")
-					OnReadShader(assetFilepath);
-
-				else if (assetType == "FONT")
-					OnReadFont(assetFilepath);
-
-				else if (assetType == "MATERIAL")
-					OnReadMaterial(assetFilepath);
-
-				else if (assetType == "ANIMATION")
-					OnReadAnimation(assetFilepath);
-
-				else if (assetType == "AUDIOSOURCE")
-					OnReadAudioSource(assetFilepath);
-
-				else if (assetType == "TILEMAP")
-					OnReadTileMap(assetFilepath);
-
-				else if (assetType == "TILESET")
-					OnReadTileSet(assetFilepath);
-
-				else if (assetType == "ATLAS")
-					OnReadAtlas(assetFilepath);
-
-				else if (assetType == "PREFAB")
-					OnReadPrefab(assetFilepath);
-
-				else if (assetType == "SCENE")
-					OnReadScene(assetFilepath);
-			}
-
-			fileStream.close();
-		}
-
-		else
-		{
-			fileStream.close();
-		}
-	}
-
 	void FileSystem::OnReadScene(const std::string& filepath)
 	{
 		/* Display what we are loading. */
@@ -374,7 +266,7 @@ namespace Kross
 		else { fileStream.close(); }
 
 		//NOW LOAD OBJECTS. THIS WILL BE ROUGH.
-		List<Object*> readObj = OnReadObjects(kObjFilepath);
+		std::vector<Object*> readObj = OnReadObjects(kObjFilepath);
 
 		//__debugbreak();
 
@@ -389,7 +281,7 @@ namespace Kross
 		SceneManager::SetCurrentScene(0);
 	}
 
-	List<Object*> FileSystem::OnReadObjects(const std::string& filepath)
+	std::vector<Object*> FileSystem::OnReadObjects(const std::string& filepath)
 	{
 		/* Open a Filestream. */
 		std::fstream fileStream;
@@ -402,17 +294,18 @@ namespace Kross
 		std::string objLayer;
 
 		std::string transformData;
-		List<std::string> animatorData;
-		List<std::string> audioPlayerData;
-		List<std::string> cameraData;
-		List<std::string> rigidbodyData;
-		List<std::string> spriteRendererData;
-		List<std::string> textRendererData;
-		List<std::string> tileMapRendererData;
-		List<std::string> particleEmitterData;
+		std::vector<std::string> animatorData;
+		std::vector<std::string> audioPlayerData;
+		std::vector<std::string> cameraData;
+		std::vector<std::string> rigidbodyData;
+		std::vector<std::string> spriteRendererData;
+		std::vector<std::string> textRendererData;
+		std::vector<std::string> tileMapRendererData;
+		std::vector<std::string> particleEmitterData;
+		std::vector<std::string> playerControllerData;
 
 
-		List<Object*> readInObjects;
+		std::vector<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
 
 		/* If the File Stream is Open. */
@@ -465,7 +358,7 @@ namespace Kross
 					if (animatorData.size() > 0)
 					{
 						/* Access all animators on the Object. */
-						List<Animator*> animators = currentObject->GetComponents<Animator>();
+						std::vector<Animator*> animators = currentObject->GetComponents<Animator>();
 						for (int i = 0; i < animatorData.size(); i++)
 						{
 							/* Quick Variables. */
@@ -513,7 +406,7 @@ namespace Kross
 					if (audioPlayerData.size() > 0)
 					{
 						/* Grab all of the Audio Players on the Object. */
-						List<AudioPlayer*> audioPlayers = currentObject->GetComponents<AudioPlayer>();
+						std::vector<AudioPlayer*> audioPlayers = currentObject->GetComponents<AudioPlayer>();
 
 						/* Run through the List of Data. */
 						for (int i = 0; i < audioPlayerData.size(); i++)
@@ -591,7 +484,7 @@ namespace Kross
 					if (cameraData.size() > 0)
 					{
 						/* Grab all of the Cameras on the Object. */
-						List<Camera*> cameras = currentObject->GetComponents<Camera>();
+						std::vector<Camera*> cameras = currentObject->GetComponents<Camera>();
 
 						/* Go through all Camera Data. */
 						for (int i = 0; i < cameraData.size(); i++)
@@ -746,7 +639,7 @@ namespace Kross
 					if (spriteRendererData.size() > 0)
 					{
 						/* Get all Sprite Renderers on this Obejct. */
-						List<SpriteRenderer*> renderers = currentObject->GetComponents<SpriteRenderer>();
+						std::vector<SpriteRenderer*> renderers = currentObject->GetComponents<SpriteRenderer>();
 
 						/* Go through all of the Data. */
 						for (int i = 0; i < spriteRendererData.size(); i++)
@@ -854,7 +747,7 @@ namespace Kross
 					if (textRendererData.size() > 0)
 					{
 						/* Get all of the Text Renderers on the Object. */
-						List<TextRenderer*> renderers = currentObject->GetComponents<TextRenderer>();
+						std::vector<TextRenderer*> renderers = currentObject->GetComponents<TextRenderer>();
 
 						/* Run through the Data. */
 						for (int i = 0; i < textRendererData.size(); i++)
@@ -959,7 +852,7 @@ namespace Kross
 					if (tileMapRendererData.size() > 0)
 					{
 						/* Get all Tile Map Renderers on the Object. */
-						List<TileMapRenderer*> renderers = currentObject->GetComponents<TileMapRenderer>();
+						std::vector<TileMapRenderer*> renderers = currentObject->GetComponents<TileMapRenderer>();
 
 						/* Go through the Data. */
 						for (int i = 0; i < tileMapRendererData.size(); i++)
@@ -1080,9 +973,16 @@ namespace Kross
 									emitterproperties->SetRadius(radFlt);
 									break;
 								}
+								case 4:
+								{
+									int count = std::stoi(value);
+									emitterproperties->SetMaxCount(count);
+									break;
+								}
 								}
 
 								emitterproperties->SetColliderFilters(cBts,mBts);
+								//edmitterproperties->Sys
 
 
 
@@ -1096,11 +996,101 @@ namespace Kross
 
 					}
 
+					if (playerControllerData.size() > 0)
+					{
+						/* Get the Player Controller on the Object. */
+						PlayerController* controller = currentObject->GetComponent<PlayerController>();
+
+						/* Run through the Data. */
+						for (int i = 0; i < playerControllerData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = playerControllerData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Data Value. */
+								std::string value = playerControllerData[i].substr(0, searchPosition);
+
+								switch (varSwitch)
+								{
+									/* Particle Flags. */
+								case 0:
+								{
+									std::string data = value;
+									data.erase(remove(data.begin(), data.end(), '['), data.end());
+									data.erase(remove(data.begin(), data.end(), ']'), data.end());
+
+									std::vector<int> rawLayerData;
+
+									size_t searchPositionData = 0;
+									std::string divider = ",";
+									while ((searchPositionData = data.find(divider)) != std::string::npos)
+									{
+										std::string dataValue = data.substr(0, searchPositionData);
+										rawLayerData.push_back(std::stoi(dataValue));
+
+										data.erase(0, searchPositionData + divider.length());
+									}
+
+									rawLayerData.push_back(std::stoi(data));
+
+									for (int j = 0; j < rawLayerData.size(); j++)
+									{
+										controller->AttachJumpResetLayer((Layer)rawLayerData[j]);
+									}
+									break;
+								}
+
+								/* CatBits read in. */
+								case 1:
+								{
+
+									int maxJumpCount = std::stoi(value);
+									controller->SetMaxJumpCount(maxJumpCount);
+									break;
+								}
+
+								/* MaskBits readIn. */
+								case 2:
+								{
+									float groundSpeed = std::stof(value);
+									controller->SetGroundSpeed(groundSpeed);
+									break;
+								}
+
+								/* Radius Setting. */
+								case 3:
+								{
+									float airSpeed = std::stof(value);
+									controller->SetAirSpeed(airSpeed);
+									break;
+								}
+								case 4:
+								{
+									float jumpStrength = std::stof(value);
+									controller->SetJumpStrength(jumpStrength);
+									break;
+								}
+								}
+
+								/* Erase the Data just Used. */
+								playerControllerData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
 					/* Go through the Transform Data. */
 					if (!transformData.empty())
 					{
 						/* Grab the Transform. */
-						Transform2D* transform = currentObject->GetTransform();
+						Transform2D* transform = currentObject->m_Transform;
 
 						/* Quick Variables. */
 						size_t searchPosition = 0;
@@ -1168,7 +1158,7 @@ namespace Kross
 					textRendererData.clear();
 					tileMapRendererData.clear();
 					particleEmitterData.clear();
-
+					playerControllerData.clear();
 					transformData = "";
 
 					readInObjects.push_back(currentObject);
@@ -1256,14 +1246,14 @@ namespace Kross
 						else if (objProperty == "EMITTER") 
 						{
 							currentObject->AttachComponent<ParticleEmitter>();
-							currentObject->AttachComponent<ParticleProperties>();
+							//currentObject->AttachComponent<ParticleProperties>();
 							particleEmitterData.push_back(line);
 						}
 
 						else if (objProperty == "SCRIPT")
 						{
 							Script* script = ScriptRegistry::GetScript(line.substr(0, line.size() - 2));
-							script->c_Object = currentObject;
+							script->m_GameObject = currentObject;
 							currentObject->m_Components.push_back(script);
 							Debug::LogLine(script->GetName() + " - Script was attached!");
 						}
@@ -1272,6 +1262,12 @@ namespace Kross
 						else if (objProperty == "TRANSFORM2D")
 						{
 							transformData = line;
+						}
+
+						else if (objProperty == "PLAYER-CONTROLLER")
+						{
+							currentObject->AttachComponent<PlayerController>();
+							playerControllerData.push_back(line);
 						}
 
 					}
@@ -1283,10 +1279,6 @@ namespace Kross
 					varSwitch++;
 				}
 			}
-
-			
-
-			
 
 			/* Debugging Checkpoint. */
 			std::string debugCheckpoint = "50";
@@ -1353,11 +1345,11 @@ namespace Kross
 				fileStream << "STATIC->" + std::to_string((int)(scene->m_ActualObjects[j]->IsStatic())) + "->\n";
 				fileStream << "ENABLE->" + std::to_string((int)(scene->m_ActualObjects[j]->Enabled())) + "->\n";
 				fileStream << "LAYER->" + std::to_string((int)(scene->m_ActualObjects[j]->GetLayer())) + "->\n";
-				fileStream << "TRANSFORM2D->" + std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.x) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Position.y) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Rotation) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.x) + "->" +
-					std::to_string(scene->m_ActualObjects[j]->GetTransform()->m_Scale.y) + "->" + "\n";
+				fileStream << "TRANSFORM2D->" + std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Position.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Position.y) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Rotation) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Scale.x) + "->" +
+					std::to_string(scene->m_ActualObjects[j]->m_Transform->m_Scale.y) + "->" + "\n";
 				
 				for (int k = 0; k < scene->m_ActualObjects[j]->m_Components.size(); k++)
 				{
@@ -1480,8 +1472,29 @@ namespace Kross
 						fileStream << pep->GetParticleFlags() << "->";
 						fileStream << pep->GetColliderFilters()->categoryBits << "->";
 						fileStream << pep->GetColliderFilters()->maskBits << "->";
-						fileStream << pep->GetRadius() << "->\n";
+						fileStream << pep->GetRadius() << "->";
+						fileStream << pep->GetMaxCount() << "->\n";
 
+					}
+					else if (typeid(*comp) == typeid(PlayerController))
+					{
+						PlayerController* controller = (PlayerController*)comp;
+						fileStream << "PLAYER-CONTROLLER->";
+						fileStream << "[";
+						for (int i = 0; i < controller->m_JumpResetLayers.size(); i++)
+						{
+							fileStream << (int)controller->m_JumpResetLayers[i];
+
+							if (i != controller->m_JumpResetLayers.size() - 1)
+							{
+								fileStream << ",";
+							}
+						}
+						fileStream << "]->";
+						fileStream << controller->m_MaxJumpCount << "->";
+						fileStream << controller->m_GroundSpeed << "->";
+						fileStream << controller->m_AirSpeed << "->";
+						fileStream << controller->m_JumpStrength << "->\n";
 					}
 					else
 					{
@@ -1502,103 +1515,6 @@ namespace Kross
 		Debug::LogLine("Objects Saved.");
 	}
 
-	void FileSystem::OnReadTexture(const std::string& filepath)
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Texture from " << filepath <<"..." << std::endl;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-
-		/* Parameter variables. */
-		std::string textureFilepath;
-		std::string textureName;
-		std::string textureType;
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool ignoreFirstLine = true;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* Just so It doesn't read "TEXTURE:". */
-				if (ignoreFirstLine)
-				{
-					ignoreFirstLine = false;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string textureProperty;
-				std::string lineSplitter = "->";
-
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
-				{
-					/* Grab the Property Type. */
-					if (varSwitch == 0)
-						textureProperty = line.substr(0, searchPosition);
-
-					/* Grab the Property Value. */
-					else
-					{
-						if (textureProperty == "NAME")
-							textureName = line.substr(0, searchPosition);
-
-						else if (textureProperty == "FILEPATH")
-							textureFilepath = line.substr(0, searchPosition);
-
-						else if (textureProperty == "TYPE")
-							textureType = line.substr(0, searchPosition);
-					}
-
-
-					line.erase(0, searchPosition + lineSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
-				}
-			}
-
-			if (textureType != "DEFAULT")
-			{
-				if (textureType == "FONTMAP")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::FontMap);
-
-				else if (textureType == "NORMALMAP")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::NormalMap);
-
-				else if (textureType == "SPECULARMAP")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::SpecularMap);
-
-				else if (textureType == "ENGINE")
-					Texture::OnCreate(textureFilepath, textureName, TextureType::Engine);
-			}
-
-			else
-				Texture::OnCreate(textureFilepath, textureName);
-
-			fileStream.close();
-		}
-
-		else
-		{
-			fileStream.close();
-		}
-	}
-
 	void FileSystem::OnReadPrefab(const std::string& filepath)
 	{
 		/* Display what we are loading. */
@@ -1615,13 +1531,13 @@ namespace Kross
 		std::string prefabLayer;
 		
 		std::string transformData;
-		List<std::string> animatorData;
-		List<std::string> audioPlayerData;
-		List<std::string> cameraData;
-		List<std::string> rigidbodyData;
-		List<std::string> spriteRendererData;
-		List<std::string> textRendererData;
-		List<std::string> tileMapRendererData;
+		std::vector<std::string> animatorData;
+		std::vector<std::string> audioPlayerData;
+		std::vector<std::string> cameraData;
+		std::vector<std::string> rigidbodyData;
+		std::vector<std::string> spriteRendererData;
+		std::vector<std::string> textRendererData;
+		std::vector<std::string> tileMapRendererData;
 		
 		/* If the File Stream is Open. */
 		if (fileStream.is_open())
@@ -1757,7 +1673,7 @@ namespace Kross
 			if (animatorData.size() > 0)
 			{
 				/* Access all animators on the Object. */
-				List<Animator*> animators = object->GetComponents<Animator>();
+				std::vector<Animator*> animators = object->GetComponents<Animator>();
 				for (int i = 0; i < animatorData.size(); i++)
 				{
 					/* Quick Variables. */
@@ -1805,7 +1721,7 @@ namespace Kross
 			if (audioPlayerData.size() > 0)
 			{
 				/* Grab all of the Audio Players on the Object. */
-				List<AudioPlayer*> audioPlayers = object->GetComponents<AudioPlayer>();
+				std::vector<AudioPlayer*> audioPlayers = object->GetComponents<AudioPlayer>();
 
 				/* Run through the List of Data. */
 				for (int i = 0; i < audioPlayerData.size(); i++)
@@ -1883,7 +1799,7 @@ namespace Kross
 			if (cameraData.size() > 0)
 			{
 				/* Grab all of the Cameras on the Object. */
-				List<Camera*> cameras = object->GetComponents<Camera>();
+				std::vector<Camera*> cameras = object->GetComponents<Camera>();
 
 				/* Go through all Camera Data. */
 				for (int i = 0; i < cameraData.size(); i++)
@@ -2030,7 +1946,7 @@ namespace Kross
 			if (spriteRendererData.size() > 0)
 			{
 				/* Get all Sprite Renderers on this Obejct. */
-				List<SpriteRenderer*> renderers = object->GetComponents<SpriteRenderer>();
+				std::vector<SpriteRenderer*> renderers = object->GetComponents<SpriteRenderer>();
 
 				/* Go through all of the Data. */
 				for (int i = 0; i < spriteRendererData.size(); i++)
@@ -2138,7 +2054,7 @@ namespace Kross
 			if (textRendererData.size() > 0)
 			{
 				/* Get all of the Text Renderers on the Object. */
-				List<TextRenderer*> renderers = object->GetComponents<TextRenderer>();
+				std::vector<TextRenderer*> renderers = object->GetComponents<TextRenderer>();
 
 				/* Run through the Data. */
 				for (int i = 0; i < textRendererData.size(); i++)
@@ -2243,7 +2159,7 @@ namespace Kross
 			if (tileMapRendererData.size() > 0)
 			{
 				/* Get all Tile Map Renderers on the Object. */
-				List<TileMapRenderer*> renderers = object->GetComponents<TileMapRenderer>();
+				std::vector<TileMapRenderer*> renderers = object->GetComponents<TileMapRenderer>();
 				
 				/* Go through the Data. */
 				for (int i = 0; i < tileMapRendererData.size(); i++)
@@ -2308,7 +2224,7 @@ namespace Kross
 			if (!transformData.empty())
 			{
 				/* Grab the Transform. */
-				Transform2D* transform = object->GetTransform();
+				Transform2D* transform = object->m_Transform;
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2407,11 +2323,11 @@ namespace Kross
 
 		/* Transform is always on an object, and always one. */
 		std::string transformData("TRANSFORM2D->");
-		transformData += std::to_string(prefab->GetTransform()->m_Position.x) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Position.y) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Rotation) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Scale.x) + breakChar;
-		transformData += std::to_string(prefab->GetTransform()->m_Scale.y) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Position.x) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Position.y) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Rotation) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Scale.x) + breakChar;
+		transformData += std::to_string(prefab->m_Transform->m_Scale.y) + breakChar;
 
 		/* Open the Filestream. */
 		std::ofstream prefabStream;
@@ -2617,7 +2533,7 @@ namespace Kross
 		/* Open Raw Data. */
 		fileStream.open(mapRawDataFilepath);
 
-		List<List<int>> dataConverted;
+		std::vector<std::vector<int>> dataConverted;
 
 		if (fileStream.is_open())
 		{
@@ -2630,7 +2546,7 @@ namespace Kross
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
-				List<std::string> data;
+				std::vector<std::string> data;
 				std::string lineSplitter = ",";
 
 				/* Keep Searching till we reach the end of the Line.*/
@@ -2645,7 +2561,7 @@ namespace Kross
 
 				data.push_back(line);
 
-				dataConverted.push_back(List<int>());
+				dataConverted.push_back(std::vector<int>());
 
 				for (int i = 0; i < data.size(); i++)
 				{
@@ -2664,103 +2580,6 @@ namespace Kross
 		/* Attach to resource manager. */
 		ResourceManager::AttachResource<TileMap>(tileMap);
 
-	}
-
-	void FileSystem::OnReadTileSet(const std::string& filepath)
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Tile Set from " << filepath << "..." << std::endl;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-		std::string tileSetName;
-		std::string spriteBaseName;
-		std::string spriteSheetWidth;
-		std::string spriteSheetHeight;
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool hasFirstLine = false;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* Special Case where it reads the first line. */
-				if (!hasFirstLine)
-				{
-					hasFirstLine = true;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string tileSetProperty;
-				std::string lineSplitter = "->";
-
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
-				{
-					/* Grab the Property Type. */
-					if (varSwitch == 0)
-						tileSetProperty = line.substr(0, searchPosition);
-
-					/* Grab the Property Value. */
-					else
-					{
-						if (tileSetProperty == "NAME")
-							tileSetName = line.substr(0, searchPosition);
-
-						else if (tileSetProperty == "SPRITEBASENAME")
-							spriteBaseName = line.substr(0, searchPosition);
-
-						else if (tileSetProperty == "SPRITESHEETWIDTH")
-							spriteSheetWidth = line.substr(0, searchPosition);
-
-						else if (tileSetProperty == "SPRITESHEETHEIGHT")
-							spriteSheetHeight = line.substr(0, searchPosition);
-
-
-					}
-
-
-					line.erase(0, searchPosition + lineSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
-				}
-			}
-
-			fileStream.close();
-		}
-
-		/* Quick Variables. */
-		int width = std::stoi(spriteSheetWidth);
-		int height = std::stoi(spriteSheetHeight);
-		List<Sprite*> sprites;
-
-		for (int y = 0; y < height; y++)
-		{
-			for (int x = 0; x < width; x++)
-			{
-				sprites.push_back(ResourceManager::GetResource<Sprite>(spriteBaseName + std::to_string(x) + "-" + std::to_string(y)));
-			}
-		}
-
-		TileSet* tileSet = TileSet::OnCreate(tileSetName);
-		tileSet->SetSprites(sprites);
-
-		/* Attach to resource manager. */
-		ResourceManager::AttachResource<TileSet>(tileSet);
 	}
 
 	void FileSystem::OnReadSprite(const std::string& filepath)
@@ -2966,96 +2785,6 @@ namespace Kross
 		}
 	}
 
-	void FileSystem::OnReadShader(const std::string& filepath)
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Shader from " << filepath << "..." << std::endl;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-
-		/* Parameter variables. */
-		std::string shaderName;
-		std::string shaderVertex;
-		std::string shaderGeometry;
-		std::string shaderFragment;
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool ignoreFirstLine = true;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* Ignore the first line. */
-				if (ignoreFirstLine)
-				{
-					ignoreFirstLine = false;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string shaderProperty;
-				std::string lineSplitter = "->";
-
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
-				{
-					/* Grab the Property Type. */
-					if (varSwitch == 0)
-						shaderProperty = line.substr(0, searchPosition);
-
-					/* Grab the Property Value. */
-					else
-					{
-						if (shaderProperty == "NAME")
-							shaderName = line.substr(0, searchPosition);
-
-						else if (shaderProperty == "VERTEX")
-							shaderVertex = line.substr(0, searchPosition);
-
-						else if (shaderProperty == "GEOMETRY")
-							shaderGeometry = line.substr(0, searchPosition);
-
-						else if (shaderProperty == "FRAGMENT")
-							shaderFragment = line.substr(0, searchPosition);
-					}
-
-					line.erase(0, searchPosition + lineSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
-				}
-			}
-			Shader* shader = nullptr;
-
-			if (shaderGeometry == "*")
-				shader = Shader::OnCreate(shaderVertex, shaderFragment, shaderName);
-			else
-				shader = Shader::OnCreate(shaderVertex, shaderFragment, shaderGeometry, shaderName);
-
-			ResourceManager::AttachResource<Shader>(shader);
-
-			fileStream.close();
-		}
-
-		else
-		{
-			fileStream.close();
-		}
-	}
-
 	void FileSystem::OnReadMaterial(const std::string& filepath)
 	{
 		/* Display what we are loading. */
@@ -3170,7 +2899,7 @@ namespace Kross
 		/* Parameter variables. */
 		std::string animationName;
 		std::string animationDuration;
-		List<std::string> animationKeyFrameData;
+		std::vector<std::string> animationKeyFrameData;
 
 		if (fileStream.is_open())
 		{
@@ -3406,8 +3135,8 @@ namespace Kross
 
 			int textureCount = OnReadAtlasTextureCount(atlasTextureCountFilepath);
 
-			List<Texture*> textures = ResourceManager::GetTextures();
-			List<TextureType> ignoreTextures = Atlas::GetIgnoreTextureTypes();
+			std::vector<Texture*> textures = ResourceManager::GetTextures();
+			std::vector<TextureType> ignoreTextures = Atlas::GetIgnoreTextureTypes();
 
 			int actualTextureCount = 0;
 
@@ -3542,7 +3271,7 @@ namespace Kross
 		fileStream.open(filepath.c_str());
 		
 		/* Parameter variables. */
-		List<std::string> spriteData;
+		std::vector<std::string> spriteData;
 		
 		if (fileStream.is_open())
 		{
@@ -3675,7 +3404,7 @@ namespace Kross
 		fileStream.open(filepath.c_str());
 
 		/* Parameter variables. */
-		List<std::string> textureData;
+		std::vector<std::string> textureData;
 
 		if (fileStream.is_open())
 		{
@@ -3804,92 +3533,10 @@ namespace Kross
 		texture->SetBitsPerPixel(bpp);
 		
 		/* Finalise the Data. */
-		texture->OnFinalise();
+		texture->Finalise();
 
 		atlas->SetTexture(texture);
 
-	}
-
-	void FileSystem::OnReadAudioSource(const std::string& filepath)
-	{
-		/* Display what we are loading. */
-		std::cout << "Loading Audio Source from " << filepath << "..." << std::endl;
-
-		/* Open a Filestream. */
-		std::fstream fileStream;
-		fileStream.open(filepath.c_str());
-
-		/* Parameter variables. */
-		std::string audioSourceName;
-		std::string audioSourceFilepath;
-		std::string audioSourceStream;
-
-		if (fileStream.is_open())
-		{
-			/* Variables for opening and reading the file. */
-			std::string line;
-
-			bool ignoreFirstLine = true;
-
-			/* Read the file line by line. */
-			while (getline(fileStream, line))
-			{
-				/* Ignore the first line. */
-				if (ignoreFirstLine)
-				{
-					ignoreFirstLine = false;
-					continue;
-				}
-
-				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
-					continue;
-
-				/* Quick Variables. */
-				size_t searchPosition = 0;
-				std::string audioSourceProperty;
-				std::string lineSplitter = "->";
-
-				int varSwitch = 0;
-
-				/* Keep Searching till we reach the end of the Line.*/
-				while ((searchPosition = line.find(lineSplitter)) != std::string::npos && varSwitch != 2)
-				{
-					/* Grab the Property Type. */
-					if (varSwitch == 0)
-						audioSourceProperty = line.substr(0, searchPosition);
-
-					/* Grab the Property Value. */
-					else
-					{
-						if (audioSourceProperty == "NAME")
-							audioSourceName = line.substr(0, searchPosition);
-
-						else if (audioSourceProperty == "FILEPATH")
-							audioSourceFilepath = line.substr(0, searchPosition);
-
-						else if (audioSourceProperty == "STREAM")
-							audioSourceStream = line.substr(0, searchPosition);
-					}
-
-					line.erase(0, searchPosition + lineSplitter.length());
-
-					/* Up the varaible switch. */
-					varSwitch++;
-				}
-			}
-			
-			AudioSource* source = AudioSource::OnCreate(audioSourceFilepath, audioSourceName, std::stoi(audioSourceStream));
-
-			ResourceManager::AttachResource<AudioSource>(source);
-
-			fileStream.close();
-		}
-
-		else
-		{
-			fileStream.close();
-		}
 	}
 
 	bool FileSystem::OnCreateDirectory(const std::string& directory)
@@ -3902,4 +3549,18 @@ namespace Kross
 		return std::filesystem::create_directory(directory);
 	}
 
+	bool FileSystem::FilepathExists(const std::string& filepath)
+	{
+		/* Open Up a File Stream. */
+		std::ifstream fileStream(filepath.c_str());
+
+		/* Check if the File Stream was able to Open.*/
+		bool result = fileStream.good();
+
+		/* Close File Stream. */
+		fileStream.close();
+
+		/* Return the Result. */
+		return result;
+	}
 }

@@ -23,8 +23,8 @@ namespace Kross
 		    Animation Contructor.
 		*/
 		Animation() :
-			m_Keyframes				(List<Keyframe*>()),
-			m_DynamicAnimations		(List<Animation*>()),
+			m_Keyframes				(std::vector<Keyframe*>()),
+			m_DynamicAnimations		(std::vector<Animation*>()),
 			m_Name					("Animation"),
 			m_Duration				(1.0f),
 			m_KeyframeTime			(0.0f),
@@ -37,8 +37,8 @@ namespace Kross
 		*/
 		~Animation();
 
-		List<Keyframe*> m_Keyframes;
-		List<Animation*> m_DynamicAnimations;
+		std::vector<Keyframe*> m_Keyframes;
+		std::vector<Animation*> m_DynamicAnimations;
 
 		std::string m_Name;
 

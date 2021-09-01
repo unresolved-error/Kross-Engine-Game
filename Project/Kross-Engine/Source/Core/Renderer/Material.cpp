@@ -11,9 +11,9 @@ namespace Kross
 {
 	Material::~Material()
 	{
-		p_Diffuse = nullptr;
-		p_Normal = nullptr;
-		p_Specular = nullptr;
+		m_Diffuse = nullptr;
+		m_Normal = nullptr;
+		m_Specular = nullptr;
 	}
 
 	Material* Material::OnCreate(const std::string& name)

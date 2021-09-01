@@ -11,47 +11,47 @@
 
 namespace Kross
 {
-    AudioManager* AudioManager::s_Instance = nullptr;
+    AudioManager* AudioManager::m_Instance = nullptr;
 
     void Kross::AudioManager::OnCreate()
     {
-        if (!s_Instance)
-            s_Instance = KROSS_NEW AudioManager();
+        if (!m_Instance)
+            m_Instance = KROSS_NEW AudioManager();
     }
 
     void Kross::AudioManager::OnStart()
     {
-        s_Instance->p_Soloud = KROSS_NEW SoLoud::Soloud;
-        SoLoud::result result = s_Instance->p_Soloud->init();
+        m_Instance->m_SoloudEngine = KROSS_NEW SoLoud::Soloud;
+        SoLoud::result result = m_Instance->m_SoloudEngine->init();
     }
 
     void Kross::AudioManager::OnShutdown()
     {
-        s_Instance->p_Soloud->deinit();
+        m_Instance->m_SoloudEngine->deinit();
     }
 
     void Kross::AudioManager::OnDestroy()
     {
-        if (s_Instance->p_Soloud)
+        if (m_Instance->m_SoloudEngine)
         {
-            s_Instance->p_Soloud->deinit();
-            delete s_Instance->p_Soloud;
+            m_Instance->m_SoloudEngine->deinit();
+            delete m_Instance->m_SoloudEngine;
         }
 
-        if (s_Instance)
-            delete s_Instance;
+        if (m_Instance)
+            delete m_Instance;
     }
 
     void AudioManager::SetGlobalVolume(float volume)
     {
-        p_Soloud->setGlobalVolume(volume);
+        m_Instance->m_SoloudEngine->setGlobalVolume(volume);
        
     }
 
     float AudioManager::GetGlobalVolume()
     {
 
-        return p_Soloud->getGlobalVolume();
+        return m_Instance->m_SoloudEngine->getGlobalVolume();
          
     }
 
@@ -70,7 +70,7 @@ namespace Kross
         if (result)
         {
             /* Get the Error Message. */
-            const char* errorMessage = s_Instance->p_Soloud->getErrorString(result);
+            const char* errorMessage = m_Instance->m_SoloudEngine->getErrorString(result);
             Debug::LogErrorLine("Audio Source " + audioSource->GetName() + " Failed to Load! Filepath: " + audioSource->GetFilepath());
             Debug::LogErrorLine("[" + std::to_string(result) + "] " + (std::string)errorMessage + "!");
         }

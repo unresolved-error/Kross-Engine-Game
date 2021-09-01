@@ -23,8 +23,21 @@ namespace Kross
 		static void StartGLError() { std::cout << "[OpenGL Error]"; Debug::m_HasEnteredLog = true; };
 
 	public:
+		// Creates a Space.
+		static void Spacing() 
+		{ 
+			#ifdef KROSS_RELEASE 
+			return; 
+			#endif
+
+			std::cout << std::endl; 
+		}
+
 		// Logs a Message.
 		static void Log(std::string message);
+
+		// Logs a Message.
+		static void Log(const char* message);
 
 		// Logs a Message. (Bool)
 		static void Log(bool value);
@@ -58,6 +71,9 @@ namespace Kross
 
 		// Logs a Message on a single line.
 		static void LogLine(std::string message);
+
+		// Logs a Message on a single line.
+		static void LogLine(const char* message);
 
 		// Logs a Message on a single line. (Bool)
 		static void LogLine(bool value);

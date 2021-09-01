@@ -13,9 +13,9 @@ namespace Kross
 {
     struct KROSS_API AABBCollisionData
     {
-        List<b2Fixture*> m_Fixture;
+        std::vector<b2Fixture*> m_Fixture;
         const b2ParticleSystem* p_ParticleSystem = nullptr;
-        List<int> m_ParticleIndexs;
+        std::vector<int> m_ParticleIndexs;
         bool m_Collision = false;
     };
 }

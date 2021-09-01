@@ -66,19 +66,20 @@ namespace Kross
         RaycastData* p_RayData;
         AABBCollisionData* p_AABBCollisionData;
 
-        List<AABBCollisionData*> m_AABBCollisions;
-        List<Body*> m_CloseObjects;
-        List<Body*> m_TileColliders;
-        List<Box*> m_TileShapes;
-        List<Circle*> m_TileCornerShapes;
-        List<FixtureDef*> m_Fixtures;
-        List<Body*> m_Bodies;
+        std::vector<AABBCollisionData*> m_AABBCollisions;
+        std::vector<Body*> m_CloseObjects;
+        std::vector<Body*> m_TileColliders;
+        std::vector<Box*> m_TileShapes;
+        std::vector<Circle*> m_TileCornerShapes;
+        std::vector<FixtureDef*> m_Fixtures;
+        std::vector<Body*> m_Bodies;
 
         float m_Friction = 0.5f;
 
     protected:
         friend class PhysicsScene;
         friend class Scene;
+        friend class PlayerController;
 
         friend class Object;
 

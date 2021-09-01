@@ -19,24 +19,20 @@ namespace Kross
 		}
 
 		/* Null everything out. */
-		p_AnimationCurrent = nullptr;
-		p_Renderer = nullptr;
-		p_Transform = nullptr;
+		m_AnimationCurrent = nullptr;
+		m_SpriteRenderer = nullptr;
+		m_Rigidbody = nullptr;
 	}
 
 	void Animator::OnStart()
 	{
-		/* Grab the Object. */
-		Object* gameObject = (Object*)c_Object;
-
 		/* Get the Components needed. */
-		p_Rigidbody = gameObject->GetComponent<Rigidbody2D>();
-		p_Renderer = gameObject->GetComponent<SpriteRenderer>();
-		p_Transform = gameObject->GetTransform();
+		m_Rigidbody = m_GameObject->GetComponent<Rigidbody2D>();
+		m_SpriteRenderer = m_GameObject->GetComponent<SpriteRenderer>();
 
 		/* Play the Current Animation. */
-		if(p_AnimationCurrent)
-			p_AnimationCurrent->Play();
+		if(m_AnimationCurrent)
+			m_AnimationCurrent->Play();
 	}
 
 	void Animator::OnUpdate()
@@ -45,34 +41,34 @@ namespace Kross
 		#ifndef KROSS_EDITOR
 
 		/* If the Animation is Currently Playing. */
-		if (p_AnimationCurrent->IsPlaying())
+		if (m_AnimationCurrent->IsPlaying())
 		{
 			/* Update the Animation. */
-			p_AnimationCurrent->OnUpdate();
+			m_AnimationCurrent->OnUpdate();
 
 			/* Grab the Current Keyframe. */
-			Keyframe* currentKeyframe = p_AnimationCurrent->GetCurrentKeyframe();
+			Keyframe* currentKeyframe = m_AnimationCurrent->GetCurrentKeyframe();
 
 			/* If the object doesn't contain a Rigidbody or isn't static. */
-			if (!p_Rigidbody && !c_Object->IsStatic())
+			if (!m_Rigidbody && !m_GameObject->IsStatic())
 			{
 				/* If the Position Data has been set. */
-				if (currentKeyframe->HasPositionData())
-					p_Transform->m_Position = currentKeyframe->GetPosition();
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::PositionData)
+					m_GameObject->m_Transform->m_Position = currentKeyframe->GetPosition();
 
 				/* If the Rotation Data has been set. */
-				if (currentKeyframe->HasRotationData())
-					p_Transform->m_Rotation = currentKeyframe->GetRotation();
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::RotationData)
+					m_GameObject->m_Transform->m_Rotation = currentKeyframe->GetRotation();
 
 				/* If the Scale Data has been set. */
-				if (currentKeyframe->HasScaleData())
-					p_Transform->m_Scale = currentKeyframe->GetScale();
+				if (currentKeyframe->GetFlags() & KeyframeDataFlags::ScaleData)
+					m_GameObject->m_Transform->m_Scale = currentKeyframe->GetScale();
 			}
 
 			/* If the Sprite Data has been set. */
-			if (currentKeyframe->HasSpriteData())
-				if (p_Renderer) /* If we have a Renderer, set its Sprite. */
-					p_Renderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
+			if (currentKeyframe->GetFlags() & KeyframeDataFlags::SpriteData)
+				if (m_SpriteRenderer) /* If we have a Renderer, set its Sprite. */
+					m_SpriteRenderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
 		}
 		#endif 
 
@@ -81,29 +77,29 @@ namespace Kross
 	void Animator::Play()
 	{
 		/* If the Current Animation isn't playing. */
-		if (!p_AnimationCurrent->IsPlaying())
-			p_AnimationCurrent->Play(); /* Play it. */
+		if (!m_AnimationCurrent->IsPlaying())
+			m_AnimationCurrent->Play(); /* Play it. */
 	}
 
 	void Animator::Pause()
 	{
 		/* If the Current Animation is playing. */
-		if (p_AnimationCurrent->IsPlaying())
-			p_AnimationCurrent->Pause(); /* Pause it. */
+		if (m_AnimationCurrent->IsPlaying())
+			m_AnimationCurrent->Pause(); /* Pause it. */
 	}
 
 	void Animator::Stop()
 	{
 		/* If the Current Animation is playing. */
-		if (!p_AnimationCurrent->IsPlaying())
-			p_AnimationCurrent->Stop(); /* Stop it. */
+		if (!m_AnimationCurrent->IsPlaying())
+			m_AnimationCurrent->Stop(); /* Stop it. */
 	}
 
 	void Animator::AttachAnimation(Animation* animation)
 	{
 		/* If this is the first animation to be added. */
 		if (m_Animations.size() == 0)
-			p_AnimationCurrent = animation; /* Set it as the current. */
+			m_AnimationCurrent = animation; /* Set it as the current. */
 
 		/* Add it to the List. */
 		m_Animations.push_back(animation);
@@ -144,17 +140,17 @@ namespace Kross
 		Animation* animation = m_Animations[index];
 
 		/* If the Animation is the same as the Current, early out. */
-		if (p_AnimationCurrent == animation)
+		if (m_AnimationCurrent == animation)
 			return;
 
 		// TODO: Dynamic stuff...
 
 		/* Stop the Current Animation. */
-		p_AnimationCurrent->Stop();
+		m_AnimationCurrent->Stop();
 
 		/* Set and Play the other one. */
-		p_AnimationCurrent = animation;
-		p_AnimationCurrent->Play();
+		m_AnimationCurrent = animation;
+		m_AnimationCurrent->Play();
 	}
 
 	void Animator::SetCurrentAnimation(const std::string& name)

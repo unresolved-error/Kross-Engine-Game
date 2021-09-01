@@ -90,10 +90,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Sprites"))
 					{
 						/* Go through all of the Sprites. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_Sprites.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_Sprites.size(); i++)
 						{
 							/* Current Sprite being looked at. */
-							Sprite* sprite = ResourceManager::s_Instance->m_Sprites[i];
+							Sprite* sprite = ResourceManager::m_Instance->m_Sprites[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Sprite is the Selected One. */
 							if (ImGui::TreeNodeEx(sprite->GetName().c_str(), (sprite == p_SelectedSprite) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
@@ -119,10 +119,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Textures"))
 					{
 						/* Go through all of the Textures. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_Textures.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_Textures.size(); i++)
 						{
 							/* Current Texture being looked at. */
-							Texture* texture = ResourceManager::s_Instance->m_Textures[i];
+							Texture* texture = ResourceManager::m_Instance->m_Textures[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Texture is the Selected One. */
 							if (ImGui::TreeNodeEx(texture->GetName().c_str(), (texture == p_SelectedTexture) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
@@ -148,10 +148,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Materials"))
 					{
 						/* Go through all of the Materials. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_Materials.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_Materials.size(); i++)
 						{
 							/* Current Material being looked at. */
-							Material* material = ResourceManager::s_Instance->m_Materials[i];
+							Material* material = ResourceManager::m_Instance->m_Materials[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Material is the Selected One. */
 							if (ImGui::TreeNodeEx(material->GetName().c_str(), (material == p_SelectedMaterial) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
@@ -177,10 +177,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Fonts"))
 					{
 						/* Go through all of the Fonts. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_Fonts.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_Fonts.size(); i++)
 						{
 							/* Current Font being looked at. */
-							Font* font = ResourceManager::s_Instance->m_Fonts[i];
+							Font* font = ResourceManager::m_Instance->m_Fonts[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Font is the Selected One. */
 							if (ImGui::TreeNodeEx(font->GetName().c_str(), (font == p_SelectedFont) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
@@ -206,10 +206,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Animations"))
 					{
 						/* Go through all of the Animations. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_Animations.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_Animations.size(); i++)
 						{
 							/* Current Animation being looked at. */
-							Animation* animation = ResourceManager::s_Instance->m_Animations[i];
+							Animation* animation = ResourceManager::m_Instance->m_Animations[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Animation is the Selected One. */
 							if (ImGui::TreeNodeEx(animation->GetName().c_str(), (animation == p_SelectedAnimation) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
@@ -235,10 +235,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Audio Sources"))
 					{
 						/* Go through all of the Audio Sources. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_AudioSources.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_AudioSources.size(); i++)
 						{
 							/* Current Audio Source being looked at. */
-							AudioSource* audioSource = ResourceManager::s_Instance->m_AudioSources[i];
+							AudioSource* audioSource = ResourceManager::m_Instance->m_AudioSources[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Audio Source is the Selected One. */
 							if (ImGui::TreeNodeEx(audioSource->GetName().c_str(), (audioSource == p_SelectedAudioSource) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
@@ -264,10 +264,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Tile Maps"))
 					{
 						/* Go through all of the Tile Maps. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_TileMaps.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_TileMaps.size(); i++)
 						{
 							/* Current Tile Map being looked at. */
-							TileMap* tileMap = ResourceManager::s_Instance->m_TileMaps[i];
+							TileMap* tileMap = ResourceManager::m_Instance->m_TileMaps[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Tile Map is the Selected One. */
 							if (ImGui::TreeNodeEx(tileMap->GetName().c_str(), (tileMap == p_SelectedTileMap) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));
@@ -293,10 +293,10 @@ namespace Kross
 					if (ImGui::TreeNodeEx("Tile Sets"))
 					{
 						/* Go through all of the Tile Sets. */
-						for (int i = 0; i < ResourceManager::s_Instance->m_TileSets.size(); i++)
+						for (int i = 0; i < ResourceManager::m_Instance->m_TileSets.size(); i++)
 						{
 							/* Current Tile Set being looked at. */
-							TileSet* tileSet = ResourceManager::s_Instance->m_TileSets[i];
+							TileSet* tileSet = ResourceManager::m_Instance->m_TileSets[i];
 
 							/* Tree Node, sets the Leaf to be a Selected one if the Current Tile Set is the Selected One. */
 							if (ImGui::TreeNodeEx(tileSet->GetName().c_str(), (tileSet == p_SelectedTileSet) ? ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Leaf));

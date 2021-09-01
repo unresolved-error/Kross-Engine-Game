@@ -8,8 +8,10 @@
 
 #include "../Core.h"
 
+
 #include "../Renderer/Image/Sprite.h"
 #include "../Math/Math.h"
+#include "KeyframeDataFlags.h"
 
 namespace Kross
 {
@@ -22,15 +24,17 @@ namespace Kross
 	private:
 		/* Transform Variables. */
 
-		Vector2 m_Position;		/* 0. */
-		float m_Rotation;		/* 1. */
-		Vector2 m_Scale;		/* 2. */
+		Vector2 m_Position;
+		float m_Rotation;
+		Vector2 m_Scale;
 
 		/* Image Variables. */
-		Sprite* p_Sprite;		/* 3. */
 
-		/* Data Setting information. */
-		List<bool> m_DataSetPoints;
+		Sprite* m_Sprite;
+
+		/* Data Checking information. */
+
+		unsigned short m_DataFlags;
 
 	protected:
 
@@ -42,33 +46,14 @@ namespace Kross
 			m_Position			(Vector2(0.0f)),
 			m_Rotation			(0.0f),
 			m_Scale				(Vector2(1.0f)),
-			p_Sprite			(nullptr),
-			m_DataSetPoints		(List<bool>(4))
-		{
-			/* Go through the Data Points and set them to false. */
-			for (int i = 0; i < m_DataSetPoints.size(); i++)
-				m_DataSetPoints[i] = false;
-		};
+			m_Sprite			(nullptr),
+			m_DataFlags			(KeyframeDataFlags::Empty)
+		{};
 
 		/*!
-			Gets if the Position Data has been set.
+			Gets the Data Flags.
 		*/
-		const bool HasPositionData() const { return m_DataSetPoints[0]; };
-
-		/*!
-			 Gets if the Rotation Data has been set.
-		*/
-		const bool HasRotationData() const { return m_DataSetPoints[1]; };
-
-		/*!
-			Gets if the Scale Data has been set.
-		*/
-		const bool HasScaleData() const { return m_DataSetPoints[2]; };
-
-		/*!
-			Gets if the Sprite Data has been set.
-		*/
-		const bool HasSpriteData() const { return m_DataSetPoints[3]; };
+		unsigned short GetFlags() const { return m_DataFlags; };
 
 		/*!
 			Gets the Position Data.
@@ -88,7 +73,7 @@ namespace Kross
 		/*!
 			Gets the Sprite Data.
 		*/
-		Sprite* GetSprite() const { return p_Sprite; };
+		Sprite* GetSprite() const { return m_Sprite; };
 
 		/*!
 			Set the Position Data.
@@ -99,7 +84,8 @@ namespace Kross
 			m_Position = position;
 
 			/* Acknowledge the Data Point has been set. */
-			m_DataSetPoints[0] = true; 
+			if (!(m_DataFlags & KeyframeDataFlags::PositionData))
+				m_DataFlags |= KeyframeDataFlags::PositionData;
 		}
 
 		/*!
@@ -111,7 +97,8 @@ namespace Kross
 			m_Rotation = rotation;
 
 			/* Acknowledge the Data Point has been set. */
-			m_DataSetPoints[1] = true;
+			if (!(m_DataFlags & KeyframeDataFlags::RotationData))
+				m_DataFlags |= KeyframeDataFlags::RotationData;
 		}
 
 		/*!
@@ -123,7 +110,8 @@ namespace Kross
 			m_Scale = scale;
 
 			/* Acknowledge the Data Point has been set. */
-			m_DataSetPoints[2] = true;
+			if (!(m_DataFlags & KeyframeDataFlags::ScaleData))
+				m_DataFlags |= KeyframeDataFlags::ScaleData;
 		}
 
 		/*!
@@ -132,10 +120,11 @@ namespace Kross
 		void SetSprite(Sprite* sprite)
 		{
 			/* Set Sprite. */
-			p_Sprite = sprite;
+			m_Sprite = sprite;
 
 			/* Acknowledge the Data Point has been set. */
-			m_DataSetPoints[3] = true;
+			if (!(m_DataFlags & KeyframeDataFlags::SpriteData))
+				m_DataFlags |= KeyframeDataFlags::SpriteData;
 		}
 
 		/*!
@@ -147,7 +136,8 @@ namespace Kross
 			m_Position = Vector2(0.0f);
 
 			/* Acknowledge the Data Point has been reset. */
-			m_DataSetPoints[0] = false;
+			if (m_DataFlags & KeyframeDataFlags::PositionData)
+				m_DataFlags &= ~KeyframeDataFlags::PositionData;
 		}
 
 		/*!
@@ -159,7 +149,8 @@ namespace Kross
 			m_Rotation = 0.0f;
 
 			/* Acknowledge the Data Point has been reset. */
-			m_DataSetPoints[1] = false;
+			if (m_DataFlags & KeyframeDataFlags::RotationData)
+				m_DataFlags &= ~KeyframeDataFlags::RotationData;
 		}
 
 		/*!
@@ -171,7 +162,8 @@ namespace Kross
 			m_Scale = Vector2(1.0f);
 
 			/* Acknowledge the Data Point has been reset. */
-			m_DataSetPoints[2] = false;
+			if (m_DataFlags & KeyframeDataFlags::ScaleData)
+				m_DataFlags &= ~KeyframeDataFlags::ScaleData;
 		}
 
 		/*!
@@ -180,10 +172,11 @@ namespace Kross
 		void ClearSprite()
 		{
 			/* Set Scale. */
-			p_Sprite = nullptr;
+			m_Sprite = nullptr;
 
 			/* Acknowledge the Data Point has been reset. */
-			m_DataSetPoints[3] = false;
+			if (m_DataFlags & KeyframeDataFlags::SpriteData)
+				m_DataFlags &= ~KeyframeDataFlags::SpriteData;
 		}
 	};
 }

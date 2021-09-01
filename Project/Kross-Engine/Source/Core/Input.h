@@ -147,17 +147,23 @@ namespace Kross
 	class KROSS_API Input
 	{
 	private:
-		Input() {}
+		Input() :
+			m_Window				(nullptr),
+			m_Scroll				(0.0f),
+			m_KeyStateCache			(std::unordered_map<Key, int>()),
+			m_ControllerStateCache	(std::unordered_map<Controller, int>()),
+			m_MouseStateCache		(std::unordered_map<Mouse, int>())
+		{}
 		~Input() {}
 
-		static Input* s_Instance;
-		static Window* s_Window;
+		static Input* m_Instance;
 
-		static float s_Scroll;
+		Window* m_Window;
+		float m_Scroll;
 
-		static std::unordered_map<Key, int> s_KeyStateCache;
-		static std::unordered_map<Controller, int> s_ControllerStateCache;
-		static std::unordered_map<Mouse, int> s_MouseStateCache;
+		std::unordered_map<Key, int> m_KeyStateCache;
+		std::unordered_map<Controller, int> m_ControllerStateCache;
+		std::unordered_map<Mouse, int> m_MouseStateCache;
 
 	protected:
 		friend class Application;
@@ -174,7 +180,7 @@ namespace Kross
 		static void SetWindow(Window* window);
 
 		// Sets the Scroll Wheel Value.
-		static void SetScrollValue(float value) { s_Scroll = value; };
+		static void SetScrollValue(float value) { m_Instance->m_Scroll = value; };
 
 	public:
 		/* ---- AXIS ---- */

@@ -23,6 +23,18 @@ namespace Kross
 		std::cout << " " << message;
 	}
 
+	void Debug::Log(const char* message)
+	{
+		#ifdef KROSS_RELEASE
+		return;
+		#endif
+
+		if (!Debug::m_HasEnteredLog)
+			Debug::StartLog();
+
+		std::cout << " " << message;
+	}
+
 	void Debug::Log(bool value)
 	{
 		#ifdef KROSS_RELEASE
@@ -189,6 +201,12 @@ namespace Kross
 	}
 
 	void Debug::LogLine(std::string message)
+	{
+		Log(message);
+		EndLine();
+	}
+
+	void Debug::LogLine(const char* message)
 	{
 		Log(message);
 		EndLine();

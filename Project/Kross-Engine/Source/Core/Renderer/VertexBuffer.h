@@ -24,12 +24,12 @@ namespace Kross
 		~VertexBuffer();
 
 		// Binds the Vertex Buffer.
-		void Attach();
+		void Bind();
 
-		// Un Binds the current Vertext Buffer.
-		static void Detach();
+		// Un Binds the all Vertex Buffers.
+		static void UnBind();
 
 		// Adds data to the Vertex Buffer.
-		void AttachVertexData(const void* data, unsigned int size);
+		void SetVertexData(const void* data, unsigned int size);
 	};
 }

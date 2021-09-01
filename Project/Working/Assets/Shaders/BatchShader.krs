@@ -1,5 +1,6 @@
 SHADER:
 NAME->BatchShader->
+TYPE->0->
 VERTEX->Resources/Shaders/batch.vert->
-GEOMETRY->*->
+GEOMETRY->->
 FRAGMENT->Resources/Shaders/batch.frag->

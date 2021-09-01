@@ -19,13 +19,14 @@ namespace Kross
     protected:
 
         friend class FileSystem;
+        template<typename Type> friend class Serialiser;
 
 
         std::string m_Name;
-        List<Sprite*> m_Sprites;
+        std::vector<Sprite*> m_Sprites;
 
         void SetName(std::string name) { m_Name = name; };
-        void SetSprites(List<Sprite*> sprites) { m_Sprites = sprites; };
+        void SetSprites(std::vector<Sprite*> sprites) { m_Sprites = sprites; };
 
 
     private:
@@ -41,7 +42,7 @@ namespace Kross
         static void OnDestroy(TileSet* tileSet);
         std::string GetName()const { return m_Name; };
 
-        List<Sprite*> GetSprite()const { return m_Sprites; };
+        std::vector<Sprite*> GetSprite()const { return m_Sprites; };
 
     };
 }

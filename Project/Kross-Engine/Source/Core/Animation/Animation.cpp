@@ -88,8 +88,8 @@ namespace Kross
 	}
 
 	Animation::Animation(const Animation& other) :
-		m_Keyframes				(List<Keyframe*>()),
-		m_DynamicAnimations		(List<Animation*>()),
+		m_Keyframes				(std::vector<Keyframe*>()),
+		m_DynamicAnimations		(std::vector<Animation*>()),
 		m_Name					("Animation"),
 		m_Duration				(1.0f),
 		m_KeyframeTime			(0.0f),

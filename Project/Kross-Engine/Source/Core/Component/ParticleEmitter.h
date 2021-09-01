@@ -55,7 +55,7 @@ namespace Kross
         ParticleSystem* GetParticleSystem() { return p_ParticleSystem; }
 
         /* Creates the particle */
-        void SpawnParticle(ParticleDef particleDef);
+        void SpawnParticle(ParticleDef particleDef, float particleSize, int particleCount);
         void SpawnParticle(ParticleGroupDef particleDef);
         
     };

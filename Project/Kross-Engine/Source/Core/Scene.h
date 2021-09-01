@@ -22,43 +22,43 @@ namespace Kross
 		Scene(const std::string& name) : 
 			m_Name					(name), 
 			m_Started				(false), 
-			m_Objects				(List<Object*>()), 
-			m_StaticObjects			(List<Object*>()),
-			m_ActualObjects			(List<Object*>()),
-			p_DebugRenderer			(KROSS_NEW LineRenderer()),
-			p_DebugShader			(nullptr),
+			m_Objects				(std::vector<Object*>()), 
+			m_StaticObjects			(std::vector<Object*>()),
+			m_ActualObjects			(std::vector<Object*>()),
+			m_DebugRenderer			(KROSS_NEW LineRenderer()),
+			m_DebugShader			(nullptr),
 			#ifdef KROSS_EDITOR
-			p_EditorCamera			(nullptr),
+			m_EditorCamera			(nullptr),
 			#endif
-			p_Camera				(nullptr), 
-			p_Physics				(KROSS_NEW PhysicsScene()), 
-			p_WorldFilter			(KROSS_NEW ContactFilter())
+			m_Camera				(nullptr), 
+			m_Physics				(KROSS_NEW PhysicsScene()), 
+			m_WorldFilter			(KROSS_NEW ContactFilter())
 		{
 			/* Sets the physics world for Box2D */
 			//World* world = KROSS_NEW World({ 0.0f, -9.8f });
 			World* world = KROSS_NEW World({ 0.0f, 0.0f });
-			world->SetContactFilter(p_WorldFilter);
-			p_Physics->SetPhysicsWorld(world);
+			world->SetContactFilter(m_WorldFilter);
+			m_Physics->SetPhysicsWorld(world);
 
 			/* Sets a default particle system */
 			ParticleSystemDef particleSystemDef;
 			ParticleSystem* particleSystem = world->CreateParticleSystem(&particleSystemDef);
-			p_Physics->AddParticleSystem(particleSystem);
+			m_Physics->AddParticleSystem(particleSystem);
 
 			/* Sets the particle contact filters */
 
 			/* Add lists on every Layer for Rendering. */
 			for (int i = 0; i < (int)Layer::Count; i++)
 			{
-				m_RenderList.push_back(List<Renderer*>());
+				m_RenderList.push_back(std::vector<Renderer*>());
 				m_BatchRenderers.push_back(BatchRenderer::OnCreate((Layer)i));
 			}
 
 			#ifdef KROSS_EDITOR
-			p_EditorCamera = Object::OnCreate("EditorCamera");
-			p_EditorCamera->AttachComponent<Camera>();
+			m_EditorCamera = Object::OnCreate("EditorCamera");
+			m_EditorCamera->AttachComponent<Camera>();
 
-			p_Camera = p_EditorCamera;
+			m_Camera = m_EditorCamera;
 			#endif
 
 		};
@@ -68,28 +68,28 @@ namespace Kross
 
 		bool m_Started;
 
-		List<Object*> m_Objects;
-		List<Object*> m_StaticObjects;
+		std::vector<Object*> m_Objects;
+		std::vector<Object*> m_StaticObjects;
 
 		// Editor Purposes only!
-		List<Object*> m_ActualObjects;
+		std::vector<Object*> m_ActualObjects;
 
 		// List of Layer Groups.
-		List<List<Renderer*>> m_RenderList; /* | Layer | Object | */
+		std::vector<std::vector<Renderer*>> m_RenderList; /* | Layer | Object | */
 
-		List<BatchRenderer*> m_BatchRenderers;
+		std::vector<BatchRenderer*> m_BatchRenderers;
 
-		LineRenderer* p_DebugRenderer;
-		Shader* p_DebugShader;
+		LineRenderer* m_DebugRenderer;
+		Shader* m_DebugShader;
 
-		Object* p_Camera;
+		Object* m_Camera;
 		#ifdef KROSS_EDITOR
-		Object* p_EditorCamera;
+		Object* m_EditorCamera;
 		#endif
 
-		PhysicsScene* p_Physics;
+		PhysicsScene* m_Physics;
 
-		ContactFilter* p_WorldFilter;
+		ContactFilter* m_WorldFilter;
 		
 	protected:
 		friend class SceneManager;
@@ -110,13 +110,13 @@ namespace Kross
 		void OnRender();
 
 		// Gets all of the Objects in the Scene.
-		List<Object*> GetObjects() const { return m_ActualObjects; };
+		std::vector<Object*> GetObjects() const { return m_ActualObjects; };
 
 		// Updates the Primary Camera Aspect Ratio.
 		void OnUpdateCameraAspectRatio(float aspectRatio);
 
 		// Places an object in the Render Queue.
-		List<int> AttachObjectToRenderQueue(Object* object);
+		std::vector<int> AttachObjectToRenderQueue(Object* object);
 
 		// Checks if the Object is a Camera Object and sets the Camera.
 		void SetCamera(Object* object);
@@ -159,16 +159,16 @@ namespace Kross
 		Object* FindObject(std::string name);
 
 		// Gets the Main Camera of the Scene.
-		Object* GetCamera() const { return p_Camera; };
+		Object* GetCamera() const { return m_Camera; };
 
 		// Sets the Gravity of the Scene.
-		void SetGravity(float gravity, Vector2 direction) { direction = glm::normalize(direction);  p_Physics->p_PhysicsWorld->SetGravity({ direction.x * gravity, direction.y * gravity }); };
+		void SetGravity(float gravity, Vector2 direction) { direction = glm::normalize(direction);  m_Physics->p_PhysicsWorld->SetGravity({ direction.x * gravity, direction.y * gravity }); };
 
 		// Gets the Direction of the Gravity.
-		Vector2 GetGravityDirection() const { return glm::normalize(Vector2((float)p_Physics->p_PhysicsWorld->GetGravity().x, (float)p_Physics->p_PhysicsWorld->GetGravity().y)); };
+		Vector2 GetGravityDirection() const { return glm::normalize(Vector2((float)m_Physics->p_PhysicsWorld->GetGravity().x, (float)m_Physics->p_PhysicsWorld->GetGravity().y)); };
 
 		// Gets the Gravity Scalar.
-		float GetGravityScalar() const { return glm::length(Vector2((float)p_Physics->p_PhysicsWorld->GetGravity().x, (float)p_Physics->p_PhysicsWorld->GetGravity().y)); }
+		float GetGravityScalar() const { return glm::length(Vector2((float)m_Physics->p_PhysicsWorld->GetGravity().x, (float)m_Physics->p_PhysicsWorld->GetGravity().y)); }
 	};
 
 	// Creates an Empty object and assigns a name to it.

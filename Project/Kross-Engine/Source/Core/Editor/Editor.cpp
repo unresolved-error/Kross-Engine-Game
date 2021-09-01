@@ -10,7 +10,7 @@
 
 namespace Kross
 {
-	Editor* Editor::s_Instance = nullptr;
+	Editor* Editor::m_Instance = nullptr;
 
 	Editor::~Editor()
 	{
@@ -24,14 +24,14 @@ namespace Kross
 
 	void Editor::OnCreate()
 	{
-		if (!s_Instance)
-			s_Instance = KROSS_NEW Editor();
+		if (!m_Instance)
+			m_Instance = KROSS_NEW Editor();
 	}
 
 	void Editor::OnDestroy()
 	{
-		if (s_Instance)
-			delete s_Instance;
+		if (m_Instance)
+			delete m_Instance;
 	}
 
 	void Editor::OnStart(Window* window)
@@ -44,21 +44,21 @@ namespace Kross
 		ImGui_ImplOpenGL3_Init("#version 460");
 
 		/* Starts the Editor Windows. */
-		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
-			s_Instance->m_EditorWindows[i]->OnStart();
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
+			m_Instance->m_EditorWindows[i]->OnStart();
 
 		/* Editor has Started. */
-		s_Instance->m_IsUpdating = true;
+		m_Instance->m_IsUpdating = true;
 	}
 
 	void Editor::OnUpdate()
 	{
 		/* Gets the Main Viewport. */
-		s_Instance->p_Viewport = ImGui::GetMainViewport();
+		m_Instance->p_Viewport = ImGui::GetMainViewport();
 
 		/* Attach all of the Editor Windows to the ImGui Render Queue. */
-		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
-			s_Instance->m_EditorWindows[i]->Attach();
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
+			m_Instance->m_EditorWindows[i]->Attach();
 	}
 
 	void Editor::NewFrame()
@@ -71,28 +71,28 @@ namespace Kross
 
 	void Editor::AttachEditorWindow(EditorWindow* window)
 	{
-		s_Instance->m_EditorWindows.push_back(window);
+		m_Instance->m_EditorWindows.push_back(window);
 
 		if (typeid(*window) == typeid(ObjectEditor))
-			s_Instance->p_ObjectEditor = (ObjectEditor*)window;
+			m_Instance->p_ObjectEditor = (ObjectEditor*)window;
 
 		if (typeid(*window) == typeid(MainMenu))
-			s_Instance->p_MainMenu = (MainMenu*)window;
+			m_Instance->p_MainMenu = (MainMenu*)window;
 
 		if (typeid(*window) == typeid(AssetPanel))
-			s_Instance->p_AssetPanel = (AssetPanel*)window;
+			m_Instance->p_AssetPanel = (AssetPanel*)window;
 
-		if (s_Instance->m_IsUpdating)
+		if (m_Instance->m_IsUpdating)
 			window->OnStart();
 	}
 	void Editor::DetachEditorWindow(EditorWindow* window)
 	{
-		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
 		{
-			if (s_Instance->m_EditorWindows[i] == window)
+			if (m_Instance->m_EditorWindows[i] == window)
 			{
-				delete s_Instance->m_EditorWindows[i];
-				s_Instance->m_EditorWindows.erase(s_Instance->m_EditorWindows.begin() + i);
+				delete m_Instance->m_EditorWindows[i];
+				m_Instance->m_EditorWindows.erase(m_Instance->m_EditorWindows.begin() + i);
 				break;
 			}
 		}
@@ -100,16 +100,16 @@ namespace Kross
 
 	Vector2 Editor::GetViewportPosition()
 	{
-		if(s_Instance->p_Viewport)
-			return Vector2(s_Instance->p_Viewport->WorkPos.x, s_Instance->p_Viewport->WorkPos.y);
+		if(m_Instance->p_Viewport)
+			return Vector2(m_Instance->p_Viewport->WorkPos.x, m_Instance->p_Viewport->WorkPos.y);
 
 		return Vector2(0);
 	}
 
 	Vector2 Editor::GetViewportSize()
 	{
-		if (s_Instance->p_Viewport)
-			return Vector2(s_Instance->p_Viewport->WorkSize.x, s_Instance->p_Viewport->WorkSize.y);
+		if (m_Instance->p_Viewport)
+			return Vector2(m_Instance->p_Viewport->WorkSize.x, m_Instance->p_Viewport->WorkSize.y);
 
 		return Vector2(0);
 	}
@@ -123,9 +123,9 @@ namespace Kross
 
 	void Editor::SetScene(Scene* scene)
 	{
-		for (int i = 0; i < s_Instance->m_EditorWindows.size(); i++)
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
 		{
-			s_Instance->m_EditorWindows[i]->p_Scene = scene;
+			m_Instance->m_EditorWindows[i]->p_Scene = scene;
 		}
 	}
 

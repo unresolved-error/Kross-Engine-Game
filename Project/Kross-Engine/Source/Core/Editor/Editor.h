@@ -17,8 +17,8 @@ namespace Kross
 	class KROSS_API Editor
 	{
 	private:
-		static Editor* s_Instance;
-		List<EditorWindow*> m_EditorWindows;
+		static Editor* m_Instance;
+		std::vector<EditorWindow*> m_EditorWindows;
 		ObjectEditor* p_ObjectEditor;
 		MainMenu* p_MainMenu;
 		AssetPanel* p_AssetPanel;
@@ -28,7 +28,7 @@ namespace Kross
 		ImGuiViewport* p_Viewport;
 
 		Editor() :
-			m_EditorWindows	(List<EditorWindow*>()),
+			m_EditorWindows	(std::vector<EditorWindow*>()),
 			p_ObjectEditor	(nullptr),
 			p_MainMenu		(nullptr),
 			p_AssetPanel	(nullptr),
@@ -59,9 +59,9 @@ namespace Kross
 		static void NewFrame();
 
 	public:
-		static void SetObjectEditorObject(Object* object) { s_Instance->p_ObjectEditor->p_SelectedObject = object; };
-		static void SetMainMenuObject(Object* object) { s_Instance->p_MainMenu->SetSelectedObject(object); };
-		static void SetAssetPanelAssetType(AssetType type) { s_Instance->p_AssetPanel->SetAssetType(type); }
+		static void SetObjectEditorObject(Object* object) { m_Instance->p_ObjectEditor->p_SelectedObject = object; };
+		static void SetMainMenuObject(Object* object) { m_Instance->p_MainMenu->SetSelectedObject(object); };
+		static void SetAssetPanelAssetType(AssetType type) { m_Instance->p_AssetPanel->SetAssetType(type); }
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
 
@@ -70,6 +70,6 @@ namespace Kross
 
 		static Vector2 GetViewportPosition();
 		static Vector2 GetViewportSize();
-		//static void DetachEditorWindow(EditorWindow* window) { s_Instance->m_EditorWindows.push_back(window); };
+		//static void DetachEditorWindow(EditorWindow* window) { m_Instance->m_EditorWindows.push_back(window); };
 	};
 }

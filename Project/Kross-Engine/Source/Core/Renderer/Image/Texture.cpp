@@ -27,7 +27,7 @@ namespace Kross
 		m_BPP		(0), 
 		m_Name		(""), 
 		m_Filepath	(""),
-		p_PixelData	(nullptr),
+		m_PixelData	(nullptr),
 		m_Type		(TextureType::TextureMap)
 	{
 		glGenTextures(1, &m_TextureID);
@@ -38,9 +38,9 @@ namespace Kross
 		if(m_TextureID != NULL)
 			glDeleteTextures(1, &m_TextureID);
 
-		if (p_PixelData)
+		if (m_PixelData)
 		{
-			delete[] p_PixelData;
+			delete[] m_PixelData;
 		}
 	}
 
@@ -56,10 +56,10 @@ namespace Kross
 			return colour;
 
 		/* Set the Colour data from the Pixel. */
-		colour.r = (float)((int)p_PixelData[(x + (y * m_Width)) * 4 + 0]) / 255.0f;
-		colour.g = (float)((int)p_PixelData[(x + (y * m_Width)) * 4 + 1]) / 255.0f;
-		colour.b = (float)((int)p_PixelData[(x + (y * m_Width)) * 4 + 2]) / 255.0f;
-		colour.a = (float)((int)p_PixelData[(x + (y * m_Width)) * 4 + 3]) / 255.0f;
+		colour.r = (float)((int)m_PixelData[(x + (y * m_Width)) * 4 + 0]) / 255.0f;
+		colour.g = (float)((int)m_PixelData[(x + (y * m_Width)) * 4 + 1]) / 255.0f;
+		colour.b = (float)((int)m_PixelData[(x + (y * m_Width)) * 4 + 2]) / 255.0f;
+		colour.a = (float)((int)m_PixelData[(x + (y * m_Width)) * 4 + 3]) / 255.0f;
 
 		/* Return the Colour. */
 		return colour;
@@ -75,10 +75,10 @@ namespace Kross
 			return;
 
 		/* If not, set the Pixel Data. */
-		p_PixelData[(x + (y * m_Width)) * 4 + 0] = (unsigned char)((int)(colour.r * 255));
-		p_PixelData[(x + (y * m_Width)) * 4 + 1] = (unsigned char)((int)(colour.g * 255));
-		p_PixelData[(x + (y * m_Width)) * 4 + 2] = (unsigned char)((int)(colour.b * 255));
-		p_PixelData[(x + (y * m_Width)) * 4 + 3] = (unsigned char)((int)(colour.a * 255));
+		m_PixelData[(x + (y * m_Width)) * 4 + 0] = (unsigned char)((int)(colour.r * 255));
+		m_PixelData[(x + (y * m_Width)) * 4 + 1] = (unsigned char)((int)(colour.g * 255));
+		m_PixelData[(x + (y * m_Width)) * 4 + 2] = (unsigned char)((int)(colour.b * 255));
+		m_PixelData[(x + (y * m_Width)) * 4 + 3] = (unsigned char)((int)(colour.a * 255));
 	}
 
 	void Texture::OnCreateImageCanvas(int width, int height, int bpp)
@@ -87,18 +87,18 @@ namespace Kross
 		m_Height = height;
 		m_BPP = bpp;
 
-		if (p_PixelData)
-			delete[] p_PixelData;
+		if (m_PixelData)
+			delete[] m_PixelData;
 
-		p_PixelData = KROSS_NEW unsigned char(width * height * bpp);
+		m_PixelData = KROSS_NEW unsigned char(width * height * bpp);
 	}
 
-	void Texture::OnFinalise()
+	void Texture::Finalise()
 	{
 		/* Seeing if the Texture was created properly. */
 		if (GetTextureID() != NULL)
 		{
-			Attach();
+			Bind();
 
 			/* Making the Texture pixel perfect. */
 			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
@@ -111,7 +111,7 @@ namespace Kross
 			/* Set the data. */
 			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, GetWidth(), GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, GetPixelData()));
 
-			Detach();
+			UnBind();
 		}
 
 		/* If not, report that it wasn't. */
@@ -119,7 +119,7 @@ namespace Kross
 			std::cout << "Texture wasn't able to be finalised!" << std::endl;
 	}
 
-	void Texture::Attach()
+	void Texture::Bind()
 	{
 		/* Something is broken. This may be needed else where. */
 		//if (glIsEnabled(GL_TEXTURE_2D) == GL_FALSE)
@@ -132,7 +132,7 @@ namespace Kross
 		OPENGL_CHECK(glBindTexture(GL_TEXTURE_2D, m_TextureID));
 	}
 
-	void Texture::Detach()
+	void Texture::UnBind()
 	{
 		OPENGL_CHECK(glBindTexture(GL_TEXTURE_2D, 0));
 	}
@@ -160,7 +160,7 @@ namespace Kross
 		/* Seeing if the Texture was created properly. */
 		if (texture->GetTextureID() != NULL)
 		{
-			texture->Attach();
+			texture->Bind();
 
 			/* Making the Texture pixel perfect. */
 			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
@@ -173,7 +173,7 @@ namespace Kross
 			/* Set the data. */
 			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData()));
 
-			texture->Detach();
+			texture->UnBind();
 
 			/* Add it to the  Resource Manager. */
 			ResourceManager::AttachResource<Texture>(texture);
@@ -242,7 +242,7 @@ namespace Kross
 		/* Seeing if the Texture was created properly. */
 		if (texture->GetTextureID() != NULL)
 		{
-			texture->Attach();
+			texture->Bind();
 
 			/* Making the Texture pixel perfect. */
 			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
@@ -255,7 +255,7 @@ namespace Kross
 			/* Set the data. */
 			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetPixelData()));
 
-			texture->Detach();
+			texture->UnBind();
 
 			/* Add it to the Resource Manager. */
 			ResourceManager::AttachResource<Texture>(texture);
@@ -284,7 +284,7 @@ namespace Kross
 		/* Seeing if the Texture was created properly. */
 		if (texture->GetTextureID() != NULL)
 		{
-			texture->Attach();
+			texture->Bind();
 
 			/* Making the Texture pixel perfect. */
 			OPENGL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
@@ -297,7 +297,7 @@ namespace Kross
 			/* Set the data. */
 			OPENGL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, internal, texture->GetWidth(), texture->GetHeight(), 0, format, type, texture->GetPixelData()));
 
-			texture->Detach();
+			texture->UnBind();
 
 			/* Return the created texture. */
 			return texture;

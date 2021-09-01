@@ -115,7 +115,7 @@ namespace Kross
 		float startPoint = 0.0f;
 		
 		/* Object Variables. */
-		Vector2 objectPosition = c_Object->GetTransform()->m_Position;
+		Vector2 objectPosition = m_GameObject->m_Transform->m_Position;
 		
 		/* Get the Starting location for the Text. */
 		switch (m_Alignment)

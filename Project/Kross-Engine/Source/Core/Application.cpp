@@ -8,6 +8,7 @@
 
 #include "Manager/ShaderManager.h"
 #include "Manager/ResourceManager.h"
+#include "File-IO/Manifest.h"
 #include "Manager/SceneManager.h"
 #include "Manager/AudioManager.h"
 #include "Manager/ScriptRegistry.h"
@@ -29,19 +30,19 @@
 
 namespace Kross
 {
-	Application*	Application::s_Instance =	nullptr;
+	Application*	Application::m_Instance =	nullptr;
 
 	Application::Application(const std::string& title, int width, int height) :
-		p_Window	(KROSS_NEW Window())
+		m_Window	(KROSS_NEW Window())
 	{
-		p_Window->SetWidth(width);
-		p_Window->SetHeight(height);
-		p_Window->SetTitle(title);
-		p_Window->SetVSync(1);
+		m_Window->SetWidth(width);
+		m_Window->SetHeight(height);
+		m_Window->SetTitle(title);
+		m_Window->SetVSync(1);
 
 		#ifndef KROSS_EDITOR
-		p_Window->SetFullscreen(0);
-		p_Window->HideCursor();
+		m_Window->SetFullscreen(0);
+		m_Window->HideCursor();
 		#endif
 	}
 
@@ -50,37 +51,40 @@ namespace Kross
 
 	void Application::OnCreate(const std::string& title, int width, int height)
 	{
-		if (!s_Instance)
-			s_Instance = KROSS_NEW Application(title, width, height);
+		if (!m_Instance)
+			m_Instance = KROSS_NEW Application(title, width, height);
 	}
 
 	void Application::OnStart()
 	{
-		s_Instance->p_Window->OnInitialise();
+		m_Instance->m_Window->OnInitialise();
 		ShaderManager::OnCreate();
 		ResourceManager::OnCreate();
 		SceneManager::OnCreate();
 		Time::OnCreate();
 		Input::OnCreate();
-		Input::SetWindow(s_Instance->p_Window);
+		Input::SetWindow(m_Instance->m_Window);
 		Physics::OnCreate();
 		AudioManager::OnCreate();
 		AudioManager::OnStart();
 		Editor::OnCreate();
+		Manifest::OnCreate();
+
+		//ResourceManager::OnReadManifest();
 
 		/* Reads the Manifest File. */
-		ResourceManager::OnReadManifest();
+		Manifest::Load("manifest.krs");
 	}
 
 	void Application::OnUpdate()
 	{
 		/* If the window was successfully Started. Run the Application. */
-		if (s_Instance->p_Window->Initialised())
+		if (m_Instance->m_Window->Initialised() && Manifest::SuccessfulLoad())
 		{
-			Debug::LogLine(std::string() + "Kross Engine Running...");
+			Debug::LogLine("Kross Engine Running...");
 
 			SceneManager::OnStart();
-			Debug::Log(std::string() + "Starting Main Loop...");
+			Debug::Log("Starting Main Loop...");
 			Debug::EndLine();
 
 			#ifdef KROSS_EDITOR
@@ -90,22 +94,19 @@ namespace Kross
 			Editor::AttachEditorWindow(KROSS_NEW AssetDirectory());
 			Editor::AttachEditorWindow(KROSS_NEW AssetPanel());
 
-			Editor::OnStart(s_Instance->p_Window);
+			Editor::OnStart(m_Instance->m_Window);
 			#endif
 
-			FrameBuffer* waterFrameBuff = KROSS_NEW FrameBuffer(1280,720,5);
-
-
 			/* While the window isn't closed */
-			while (!s_Instance->p_Window->Closed())
+			while (!m_Instance->m_Window->Closed())
 			{
-				s_Instance->p_Window->OnStart();
+				m_Instance->m_Window->OnStart();
 
 				Time::OnUpdateDeltaTime();
 
-				SceneManager::OnUpdateSceneCameraAspectRatio(s_Instance->p_Window->GetApsectRatio());
+				SceneManager::OnUpdateSceneCameraAspectRatio(m_Instance->m_Window->GetApsectRatio());
 
-				SceneManager::OnUpdate();
+				SceneManager::OnUpdate(); /* Got to be looked at. */
 
 				#ifndef KROSS_EDITOR
 				SceneManager::OnPhysicsUpdate();
@@ -126,29 +127,39 @@ namespace Kross
 				#endif
 
 				Input::SetScrollValue(0.0f);
-				s_Instance->p_Window->OnPollEvents();
+				m_Instance->m_Window->OnPollEvents();
 
 			}
 		}
 
-		#ifdef KROSS_EDITOR
-		Editor::OnShutdown();
-		#endif
+		else if (!Manifest::SuccessfulLoad())
+		{
+			Debug::Spacing();
+			Debug::LogErrorLine("Failed to Start! Read manifest-log.txt for details.");
+			Debug::Spacing();
+		}
 
 		return;
 	}
 
 	void Application::OnShutdown()
 	{
+		#ifdef KROSS_EDITOR
+		if(Manifest::SuccessfulLoad())
+			Editor::OnShutdown();
+		#endif
+
 		Editor::OnDestroy();
 
-		s_Instance->p_Window->OnShutdown();
+		m_Instance->m_Window->OnShutdown();
 		AudioManager::OnShutdown();
 
 		/* Writes the Manifest. */
 		ResourceManager::OnWriteManifest();
 
 		ResourceManager::OnDestroy();
+
+		Manifest::OnDestroy();
 
 		ScriptRegistry::OnDestroy();
 
@@ -162,7 +173,7 @@ namespace Kross
 
 	void Application::OnDestroy()
 	{
-		if (s_Instance)
-			delete s_Instance;
+		if (m_Instance)
+			delete m_Instance;
 	}
 }

@@ -18,15 +18,15 @@ namespace Kross
     private:
         Material() :
             m_Name          (""),
-            p_Diffuse       (nullptr),
-            p_Normal        (nullptr),
-            p_Specular      (nullptr)
+            m_Diffuse       (nullptr),
+            m_Normal        (nullptr),
+            m_Specular      (nullptr)
         {};
         ~Material();
 
-        Sprite* p_Diffuse;
-        Sprite* p_Normal;
-        Sprite* p_Specular;
+        Sprite* m_Diffuse;
+        Sprite* m_Normal;
+        Sprite* m_Specular;
 
         std::string m_Name;
 
@@ -47,21 +47,21 @@ namespace Kross
         const std::string GetName() const { return m_Name; }
 
         // Gets the Diffuse Sprite.
-        Sprite* GetDiffuse() { return p_Diffuse; };
+        Sprite* GetDiffuse() { return m_Diffuse; };
 
         // Gets the Normal Sprite.
-        Sprite* GetNormal() { return p_Normal; };
+        Sprite* GetNormal() { return m_Normal; };
 
         // Gets the Specular Sprite.
-        Sprite* GetSpecular() { return p_Specular; }
+        Sprite* GetSpecular() { return m_Specular; }
 
         // Sets the Diffuse Sprite.
-        void SetDiffuse(Sprite* sprite) { p_Diffuse = sprite; };
+        void SetDiffuse(Sprite* sprite) { m_Diffuse = sprite; };
 
         // Sets the Normal Sprite.
-        void SetNormal(Sprite* sprite) { p_Normal = sprite; };
+        void SetNormal(Sprite* sprite) { m_Normal = sprite; };
 
         // Sets the Specular Sprite.
-        void SetSpecular(Sprite* sprite) { p_Specular = sprite; }
+        void SetSpecular(Sprite* sprite) { m_Specular = sprite; }
     };
 }

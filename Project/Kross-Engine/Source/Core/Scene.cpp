@@ -48,13 +48,14 @@ namespace Kross
         m_BatchRenderers.clear();
 
         #ifdef KROSS_EDITOR
-        delete p_EditorCamera;
+        Object::OnDestroy(m_EditorCamera);
         #endif
 
-        delete p_Physics;
-        delete p_WorldFilter;
-        delete p_DebugRenderer;
-        p_DebugShader = nullptr;
+        delete m_Physics;
+        delete m_WorldFilter;
+        delete m_DebugRenderer;
+
+        m_DebugShader = nullptr;
     }
 
     void Scene::OnStart()
@@ -63,8 +64,8 @@ namespace Kross
             m_BatchRenderers[i]->OnStart();
 
         /* Grab the Debug Shader. */
-        p_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
-        p_DebugRenderer->Initialise();
+        m_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
+        m_DebugRenderer->Initialise();
 
         /* Start All Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
@@ -75,7 +76,7 @@ namespace Kross
 
         #ifdef KROSS_EDITOR 
         // Start the Editor Camera
-        p_EditorCamera->OnStart();
+        m_EditorCamera->OnStart();
         #endif
 
         /* Scene has Started. */
@@ -91,21 +92,19 @@ namespace Kross
             float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
             Vector2 input = Vector2(inputX, inputY);
 
-            p_EditorCamera->GetTransform()->m_Position += input * 3.0f * Time::GetDeltaTime();
+            m_EditorCamera->m_Transform->m_Position += input * 3.0f * Time::GetDeltaTime();
         }
 
         if (!Editor::AnyWindowIsHovered())
         {
-            Camera* editorCamera = p_EditorCamera->GetComponent<Camera>();
+            Camera* editorCamera = m_EditorCamera->GetComponent<Camera>();
 
             float size = glm::clamp(editorCamera->GetSize() + (-Input::GetMouseScroll() / 2.0f), 0.1f, 500.0f);
             editorCamera->SetSize(size);
         }
 
-        p_EditorCamera->OnUpdate();
+        m_EditorCamera->OnUpdate();
         #endif
-
-
 
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
@@ -115,17 +114,18 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         int refreshRate = Application::GetWindow()->GetScreenRefreshRate();
-        int velocityIterations = 2000 / refreshRate;
-        int positionIterations = 1000 / refreshRate;
-        int particleIterations = 500 / refreshRate;
+        int velocityIterations = (int)glm::ceil((float)refreshRate / 9.0f);
+        int positionIterations = refreshRate / 20;
+        int particleIterations = refreshRate / 30;
+
         /* Update the physics step */
         if (Application::GetWindow()->GetVSync() == 1)
         {
-            p_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), velocityIterations, positionIterations, particleIterations);
+            m_Physics->GetPhysicsWorld()->Step(1.0f / (float)Application::GetWindow()->GetScreenRefreshRate(), velocityIterations, positionIterations, particleIterations);
         }
         else
         {
-            p_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
+            m_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
         }
         
         /* Update all Dynamic Objects. */
@@ -134,27 +134,6 @@ namespace Kross
             Rigidbody2D* body = m_Objects[i]->GetComponent<Rigidbody2D>();
             if (body)
             {
-               //if (body->m_CloseObjects.size() > 0)
-               //{
-               //    for (int j = 0; j < body->m_CloseObjects.size(); j++)
-               //    {
-               //        if (body->GetCollision() == CollisionState::Enter)
-               //        {
-               //            m_Objects[i]->OnCollisionEnter((Object*)body->m_CloseObjects[j]->GetUserData());
-               //            break;
-               //        }
-               //        else if (body->GetCollision() == CollisionState::Stay)
-               //        {
-               //            m_Objects[i]->OnCollisionStay((Object*)body->m_CloseObjects[j]->GetUserData());
-               //            break;
-               //        }
-               //        else if (body->GetCollision() == CollisionState::Exit)
-               //        {
-               //            m_Objects[i]->OnCollisionExit((Object*)body->m_CloseObjects[j]->GetUserData());
-               //            break;
-               //        }
-               //    }
-               //}
                 if (body->GetRayCollisionBody())
                 {
                     if (body->GetCollisionState() == CollisionState::Enter)
@@ -178,16 +157,16 @@ namespace Kross
     void Scene::OnRender()
     {
         /* Get the Camera Component. if we have a Camera. */
-        if (p_Camera)
+        if (m_Camera)
         {
-            Camera* camera = p_Camera->GetComponent<Camera>();
+            Camera* camera = m_Camera->GetComponent<Camera>();
             ShaderManager::OnUpdateShaderVPMatrix(camera->GetView(), camera->GetProjection());
         }
         
         /* Render all Game Objects. */
         
         /* For removing the Objects from the Render Queue that are dynamic. */
-        List<int> dynamicRenderQueueReferencePoints;
+        std::vector<int> dynamicRenderQueueReferencePoints;
         
         /* Go through the Dynamic Object List. To place them in the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)
@@ -196,7 +175,7 @@ namespace Kross
             if (m_Objects[i]->Enabled() && m_Objects[i]->GetRenderableStatus())
             {
                 /* Keep Record of the index, so we know where in the list it is to remove it. */
-                List<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
+                std::vector<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
         
                 for(int j = 0; j < indexes.size(); j++)
                     dynamicRenderQueueReferencePoints.push_back(indexes[j]);
@@ -207,18 +186,18 @@ namespace Kross
         for (int l = 0; l < (int)Layer::Count; l++)
         {   
             for (int i = 0; i < m_RenderList[l].size(); i++)
-                m_BatchRenderers[l]->AttachRenderer(p_Camera->GetComponent<Camera>(), m_RenderList[l][i]);
+                m_BatchRenderers[l]->AttachRenderer(m_Camera->GetComponent<Camera>(), m_RenderList[l][i]);
         
             m_BatchRenderers[l]->OnFinish();
         }
         
         #ifdef KROSS_DEBUG
         /* Draw Debug Information. */
-        p_DebugShader->Attach();
-        p_DebugRenderer->UpdateFrame();
+        m_DebugShader->Bind();
+        m_DebugRenderer->UpdateFrame();
 
         #else
-        p_DebugRenderer->Clear();
+        m_DebugRenderer->Clear();
         #endif
 
         
@@ -231,14 +210,14 @@ namespace Kross
     void Scene::OnUpdateCameraAspectRatio(float aspectRatio)
     {
         /* If we have a Camera. */
-        if(p_Camera)
-            p_Camera->GetComponent<Camera>()->SetAspectRatio(aspectRatio);
+        if(m_Camera)
+            m_Camera->GetComponent<Camera>()->SetAspectRatio(aspectRatio);
     }
 
-    List<int> Scene::AttachObjectToRenderQueue(Object* object)
+    std::vector<int> Scene::AttachObjectToRenderQueue(Object* object)
     {
         /* List of all the indexes Recorded on this Object. */
-        List<int> indexes = List<int>();
+        std::vector<int> indexes = std::vector<int>();
 
         /* If there is no renderer on the object. */
         if (!object->GetRenderableStatus())
@@ -251,7 +230,7 @@ namespace Kross
         int layer = (int)object->GetLayer();
 
         /* Renderer Component List. */
-        List<Renderer*> objectRenderList = object->GetRendererComponents();
+        std::vector<Renderer*> objectRenderList = object->GetRendererComponents();
 
         /* Go through the Object Render List. */
         for (int j = 0; j < objectRenderList.size(); j++)
@@ -308,8 +287,8 @@ namespace Kross
         if (camera)
         {
             /* If we have no Camera, set it. */
-            if (!p_Camera)
-                p_Camera = object;
+            if (!m_Camera)
+                m_Camera = object;
         }
 
         return;
@@ -321,7 +300,7 @@ namespace Kross
         if (!object->GetRenderableStatus())
             return;
 
-        List<Renderer*> objectRenderList = object->GetRendererComponents();
+        std::vector<Renderer*> objectRenderList = object->GetRendererComponents();
 
         for (int j = 0; j < objectRenderList.size(); j++)
         {
@@ -365,8 +344,8 @@ namespace Kross
         /* Checks if the Object has a Camera. */
         SetCamera(object);
 
-        object->SetPhysicsScene(p_Physics);
-        object->SetLineRenderer(p_DebugRenderer);
+        object->SetPhysicsScene(m_Physics);
+        object->SetLineRenderer(m_DebugRenderer);
 
         /* Check if the object is type RigidBody2D */
         Rigidbody2D* body = object->GetComponent<Rigidbody2D>();
@@ -374,8 +353,8 @@ namespace Kross
         /* If the object is a RigidBody the physics scene is set */
         if (body)
         {
-            body->SetPhysicsScene(p_Physics);
-            body->AttachLineRenderer(p_DebugRenderer);
+            body->SetPhysicsScene(m_Physics);
+            body->AttachLineRenderer(m_DebugRenderer);
         }
 
         /* Check if the object is type Particle Emitter */
@@ -383,7 +362,7 @@ namespace Kross
         
         /* If the object is a ParticleEmitter the physics scene is set */
         if (emitter)
-            emitter->SetPhysicsScene(p_Physics);
+            emitter->SetPhysicsScene(m_Physics);
 
         /* If the Object is Static. */
         if (object->IsStatic())
