@@ -1,0 +1,4 @@
+TEXTURE:
+FILEPATH->Resources/Textures/Default/Normal.png->
+NAME->Normal->
+TYPE->NORMALMAP->

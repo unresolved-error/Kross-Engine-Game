@@ -1,0 +1,6 @@
+TILEMAP:
+NAME->DirtTileMap->
+RAWDATA->Assets/TileMap/0-Tilemap/0.csv->
+SPRITESETNAME->Character->
+SPRITESETWIDTH->4->
+SPRITESETHEIGHT->1->

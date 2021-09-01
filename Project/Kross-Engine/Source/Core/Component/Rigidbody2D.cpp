@@ -56,23 +56,23 @@ namespace Kross
         SetFriction(friction);
         /* Sets the shape type */
         m_ShapeType = ShapeType::Circle;
-
+        
         /* Create a bodyDef and set the variables */
         BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(pos.x, pos.y);
-
+        
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
         p_Body->SetUserData(m_GameObject);
-
+        
         p_Body->SetFixedRotation(fixedRotation);
-
+        
         /* Creates the cirlce */
         CircleShape circleShape;
         /* Sets the circles radius */
         circleShape.m_radius = radius;
-
+        
         /* Creates a fixtureDef and assigns the variables */
         FixtureDef fixtureDef;
         fixtureDef.shape = &circleShape;
@@ -80,12 +80,12 @@ namespace Kross
         fixtureDef.friction = m_Friction;
         fixtureDef.filter.categoryBits = categoryBits;
         fixtureDef.filter.maskBits = maskBits;
-
+        
         p_Body->CreateFixture(&fixtureDef);
-
+        
         m_Bodies.push_back(p_Body);
         p_PhysicsScene->AttachBody(p_Body);
-
+        
         /* Assigns the shape to the pointer */
         p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
     }
@@ -904,23 +904,21 @@ namespace Kross
 
     void Rigidbody2D::CollisionUpdate()
     {
-        RaycastData* down = KROSS_NEW RaycastData();
+        RaycastData* rightSideDown = KROSS_NEW RaycastData();
+        RaycastData* leftSideDown = KROSS_NEW RaycastData();
 
         Vector2 particleForce = CollideParticles();
         //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
-        if (p_Box == nullptr)
+        if (p_Box == nullptr )
         {
-            //GetObjectsInDirection(0.1f, p_Body, Vector2(0.0f, -1.0f));
-
-            //float length = CalculateCircleCast(0.1f, 0.3, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - p_Capsule->GetHeight() * 0.5f - 0.025f));
-            
-            down = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), GetVector2(p_Body->GetPosition()));
-
+            if (p_Capsule != nullptr)
+            {
+                rightSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
+                leftSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x - p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
+            }
             UpdateRigidbodyState();
 
-
-
-            if (down->hit)
+            if (rightSideDown->hit  || leftSideDown->hit)
             {
                 /* Checks and sets the collision states for the rigidbody */
                 if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
@@ -933,12 +931,17 @@ namespace Kross
                 }
 
                 p_DebugRenderer->SetColour(Vector3(1.0f, 0.0f, 0.0f));
-                down->hit = false;
+
+                rightSideDown->hit = false;
+                leftSideDown->hit = false;
             }
             else
             {
-                down->intersectionPoint = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - 0.3f);
-
+                if (p_Capsule != nullptr)
+                {
+                    rightSideDown->intersectionPoint = Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.3f);
+                    leftSideDown->intersectionPoint = Vector2(p_Body->GetPosition().x - p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.3f);
+                }
                 /* Checks and sets the collision states for the rigidbody */
                 if (GetCollisionState() == CollisionState::Enter || GetCollisionState() == CollisionState::Stay)
                 {
@@ -950,8 +953,12 @@ namespace Kross
                 }
                 p_DebugRenderer->SetColour(Vector3(0.0f, 0.0f, 1.0f));
             }
-            p_DebugRenderer->DrawLineSegment(down->pos, down->intersectionPoint);
-            p_DebugRenderer->DrawCircle(down->intersectionPoint, 0.1f, 8);
+            /* Visulisation is broken, only displays one intersection point at a time */
+            p_DebugRenderer->DrawLineSegment(rightSideDown->pos, rightSideDown->intersectionPoint);
+            p_DebugRenderer->DrawCircle(rightSideDown->intersectionPoint, 0.1f, 8);
+            
+            p_DebugRenderer->DrawLineSegment(leftSideDown->pos, leftSideDown->intersectionPoint);
+            p_DebugRenderer->DrawCircle(leftSideDown->intersectionPoint, 0.1f, 8);
         }
 
         #ifndef KROSS_EDITOR

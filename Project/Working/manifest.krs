@@ -84,7 +84,7 @@ AUDIOSOURCE->Assets/Audio/audBulletProof.krs->
 TILEMAP->Assets/Tiles/TileMaps/0/tmDirt.krs-> 
 
 // Loads in Tile Sets.
-TILESET->Assets/Tiles/TileSets/tsDirt.krs-> 
+TILESET->Assets/Tiles/TileSets/tsDirt.krs->
 
 // Third Last load in the Atlas.
 ATLAS->Assets/Atlas/Atlas.krs->

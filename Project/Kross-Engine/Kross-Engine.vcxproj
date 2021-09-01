@@ -191,6 +191,7 @@
     <ClInclude Include="Source\Core\Component\Collider.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\ParticleEmitter.h" />
+    <ClInclude Include="Source\Core\Component\PlayerController.h" />
     <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
@@ -705,6 +706,7 @@
     <ClCompile Include="Source\Core\Component\Animator.cpp" />
     <ClCompile Include="Source\Core\Component\AudioPlayer.cpp" />
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
+    <ClCompile Include="Source\Core\Component\PlayerController.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
