@@ -120,6 +120,14 @@ namespace Kross
 					
 					SceneManager::GetCurrentScene()->AttachObject(particleEmitter);
 				}
+				if (ImGui::MenuItem("Rope"))
+				{
+					Object* ropeAvatar = Object::OnCreate("Rope");
+
+					ropeAvatar->AttachComponent<RopeAvatar>();
+
+					SceneManager::GetCurrentScene()->AttachObject(ropeAvatar);
+				}
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Text"))

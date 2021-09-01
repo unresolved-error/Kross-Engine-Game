@@ -122,6 +122,9 @@ namespace Kross
 		void AttachPosition(Vector2 position) { m_BasePositions.push_back(position); };
 
 		void DetachPosition(int index);
+		
+		void SetBasePosition(int index, Vector2 newPos);
+
 
 		std::vector<Vector2> GetBasePositions() const { return m_BasePositions; };
 	};

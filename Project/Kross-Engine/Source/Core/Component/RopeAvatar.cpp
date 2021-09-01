@@ -113,4 +113,8 @@ namespace Kross
 
 		m_BasePositions.erase(m_BasePositions.begin() + index);
 	}
+	void RopeAvatar::SetBasePosition(int index, Vector2 newPos)
+	{
+		m_BasePositions[index] = newPos;
+	}
 }
