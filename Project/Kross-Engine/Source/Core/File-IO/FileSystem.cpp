@@ -633,7 +633,10 @@ namespace Kross
 								varSwitch++;
 							}
 						}
+						// Rigidbody2D* rb = currentObject->GetComponent<Rigidbody2D>();
+						// rb->GetBody()->SetTransform(Getb2Vec2(currentObject->m_Transform->m_Position), glm::radians(currentObject->m_Transform->m_Rotation));
 					}
+
 
 					/* Go through the Sprite Renderer Data. */
 					if (spriteRendererData.size() > 0)
