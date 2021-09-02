@@ -59,7 +59,9 @@ namespace Kross
 		friend class Scene;
 		friend class ObjectEditor;
 		friend class Component;
+
 		friend class FileSystem;
+		template<typename Type> friend class Serialiser;
 
 		// Object Start Method.
 		void OnStart();

@@ -410,6 +410,8 @@ namespace Kross
         /* Gets the body */
         p_Body = GetBody();
 
+        p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
+
         /* Gets the physics scene */
         p_PhysicsScene = GetPhysicsScene();
 

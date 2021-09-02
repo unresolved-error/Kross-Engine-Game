@@ -354,6 +354,70 @@ namespace Kross
 					currentObject->SetLayer((Layer)std::stoi(objLayer));
 					currentObject->SetPrefab(false);
 
+					/* Go through the Transform Data. */
+					if (!transformData.empty())
+					{
+						/* Grab the Transform. */
+						Transform2D* transform = currentObject->m_Transform;
+
+						/* Quick Variables. */
+						size_t searchPosition = 0;
+						std::string lineSplitter = "->";
+						int varSwitch = 0;
+
+						/* Keep Searching till we reach the end of the Line.*/
+						while ((searchPosition = transformData.find(lineSplitter)) != std::string::npos)
+						{
+							/* Grab the Data Value. */
+							std::string value = transformData.substr(0, searchPosition);
+
+							/* Variable Setting. */
+							switch (varSwitch)
+							{
+								/* X Position Setting. */
+							case 0:
+							{
+								transform->m_Position.x = std::stof(value);
+								break;
+							}
+
+							/* Y Position Setting. */
+							case 1:
+							{
+								transform->m_Position.y = std::stof(value);
+								break;
+							}
+
+							/* Rotation Setting. */
+							case 2:
+							{
+								transform->m_Rotation = std::stof(value);
+								break;
+							}
+
+							/* X Scale Setting. */
+							case 3:
+							{
+								transform->m_Scale.x = std::stof(value);
+								break;
+							}
+
+							/* Y Scale Setting. */
+							case 4:
+							{
+								transform->m_Scale.y = std::stof(value);
+								break;
+							}
+							}
+
+							/* Remove the Data Used. */
+							transformData.erase(0, searchPosition + lineSplitter.length());
+
+							/* Up the Var Switch. */
+							varSwitch++;
+						}
+					}
+
 					/* Go through Animator Data. */
 					if (animatorData.size() > 0)
 					{
@@ -1086,70 +1150,6 @@ namespace Kross
 								/* Up the Var Switch. */
 								varSwitch++;
 							}
-						}
-					}
-
-					/* Go through the Transform Data. */
-					if (!transformData.empty())
-					{
-						/* Grab the Transform. */
-						Transform2D* transform = currentObject->m_Transform;
-
-						/* Quick Variables. */
-						size_t searchPosition = 0;
-						std::string lineSplitter = "->";
-						int varSwitch = 0;
-
-						/* Keep Searching till we reach the end of the Line.*/
-						while ((searchPosition = transformData.find(lineSplitter)) != std::string::npos)
-						{
-							/* Grab the Data Value. */
-							std::string value = transformData.substr(0, searchPosition);
-
-							/* Variable Setting. */
-							switch (varSwitch)
-							{
-								/* X Position Setting. */
-							case 0:
-							{
-								transform->m_Position.x = std::stof(value);
-								break;
-							}
-
-							/* Y Position Setting. */
-							case 1:
-							{
-								transform->m_Position.y = std::stof(value);
-								break;
-							}
-
-							/* Rotation Setting. */
-							case 2:
-							{
-								transform->m_Rotation = std::stof(value);
-								break;
-							}
-
-							/* X Scale Setting. */
-							case 3:
-							{
-								transform->m_Scale.x = std::stof(value);
-								break;
-							}
-
-							/* Y Scale Setting. */
-							case 4:
-							{
-								transform->m_Scale.y = std::stof(value);
-								break;
-							}
-							}
-
-							/* Remove the Data Used. */
-							transformData.erase(0, searchPosition + lineSplitter.length());
-
-							/* Up the Var Switch. */
-							varSwitch++;
 						}
 					}
 
