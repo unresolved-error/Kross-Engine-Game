@@ -18,3 +18,4 @@ namespace Kross
 #include "ShaderSerialiser.h"
 #include "AudioSourceSerialiser.h"
 #include "TileSetSerialiser.h"
+//#include "ObjectSerialiser.h"

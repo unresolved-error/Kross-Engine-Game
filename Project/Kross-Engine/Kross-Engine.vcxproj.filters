@@ -716,6 +716,9 @@
     <ClInclude Include="Source\Core\Serialiser\TileSetSerialiser.h" />
     <ClInclude Include="Source\Core\Component\PlayerController.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\PostProcessVertex.h" />
+    <ClInclude Include="Source\Core\Component\ButtonProperties.h" />
+    <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserWrite.h" />
+    <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserLoad.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

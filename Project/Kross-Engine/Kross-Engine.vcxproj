@@ -213,6 +213,8 @@
     <ClInclude Include="Source\Core\Physics\Rope\RopeSegment.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\PostProcessVertex.h" />
     <ClInclude Include="Source\Core\Serialiser\AudioSourceSerialiser.h" />
+    <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserLoad.h" />
+    <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserWrite.h" />
     <ClInclude Include="Source\Core\Serialiser\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
