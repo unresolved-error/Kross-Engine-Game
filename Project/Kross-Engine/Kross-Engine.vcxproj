@@ -187,6 +187,7 @@
     <ClInclude Include="Source\Core\Audio\AudioSource.h" />
     <ClInclude Include="Source\Core\Component\Animator.h" />
     <ClInclude Include="Source\Core\Component\AudioPlayer.h" />
+    <ClInclude Include="Source\Core\Component\ButtonProperties.h" />
     <ClInclude Include="Source\Core\Component\Camera.h" />
     <ClInclude Include="Source\Core\Component\Collider.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Source\Core\Component\PlayerController.h" />
     <ClInclude Include="Source\Core\Component\ParticleProperties.h" />
     <ClInclude Include="Source\Core\Component\Renderer.h" />
+    <ClInclude Include="Source\Core\Component\RopeAvatar.h" />
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
     <ClInclude Include="Source\Core\Debug.h" />
     <ClInclude Include="Source\Core\Editor\Editor.h" />
@@ -208,8 +210,11 @@
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
+    <ClInclude Include="Source\Core\Physics\Rope\RopeSegment.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\PostProcessVertex.h" />
     <ClInclude Include="Source\Core\Serialiser\AudioSourceSerialiser.h" />
+    <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserLoad.h" />
+    <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserWrite.h" />
     <ClInclude Include="Source\Core\Serialiser\Serialiser.h" />
     <ClInclude Include="Source\Core\Layer.h" />
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
@@ -708,6 +713,7 @@
     <ClCompile Include="Source\Core\Component\Camera.cpp" />
     <ClCompile Include="Source\Core\Component\PlayerController.cpp" />
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Core\Component\RopeAvatar.cpp" />
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
     <ClCompile Include="Source\Core\Editor\Editor.cpp" />

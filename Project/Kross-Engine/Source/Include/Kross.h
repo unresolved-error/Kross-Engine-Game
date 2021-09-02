@@ -85,6 +85,10 @@
 #include "../Core/Window/Window.h"
 #include "../Core/Window/WindowProperties.h"
 
+
+//ROPE
+//#include "../Core/Physics/Rope/Rope.h"
+
 /* ------ GLOABL FUNCTIONS ------ */
 
 Kross::Object* Kross::OnCreateObject(const std::string& name)

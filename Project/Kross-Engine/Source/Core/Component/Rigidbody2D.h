@@ -3,6 +3,7 @@
  *  Editors:
  *      - Jake Warren.
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 #pragma once
 
@@ -90,7 +91,7 @@ namespace Kross
         /* Rigidbody2D update method */
         void OnUpdate() override;
 
-        // Sends Draw Informatin to the Line Renderer.
+        // Sends Draw Information to the Line Renderer.
         void OnUpdateDrawInformation();
 
         // Attaches a Line Renderer.
@@ -183,7 +184,7 @@ namespace Kross
         float CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos);
 
         /* Checks a specified AABB for objects */
-        void GetSurroundingObjects(float size, Body* body);
+        std::vector<Body*> GetSurroundingObjects(float size, Body* body);
 
         /* Creates the colliders for the tile map */
         void CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction = 0.5f);
