@@ -5,6 +5,7 @@
 #include "CameraLock.h"
 #include "GunMovement.h"
 #include "Button.h"
+#include "DoorFunny.h"
 
 
 using namespace Kross;
@@ -18,6 +19,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW CameraLock());
 	ScriptRegistry::Attach(KROSS_NEW GunMovement());
 	ScriptRegistry::Attach(KROSS_NEW Button());
+	ScriptRegistry::Attach(KROSS_NEW DoorFunny());
 }
 
 #ifndef KROSS_RELEASE

@@ -76,7 +76,7 @@ namespace Kross
 				//		/* Transform Component Property. */
 				//		else if (objectProperty == "TRANSFORM2D")
 				//		{
-				//			
+				//			d
 				//		}
 				//
 				//		/* Animator Component Property. */
