@@ -191,6 +191,7 @@
     <ClCompile Include="Source\Core\Math\Math.cpp" />
     <ClCompile Include="Source\Core\File-IO\Logger.cpp" />
     <ClCompile Include="Source\Core\File-IO\Manifest.cpp" />
+    <ClCompile Include="Source\Core\Component\RopeAvatar.cpp" />
     <ClCompile Include="Source\Core\Component\PlayerController.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -709,6 +710,8 @@
     <ClInclude Include="Source\Core\Serialiser\ShaderSerialiser.h" />
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
+    <ClInclude Include="Source\Core\Component\RopeAvatar.h" />
+    <ClInclude Include="Source\Core\Physics\Rope\RopeSegment.h" />
     <ClInclude Include="Source\Core\Serialiser\AudioSourceSerialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\TileSetSerialiser.h" />
     <ClInclude Include="Source\Core\Component\PlayerController.h" />

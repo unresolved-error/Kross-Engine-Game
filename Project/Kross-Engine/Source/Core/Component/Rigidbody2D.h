@@ -89,7 +89,7 @@ namespace Kross
         /* Rigidbody2D update method */
         void OnUpdate() override;
 
-        // Sends Draw Informatin to the Line Renderer.
+        // Sends Draw Information to the Line Renderer.
         void OnUpdateDrawInformation();
 
         // Attaches a Line Renderer.

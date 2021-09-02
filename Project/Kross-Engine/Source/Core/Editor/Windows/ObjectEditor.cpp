@@ -2,6 +2,7 @@
  *  Author: Chris Deitch.
  *  Editors:
  *      - Chris Deitch.
+ *		- Deklyn Palmer.
  */
 #include "ObjectEditor.h"
 
@@ -449,6 +450,74 @@ namespace Kross {
 						if (!isOpen)
 							p_SelectedObject->DetachComponent<ParticleProperties>();
 					}
+
+					/* RopeAvatar. (Work To Do) */
+					else if (typeid(*component) == typeid(RopeAvatar))
+					{
+						if (ImGui::CollapsingHeader("Rope Avatar", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+						{
+					
+							RopeAvatar* ropeAvatar = (RopeAvatar*)component;
+							float rp_ChainLength = ropeAvatar->GetChainLinkLength();
+							bool rp_isBreakable = ropeAvatar->IsBreakable();
+							bool rp_startIsStatic = ropeAvatar->IsStartStatic();
+							std::vector<Vector2> rp_positions = ropeAvatar->GetBasePositions();
+							Body* rp_startConnectedBody = ropeAvatar->GetRopeStartConnectedBody();
+							Body* rp_endConnectedBody = ropeAvatar->GetRopeEndConnectedBody();
+
+							ImGui::Indent();
+							if (ImGui::CollapsingHeader("Positions", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+							{
+								for (int i = 0; i < rp_positions.size(); i++) 
+								{
+									float rp_seg_posX = rp_positions[i].x;
+									float rp_seg_posY = rp_positions[i].y;
+									std::string positionIdentity = ("Postition: " + std::to_string(i+1));
+									ImGui::Text(positionIdentity.c_str());
+									ImGui::Text("X-Pos");
+									ImGui::SameLine();
+									std::string positionIdentityX = ("##rpPosX" + std::to_string(i));
+									ImGui::DragFloat(positionIdentityX.c_str(), & rp_seg_posX, 0.1f, -FLT_MAX, FLT_MAX);
+
+									ImGui::Text("Y-Pos");
+									ImGui::SameLine();
+									std::string positionIdentityY = ("##rpPosY" + std::to_string(i));
+									ImGui::DragFloat(positionIdentityY.c_str(), &rp_seg_posY, 0.1f, -FLT_MAX, FLT_MAX);
+
+									rp_positions[i].x = rp_seg_posX;
+									rp_positions[i].y = rp_seg_posY;
+									Vector2 newPos = Vector2(rp_seg_posX, rp_seg_posY);
+									ropeAvatar->SetBasePosition(i, newPos);
+
+								}
+								if (ImGui::Button("AddPosition")) 
+								{
+									ropeAvatar->AttachPosition(Vector2(0.0f, 0.0f));
+								}
+
+							}
+							ImGui::Unindent();
+
+							ImGui::Text("Chain Segment Length: ");
+							ImGui::DragFloat("##chainLength", &rp_ChainLength, 0.005f, 0.005f, 1.0f, "%.3fm");
+
+							ImGui::Text("Is Breakable: ");
+							ImGui::SameLine();
+							ImGui::Checkbox("##isBreak", &rp_isBreakable);
+							
+							ImGui::Text("Start is Static: ");
+							ImGui::SameLine();
+							ImGui::Checkbox("##isStartStatic", &rp_startIsStatic);
+
+
+							ropeAvatar->SetChainLinkLength(rp_ChainLength);
+							ropeAvatar->SetStartStatic(rp_startIsStatic);
+							ropeAvatar->SetBreakable(rp_isBreakable);
+
+						}
+
+					}
+
 
 					/* Sprite Renderer. (DONE) */
 					else if (typeid(*component) == typeid(SpriteRenderer))
@@ -935,6 +1004,7 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<TileMapRenderer>();
 					}
 
+					//{
 					else if (typeid(*component) == typeid(PlayerController))
 					{
 						PlayerController* controller = (PlayerController*)component;
@@ -997,6 +1067,18 @@ namespace Kross {
 
 						if (ImGui::MenuItem("Player Controller"))
 							p_SelectedObject->AttachComponent<PlayerController>();
+
+						if (ImGui::MenuItem("Particle Emitter"))
+							p_SelectedObject->AttachComponent<ParticleEmitter>();
+
+						if (ImGui::MenuItem("Particle Properties"))
+							p_SelectedObject->AttachComponent<ParticleProperties>();
+
+						if (ImGui::MenuItem("Rope Avatar"))
+							p_SelectedObject->AttachComponent<RopeAvatar>();
+						//
+						//if (ImGui::MenuItem("Rope Properties"))
+						//	p_SelectedObject->AttachComponent<RopeProperties>();
 
 						ImGui::EndMenu();
 					}

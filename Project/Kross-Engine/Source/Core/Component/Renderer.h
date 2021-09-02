@@ -8,7 +8,7 @@
 /* --------- INFORMATION --------- */
 /*
  * THIS IS TO WRAP COMPONENTS THAT RENDER THINGS!
- */
+ *
 /* ------------------------------- */
 #pragma once
 
@@ -44,3 +44,4 @@ namespace Kross
 #include "Rigidbody2D.h"
 #include "ParticleEmitter.h"
 #include "TileMapRenderer.h"
+#include "RopeAvatar.h"
