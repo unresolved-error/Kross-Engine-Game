@@ -109,5 +109,6 @@ namespace Kross
 #include "ParticleProperties.h"
 #include "Animator.h"
 #include "AudioPlayer.h"
+#include "ButtonProperties.h"
 
 #include "Renderer.h"
