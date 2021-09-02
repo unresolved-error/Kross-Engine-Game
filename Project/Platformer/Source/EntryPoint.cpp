@@ -4,6 +4,7 @@
 #include "BackgroundManager.h"
 #include "CameraLock.h"
 #include "GunMovement.h"
+#include "Button.h"
 
 
 using namespace Kross;
@@ -16,6 +17,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
 	ScriptRegistry::Attach(KROSS_NEW CameraLock());
 	ScriptRegistry::Attach(KROSS_NEW GunMovement());
+	ScriptRegistry::Attach(KROSS_NEW Button());
 }
 
 #ifndef KROSS_RELEASE
