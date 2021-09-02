@@ -19,7 +19,9 @@ public:
 	SpriteRenderer* renderer;
 	Rigidbody2D* rigidBody;
 	bool isPressed = false;
-	
+	bool hasConstantEffect = true;
+	bool hasMoveEffect = true;
+
 
 	float weightRequired = 1.0f;
 
@@ -38,12 +40,19 @@ public:
 	{
 		if (isPressed) 
 		{ 
-			return; 
+			if (hasConstantEffect) 
+			{
+				PerformEffect();
+			}
+			return;
 		}
+
 		CheckIfPressed();
+
 		if (isPressed) 
 		{
 			Debug::Log("Button has been pressed.");
+			PerformEffect();
 		}
 	}
 
@@ -62,6 +71,7 @@ public:
 
 	}
 
+	void PerformEffect() {};
 
 
 
