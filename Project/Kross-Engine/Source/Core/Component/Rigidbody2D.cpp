@@ -3,6 +3,7 @@
  *  Editors:
  *      - Jake Warren.
  *      - Deklyn Palmer.
+ *      - Chris Deitch
  */
 
 #include "../Manager/SceneManager.h"
@@ -620,7 +621,7 @@ namespace Kross
         return closestFraction;
     }
 
-    void Rigidbody2D::GetSurroundingObjects(float size, Body* body)
+    std::vector<Body*> Rigidbody2D::GetSurroundingObjects(float size, Body* body)
     {
         Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
@@ -700,6 +701,8 @@ namespace Kross
         //}
 
         p_AABBCollisionData->m_Fixture.clear();
+
+        return m_CloseObjects;
     }
 
     void Rigidbody2D::GetObjectsInDirection(float length, Body* body, Vector2 direction)
