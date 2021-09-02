@@ -22,6 +22,8 @@ namespace Kross
 
 		bool m_IsStatic, m_FixedRotation, m_IsTileMap;
 
+		b2Filter* p_Filter;
+
 
 	protected:
 
@@ -35,7 +37,8 @@ namespace Kross
 			m_Mass				(1.0f),
 			m_IsStatic			(false),
 			m_FixedRotation		(false),
-			m_IsTileMap			(false)
+			m_IsTileMap			(false),
+			p_Filter			(KROSS_NEW b2Filter())
 		{};
 
 		~Collider() {};
@@ -93,5 +96,9 @@ namespace Kross
 
 		// Sets if the Collider is Rotation Locked.
 		void SetRotationLock(bool value) { m_FixedRotation = value; };
+
+		void SetCollisonFilters(b2Filter* filter) { p_Filter->categoryBits = filter->categoryBits; p_Filter->maskBits = filter->maskBits; }
+
+		b2Filter* GetCollisionFilters() { return p_Filter; }
 	};
 }

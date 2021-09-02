@@ -760,6 +760,8 @@ namespace Kross {
 							bool c_IsStatic = col->IsStatic();
 							bool c_FixedRot = col->IsRotationLocked();
 							bool c_IsTileMap = col->IsTileMapCollider();
+							uint16 pp_CatBits = col->GetCollisionFilters()->categoryBits;
+							uint16 pp_MaskBits = col->GetCollisionFilters()->maskBits;
 
 							if (ImGui::BeginCombo("##Shape", ((std::string)((std::string)((c_Type == ShapeType::Box) ? "Box" : ((c_Type == ShapeType::Circle) ? "Circle" : "Capsule")))).c_str(), ImGuiComboFlags_NoArrowButton))
 							{
@@ -816,6 +818,59 @@ namespace Kross {
 								ImGui::InputTextEx("##c_Rad", std::to_string(c_Radius).c_str(), &buffer[0], 512, ImVec2(0.0f, 0.0f), ImGuiInputTextFlags_ReadOnly);
 							}
 
+
+							if (ImGui::CollapsingHeader("Collider Mask", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+							{
+								ImGui::Indent();
+								if (ImGui::MenuItem("BackGround", "", (pp_CatBits & ColliderFilters::BackGround)))
+								{
+									pp_CatBits ^= ColliderFilters::BackGround;
+								}
+								if (ImGui::MenuItem("Environment", "", (pp_CatBits & ColliderFilters::Environment)))
+								{
+									pp_CatBits ^= ColliderFilters::Environment;
+								}
+								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & ColliderFilters::Fluid)))
+								{
+									pp_CatBits ^= ColliderFilters::Fluid;
+								}
+								if (ImGui::MenuItem("Light", "", (pp_CatBits & ColliderFilters::Light)))
+								{
+									pp_CatBits ^= ColliderFilters::Light;
+								}
+								if (ImGui::MenuItem("Player", "", (pp_CatBits & ColliderFilters::Player)))
+								{
+									pp_CatBits ^= ColliderFilters::Player;
+								}
+								ImGui::Unindent();
+							}
+
+							if (ImGui::CollapsingHeader("Collides With", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
+							{
+								ImGui::Indent();
+								if (ImGui::MenuItem("MaskBackGround", "", (pp_MaskBits & ColliderFilters::BackGround)))
+								{
+									pp_MaskBits ^= ColliderFilters::BackGround;
+								}
+								if (ImGui::MenuItem("MaskEnvironment", "", (pp_MaskBits & ColliderFilters::Environment)))
+								{
+									pp_MaskBits ^= ColliderFilters::Environment;
+								}
+								if (ImGui::MenuItem("MaskFluid", "", (pp_MaskBits & ColliderFilters::Fluid)))
+								{
+									pp_MaskBits ^= ColliderFilters::Fluid;
+								}
+								if (ImGui::MenuItem("MaskLight", "", (pp_MaskBits & ColliderFilters::Light)))
+								{
+									pp_MaskBits ^= ColliderFilters::Light;
+								}
+								if (ImGui::MenuItem("MaskPlayer", "", (pp_MaskBits & ColliderFilters::Player)))
+								{
+									pp_MaskBits ^= ColliderFilters::Player;
+								}
+								ImGui::Unindent();
+							}
+
 							ImGui::Text("Friction");
 							ImGui::SameLine();
 							ImGui::DragFloat("##Frict", &c_Frict, 0.1f, 0.0f, 1.0f, "%.2fm");
@@ -849,10 +904,17 @@ namespace Kross {
 							col->SetRotationLock(c_FixedRot);
 							col->SetTileMapCollider(c_IsTileMap);
 							col->SetMass(c_Mass);
+							b2Filter* tempFilter = KROSS_NEW b2Filter();
+							tempFilter->categoryBits = pp_CatBits;
+							tempFilter->maskBits = pp_MaskBits;
+							col->SetCollisonFilters(tempFilter);
+
+							delete tempFilter;
 						}
 
 						if (!isOpen)
 							p_SelectedObject->DetachComponent<Collider>();
+
 					}
 
 					/* Tile Map Renderer. (DONE) */

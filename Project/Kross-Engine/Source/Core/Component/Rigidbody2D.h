@@ -54,6 +54,7 @@ namespace Kross
         Box* p_Box;
         Capsule* p_Capsule;
         Circle* p_Circle;
+        b2Filter* p_Filter;
 
         LineRenderer* p_DebugRenderer;
 
@@ -135,18 +136,18 @@ namespace Kross
 
 
         /* Creates a new dynamic circle */
-        void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
+        void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction = 0.5f);
 
         /* Creates a new dynamic box */
-        void CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction);
+        void CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction);
 
-        void CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
+        void CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction = 0.5f);
 
         /* Creates a new static circle */
-        void CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
+        void CreateWorldCircle(float radius, Vector2 pos, b2Filter* filter, float friction = 0.5f);
 
         /* Creates a new static box */
-        void CreateWorldBox(Vector2 dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction = 0.5f);
+        void CreateWorldBox(Vector2 dimensions, Vector2 pos, b2Filter* filter, float friction = 0.5f);
 
         /* Gets the Objects Position */
         Vector2 GetPosition() const;
@@ -209,8 +210,8 @@ namespace Kross
         void CollisionUpdate();
 
         /* Sets the collider filter */
-        void SetColliderFilter(ColliderFilters colliderFilter) { m_ColliderFilter = colliderFilter; }
+        void SetColliderFilter(b2Filter* filter) { p_Filter = filter; }
         /* Gets the collider filters */
-        ColliderFilters GetColliderFilters() { return m_ColliderFilter; }
+        b2Filter* GetColliderFilters() { return p_Filter; }
     };
 }

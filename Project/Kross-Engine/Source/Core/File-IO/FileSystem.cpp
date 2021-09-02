@@ -549,6 +549,9 @@ namespace Kross
 							std::string lineSplitter = "->";
 							int varSwitch = 0;
 
+							uint16 cBts = 0;
+							uint16 mBts = 0;
+
 							/* Keep Searching till we reach the end of the Line.*/
 							while ((searchPosition = rigidbodyData[i].find(lineSplitter)) != std::string::npos)
 							{
@@ -622,6 +625,18 @@ namespace Kross
 								case 8:
 								{
 									collider->SetRotationLock((bool)std::stoi(value));
+									break;
+								}
+								case 9:
+								{
+									int catBtsIntParse = std::stoi(value);
+									collider->GetCollisionFilters()->categoryBits = static_cast<uint16>(catBtsIntParse);
+									break;
+								}
+								case 10:
+								{
+									int maskBtsIntParse = std::stoi(value);
+									collider->GetCollisionFilters()->maskBits = static_cast<uint16>(maskBtsIntParse);
 									break;
 								}
 								}
@@ -1409,6 +1424,8 @@ namespace Kross
 						fileStream << (int)rig->IsStatic() << "->";
 						fileStream << (int)rig->IsTileMapCollider() << "->";
 						fileStream << (int)rig->IsRotationLocked() << "->";
+						fileStream << rig->GetCollisionFilters()->categoryBits << "->";
+						fileStream << rig->GetCollisionFilters()->maskBits << "->";
 						fileStream << "\n";
 					}
 					else if (typeid(*comp) == typeid(SpriteRenderer))

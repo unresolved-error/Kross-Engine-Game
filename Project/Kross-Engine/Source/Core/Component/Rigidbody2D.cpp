@@ -23,6 +23,7 @@ namespace Kross
         m_CollisionState    (CollisionState::None),
         m_RigidbodyState    (RigidbodyState::Idle),
         m_ColliderFilter    (ColliderFilters::Default),
+        p_Filter            (KROSS_NEW b2Filter),
         p_MassData          (KROSS_NEW b2MassData()),
         p_RayData           (KROSS_NEW RaycastData()),
         p_AABBCollisionData (KROSS_NEW AABBCollisionData())
@@ -48,10 +49,11 @@ namespace Kross
         
         delete p_MassData;
         
+        delete p_Filter;
         delete p_AABBCollisionData;
     }
 
-    void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
+    void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction)
     {
         SetFriction(friction);
         /* Sets the shape type */
@@ -78,8 +80,8 @@ namespace Kross
         fixtureDef.shape = &circleShape;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = m_Friction;
-        fixtureDef.filter.categoryBits = categoryBits;
-        fixtureDef.filter.maskBits = maskBits;
+        fixtureDef.filter.categoryBits = filter->categoryBits;
+        fixtureDef.filter.maskBits = filter->maskBits;
         
         p_Body->CreateFixture(&fixtureDef);
         
@@ -90,7 +92,7 @@ namespace Kross
         p_Circle = KROSS_NEW Circle(radius, Vector2(0, 0));
     }
 
-    void Rigidbody2D::CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
+    void Rigidbody2D::CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction)
     {
         SetFriction(friction);
         /* Sets the shape type */
@@ -115,8 +117,8 @@ namespace Kross
         fixtureDef.shape = &dynamicBox;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = m_Friction;
-        fixtureDef.filter.categoryBits = categoryBits;
-        fixtureDef.filter.maskBits = maskBits;
+        fixtureDef.filter.categoryBits = filter->categoryBits;
+        fixtureDef.filter.maskBits = filter->maskBits;
 
         p_Body->CreateFixture(&fixtureDef);
         p_Body->SetFixedRotation(fixedRotation);
@@ -128,7 +130,7 @@ namespace Kross
         p_Box = KROSS_NEW Box(dimensions, Vector2(0, 0));
     }
 
-    void Rigidbody2D::CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, uint16 categoryBits, uint16 maskBits, float friction)
+    void Rigidbody2D::CreateDynamicCapsule(Vector2 dimensions, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction)
     {
         SetFriction(friction);
         /* Set the shape type */
@@ -150,8 +152,8 @@ namespace Kross
         boxFixtureDef.shape = &dynamicBox;
         boxFixtureDef.density = 0.5f;
         boxFixtureDef.friction = m_Friction;
-        boxFixtureDef.filter.categoryBits = categoryBits;
-        boxFixtureDef.filter.maskBits = maskBits;
+        boxFixtureDef.filter.categoryBits = filter->categoryBits;
+        boxFixtureDef.filter.maskBits = filter->maskBits;
 
         p_Body->CreateFixture(&boxFixtureDef);
 
@@ -164,8 +166,8 @@ namespace Kross
         bottomFixtureDef.shape = &circleShape;
         bottomFixtureDef.density = 0.5f;
         bottomFixtureDef.friction = m_Friction;
-        bottomFixtureDef.filter.categoryBits = categoryBits;
-        bottomFixtureDef.filter.maskBits = maskBits;
+        bottomFixtureDef.filter.categoryBits = filter->categoryBits;
+        bottomFixtureDef.filter.maskBits = filter->maskBits;
 
         p_Body->CreateFixture(&bottomFixtureDef);
 
@@ -178,8 +180,8 @@ namespace Kross
         topFixtureDef.shape = &topCircleShape;
         topFixtureDef.density = 0.5f;
         topFixtureDef.friction = m_Friction;
-        topFixtureDef.filter.categoryBits = categoryBits;
-        topFixtureDef.filter.maskBits = maskBits;
+        topFixtureDef.filter.categoryBits = filter->categoryBits;
+        topFixtureDef.filter.maskBits = filter->maskBits;
 
         p_Body->CreateFixture(&topFixtureDef);
      
@@ -192,7 +194,7 @@ namespace Kross
         p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0), m_Fixtures);
     }
 
-    void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction)
+    void Rigidbody2D::CreateWorldCircle(float radius, Vector2 pos, b2Filter* filter, float friction)
     {
         SetFriction(friction);
         if (!GetComponent<Collider>()->IsTileMapCollider())
@@ -219,8 +221,8 @@ namespace Kross
             fixtureDef.shape = &circleShape;
             fixtureDef.density = 0.5f;
             fixtureDef.friction = m_Friction;
-            fixtureDef.filter.categoryBits = categoryBits;
-            fixtureDef.filter.maskBits = maskBits;
+            fixtureDef.filter.categoryBits = filter->categoryBits;
+            fixtureDef.filter.maskBits = filter->maskBits;
 
             p_Body->CreateFixture(&fixtureDef);
 
@@ -254,8 +256,8 @@ namespace Kross
             tempFixture->shape = &circleShape;
             tempFixture->density = 0.5f;
             tempFixture->friction = m_Friction;
-            tempFixture->filter.categoryBits = categoryBits;
-            tempFixture->filter.maskBits = maskBits;
+            tempFixture->filter.categoryBits = filter->categoryBits;
+            tempFixture->filter.maskBits = filter->maskBits;
 
             tempBody->CreateFixture(tempFixture);
 
@@ -270,7 +272,7 @@ namespace Kross
         }
     }
 
-    void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, Vector2 pos, uint16 categoryBits, uint16 maskBits, float friction)
+    void Rigidbody2D::CreateWorldBox(Vector2 Dimensions, Vector2 pos, b2Filter* filter, float friction)
     {
         SetFriction(friction);
         if (!GetComponent<Collider>()->IsTileMapCollider())
@@ -297,8 +299,8 @@ namespace Kross
             fixtureDef.shape = &dynamicBox;
             fixtureDef.density = 1.0f;
             fixtureDef.friction = m_Friction;
-            fixtureDef.filter.categoryBits = categoryBits;
-            fixtureDef.filter.maskBits = maskBits;
+            fixtureDef.filter.categoryBits = filter->categoryBits;
+            fixtureDef.filter.maskBits = filter->maskBits;
 
             p_Body->CreateFixture(&fixtureDef);
 
@@ -333,8 +335,8 @@ namespace Kross
             tempFixture->shape = &dynamicBox;
             tempFixture->density = 1.0f;
             tempFixture->friction = m_Friction;
-            tempFixture->filter.categoryBits = categoryBits;
-            tempFixture->filter.maskBits = maskBits;
+            tempFixture->filter.categoryBits = filter->categoryBits;
+            tempFixture->filter.maskBits = filter->maskBits;
 
             tempBody->CreateFixture(tempFixture);
 
@@ -354,6 +356,8 @@ namespace Kross
         Collider* collider = GetComponent<Collider>();
 
         //TODO: Add Collider Filter Data to Collider.
+        SetColliderFilter(collider->GetCollisionFilters());
+
         if (!collider->IsTileMapCollider())
         {
             switch (collider->GetShapeType())
@@ -362,15 +366,13 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    SetColliderFilter(ColliderFilters::Environment);
                     CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position,
-                        GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player | ColliderFilters::Fluid, collider->GetFriction());
+                        GetColliderFilters(), collider->GetFriction());
                 }
                 else
                 {
-                    SetColliderFilter(ColliderFilters::Player);
                     CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
-                        GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player | ColliderFilters::Fluid, collider->GetFriction());
+                        GetColliderFilters(), collider->GetFriction());
                 }
                 break;
             }
@@ -378,23 +380,19 @@ namespace Kross
             {
                 if (collider->IsStatic())
                 {
-                    SetColliderFilter(ColliderFilters::Environment);
-                    CreateWorldCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, GetColliderFilters(),
-                        ColliderFilters::Environment | ColliderFilters::Player | ColliderFilters::Fluid, collider->GetFriction());
+                    CreateWorldCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, GetColliderFilters(), collider->GetFriction());
                 }
                 else
                 {
-                    SetColliderFilter(ColliderFilters::Player);
                     CreateDynamicCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
-                        GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
+                        GetColliderFilters(), collider->GetFriction());
                 }
                 break;
             }
             case Kross::ShapeType::Capsule:
             {
-                SetColliderFilter(ColliderFilters::Player);
                 CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
-                    GetColliderFilters(), ColliderFilters::Environment | ColliderFilters::Player, collider->GetFriction());
+                    GetColliderFilters(), collider->GetFriction());
                 break;
             }
             }
@@ -907,7 +905,7 @@ namespace Kross
         RaycastData* rightSideDown = KROSS_NEW RaycastData();
         RaycastData* leftSideDown = KROSS_NEW RaycastData();
 
-        Vector2 particleForce = CollideParticles();
+        //Vector2 particleForce = CollideParticles();
         //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
         if (p_Box == nullptr )
         {
@@ -1162,13 +1160,13 @@ namespace Kross
         for (int i = 0; i < tileColliders.size(); i++)
         {
             CreateWorldBox(Vector2(tileColliders[i].x, tileColliders[i].y), Vector2(tileColliders[i].z, tileColliders[i].w),
-                ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid, friction);
+                GetColliderFilters(), friction);
         }
 
         for (int i = 0; i < tileCornerColliders.size(); i++)
         {
             CreateWorldCircle(tileCornerColliders[i].z, Vector2(tileCornerColliders[i].x, tileCornerColliders[i].y),
-                ColliderFilters::Environment, ColliderFilters::Player | ColliderFilters::Fluid, friction);
+                GetColliderFilters(), friction);
         }
     }
 
