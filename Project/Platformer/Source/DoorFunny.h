@@ -35,7 +35,7 @@ public:
 		{
 			if (!m_Open)
 			{
-				Debug::Log("Im a poo");
+				
 				m_Open = true;
 				m_Rigidbody->OnApplyImpulse(Vector2(10.0f, 0.0f));
 			}
