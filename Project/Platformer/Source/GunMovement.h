@@ -171,8 +171,9 @@ public:
 			collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
 			collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
 
-			collider->SetWidth(0.0625f);
-			collider->SetHeight(0.0625f);
+			collider->SetShapeType(ShapeType::Circle);
+
+			collider->SetRadius(0.03125f);
 
 			sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 			Colour colour = Colour(1.0f);
@@ -194,8 +195,31 @@ public:
 		{
 			float threashold = 0.025f;
 			Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
+			SpriteRenderer* rend = bullets[i]->GetComponent<SpriteRenderer>();
 			if (rb->GetBody()->GetLinearVelocity().x >= -threashold && rb->GetBody()->GetLinearVelocity().y >= -threashold &&
 				rb->GetBody()->GetLinearVelocity().x <= threashold && rb->GetBody()->GetLinearVelocity().y < threashold)
+			{
+				if (rend->GetColour().a > 0.0f)
+				{
+					Colour colour = rend->GetColour();
+					colour.a -= 0.025f;
+					rend->SetColour(colour);
+				}
+				else
+				{
+					SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+					bullets.erase(bullets.begin() + i);
+					continue;
+				}
+			}
+
+			Colour colour = rend->GetColour();
+			if (colour.a < 1.0f)
+			{
+				colour.a -= 0.025f;
+				rend->SetColour(colour);
+			}
+			else if(colour.a <= 0.0f)
 			{
 				SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
 				bullets.erase(bullets.begin() + i);
