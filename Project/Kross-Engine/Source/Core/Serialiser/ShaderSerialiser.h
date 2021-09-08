@@ -62,7 +62,9 @@ namespace Kross
 				{
 					/* Ignore Comments. */
 					if (line.find("//") != std::string::npos)
+					{
 						continue;
+					}
 
 					/* Quick Variables. */
 					size_t searchPosition = 0;
@@ -73,25 +75,32 @@ namespace Kross
 					{
 						/* Grab the Property Type. */
 						if (shaderProperty.empty())
+						{
 							shaderProperty = line.substr(0, searchPosition);
-
+						}
 						/* Grab the Property Value. */
 						else
 						{
 							if (shaderProperty == "NAME") /* Extract Name. */
+							{
 								shaderName = line.substr(0, searchPosition);
-
+							}
 							if (shaderProperty == "TYPE") /* Extract Type. */
+							{
 								shaderType = line.substr(0, searchPosition);
-
+							}
 							else if (shaderProperty == "VERTEX") /* Extract Vertex Shader Filepath. */
+							{
 								shaderVertex = line.substr(0, searchPosition);
-
+							}
 							else if (shaderProperty == "GEOMETRY") /* Extract Geometry Filepath. */
+							{
 								shaderGeometry = line.substr(0, searchPosition);
-
+							}
 							else if (shaderProperty == "FRAGMENT") /* Extract Fragment Filepath. */
+							{
 								shaderFragment = line.substr(0, searchPosition);
+							}
 						}
 
 						/* Remove the Previous Data. */
@@ -240,7 +249,6 @@ namespace Kross
 					{
 						shader = Shader::OnCreate(shaderVertex, shaderFragment, shaderName);
 					}
-
 					/* If a Geometry Shader was Detected, Include it in the Creation. */
 					else
 					{

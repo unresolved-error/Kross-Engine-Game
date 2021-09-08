@@ -13,7 +13,9 @@ namespace Kross
 	void Input::OnCreate()
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW Input();
+		}
 	}
 
 	void Input::OnDestoy()
@@ -46,7 +48,6 @@ namespace Kross
 				// Return Zero. */
 				return 0.0f;
 			}
-
 			/* The keys (A or <-) or (D or ->) */
 			case Axis::KeyboardHorizontal:
 			{
@@ -63,7 +64,6 @@ namespace Kross
 
 				return 0.0f;
 			}
-
 			/* The keys (W or /\) or (S or \/) */
 			case Axis::KeyboardVertical:
 			{
@@ -79,8 +79,7 @@ namespace Kross
 				}
 
 				return 0.0f;
-			} 
-
+			}
 			/* If something random has been specified. */
 			default:
 			{
@@ -112,7 +111,9 @@ namespace Kross
 
 		/* Check if it's last state was released and its pressed. */
 		if (m_Instance->m_KeyStateCache[key] == GLFW_RELEASE && keyPress == GLFW_PRESS)
+		{
 			result = true; /* We have pressed the Key. */
+		}
 
 		/* Update the Cache. */
 		m_Instance->m_KeyStateCache[key] = keyPress;
@@ -134,7 +135,9 @@ namespace Kross
 
 		/* Check if it's last state was pressed and its released. */
 		if (m_Instance->m_KeyStateCache[key] == GLFW_PRESS && keyRelease == GLFW_RELEASE)
+		{
 			result = true; /* We have released the Key. */
+		}
 
 		/* Update the Cache. */
 		m_Instance->m_KeyStateCache[key] = keyRelease;
@@ -150,7 +153,9 @@ namespace Kross
 
 		/* If the Mouse specified isn't none. */
 		if (mouse != Mouse::None)
+		{
 			return (bool)glfwGetMouseButton(window, (int)mouse); /* Get if the Mouse is down. */
+		}
 
 		/* If nothing specified return false. */
 		return false;
@@ -169,7 +174,9 @@ namespace Kross
 
 		/* Check if it's last state was released and its pressed. */
 		if (m_Instance->m_MouseStateCache[mouse] == GLFW_RELEASE && mousePress == GLFW_PRESS)
+		{
 			result = true; /* We have pressed the Mouse Button. */
+		}
 
 		/* Update the Cache. */
 		m_Instance->m_MouseStateCache[mouse] = mousePress;
@@ -191,7 +198,9 @@ namespace Kross
 
 		/* Check if it's last state was pressed and its released. */
 		if (m_Instance->m_MouseStateCache[mouse] == GLFW_PRESS && mouseRelease == GLFW_RELEASE)
+		{
 			result = true; /* We have released the Mouse Button. */
+		}
 
 		/* Update the Cache. */
 		m_Instance->m_MouseStateCache[mouse] = mouseRelease;
@@ -239,55 +248,53 @@ namespace Kross
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
 					if (state.axes[(int)Controller::LeftStickHorizontal] >= deadZone || state.axes[(int)Controller::LeftStickHorizontal] <= -deadZone)
+					{
 						return state.axes[(int)Controller::LeftStickHorizontal];
-
+					}
 					return 0.0f;
 				}
-
 				/* Left Stick Vertical. */
 				case Controller::LeftStickVertical:
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
 					if (state.axes[(int)Controller::LeftStickVertical] >= deadZone || state.axes[(int)Controller::LeftStickVertical] <= -deadZone)
+					{
 						return -state.axes[(int)Controller::LeftStickVertical];
-
+					}
 					return 0.0f;
 				}
-
 				/* Right Stick Horizontal. */
 				case Controller::RightStickHorizontal:
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
 					if (state.axes[(int)Controller::RightStickHorizontal] >= deadZone || state.axes[(int)Controller::RightStickHorizontal] <= -deadZone)
+					{
 						return state.axes[(int)Controller::RightStickHorizontal];
-
+					}
 					return 0.0f;
 				}
-
 				/* Right Stick Vertical. */
 				case Controller::RightStickVertical:
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
 					if (state.axes[(int)Controller::RightStickVertical] >= deadZone || state.axes[(int)Controller::RightStickVertical] <= -deadZone)
+					{
 						return -state.axes[(int)Controller::RightStickVertical];
-
+					}
 					return 0.0f;
 				}
-
 				/* Left Trigger. */
 				case Controller::LeftTrigger:
 				{
 					/* Get how far pushing in the trigger is. */
 					return state.axes[(int)Controller::LeftTrigger];
 				}
-
 				/* Right Trigger. */
 				case Controller::RightTrigger:
 				{
 					/* Get how far pushing in the trigger is. */
 					return state.axes[(int)Controller::RightTrigger];
 				}
-
 				/* Nothing. */
 				default:
 				{
@@ -328,7 +335,9 @@ namespace Kross
 
 		/* Check if it's last state was released and its pressed. */
 		if (m_Instance->m_ControllerStateCache[button] == GLFW_RELEASE && buttonPress == GLFW_PRESS)
+		{
 			result = true; /* We have pressed the Controller Button. */
+		}
 
 		/* Update the Cache. */
 		m_Instance->m_ControllerStateCache[button] = buttonPress;
@@ -353,7 +362,9 @@ namespace Kross
 
 		/* Check if it's last state was Pressed and its Released. */
 		if (m_Instance->m_ControllerStateCache[button] == GLFW_PRESS && buttonRelease == GLFW_RELEASE)
+		{
 			result = true; /* We have Released the Controller Button. */
+		}
 
 		/* Update the Cache. */
 		m_Instance->m_ControllerStateCache[button] = buttonRelease;
@@ -369,7 +380,9 @@ namespace Kross
 		{
 			/* Check if the Controler is Connected. */
 			if (ControllerConnected(i))
+			{
 				return i; /* Return the Slot ID. */
+			}
 		}
 
 		/* Return NULL if none are connected. */

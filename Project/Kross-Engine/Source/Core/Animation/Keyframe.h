@@ -85,7 +85,9 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been set. */
 			if (!(m_DataFlags & KeyframeDataFlags::PositionData))
+			{
 				m_DataFlags |= KeyframeDataFlags::PositionData;
+			}
 		}
 
 		/*!
@@ -98,9 +100,10 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been set. */
 			if (!(m_DataFlags & KeyframeDataFlags::RotationData))
+			{
 				m_DataFlags |= KeyframeDataFlags::RotationData;
+			}
 		}
-
 		/*!
 			Set the Scale Data.
 		*/
@@ -111,7 +114,9 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been set. */
 			if (!(m_DataFlags & KeyframeDataFlags::ScaleData))
+			{
 				m_DataFlags |= KeyframeDataFlags::ScaleData;
+			}
 		}
 
 		/*!
@@ -124,7 +129,9 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been set. */
 			if (!(m_DataFlags & KeyframeDataFlags::SpriteData))
+			{
 				m_DataFlags |= KeyframeDataFlags::SpriteData;
+			}
 		}
 
 		/*!
@@ -137,9 +144,10 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been reset. */
 			if (m_DataFlags & KeyframeDataFlags::PositionData)
+			{
 				m_DataFlags &= ~KeyframeDataFlags::PositionData;
+			}
 		}
-
 		/*!
 			Clears the Rotation Data.
 		*/
@@ -150,7 +158,9 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been reset. */
 			if (m_DataFlags & KeyframeDataFlags::RotationData)
+			{
 				m_DataFlags &= ~KeyframeDataFlags::RotationData;
+			}
 		}
 
 		/*!
@@ -163,7 +173,9 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been reset. */
 			if (m_DataFlags & KeyframeDataFlags::ScaleData)
+			{
 				m_DataFlags &= ~KeyframeDataFlags::ScaleData;
+			}
 		}
 
 		/*!
@@ -176,7 +188,9 @@ namespace Kross
 
 			/* Acknowledge the Data Point has been reset. */
 			if (m_DataFlags & KeyframeDataFlags::SpriteData)
+			{
 				m_DataFlags &= ~KeyframeDataFlags::SpriteData;
+			}
 		}
 	};
 }

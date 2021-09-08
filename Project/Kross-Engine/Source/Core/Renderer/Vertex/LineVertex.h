@@ -18,12 +18,12 @@ namespace Kross
 	{
 	public:
 		LineVertex() :
-			m_Position(Vector2(0.0f)),
-			m_Colour(Colour(1.0f))
+			m_Position	(Vector2(0.0f)),
+			m_Colour	(Colour(1.0f))
 		{};
 		LineVertex(Vector2 position, Colour colour) :
-			m_Position(position),
-			m_Colour(colour)
+			m_Position	(position),
+			m_Colour	(colour)
 		{};
 
 		Vector2 m_Position;

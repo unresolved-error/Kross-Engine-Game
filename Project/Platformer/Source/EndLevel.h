@@ -32,6 +32,5 @@ public:
 
 	void Update() override 
 	{
-		
 	}
 };

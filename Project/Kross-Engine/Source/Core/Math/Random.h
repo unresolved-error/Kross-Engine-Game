@@ -78,8 +78,9 @@ namespace Kross
 
             /* Set the Seed to one if the seed has been used before, that way we get the same number as last time. */
             if (m_Seed == seed)
+            {
                 randomEngine.seed(1);
-
+            }
             /* Set the seed if it was differnet and generate a number from that seed. */
             else
             {
@@ -101,8 +102,9 @@ namespace Kross
 
             /* Set the Seed to one if the seed has been used before, that way we get the same number as last time. */
             if (m_Seed == seed)
+            {
                 randomEngine.seed(1);
-
+            }
             /* Set the seed if it was differnet and generate a number from that seed. */
             else
             {

@@ -17,10 +17,14 @@ namespace Kross
 		Texture::OnDestroy(m_AtlasTexture);
 
 		for (int i = 0; i < m_AttachedTextures.size(); i++)
+		{
 			m_AttachedTextures[i] = nullptr;
+		}
 
 		for (int i = 0; i < m_AttachedSprites.size(); i++)
+		{
 			m_AttachedSprites[i] = nullptr;
+		}
 	}
 
 	Atlas* Atlas::OnCreate(bool createNew)
@@ -30,7 +34,9 @@ namespace Kross
 
 		/* If we don't need to create a fresh one. */
 		if (!createNew)
+		{
 			return atlas;
+		}
 
 		/* Grabs all of the Textures. */
 		std::vector<Texture*> textures = ResourceManager::GetTextures();
@@ -54,15 +60,18 @@ namespace Kross
 
 			/* If we need to ignore, go to the next texture in the list. */
 			if (atlas->ShouldIgnoreTexture(texture))
+			{
 				continue;
-		
+			}
 			/* Find out where it will sit in the Atlas. */
 			int yOffset = 0;
 			for (int j = i - 1; j >= 0; j--)
 			{
 				/* If this  is  a texture that should not be Ignored. */
 				if (!atlas->ShouldIgnoreTexture(textures[j]))
+				{
 					yOffset += textures[j]->GetHeight(); /* Collectively add the Height. */
+				}
 			}
 		
 			/* Record the Texture Offset for proper uv calculations. */
@@ -118,7 +127,9 @@ namespace Kross
 
 			/* If the Texture that this sprite origniated from is ignored don't add it to the sprite data. */
 			if (atlas->ShouldIgnoreTexture(spriteTexture))
+			{
 				continue;
+			}
 
 			/* Quick Variables. */
 			Vector2 spriteTextureOffset = atlas->GetTextureOffset(spriteTexture);
@@ -153,7 +164,9 @@ namespace Kross
 	{
 		/* Safe programming. Not really needed, but good to have. */
 		if (atlas)
+		{
 			delete atlas;
+		}
 	}
 
 	std::vector<TextureType> Atlas::GetIgnoreTextureTypes()

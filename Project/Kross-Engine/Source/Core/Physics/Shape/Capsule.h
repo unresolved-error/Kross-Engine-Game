@@ -21,8 +21,8 @@ namespace Kross
 	public:
 		/* Creates a new box using the dimensions and body */
 		Capsule(Vector2 dimensions, Vector2 offset, std::vector<FixtureDef*> fixtures) :
-			m_width	(dimensions.x),
-			m_height(dimensions.y)
+			m_width		(dimensions.x),
+			m_height	(dimensions.y)
 		{
 			for (int i = 0; i < fixtures.size(); i++)
 			{

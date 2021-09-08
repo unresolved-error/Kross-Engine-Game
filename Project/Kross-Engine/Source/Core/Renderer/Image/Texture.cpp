@@ -35,8 +35,10 @@ namespace Kross
 
 	Texture::~Texture()
 	{
-		if(m_TextureID != NULL)
+		if (m_TextureID != NULL)
+		{
 			glDeleteTextures(1, &m_TextureID);
+		}
 
 		if (m_PixelData)
 		{
@@ -50,10 +52,13 @@ namespace Kross
 		Colour colour = Colour(1.0f);
 
 		if (x < 0 || x >= m_Width)
+		{
 			return colour;
-
+		}
 		else if (y < 0 || y >= m_Height)
+		{
 			return colour;
+		}
 
 		/* Set the Colour data from the Pixel. */
 		colour.r = (float)((int)m_PixelData[(x + (y * m_Width)) * 4 + 0]) / 255.0f;
@@ -69,10 +74,13 @@ namespace Kross
 	{
 		/* If the x and y are outside of the bounds of the Texture return. */
 		if (x < 0 || x >= m_Width)
+		{
 			return;
-
+		}
 		else if (y < 0 || y >= m_Height)
+		{
 			return;
+		}
 
 		/* If not, set the Pixel Data. */
 		m_PixelData[(x + (y * m_Width)) * 4 + 0] = (unsigned char)((int)(colour.r * 255));
@@ -88,7 +96,9 @@ namespace Kross
 		m_BPP = bpp;
 
 		if (m_PixelData)
+		{
 			delete[] m_PixelData;
+		}
 
 		m_PixelData = KROSS_NEW unsigned char(width * height * bpp);
 	}
@@ -113,10 +123,11 @@ namespace Kross
 
 			UnBind();
 		}
-
 		/* If not, report that it wasn't. */
 		else
+		{
 			std::cout << "Texture wasn't able to be finalised!" << std::endl;
+		}
 	}
 
 	void Texture::Bind()
@@ -222,7 +233,8 @@ namespace Kross
 		unsigned char* data = KROSS_NEW unsigned char[width * height * 4];
 
 		/* Go through Texture Pixels. */
-		for(int y = 0; y < height; y++)
+		for (int y = 0; y < height; y++)
+		{
 			for (int x = 0; x < width; x++)
 			{
 				float noiseSample = noise.GetNoise((float)x + offset.x, float(y) + offset.y);
@@ -235,6 +247,7 @@ namespace Kross
 				data[(x + (y * width)) * 4 + 2] = (unsigned char)((int)(actualNoiseSample * 255)); /* B. */
 				data[(x + (y * width)) * 4 + 3] = UCHAR_MAX;									   /* A. */
 			}
+		}
 
 		/* Set Texture data. */
 		texture->SetPixelData(data);

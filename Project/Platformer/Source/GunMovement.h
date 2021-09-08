@@ -50,7 +50,12 @@ public:
 
 	Sprite* currentGunSprite;
 
+
+	Sprite* bulletSprite;
+
 	Vector2 toMouse;
+
+	std::vector<Object*> bullets;
 
 	void Start() override
 	{
@@ -71,8 +76,11 @@ public:
 		Degree315 = ResourceManager::GetResource<Sprite>("Gun0-2");
 		Degree337pt5 = ResourceManager::GetResource<Sprite>("Gun2-1");
 		currentGunSprite = Degree0;
+		bulletSprite = ResourceManager::GetResource<Sprite>("Bullet");
+
 
 		m_CrossHair = SceneManager::GetCurrentScene()->FindObject("CrossHair");
+
 	}
 
 	void Update() override 
@@ -85,6 +93,7 @@ public:
 		//Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
 		Vector2 crossHairPos;
 		
+
 		if (angle != NAN)
 		{
 			crossHairPos = PlaceCrossHairOnInput(angle);
@@ -123,7 +132,8 @@ public:
 			renderer->SetFlipX(flipX);
 			player->GetComponent<SpriteRenderer>()->SetFlipX(flipX);
 		}
-		else {
+		else 
+		{
 			//renderer->SetFlipX(player->GetComponent<SpriteRenderer>()->GetFlipX());
 		}
 		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
@@ -145,6 +155,76 @@ public:
 		//endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
 		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1,0,0));
 
+		if (Input::GetMouseButtonPressed(Mouse::Left) || Input::GetMouseButtonDown(Mouse::Right))
+		{
+			Object* bullet = Object::OnCreate("Bullet-Clone");
+
+			Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
+			SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
+			Collider* collider = bullet->GetComponent<Collider>();
+
+			bullet->m_Transform->m_Position = endOfGunLocation;
+			bullet->m_Transform->m_Rotation = 45.0f;
+			bullet->SetLayer(Layer::Player);
+
+			collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
+			collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
+
+			collider->SetShapeType(ShapeType::Circle);
+
+			collider->SetRadius(0.03125f);
+
+			sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
+
+			Colour colour = Colour(1.0f);
+			colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
+			colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
+			colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
+
+			sprite->SetColour(colour);
+
+			OnCreateObject(bullet);
+
+			rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
+			sprite->GetMaterial()->SetDiffuse(bulletSprite);
+			
+			bullets.push_back(bullet);
+		}
+
+		for (int i = bullets.size() - 1; i >= 0; i--)
+		{
+			float threashold = 0.025f;
+			Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
+			SpriteRenderer* rend = bullets[i]->GetComponent<SpriteRenderer>();
+			if (rb->GetBody()->GetLinearVelocity().x >= -threashold && rb->GetBody()->GetLinearVelocity().y >= -threashold &&
+				rb->GetBody()->GetLinearVelocity().x <= threashold && rb->GetBody()->GetLinearVelocity().y < threashold)
+			{
+				if (rend->GetColour().a > 0.0f)
+				{
+					Colour colour = rend->GetColour();
+					colour.a -= 0.025f;
+					rend->SetColour(colour);
+				}
+				else
+				{
+					SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+					bullets.erase(bullets.begin() + i);
+					continue;
+				}
+			}
+
+			Colour colour = rend->GetColour();
+			if (colour.a < 1.0f)
+			{
+				colour.a -= 0.025f;
+				rend->SetColour(colour);
+			}
+			else if(colour.a <= 0.0f)
+			{
+				SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+				bullets.erase(bullets.begin() + i);
+			}
+		}
 	}
 
 	Vector2 PlaceCrossHairOnInput(float &returnAngle)

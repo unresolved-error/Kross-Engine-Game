@@ -39,29 +39,37 @@ namespace Kross
 	{
 		/* Safe programming, not needed but good to have. */
 		if (animation)
+		{
 			delete animation;
+		}
 	}
 
 	void Animation::OnUpdate()
 	{
 		/* If the Animation isn't Playing, early out. */
 		if (m_IsStopped)
+		{
 			return;
+		}
 
 		/* Check if the Frame Time hasn't hit the Max. */
 		if (m_KeyframeTimeElapsed < m_KeyframeTime)
+		{
 			m_KeyframeTimeElapsed += Time::GetDeltaTime();
-
+		}
 		/* If it has. */
 		else
 		{
 			/* Loop back around. */
 			if (m_KeyframeCurrent >= m_Keyframes.size() - 1)
+			{
 				m_KeyframeCurrent = 0;
-
+			}
 			/* Continue up. */
 			else
+			{
 				m_KeyframeCurrent++;
+			}
 
 			/* Reset the Elapsed Time. */
 			m_KeyframeTimeElapsed = 0.0f;
@@ -99,7 +107,9 @@ namespace Kross
 	{
 		/* If the Animation that has been passed in, isn't the Animation we wish to copy to. */
 		if (&other == this)
+		{
 			return; /* Early out. */
+		}
 
 		/* Set the Animation's Name and Duration to the Others. */
 		this->SetName(other.GetName());
@@ -110,7 +120,9 @@ namespace Kross
 
 		/* Go through each Keyframe and Duplicate it into the Animation.*/
 		for (int i = 0; i < other.m_Keyframes.size(); i++)
+		{
 			this->AttachKeyframe(KROSS_NEW Keyframe(*other.m_Keyframes[i]));
+		}
 	}
 
 	void Animation::AttachKeyframe(Keyframe* keyframe)

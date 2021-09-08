@@ -40,7 +40,7 @@ namespace Kross
 		~Object();
 
 		std::string m_Name;
-		bool m_Static, m_Enable, m_Prefab, m_Started;
+		bool m_Static, m_Enable, m_Prefab, m_Started, m_Remove;
 
 		std::vector<Component*> m_Components;
 		std::vector<Renderer*> m_RenderComponents;
@@ -101,6 +101,9 @@ namespace Kross
 
 		// Checks if the Object has a Render Component.
 		const bool GetRenderableStatus() const { return (m_RenderComponents.size() > 0); };
+
+		// Should Remove Object.
+		const bool ShouldBeRemoved() const { return m_Remove; };
 
 		// Gets all the Renderer Components on the Object.
 		std::vector<Renderer*> GetRendererComponents() const { return m_RenderComponents; };
@@ -175,7 +178,9 @@ namespace Kross
 			{
 				/* If we don't have a Collider. */
 				if (!GetComponent<Collider>())
+				{
 					AttachComponent<Collider>(); /* Attach it. */
+				}
 			}
 
 			/* Checks if the Type Specified is a RigidBody. */
@@ -183,7 +188,9 @@ namespace Kross
 			{
 				/* If we don't have a Collider. */
 				if (!GetComponent<ParticleProperties>())
+				{
 					AttachComponent<ParticleProperties>(); /* Attach it. */
+				}
 			}
 
 			/* Checks if the Type Specified is a RigidBody. */
@@ -203,7 +210,6 @@ namespace Kross
 				((Rigidbody2D*)component)->SetPhysicsScene(m_Physics);
 				((Rigidbody2D*)component)->p_DebugRenderer = m_DebugRenderer;
 			}
-
 			else if (typeid(Type) == typeid(ParticleEmitter))
 			{
 				((ParticleEmitter*)component)->SetPhysicsScene(m_Physics);
@@ -217,13 +223,16 @@ namespace Kross
 
 			/* Then Check if the Component is a Renderer. */
 			if (std::is_convertible<Type*, Renderer*>::value)
+			{
 				m_RenderComponents.push_back((Renderer*)component);
-
+			}
 			/* Add it to the list. */
 			m_Components.push_back(component);
 
 			if (m_Started)
+			{
 				component->OnStart();
+			}
 
 			/* Return the Component Type. */
 			return (Type*)component;
@@ -277,10 +286,11 @@ namespace Kross
 						m_Components.erase(m_Components.begin() + i);
 						return;
 					}
-
 					/* If it isn't. */
 					else
+					{
 						searchedIndex++; /* Keep Searching. */
+					}
 				}
 			}
 
@@ -304,7 +314,9 @@ namespace Kross
 
 				/* Check if it is the Component Type we are looking for, then return it. */
 				if (typeid(Type) == typeid(*component))
+				{
 					return (Type*)component;
+				}
 			}
 
 			/* If we get here, it doesn't exist within the Object. */

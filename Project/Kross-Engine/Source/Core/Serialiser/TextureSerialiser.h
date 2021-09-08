@@ -58,8 +58,9 @@ namespace Kross
 				{
 					/* Ignore Comments. */
 					if (line.find("//") != std::string::npos)
+					{
 						continue;
-
+					}
 					/* Quick Variables. */
 					size_t searchPosition = 0;
 					std::string textureProperty = "";
@@ -69,19 +70,24 @@ namespace Kross
 					{
 						/* Grab the Property Type. */
 						if (textureProperty.empty())
+						{
 							textureProperty = line.substr(0, searchPosition);
-
+						}
 						/* Grab the Property Value. */
 						else
 						{
 							if (textureProperty == "NAME") /* Extract the Name. */
+							{
 								textureName = line.substr(0, searchPosition);
-
+							}
 							else if (textureProperty == "FILEPATH") /* Extract the Filepath. */
+							{
 								textureFilepath = line.substr(0, searchPosition);
-
+							}
 							else if (textureProperty == "TYPE") /* Extract the Texture Type. */
+							{
 								textureType = line.substr(0, searchPosition);
+							}
 						}
 
 						/* Remove the Previous Data. */
@@ -176,25 +182,30 @@ namespace Kross
 					{
 						/* Font Map Texture Creation. */
 						if (textureType == "FONTMAP")
+						{
 							Texture::OnCreate(textureFilepath, textureName, TextureType::FontMap);
-
+						}
 						/* Normal Map Creation. */
 						else if (textureType == "NORMALMAP")
+						{
 							Texture::OnCreate(textureFilepath, textureName, TextureType::NormalMap);
-
+						}
 						/* Specular Map Creation. */
 						else if (textureType == "SPECULARMAP")
+						{
 							Texture::OnCreate(textureFilepath, textureName, TextureType::SpecularMap);
-
+						}
 						/* Engine Texture Creation. */
 						else if (textureType == "ENGINE")
+						{
 							Texture::OnCreate(textureFilepath, textureName, TextureType::Engine);
+						}
 					}
-
 					/* Default Texture Creation. */
 					else
+					{
 						Texture::OnCreate(textureFilepath, textureName);
-
+					}
 					/* Log Success. */
 					Manifest::Logger()->WriteLog("Creating Texture from File: [" + filepath + "] Successful!");
 				}

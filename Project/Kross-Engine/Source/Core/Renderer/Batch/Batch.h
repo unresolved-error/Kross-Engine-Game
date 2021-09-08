@@ -76,7 +76,9 @@ namespace Kross
 
             /* If the Renderer doesn't have a Material. */
             if (!renderer->GetMaterial())
+            {
                 return; /* Early out. */
+            }
 
             /* Get all Material Sprites. */
             Sprite* diffuseSprite = renderer->GetMaterial()->GetDiffuse();
@@ -134,7 +136,6 @@ namespace Kross
                 uvs[10].x = ((1.0f - 0.0f) * specularData.m_Ratio.x) + specularData.m_Offset.x;
                 uvs[11].x = ((1.0f - 0.0f) * specularData.m_Ratio.x) + specularData.m_Offset.x;
             }
-            
             else
             {
                 /* Diffuse UVs. */
@@ -155,7 +156,6 @@ namespace Kross
                 uvs[10].x = (0.0f * specularData.m_Ratio.x) + specularData.m_Offset.x;
                 uvs[11].x = (0.0f * specularData.m_Ratio.x) + specularData.m_Offset.x;
             }
-            
             if (renderer->GetFlipY())
             {
                 /* Diffuse UVs. */
@@ -176,7 +176,6 @@ namespace Kross
                 uvs[10].y = ((1.0f - 0.0f) * specularData.m_Ratio.y) + specularData.m_Offset.y;
                 uvs[11].y = ((1.0f - 1.0f) * specularData.m_Ratio.y) + specularData.m_Offset.y;
             }
-            
             else
             {
                 /* Diffuse UVs. */
@@ -270,7 +269,9 @@ namespace Kross
                     tileX <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
                     tileY >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
                     tileY <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
+                {
                     continue;
+                }
                 /* Update the Model. */
                 Matrix4 model = Matrix4(1.0f);
 
@@ -467,8 +468,9 @@ namespace Kross
                     actualPosition.x <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
                     actualPosition.y >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
                     actualPosition.y <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
+                {
                     continue;
-
+                }
                 /* Set the Vertex. */
                 WaterVertex waterDrop = WaterVertex(Vector2(actualPosition.x, actualPosition.y),
                     Vector2(velocities[i].x, velocities[i].y),

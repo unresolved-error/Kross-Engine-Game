@@ -22,7 +22,7 @@ namespace Kross
 	public:
 		/* Creates a circle using the radius and body */
 		Circle(float radius, Vector2 offset) :
-			m_radius(radius)
+			m_radius	(radius)
 		{};
 	
 		/* Returns the shape type */

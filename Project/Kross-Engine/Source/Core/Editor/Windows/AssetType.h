@@ -47,8 +47,10 @@ namespace Kross
 
 		std::string operator[](int index)
 		{
-			if(index >= 0 || index < m_Names.size())
+			if (index >= 0 || index < m_Names.size())
+			{
 				return m_Names[index];
+			}
 
 			return std::string();
 		}

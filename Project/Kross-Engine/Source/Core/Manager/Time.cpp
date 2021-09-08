@@ -13,13 +13,17 @@ namespace Kross
 	void Time::OnCreate()
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW Time();
+		}
 	}
 
 	void Time::OnDestroy()
 	{
 		if (m_Instance)
+		{
 			delete m_Instance;
+		}
 	}
 
 	void Time::OnUpdateDeltaTime()

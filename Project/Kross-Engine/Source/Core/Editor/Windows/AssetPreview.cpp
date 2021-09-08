@@ -83,7 +83,6 @@ namespace Kross
 				{
 					break;
 				}
-
 				case Kross::AssetType::Sprite:
 				{
 					/* Start the Sprite Tree. */
@@ -103,9 +102,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (sprite != p_SelectedSprite)
+									{
 										p_SelectedSprite = sprite;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -113,7 +113,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				case Kross::AssetType::Texture:
 				{
 					if (ImGui::TreeNodeEx("Textures"))
@@ -132,9 +131,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (texture != p_SelectedTexture)
+									{
 										p_SelectedTexture = texture;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -142,7 +142,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				case Kross::AssetType::Material:
 				{
 					if (ImGui::TreeNodeEx("Materials"))
@@ -161,9 +160,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (material != p_SelectedMaterial)
+									{
 										p_SelectedMaterial = material;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -171,7 +171,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				case Kross::AssetType::Font:
 				{
 					if (ImGui::TreeNodeEx("Fonts"))
@@ -190,9 +189,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (font != p_SelectedFont)
+									{
 										p_SelectedFont = font;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -200,7 +200,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				case Kross::AssetType::Animation:
 				{
 					if (ImGui::TreeNodeEx("Animations"))
@@ -219,9 +218,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (animation != p_SelectedAnimation)
+									{
 										p_SelectedAnimation = animation;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -229,7 +229,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				case Kross::AssetType::AudioSource:
 				{
 					if (ImGui::TreeNodeEx("Audio Sources"))
@@ -248,9 +247,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (audioSource != p_SelectedAudioSource)
+									{
 										p_SelectedAudioSource = audioSource;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -258,7 +258,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				case Kross::AssetType::TileMap:
 				{
 					if (ImGui::TreeNodeEx("Tile Maps"))
@@ -277,9 +276,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (tileMap != p_SelectedTileMap)
+									{
 										p_SelectedTileMap = tileMap;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -287,7 +287,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				case Kross::AssetType::TileSet:
 				{
 					if (ImGui::TreeNodeEx("Tile Sets"))
@@ -306,9 +305,10 @@ namespace Kross
 								{
 									/* Set the Selected Node. If it's different of course. */
 									if (tileSet != p_SelectedTileSet)
+									{
 										p_SelectedTileSet = tileSet;
+									}
 								}
-
 								ImGui::TreePop();
 							}
 						}
@@ -316,7 +316,6 @@ namespace Kross
 					}
 					break;
 				}
-
 				default:
 				{
 					break;
@@ -331,7 +330,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationSprite)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationSprite = destination;
@@ -342,7 +343,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationTexture)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationTexture = destination;
@@ -353,7 +356,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationMaterial)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationMaterial = destination;
@@ -364,7 +369,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationFont)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationFont = destination;
@@ -375,7 +382,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationAnimation)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationAnimation = destination;
@@ -386,7 +395,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationAudioSource)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationAudioSource = destination;
@@ -397,7 +408,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationTileMap)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationTileMap = destination;
@@ -408,7 +421,9 @@ namespace Kross
 	{
 		/* Early out if the Destination Specified is already set. */
 		if (destination == p_DestinationTileSet)
+		{
 			return;
+		}
 
 		/* Other wise set it. */
 		p_DestinationTileSet = destination;

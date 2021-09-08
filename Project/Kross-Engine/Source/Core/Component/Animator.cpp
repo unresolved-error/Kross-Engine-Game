@@ -31,8 +31,10 @@ namespace Kross
 		m_SpriteRenderer = m_GameObject->GetComponent<SpriteRenderer>();
 
 		/* Play the Current Animation. */
-		if(m_AnimationCurrent)
+		if (m_AnimationCurrent)
+		{
 			m_AnimationCurrent->Play();
+		}
 	}
 
 	void Animator::OnUpdate()
@@ -54,21 +56,31 @@ namespace Kross
 			{
 				/* If the Position Data has been set. */
 				if (currentKeyframe->GetFlags() & KeyframeDataFlags::PositionData)
+				{
 					m_GameObject->m_Transform->m_Position = currentKeyframe->GetPosition();
+				}
 
 				/* If the Rotation Data has been set. */
 				if (currentKeyframe->GetFlags() & KeyframeDataFlags::RotationData)
+				{
 					m_GameObject->m_Transform->m_Rotation = currentKeyframe->GetRotation();
+				}
 
 				/* If the Scale Data has been set. */
 				if (currentKeyframe->GetFlags() & KeyframeDataFlags::ScaleData)
+				{
 					m_GameObject->m_Transform->m_Scale = currentKeyframe->GetScale();
+				}
 			}
 
 			/* If the Sprite Data has been set. */
 			if (currentKeyframe->GetFlags() & KeyframeDataFlags::SpriteData)
+			{
 				if (m_SpriteRenderer) /* If we have a Renderer, set its Sprite. */
+				{
 					m_SpriteRenderer->GetMaterial()->SetDiffuse(currentKeyframe->GetSprite());
+				}
+			}
 		}
 		#endif 
 
@@ -78,28 +90,36 @@ namespace Kross
 	{
 		/* If the Current Animation isn't playing. */
 		if (!m_AnimationCurrent->IsPlaying())
+		{
 			m_AnimationCurrent->Play(); /* Play it. */
+		}
 	}
 
 	void Animator::Pause()
 	{
 		/* If the Current Animation is playing. */
 		if (m_AnimationCurrent->IsPlaying())
+		{
 			m_AnimationCurrent->Pause(); /* Pause it. */
+		}
 	}
 
 	void Animator::Stop()
 	{
 		/* If the Current Animation is playing. */
 		if (!m_AnimationCurrent->IsPlaying())
+		{
 			m_AnimationCurrent->Stop(); /* Stop it. */
+		}
 	}
 
 	void Animator::AttachAnimation(Animation* animation)
 	{
 		/* If this is the first animation to be added. */
 		if (m_Animations.size() == 0)
+		{
 			m_AnimationCurrent = animation; /* Set it as the current. */
+		}
 
 		/* Add it to the List. */
 		m_Animations.push_back(animation);
@@ -109,7 +129,9 @@ namespace Kross
 	{
 		/* Early out if the Index is outside the bounds of the Array. */
 		if (index < 0 || index >= m_Animations.size())
+		{
 			return;
+		}
 
 		/* Delete the Animation. */
 		delete m_Animations[index];
@@ -126,7 +148,9 @@ namespace Kross
 		{
 			/* If the Current Animation's Name is the one we are looking for. */
 			if (m_Animations[i]->GetName() == name)
+			{
 				DetachAnimation(i); /* Remove it. */
+			}
 		}
 	}
 
@@ -134,14 +158,18 @@ namespace Kross
 	{
 		/* Early out if the index is outside the bounds of the Array. */
 		if (index < 0 || index >= m_Animations.size())
+		{
 			return;
+		}
 
 		/* Get the Animation we wish to change to. */
 		Animation* animation = m_Animations[index];
 
 		/* If the Animation is the same as the Current, early out. */
 		if (m_AnimationCurrent == animation)
+		{
 			return;
+		}
 
 		// TODO: Dynamic stuff...
 
@@ -160,7 +188,9 @@ namespace Kross
 		{
 			/* If the Animation is the one we are looking for. */
 			if (m_Animations[i]->GetName() == name)
+			{
 				SetCurrentAnimation(i); /* Set the Animation. */
+			}
 		}
 	}
 }

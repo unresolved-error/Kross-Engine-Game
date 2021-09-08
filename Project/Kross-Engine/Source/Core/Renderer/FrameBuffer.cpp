@@ -15,9 +15,9 @@ namespace Kross
 	{}
 
 	FrameBuffer::FrameBuffer(int width, int height, unsigned int attachmentID)	:
-		m_FrameBufferID(0),
-		m_AttachmentID(attachmentID),
-		m_FrameBufferTexture(nullptr)
+		m_FrameBufferID			(0),
+		m_AttachmentID			(attachmentID),
+		m_FrameBufferTexture	(nullptr)
 	{
 		glGenFramebuffers(1, &m_FrameBufferID);
 
@@ -43,11 +43,15 @@ namespace Kross
 	FrameBuffer::~FrameBuffer()
 	{
 		if (m_FrameBufferID != NULL)
+		{
 			glDeleteFramebuffers(1, &m_FrameBufferID);
+		}
 
 		/* Delete the Window Frame Texture. */
 		if (m_FrameBufferTexture)
+		{
 			Texture::OnDestroy(m_FrameBufferTexture);
+		}
 	}
 
 	void FrameBuffer::Bind()

@@ -157,45 +157,46 @@ public:
 		foreGroundSceneryInitXPos = SetInitialSceneryXpos(foreGroundScenery);
 
 
-		if (furthestPrimary != nullptr && furthestSecondary != nullptr) {
+		if (furthestPrimary != nullptr && furthestSecondary != nullptr) 
+		{
 			furthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			furthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + furthestOffset;
 		}
-		if (secondFurthestPrimary != nullptr && secondFurthestSecondary != nullptr) {
+		if (secondFurthestPrimary != nullptr && secondFurthestSecondary != nullptr) 
+		{
 			secondFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			secondFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + secondFurthestOffset;
 		}
-
-		if (thirdFurthestPrimary != nullptr && thirdFurthestSecondary != nullptr) {
+		if (thirdFurthestPrimary != nullptr && thirdFurthestSecondary != nullptr) 
+		{
 			thirdFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			thirdFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + thirdFurthestOffset;
 		}
-
-		if (fourthFurthestPrimary != nullptr && fourthFurthestSecondary != nullptr) {
+		if (fourthFurthestPrimary != nullptr && fourthFurthestSecondary != nullptr) 
+		{
 			fourthFurthestPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			fourthFurthestSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + fourthFurthestOffset;
 		}
-
-		if (thirdClosePrimary != nullptr && thirdCloseSecondary != nullptr) {
+		if (thirdClosePrimary != nullptr && thirdCloseSecondary != nullptr) 
+		{
 			thirdClosePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			thirdCloseSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + thirdCloseOffset;
 		}
-
-		if (secondClosePrimary != nullptr && secondCloseSecondary != nullptr) {
+		if (secondClosePrimary != nullptr && secondCloseSecondary != nullptr) 
+		{
 			secondClosePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			secondCloseSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + secondCloseOffset;
 		}
-
-		if (closePrimary != nullptr && closeSecondary != nullptr) {
+		if (closePrimary != nullptr && closeSecondary != nullptr) 
+		{
 			closePrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			closeSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + closeOffset;
 		}
-
-		if (foreGroundPrimary != nullptr && closeSecondary != nullptr) {
+		if (foreGroundPrimary != nullptr && closeSecondary != nullptr) 
+		{
 			foreGroundPrimary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x;
 			foreGroundSecondary->m_Transform->m_Position.x = sceneCam->m_Transform->m_Position.x + foreGroundOffset;
 		}
-
 	}
 
 
@@ -303,8 +304,4 @@ public:
 			secondaryTransform->m_Position.x -= (2 * offset);
 		}
 	}
-
-
-
-
 };

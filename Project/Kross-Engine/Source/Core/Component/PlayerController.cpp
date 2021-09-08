@@ -27,7 +27,9 @@ namespace Kross
 	{
 		/* If the index is outside the bounds of the array, early out. */
 		if (index < 0 || index >= m_JumpResetLayers.size())
+		{
 			return Layer::None;
+		}
 
 		/* Return the Layer. */
 		return m_JumpResetLayers[index];
@@ -39,7 +41,9 @@ namespace Kross
 		for (int i = 0; i < m_JumpResetLayers.size(); i++)
 		{
 			if (m_JumpResetLayers[i] == layer)
+			{
 				return; /* Early out if it has. */
+			}
 		}
 
 		/* Otherwise attach it. */
@@ -50,7 +54,9 @@ namespace Kross
 	{
 		/* If the index is outside the bounds of the array, early out. */
 		if (index < 0 || index >= m_JumpResetLayers.size())
+		{
 			return;
+		}
 
 		/* Erase the Layer from the array. */
 		m_JumpResetLayers.erase(m_JumpResetLayers.begin() + index);
@@ -105,36 +111,45 @@ namespace Kross
 
 	void PlayerController::OnCollisionEnter(Object* other)
 	{
-		/* Reset the Jump Count. */
-		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+		if (other != nullptr)
 		{
-			if (other->GetLayer() == m_JumpResetLayers[i])
+			/* Reset the Jump Count. */
+			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
-				m_JumpCount = 0;
+ 				if (other && other->GetLayer() == m_JumpResetLayers[i])
+				{
+					m_JumpCount = 0;
+				}
 			}
 		}
 	}
 
 	void PlayerController::OnCollisionStay(Object* other)
 	{
-		/* Reset the Jump Count. */
-		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+		if (other != nullptr)
 		{
-			if (other->GetLayer() == m_JumpResetLayers[i])
+			/* Reset the Jump Count. */
+			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
-				m_JumpCount = 0;
+				if (other->GetLayer() == m_JumpResetLayers[i])
+				{
+					m_JumpCount = 0;
+				}
 			}
 		}
 	}
 
 	void PlayerController::OnCollisionExit(Object* other)
 	{
-		/* Reset the Jump Count. */
-		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+		if (other != nullptr)
 		{
-			if (other->GetLayer() == m_JumpResetLayers[i])
+			/* Reset the Jump Count. */
+			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
-				m_JumpCount = 0;
+				if (other->GetLayer() == m_JumpResetLayers[i])
+				{
+					m_JumpCount = 0;
+				}
 			}
 		}
 	}
