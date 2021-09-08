@@ -318,6 +318,7 @@ namespace Kross
     void Scene::DetachObjectFromRenderQueue(Layer layer, int index)
     {
         /* Remove the Object from the List. */
+        m_RenderList[(int)layer][index] = nullptr;
         m_RenderList[(int)layer].erase(m_RenderList[(int)layer].begin() + index);
     }
 
