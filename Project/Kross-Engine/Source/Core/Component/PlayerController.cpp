@@ -110,7 +110,7 @@ namespace Kross
 			/* Reset the Jump Count. */
 			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
-				if (other->GetLayer() == m_JumpResetLayers[i])
+ 				if (other && other->GetLayer() == m_JumpResetLayers[i])
 				{
 					m_JumpCount = 0;
 				}
