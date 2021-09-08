@@ -913,7 +913,7 @@ namespace Kross
 
         //Vector2 particleForce = CollideParticles();
         //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
-        if (p_Box == nullptr )
+        if (p_Box == nullptr && p_Circle == nullptr)
         {
             if (p_Capsule != nullptr)
             {
