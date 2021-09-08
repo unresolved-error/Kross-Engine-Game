@@ -105,36 +105,45 @@ namespace Kross
 
 	void PlayerController::OnCollisionEnter(Object* other)
 	{
-		/* Reset the Jump Count. */
-		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+		if (other != nullptr)
 		{
-			if (other->GetLayer() == m_JumpResetLayers[i])
+			/* Reset the Jump Count. */
+			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
-				m_JumpCount = 0;
+				if (other->GetLayer() == m_JumpResetLayers[i])
+				{
+					m_JumpCount = 0;
+				}
 			}
 		}
 	}
 
 	void PlayerController::OnCollisionStay(Object* other)
 	{
-		/* Reset the Jump Count. */
-		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+		if (other != nullptr)
 		{
-			if (other->GetLayer() == m_JumpResetLayers[i])
+			/* Reset the Jump Count. */
+			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
-				m_JumpCount = 0;
+				if (other->GetLayer() == m_JumpResetLayers[i])
+				{
+					m_JumpCount = 0;
+				}
 			}
 		}
 	}
 
 	void PlayerController::OnCollisionExit(Object* other)
 	{
-		/* Reset the Jump Count. */
-		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+		if (other != nullptr)
 		{
-			if (other->GetLayer() == m_JumpResetLayers[i])
+			/* Reset the Jump Count. */
+			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
-				m_JumpCount = 0;
+				if (other->GetLayer() == m_JumpResetLayers[i])
+				{
+					m_JumpCount = 0;
+				}
 			}
 		}
 	}

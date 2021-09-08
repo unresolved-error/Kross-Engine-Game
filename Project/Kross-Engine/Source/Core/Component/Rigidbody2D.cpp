@@ -908,13 +908,13 @@ namespace Kross
 
     void Rigidbody2D::CollisionUpdate()
     {
-        RaycastData* rightSideDown = KROSS_NEW RaycastData();
-        RaycastData* leftSideDown = KROSS_NEW RaycastData();
-
         //Vector2 particleForce = CollideParticles();
         //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
         if (p_Box == nullptr && p_Circle == nullptr)
         {
+            RaycastData* rightSideDown = KROSS_NEW RaycastData();
+            RaycastData* leftSideDown = KROSS_NEW RaycastData();
+
             if (p_Capsule != nullptr)
             {
                 rightSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
@@ -963,6 +963,12 @@ namespace Kross
             
             p_DebugRenderer->DrawLineSegment(leftSideDown->pos, leftSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(leftSideDown->intersectionPoint, 0.1f, 8);
+
+            rightSideDown = nullptr;
+            leftSideDown = nullptr;
+
+            delete rightSideDown;
+            delete leftSideDown;
         }
 
         #ifndef KROSS_EDITOR
@@ -974,7 +980,6 @@ namespace Kross
         #else
         p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
         #endif
-
     }
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)

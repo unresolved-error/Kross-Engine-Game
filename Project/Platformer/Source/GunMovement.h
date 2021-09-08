@@ -55,6 +55,8 @@ public:
 
 	Vector2 toMouse;
 
+	std::vector<Object*> bullets;
+
 	void Start() override
 	{
 
@@ -154,7 +156,7 @@ public:
 		//endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
 		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1,0,0));
 
-		if (Input::GetMouseButtonPressed(Mouse::Left))
+		if (Input::GetMouseButtonPressed(Mouse::Left) || Input::GetMouseButtonDown(Mouse::Right))
 		{
 			Object* bullet = Object::OnCreate("Bullet-Clone");
 
@@ -166,23 +168,38 @@ public:
 			bullet->m_Transform->m_Rotation = 45.0f;
 			bullet->SetLayer(Layer::Player);
 
-			b2Filter* filter = KROSS_NEW b2Filter();
-			filter->categoryBits = ColliderFilters::Environment;
-			filter->maskBits = ColliderFilters::Player, ColliderFilters::Fluid, ColliderFilters::Environment;
+			collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
+			collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
 
-			collider->SetCollisonFilters(filter);
 			collider->SetWidth(0.0625f);
 			collider->SetHeight(0.0625f);
 
 			sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
-			
+			Colour colour = Colour(1.0f);
+			colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
+			colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
+			colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
+
+			sprite->SetColour(colour);
 
 			OnCreateObject(bullet);
-			rigidbody->OnApplyImpulse(toMouseNormd * 0.2f);
 
+			rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
 			sprite->GetMaterial()->SetDiffuse(bulletSprite);
 			
-			delete filter;
+			bullets.push_back(bullet);
+		}
+
+		for (int i = bullets.size() - 1; i >= 0; i--)
+		{
+			float threashold = 0.025f;
+			Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
+			if (rb->GetBody()->GetLinearVelocity().x >= -threashold && rb->GetBody()->GetLinearVelocity().y >= -threashold &&
+				rb->GetBody()->GetLinearVelocity().x <= threashold && rb->GetBody()->GetLinearVelocity().y < threashold)
+			{
+				SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+				bullets.erase(bullets.begin() + i);
+			}
 		}
 
 	}
