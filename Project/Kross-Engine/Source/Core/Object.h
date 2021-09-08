@@ -40,7 +40,7 @@ namespace Kross
 		~Object();
 
 		std::string m_Name;
-		bool m_Static, m_Enable, m_Prefab, m_Started;
+		bool m_Static, m_Enable, m_Prefab, m_Started, m_Remove;
 
 		std::vector<Component*> m_Components;
 		std::vector<Renderer*> m_RenderComponents;
@@ -101,6 +101,9 @@ namespace Kross
 
 		// Checks if the Object has a Render Component.
 		const bool GetRenderableStatus() const { return (m_RenderComponents.size() > 0); };
+
+		// Should Remove Object.
+		const bool ShouldBeRemoved() const { return m_Remove; };
 
 		// Gets all the Renderer Components on the Object.
 		std::vector<Renderer*> GetRendererComponents() const { return m_RenderComponents; };

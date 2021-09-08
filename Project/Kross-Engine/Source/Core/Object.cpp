@@ -20,7 +20,8 @@ namespace Kross
 		m_Static		(false),
 		m_Enable		(true),
 		m_Prefab		(false),
-		m_Started		(false)
+		m_Started		(false),
+		m_Remove		(false)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -36,7 +37,8 @@ namespace Kross
 		m_Layer			(Layer::Default),
 		m_Children		(std::vector<Object*>()), 
 		m_ParentObject	(nullptr),
-		m_Started		(false)
+		m_Started		(false),
+		m_Remove(false)
 	{
 		/* First Component is the Transform Component. */
 		AttachComponent<Transform2D>();
@@ -91,7 +93,7 @@ namespace Kross
 
 	void Object::OnUpdate()
 	{
-		if (!m_Static && m_Enable)
+		if (!m_Static && m_Enable && !m_Remove)
 		{
 			/* Update Components. */
 			for (int i = 0; i < m_Components.size(); i++)
@@ -105,7 +107,7 @@ namespace Kross
 
 	void Object::OnCollisionEnter(Object* other)
 	{
-		if (!m_Static && m_Enable)
+		if (!m_Static && m_Enable && !m_Remove)
 		{
 			/* Enter Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
@@ -119,7 +121,7 @@ namespace Kross
 
 	void Object::OnCollisionStay(Object* other)
 	{
-		if (!m_Static && m_Enable)
+		if (!m_Static && m_Enable && !m_Remove)
 		{
 			/* Stay Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
@@ -133,7 +135,7 @@ namespace Kross
 
 	void Object::OnCollisionExit(Object* other)
 	{
-		if (!m_Static && m_Enable)
+		if (!m_Static && m_Enable && !m_Remove)
 		{
 			/* Exit Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)

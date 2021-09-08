@@ -128,6 +128,8 @@ namespace Kross
 				Editor::OnRender();
 				#endif
 
+				SceneManager::GetCurrentScene()->OnRemoveObjects();
+
 				Input::SetScrollValue(0.0f);
 				m_Instance->m_Window->OnPollEvents();
 

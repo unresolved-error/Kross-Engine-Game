@@ -109,6 +109,9 @@ namespace Kross
 		// Renders the Objects.
 		void OnRender();
 
+		// Removes all Object that have been tagged.
+		void OnRemoveObjects();
+
 		// Gets all of the Objects in the Scene.
 		std::vector<Object*> GetObjects() const { return m_ActualObjects; };
 
