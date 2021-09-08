@@ -27,6 +27,14 @@ namespace Kross
 
 		ImGuiViewport* p_Viewport;
 
+		float m_ScrollSpeedMultiplier = 1.0f;
+		float m_ScrollSpeedMultiplierResetTimer = 0.0f;
+		float m_ScrollSpeedMultiplierResetTimerMax = 6.0f;
+
+		float m_CameraMoveSpeedMultiplier = 1.0f;
+		float m_CameraMoveSpeedMultiplierResetTimer = 0.0f;
+		float m_CameraMoveSpeedMultiplierResetTimerMax = 6.0f;
+
 		Editor() :
 			m_EditorWindows	(std::vector<EditorWindow*>()),
 			p_ObjectEditor	(nullptr),
