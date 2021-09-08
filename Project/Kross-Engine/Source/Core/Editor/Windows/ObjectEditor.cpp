@@ -1094,7 +1094,7 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<PlayerController>();
 					}
 
-					else if(typeid(*component) == typeid(Script))
+					else
 					{
 						ImGui::CollapsingHeader(((Script*)component)->GetName().c_str(), &isOpen, ImGuiTreeNodeFlags_Leaf);
 
