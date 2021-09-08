@@ -68,8 +68,8 @@ namespace Kross
 	public:
 		RopeAvatar() :
 			m_BasePositions				(std::vector<Vector2>()),
-			m_StartAnchorBody					(nullptr),
-			m_EndAnchorBody					(nullptr),
+			m_StartAnchorBody			(nullptr),
+			m_EndAnchorBody				(nullptr),
 			m_StartBodyConnectedBody	(nullptr),
 			m_EndBodyConnectedBody		(nullptr),
 			m_ChainLinkLength			(0.1f),

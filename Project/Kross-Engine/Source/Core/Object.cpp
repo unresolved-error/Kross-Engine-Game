@@ -74,15 +74,18 @@ namespace Kross
 	{
 		/* Safe programming, not really needed but good to have. */
 		if (object)
+		{
 			delete object;
+		}
 	}
 
 	void Object::OnStart()
 	{
 		/* Start up Components. */
 		for (int i = 0; i < m_Components.size(); i++)
+		{
 			m_Components[i]->OnStart();
-
+		}
 		m_Started = true;
 	}
 
@@ -92,7 +95,9 @@ namespace Kross
 		{
 			/* Update Components. */
 			for (int i = 0; i < m_Components.size(); i++)
+			{
 				m_Components[i]->OnUpdate();
+			}
 		}
 
 		return;
@@ -104,7 +109,9 @@ namespace Kross
 		{
 			/* Enter Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
+			{
 				m_Components[i]->OnCollisionEnter(other);
+			}
 		}
 
 		return;
@@ -116,7 +123,9 @@ namespace Kross
 		{
 			/* Stay Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
+			{
 				m_Components[i]->OnCollisionStay(other);
+			}
 		}
 
 		return;
@@ -128,7 +137,9 @@ namespace Kross
 		{
 			/* Exit Components Collision. */
 			for (int i = 0; i < m_Components.size(); i++)
+			{
 				m_Components[i]->OnCollisionExit(other);
+			}
 		}
 
 		return;
@@ -138,17 +149,23 @@ namespace Kross
 	{
 		/* If the Object is itself. */
 		if (object == this)
+		{
 			return;
+		}
 
 		/* Early out if no Object. */
 		if (!object)
+		{
 			return;
+		}
 
 		/* Check for duplicates. */
 		for (int i = 0; i < m_Children.size(); i++)
 		{
 			if (m_Children[i] == object)
+			{
 				return;
+			}
 		}
 
 		/* If no duplicates. */
@@ -161,7 +178,9 @@ namespace Kross
 		for (int i = 0; i < m_Children.size(); i++)
 		{
 			if (m_Children[i]->GetName() == name)
+			{
 				DetachChildObject(i); /* If the child has been found, remove it from the list. */
+			}
 		}
 	}
 
@@ -169,7 +188,9 @@ namespace Kross
 	{
 		/* If the index is in the bounds of the list. */
 		if (index >= 0 && index < m_Children.size())
+		{
 			m_Children.erase(m_Children.begin() + index); /* remove the specified child. */
+		}
 	}
 
 	void Object::DetachChildObject(Object* object)
@@ -178,7 +199,9 @@ namespace Kross
 		for (int i = 0; i < m_Children.size(); i++)
 		{
 			if (m_Children[i] == object)
+			{
 				DetachChildObject(i); /* If the child has been found, remove it from the list. */
+			}
 		}
 	}
 
@@ -188,7 +211,9 @@ namespace Kross
 		for (int i = 0; i < m_Children.size(); i++)
 		{
 			if (m_Children[i]->GetName() == name)
+			{
 				return GetChildObject(i); /* If the child has been found, return it. */
+			}
 		}
 
 		/* If no Object could be found, return null. */
@@ -199,7 +224,9 @@ namespace Kross
 	{
 		/* If the index is in the bounds of the list. */
 		if (index >= 0 && index < m_Children.size())
+		{
 			return m_Children[index]; /* Return the Child. */
+		}
 
 		/* If the index is out of bounds return null. */
 		return nullptr;
@@ -211,7 +238,9 @@ namespace Kross
 		for (int i = 0; i < m_Children.size(); i++)
 		{
 			if (m_Children[i] == object)
+			{
 				return GetChildObject(i); /* If the child has been found, return it. */
+			}
 		}
 
 		/* If no Object could be found, return null. */

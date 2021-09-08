@@ -36,14 +36,15 @@ namespace Kross
 
 			/* Read the file line by line. */
 			while (getline(fileStream, line))
+			{
 				contents << line << "\n";
+			}
 
 			fileStream.close();
 
 			/* Return the file contents. */
 			return contents.str();
 		}
-
 		else
 		{
 			fileStream.close();
@@ -66,13 +67,17 @@ namespace Kross
 
 			/* Read the file line by line. */
 			while (getline(fileStream, lineString) && lineIndex < line)
+			{
 				lineIndex++;
+			}
 
 			fileStream.close();
 
 			/* If the line index wasn't met then return a emtpy string. */
 			if (lineIndex < line)
+			{
 				return std::string();
+			}
 
 			/* Return the file contents. */
 			return lineString;
@@ -122,16 +127,19 @@ namespace Kross
 		atlasSpriteWriter << "ATLAS-SPRITE-DATA:\n";
 
 		/* Go through all of the sprites that were added to the Atlas. */
-		for(int i = 0; i < atlas->m_AttachedSprites.size(); i++)
+		for (int i = 0; i < atlas->m_AttachedSprites.size(); i++)
 		{
 			Sprite* sprite = atlas->m_AttachedSprites[i];
 			AtlasSpriteData data = atlas->m_SpriteAtlasUVs[sprite];
 
-			if(i != atlas->m_AttachedSprites.size() - 1)
+			if (i != atlas->m_AttachedSprites.size() - 1)
+			{
 				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << std::to_string(data.m_Offset.x) << "->" << std::to_string(data.m_Offset.y) << "->" << std::to_string(data.m_Ratio.x) << "->" << std::to_string(data.m_Ratio.y) << "->\n";
-
+			}
 			else
+			{
 				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << std::to_string(data.m_Offset.x) << "->" << std::to_string(data.m_Offset.y) << "->" << std::to_string(data.m_Ratio.x) << "->" << std::to_string(data.m_Ratio.y) << "->";
+			}
 		}
 
 		atlasSpriteWriter.close();
@@ -146,10 +154,13 @@ namespace Kross
 			Vector2 offset = atlas->m_TextureOffsets[texture];
 
 			if (i != atlas->m_AttachedTextures.size() - 1)
+			{
 				atlasTextureWriter << "DATA->" << texture->GetName() << "->" << std::to_string(offset.x) << "->" << std::to_string(offset.y) << "->\n";
-
+			}
 			else
+			{
 				atlasTextureWriter << "DATA->" << texture->GetName() << "->" << std::to_string(offset.x) << "->" << std::to_string(offset.y) << "->";
+			}
 		}
 
 		atlasTextureWriter.close();
@@ -199,7 +210,8 @@ namespace Kross
 				}
 
 				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos) {
+				if (line.find("//") != std::string::npos) 
+				{
 					continue;
 				}
 
@@ -263,7 +275,10 @@ namespace Kross
 			}
 			fileStream.close();
 		}
-		else { fileStream.close(); }
+		else
+		{ 
+			fileStream.close(); 
+		}
 
 		//NOW LOAD OBJECTS. THIS WILL BE ROUGH.
 		std::vector<Object*> readObj = OnReadObjects(kObjFilepath);
@@ -272,7 +287,6 @@ namespace Kross
 
 		for (int i = 0; i < readObj.size(); i++)
 		{
-			
 			newScene->AttachObject(readObj[i]);
 		}
 		
@@ -340,8 +354,10 @@ namespace Kross
 
 				if (line == "START->") 
 				{
-					if(!currentObject)
+					if (!currentObject)
+					{
 						currentObject = Object::OnCreate();
+					}
 
 					continue;
 				}
@@ -455,11 +471,11 @@ namespace Kross
 										isFirst = false;
 									}
 								}
-
 								/* If no Animation was Found. */
 								else
+								{
 									Debug::LogWarningLine("Animation: " + animationName + "! Not Found!");
-
+								}
 								/* Erase Data that has been used. */
 								animatorData[i].erase(0, searchPosition + lineSplitter.length());
 							}
@@ -489,26 +505,26 @@ namespace Kross
 								/* Run through the Variable Placement Switch. */
 								switch (varSwitch)
 								{
-									/* Audio Source. */
+								/* Audio Source. */
 								case 0:
 								{
 									AudioSource* audioSource = ResourceManager::GetResource<AudioSource>(value);
 
 									/* If the Audio Source searched does exist. */
 									if (audioSource)
+									{
 										audioPlayers[i]->SetAudioSource(audioSource);
-
+									}
 									/* If not. */
 									else
+									{
 										Debug::LogWarningLine("Audio Source: " + value + "! Not Found!");
-
+									}
 									break;
 								}
-
 								/* Loop Setting. */
 								case 1:
 								{
-
 									audioPlayers[i]->SetLoop((bool)std::stoi(value));
 									break;
 								}
@@ -519,14 +535,12 @@ namespace Kross
 									audioPlayers[i]->SetPlaySpeed(std::stof(value));
 									break;
 								}
-
 								/* Volume Setting. */
 								case 3:
 								{
 									audioPlayers[i]->SetVolume(std::stof(value));
 									break;
 								}
-
 								/* Pan Setting. */
 								case 4:
 								{
@@ -573,7 +587,6 @@ namespace Kross
 									cameras[i]->SetSize(std::stof(value));
 									break;
 								}
-
 								/* Camera Near Plane Clipping. */
 								case 1:
 								{
@@ -581,7 +594,6 @@ namespace Kross
 									cameras[i]->SetNear(std::stof(value));
 									break;
 								}
-
 								/* Camera Far Plane Clipping. */
 								case 2:
 								{
@@ -625,66 +637,54 @@ namespace Kross
 								/* Collider Data Setting. */
 								switch (varSwitch)
 								{
-									/* Shape Type Setting. */
+								/* Shape Type Setting. */
 								case 0:
 								{
 									collider->SetShapeType((ShapeType)std::stoi(value));
 									break;
 								}
-
 								/* Width Setting. */
 								case 1:
 								{
-
 									collider->SetWidth(std::stof(value));
 									break;
 								}
-
 								/* Height Setting. */
 								case 2:
 								{
 									collider->SetHeight(std::stof(value));
 									break;
 								}
-
 								/* Radius Setting. */
 								case 3:
 								{
 									collider->SetRadius(std::stof(value));
 									break;
 								}
-
 								/* Friction Setting. */
 								case 4:
 								{
-
 									collider->SetFriction(std::stof(value));
 									break;
 								}
-
 								/* Mass Setting. */
 								case 5:
 								{
-
 									collider->SetMass(std::stof(value));
 									break;
 								}
-
 								/* Static Setting. */
 								case 6:
 								{
-
 									collider->SetStatic((bool)std::stoi(value));
 									break;
 								}
-
 								/* Tile Map Collision Check Setting. */
 								case 7:
 								{
 									collider->SetTileMapCollider((bool)std::stoi(value));
 									break;
 								}
-
 								/* Rotation Lock Setting. */
 								case 8:
 								{
@@ -751,60 +751,52 @@ namespace Kross
 
 									/* If we have a material. */
 									if (material)
+									{
 										renderers[i]->SetMaterial(material);
-
+									}
 									/* If not Report it. */
 									else
+									{
 										Debug::LogWarningLine("Material: " + value + "! Not Found!");
-
+									}
 									break;
 								}
-
 								/* Red Value Setting. */
 								case 1:
 								{
-
 									colour.r = std::stof(value);
 									break;
 								}
-
 								/* Green Value Setting. */
 								case 2:
 								{
 									colour.g = std::stof(value);
 									break;
 								}
-
 								/* Blue Value Setting. */
 								case 3:
 								{
 									colour.b = std::stof(value);
 									break;
 								}
-
 								/* Alpha Value Setting. */
 								case 4:
 								{
-
 									colour.a = std::stof(value);
 									break;
 								}
-
 								/* Horizontal Flip Setting. */
 								case 5:
 								{
-
 									renderers[i]->SetFlipX((bool)std::stoi(value));
 									break;
 								}
-
 								/* Vertical Flip Setting. */
 								case 6:
 								{
 									renderers[i]->SetFlipY((bool)std::stoi(value));
 									break;
 								}
-
 								/* Depth Setting. */
 								case 7:
 								{
@@ -851,13 +843,12 @@ namespace Kross
 								/* Text Renderer Variable Setting. */
 								switch (varSwitch)
 								{
-									/* Text Setting. */
+								/* Text Setting. */
 								case 0:
 								{
 									renderers[i]->SetText(value);
 									break;
 								}
-
 								/* Font Setting. */
 								case 1:
 								{
@@ -865,22 +856,22 @@ namespace Kross
 
 									/* If we have a font. */
 									if (font)
+									{
 										renderers[i]->SetFont(font);
-
+									}
 									/* If not. Report it. */
 									else
+									{
 										Debug::LogWarningLine("Font: " + value + "! Not Found!");
-
+									}
 									break;
 								}
-
 								/* Text Alignment Setting. */
 								case 2:
 								{
 									renderers[i]->SetTextAlignment((TextAlignment)std::stoi(value));
 									break;
 								}
-
 								/* Red Value Setting. */
 								case 3:
 								{
@@ -888,28 +879,24 @@ namespace Kross
 									colour.r = std::stof(value);
 									break;
 								}
-
 								/* Green Value Setting. */
 								case 4:
 								{
 									colour.g = std::stof(value);
 									break;
 								}
-
 								/* Blue Value Setting. */
 								case 5:
 								{
 									colour.b = std::stof(value);
 									break;
 								}
-
 								/* Alpha Value Setting. */
 								case 6:
 								{
 									colour.a = std::stof(value);
 									break;
 								}
-
 								/* Text Size Setting. */
 								case 7:
 								{
@@ -960,12 +947,14 @@ namespace Kross
 
 									/* If a Tile Set was Found. */
 									if (tileSet)
+									{
 										renderers[i]->SetTileSet(tileSet);
-
+									}
 									/* If not. Report it. */
 									else
+									{
 										Debug::LogWarningLine("Tile Set: " + value + "! Not Found!");
-
+									}
 									break;
 								}
 
@@ -976,11 +965,14 @@ namespace Kross
 
 									/* If a Tile Map was Found. */
 									if (tileMap)
+									{
 										renderers[i]->SetTileMap(tileMap);
-
+									}
 									/* If not. Report it. */
 									else
+									{
 										Debug::LogWarningLine("Tile Map: " + value + "! Not Found!");
+									}
 
 									break;
 								}
@@ -1030,16 +1022,13 @@ namespace Kross
 									emitterproperties->AddParticleFlags(prtFlgs);
 									break;
 								}
-
 								/* CatBits read in. */
 								case 1:
 								{
-									
 									int catBtsIntParse = std::stoi(value);
 									cBts = static_cast<uint16>(catBtsIntParse);
 									break;
 								}
-
 								/* MaskBits readIn. */
 								case 2:
 								{
@@ -1047,7 +1036,6 @@ namespace Kross
 									mBts = static_cast<uint16>(mskBtsIntParse);
 									break;
 								}
-
 								/* Radius Setting. */
 								case 3:
 								{
@@ -1067,7 +1055,6 @@ namespace Kross
 								//edmitterproperties->Sys
 
 
-
 								/* Erase the Data just Used. */
 								particleEmitterData[i].erase(0, searchPosition + lineSplitter.length());
 
@@ -1075,7 +1062,6 @@ namespace Kross
 								varSwitch++;
 							}
 						}
-
 					}
 
 					if (playerControllerData.size() > 0)
@@ -1099,7 +1085,7 @@ namespace Kross
 
 								switch (varSwitch)
 								{
-									/* Particle Flags. */
+								/* Particle Flags. */
 								case 0:
 								{
 									std::string data = value;
@@ -1126,7 +1112,6 @@ namespace Kross
 									}
 									break;
 								}
-
 								/* CatBits read in. */
 								case 1:
 								{
@@ -1135,7 +1120,6 @@ namespace Kross
 									controller->SetMaxJumpCount(maxJumpCount);
 									break;
 								}
-
 								/* MaskBits readIn. */
 								case 2:
 								{
@@ -1143,7 +1127,6 @@ namespace Kross
 									controller->SetGroundSpeed(groundSpeed);
 									break;
 								}
-
 								/* Radius Setting. */
 								case 3:
 								{
@@ -1197,69 +1180,66 @@ namespace Kross
 					{
 						/* Name Property. */
 						if (objProperty == "NAME")
+						{
 							objName = line.substr(0, searchPosition);
-
+						}
 						/* Static Property. */
 						else if (objProperty == "STATIC")
+						{
 							objStatic = line.substr(0, searchPosition);
-
+						}
 						/* Enable Property. */
 						else if (objProperty == "ENABLE")
+						{
 							objEnable = line.substr(0, searchPosition);
-
+						}
 						/* Layer Property. */
 						else if (objProperty == "LAYER")
+						{
 							objLayer = line.substr(0, searchPosition);
-
+						}
 						/* Animator Component Property. */
 						else if (objProperty == "ANIMATOR")
 						{
 							currentObject->AttachComponent<Animator>();
 							animatorData.push_back(line);
 						}
-
 						/* Audio Player Component Property. */
 						else if (objProperty == "AUDIO-PLAYER")
 						{
 							currentObject->AttachComponent<AudioPlayer>();
 							audioPlayerData.push_back(line);
 						}
-
 						/* Camera Component Property. */
 						else if (objProperty == "CAMERA")
 						{
 							currentObject->AttachComponent<Camera>();
 							cameraData.push_back(line);
 						}
-
 						/* Rigidbody 2D Component Property. */
 						else if (objProperty == "RIGIDBODY2D")
 						{
 							currentObject->AttachComponent<Rigidbody2D>();
 							rigidbodyData.push_back(line);
 						}
-
 						/* Sprite Renderer Component Property. */
 						else if (objProperty == "SPRITE-RENDERER")
 						{
 							currentObject->AttachComponent<SpriteRenderer>();
 							spriteRendererData.push_back(line);
 						}
-
 						/* Text Renderer Component Property. */
 						else if (objProperty == "TEXT-RENDERER")
 						{
 							currentObject->AttachComponent<TextRenderer>();
 							textRendererData.push_back(line);
 						}
-
 						/* Tile Map Renderer Component Property. */
 						else if (objProperty == "TILEMAP-RENDERER")
 						{
 							currentObject->AttachComponent<TileMapRenderer>();
 							tileMapRendererData.push_back(line);
 						}
-
 						/* Particle Emitter Component Property. */
 						else if (objProperty == "EMITTER") 
 						{
@@ -1267,7 +1247,6 @@ namespace Kross
 							//currentObject->AttachComponent<ParticleProperties>();
 							particleEmitterData.push_back(line);
 						}
-
 						else if (objProperty == "SCRIPT")
 						{
 							Script* script = ScriptRegistry::GetScript(line.substr(0, line.size() - 2));
@@ -1275,19 +1254,16 @@ namespace Kross
 							currentObject->m_Components.push_back(script);
 							Debug::LogLine(script->GetName() + " - Script was attached!");
 						}
-
 						/* Transform Component Property. */
 						else if (objProperty == "TRANSFORM2D")
 						{
 							transformData = line;
 						}
-
 						else if (objProperty == "PLAYER-CONTROLLER")
 						{
 							currentObject->AttachComponent<PlayerController>();
 							playerControllerData.push_back(line);
 						}
-
 					}
 
 					/* Erase parts of the line to not double up on data search. */
@@ -1304,7 +1280,6 @@ namespace Kross
 			/* Close the File Stream. */
 			fileStream.close();
 		}
-
 		/* If the File Stream Failed to open. */
 		else
 		{
@@ -1581,8 +1556,10 @@ namespace Kross
 		
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
-		
+				}
+
 				/* Quick Variables. */
 				size_t searchPosition = 0;
 				std::string prefabProperty;
@@ -1596,84 +1573,80 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						prefabProperty = line.substr(0, searchPosition);
-		
+					}
 					/* Grab the Property Value. */
 					else
 					{
 						/* Name Property. */
 						if (prefabProperty == "NAME")
+						{
 							prefabName = line.substr(0, searchPosition);
-		
+						}
 						/* Static Property. */
 						else if (prefabProperty == "STATIC")
+						{
 							prefabStatic = line.substr(0, searchPosition);
-
+						}
 						/* Enable Property. */
 						else if (prefabProperty == "ENABLE")
+						{
 							prefabEnable = line.substr(0, searchPosition);
-
+						}
 						/* Layer Property. */
 						else if (prefabProperty == "LAYER")
+						{
 							prefabLayer = line.substr(0, searchPosition);
-
+						}
 						/* Animator Component Property. */
 						else if (prefabProperty == "ANIMATOR")
 						{
 							object->AttachComponent<Animator>();
 							animatorData.push_back(line);
 						}
-
 						/* Audio Player Component Property. */
 						else if (prefabProperty == "AUDIO-PLAYER")
 						{
 							object->AttachComponent<AudioPlayer>();
 							audioPlayerData.push_back(line);
 						}
-
 						/* Camera Component Property. */
 						else if (prefabProperty == "CAMERA")
 						{
 							object->AttachComponent<Camera>();
 							cameraData.push_back(line);
 						}
-
 						/* Rigidbody 2D Component Property. */
 						else if (prefabProperty == "RIGIDBODY2D")
 						{
 							object->AttachComponent<Rigidbody2D>();
 							rigidbodyData.push_back(line);
 						}
-
 						/* Sprite Renderer Component Property. */
 						else if (prefabProperty == "SPRITE-RENDERER")
 						{
 							object->AttachComponent<SpriteRenderer>();
 							spriteRendererData.push_back(line);
 						}
-
 						/* Text Renderer Component Property. */
 						else if (prefabProperty == "TEXT-RENDERER")
 						{
 							object->AttachComponent<TextRenderer>();
 							textRendererData.push_back(line);
 						}
-
 						/* Tile Map Renderer Component Property. */
 						else if (prefabProperty == "TILEMAP-RENDERER")
 						{
 							object->AttachComponent<TileMapRenderer>();
 							tileMapRendererData.push_back(line);
 						}
-
 						/* Transform Component Property. */
 						else if (prefabProperty == "TRANSFORM2D")
 						{
 							transformData = line;
 						}
-
 					}
-		
 					/* Erase parts of the line to not double up on data search. */
 					line.erase(0, searchPosition + lineSplitter.length());
 		
@@ -1726,10 +1699,11 @@ namespace Kross
 								isFirst = false;
 							}
 						}
-
 						/* If no Animation was Found. */
 						else
+						{
 							Debug::LogWarningLine("Animation: " + animationName + "! Not Found!");
+						}
 
 						/* Erase Data that has been used. */
 						animatorData[i].erase(0, searchPosition + lineSplitter.length());
@@ -1767,37 +1741,34 @@ namespace Kross
 
 								/* If the Audio Source searched does exist. */
 								if (audioSource)
+								{
 									audioPlayers[i]->SetAudioSource(audioSource);
-
+								}
 								/* If not. */
 								else
+								{
 									Debug::LogWarningLine("Audio Source: " + value + "! Not Found!");
-
+								}
 								break;
 							}
-
 							/* Loop Setting. */
 							case 1:
 							{
-
 								audioPlayers[i]->SetLoop((bool)std::stoi(value));
 								break;
 							}
-
 							/* Play Speed Setting. */
 							case 2:
 							{
 								audioPlayers[i]->SetPlaySpeed(std::stof(value));
 								break;
 							}
-
 							/* Volume Setting. */
 							case 3:
 							{
 								audioPlayers[i]->SetVolume(std::stof(value));
 								break;
 							}
-
 							/* Pan Setting. */
 							case 4:
 							{
@@ -1844,15 +1815,12 @@ namespace Kross
 								cameras[i]->SetSize(std::stof(value));
 								break;
 							}
-
 							/* Camera Near Plane Clipping. */
 							case 1:
 							{
-
 								cameras[i]->SetNear(std::stof(value));
 								break;
 							}
-
 							/* Camera Far Plane Clipping. */
 							case 2:
 							{
@@ -1899,29 +1867,24 @@ namespace Kross
 								collider->SetShapeType((ShapeType)std::stoi(value));
 								break;
 							}
-
 							/* Width Setting. */
 							case 1:
 							{
-
 								collider->SetWidth(std::stof(value));
 								break;
 							}
-
 							/* Height Setting. */
 							case 2:
 							{
 								collider->SetHeight(std::stof(value));
 								break;
 							}
-
 							/* Radius Setting. */
 							case 3:
 							{
 								collider->SetRadius(std::stof(value));
 								break;
 							}
-
 							/* Friction Setting. */
 							case 4:
 							{
@@ -1929,22 +1892,18 @@ namespace Kross
 								collider->SetFriction(std::stof(value));
 								break;
 							}
-
 							/* Static Setting. */
 							case 5:
 							{
-
 								collider->SetStatic((bool)std::stoi(value));
 								break;
 							}
-
 							/* Tile Map Collision Check Setting. */
 							case 6:
 							{
 								collider->SetTileMapCollider((bool)std::stoi(value));
 								break;
 							}
-
 							/* Rotation Lock Setting. */
 							case 7:
 							{
@@ -1996,60 +1955,52 @@ namespace Kross
 
 								/* If we have a material. */
 								if (material)
+								{
 									renderers[i]->SetMaterial(material);
-
+								}
 								/* If not Report it. */
 								else
+								{
 									Debug::LogWarningLine("Material: " + value + "! Not Found!");
-
+								}
 								break;
 							}
-
 							/* Red Value Setting. */
 							case 1:
 							{
-
 								colour.r = std::stof(value);
 								break;
 							}
-
 							/* Green Value Setting. */
 							case 2:
 							{
 								colour.g = std::stof(value);
 								break;
 							}
-
 							/* Blue Value Setting. */
 							case 3:
 							{
 								colour.b = std::stof(value);
 								break;
 							}
-
 							/* Alpha Value Setting. */
 							case 4:
 							{
-
 								colour.a = std::stof(value);
 								break;
 							}
-
 							/* Horizontal Flip Setting. */
 							case 5:
 							{
-
 								renderers[i]->SetFlipX((bool)std::stoi(value));
 								break;
 							}
-
 							/* Vertical Flip Setting. */
 							case 6:
 							{
 								renderers[i]->SetFlipY((bool)std::stoi(value));
 								break;
 							}
-
 							/* Depth Setting. */
 							case 7:
 							{
@@ -2102,7 +2053,6 @@ namespace Kross
 								renderers[i]->SetText(value);
 								break;
 							}
-
 							/* Font Setting. */
 							case 1:
 							{
@@ -2110,22 +2060,23 @@ namespace Kross
 
 								/* If we have a font. */
 								if (font)
+								{
 									renderers[i]->SetFont(font);
-
+								}
 								/* If not. Report it. */
 								else
+								{
 									Debug::LogWarningLine("Font: " + value + "! Not Found!");
+								}
 
 								break;
 							}
-
 							/* Text Alignment Setting. */
 							case 2:
 							{
 								renderers[i]->SetTextAlignment((TextAlignment)std::stoi(value));
 								break;
 							}
-
 							/* Red Value Setting. */
 							case 3:
 							{
@@ -2133,28 +2084,24 @@ namespace Kross
 								colour.r = std::stof(value);
 								break;
 							}
-
 							/* Green Value Setting. */
 							case 4:
 							{
 								colour.g = std::stof(value);
 								break;
 							}
-
 							/* Blue Value Setting. */
 							case 5:
 							{
 								colour.b = std::stof(value);
 								break;
 							}
-
 							/* Alpha Value Setting. */
 							case 6:
 							{
 								colour.a = std::stof(value);
 								break;
 							}
-
 							/* Text Size Setting. */
 							case 7:
 							{
@@ -2205,15 +2152,16 @@ namespace Kross
 
 								/* If a Tile Set was Found. */
 								if (tileSet)
+								{
 									renderers[i]->SetTileSet(tileSet);
-
+								}
 								/* If not. Report it. */
 								else
+								{
 									Debug::LogWarningLine("Tile Set: " + value + "! Not Found!");
-
+								}
 								break;
 							}
-
 							/* Tile Map Setting. */
 							case 1:
 							{
@@ -2221,11 +2169,14 @@ namespace Kross
 
 								/* If a Tile Map was Found. */
 								if (tileMap)
+								{
 									renderers[i]->SetTileMap(tileMap);
-
+								}
 								/* If not. Report it. */
 								else
+								{
 									Debug::LogWarningLine("Tile Map: " + value + "! Not Found!");
+								}
 
 								break;
 							}
@@ -2266,28 +2217,24 @@ namespace Kross
 							transform->m_Position.x = std::stof(value);
 							break;
 						}
-
 						/* Y Position Setting. */
 						case 1:
 						{
 							transform->m_Position.y = std::stof(value);
 							break;
 						}
-
 						/* Rotation Setting. */
 						case 2:
 						{
 							transform->m_Rotation = std::stof(value);
 							break;
 						}
-
 						/* X Scale Setting. */
 						case 3:
 						{
 							transform->m_Scale.x = std::stof(value);
 							break;
 						}
-
 						/* Y Scale Setting. */
 						case 4:
 						{
@@ -2378,9 +2325,7 @@ namespace Kross
 					{
 						prefabStream << anim->m_Animations[i]->GetName() << "->";
 					}
-
 				}
-
 			}
 			else if (typeid(*comp) == typeid(Camera))
 			{
@@ -2469,18 +2414,15 @@ namespace Kross
 				prefabStream << pep->GetColliderFilters()->categoryBits << "->";
 				prefabStream << pep->GetColliderFilters()->maskBits << "->";
 				prefabStream << pep->GetRadius() << "->\n";
-
 			}
 
 			if (i != prefab->m_Components.size() - 1)
 			{
 				prefabStream << "\n";
 			}
-
 		}
 
 		prefabStream.close();
-
 	}
 
 	void FileSystem::OnReadTileMap(const std::string& filepath) 
@@ -2513,7 +2455,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2527,17 +2471,20 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						tileMapProperty = line.substr(0, searchPosition);
-
+					}
 					/* Grab the Property Value. */
 					else
 					{
 						if (tileMapProperty == "NAME")
+						{
 							mapName = line.substr(0, searchPosition);
-
+						}
 						else if (tileMapProperty == "RAWDATA")
+						{
 							mapRawDataFilepath = line.substr(0, searchPosition);
-
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -2640,7 +2587,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2654,28 +2603,37 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						spriteProperty = line.substr(0, searchPosition);
+					}
 
 					/* Grab the Property Value. */
 					else
 					{
 						if (spriteProperty == "NAME")
+						{
 							spriteName = line.substr(0, searchPosition);
-
+						}
 						else if (spriteProperty == "TEXTURE")
+						{
 							spriteTexture = line.substr(0, searchPosition);
-
+						}
 						else if (spriteProperty == "WIDTH")
+						{
 							spriteWidth = line.substr(0, searchPosition);
-
+						}
 						else if (spriteProperty == "HEIGHT")
+						{
 							spriteHeight = line.substr(0, searchPosition);
-
+						}
 						else if (spriteProperty == "OFFSETX")
+						{
 							spriteOffsetX = line.substr(0, searchPosition);
-
+						}
 						else if (spriteProperty == "OFFSETY")
+						{
 							spriteOffsetY = line.substr(0, searchPosition);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -2700,15 +2658,16 @@ namespace Kross
 				}
 
 				if (spriteType == "SPRITESHEET:")
+				{
 					Sprite::OnCreate(texture, width, height, spriteName);
+				}
 			}
-
 			else
+			{
 				Sprite::OnCreate(texture, spriteName);
-
+			}
 			fileStream.close();
 		}
-
 		else
 		{
 			fileStream.close();
@@ -2749,7 +2708,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2769,16 +2730,21 @@ namespace Kross
 					else
 					{
 						if (fontProperty == "NAME")
+						{
 							fontName = line.substr(0, searchPosition);
-
+						}
 						else if (fontProperty == "TEXTURE")
+						{
 							fontTexture = line.substr(0, searchPosition);
-
+						}
 						else if (fontProperty == "WIDTH")
+						{
 							fontWidth = line.substr(0, searchPosition);
-
+						}
 						else if (fontProperty == "HEIGHT")
+						{
 							fontHeight = line.substr(0, searchPosition);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -2798,7 +2764,6 @@ namespace Kross
 
 			fileStream.close();
 		}
-
 		else
 		{
 			fileStream.close();
@@ -2839,7 +2804,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2853,22 +2820,28 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						materialProperty = line.substr(0, searchPosition);
-
+					}
 					/* Grab the Property Value. */
 					else
 					{
 						if (materialProperty == "NAME")
+						{
 							materialName = line.substr(0, searchPosition);
-
+						}
 						else if (materialProperty == "DIFFUSE")
+						{
 							materialDiffuseSprite = line.substr(0, searchPosition);
-
+						}
 						else if (materialProperty == "NORMAL")
+						{
 							materialNormalSprite = line.substr(0, searchPosition);
-
+						}
 						else if (materialProperty == "SPECULAR")
+						{
 							materialSpecularSprite = line.substr(0, searchPosition);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -2881,26 +2854,32 @@ namespace Kross
 			Material* material = Material::OnCreate(materialName);
 
 			if (materialDiffuseSprite != "*")
+			{
 				material->SetDiffuse(ResourceManager::GetResource<Sprite>(materialDiffuseSprite));
-
+			}
 			else
+			{
 				material->SetDiffuse(ResourceManager::GetResource<Sprite>("Diffuse"));
-
+			}
 			if (materialNormalSprite != "*")
+			{
 				material->SetNormal(ResourceManager::GetResource<Sprite>(materialNormalSprite));
-
+			}
 			else
+			{
 				material->SetNormal(ResourceManager::GetResource<Sprite>("Normal"));
-
+			}
 			if (materialSpecularSprite != "*")
+			{
 				material->SetSpecular(ResourceManager::GetResource<Sprite>(materialSpecularSprite));
-
+			}
 			else
+			{
 				material->SetSpecular(ResourceManager::GetResource<Sprite>("Specular"));
+			}
 
 			fileStream.close();
 		}
-
 		else
 		{
 			fileStream.close();
@@ -2940,7 +2919,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -2954,19 +2935,25 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						animationProperty = line.substr(0, searchPosition);
+					}
 
 					/* Grab the Property Value. */
 					else
 					{
 						if (animationProperty == "NAME")
+						{
 							animationName = line.substr(0, searchPosition);
-
+						}
 						else if (animationProperty == "DURATION")
+						{
 							animationDuration = line.substr(0, searchPosition);
-
-						else if(animationProperty == "KEYFRAME")
+						}
+						else if (animationProperty == "KEYFRAME")
+						{
 							animationKeyFrameData.push_back(line);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -3004,48 +2991,49 @@ namespace Kross
 						case 0:
 						{
 							if (value != "*")
+							{
 								positionX = value;
-
+							}
 							break;
 						}
-
 						case 1:
 						{
 							if (value != "*")
+							{
 								positionY = value;
-
+							}
 							break;
 						}
-
 						case 2:
 						{
 							if (value != "*")
+							{
 								rotation = value;
-
+							}
 							break;
 						}
-
 						case 3:
 						{
 							if (value != "*")
+							{
 								scaleX = value;
-
+							}
 							break;
 						}
-
 						case 4:
 						{
 							if (value != "*")
+							{
 								scaleY = value;
-
+							}
 							break;
 						}
-
 						case 5:
 						{
 							if (value != "*")
+							{
 								sprite = value;
-
+							}
 							break;
 						}
 					}
@@ -3057,24 +3045,27 @@ namespace Kross
 				}
 
 				if (positionX != "" && positionY != "")
+				{
 					keyframe->SetPosition(Vector2(std::stof(positionX), std::stof(positionY)));
-
+				}
 				if (rotation != "")
+				{
 					keyframe->SetRotation(std::stof(rotation));
-
+				}
 				if (scaleX != "" && scaleY != "")
+				{
 					keyframe->SetScale(Vector2(std::stof(scaleX), std::stof(scaleY)));
-
+				}
 				if (sprite != "")
+				{
 					keyframe->SetSprite(ResourceManager::GetResource<Sprite>(sprite));
-
+				}
 				/* Add the Keyframe. */
 				animation->AttachKeyframe(keyframe);
 			}
 
 			fileStream.close();
 		}
-
 		else
 		{
 			fileStream.close();
@@ -3112,7 +3103,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -3126,22 +3119,28 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						atlasProperty = line.substr(0, searchPosition);
-
+					}
 					/* Grab the Property Value. */
 					else
 					{
 						if (atlasProperty == "TEXTURECOUNTDATA")
+						{
 							atlasTextureCountFilepath = line.substr(0, searchPosition);
-
+						}
 						else if (atlasProperty == "TEXTURE")
+						{
 							atlasTextureFilepath = line.substr(0, searchPosition);
-
+						}
 						else if (atlasProperty == "SPRITEDATA")
+						{
 							atlasSpriteDataFilepath = line.substr(0, searchPosition);
-
+						}
 						else if (atlasProperty == "TEXTUREDATA")
+						{
 							atlasTextureDataFilepath = line.substr(0, searchPosition);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -3175,8 +3174,9 @@ namespace Kross
 				}
 
 				if (ignore)
+				{
 					continue;
-
+				}
 				actualTextureCount++;
 			}
 
@@ -3200,7 +3200,6 @@ namespace Kross
 
 			ResourceManager::AttachResource<Atlas>(atlas);
 		}
-
 		else
 		{
 			fileStream.close();
@@ -3238,7 +3237,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -3252,13 +3253,16 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						atlasTextureCountProperty = line.substr(0, searchPosition);
-
+					}
 					/* Grab the Property Value. */
 					else
 					{
 						if (atlasTextureCountProperty == "COUNT")
+						{
 							atlasTextureCount = line.substr(0, searchPosition);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -3272,7 +3276,6 @@ namespace Kross
 
 			return std::stoi(atlasTextureCount);
 		}
-
 		else
 		{
 			fileStream.close();
@@ -3312,8 +3315,10 @@ namespace Kross
 		
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
-		
+				}
+
 				/* Quick Variables. */
 				size_t searchPosition = 0;
 				std::string atlasSpriteDataProperty;
@@ -3326,13 +3331,16 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						atlasSpriteDataProperty = line.substr(0, searchPosition);
-		
+					}
 					/* Grab the Property Value. */
 					else
 					{
 						if (atlasSpriteDataProperty == "DATA")
+						{
 							spriteData.push_back(line);
+						}
 					}
 		
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -3366,25 +3374,21 @@ namespace Kross
 							spriteName = value;
 							break;
 						}
-		
 						case 1:
 						{
 							offsetX = value;
 							break;
 						}
-		
 						case 2:
 						{
 							offsetY = value;
 							break;
 						}
-		
 						case 3:
 						{
 							ratioX = value;
 							break;
 						}
-		
 						case 4:
 						{
 							ratioY = value;
@@ -3407,7 +3411,6 @@ namespace Kross
 		
 			fileStream.close();
 		}
-		
 		else
 		{
 			fileStream.close();
@@ -3445,7 +3448,9 @@ namespace Kross
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -3459,13 +3464,16 @@ namespace Kross
 				{
 					/* Grab the Property Type. */
 					if (varSwitch == 0)
+					{
 						atlasTextureDataProperty = line.substr(0, searchPosition);
-
+					}
 					/* Grab the Property Value. */
 					else
 					{
 						if (atlasTextureDataProperty == "DATA")
+						{
 							textureData.push_back(line);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -3499,13 +3507,11 @@ namespace Kross
 							textureName = value;
 							break;
 						}
-
 						case 1:
 						{
 							offsetX = value;
 							break;
 						}
-
 						case 2:
 						{
 							offsetY = value;
@@ -3527,7 +3533,6 @@ namespace Kross
 
 			fileStream.close();
 		}
-
 		else
 		{
 			fileStream.close();
@@ -3556,14 +3561,15 @@ namespace Kross
 		texture->Finalise();
 
 		atlas->SetTexture(texture);
-
 	}
 
 	bool FileSystem::OnCreateDirectory(const std::string& directory)
 	{
 		/* If the Directory already exists. */
 		if (DirectoryExists(directory))
+		{
 			return true;
+		}
 
 		/* If not, Create it. */
 		return std::filesystem::create_directory(directory);

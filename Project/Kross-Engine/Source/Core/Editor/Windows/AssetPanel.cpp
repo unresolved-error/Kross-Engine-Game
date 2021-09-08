@@ -62,6 +62,7 @@ namespace Kross
                 ImGui::ImageButton((void*)ResourceManager::m_Instance->m_Sprites[i]->GetTexture()->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), 
                     ImVec2((0.0f * uvRatio.x) + uvOffset.x, (0.0f * uvRatio.y) + uvOffset.y), 
                     ImVec2((1.0f * uvRatio.x) + uvOffset.x, (-1.0f * uvRatio.y) + uvOffset.y));
+
                 ImGui::Text(ResourceManager::m_Instance->m_Sprites[i]->GetName().c_str());
                 ImGui::EndChild();
 
@@ -73,7 +74,6 @@ namespace Kross
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;
@@ -100,12 +100,13 @@ namespace Kross
                 if (moveOver != moveOverMax)
                 {
                     if (moveOver == 0)
+                    {
                         ImGui::Indent();
+                    }
 
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;
@@ -132,12 +133,13 @@ namespace Kross
                 if (moveOver != moveOverMax)
                 {
                     if (moveOver == 0)
+                    {
                         ImGui::Indent();
+                    }
 
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;
@@ -164,12 +166,13 @@ namespace Kross
                 if (moveOver != moveOverMax)
                 {
                     if (moveOver == 0)
+                    {
                         ImGui::Indent();
+                    }
 
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;
@@ -196,12 +199,13 @@ namespace Kross
                 if (moveOver != moveOverMax)
                 {
                     if (moveOver == 0)
+                    {
                         ImGui::Indent();
+                    }
 
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;
@@ -228,12 +232,13 @@ namespace Kross
                 if (moveOver != moveOverMax)
                 {
                     if (moveOver == 0)
+                    {
                         ImGui::Indent();
+                    }
 
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;
@@ -260,12 +265,13 @@ namespace Kross
                 if (moveOver != moveOverMax)
                 {
                     if (moveOver == 0)
+                    {
                         ImGui::Indent();
+                    }
 
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;
@@ -292,12 +298,13 @@ namespace Kross
                 if (moveOver != moveOverMax)
                 {
                     if (moveOver == 0)
+                    {
                         ImGui::Indent();
+                    }
 
                     ImGui::SameLine();
                     moveOver++;
                 }
-
                 else if (moveOver == moveOverMax)
                 {
                     moveOver = 0;

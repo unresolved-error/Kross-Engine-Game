@@ -13,8 +13,10 @@ namespace Kross
 	void SpriteRenderer::OnStart()
 	{
 		#ifndef KROSS_EDITOR
-		if(p_Material)
+		if (p_Material)
+		{
 			p_Material = KROSS_NEW Material(*p_Material);
+		}
 		#endif
 	}
 

@@ -15,7 +15,9 @@ namespace Kross
 		delete m_Properties;
 		
 		if (m_GLFWWindow)
+		{
 			glfwDestroyWindow(m_GLFWWindow);
+		}
 
 		glfwTerminate();
 	}
@@ -125,7 +127,6 @@ namespace Kross
 					glfwSetWindowMonitor(m_GLFWWindow, NULL, (int)(((float)GetWidth() / (float)Width) * GetWidth()) - (int)(GetWidth() / 2), (int)(((float)GetHeight() / (float)Height) * GetHeight()) - (int)(GetHeight() / 2), GetWidth(), GetHeight(), GLFW_DONT_CARE);
 					break;
 				}
-
 				case 1:
 				{
 					/* Set the window to the top left of the screen */

@@ -47,8 +47,10 @@ namespace Kross
 	void TileMapRenderer::CreateTiles()
 	{
 
-		if (!p_TileMap) { return; }
-
+		if (!p_TileMap) 
+		{ 
+			return; 
+		}
 
 		if (m_Tiles.size() > 0)
 		{
@@ -56,13 +58,9 @@ namespace Kross
 			{
 				delete m_Tiles[i];
 				m_Tiles[i] = nullptr;
-
-
 			}
 			m_Tiles.clear();
 		}
-
-		
 
 
 		for (int y = p_TileMap->GetDimensions().y - 1; y >= 0; y--)

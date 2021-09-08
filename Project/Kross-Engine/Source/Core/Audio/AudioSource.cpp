@@ -33,6 +33,8 @@ namespace Kross
 	{
 		/* Safe programming, not need but good to have. */
 		if (audioSource)
+		{
 			delete audioSource;
+		}
 	}
 }

@@ -27,7 +27,9 @@ namespace Kross
 	{
 		/* If the index is outside the bounds of the array, early out. */
 		if (index < 0 || index >= m_JumpResetLayers.size())
+		{
 			return Layer::None;
+		}
 
 		/* Return the Layer. */
 		return m_JumpResetLayers[index];
@@ -39,7 +41,9 @@ namespace Kross
 		for (int i = 0; i < m_JumpResetLayers.size(); i++)
 		{
 			if (m_JumpResetLayers[i] == layer)
+			{
 				return; /* Early out if it has. */
+			}
 		}
 
 		/* Otherwise attach it. */
@@ -50,7 +54,9 @@ namespace Kross
 	{
 		/* If the index is outside the bounds of the array, early out. */
 		if (index < 0 || index >= m_JumpResetLayers.size())
+		{
 			return;
+		}
 
 		/* Erase the Layer from the array. */
 		m_JumpResetLayers.erase(m_JumpResetLayers.begin() + index);

@@ -55,11 +55,14 @@ namespace Kross
 
         //Returns tileMap Pointer
         TileMap* GetTileMap() { return p_TileMap; };
+
         //Gets the tileset pointer
         TileSet* GetTileSet() { return p_TileSet; };
         std::vector<Tile*> GetTileList() { return m_Tiles; };
+
         //takes the tile map pointer and sets it to this renderer
         void SetTileMap(TileMap* tileMap);
+
         //takes tileSet pointer and sets it to this renderer.
         void SetTileSet(TileSet* tileSet);
    

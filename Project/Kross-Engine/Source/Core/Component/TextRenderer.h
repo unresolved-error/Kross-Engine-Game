@@ -39,13 +39,13 @@ namespace Kross
 	public:
 		TextRenderer() :
 			m_Colour(Colour(1.0f)),
-			m_Size(1.0f),
-			p_Font(nullptr),
-			p_PreviousFont(nullptr),
-			m_Text(std::string()),
-			m_PreviousText(std::string()),
-			m_TextCharacters(std::vector<Character*>()),
-			m_Alignment(TextAlignment::Center)
+			m_Size				(1.0f),
+			p_Font				(nullptr),
+			p_PreviousFont		(nullptr),
+			m_Text				(std::string()),
+			m_PreviousText		(std::string()),
+			m_TextCharacters	(std::vector<Character*>()),
+			m_Alignment			(TextAlignment::Center)
 		{};
 		~TextRenderer();
 

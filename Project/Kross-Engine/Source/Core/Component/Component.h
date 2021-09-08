@@ -64,7 +64,9 @@ namespace Kross
 
 				/* Check if it is the Component Type we are looking for, then return it. */
 				if (typeid(Type) == typeid(*component))
+				{
 					return (Type*)component;
+				}
 			}
 
 			/* If we get here, it doesn't exist within the Object. */

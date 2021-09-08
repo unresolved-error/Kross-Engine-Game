@@ -94,7 +94,6 @@ public:
 		Vector2 crossHairPos;
 		
 
-
 		if (angle != NAN)
 		{
 			crossHairPos = PlaceCrossHairOnInput(angle);
@@ -175,6 +174,7 @@ public:
 			collider->SetHeight(0.0625f);
 
 			sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
+
 			Colour colour = Colour(1.0f);
 			colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
 			colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
@@ -201,7 +201,6 @@ public:
 				bullets.erase(bullets.begin() + i);
 			}
 		}
-
 	}
 
 	Vector2 PlaceCrossHairOnInput(float &returnAngle)

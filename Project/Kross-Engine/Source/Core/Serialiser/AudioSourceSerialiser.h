@@ -54,8 +54,9 @@ namespace Kross
 				{
 					/* Ignore Comments. */
 					if (line.find("//") != std::string::npos)
+					{
 						continue;
-
+					}
 					/* Quick Variables. */
 					size_t searchPosition = 0;
 					std::string audioSourceProperty = "";
@@ -65,19 +66,24 @@ namespace Kross
 					{
 						/* Grab the Property Type. */
 						if (audioSourceProperty.empty())
+						{
 							audioSourceProperty = line.substr(0, searchPosition);
-
+						}
 						/* Grab the Property Value. */
 						else
 						{
 							if (audioSourceProperty == "NAME") /* Extract the Name. */
+							{
 								audioSourceName = line.substr(0, searchPosition);
-
+							}
 							else if (audioSourceProperty == "FILEPATH") /* Extract the Filepath. */
+							{
 								audioSourceFilepath = line.substr(0, searchPosition);
-
+							}
 							else if (audioSourceProperty == "STREAM") /* Extract the Stream Value. */
+							{
 								audioSourceStream = line.substr(0, searchPosition);
+							}
 						}
 
 						/* Erase Used Data. */

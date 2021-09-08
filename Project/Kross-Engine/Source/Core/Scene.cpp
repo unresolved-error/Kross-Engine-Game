@@ -61,7 +61,9 @@ namespace Kross
     void Scene::OnStart()
     {
         for (int i = 0; i < m_BatchRenderers.size(); i++)
+        {
             m_BatchRenderers[i]->OnStart();
+        }
 
         /* Grab the Debug Shader. */
         m_DebugShader = ResourceManager::GetResource<Shader>("LineShader");
@@ -69,10 +71,14 @@ namespace Kross
 
         /* Start All Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
+        {
             m_Objects[i]->OnStart();
+        }
 
         for (int i = 0; i < m_StaticObjects.size(); i++)
+        {
             m_StaticObjects[i]->OnStart();
+        }
 
         #ifdef KROSS_EDITOR 
         // Start the Editor Camera
@@ -108,7 +114,9 @@ namespace Kross
 
         /* Update all Dynamic Objects. */
         for (int i = 0; i < m_Objects.size(); i++)
+        { 
             m_Objects[i]->OnUpdate();
+        }
     }
 
     void Scene::OnPhysicsUpdate()
@@ -177,9 +185,11 @@ namespace Kross
             {
                 /* Keep Record of the index, so we know where in the list it is to remove it. */
                 std::vector<int> indexes = AttachObjectToRenderQueue(m_Objects[i]);
-        
-                for(int j = 0; j < indexes.size(); j++)
+
+                for (int j = 0; j < indexes.size(); j++)
+                {
                     dynamicRenderQueueReferencePoints.push_back(indexes[j]);
+                }
             }
         }
         
@@ -187,11 +197,13 @@ namespace Kross
         for (int l = 0; l < (int)Layer::Count; l++)
         {   
             for (int i = 0; i < m_RenderList[l].size(); i++)
+            {
                 m_BatchRenderers[l]->AttachRenderer(m_Camera->GetComponent<Camera>(), m_RenderList[l][i]);
-        
+            }
+
             m_BatchRenderers[l]->OnFinish();
         }
-        
+
         #ifdef KROSS_DEBUG
         /* Draw Debug Information. */
         m_DebugShader->Bind();
@@ -201,18 +213,22 @@ namespace Kross
         m_DebugRenderer->Clear();
         #endif
 
-        
-        
+
+
         /* Remove the Dynamic Objects from the Render Queue. */
         for (int i = 0; i < m_Objects.size(); i++)
+        {
             DetachObjectFromRenderQueue(m_Objects[i]->GetLayer(), m_Objects[i]);
+        }
     }
 
     void Scene::OnUpdateCameraAspectRatio(float aspectRatio)
     {
         /* If we have a Camera. */
-        if(m_Camera)
+        if (m_Camera)
+        {
             m_Camera->GetComponent<Camera>()->SetAspectRatio(aspectRatio);
+        }
     }
 
     std::vector<int> Scene::AttachObjectToRenderQueue(Object* object)
@@ -222,8 +238,9 @@ namespace Kross
 
         /* If there is no renderer on the object. */
         if (!object->GetRenderableStatus())
+        {
             return indexes; /* Return Empty. */
-
+        }
         /* This is to return where abouts the Object sits in the Render Queue. */
         int index = 0;
 
@@ -244,11 +261,14 @@ namespace Kross
                 {
                     /* Check if the Depth of the object is larger than the one currently being checked in the list. */
                     if (objectRenderList[j]->GetDepth() > m_RenderList[layer][i]->GetDepth())
+                    {
                         index++; /* Keep going down the list. */
-
+                    }
                     /* We have found a spot in the Render Queue. */
                     else
+                    {
                         break; /* Stop the Search. */
+                    }
                 }
 
                 /* Add the Object to the Render Queue. */
@@ -289,7 +309,9 @@ namespace Kross
         {
             /* If we have no Camera, set it. */
             if (!m_Camera)
+            {
                 m_Camera = object;
+            }
         }
 
         return;
@@ -299,7 +321,9 @@ namespace Kross
     {
         /* Early out if there is no renderer on the object. */
         if (!object->GetRenderableStatus())
+        {
             return;
+        }
 
         std::vector<Renderer*> objectRenderList = object->GetRendererComponents();
 
@@ -310,7 +334,9 @@ namespace Kross
             {
                 /* If this is the Component we are looking for. */
                 if (m_RenderList[(int)layer][i] == objectRenderList[j])
+                {
                     DetachObjectFromRenderQueue(layer, i); /* Remove it. */
+                }
             }
         }
     }
@@ -361,7 +387,7 @@ namespace Kross
 
         /* Check if the object is type Particle Emitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
-        
+
         /* If the object is a ParticleEmitter the physics scene is set */
         if (emitter)
             emitter->SetPhysicsScene(m_Physics);
@@ -373,14 +399,17 @@ namespace Kross
             AttachObjectToRenderQueue(object);
             m_StaticObjects.push_back(object);
         }
-
         /* If it's not. */
         else
+        {
             m_Objects.push_back(object); /* Attach the Object to the Dynamic List. */
+        }
 
         /* Start the object inside of the Scene. */
         if (m_Started)
+        {
             object->OnStart();
+        }
     }
 
     void Scene::DetachObject(const std::string& name)
@@ -389,7 +418,9 @@ namespace Kross
         for (int i = 0; i < m_ActualObjects.size(); i++)
         {
             if (m_ActualObjects[i]->GetName() == name)
+            {
                 DetachObject(i); /* If the Object has been found, remove it from the list. */
+            }
         }
     }
 
@@ -399,7 +430,9 @@ namespace Kross
         for (int i = 0; i < m_ActualObjects.size(); i++)
         {
             if (m_ActualObjects[i] == object)
+            {
                 DetachObject(i); /* If the Object has been found, remove it from the list. */
+            }
         }
     }
 
@@ -459,7 +492,9 @@ namespace Kross
         for (int i = 0; i < m_ActualObjects.size(); i++)
         {
             if (m_ActualObjects[i]->GetName() == name)
+            {
                 return m_ActualObjects[i];
+            }
         }
 
         return nullptr;

@@ -27,28 +27,35 @@ namespace Kross
 	void SceneManager::OnCreate()
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW SceneManager();
+		}
 	}
 
 	void SceneManager::OnDestroy()
 	{
 		if (m_Instance)
+		{
 			delete m_Instance;
+		}
 	}
 
 	void SceneManager::OnStart()
 	{
 		/* Go through all Scenes and Start them. */
 		for (int i = 0; i < m_Instance->m_Scenes.size(); i++)
+		{
 			m_Instance->m_Scenes[i]->OnStart();
+		}
 	}
 
 	void SceneManager::OnUpdate()
 	{
 		/* If no current scene set, early out. */
 		if (!m_Instance->m_CurrentScene)
+		{
 			return;
-
+		}
 		/* if we do have a Current Scene. Update it. */
 		m_Instance->m_CurrentScene->OnUpdate();
 
@@ -58,8 +65,9 @@ namespace Kross
 	{
 		/* If no current scene set, early out. */
 		if (!m_Instance->m_CurrentScene)
+		{
 			return;
-
+		}
 		/* if we do have a Current Scene. Do a physics update on it. */
 		m_Instance->m_CurrentScene->OnPhysicsUpdate();
 	}
@@ -68,8 +76,9 @@ namespace Kross
 	{
 		/* If no current scene set, early out. */
 		if (!m_Instance->m_CurrentScene)
+		{
 			return;
-
+		}
 		/* if we do have a Current Scene. Render it. */
 		m_Instance->m_CurrentScene->OnRender();
 	}
@@ -78,8 +87,9 @@ namespace Kross
 	{
 		/* If no current scene set, early out. */
 		if (!m_Instance->m_CurrentScene)
+		{
 			return;
-
+		}
 		/* Update the Camera Aspect Ratio. */
 		m_Instance->m_CurrentScene->OnUpdateCameraAspectRatio(aspectRatio);
 	}
@@ -88,8 +98,9 @@ namespace Kross
 	{
 		/* If the name of the Scene already matches the current. Early out. */
 		if (m_Instance->m_CurrentScene->GetName() == name)
+		{
 			return;
-
+		}
 		/* Search through the list of Scenes added. */
 		for (int i = 0; i < m_Instance->m_Scenes.size(); i++)
 		{
@@ -111,7 +122,9 @@ namespace Kross
 	{
 		/* Check if the index is outside the bounds of the Scenes array, early out. */
 		if (index < 0 && index >= m_Instance->m_Scenes.size())
+		{
 			return;
+		}
 
 		/* Other wise set the scene. */
 		m_Instance->m_CurrentScene = m_Instance->m_Scenes[index];
@@ -124,7 +137,9 @@ namespace Kross
 		{
 			/* Check for Duplicate. */
 			if (m_Instance->m_Scenes[i] == scene)
+			{
 				return; /* if a duplicate was found don't add it. */
+			}
 		}
 
 		/* If no duplicate was found, add it. */

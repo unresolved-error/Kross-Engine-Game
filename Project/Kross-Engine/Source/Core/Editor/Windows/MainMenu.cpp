@@ -36,7 +36,7 @@ namespace Kross
 				m_SavedScene = true;
 			}
 			if (ImGui::MenuItem("Save As"))	{}
-			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S")) 
+			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S"))
 			{
 				for (int i = 0; i < SceneManager::m_Instance->m_Scenes.size(); i++)
 				{
@@ -164,18 +164,10 @@ namespace Kross
 			{
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Save As New Prefab"))
-				{
-				}
-				if (ImGui::MenuItem("Save Prefab"))
-				{
-				}
-				if (ImGui::MenuItem("Load Prefab"))
-				{
-				}
-				if (ImGui::MenuItem("Delete Prefab"))
-				{
-				}
+				if (ImGui::MenuItem("Save As New Prefab")) {}
+				if (ImGui::MenuItem("Save Prefab")) {}
+				if (ImGui::MenuItem("Load Prefab")) {}
+				if (ImGui::MenuItem("Delete Prefab")) {}
 
 				ImGui::Separator();
 				ImGui::EndMenu();
@@ -290,15 +282,19 @@ namespace Kross
 			{
 				std::string message = p_Scene->GetName() + " Saved!";
 
-				for(int i = 0; i < 3; i++)
+				for (int i = 0; i < 3; i++)
+				{
 					ImGui::Spacing();
+				}
 
 				float textWidth = ImGui::CalcTextSize(message.c_str()).x;
 				ImGui::SameLine((size.x - textWidth) / 2.0f);
 				ImGui::Text(message.c_str());
 
 				for (int i = 0; i < 3; i++)
+				{
 					ImGui::Spacing();
+				}
 
 				float buttonWidth = size.x / 2.0f;
 				ImGui::SameLine((size.x - buttonWidth) / 2.0f);

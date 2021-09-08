@@ -18,7 +18,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " " << message;
 	}
@@ -30,7 +32,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " " << message;
 	}
@@ -42,15 +46,18 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
-		if(value)
+		if (value)
+		{
 			std::cout << " True";
-
+		}
 		else
+		{
 			std::cout << " False";
-
-		
+		}
 	}
 
 	void Debug::Log(float value)
@@ -60,7 +67,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " " << value << "f";
 	}
@@ -72,7 +81,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " " << value;
 	}
@@ -84,7 +95,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " Vector1(" << vector.x << ")";
 	}
@@ -96,7 +109,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " Vector2(" << vector.x << "," << vector.y << ")";
 	}
@@ -108,7 +123,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " Vector3(" << vector.x << "," << vector.y << "," << vector.z << ")";
 	}
@@ -120,7 +137,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " Vector4(" << vector.x << "," << vector.y << "," << vector.z << "," << vector.w << ")";
 	}
@@ -132,18 +151,22 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
-
+		}
 		std::cout << " Matrix2\n [";
 		for (int y = 0; y < 2; y++)
 		{
 			for (int x = 0; x < 2; x++)
 			{
 				if (x != 1)
+				{
 					std::cout << matrix[x][y] << ",";
-
+				}
 				else
+				{
 					std::cout << matrix[x][y];
+				}
 			}
 
 			std::cout << "]\n";
@@ -157,7 +180,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
+		}
 
 		std::cout << " Matrix3\n [";
 		for (int y = 0; y < 3; y++)
@@ -165,10 +190,13 @@ namespace Kross
 			for (int x = 0; x < 3; x++)
 			{
 				if (x != 2)
+				{
 					std::cout << matrix[x][y] << ",";
-
+				}
 				else
+				{
 					std::cout << matrix[x][y];
+				}
 			}
 
 			std::cout << "]\n";
@@ -182,18 +210,22 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartLog();
-
+		}
 		std::cout << " Matrix4\n [";
 		for (int y = 0; y < 4; y++)
 		{
 			for (int x = 0; x < 4; x++)
 			{
 				if (x != 3)
+				{
 					std::cout << matrix[x][y] << ",";
-
+				}
 				else
+				{
 					std::cout << matrix[x][y];
+				}
 			}
 
 			std::cout << "]\n";
@@ -279,8 +311,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartWarning();
-
+		}
 		std::cout << " " << message;
 	}
 
@@ -297,7 +330,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartError();
+		}
 
 		std::cout << " " << message;
 	}
@@ -314,7 +349,9 @@ namespace Kross
 		#endif
 
 		if (!Debug::m_HasEnteredLog)
+		{
 			Debug::StartGLError();
+		}
 
 		std::cout << " " << message;
 	}

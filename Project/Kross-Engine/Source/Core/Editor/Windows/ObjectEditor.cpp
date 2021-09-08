@@ -47,7 +47,8 @@ namespace Kross {
 		ImGui::BeginTabBar("Object Tab Bar");
 		if (ImGui::BeginTabItem("Component Hierarchy"))
 		{
-			if (p_SelectedObject) {
+			if (p_SelectedObject) 
+			{
 
 				/*--------------------------------------------------------------------*/
 
@@ -82,7 +83,9 @@ namespace Kross {
 
 							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
 							if (ImGui::Button("X"))
+							{
 								transform->m_Position.x = 0.0f;
+							}
 
 							ImGui::SameLine();
 
@@ -91,7 +94,9 @@ namespace Kross {
 							ImGui::SameLine();
 
 							if (ImGui::Button("Y"))
+							{
 								transform->m_Position.y = 0.0f;
+							}
 
 							ImGui::SameLine();
 
@@ -108,7 +113,9 @@ namespace Kross {
 
 							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
 							if (ImGui::Button("0"))
+							{
 								transform->m_Rotation = 0.0f;
+							}
 
 							ImGui::SameLine();
 
@@ -128,7 +135,9 @@ namespace Kross {
 
 							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
 							if (ImGui::Button("X"))
+							{
 								transform->m_Scale.x = 1.0f;
+							}
 
 							ImGui::SameLine();
 
@@ -137,7 +146,9 @@ namespace Kross {
 							ImGui::SameLine();
 
 							if (ImGui::Button("Y"))
+							{
 								transform->m_Scale.y = 1.0f;
+							}
 
 							ImGui::SameLine();
 
@@ -145,11 +156,8 @@ namespace Kross {
 							ImGui::PopItemWidth();
 							ImGui::Columns(1);
 							ImGui::PopID();
-
-
 						}
 					}
-
 					/* Rigidbody. (NEEDS TO BE WORKED ON) */
 					else if (typeid(*component) == typeid(Rigidbody2D))
 					{
@@ -169,9 +177,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<Rigidbody2D>();
+						}
 					}
-
 					/* Animator. (DONE) */
 					else if (typeid(*component) == typeid(Animator))
 					{
@@ -223,7 +232,6 @@ namespace Kross {
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 									Editor::AttachEditorWindow(p_PreviewPane);
 								}
-
 								else if (p_PreviewPane->GetType() != AssetType::Animation)
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
@@ -246,9 +254,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<Animator>();
+						}
 					}
-
 					/* Audio Player. (NEEDS TO BE WORKED ON) */
 					else if (typeid(*component) == typeid(AudioPlayer))
 					{
@@ -263,9 +272,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<AudioPlayer>();
+						}
 					}
-
 					/* Camera. (DONE) */
 					else if (typeid(*component) == typeid(Camera))
 					{
@@ -295,14 +305,13 @@ namespace Kross {
 								cam->SetFar(1.0f);
 								cam->SetNear(-1.0f);
 							}
-
-
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<Camera>();
+						}
 					}
-
 					/* Particle Emitter. (NEEDS TO BE WORKED ON) */
 					else if (typeid(*component) == typeid(ParticleEmitter))
 					{
@@ -312,9 +321,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<ParticleEmitter>();
+						}
 					}
-
 					else if (typeid(*component) == typeid(ParticleProperties))
 					{
 						ParticleProperties* pEmit = (ParticleProperties*)component;
@@ -448,9 +458,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<ParticleProperties>();
+						}
 					}
-
 					/* RopeAvatar. (Work To Do) */
 					else if (typeid(*component) == typeid(RopeAvatar))
 					{
@@ -494,7 +505,6 @@ namespace Kross {
 								{
 									ropeAvatar->AttachPosition(Vector2(0.0f, 0.0f));
 								}
-
 							}
 							ImGui::Unindent();
 
@@ -513,12 +523,8 @@ namespace Kross {
 							ropeAvatar->SetChainLinkLength(rp_ChainLength);
 							ropeAvatar->SetStartStatic(rp_startIsStatic);
 							ropeAvatar->SetBreakable(rp_isBreakable);
-
 						}
-
 					}
-
-
 					/* Sprite Renderer. (DONE) */
 					else if (typeid(*component) == typeid(SpriteRenderer))
 					{
@@ -650,7 +656,6 @@ namespace Kross {
 											p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 											Editor::AttachEditorWindow(p_PreviewPane);
 										}
-
 										else if (p_PreviewPane->GetType() != AssetType::Sprite)
 										{
 											Editor::DetachEditorWindow(p_PreviewPane);
@@ -688,8 +693,6 @@ namespace Kross {
 							ImGui::Text("Depth");
 							ImGui::SameLine();
 							ImGui::DragInt("##s_deppy", &s_depth, 1, 0, INTMAX_MAX);
-
-
 
 
 							if (p_PreviewPane && p_PreviewPane->GetSprite())
@@ -732,9 +735,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<SpriteRenderer>();
+						}
 					}
-
 					/* Text Renderer. (DONE) */
 					else if (typeid(*component) == typeid(TextRenderer))
 					{
@@ -811,9 +815,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<TextRenderer>();
+						}
 					}
-
 					/* Collider. (DONE) */
 					else if (typeid(*component) == typeid(Collider))
 					{
@@ -853,8 +858,9 @@ namespace Kross {
 							ImGui::Text("Width");
 							ImGui::SameLine();
 							if (c_Type == ShapeType::Box)
+							{
 								ImGui::DragFloat("##c_Width", &c_Width, 0.1f, 0.0f, 100.0f, "%.2fm");
-
+							}
 							else
 							{
 								char buffer[512];
@@ -864,8 +870,9 @@ namespace Kross {
 							ImGui::Text("Height");
 							ImGui::SameLine();
 							if (c_Type == ShapeType::Box || c_Type == ShapeType::Capsule)
+							{
 								ImGui::DragFloat("##c_Height", &c_Height, 0.1f, 0.0f, 100.0f, "%.2fm");
-
+							}
 							else
 							{
 								char buffer[512];
@@ -880,7 +887,6 @@ namespace Kross {
 								ImGui::DragFloat("##c_Rad", &c_Radius, 0.1f, 0.0f, 50.0f, "%.2fm");
 								ImGui::PopTextWrapPos();
 							}
-
 							else
 							{
 								char buffer[512];
@@ -961,12 +967,15 @@ namespace Kross {
 							ImGui::Checkbox("##TI", &c_IsTileMap);
 
 							if (c_Type == ShapeType::Box)
+							{
 								col->SetWidth(c_Width);
-
+							}
 							col->SetHeight(c_Height);
 
 							if (c_Type == ShapeType::Circle || c_Type == ShapeType::Capsule)
+							{
 								col->SetRadius(c_Radius);
+							}
 
 							col->SetFriction(c_Frict);
 							col->SetStatic(c_IsStatic);
@@ -982,10 +991,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<Collider>();
-
+						}
 					}
-
 					/* Tile Map Renderer. (DONE) */
 					else if (typeid(*component) == typeid(TileMapRenderer))
 					{
@@ -1004,7 +1013,6 @@ namespace Kross {
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 									Editor::AttachEditorWindow(p_PreviewPane);
 								}
-
 								else if (p_PreviewPane->GetType() != AssetType::TileSet)
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
@@ -1031,7 +1039,6 @@ namespace Kross {
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 									Editor::AttachEditorWindow(p_PreviewPane);
 								}
-
 								else if (p_PreviewPane->GetType() != AssetType::TileMap)
 								{
 									Editor::DetachEditorWindow(p_PreviewPane);
@@ -1052,7 +1059,6 @@ namespace Kross {
 									Editor::DetachEditorWindow(p_PreviewPane);
 									p_PreviewPane = nullptr;
 								}
-
 								else if (p_PreviewPane->GetTileMap())
 								{
 									rend->SetTileMap(p_PreviewPane->GetTileMap());
@@ -1063,10 +1069,10 @@ namespace Kross {
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<TileMapRenderer>();
+						}
 					}
-
-					//{
 					else if (typeid(*component) == typeid(PlayerController))
 					{
 						PlayerController* controller = (PlayerController*)component;
@@ -1087,13 +1093,13 @@ namespace Kross {
 							//	}
 							//}
 							//ImGui::Unindent();
-							//
 						}
 
 						if (!isOpen)
+						{
 							p_SelectedObject->DetachComponent<PlayerController>();
+						}
 					}
-
 					else if(typeid(*component) == typeid(Script))
 					{
 						ImGui::CollapsingHeader(((Script*)component)->GetName().c_str(), &isOpen, ImGuiTreeNodeFlags_Leaf);
@@ -1111,34 +1117,47 @@ namespace Kross {
 				if (ImGui::BeginCombo("##AddComp", "Add Component", ImGuiComboFlags_NoArrowButton))
 				{
 					if (ImGui::MenuItem("Animator"))
+					{
 						p_SelectedObject->AttachComponent<Animator>();
+					}
 
 					if (ImGui::MenuItem("Audio Player"))
+					{
 						p_SelectedObject->AttachComponent<AudioPlayer>();
+					}
 
 					if (ImGui::MenuItem("Camera"))
+					{
 						p_SelectedObject->AttachComponent<Camera>();
+					}
 
 					if (ImGui::BeginMenu("Physics"))
 					{
-						if(ImGui::MenuItem("Collider"))
+						if (ImGui::MenuItem("Collider"))
+						{
 							p_SelectedObject->AttachComponent<Collider>();
-
+						}
 						if (ImGui::MenuItem("Rigidbody2D"))
+						{
 							p_SelectedObject->AttachComponent<Rigidbody2D>();
-
+						}
 						if (ImGui::MenuItem("Player Controller"))
+						{
 							p_SelectedObject->AttachComponent<PlayerController>();
-
+						}
 						if (ImGui::MenuItem("Particle Emitter"))
+						{
 							p_SelectedObject->AttachComponent<ParticleEmitter>();
-
+						}
 						if (ImGui::MenuItem("Particle Properties"))
+						{
 							p_SelectedObject->AttachComponent<ParticleProperties>();
-
+						}
 						if (ImGui::MenuItem("Rope Avatar"))
+						{
 							p_SelectedObject->AttachComponent<RopeAvatar>();
-						//
+						}
+						
 						//if (ImGui::MenuItem("Rope Properties"))
 						//	p_SelectedObject->AttachComponent<RopeProperties>();
 
@@ -1164,14 +1183,17 @@ namespace Kross {
 					if (ImGui::BeginMenu("Rendering"))
 					{
 						if (ImGui::MenuItem("Sprite Renderer"))
+						{
 							p_SelectedObject->AttachComponent<SpriteRenderer>();
-
+						}
 						if (ImGui::MenuItem("Text Renderer"))
+						{
 							p_SelectedObject->AttachComponent<TextRenderer>();
-
+						}
 						if (ImGui::MenuItem("Tile Map Renderer"))
+						{
 							p_SelectedObject->AttachComponent<TileMapRenderer>();
-
+						}
 						ImGui::EndMenu();
 					}
 				}

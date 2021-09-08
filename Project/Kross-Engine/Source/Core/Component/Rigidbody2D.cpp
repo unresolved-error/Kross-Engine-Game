@@ -402,7 +402,9 @@ namespace Kross
         {
             TileMapRenderer* rend = GetComponent<TileMapRenderer>();
             if (rend)
+            {
                 CreateTileMapColliders(rend->GetTileMap(), rend->GetTileList()[0]);
+            }
         }
 
         /* Gets the body */
@@ -626,6 +628,7 @@ namespace Kross
     {
         Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
+
         for (int i = 0; i < m_CloseObjects.size(); i++)
         {
             m_CloseObjects[i] = nullptr;
@@ -1069,8 +1072,8 @@ namespace Kross
                     }
                 }
                 //Get to an empty tile
-                else {
-        
+                else 
+                {
                     if (!colliderPositions.empty() && (hasAirAbove || hasAirBelow)) 
                     {
                         //Make a collision out of this list.
@@ -1141,8 +1144,6 @@ namespace Kross
                             //Make a collision out of this list.
                             height = (colliderPositions[0].y + (tileDimensions.y * colliderPositions.size())) - colliderPositions[0].y;
                             tileColliders.push_back(Vector4(tileDimensions.x, height - cuttOff, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
-        
-        
         
                             //tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
                         }

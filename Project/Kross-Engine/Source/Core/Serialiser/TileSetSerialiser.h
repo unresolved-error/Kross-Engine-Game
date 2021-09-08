@@ -55,7 +55,9 @@ namespace Kross
 				{
 					/* Ignore Comments. */
 					if (line.find("//") != std::string::npos)
+					{
 						continue;
+					}
 
 					/* Quick Variables. */
 					size_t searchPosition = 0;
@@ -66,22 +68,28 @@ namespace Kross
 					{
 						/* Grab the Property Type. */
 						if (tileSetProperty.empty())
+						{
 							tileSetProperty = line.substr(0, searchPosition);
-
+						}
 						/* Grab the Property Value. */
 						else
 						{
 							if (tileSetProperty == "NAME") /* Extract the Name. */
+							{
 								tileSetName = line.substr(0, searchPosition);
-
+							}
 							else if (tileSetProperty == "SPRITEBASENAME") /* Extract the Base Name of the Sprite. */
+							{
 								spriteBaseName = line.substr(0, searchPosition);
-
+							}
 							else if (tileSetProperty == "SPRITESHEETWIDTH") /* Extract the Width in cells of the Sprtie Sheet. */
+							{
 								spriteSheetWidth = line.substr(0, searchPosition);
-
+							}
 							else if (tileSetProperty == "SPRITESHEETHEIGHT") /* Extract the Height in cells of the Sprtie Sheet. */
+							{
 								spriteSheetHeight = line.substr(0, searchPosition);
+							}
 						}
 
 						/* Erase the Used Data. */
@@ -200,7 +208,6 @@ namespace Kross
 							
 								shouldCreate = false;
 							}
-
 							/* add the Sprite if it did. */
 							else
 							{
@@ -209,7 +216,6 @@ namespace Kross
 						}
 					}
 				}
-
 				/* If it failed the first parse. */
 				else
 				{

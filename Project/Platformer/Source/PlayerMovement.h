@@ -164,7 +164,6 @@ public:
 				/* Set its Colour. */
 				m_TextRenderer->SetColour(textcol);
 			}
-
 			/* If the Object is Less than 217 on the x but larger than 188. */
 			else if (m_GameObject->m_Transform->m_Position.x < 216.9)
 			{
@@ -184,9 +183,7 @@ public:
 			m_TextRenderer->m_GameObject->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + m_TextRendererOffset;
 
 		}
-
 		/* --------------------------- */
-
 	}
 
 	/*! 

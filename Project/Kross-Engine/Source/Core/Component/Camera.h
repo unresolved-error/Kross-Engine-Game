@@ -72,8 +72,9 @@ namespace Kross
         {
             /* If the Value is Less than or Equal to Zero. */
             if (value < 0.0f)
+            {
                 value = 0.0001f; /* Make One Ten Thousandth. */
-
+            }
             /* Set Size. */
             m_Size = value;
         }

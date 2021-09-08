@@ -27,26 +27,33 @@ namespace Kross
 	void ShaderManager::OnCreate()
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW ShaderManager();
+		}
 	}
 
 	void ShaderManager::OnDestroy()
 	{
 		if (m_Instance)
+		{
 			delete m_Instance;
+		}
 	}
 
 	void ShaderManager::AttachShader(Shader* shader)
 	{
 		/* Incase for some reason the Shader doesn't exist. Early out. */
 		if (!shader)
+		{
 			return;
-
+		}
 		/* Check for duplicates. */
 		for (int i = 0; i < m_Instance->m_Shaders.size(); i++)
 		{
 			if (m_Instance->m_Shaders[i] == shader)
+			{
 				return;
+			}
 		}
 
 		/* If no duplicate was found, add it. */
@@ -57,8 +64,9 @@ namespace Kross
 	{
 		/* Incase for some reason the Shader doesn't exist. Early out. */
 		if (!shader)
+		{
 			return;
-
+		}
 		/* Check for Shader. */
 		for (int i = 0; i < m_Instance->m_Shaders.size(); i++)
 		{

@@ -24,12 +24,16 @@ namespace Kross
 	void ScriptRegistry::OnCreate()
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW ScriptRegistry();
+		}
 	}
 	void ScriptRegistry::OnDestroy()
 	{
 		if (m_Instance)
+		{
 			delete m_Instance;
+		}
 	}
 
 	void ScriptRegistry::Attach(Script* script)
@@ -50,8 +54,9 @@ namespace Kross
 	void ScriptRegistry::Detach(int index)
 	{
 		if (index < 0 && index >= m_Instance->m_Scripts.size())
+		{
 			return;
-
+		}
 		delete m_Instance->m_Scripts[index];
 		m_Instance->m_Scripts.erase(m_Instance->m_Scripts.begin() + index);
 	}
@@ -81,9 +86,10 @@ namespace Kross
 	}
 	Script* ScriptRegistry::GetScript(int index)
 	{
-		if(index < 0 && index >= m_Instance->m_Scripts.size())
+		if (index < 0 && index >= m_Instance->m_Scripts.size())
+		{
 			return nullptr;
-
+		}
 		return m_Instance->m_Scripts[index]->Duplicate();
 	}
 }

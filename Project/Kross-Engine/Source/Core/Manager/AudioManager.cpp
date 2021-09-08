@@ -16,7 +16,9 @@ namespace Kross
     void Kross::AudioManager::OnCreate()
     {
         if (!m_Instance)
+        {
             m_Instance = KROSS_NEW AudioManager();
+        }
     }
 
     void Kross::AudioManager::OnStart()
@@ -39,20 +41,19 @@ namespace Kross
         }
 
         if (m_Instance)
+        {
             delete m_Instance;
+        }
     }
 
     void AudioManager::SetGlobalVolume(float volume)
     {
         m_Instance->m_SoloudEngine->setGlobalVolume(volume);
-       
     }
 
     float AudioManager::GetGlobalVolume()
     {
-
         return m_Instance->m_SoloudEngine->getGlobalVolume();
-         
     }
 
     void AudioManager::LoadAudioSource(AudioSource* audioSource)
@@ -61,10 +62,13 @@ namespace Kross
 
         /* Check if it is streamable or not. */
         if (audioSource->IsStreamable())
+        {
             result = audioSource->GetWavStream()->load(audioSource->GetFilepath().c_str());
-
+        }
         else
+        {
             result = audioSource->GetWav()->load(audioSource->GetFilepath().c_str());
+        }
 
         /* Error Checking. */
         if (result)

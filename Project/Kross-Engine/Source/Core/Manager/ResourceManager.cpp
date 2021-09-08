@@ -130,13 +130,17 @@ namespace Kross
 	void ResourceManager::OnCreate()
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW ResourceManager();
+		}
 	}
 
 	void ResourceManager::OnDestroy()
 	{
 		if (m_Instance)
+		{
 			delete m_Instance;
+		}
 	}
 
 	void ResourceManager::OnWriteManifest()

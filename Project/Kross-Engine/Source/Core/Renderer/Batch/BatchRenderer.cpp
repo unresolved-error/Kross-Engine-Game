@@ -48,13 +48,11 @@ namespace Kross
                 renderer->m_FrameBuffer = KROSS_NEW FrameBuffer(window->GetWidth(), window->GetHeight());
                 break;
             }
-
             case Layer::UI:
             {
                 renderer->m_VertexBufferLayout->SetLayoutType<TextVertex>();
                 break;
             }
-
             default:
             {
                 renderer->m_VertexBufferLayout->SetLayoutType<SpriteVertex>();
@@ -69,7 +67,9 @@ namespace Kross
     void BatchRenderer::OnDestroy(BatchRenderer* renderer)
     {
         if (renderer)
+        {
             delete renderer;
+        }
     }
 
     void BatchRenderer::AttachRenderer(Camera* camera, Renderer* renderer)
@@ -79,40 +79,45 @@ namespace Kross
         {
             /* Check if the Batch Packet is Full. */
             if (m_SpriteBatch->Full() == true)
+            {
                 OnRender();
+            }
 
             /* Attach the Data. */
             m_SpriteBatch->Attach(camera, (SpriteRenderer*)renderer);
         }
-
         /* The Renderer Type is Text Renderer. */
         else if (typeid(*renderer) == typeid(TextRenderer))
         {
             /* Check if the Batch Packet is Full. */
             if (m_TextBatch->Full() == true)
+            {
                 OnRender();
-                
+            }
+
             /* Attach the Data. */
             m_TextBatch->Attach(camera, (TextRenderer*)renderer);
         }
-
         /* The Renderer is a Particle Emitter. */
         else if (typeid(*renderer) == typeid(ParticleEmitter))
         {
             /* Check if the Batch Packet is Full. */
             if (m_WaterBatch->Full() == true)
+            {
                 OnRender();
-        
+            }
+
             /* Attach the Data. */
             m_WaterBatch->Attach(camera, (ParticleEmitter*)renderer);
         }
-
         /* The Renderer is a Particle Emitter. */
         else if (typeid(*renderer) == typeid(TileMapRenderer))
         {
             /* Check if the Batch Packet is Full. */
             if (m_SpriteBatch->Full() == true)
+            {
                 OnRender();
+            }
 
             /* Attach the Data. */
             m_SpriteBatch->Attach(camera, (TileMapRenderer*)renderer);
@@ -139,7 +144,6 @@ namespace Kross
 
                 break;
             }
-
             case Layer::UI:
             {
                 m_Shader = ResourceManager::GetResource<Shader>("TextShader");
@@ -152,7 +156,6 @@ namespace Kross
 
                 break;
             }
-
             default:
             {
                 m_Shader = ResourceManager::GetResource<Shader>("BatchShader");
@@ -179,14 +182,12 @@ namespace Kross
                 shouldAbandon = m_WaterBatch->Empty();
                 break;
             }
-
             case Layer::UI:
             {
                 /* Check if it is Empty. */
                 shouldAbandon = m_TextBatch->Empty();
                 break;
             }
-
             default:
             {
                 /* Check if it is Empty. */
@@ -197,7 +198,9 @@ namespace Kross
 
         /* If we need to abandon, do it. */
         if (shouldAbandon)
+        {
             return;
+        }
 
         switch (m_Layer)
         {
@@ -282,7 +285,6 @@ namespace Kross
 
                 break;
             }
-
             case Layer::UI:
             {
                 /* Attach the Font Texture. */
@@ -308,7 +310,6 @@ namespace Kross
 
                 break;
             }
-
             default:
             {
                 /* Attach the Texture. */
@@ -356,13 +357,11 @@ namespace Kross
                 m_WaterBatch->Clear();
                 break;
             }
-
             case Layer::UI:
             {
                 m_TextBatch->Clear();
                 break;
             }
-
             default:
             {
                 m_SpriteBatch->Clear();

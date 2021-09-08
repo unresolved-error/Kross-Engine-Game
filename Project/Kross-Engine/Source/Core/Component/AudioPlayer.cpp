@@ -12,8 +12,12 @@
 
 namespace Kross
 {
-	AudioPlayer::AudioPlayer()
-		: m_AudioHandle(0), p_AudioSrc(nullptr), p_AudioProperties(KROSS_NEW AudioProperties()), m_IsPlaying(false), m_Stopped(true)
+	AudioPlayer::AudioPlayer() : 
+		m_AudioHandle		(0), 
+		p_AudioSrc			(nullptr), 
+		p_AudioProperties	(KROSS_NEW AudioProperties()), 
+		m_IsPlaying			(false), 
+		m_Stopped			(true)
 	{}
 
 	void AudioPlayer::Play()
@@ -83,10 +87,13 @@ namespace Kross
 		if (m_AudioHandle)
 		{
 			if (p_AudioSrc->IsStreamable())
+			{
 				AudioManager::AudioEngine()->stopAudioSource(*p_AudioSrc->GetWavStream());
-
+			}
 			else
+			{
 				AudioManager::AudioEngine()->stopAudioSource(*p_AudioSrc->GetWav());
+			}
 
 			/* Don't know if this is safe. */
 			m_AudioHandle = 0;
@@ -105,7 +112,9 @@ namespace Kross
 		AudioManager::AudioEngine()->getStreamPosition(m_AudioHandle);
 		/**/
 		if (p_AudioSrc->IsStreamable())
+		{
 			return;
+		}
 
 		AudioManager::AudioEngine()->seek(m_AudioHandle, seconds);
 	}

@@ -62,11 +62,15 @@ namespace Kross
 			{
 				/* If the Line size is zero. */
 				if (line.empty())
+				{
 					continue;
+				}
 
 				/* Ignore Comments. */
 				if (line.find("//") != std::string::npos)
+				{
 					continue;
+				}
 
 				/* Quick Variables. */
 				size_t searchPosition = 0;
@@ -78,12 +82,14 @@ namespace Kross
 				{
 					/* Grab the Asset Type. */
 					if (assetType.empty())
+					{
 						assetType = line.substr(0, searchPosition);
-
+					}
 					/* Grab the Asset Filepath. */
 					else
+					{
 						assetFilepath = line.substr(0, searchPosition);
-
+					}
 					line.erase(0, searchPosition + ((std::string)"->").length());
 				}
 
@@ -93,52 +99,54 @@ namespace Kross
 				{
 					FileSystem::OnReadSprite(assetFilepath);
 				}
-
 				else if (assetType == "TEXTURE")
 				{
 					Serialiser<Texture> serialiser = Serialiser<Texture>();
 					serialiser.Load(assetFilepath);
 				}
-
 				else if (assetType == "SHADER")
 				{
 					Serialiser<Shader> serialiser = Serialiser<Shader>();
 					serialiser.Load(assetFilepath);
 				}
-
 				else if (assetType == "FONT")
+				{
 					FileSystem::OnReadFont(assetFilepath);
-
+				}
 				else if (assetType == "MATERIAL")
+				{
 					FileSystem::OnReadMaterial(assetFilepath);
-
+				}
 				else if (assetType == "ANIMATION")
+				{
 					FileSystem::OnReadAnimation(assetFilepath);
-
+				}
 				else if (assetType == "AUDIOSOURCE")
 				{
 					Serialiser<AudioSource> serialiser = Serialiser<AudioSource>();
 					serialiser.Load(assetFilepath);
 				}
-
 				else if (assetType == "TILEMAP")
+				{
 					FileSystem::OnReadTileMap(assetFilepath);
-
+				}
 				else if (assetType == "TILESET")
 				{
 					Serialiser<TileSet> serialiser = Serialiser<TileSet>();
 					serialiser.Load(assetFilepath);
 				}
-
 				else if (assetType == "ATLAS")
+				{
 					FileSystem::OnReadAtlas(assetFilepath);
-
-				else if (assetType == "PREFAB") 
+				}
+				else if (assetType == "PREFAB")
+				{
 					FileSystem::OnReadPrefab(assetFilepath);
-
+				}
 				else if (assetType == "SCENE")
+				{
 					FileSystem::OnReadScene(assetFilepath);
-
+				}
 				else
 				{
 					if (!assetType.empty())
@@ -158,7 +166,6 @@ namespace Kross
 			/* Log Success. */
 			m_Instance->m_Logger->WriteLog("Reading Manifest File: [" + filepath + "] Successful!");
 		}
-
 		/* If it wasn't. */
 		else
 		{
