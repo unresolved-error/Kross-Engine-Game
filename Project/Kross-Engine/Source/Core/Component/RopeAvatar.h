@@ -26,8 +26,8 @@ namespace Kross
 
 		/* Both for the Objects that get connected to the Rope. */
 
-		Body* m_StartBodyConnectedBody;
-		Body* m_EndBodyConnectedBody;
+		Rigidbody2D* m_StartBodyConnectedBody;
+		Rigidbody2D* m_EndBodyConnectedBody;
 
 		float m_ChainLinkLength;
 
@@ -90,22 +90,22 @@ namespace Kross
 		/*!
 			Sets the Start's Connected Body.
 		*/
-		void ConnectBodyToStart(Rigidbody2D* rigidbody) { m_StartBodyConnectedBody = rigidbody->GetBody(); };
+		void ConnectBodyToStart(Rigidbody2D* rigidbody) { m_StartBodyConnectedBody = rigidbody; };
 
 		/*!
 			Sets the End's Connected Body.
 		*/
-		void ConnectBodyToEnd(Rigidbody2D* rigidbody) { m_EndBodyConnectedBody = rigidbody->GetBody(); };
+		void ConnectBodyToEnd(Rigidbody2D* rigidbody) { m_EndBodyConnectedBody = rigidbody; };
 
 		/*!
 			Gets the Start's Connected Body.
 		*/
-		Body* GetRopeStartConnectedBody() const { return m_StartBodyConnectedBody; };
+		Rigidbody2D* GetRopeStartConnectedBody() const { return m_StartBodyConnectedBody; };
 
 		/*!
 			Gets the End's Connected Body.
 		*/
-		Body* GetRopeEndConnectedBody() const { return m_EndBodyConnectedBody; };
+		Rigidbody2D* GetRopeEndConnectedBody() const { return m_EndBodyConnectedBody; };
 
 		void SetChainLinkLength(float length) { m_ChainLinkLength = length; };
 
@@ -124,6 +124,7 @@ namespace Kross
 		void DetachPosition(int index);
 		
 		void SetBasePosition(int index, Vector2 newPos);
+
 
 
 		std::vector<Vector2> GetBasePositions() const { return m_BasePositions; };

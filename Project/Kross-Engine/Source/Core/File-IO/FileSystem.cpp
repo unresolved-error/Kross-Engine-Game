@@ -303,7 +303,7 @@ namespace Kross
 		std::vector<std::string> tileMapRendererData;
 		std::vector<std::string> particleEmitterData;
 		std::vector<std::string> playerControllerData;
-
+		std::vector<std::string> ropeData;
 
 		std::vector<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
@@ -1168,6 +1168,7 @@ namespace Kross
 						}
 					}
 
+					ropeData.clear();
 					animatorData.clear();
 					audioPlayerData.clear();
 					cameraData.clear();
@@ -1266,6 +1267,14 @@ namespace Kross
 							currentObject->AttachComponent<ParticleEmitter>();
 							//currentObject->AttachComponent<ParticleProperties>();
 							particleEmitterData.push_back(line);
+						}
+
+						/* ROPE Component Property. */
+						else if (objProperty == "ROPE")
+						{
+							currentObject->AttachComponent<RopeAvatar>();
+							ropeData.push_back(line);
+							
 						}
 
 						else if (objProperty == "SCRIPT")
@@ -1402,6 +1411,49 @@ namespace Kross
 						fileStream << cam->GetNear() << "->";
 						fileStream << cam->GetFar() << "->";
 						fileStream << "\n";
+					}
+
+					else if (typeid(*comp) == typeid(RopeAvatar)) 
+					{
+						RopeAvatar* rpA = (RopeAvatar*)comp;
+						/*
+							LINKLENGTH->ISSTARTSTATIC->ISBREAKBLE->
+							NUMBER OF BASE POSITIONS->BASEx->BASEy->BASEx1->BASEy1->ECT....->
+							ROPESTARTCONNECTEDBODY->ROPEENDCONNECTEDBODY->
+
+						*/
+
+						fileStream << "ROPE->";
+						fileStream << rpA->GetChainLinkLength() << "->";
+						fileStream << (int)rpA->IsStartStatic() << "->";
+						fileStream << (int)rpA->IsBreakable() << "->";
+						fileStream << rpA->GetBasePositions().size() << "->";
+						for (int i = 0; i < rpA->GetBasePositions().size(); i++) 
+						{
+							fileStream << rpA->GetBasePositions()[i].x << "->";
+							fileStream << rpA->GetBasePositions()[i].y << "->";
+						}
+
+						if (!rpA->IsStartStatic() && rpA->GetRopeEndConnectedBody())
+						{
+							fileStream << rpA->GetRopeStartConnectedBody()->m_GameObject->m_Name << "->";
+						}
+						else
+						{
+							fileStream << "NULL->";
+						}
+
+						if (rpA->GetRopeEndConnectedBody()) 
+						{
+							fileStream << rpA->GetRopeEndConnectedBody()->m_GameObject->m_Name << "->";
+						}
+						else 
+						{
+							fileStream << "NULL->";
+						}
+						
+						fileStream << "\n";
+
 					}
 					else if (typeid(*comp) == typeid(AudioPlayer))
 					{

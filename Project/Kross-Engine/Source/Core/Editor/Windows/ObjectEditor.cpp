@@ -462,8 +462,8 @@ namespace Kross {
 							bool rp_isBreakable = ropeAvatar->IsBreakable();
 							bool rp_startIsStatic = ropeAvatar->IsStartStatic();
 							std::vector<Vector2> rp_positions = ropeAvatar->GetBasePositions();
-							Body* rp_startConnectedBody = ropeAvatar->GetRopeStartConnectedBody();
-							Body* rp_endConnectedBody = ropeAvatar->GetRopeEndConnectedBody();
+							Rigidbody2D* rp_startConnectedBody = ropeAvatar->GetRopeStartConnectedBody();
+							Rigidbody2D* rp_endConnectedBody = ropeAvatar->GetRopeEndConnectedBody();
 
 							ImGui::Indent();
 							if (ImGui::CollapsingHeader("Positions", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
