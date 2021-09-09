@@ -52,7 +52,9 @@ namespace Kross
 	void Application::OnCreate(const std::string& title, int width, int height)
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW Application(title, width, height);
+		}
 	}
 
 	void Application::OnStart()
@@ -126,6 +128,8 @@ namespace Kross
 				Editor::OnRender();
 				#endif
 
+				SceneManager::GetCurrentScene()->OnRemoveObjects();
+
 				Input::SetScrollValue(0.0f);
 				m_Instance->m_Window->OnPollEvents();
 
@@ -146,7 +150,9 @@ namespace Kross
 	{
 		#ifdef KROSS_EDITOR
 		if(Manifest::SuccessfulLoad())
+		{	
 			Editor::OnShutdown();
+		}
 		#endif
 
 		Editor::OnDestroy();
@@ -174,6 +180,8 @@ namespace Kross
 	void Application::OnDestroy()
 	{
 		if (m_Instance)
+		{
 			delete m_Instance;
+		}
 	}
 }

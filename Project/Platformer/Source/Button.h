@@ -54,6 +54,7 @@ public:
 			{
 				PerformEffect();
 			}
+			
 			return;
 		}
 
@@ -74,6 +75,7 @@ public:
 		{
 			weightAccumulator += surroundingBodies[i]->GetMass();
 		}
+
 		if (weightAccumulator >= weightRequired)
 		{
 			isPressed = true;
@@ -82,7 +84,4 @@ public:
 	}
 
 	void PerformEffect() {};
-
-
-
 };

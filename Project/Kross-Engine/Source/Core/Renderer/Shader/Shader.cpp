@@ -24,8 +24,10 @@ namespace Kross
 
 	Shader::~Shader()
 	{
-		if(m_ShaderID != NULL)
+		if (m_ShaderID != NULL)
+		{
 			glDeleteProgram(m_ShaderID);
+		}
 	}
 
 	void Shader::Bind()
@@ -116,8 +118,10 @@ namespace Kross
 	void Shader::OnDestroy(Shader* shader)
 	{
 		/* Safe programming, not needed but good to have. */
-		if(shader)
+		if (shader)
+		{
 			delete shader;
+		}
 	}
 
 	unsigned int Shader::CompileShader(std::string source, int type)
@@ -203,17 +207,21 @@ namespace Kross
 		{
 			/* If this Variable has been searched before. */
 			if (m_UniformCache.find(variable) != m_UniformCache.end())
+			{
 				return m_UniformCache[variable]; /* Return the Cached location. */
+			}
 
 			/* Get the location of the Variable. */
 			int location = glGetUniformLocation(m_ShaderID, variable.c_str());
 
 			if (location != -1)
+			{
 				m_UniformCache[variable] = location; /* Cache the location for next time it is searched. */
-
+			}
 			else
+			{
 				std::cout << " Error Finding Variable " << variable << "!" << " In shader " << m_Name << "!" << std::endl;
-
+			}
 			/* Return the search result. */
 			return location;
 		}

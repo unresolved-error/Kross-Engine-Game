@@ -20,13 +20,17 @@ namespace Kross
 	void Physics::OnCreate()
 	{
 		if (!m_Instance)
+		{
 			m_Instance = KROSS_NEW Physics();
+		}
 	}
 
 	void Physics::OnDestroy()
 	{
 		if (m_Instance)
+		{
 			delete m_Instance;
+		}
 	}
 
 	RaycastData* Physics::OnRayCast(Vector2 pos, Vector2 direction, Body* body, float max)

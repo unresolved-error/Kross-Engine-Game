@@ -17,11 +17,15 @@ namespace Kross
 	struct KROSS_API WaterVertex : public Vertex
 	{
 	public:
-		WaterVertex()
-			: m_Position(Vector2(0.0f)), m_Velocity(Vector2(0.0f)), m_Colour(Colour(1.0f))
+		WaterVertex() : 
+			m_Position	(Vector2(0.0f)), 
+			m_Velocity	(Vector2(0.0f)), 
+			m_Colour	(Colour(1.0f))
 		{};
-		WaterVertex(Vector2 position, Vector2 velocity, Colour colour)
-			: m_Position(position), m_Velocity(velocity), m_Colour(colour)
+		WaterVertex(Vector2 position, Vector2 velocity, Colour colour) : 
+			m_Position	(position), 
+			m_Velocity	(velocity), 
+			m_Colour	(colour)
 		{};
 
 		Vector2 m_Position;

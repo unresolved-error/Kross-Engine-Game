@@ -23,6 +23,7 @@ mono_crash.*
 [Bb]inaries-[Ii]ntermediate/
 
 *.zip
+*.7z
 *.txt
 
 # Visual Studio 2015/2017 cache/options directory
@@ -344,4 +345,4 @@ MigrationBackup/
 .ionide/
 
 Project/Working/imgui.ini
-Project/Working/Resources/
+Project/Working/Resources/Atlas/

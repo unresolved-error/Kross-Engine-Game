@@ -72,7 +72,9 @@ namespace Kross
 	{
 		/* Safe programming, not really needed but good to have. */
 		if (font)
+		{
 			delete font;
+		}
 	}
 
 	Character* Font::GetCharacter(unsigned char character) const

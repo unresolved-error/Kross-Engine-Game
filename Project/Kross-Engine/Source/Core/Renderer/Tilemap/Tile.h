@@ -23,14 +23,14 @@ namespace Kross
         
     public:
         Tile() :
-            m_Sprite(nullptr),
-            m_Offset(Vector2(0.0f,0.0f))
+            m_Sprite    (nullptr),
+            m_Offset    (Vector2(0.0f,0.0f))
         {};
 
         //overloaded tile creator. not currently used.
         Tile(Sprite* tileSprite, Vector2 tileOffset) :
-            m_Sprite(tileSprite),
-            m_Offset(tileOffset)
+            m_Sprite    (tileSprite),
+            m_Offset    (tileOffset)
         {};
 
         // Gets the Sprite of the Tile.

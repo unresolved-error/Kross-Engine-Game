@@ -66,7 +66,6 @@ public:
 			{
 				movementVector.x = 1.0f;
 			}
-
 			else
 			{
 				movementVector.x = -1.0f;
@@ -75,8 +74,9 @@ public:
 		else
 		{
 			if (elapsedWaitingTime < maxWaitingTime)
+			{
 				elapsedWaitingTime += Time::GetDeltaTime();
-
+			}
 			else
 			{
 				elapsedWaitingTime = 0.0f;

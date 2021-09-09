@@ -10,7 +10,6 @@ namespace Kross
 		m_MapSpriteIndexs = mapIndexs;
 	}
 
-
 	void TileMap::SetName(std::string name)
 	{
 		m_Name = name;
@@ -21,14 +20,16 @@ namespace Kross
 		TileMap* map = KROSS_NEW TileMap();
 		map->SetName(name);
 
-
 		return map;
 	}
 
 	void TileMap::OnDestroy(TileMap* toDestruct)
 	{
 		//Not required, but safe code.
-		if (toDestruct) { delete toDestruct; }
+		if (toDestruct) 
+		{ 
+			delete toDestruct;
+		}
 	}
 	int TileMap::GetCellValue(const int x, const int y)
 	{

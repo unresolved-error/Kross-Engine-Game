@@ -1,0 +1,5 @@
+MATERIAL:
+NAME->Door->
+DIFFUSE->Door->
+NORMAL->*->
+SPECULAR->*->

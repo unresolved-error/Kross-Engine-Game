@@ -1,0 +1,6 @@
+SHADER:
+NAME->WaterShader->
+TYPE->0->
+VERTEX->Resources/Shaders/Water/water.vert->
+GEOMETRY->Resources/Shaders/Water/water.geom->
+FRAGMENT->Resources/Shaders/Water/water.frag->

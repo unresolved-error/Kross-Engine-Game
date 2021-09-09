@@ -110,12 +110,14 @@ namespace Kross
 					Shader* shader = m_Instance->m_Shaders[i];
 
 					/* Return a copy of the Shader so that whatever is using it can have its own version of it. */
-					if(m_Instance->m_Shaders[i]->GetGeometryFilepath() != "")
+					if (m_Instance->m_Shaders[i]->GetGeometryFilepath() != "")
+					{
 						shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetGeometryFilepath(), shader->GetName());
-
+					}
 					else
+					{
 						shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetName());
-
+					}
 					/* Set the type. */
 					shaderCopy->SetType(shader->GetType());
 
@@ -145,11 +147,13 @@ namespace Kross
 
 				/* Return a copy of the Shader so that whatever is using it can have its own version of it. */
 				if (shader->GetGeometryFilepath() != "")
+				{
 					shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetGeometryFilepath(), shader->GetName());
-
+				}
 				else
+				{
 					shaderCopy = Shader::OnCreate(shader->GetVertexFilepath(), shader->GetFragmentFilepath(), shader->GetName());
-
+				}
 				/* Set the type. */
 				shaderCopy->SetType(shader->GetType());
 
@@ -201,7 +205,9 @@ namespace Kross
 			{
 				/* If the name of the Sprite matches the name requested, return that Sprite. */
 				if (m_Instance->m_Sprites[i]->GetName() == name)
+				{
 					return m_Instance->m_Sprites[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -214,8 +220,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_Sprites.size())
+			{
 				return m_Instance->m_Sprites[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -255,7 +262,9 @@ namespace Kross
 			{
 				/* If the name of the Texture matches the name requested, return that Texture. */
 				if (m_Instance->m_Textures[i]->GetName() == name)
+				{
 					return m_Instance->m_Textures[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -268,8 +277,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_Textures.size())
+			{
 				return m_Instance->m_Textures[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -309,7 +319,9 @@ namespace Kross
 			{
 				/* If the name of the Font matches the name requested, return that Font. */
 				if (m_Instance->m_Fonts[i]->GetName() == name)
+				{
 					return m_Instance->m_Fonts[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -322,8 +334,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_Fonts.size())
+			{
 				return m_Instance->m_Fonts[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -363,7 +376,9 @@ namespace Kross
 			{
 				/* If the name of the Material matches the name requested, return that Material. */
 				if (m_Instance->m_Materials[i]->GetName() == name)
+				{
 					return m_Instance->m_Materials[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -376,8 +391,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_Materials.size())
+			{
 				return m_Instance->m_Materials[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -417,7 +433,9 @@ namespace Kross
 			{
 				/* If the name of the Animation matches the name requested, return that Animation. */
 				if (m_Instance->m_Animations[i]->GetName() == name)
+				{
 					return KROSS_NEW Animation(*m_Instance->m_Animations[i]);
+				}
 			}
 
 			/* If nothing was found. */
@@ -430,8 +448,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_Animations.size())
+			{
 				return KROSS_NEW Animation(*m_Instance->m_Animations[index]);
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -471,7 +490,9 @@ namespace Kross
 			{
 				/* If the name of the Audio Source matches the name requested, return that Audio Source. */
 				if (m_Instance->m_AudioSources[i]->GetName() == name)
+				{
 					return m_Instance->m_AudioSources[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -484,8 +505,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_AudioSources.size())
+			{
 				return m_Instance->m_AudioSources[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -525,7 +547,9 @@ namespace Kross
 			{
 				/* If the name of the Audio Source matches the name requested, return that Audio Source. */
 				if (m_Instance->m_TileMaps[i]->GetName() == name)
+				{
 					return m_Instance->m_TileMaps[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -538,8 +562,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_TileMaps.size())
+			{
 				return m_Instance->m_TileMaps[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -579,7 +604,9 @@ namespace Kross
 			{
 				/* If the name of the TileSet matches the name requested, return that TileSet. */
 				if (m_Instance->m_TileSets[i]->GetName() == name)
+				{
 					return m_Instance->m_TileSets[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -592,8 +619,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_TileSets.size())
+			{
 				return m_Instance->m_TileSets[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -633,7 +661,9 @@ namespace Kross
 			{
 				/* If the name of the Prefab matches the name requested, return that Prefab. */
 				if (m_Instance->m_Prefabs[i]->GetName() == name)
+				{
 					return m_Instance->m_Prefabs[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -646,8 +676,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_Prefabs.size())
+			{
 				return m_Instance->m_Prefabs[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -656,8 +687,10 @@ namespace Kross
 		template<>
 		static void AttachResource<Object>(Object* object)
 		{
-			if(!object->IsPrefab())
+			if (!object->IsPrefab())
+			{
 				m_Instance->m_Prefabs.push_back(object);
+			}
 		}
 
 		// Removes a Prefab from the Resource Manager.
@@ -666,8 +699,9 @@ namespace Kross
 		{
 			/* Early out if the object is not a Prefab. */
 			if (!object->IsPrefab())
+			{
 				return;
-
+			}
 			/* Go through the Prefab List. */
 			for (int i = 0; i < m_Instance->m_Prefabs.size(); i++)
 			{
@@ -708,7 +742,9 @@ namespace Kross
 			{
 				/* If the name of the Geometry matches the name requested, return that Geometry. */
 				if (m_Instance->m_Geometry[i]->GetName() == name)
+				{
 					return m_Instance->m_Geometry[i];
+				}
 			}
 
 			/* If nothing was found. */
@@ -721,8 +757,9 @@ namespace Kross
 		{
 			/* If the Index is in the bounds of the List. */
 			if (index >= 0 && index < m_Instance->m_Geometry.size())
+			{
 				return m_Instance->m_Geometry[index];
-
+			}
 			/* If not, return null. */
 			return nullptr;
 		}
@@ -768,8 +805,9 @@ namespace Kross
 		{
 			/* If we already have an Atlas. */
 			if (m_Instance->m_Atlas)
+			{
 				Atlas::OnDestroy(m_Instance->m_Atlas);
-
+			}
 			/* Set the New One. */
 			m_Instance->m_Atlas = atlas;
 		}

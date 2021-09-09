@@ -87,7 +87,8 @@ namespace Kross
 		int charIndex = 0;
 
 		/* Create the Sprites. */
-		for(int y = 0; y < maxVerticalSprites; y++)
+		for (int y = 0; y < maxVerticalSprites; y++)
+		{
 			for (int x = 0; x < maxHorizontalSprites; x++)
 			{
 				/* Sprite Creation. */
@@ -124,6 +125,7 @@ namespace Kross
 				/* Up the Character Index. */
 				charIndex++;
 			}
+		}
 
 		/* Once Finished return the list. */
 		return spriteList;
@@ -140,6 +142,7 @@ namespace Kross
 
 		/* Create the Sprites. */
 		for (int y = 0; y < maxVerticalSprites; y++)
+		{
 			for (int x = 0; x < maxHorizontalSprites; x++)
 			{
 				/* Sprite Creation. */
@@ -177,16 +180,19 @@ namespace Kross
 				/* Add the Sprite to the Resource Manager. */
 				ResourceManager::AttachResource<Sprite>(sprite);
 			}
+		}
 
 		/* Once Finished return the list. */
 		return spriteList;
 	}
 
 	void Sprite::OnDestroy(Sprite* sprite)
-	{ 
+	{
 		/* Safe programming, not really needed but good to have. */
 		if (sprite)
+		{
 			delete sprite;
+		}
 	}
 
 	void Sprite::SetGeometryData()
@@ -199,7 +205,9 @@ namespace Kross
 
 		/* If Geometry exists already of these dimentions then use it. */
 		if (m_Geometry)
+		{
 			return;
+		}
 
 		/* Otherwise create it. */
 		m_Geometry = KROSS_NEW Geometry();

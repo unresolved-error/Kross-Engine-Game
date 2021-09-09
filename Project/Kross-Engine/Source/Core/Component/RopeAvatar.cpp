@@ -109,10 +109,13 @@ namespace Kross
 	void RopeAvatar::DetachPosition(int index)
 	{
 		if (index < 0 || index >= m_BasePositions.size())
+		{
 			return;
+		}
 
 		m_BasePositions.erase(m_BasePositions.begin() + index);
 	}
+
 	void RopeAvatar::SetBasePosition(int index, Vector2 newPos)
 	{
 		m_BasePositions[index] = newPos;

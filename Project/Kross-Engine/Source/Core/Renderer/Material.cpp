@@ -35,6 +35,8 @@ namespace Kross
 	{
 		/* Safe programming, not needed but good to have. */
 		if (material)
+		{
 			delete material;
+		}
 	}
 }

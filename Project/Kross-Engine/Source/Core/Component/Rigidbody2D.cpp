@@ -402,7 +402,9 @@ namespace Kross
         {
             TileMapRenderer* rend = GetComponent<TileMapRenderer>();
             if (rend)
+            {
                 CreateTileMapColliders(rend->GetTileMap(), rend->GetTileList()[0]);
+            }
         }
 
         /* Gets the body */
@@ -626,6 +628,7 @@ namespace Kross
     {
         Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
+
         for (int i = 0; i < m_CloseObjects.size(); i++)
         {
             m_CloseObjects[i] = nullptr;
@@ -908,15 +911,18 @@ namespace Kross
 
     void Rigidbody2D::CollisionUpdate()
     {
-        RaycastData* rightSideDown = KROSS_NEW RaycastData();
-        RaycastData* leftSideDown = KROSS_NEW RaycastData();
-
         //Vector2 particleForce = CollideParticles();
         //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
-        if (p_Box == nullptr )
+        if (p_Box == nullptr && p_Circle == nullptr)
         {
+            RaycastData* rightSideDown = KROSS_NEW RaycastData();
+            RaycastData* leftSideDown = KROSS_NEW RaycastData();
+
             if (p_Capsule != nullptr)
             {
+                delete rightSideDown;
+                delete leftSideDown;
+
                 rightSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
                 leftSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x - p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
             }
@@ -963,6 +969,12 @@ namespace Kross
             
             p_DebugRenderer->DrawLineSegment(leftSideDown->pos, leftSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(leftSideDown->intersectionPoint, 0.1f, 8);
+
+            rightSideDown = nullptr;
+            leftSideDown = nullptr;
+
+            delete rightSideDown;
+            delete leftSideDown;
         }
 
         #ifndef KROSS_EDITOR
@@ -974,7 +986,6 @@ namespace Kross
         #else
         p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
         #endif
-
     }
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
@@ -1064,8 +1075,8 @@ namespace Kross
                     }
                 }
                 //Get to an empty tile
-                else {
-        
+                else 
+                {
                     if (!colliderPositions.empty() && (hasAirAbove || hasAirBelow)) 
                     {
                         //Make a collision out of this list.
@@ -1136,8 +1147,6 @@ namespace Kross
                             //Make a collision out of this list.
                             height = (colliderPositions[0].y + (tileDimensions.y * colliderPositions.size())) - colliderPositions[0].y;
                             tileColliders.push_back(Vector4(tileDimensions.x, height - cuttOff, colliderPositions[0].x, (colliderPositions[0].y - (height * 0.5f)) + tileDimensions.y * 0.5f));
-        
-        
         
                             //tileColliders.push_back(Vector4(width - 0.05f, tileDimensions.y, (colliderPositions[0].x + (width * 0.5f)) - tileDimensions.x * 0.5f, colliderPositions[0].y));
                         }

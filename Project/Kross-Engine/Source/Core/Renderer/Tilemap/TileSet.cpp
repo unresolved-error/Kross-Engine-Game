@@ -20,8 +20,8 @@ namespace Kross {
 
 	Sprite* TileSet::GetSprite(int index)
 	{
-		if (index >= 0 && index < m_Sprites.size()) {
-
+		if (index >= 0 && index < m_Sprites.size()) 
+		{
 			return m_Sprites[index];
 		}
 		return nullptr;
@@ -38,7 +38,10 @@ namespace Kross {
 
 	void TileSet::OnDestroy(TileSet* tileSet)
 	{
-		if (tileSet) { delete tileSet; }
+		if (tileSet) 
+		{ 
+			delete tileSet; 
+		}
 	}
 
 
