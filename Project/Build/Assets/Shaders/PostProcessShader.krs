@@ -1,6 +1,0 @@
-SHADER:
-NAME->WaterPostProcess->
-TYPE->1->
-VERTEX->Resources/Shaders/PostProcess.vert->
-GEOMETRY->->
-FRAGMENT->Resources/Shaders/PostProcess.frag->

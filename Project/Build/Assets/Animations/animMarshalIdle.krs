@@ -1,5 +1,0 @@
-ANIMATION:
-NAME->Idle->
-DURATION->1.0->
-// PositionX, PositionY, Rotation, ScaleX, ScaleY, Sprite.
-KEYFRAME->*->*->*->*->*->Marshall-Mellow0-2->

@@ -1,5 +1,0 @@
-ANIMATION:
-NAME->DonutIdle->
-DURATION->1.0->
-// PositionX, PositionY, Rotation, ScaleX, ScaleY, Sprite.
-KEYFRAME->*->*->*->*->*->Donut0-0->
