@@ -274,7 +274,7 @@ namespace Kross
                 m_FrameBuffer->GetTexture()->Bind();
 
                 /* Pass the Texture to the Post Process Shader. */
-                m_PostProcessShader->SetUniform("colourTexture", m_FrameBuffer->GetTexture());
+                m_PostProcessShader->SetUniform("u_Texture", m_FrameBuffer->GetTexture());
 
                 /* Draw the Final Image. */
                 m_PostProcessShader->Bind();

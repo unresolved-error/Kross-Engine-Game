@@ -35,6 +35,7 @@ public:
 		{
 			if (!m_Open)
 			{
+				
 				m_Open = true;
 				m_Rigidbody->OnApplyImpulse(Vector2(10.0f, 0.0f));
 			}
