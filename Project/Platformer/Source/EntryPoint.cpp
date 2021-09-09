@@ -6,6 +6,7 @@
 #include "GunMovement.h"
 #include "Button.h"
 #include "DoorFunny.h"
+#include "HealthManager.h"
 
 
 using namespace Kross;
@@ -13,13 +14,15 @@ using namespace Kross;
 void AttachScripts()
 {
 	ScriptRegistry::OnCreate();
-	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
-	ScriptRegistry::Attach(KROSS_NEW EnemyMovement());
-	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
-	ScriptRegistry::Attach(KROSS_NEW CameraLock());
-	ScriptRegistry::Attach(KROSS_NEW GunMovement());
+	ScriptRegistry::Attach(KROSS_NEW Health());
 	ScriptRegistry::Attach(KROSS_NEW Button());
 	ScriptRegistry::Attach(KROSS_NEW DoorFunny());
+	ScriptRegistry::Attach(KROSS_NEW CameraLock());
+	ScriptRegistry::Attach(KROSS_NEW GunMovement());
+	ScriptRegistry::Attach(KROSS_NEW EnemyMovement());
+	ScriptRegistry::Attach(KROSS_NEW HealthManager());
+	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
+	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
 }
 
 #ifndef KROSS_RELEASE

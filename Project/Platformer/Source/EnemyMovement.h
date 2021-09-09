@@ -38,6 +38,8 @@ public:
 
 	float m_MaxGroundSpeed = 1.5f;
 
+	float m_Health = 5.0f;
+
 	Script* Duplicate() override
 	{
 		return KROSS_NEW EnemyMovement();
@@ -56,8 +58,6 @@ public:
 
 	void Update() override
 	{
-		
-
 		Transform2D* playerTransform = player->m_Transform;
 
 		if (glm::length(m_GameObject->m_Transform->m_Position - playerTransform->m_Position) <= agroRange)

@@ -47,5 +47,11 @@
     <ClInclude Include="Source\DoorFunny.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\HealthManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Health.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
