@@ -1166,18 +1166,13 @@ namespace Kross
 									}
 									case 5:
 									{
-										if (value != "*") 
-										{
-
-										}
+										rpA->SetStartReserveName(value);
+										
 										break;
 									}
 									case 6: 
 									{
-										if (value != "*") 
-										{
-										
-										}
+										rpA->SetEndReserveName(value);
 										break;
 									}
 
@@ -1190,7 +1185,6 @@ namespace Kross
 							}
 
 						}
-
 
 					}
 
