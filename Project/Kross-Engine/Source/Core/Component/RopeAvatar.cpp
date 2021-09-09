@@ -26,10 +26,17 @@ namespace Kross
 
 	void RopeAvatar::OnUpdateDrawInformation()
 	{
-		for (int i = 0; i < m_Segments.size(); i++)
+#ifndef KROSS_EDITOR
+		for (int i = 0; i < m_Segments.size() - 1; i++)
 		{
-			m_DebugRenderer->DrawRigidBody(m_Segments[i]->GetBody());
+			m_DebugRenderer->DrawLineSegment(m_Segments[i]->GetPosition(), m_Segments[i + 1]->GetPosition(), Vector3(1.0f, 0.0f, 1.0f));
 		}
+#else
+		for (int i = 1; i < m_BasePositions.size(); i++)
+		{
+			m_DebugRenderer->DrawLineSegment(m_BasePositions[i - 1], m_BasePositions[i], Vector3(1.0f, 0.0f, 0.f));
+		}
+#endif
 	}
 
 	void RopeAvatar::SpawnRope()
@@ -39,6 +46,10 @@ namespace Kross
 		{
 			return;
 		}
+
+		/* Grab the Objects Loaded in. */
+		ConnectBodyToStart();
+		ConnectBodyToEnd();
 
 		/* Start Connection = KROSS_NEW Body()... etc positions.set etc.*/
 		/* End Connection = KROSS_NEW Body()... etc positions.set etc.*/
@@ -52,16 +63,18 @@ namespace Kross
 
 			float totalDistance = glm::length(positionA - positionB);
 
-			int numberOfSegments = (int)fmod(totalDistance, m_ChainLinkLength);
+			int numberOfSegments = (int)(totalDistance / m_ChainLinkLength);
 
 			/* Step 2, Generate the Bodies. between the ropes. */
 			for (int j = 0; j < numberOfSegments; j++)
 			{
-				Vector2 bodyPosition = Math::Lerp(positionA, positionB, j * (int)(1.0f / (float)(numberOfSegments - 1)));
+				Vector2 bodyPosition = Math::Lerp(positionA, positionB, ((float)j / (float)numberOfSegments));
 
 				BodyDef bodyDef;
 				bodyDef.type = b2_dynamicBody;
 				bodyDef.position.Set(bodyPosition.x, bodyPosition.y);
+				bodyDef.fixedRotation = false;
+				bodyDef.userData = m_GameObject;
 
 				Body* body = m_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
 
@@ -70,6 +83,7 @@ namespace Kross
 
 				FixtureDef fixtureDef;
 				fixtureDef.shape = &circle;
+				fixtureDef.density = 1.0f;
 				//fixtureDef.filter.categoryBits = 
 				//fixtureDef.filter.maskBits = 
 
@@ -87,17 +101,27 @@ namespace Kross
 		/* Generate a list of Revolute Joints. */
 		for (int i = 0; i < m_Segments.size() - 1; i++) /* See what happens. */
 		{
-			b2RevoluteJointDef* jointDef = KROSS_NEW b2RevoluteJointDef();
+			b2RevoluteJointDef jointDef = b2RevoluteJointDef();
 
 			int nextOneAcross = i + 1;
 
-			jointDef->bodyA = m_Segments[i]->GetBody();
-			jointDef->bodyB = m_Segments[nextOneAcross]->GetBody();
+			jointDef.bodyA = m_Segments[i]->GetBody();
+			jointDef.bodyB = m_Segments[nextOneAcross]->GetBody();
 
-			jointDef->localAnchorA = b2Vec2(0, -1); /* See if this Explodes. */
-			jointDef->localAnchorB = b2Vec2(0, 1);
+			Vector2 bodyAPos = m_Segments[i]->GetPosition();
+			Vector2 bodyBPos = m_Segments[nextOneAcross]->GetPosition();
 
-			m_RevolutionJoints.push_back((b2RevoluteJoint*)jointDef);
+			jointDef.localAnchorA.Set( m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
+			jointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
+
+			//jointDef.upperAngle = glm::radians(359.99999f);
+
+			//jointDef->localAnchorA = b2Vec2(0.0f, -1.0f) * (m_ChainLinkLength * 0.5f); /* See if this Explodes. */
+			//jointDef->localAnchorB = b2Vec2(0.0f, 1.0f) * (m_ChainLinkLength * 0.5f);
+
+			m_RevolutionJoints.push_back((b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef));
+
+			
 		}
 
 		/* Step 4 Generate the end two b2 Weld Joints. */
@@ -105,21 +129,24 @@ namespace Kross
 		if (m_IsStartStatic)
 		{
 			Object* ropeAnchor = Object::OnCreate("StartAnchor");
+			ropeAnchor->m_Transform->m_Position = m_BasePositions[0];
 			m_StartBodyConnectedBody = ropeAnchor->AttachComponent<Rigidbody2D>();
 			Collider* anchorCollider = ropeAnchor->GetComponent<Collider>();
+			anchorCollider->SetShapeType(ShapeType::Circle);
+			anchorCollider->SetRadius(m_ChainLinkLength * 0.5f);
 			anchorCollider->SetStatic(true);
-			SceneManager::GetCurrentScene()->AttachObject(ropeAnchor);
+			SceneManager::GetCurrentScene()->AttachObject(ropeAnchor, true);
 		}
 		//Then use the end and start to generate last links.
 		if (m_StartBodyConnectedBody) 
 		{
-			b2RevoluteJointDef* firstJointDef = KROSS_NEW b2RevoluteJointDef();
-			firstJointDef->bodyA = m_Segments[0]->GetBody();
-			firstJointDef->bodyB = m_StartBodyConnectedBody->GetBody();
-			firstJointDef->localAnchorA = b2Vec2(0, -1); /* See if this Explodes. */
-			firstJointDef->localAnchorB = b2Vec2(0, 1);
+			b2RevoluteJointDef firstJointDef = b2RevoluteJointDef();
+			firstJointDef.bodyA = m_StartBodyConnectedBody->GetBody();
+			firstJointDef.bodyB = m_Segments[0]->GetBody();
+			firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
+			firstJointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
 
-			m_StartWeld = ((b2RevoluteJoint*)firstJointDef);
+			m_StartWeld = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&firstJointDef);
 		}
 
 		if (m_EndBodyConnectedBody) 

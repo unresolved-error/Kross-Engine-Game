@@ -48,6 +48,7 @@ namespace Kross
 
 	protected:
 		friend class Object;
+		friend class Scene;
 
 		void OnStart() override;
 
@@ -60,7 +61,7 @@ namespace Kross
 		/*!
 			Sets the Physics Scene.
 		*/
-		void SetPhyicsScene(PhysicsScene* scene) { m_PhysicsScene = scene; };
+		void SetPhysicsScene(PhysicsScene* scene) { m_PhysicsScene = scene; };
 
 		/*!
 			Gets the Physics Scene.

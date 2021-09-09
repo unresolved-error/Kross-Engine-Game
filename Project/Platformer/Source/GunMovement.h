@@ -164,7 +164,7 @@ public:
 			Collider* collider = bullet->GetComponent<Collider>();
 
 			bullet->m_Transform->m_Position = endOfGunLocation;
-			bullet->m_Transform->m_Rotation = 45.0f;
+			bullet->m_Transform->m_Rotation = angle;
 			bullet->SetLayer(Layer::Player);
 
 			collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;

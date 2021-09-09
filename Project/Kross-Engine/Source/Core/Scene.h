@@ -144,7 +144,7 @@ namespace Kross
 		const std::string GetName() const { return m_Name; };
 
 		// Adds a Object to the Scene.
-		void AttachObject(Object* object);
+		void AttachObject(Object* object, bool startOverride = false);
 
 		// Removes a Object from the Scene. (BY NAME)
 		void DetachObject(const std::string& name);

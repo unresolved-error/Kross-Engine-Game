@@ -147,20 +147,21 @@ namespace Kross
                 {
                     if (body->GetRayCollisionBody())
                     {
+                        Object* other = (Object*)body->GetRayCollisionBody()->GetUserData();
                         if (body->GetCollisionState() == CollisionState::Enter)
                         {
-                            if (!((Object*)body->GetRayCollisionBody()->GetUserData())->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionEnter((Object*)body->GetRayCollisionBody()->GetUserData());
+                            if (other && !other->ShouldBeRemoved())
+                                m_ActualObjects[i]->OnCollisionEnter(other);
                         }
                         else if (body->GetCollisionState() == CollisionState::Stay)
                         {
-                            if (!((Object*)body->GetRayCollisionBody()->GetUserData())->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionStay((Object*)body->GetRayCollisionBody()->GetUserData());
+                            if (other && !other->ShouldBeRemoved())
+                                m_ActualObjects[i]->OnCollisionStay(other);
                         }
                         else if (body->GetCollisionState() == CollisionState::Exit)
                         {
-                            if (!((Object*)body->GetRayCollisionBody()->GetUserData())->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionExit((Object*)body->GetRayCollisionBody()->GetUserData());
+                            if (other && !other->ShouldBeRemoved())
+                                m_ActualObjects[i]->OnCollisionExit(other);
                         }
                     }
                 }
@@ -413,7 +414,7 @@ namespace Kross
             delete scene;
     }
 
-    void Scene::AttachObject(Object* object)
+    void Scene::AttachObject(Object* object, bool startOverride)
     {
         /* Attach the Object to the global object list. */
         m_ActualObjects.push_back(object);
@@ -441,6 +442,14 @@ namespace Kross
         if (emitter)
             emitter->SetPhysicsScene(m_Physics);
 
+        RopeAvatar* avatar = object->GetComponent<RopeAvatar>();
+
+        if (avatar)
+        {
+            avatar->SetPhysicsScene(m_Physics);
+            avatar->SetDebugRenderer(m_DebugRenderer);
+        }
+
         /* If the Object is Static. */
         if (object->IsStatic())
         {
@@ -455,7 +464,7 @@ namespace Kross
         }
 
         /* Start the object inside of the Scene. */
-        if (m_Started)
+        if (m_Started || startOverride)
         {
             object->OnStart();
         }
