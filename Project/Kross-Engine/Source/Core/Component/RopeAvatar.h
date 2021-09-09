@@ -25,8 +25,8 @@ namespace Kross
 		Body* m_EndAnchorBody;
 
 		/* Both for the Objects that get connected to the Rope. */
-		std::string nameOfStartObjConnected;
-		std::string nameOfEndObjConnected;
+		std::string m_nameOfStartObjConnected;
+		std::string m_nameOfEndObjConnected;
 
 		Rigidbody2D* m_StartBodyConnectedBody;
 		Rigidbody2D* m_EndBodyConnectedBody;
@@ -80,6 +80,8 @@ namespace Kross
 			m_RevolutionJoints			(std::vector<b2RevoluteJoint*>()),
 			m_StartWeld					(nullptr),
 			m_EndWeld					(nullptr),
+			m_nameOfStartObjConnected   ("*"),
+			m_nameOfEndObjConnected		("*"),
 			m_PhysicsScene				(nullptr)
 		{};
 		~RopeAvatar() {};
@@ -127,6 +129,10 @@ namespace Kross
 		
 		void SetBasePosition(int index, Vector2 newPos);
 
+		void SetStartReserveName(std::string name);
+		void SetEndReserveName(std::string name);
+		std::string GetStartReserveName();
+		std::string GetEndReserveName();
 
 
 		std::vector<Vector2> GetBasePositions() const { return m_BasePositions; };

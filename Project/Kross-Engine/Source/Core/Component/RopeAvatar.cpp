@@ -117,4 +117,21 @@ namespace Kross
 	{
 		m_BasePositions[index] = newPos;
 	}
+	void RopeAvatar::SetStartReserveName(std::string name)
+	{
+		m_nameOfStartObjConnected = name;
+	}
+	void RopeAvatar::SetEndReserveName(std::string name)
+	{
+		m_nameOfEndObjConnected = name;
+	}
+	std::string RopeAvatar::GetStartReserveName()
+	{
+		return m_nameOfStartObjConnected;
+	}
+	std::string RopeAvatar::GetEndReserveName()
+	{
+
+		return m_nameOfEndObjConnected;
+	}
 }
