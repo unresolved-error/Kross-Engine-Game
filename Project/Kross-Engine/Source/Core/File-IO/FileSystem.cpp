@@ -1078,6 +1078,122 @@ namespace Kross
 
 					}
 
+					if (ropeData.size()>0) 
+					{
+						/* Get the Rope Avatar on the object */
+						RopeAvatar* rpA = currentObject->GetComponent<RopeAvatar>();
+
+						/*go through data... Messy*/
+						for (int i = 0; i < ropeData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+							int numberOfPositions = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = ropeData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Data Value. */
+								std::string value = ropeData[i].substr(0, searchPosition);
+
+								switch (varSwitch) 
+								{
+									/* Chain link Length */
+									case 0:
+									{
+										float chainLnkLgth = std::stof(value);
+										rpA->SetChainLinkLength(chainLnkLgth);
+										break;
+									}
+									case 1: 
+									{
+										//Static
+										bool staticStart = std::stoi(value);
+										rpA->SetStartStatic(staticStart);
+										break;
+									}
+									case 2:
+									{
+										//breakable;
+										bool breakable = std::stoi(value);
+										rpA->SetBreakable(breakable);
+										break;
+									}
+									case 3: 
+									{
+										//Base positions size
+										int posnumber = std::stoi(value);
+										numberOfPositions = posnumber;
+										break;
+									}
+									case 4: //CASE 4 IS DIRTY AND DANGEROUS. PLEASE BE CAREFUL OF EDITING. TALK TO CHRIS ABOUT RISKS.
+									{
+										//ENTIRE ARRAY OF BASE POSITIONS
+										std::string data = value;
+										data.erase(remove(data.begin(), data.end(), '['), data.end());
+										data.erase(remove(data.begin(), data.end(), ']'), data.end());
+
+										std::vector<float> rawLayerData;
+
+										size_t searchPositionData = 0;
+										std::string divider = ",";
+
+										while ((searchPositionData = data.find(divider)) != std::string::npos)
+										{
+											std::string dataValue = data.substr(0, searchPositionData);
+											rawLayerData.push_back(std::stof(dataValue));
+
+											data.erase(0, searchPositionData + divider.length());
+										}
+
+										rawLayerData.push_back(std::stof(data));
+
+										for (int j = 0; j < rawLayerData.size(); j++)
+										{
+											float xDat = rawLayerData[j];
+
+											j++; ///THIS ONE IS TO GO TO THE Y VALUE BUDDY BOY.
+											float yDat = rawLayerData[j];
+
+											Vector2 newPos(xDat, yDat);
+
+											rpA->AttachPosition(newPos);
+										}
+
+										break;
+									}
+									case 5:
+									{
+										if (value != "*") 
+										{
+
+										}
+										break;
+									}
+									case 6: 
+									{
+										if (value != "*") 
+										{
+										
+										}
+										break;
+									}
+
+								}
+								/* Erase the Data just Used. */
+								ropeData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+
+						}
+
+
+					}
+
 					if (playerControllerData.size() > 0)
 					{
 						/* Get the Player Controller on the Object. */
@@ -1418,7 +1534,7 @@ namespace Kross
 						RopeAvatar* rpA = (RopeAvatar*)comp;
 						/*
 							LINKLENGTH->ISSTARTSTATIC->ISBREAKBLE->
-							NUMBER OF BASE POSITIONS->BASEx->BASEy->BASEx1->BASEy1->ECT....->
+							NUMBER OF BASE POSITIONS->[BASEx,BASEy,BASEx1,BASEy1,ECT....]->
 							ROPESTARTCONNECTEDBODY->ROPEENDCONNECTEDBODY->
 
 						*/
@@ -1427,20 +1543,28 @@ namespace Kross
 						fileStream << rpA->GetChainLinkLength() << "->";
 						fileStream << (int)rpA->IsStartStatic() << "->";
 						fileStream << (int)rpA->IsBreakable() << "->";
-						fileStream << rpA->GetBasePositions().size() << "->";
+						fileStream << rpA->GetBasePositions().size() << "->[";
 						for (int i = 0; i < rpA->GetBasePositions().size(); i++) 
 						{
-							fileStream << rpA->GetBasePositions()[i].x << "->";
-							fileStream << rpA->GetBasePositions()[i].y << "->";
+							fileStream << rpA->GetBasePositions()[i].x << ",";
+
+							if (i != rpA->GetBasePositions().size() - 1) 
+							{
+								fileStream << rpA->GetBasePositions()[i].y << ",";
+							}
+							else 
+							{
+								fileStream << rpA->GetBasePositions()[i].y << "]->";
+							}
 						}
 
-						if (!rpA->IsStartStatic() && rpA->GetRopeEndConnectedBody())
+						if (!rpA->IsStartStatic() && rpA->GetRopeStartConnectedBody())
 						{
 							fileStream << rpA->GetRopeStartConnectedBody()->m_GameObject->m_Name << "->";
 						}
 						else
 						{
-							fileStream << "NULL->";
+							fileStream << "*->";
 						}
 
 						if (rpA->GetRopeEndConnectedBody()) 
@@ -1449,7 +1573,7 @@ namespace Kross
 						}
 						else 
 						{
-							fileStream << "NULL->";
+							fileStream << "*->";
 						}
 						
 						fileStream << "\n";

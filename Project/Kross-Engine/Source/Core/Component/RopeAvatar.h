@@ -25,6 +25,8 @@ namespace Kross
 		Body* m_EndAnchorBody;
 
 		/* Both for the Objects that get connected to the Rope. */
+		std::string nameOfStartObjConnected;
+		std::string nameOfEndObjConnected;
 
 		Rigidbody2D* m_StartBodyConnectedBody;
 		Rigidbody2D* m_EndBodyConnectedBody;
@@ -68,8 +70,8 @@ namespace Kross
 	public:
 		RopeAvatar() :
 			m_BasePositions				(std::vector<Vector2>()),
-			m_StartAnchorBody					(nullptr),
-			m_EndAnchorBody					(nullptr),
+			m_StartAnchorBody			(nullptr),
+			m_EndAnchorBody				(nullptr),
 			m_StartBodyConnectedBody	(nullptr),
 			m_EndBodyConnectedBody		(nullptr),
 			m_ChainLinkLength			(0.1f),
