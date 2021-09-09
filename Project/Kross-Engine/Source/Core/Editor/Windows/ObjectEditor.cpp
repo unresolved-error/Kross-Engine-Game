@@ -467,14 +467,30 @@ namespace Kross {
 					{
 						if (ImGui::CollapsingHeader("Rope Avatar", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
-					
+
 							RopeAvatar* ropeAvatar = (RopeAvatar*)component;
 							float rp_ChainLength = ropeAvatar->GetChainLinkLength();
 							bool rp_isBreakable = ropeAvatar->IsBreakable();
 							bool rp_startIsStatic = ropeAvatar->IsStartStatic();
+							char startNameBuffer[128] = {'/0'};
+							std::string startReserveNameString = ropeAvatar->GetStartReserveName();
+							for (int i = 0; i < startReserveNameString.length(); i++)
+							{
+								startNameBuffer[i] = startReserveNameString[i];
+							}
+
+							char endNameBuffer[128] = { '/0' };
+							std::string endReserveNameString = ropeAvatar->GetEndReserveName();
+							for (int i = 0; i < endReserveNameString.length(); i++)
+							{
+								endNameBuffer[i] = endReserveNameString[i];
+							}
+
+
+
 							std::vector<Vector2> rp_positions = ropeAvatar->GetBasePositions();
-							Rigidbody2D* rp_startConnectedBody = ropeAvatar->GetRopeStartConnectedBody();
-							Rigidbody2D* rp_endConnectedBody = ropeAvatar->GetRopeEndConnectedBody();
+
+
 
 							ImGui::Indent();
 							if (ImGui::CollapsingHeader("Positions", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
@@ -519,7 +535,15 @@ namespace Kross {
 							ImGui::SameLine();
 							ImGui::Checkbox("##isStartStatic", &rp_startIsStatic);
 
+							ImGui::Text("Connected Start Object:");
+							ImGui::InputText("##StartReserve", &startNameBuffer[0], 128, ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue);
 
+							ImGui::Text("Connected End Object:");
+							ImGui::InputText("##EndReserve", &endNameBuffer[0], 128, ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue);
+
+
+							ropeAvatar->SetStartReserveName(startNameBuffer);
+							ropeAvatar->SetEndReserveName(endNameBuffer);
 							ropeAvatar->SetChainLinkLength(rp_ChainLength);
 							ropeAvatar->SetStartStatic(rp_startIsStatic);
 							ropeAvatar->SetBreakable(rp_isBreakable);

@@ -39,8 +39,8 @@ namespace Kross
 		/* Joints between Segments. */
 		std::vector<b2RevoluteJoint*> m_RevolutionJoints;
 
-		b2WeldJoint* m_StartWeld;
-		b2WeldJoint* m_EndWeld;
+		b2RevoluteJoint* m_StartWeld;
+		b2RevoluteJoint* m_EndWeld;
 
 		PhysicsScene* m_PhysicsScene;
 
@@ -94,12 +94,12 @@ namespace Kross
 		/*!
 			Sets the Start's Connected Body.
 		*/
-		void ConnectBodyToStart(Rigidbody2D* rigidbody) { m_StartBodyConnectedBody = rigidbody; };
+		void ConnectBodyToStart();
 
 		/*!
 			Sets the End's Connected Body.
 		*/
-		void ConnectBodyToEnd(Rigidbody2D* rigidbody) { m_EndBodyConnectedBody = rigidbody; };
+		void ConnectBodyToEnd();
 
 		/*!
 			Gets the Start's Connected Body.

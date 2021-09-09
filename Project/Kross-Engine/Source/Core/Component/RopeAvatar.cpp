@@ -6,6 +6,7 @@
  */
 
 #include "RopeAvatar.h"
+#include "../Manager/SceneManager.h"
 
 namespace Kross
 {
@@ -100,10 +101,60 @@ namespace Kross
 		}
 
 		/* Step 4 Generate the end two b2 Weld Joints. */
-		//if (m_IsStartStatic)
-		//{
-		//
-		//}
+		//First manage start being static
+		if (m_IsStartStatic)
+		{
+			Object* ropeAnchor = Object::OnCreate("StartAnchor");
+			m_StartBodyConnectedBody = ropeAnchor->AttachComponent<Rigidbody2D>();
+			Collider* anchorCollider = ropeAnchor->GetComponent<Collider>();
+			anchorCollider->SetStatic(true);
+			SceneManager::GetCurrentScene()->AttachObject(ropeAnchor);
+		}
+		//Then use the end and start to generate last links.
+		if (m_StartBodyConnectedBody) 
+		{
+			b2RevoluteJointDef* firstJointDef = KROSS_NEW b2RevoluteJointDef();
+			firstJointDef->bodyA = m_Segments[0]->GetBody();
+			firstJointDef->bodyB = m_StartBodyConnectedBody->GetBody();
+			firstJointDef->localAnchorA = b2Vec2(0, -1); /* See if this Explodes. */
+			firstJointDef->localAnchorB = b2Vec2(0, 1);
+
+			m_StartWeld = ((b2RevoluteJoint*)firstJointDef);
+		}
+
+		if (m_EndBodyConnectedBody) 
+		{
+			b2RevoluteJointDef* lastJointDef = KROSS_NEW b2RevoluteJointDef();
+			lastJointDef->bodyA = m_Segments[0]->GetBody();
+			lastJointDef->bodyB = m_EndBodyConnectedBody->GetBody();
+			lastJointDef->localAnchorA = b2Vec2(0, -1); /* See if this Explodes. */
+			lastJointDef->localAnchorB = b2Vec2(0, 1);
+
+			m_EndWeld = ((b2RevoluteJoint*)lastJointDef);
+		}
+
+	}
+
+	void RopeAvatar::ConnectBodyToStart()
+	{
+		Object* objToAttToStart = SceneManager::GetCurrentScene()->FindObject(m_nameOfStartObjConnected);
+		if (objToAttToStart) 
+		{
+			Rigidbody2D* rigidToAttToStart = objToAttToStart->GetComponent<Rigidbody2D>();
+
+			m_StartBodyConnectedBody = rigidToAttToStart;
+		}
+	}
+
+	void RopeAvatar::ConnectBodyToEnd()
+	{
+		Object* objToAttToEnd = SceneManager::GetCurrentScene()->FindObject(m_nameOfEndObjConnected);
+		if (objToAttToEnd)
+		{
+			Rigidbody2D* rigidToAttToEnd = objToAttToEnd->GetComponent<Rigidbody2D>();
+
+			m_EndBodyConnectedBody = rigidToAttToEnd;
+		}
 	}
 
 	void RopeAvatar::DetachPosition(int index)
@@ -134,7 +185,6 @@ namespace Kross
 	}
 	std::string RopeAvatar::GetEndReserveName()
 	{
-
 		return m_nameOfEndObjConnected;
 	}
 }
