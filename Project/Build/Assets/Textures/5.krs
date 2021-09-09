@@ -1,0 +1,4 @@
+TEXTURE:
+FILEPATH->Resources/Textures/Particle.png->
+NAME->ParticleTexture->
+TYPE->DEFAULT->

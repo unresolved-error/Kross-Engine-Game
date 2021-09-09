@@ -1,0 +1,7 @@
+ANIMATION:
+NAME->DonutWalk->
+DURATION->0.5->
+KEYFRAME->*->*->*->*->*->Donut0-0->
+KEYFRAME->*->*->*->*->*->Donut1-0->
+KEYFRAME->*->*->*->*->*->Donut0-0->
+KEYFRAME->*->*->*->*->*->Donut2-0->
