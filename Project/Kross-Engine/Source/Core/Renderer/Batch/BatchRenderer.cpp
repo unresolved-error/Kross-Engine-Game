@@ -208,8 +208,6 @@ namespace Kross
             {
                 Window* window = Application::GetWindow();
 
-               
-
                 if (!window->Minimised())
                 {
                     if (window->GetWidth() == NULL || window->GetHeight() == NULL)
