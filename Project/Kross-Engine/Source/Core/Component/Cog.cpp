@@ -6,7 +6,7 @@
 
 #include "Cog.h"
 #include "../Manager/SceneManager.h"
-#include "../Physics/Cog/CogRotationPiece.h"
+
 
 namespace Kross
 {

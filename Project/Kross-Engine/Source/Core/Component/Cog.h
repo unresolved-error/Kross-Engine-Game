@@ -7,7 +7,7 @@
 #pragma once
 
 #include "../Core.h"
-
+#include "../Physics/Cog/CogRotationPiece.h"
 #include "Renderer.h"
 
 namespace Kross
