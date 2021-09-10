@@ -1161,6 +1161,77 @@ namespace Kross
 										rpA->SetEndReserveName(value);
 										break;
 									}
+									case 7: 
+									{
+										//ENTIRE ARRAY OF BASE POSITIONS
+										std::string data = value;
+										data.erase(remove(data.begin(), data.end(), '['), data.end());
+										data.erase(remove(data.begin(), data.end(), ']'), data.end());
+
+										std::vector<float> rawLayerData;
+
+										size_t searchPositionData = 0;
+										std::string divider = ",";
+
+										while ((searchPositionData = data.find(divider)) != std::string::npos)
+										{
+											std::string dataValue = data.substr(0, searchPositionData);
+											rawLayerData.push_back(std::stof(dataValue));
+
+											data.erase(0, searchPositionData + divider.length());
+										}
+
+										rawLayerData.push_back(std::stof(data));
+
+										for (int j = 0; j < rawLayerData.size(); j++)
+										{
+											float xDat = rawLayerData[j];
+
+											j++; ///THIS ONE IS TO GO TO THE Y VALUE BUDDY BOY.
+											float yDat = rawLayerData[j];
+
+											Vector2 newPos(xDat, yDat);
+
+											rpA->SetAttachmentPointOnStartObj(newPos);
+										}
+										break;
+									}
+									case 8:
+									{
+										//ENTIRE ARRAY OF BASE POSITIONS
+										std::string data = value;
+										data.erase(remove(data.begin(), data.end(), '['), data.end());
+										data.erase(remove(data.begin(), data.end(), ']'), data.end());
+
+										std::vector<float> rawLayerData;
+
+										size_t searchPositionData = 0;
+										std::string divider = ",";
+
+										while ((searchPositionData = data.find(divider)) != std::string::npos)
+										{
+											std::string dataValue = data.substr(0, searchPositionData);
+											rawLayerData.push_back(std::stof(dataValue));
+
+											data.erase(0, searchPositionData + divider.length());
+										}
+
+										rawLayerData.push_back(std::stof(data));
+
+										for (int j = 0; j < rawLayerData.size(); j++)
+										{
+											float xDat = rawLayerData[j];
+
+											j++; ///THIS ONE IS TO GO TO THE Y VALUE BUDDY BOY.
+											float yDat = rawLayerData[j];
+
+											Vector2 newPos(xDat, yDat);
+
+											rpA->SetAttachmentPointOnEndObj(newPos);
+										}
+										break;
+									}
+
 
 								}
 								/* Erase the Data just Used. */
@@ -1545,6 +1616,11 @@ namespace Kross
 						{
 							fileStream << "*->";
 						}
+						fileStream << "[";
+						fileStream << rpA->GetAttachmentPointOnStartObj().x << "," << rpA->GetAttachmentPointOnStartObj().y << "]->";
+						fileStream << "[";
+						fileStream << rpA->GetAttachmentPointOnEndObj().x << "," << rpA->GetAttachmentPointOnEndObj().y << "]->";
+
 						
 						fileStream << "\n";
 

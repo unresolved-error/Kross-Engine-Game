@@ -472,12 +472,24 @@ namespace Kross {
 							float rp_ChainLength = ropeAvatar->GetChainLinkLength();
 							bool rp_isBreakable = ropeAvatar->IsBreakable();
 							bool rp_startIsStatic = ropeAvatar->IsStartStatic();
+
+							float rp_startAttachX = ropeAvatar->GetAttachmentPointOnStartObj().x;
+							float rp_startAttachY = ropeAvatar->GetAttachmentPointOnStartObj().y;
+							float rp_endAttachX = ropeAvatar->GetAttachmentPointOnEndObj().x;
+							float rp_endAttachY = ropeAvatar->GetAttachmentPointOnEndObj().y;
+
+
 							char startNameBuffer[128] = {'/0'};
 							std::string startReserveNameString = ropeAvatar->GetStartReserveName();
 							for (int i = 0; i < startReserveNameString.length(); i++)
 							{
 								startNameBuffer[i] = startReserveNameString[i];
 							}
+
+
+					
+
+
 
 							char endNameBuffer[128] = { '/0' };
 							std::string endReserveNameString = ropeAvatar->GetEndReserveName();
@@ -538,12 +550,33 @@ namespace Kross {
 							ImGui::Text("Connected Start Object:");
 							ImGui::InputText("##StartReserve", &startNameBuffer[0], 128, ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue);
 
+
+							ImGui::Text("StartAttachPosition:");
+							ImGui::Text("X:");
+							ImGui::SameLine();
+							ImGui::DragFloat("##rp_StartPosX", &rp_startAttachX, 0.1f, -FLT_MAX, FLT_MAX);
+							
+							ImGui::Text("Y:");
+							ImGui::SameLine();
+							ImGui::DragFloat("##rp_StartPosY", &rp_startAttachY, 0.1f, -FLT_MAX, FLT_MAX);
+
+
 							ImGui::Text("Connected End Object:");
 							ImGui::InputText("##EndReserve", &endNameBuffer[0], 128, ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue);
+							ImGui::Text("EndAttachPosition:");
+							ImGui::Text("X:");
+							ImGui::SameLine();
+							ImGui::DragFloat("##rp_EndPosX", &rp_endAttachX, 0.1f, -FLT_MAX, FLT_MAX);
+							
+							ImGui::Text("Y:");
+							ImGui::SameLine();
+							ImGui::DragFloat("##rp_EndPosY", &rp_endAttachY, 0.1f, -FLT_MAX, FLT_MAX);
 
 
 							ropeAvatar->SetStartReserveName(startNameBuffer);
+							ropeAvatar->SetAttachmentPointOnStartObj(glm::vec2(rp_startAttachX,rp_startAttachY));
 							ropeAvatar->SetEndReserveName(endNameBuffer);
+							ropeAvatar->SetAttachmentPointOnEndObj(glm::vec2(rp_endAttachX, rp_endAttachY));
 							ropeAvatar->SetChainLinkLength(rp_ChainLength);
 							ropeAvatar->SetStartStatic(rp_startIsStatic);
 							ropeAvatar->SetBreakable(rp_isBreakable);
