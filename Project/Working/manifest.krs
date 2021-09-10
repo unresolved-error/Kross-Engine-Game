@@ -14,7 +14,6 @@ TEXTURE->Assets/Textures/Specular.krs->
 TEXTURE->Assets/Textures/KrossFont.krs->
 TEXTURE->Assets/Textures/Particle.krs->
 TEXTURE->Assets/Textures/Marshall-Mellow.krs->
-TEXTURE->Assets/Textures/DirtTileTest.krs->
 TEXTURE->Assets/Textures/Tilemap.krs->
 TEXTURE->Assets/Textures/icoAnimation.krs->
 TEXTURE->Assets/Textures/icoAudio.krs->
@@ -43,7 +42,6 @@ SPRITE->Assets/Sprites/sprSpecular.krs->
 SPRITE->Assets/Sprites/sprParticleTexture.krs->
 SPRITE->Assets/Sprites/sprSheetMarshall-Mellow.krs->
 SPRITE->Assets/Sprites/sprSheetGun.krs->
-SPRITE->Assets/Sprites/sprDirt.krs->
 SPRITE->Assets/Sprites/sprSheetDirtTileMap.krs->
 SPRITE->Assets/Sprites/sprAllSorts.krs->
 SPRITE->Assets/Sprites/sprSheetDonut.krs->
