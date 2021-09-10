@@ -193,6 +193,7 @@
     <ClCompile Include="Source\Core\File-IO\Manifest.cpp" />
     <ClCompile Include="Source\Core\Component\RopeAvatar.cpp" />
     <ClCompile Include="Source\Core\Component\PlayerController.cpp" />
+    <ClCompile Include="Source\Core\Component\Cog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -719,6 +720,8 @@
     <ClInclude Include="Source\Core\Component\ButtonProperties.h" />
     <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserWrite.h" />
     <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserLoad.h" />
+    <ClInclude Include="Source\Core\Component\Cog.h" />
+    <ClInclude Include="Source\Core\Physics\Cog\CogRotationPiece.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

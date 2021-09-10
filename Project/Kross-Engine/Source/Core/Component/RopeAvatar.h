@@ -83,7 +83,8 @@ namespace Kross
 			m_EndWeld					(nullptr),
 			m_nameOfStartObjConnected   ("*"),
 			m_nameOfEndObjConnected		("*"),
-			m_PhysicsScene				(nullptr)
+			m_PhysicsScene				(nullptr),
+			m_DebugRenderer             (nullptr)
 		{};
 		~RopeAvatar() {};
 
