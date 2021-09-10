@@ -198,16 +198,32 @@ namespace Kross
 	{
 		m_nameOfStartObjConnected = name;
 	}
+	void RopeAvatar::SetAttachmentPointOnStartObj(Vector2 attachPoint)
+	{
+		m_AttachmentPointOnStartObj = attachPoint;
+	}
 	void RopeAvatar::SetEndReserveName(std::string name)
 	{
 		m_nameOfEndObjConnected = name;
+	}
+	void RopeAvatar::SetAttachmentPointOnEndObj(Vector2 attachPoint)
+	{
+		m_AttachmentPointOnEndObj = attachPoint;
 	}
 	std::string RopeAvatar::GetStartReserveName()
 	{
 		return m_nameOfStartObjConnected;
 	}
+	Vector2 RopeAvatar::GetAttachmentPointOnStartObj()
+	{
+		return m_AttachmentPointOnStartObj;
+	}
 	std::string RopeAvatar::GetEndReserveName()
 	{
 		return m_nameOfEndObjConnected;
+	}
+	Vector2 RopeAvatar::GetAttachmentPointOnEndObj()
+	{
+		return m_AttachmentPointOnEndObj;
 	}
 }

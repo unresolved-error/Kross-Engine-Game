@@ -21,6 +21,10 @@ namespace Kross
 		std::vector<Vector2> m_BasePositions;
 		std::vector<RopeSegment*> m_Segments;
 
+		Vector2 m_AttachmentPointOnStartObj;
+		Vector2 m_AttachmentPointOnEndObj;
+
+
 		Body* m_StartAnchorBody;
 		Body* m_EndAnchorBody;
 
@@ -84,7 +88,10 @@ namespace Kross
 			m_nameOfStartObjConnected   ("*"),
 			m_nameOfEndObjConnected		("*"),
 			m_PhysicsScene				(nullptr),
-			m_DebugRenderer             (nullptr)
+			m_DebugRenderer             (nullptr),
+			m_AttachmentPointOnStartObj (0,0),
+			m_AttachmentPointOnEndObj (0, 0)
+
 		{};
 		~RopeAvatar() {};
 
@@ -132,10 +139,13 @@ namespace Kross
 		void SetBasePosition(int index, Vector2 newPos);
 
 		void SetStartReserveName(std::string name);
+		void SetAttachmentPointOnStartObj(Vector2 attachPoint);
 		void SetEndReserveName(std::string name);
+		void SetAttachmentPointOnEndObj(Vector2 attachPoint);
 		std::string GetStartReserveName();
+		Vector2 GetAttachmentPointOnStartObj();
 		std::string GetEndReserveName();
-
+		Vector2 GetAttachmentPointOnEndObj();
 
 		std::vector<Vector2> GetBasePositions() const { return m_BasePositions; };
 	};
