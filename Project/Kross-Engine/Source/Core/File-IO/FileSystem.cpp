@@ -1528,18 +1528,18 @@ namespace Kross
 							}
 						}
 
-						if (!rpA->IsStartStatic() && rpA->GetRopeStartConnectedBody())
+						if (!rpA->IsStartStatic() && rpA->GetStartReserveName() != "*")
 						{
-							fileStream << rpA->GetRopeStartConnectedBody()->m_GameObject->m_Name << "->";
+							fileStream << rpA->GetStartReserveName() << "->";
 						}
 						else
 						{
 							fileStream << "*->";
 						}
 
-						if (rpA->GetRopeEndConnectedBody()) 
+						if (rpA->GetEndReserveName() != "*")
 						{
-							fileStream << rpA->GetRopeEndConnectedBody()->m_GameObject->m_Name << "->";
+							fileStream << rpA->GetEndReserveName() << "->";
 						}
 						else 
 						{
