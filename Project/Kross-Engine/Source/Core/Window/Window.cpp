@@ -56,6 +56,9 @@ namespace Kross
 
 		m_GLFWWindow = glfwCreateWindow(m_Properties->GetWidth(), m_Properties->GetHeight(), m_Properties->GetTitle().c_str(), NULL, NULL);
 
+		/* Aspect Ratio Locking. */
+		glfwSetWindowAspectRatio(m_GLFWWindow, 16, 9);
+
 		if (!m_GLFWWindow)
 		{
 			// Failed to Create Window.
@@ -77,10 +80,6 @@ namespace Kross
 		/* Enable Pixel Blending */
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		/* Enable Front and Back Face Culling. */
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_FRONT_AND_BACK);
 
 		/* VSync Switch */
 		glfwSwapInterval(m_Properties->GetVSync());

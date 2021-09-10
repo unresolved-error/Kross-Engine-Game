@@ -208,8 +208,15 @@ namespace Kross
             {
                 Window* window = Application::GetWindow();
 
+               
+
                 if (!window->Minimised())
                 {
+                    if (window->GetWidth() == NULL || window->GetHeight() == NULL)
+                    {
+                        return;
+                    }
+
                     Texture* frameBufferTexture = m_FrameBuffer->GetTexture();
 
                     if (frameBufferTexture->GetWidth() != window->GetWidth() ||
@@ -218,7 +225,8 @@ namespace Kross
                         delete m_FrameBuffer;
                         m_FrameBuffer = KROSS_NEW FrameBuffer(window->GetWidth(), window->GetHeight());
                     }
-
+                    
+                    frameBufferTexture = m_FrameBuffer->GetTexture();
 
                     m_FrameBuffer->Bind();
                     m_FrameBuffer->ClearBuffer();
@@ -275,7 +283,10 @@ namespace Kross
                     m_FrameBuffer->GetTexture()->Bind();
 
                     /* Pass the Texture to the Post Process Shader. */
-                    m_PostProcessShader->SetUniform("u_Texture", m_FrameBuffer->GetTexture());
+                    m_PostProcessShader->SetUniform("u_Texture", frameBufferTexture);
+
+                    m_PostProcessShader->SetUniform("u_RenderTargetWidth", frameBufferTexture->GetWidth());
+                    m_PostProcessShader->SetUniform("u_RenderTargetHeight", frameBufferTexture->GetHeight());
 
                     /* Draw the Final Image. */
                     m_PostProcessShader->Bind();
