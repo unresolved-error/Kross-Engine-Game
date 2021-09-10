@@ -285,8 +285,8 @@ namespace Kross
                     /* Pass the Texture to the Post Process Shader. */
                     m_PostProcessShader->SetUniform("u_Texture", frameBufferTexture);
 
-                    m_PostProcessShader->SetUniform("u_RenderTargetWidth", frameBufferTexture->GetWidth());
-                    m_PostProcessShader->SetUniform("u_RenderTargetHeight", frameBufferTexture->GetHeight());
+                    m_PostProcessShader->SetUniform("u_RenderTargetWidth", (float)frameBufferTexture->GetWidth());
+                    m_PostProcessShader->SetUniform("u_RenderTargetHeight", (float)frameBufferTexture->GetHeight());
 
                     /* Draw the Final Image. */
                     m_PostProcessShader->Bind();

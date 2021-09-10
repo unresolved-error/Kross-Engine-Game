@@ -64,11 +64,11 @@ public:
 		{
 			if (playerTransform->m_Position.x > m_GameObject->m_Transform->m_Position.x)
 			{
-				movementVector.x = 1.0f;
+				movementVector.x = moveSpeed;
 			}
 			else
 			{
-				movementVector.x = -1.0f;
+				movementVector.x = -moveSpeed;
 			}
 		}
 		else

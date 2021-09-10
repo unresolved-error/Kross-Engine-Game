@@ -114,11 +114,6 @@ namespace Kross
 			jointDef.localAnchorA.Set( m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
 			jointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
 
-			//jointDef.upperAngle = glm::radians(359.99999f);
-
-			//jointDef->localAnchorA = b2Vec2(0.0f, -1.0f) * (m_ChainLinkLength * 0.5f); /* See if this Explodes. */
-			//jointDef->localAnchorB = b2Vec2(0.0f, 1.0f) * (m_ChainLinkLength * 0.5f);
-
 			m_RevolutionJoints.push_back((b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef));
 
 			
@@ -143,7 +138,8 @@ namespace Kross
 			b2RevoluteJointDef firstJointDef = b2RevoluteJointDef();
 			firstJointDef.bodyA = m_StartBodyConnectedBody->GetBody();
 			firstJointDef.bodyB = m_Segments[0]->GetBody();
-			firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
+			//firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
+			firstJointDef.localAnchorA.Set(0.0f, -0.5f); /* See if this Explodes. */
 			firstJointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
 
 			m_StartWeld = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&firstJointDef);
@@ -151,13 +147,13 @@ namespace Kross
 
 		if (m_EndBodyConnectedBody) 
 		{
-			b2RevoluteJointDef* lastJointDef = KROSS_NEW b2RevoluteJointDef();
-			lastJointDef->bodyA = m_Segments[0]->GetBody();
-			lastJointDef->bodyB = m_EndBodyConnectedBody->GetBody();
-			lastJointDef->localAnchorA = b2Vec2(0, -1); /* See if this Explodes. */
-			lastJointDef->localAnchorB = b2Vec2(0, 1);
+			b2RevoluteJointDef firstJointDef = b2RevoluteJointDef();
+			firstJointDef.bodyA = m_Segments[m_Segments.size() - 1]->GetBody(); 
+			firstJointDef.bodyB = m_EndBodyConnectedBody->GetBody();
+			firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
+			firstJointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
 
-			m_EndWeld = ((b2RevoluteJoint*)lastJointDef);
+			m_EndWeld = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&firstJointDef);
 		}
 
 	}

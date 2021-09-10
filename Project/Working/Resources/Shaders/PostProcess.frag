@@ -6,16 +6,16 @@ out vec4 FragColour;
 
 uniform sampler2D u_Texture;
 
+uniform float u_RenderTargetWidth = 1280.0;
+uniform float u_RenderTargetHeight = 720.0;
+
 void main()
 {
-
-	float rt_w = 1280.0; // Render Target Width
-	float rt_h = 720.0; // Render Target Height
 	float pixel_w = 2;
 	float pixel_h = 2;
 
-	float dx = pixel_w * (1.0 / rt_w);
-    float dy = pixel_h * (1.0 / rt_h);
+	float dx = pixel_w * (1.0 / u_RenderTargetWidth);
+    float dy = pixel_h * (1.0 / u_RenderTargetHeight);
     vec2 coord = vec2(dx * floor(uvs.x / dx),
                       dy * floor(uvs.y / dy));
 
