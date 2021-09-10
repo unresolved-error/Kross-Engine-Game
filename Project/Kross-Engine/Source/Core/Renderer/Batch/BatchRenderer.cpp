@@ -206,82 +206,84 @@ namespace Kross
         {
             case Layer::Fluids:
             {
-                Texture* frameBufferTexture = m_FrameBuffer->GetTexture();
                 Window* window = Application::GetWindow();
 
-                if (frameBufferTexture->GetWidth() != window->GetWidth() ||
-                    frameBufferTexture->GetHeight() != window->GetHeight())
+                if (!window->Minimised())
                 {
-                    delete m_FrameBuffer;
-                    m_FrameBuffer = KROSS_NEW FrameBuffer(window->GetWidth(), window->GetHeight());
+                    Texture* frameBufferTexture = m_FrameBuffer->GetTexture();
+
+                    if (frameBufferTexture->GetWidth() != window->GetWidth() ||
+                        frameBufferTexture->GetHeight() != window->GetHeight())
+                    {
+                        delete m_FrameBuffer;
+                        m_FrameBuffer = KROSS_NEW FrameBuffer(window->GetWidth(), window->GetHeight());
+                    }
+
+
+                    m_FrameBuffer->Bind();
+                    m_FrameBuffer->ClearBuffer();
+
+                    /* Set Shader Values. */
+                    m_Shader->SetUniform("u_HalfSize", 0.015f);
+                    m_Shader->SetUniform("u_InverseAspect", 1.0f / Application::GetWindow()->GetApsectRatio());
+                    m_Shader->SetUniform("u_Colour", Colour(0.28f, 0.71f, 0.91f, 1.0f));
+
+                    /* Start the Data Transfer. */
+                    m_VertexArray->Bind();
+
+                    /* Set Data.*/
+                    m_VertexBuffer->SetVertexData(m_WaterBatch->m_Data.data(), m_WaterBatch->m_Data.size() * sizeof(WaterVertex));
+                    m_IndexBuffer->SetIndexData(m_WaterBatch->m_Indicies.data(), m_WaterBatch->m_Indicies.size());
+
+                    /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
+                    m_IndexBuffer->Bind();
+                    m_VertexArray->AttachVertexBufferToLayout(*m_VertexBuffer, m_VertexBufferLayout);
+                    VertexArray::UnBind();
+
+                    /* Render the Batch. */
+                    m_Shader->Bind();
+                    m_VertexArray->Bind();
+                    glDrawElements(GL_POINTS, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+                    /* Detahc the Frame Buffer because we are finished with it. */
+                    FrameBuffer::UnBind();
+
+                    /* Start the Data Transfer. */
+                    m_VertexArray->Bind();
+
+                    /* Full Screen Quad */
+                    std::vector<WaterVertex> data;
+                    data.push_back(WaterVertex(Vector2(-1.0f, 1.0f), Vector2(0.0f), Colour(1.0f)));
+                    data.push_back(WaterVertex(Vector2(1.0f, 1.0f), Vector2(1.0f, 0.0f), Colour(1.0f)));
+                    data.push_back(WaterVertex(Vector2(-1.0f, -1.0f), Vector2(0.0f, 1.0f), Colour(1.0f)));
+                    data.push_back(WaterVertex(Vector2(1.0f, -1.0f), Vector2(1.0f), Colour(1.0f)));
+
+                    /* Proper Indexing. */
+                    std::vector<unsigned int> indicies;
+                    indicies = { 0, 1, 2, 1, 3, 2 }; /* May need to be changed. */
+
+                    /* Set Data.*/
+                    m_VertexBuffer->SetVertexData(data.data(), data.size() * sizeof(WaterVertex));
+                    m_IndexBuffer->SetIndexData(indicies.data(), indicies.size());
+
+                    /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
+                    m_IndexBuffer->Bind();
+                    m_VertexArray->AttachVertexBufferToLayout(*m_VertexBuffer, m_VertexBufferLayout);
+                    VertexArray::UnBind();
+
+                    /* Bind the Frame Buffer Texture. */
+                    m_FrameBuffer->GetTexture()->Bind();
+
+                    /* Pass the Texture to the Post Process Shader. */
+                    m_PostProcessShader->SetUniform("u_Texture", m_FrameBuffer->GetTexture());
+
+                    /* Draw the Final Image. */
+                    m_PostProcessShader->Bind();
+                    m_VertexArray->Bind();
+                    glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+                    Texture::UnBind();
                 }
-
-                m_FrameBuffer->Bind();
-
-                /* Beacuse ay*/
-                glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-                glClear(GL_COLOR_BUFFER_BIT);
-
-                /* Set Shader Values. */
-                m_Shader->SetUniform("u_HalfSize", 0.015f);
-                m_Shader->SetUniform("u_InverseAspect", 1.0f / Application::GetWindow()->GetApsectRatio());
-                m_Shader->SetUniform("u_Colour", Colour(0.28f, 0.71f, 0.91f, 1.0f));
-
-                /* Start the Data Transfer. */
-                m_VertexArray->Bind();
-
-                /* Set Data.*/
-                m_VertexBuffer->SetVertexData(m_WaterBatch->m_Data.data(), m_WaterBatch->m_Data.size() * sizeof(WaterVertex));
-                m_IndexBuffer->SetIndexData(m_WaterBatch->m_Indicies.data(), m_WaterBatch->m_Indicies.size());
-
-                /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
-                m_IndexBuffer->Bind();
-                m_VertexArray->AttachVertexBufferToLayout(*m_VertexBuffer, m_VertexBufferLayout);
-                VertexArray::UnBind();
-
-                /* Render the Batch. */
-                m_Shader->Bind();
-                m_VertexArray->Bind();
-                glDrawElements(GL_POINTS, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-                /* Detahc the Frame Buffer because we are finished with it. */
-                FrameBuffer::UnBind();
-
-                /* Start the Data Transfer. */
-                m_VertexArray->Bind();
-
-                /* Full Screen Quad */
-                std::vector<WaterVertex> data;
-                data.push_back(WaterVertex(Vector2(-1.0f, 1.0f), Vector2(0.0f), Colour(1.0f)));
-                data.push_back(WaterVertex(Vector2(1.0f, 1.0f), Vector2(1.0f, 0.0f), Colour(1.0f)));
-                data.push_back(WaterVertex(Vector2(-1.0f, -1.0f), Vector2(0.0f, 1.0f), Colour(1.0f)));
-                data.push_back(WaterVertex(Vector2(1.0f, -1.0f), Vector2(1.0f), Colour(1.0f)));
-
-                /* Proper Indexing. */
-                std::vector<unsigned int> indicies;
-                indicies = { 0, 1, 2, 1, 3, 2 }; /* May need to be changed. */
-
-                /* Set Data.*/
-                m_VertexBuffer->SetVertexData(data.data(),data.size() * sizeof(WaterVertex));
-                m_IndexBuffer->SetIndexData(indicies.data(), indicies.size());
-
-                /* Link both Index Buffer and Vertex Buffer to the Vertex Array. */
-                m_IndexBuffer->Bind();
-                m_VertexArray->AttachVertexBufferToLayout(*m_VertexBuffer, m_VertexBufferLayout);
-                VertexArray::UnBind();
-
-                /* Bind the Frame Buffer Texture. */
-                m_FrameBuffer->GetTexture()->Bind();
-
-                /* Pass the Texture to the Post Process Shader. */
-                m_PostProcessShader->SetUniform("u_Texture", m_FrameBuffer->GetTexture());
-
-                /* Draw the Final Image. */
-                m_PostProcessShader->Bind();
-                m_VertexArray->Bind();
-                glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-                Texture::UnBind();
 
                 break;
             }

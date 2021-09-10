@@ -100,5 +100,8 @@ namespace Kross
 
 		// Close the Window.
 		void CloseWindow() { glfwSetWindowShouldClose(m_GLFWWindow, 1); };
+
+		// Checks if the Window is Minimised.
+		const bool Minimised() const { return !(bool)glfwGetWindowAttrib(m_GLFWWindow, GLFW_MAXIMIZED); }
 	};
 }

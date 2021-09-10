@@ -432,8 +432,9 @@ namespace Kross
 
     void Rigidbody2D::OnUpdateDrawInformation()
     {
-        
-        if (!GetComponent<Collider>()->IsTileMapCollider())
+        Collider* colliderData = GetComponent<Collider>();
+        #ifndef KROSS_EDITOR
+        if (!colliderData->IsTileMapCollider())
         {
             if (m_ShapeType == ShapeType::Capsule)
             {
@@ -444,6 +445,79 @@ namespace Kross
                 p_DebugRenderer->DrawRigidBody(p_Body);
             }
         }
+        #else
+        if (!colliderData->IsTileMapCollider())
+        {
+            if (m_ShapeType == ShapeType::Capsule)
+            {
+                p_DebugRenderer->DrawCapsule(p_Body, Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 16);
+            }
+            else
+            {
+                if (colliderData->IsStatic())
+                {
+                    Vector3 colour = Vector3(0.0f, 0.0f, 1.0f);
+                    Vector2 objectPosition = m_GameObject->m_Transform->m_Position;
+
+                    if (m_ShapeType == ShapeType::Box)
+                    {
+                        Vector4 topLeft = Vector4(-(colliderData->GetWidth() / 2.0f), (colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+                        Vector4 topRight = Vector4((colliderData->GetWidth() / 2.0f), (colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+                        Vector4 bottomLeft = Vector4(-(colliderData->GetWidth() / 2.0f), -(colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+                        Vector4 bottomRight = Vector4((colliderData->GetWidth() / 2.0f), -(colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+
+                        Matrix4 rotationMatrix = Matrix4(1.0f);
+                        rotationMatrix = glm::rotate(Matrix4(1.0f), glm::radians(-m_GameObject->m_Transform->m_Rotation), Vector3(0.0f, 0.0f, 1.0f));
+
+                        topLeft = topLeft * rotationMatrix;
+                        topRight = topRight * rotationMatrix;
+                        bottomLeft = bottomLeft * rotationMatrix;
+                        bottomRight = bottomRight * rotationMatrix;
+
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(topLeft.x, topLeft.y), objectPosition + Vector2(topRight.x, topRight.y), colour);
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(topRight.x, topRight.y), objectPosition + Vector2(bottomRight.x, bottomRight.y), colour);
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(bottomRight.x, bottomRight.y), objectPosition + Vector2(bottomLeft.x, bottomLeft.y), colour);
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(bottomLeft.x, bottomLeft.y), objectPosition + Vector2(topLeft.x, topLeft.y), colour);
+                    }
+                    else
+                    {
+                        p_DebugRenderer->DrawCircle(objectPosition, colliderData->GetRadius(), colour);
+                    }
+                }
+                else
+                {
+                    Vector3 colour = Vector3(0.0f, 1.0f, 0.0f);
+                    Vector2 objectPosition = m_GameObject->m_Transform->m_Position;
+
+                    if (m_ShapeType == ShapeType::Box)
+                    {
+
+                        Vector4 topLeft = Vector4(-(colliderData->GetWidth() / 2.0f), (colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+                        Vector4 topRight = Vector4((colliderData->GetWidth() / 2.0f), (colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+                        Vector4 bottomLeft = Vector4(-(colliderData->GetWidth() / 2.0f), -(colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+                        Vector4 bottomRight = Vector4((colliderData->GetWidth() / 2.0f), -(colliderData->GetHeight() / 2.0f), 0.0f, 1.0f);
+
+                        Matrix4 rotationMatrix = Matrix4(1.0f);
+                        rotationMatrix = glm::rotate(Matrix4(1.0f), glm::radians(-m_GameObject->m_Transform->m_Rotation), Vector3(0.0f, 0.0f, 1.0f));
+
+                        topLeft = topLeft * rotationMatrix;
+                        topRight = topRight * rotationMatrix;
+                        bottomLeft = bottomLeft * rotationMatrix;
+                        bottomRight = bottomRight * rotationMatrix;
+
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(topLeft.x, topLeft.y), objectPosition + Vector2(topRight.x, topRight.y), colour);
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(topRight.x, topRight.y), objectPosition + Vector2(bottomRight.x, bottomRight.y), colour);
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(bottomRight.x, bottomRight.y), objectPosition + Vector2(bottomLeft.x, bottomLeft.y), colour);
+                        p_DebugRenderer->DrawLineSegment(objectPosition + Vector2(bottomLeft.x, bottomLeft.y), objectPosition + Vector2(topLeft.x, topLeft.y), colour);
+                    }
+                    else
+                    {
+                        p_DebugRenderer->DrawCircle(objectPosition, colliderData->GetRadius(), colour);
+                    }
+                }
+            }
+    }
+        #endif
         else
         {
             for (int i = 0; i < m_TileColliders.size(); i++)
@@ -451,6 +525,7 @@ namespace Kross
                 p_DebugRenderer->DrawRigidBody(m_TileColliders[i]);
             }
         }
+
     }
 
     void Rigidbody2D::OnUpdate()
