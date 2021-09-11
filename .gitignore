@@ -21,6 +21,7 @@ mono_crash.*
 [Bb]in-[Ii]nt/
 [Bb]inaries/
 [Bb]inaries-[Ii]ntermediate/
+[Bb]uild/
 
 *.zip
 *.7z

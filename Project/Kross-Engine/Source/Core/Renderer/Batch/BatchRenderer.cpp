@@ -208,13 +208,15 @@ namespace Kross
             {
                 Window* window = Application::GetWindow();
 
+                /* If the Window is not Minimised. */
                 if (!window->Minimised())
                 {
                     if (window->GetWidth() == NULL || window->GetHeight() == NULL)
                     {
-                        return;
+                        return; /* Early out because no Framebuffer can handle the power of zero. */
                     }
 
+                    /* Grab the Texture from the Frame Buffer. */
                     Texture* frameBufferTexture = m_FrameBuffer->GetTexture();
 
                     if (frameBufferTexture->GetWidth() != window->GetWidth() ||
@@ -222,10 +224,10 @@ namespace Kross
                     {
                         delete m_FrameBuffer;
                         m_FrameBuffer = KROSS_NEW FrameBuffer(window->GetWidth(), window->GetHeight());
+                        frameBufferTexture = m_FrameBuffer->GetTexture();
                     }
                     
-                    frameBufferTexture = m_FrameBuffer->GetTexture();
-
+                    /* Bind the Buffer Ready for writing. */
                     m_FrameBuffer->Bind();
                     m_FrameBuffer->ClearBuffer();
 

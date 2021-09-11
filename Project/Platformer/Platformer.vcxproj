@@ -76,25 +76,28 @@
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</IncludePath>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>SweetDreamsOfDestruction</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</IncludePath>
+    <TargetName>SweetDreamsOfDestruction</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</IncludePath>
+    <TargetName>SweetDreamsOfDestruction</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries-Intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Vendor\glew\include\;$(SolutionDir)Vendor\glfw\include\;$(SolutionDir)Vendor\liquidfun\Box2D\</IncludePath>
+    <TargetName>Kross-Engine</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
