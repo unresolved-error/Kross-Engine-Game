@@ -123,7 +123,7 @@ namespace Kross
     {
         int refreshRate = Application::GetWindow()->GetScreenRefreshRate();
         int velocityIterations = glm::ceil(8 * (60.0f / (float)refreshRate));
-        int positionIterations = glm::ceil(3 * (60.0f / (float)refreshRate));
+        int positionIterations = glm::ceil(8 * (60.0f / (float)refreshRate));
         int particleIterations = glm::ceil(2 * (60.0f / (float)refreshRate));
 
         /* Update the physics step */

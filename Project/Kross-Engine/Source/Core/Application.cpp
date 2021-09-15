@@ -108,6 +108,8 @@ namespace Kross
 
 				SceneManager::OnUpdateSceneCameraAspectRatio(m_Instance->m_Window->GetApsectRatio());
 
+				Input::OnUpdate();
+
 				SceneManager::OnUpdate(); /* Got to be looked at. */
 
 				#ifndef KROSS_EDITOR

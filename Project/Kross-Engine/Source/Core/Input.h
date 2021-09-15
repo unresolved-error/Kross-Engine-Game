@@ -148,18 +148,38 @@ namespace Kross
 	{
 	private:
 		Input() :
-			m_Window				(nullptr),
-			m_Scroll				(0.0f),
-			m_KeyStateCache			(std::unordered_map<Key, int>()),
-			m_ControllerStateCache	(std::unordered_map<Controller, int>()),
-			m_MouseStateCache		(std::unordered_map<Mouse, int>())
-		{}
-		~Input() {}
+			m_Window					(nullptr),
+			m_GamepadStates				(std::vector<GLFWgamepadstate*>()),
+			m_ControllerIDsConnected	(std::vector<bool>()),
+			m_Scroll					(0.0f),
+			m_KeyStateCache				(std::unordered_map<Key, int>()),
+			m_ControllerStateCache		(std::unordered_map<Controller, int>()),
+			m_MouseStateCache			(std::unordered_map<Mouse, int>())
+		{
+			for (int i = 0; i < MaxControllerSlots(); i++)
+			{
+				m_GamepadStates.push_back(KROSS_NEW GLFWgamepadstate());
+				m_ControllerIDsConnected.push_back(false);
+			}
+		}
+		~Input() 
+		{
+			for (int i = 0; i < MaxControllerSlots(); i++)
+			{
+				delete m_GamepadStates[i];
+				m_GamepadStates[i] = nullptr;
+			}
+
+			m_GamepadStates.clear();
+		}
 
 		static Input* m_Instance;
 
 		Window* m_Window;
 		float m_Scroll;
+
+		std::vector<GLFWgamepadstate*> m_GamepadStates;
+		std::vector<bool> m_ControllerIDsConnected;
 
 		std::unordered_map<Key, int> m_KeyStateCache;
 		std::unordered_map<Controller, int> m_ControllerStateCache;
@@ -172,6 +192,9 @@ namespace Kross
 
 		// Creates an Instance of the Input Manager.
 		static void OnCreate();
+
+		// Updates the Input State.
+		static void OnUpdate();
 
 		// Destroys the Instance of the Input Manager.
 		static void OnDestoy();

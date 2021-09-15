@@ -87,9 +87,6 @@ namespace Kross
 
 	void Window::OnPollEvents()
 	{
-		/* VSync Switch */
-		glfwSwapInterval(m_Properties->GetVSync());
-
 		/* Get the Current Width and Height of the Window */
 		int Width, Height;
 		glfwGetWindowSize(m_GLFWWindow, &Width, &Height);
@@ -141,6 +138,9 @@ namespace Kross
 		/* Poll the Events */
 		glfwSwapBuffers(m_GLFWWindow);
 		glfwPollEvents();
+
+		/* VSync Switch */
+		glfwSwapInterval(m_Properties->GetVSync());
 	}
 
 	void Window::OnShutdown()
