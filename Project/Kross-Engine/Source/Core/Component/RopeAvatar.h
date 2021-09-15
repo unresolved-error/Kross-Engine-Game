@@ -96,7 +96,9 @@ namespace Kross
 			m_AttachmentPointOnStartObj (0,0),
 			m_AttachmentPointOnEndObj	(0,0)
 
-		{};
+		{
+			SetDepth(-2);
+		};
 		~RopeAvatar() {};
 
 		/*!
