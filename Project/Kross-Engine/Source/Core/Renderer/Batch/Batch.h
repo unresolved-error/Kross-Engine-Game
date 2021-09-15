@@ -490,6 +490,114 @@ namespace Kross
             m_BatchSize += particleCount;
         }
 
+        // Add Sprite Renderer Data to the Batch.
+        void Attach(Camera* camera, RopeAvatar* rope)
+        {
+            /* Check if we have the Right Vertex Type First. */
+            static_assert(std::is_convertible<Type, SpriteVertex>::value, "Type must be of Sprite Vertex!");
+
+            /* If the Rope doesn't have any Segments. */
+            if (rope->m_Segments.size() == NULL)
+            {
+                return; /* Early out. */
+            }
+
+            /* Get Sprite. */
+            Sprite* diffuseSprite = ResourceManager::GetResource<Sprite>("Chain");
+
+            /* Get all the Sprite Data needed. */
+            AtlasSpriteData diffuseData = m_Atlas->GetSpriteData(diffuseSprite);
+
+            /* Get Diffuse Sprite Geometry. */
+            Geometry* geometry = diffuseSprite->GetGeometry();
+
+            for (int i = 0; i < rope->m_Segments.size(); i++)
+            {
+                /* Update the Model. */
+                Matrix4 model = Matrix4(1.0f);
+
+                /* Update the Translation, Rotation and Scale Marixes. */
+                Matrix4 translation = glm::translate(Matrix4(1.0f), Vector3(rope->m_Segments[i]->GetPosition(), 0.0f));
+                Matrix4 rotation = glm::rotate(Matrix4(1.0f), glm::radians(rope->m_Segments[i]->GetRotation()), Vector3(0.0f, 0.0f, 1.0f));
+                Matrix4 scale = glm::scale(Matrix4(1.0f), Vector3(1.0f, 1.0f, 0.0f));
+
+                model = translation * rotation * scale;
+
+                /* Get UVs for all Sprites. */
+                std::vector<Vector2> uvs = std::vector<Vector2>(4);
+                /*
+                    0 - 3 Diffuse UVs.      (TL, BR, TR, BL)
+                */
+
+                float thisThing = (0.1f / 4096.0f);
+
+                /* Diffuse UVs. */
+                uvs[0].x = ((1.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) - thisThing;
+                uvs[1].x = ((1.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) - thisThing;
+                uvs[2].x = ((0.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) + thisThing;
+                uvs[3].x = ((0.0f * diffuseData.m_Ratio.x) + diffuseData.m_Offset.x) + thisThing;
+
+                /* Diffuse UVs. */
+                uvs[0].y = ((1.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) - thisThing;
+                uvs[1].y = ((0.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) + thisThing;
+                uvs[2].y = ((0.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) + thisThing;
+                uvs[3].y = ((1.0f * diffuseData.m_Ratio.y) + diffuseData.m_Offset.y) - thisThing;
+
+                /* Quick Variables. */
+                float halfWidth = geometry->GetSize().x / 2.0f;
+                float halfHeight = geometry->GetSize().y / 2.0f;
+
+                /* Vertex Data. */
+                SpriteVertex topRight = SpriteVertex(model * Vector4(halfWidth, halfHeight, 0.0f, 1.0f),
+                    uvs[0],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+
+                SpriteVertex bottomRight = SpriteVertex(model * Vector4(halfWidth, -halfHeight, 0.0f, 1.0f),
+                    uvs[1],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+
+                SpriteVertex bottomLeft = SpriteVertex(model * Vector4(-halfWidth, -halfHeight, 0.0f, 1.0f),
+                    uvs[2],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+
+                SpriteVertex topLeft = SpriteVertex(model * Vector4(-halfWidth, halfHeight, 0.0f, 1.0f),
+                    uvs[3],
+                    Vector2(0.0f),
+                    Vector2(0.0f),
+                    Vector3(0.0f, 0.0f, 1.0f),
+                    Colour(1.0f));
+
+                /* Grab the Current Vertex Count. */
+                int vertexCount = m_Data.size();
+
+                /* Attach the Indicies. */
+                m_Indicies.push_back(0 + vertexCount);
+                m_Indicies.push_back(1 + vertexCount);
+                m_Indicies.push_back(2 + vertexCount);
+                m_Indicies.push_back(2 + vertexCount);
+                m_Indicies.push_back(3 + vertexCount);
+                m_Indicies.push_back(0 + vertexCount);
+
+                /* Attach the Vertex Data. */
+                m_Data.push_back(topRight);
+                m_Data.push_back(bottomRight);
+                m_Data.push_back(bottomLeft);
+                m_Data.push_back(topLeft);
+
+                /* Update the Size. */
+                m_BatchSize++;
+            }
+        }
+
         // Gets if the Batch is Full.
         bool Full() const { return (m_BatchSize >= m_MaxBatchSize); };
 

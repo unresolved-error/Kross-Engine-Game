@@ -53,6 +53,10 @@ namespace Kross
 	protected:
 		friend class Object;
 		friend class Scene;
+		friend class Scene;
+
+		/* Friend classing Batch. */
+		template<typename Type> friend class Batch;
 
 		void OnStart() override;
 
