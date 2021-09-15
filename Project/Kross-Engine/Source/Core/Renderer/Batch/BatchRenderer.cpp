@@ -123,6 +123,19 @@ namespace Kross
             m_SpriteBatch->Attach(camera, (TileMapRenderer*)renderer);
         }
 
+        /* The Renderer is a Rope Avatar. */
+        else if (typeid(*renderer) == typeid(RopeAvatar))
+        {
+            /* Check if the Batch Packet is Full. */
+            if (m_SpriteBatch->Full() == true)
+            {
+                OnRender();
+            }
+
+            /* Attach the Data. */
+            m_SpriteBatch->Attach(camera, (RopeAvatar*)renderer);
+        }
+
         return;
     }
 
