@@ -502,6 +502,8 @@ namespace Kross
                 return; /* Early out. */
             }
 
+            Transform2D* cameraTransform = camera->m_GameObject->m_Transform;
+
             /* Get Sprite. */
             Sprite* diffuseSprite = ResourceManager::GetResource<Sprite>("Chain");
 
@@ -513,11 +515,20 @@ namespace Kross
 
             for (int i = 0; i < rope->m_Segments.size(); i++)
             {
+                Vector2 actualPosition = rope->m_Segments[i]->GetPosition();
+                if (actualPosition.x >= cameraTransform->m_Position.x + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    actualPosition.x <= cameraTransform->m_Position.x - ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    actualPosition.y >= cameraTransform->m_Position.y + ((camera->GetSize() / 1.1f) * 1.5f) ||
+                    actualPosition.y <= cameraTransform->m_Position.y - ((camera->GetSize() / 1.1f) * 1.5f))
+                {
+                    continue;
+                }
+
                 /* Update the Model. */
                 Matrix4 model = Matrix4(1.0f);
 
                 /* Update the Translation, Rotation and Scale Marixes. */
-                Matrix4 translation = glm::translate(Matrix4(1.0f), Vector3(rope->m_Segments[i]->GetPosition(), 0.0f));
+                Matrix4 translation = glm::translate(Matrix4(1.0f), Vector3(actualPosition, 0.0f));
                 Matrix4 rotation = glm::rotate(Matrix4(1.0f), glm::radians(rope->m_Segments[i]->GetRotation()), Vector3(0.0f, 0.0f, 1.0f));
                 Matrix4 scale = glm::scale(Matrix4(1.0f), Vector3(1.0f, 1.0f, 0.0f));
 
