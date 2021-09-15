@@ -31,6 +31,9 @@ public:
 	PlayerMovement* m_PlayerMovement = nullptr;
 	Camera* camera;
 	Window* window;
+	bool m_Fired = false;
+	float m_RateOfFire = 0.1f;
+	float m_TimeElapsed = 0.0f;
 
 	bool flipX = false;
 	float angle = 0.0f;
@@ -93,6 +96,19 @@ public:
 		//Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
 		Vector2 crossHairPos;
 		
+		if (m_Fired)
+		{
+			if (m_TimeElapsed < m_RateOfFire)
+			{
+				m_TimeElapsed += Time::GetDeltaTime();
+			}
+
+			else
+			{
+				m_TimeElapsed = 0.0f;
+				m_Fired = false;
+			}
+		}
 
 		if (angle != NAN)
 		{
@@ -132,10 +148,7 @@ public:
 			renderer->SetFlipX(flipX);
 			player->GetComponent<SpriteRenderer>()->SetFlipX(flipX);
 		}
-		else 
-		{
-			//renderer->SetFlipX(player->GetComponent<SpriteRenderer>()->GetFlipX());
-		}
+
 		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
 
 		toMouse = Vector2(crossHairPos.x - m_GameObject->m_Transform->m_Position.x, crossHairPos.y - m_GameObject->m_Transform->m_Position.y);
@@ -155,43 +168,93 @@ public:
 		//endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
 		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1,0,0));
 
-		if (Input::GetMouseButtonPressed(Mouse::Left) || Input::GetMouseButtonDown(Mouse::Right))
+		if (!m_Fired)
 		{
-			Object* bullet = Object::OnCreate("Bullet-Clone");
+			if (m_PlayerMovement->m_ControllerID == -1)
+			{
+				if (Input::GetMouseButtonDown(Mouse::Right))
+				{
+					Object* bullet = Object::OnCreate("Bullet-Clone");
 
-			Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
-			SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
-			Collider* collider = bullet->GetComponent<Collider>();
+					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
+					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
+					Collider* collider = bullet->GetComponent<Collider>();
 
-			bullet->m_Transform->m_Position = endOfGunLocation;
-			bullet->m_Transform->m_Rotation = angle;
-			bullet->SetLayer(Layer::Player);
+					bullet->m_Transform->m_Position = endOfGunLocation;
+					bullet->m_Transform->m_Rotation = angle;
+					bullet->SetLayer(Layer::Player);
 
-			collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
-			collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
+					collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
+					collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
 
-			collider->SetShapeType(ShapeType::Circle);
+					collider->SetShapeType(ShapeType::Circle);
 
-			collider->SetRadius(0.03125f);
+					collider->SetRadius(0.03125f);
 
-			sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
+					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
-			Colour colour = Colour(1.0f);
-			colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
-			colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
-			colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
+					Colour colour = Colour(1.0f);
+					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
+					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
+					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
 
-			sprite->SetColour(colour);
+					sprite->SetColour(colour);
 
-			OnCreateObject(bullet);
+					OnCreateObject(bullet);
 
-			rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
-			sprite->GetMaterial()->SetDiffuse(bulletSprite);
-			
-			bullets.push_back(bullet);
+					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
+					sprite->GetMaterial()->SetDiffuse(bulletSprite);
+
+					bullets.push_back(bullet);
+
+					m_Fired = true;
+				}
+			}
+			else
+			{
+				if (Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightTrigger, 0.0f) > 0.5f)
+				{
+					Object* bullet = Object::OnCreate("Bullet-Clone");
+
+					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
+					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
+					Collider* collider = bullet->GetComponent<Collider>();
+
+					bullet->m_Transform->m_Position = endOfGunLocation;
+					bullet->m_Transform->m_Rotation = angle;
+
+					bullet->SetLayer(Layer::Player);
+
+					collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
+					collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
+
+					collider->SetShapeType(ShapeType::Circle);
+
+					collider->SetRadius(0.03125f);
+
+					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
+
+					Colour colour = Colour(1.0f);
+					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
+					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
+					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
+
+					sprite->SetColour(colour);
+
+					OnCreateObject(bullet);
+
+					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
+					sprite->GetMaterial()->SetDiffuse(bulletSprite);
+
+					bullets.push_back(bullet);
+
+					m_Fired = true;
+				}
+			}
 		}
 
-		for (int i = bullets.size() - 1; i >= 0; i--)
+		//for (int i = bullets.size() - 1; i >= 0; i--)
+		for (int i = 0; i < bullets.size(); i++)
 		{
 			float threashold = 0.025f;
 			Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
@@ -244,16 +307,23 @@ public:
 			if (mousePoint != Vector2(0.0f))
 			{
 				returnAngle = glm::degrees(glm::atan(crossHairPos.y - m_GameObject->m_Transform->m_Position.y, -(crossHairPos.x - m_GameObject->m_Transform->m_Position.x)));
+				Vector2 controllerInputNormalised = glm::normalize(mousePoint);
+
+				crossHairPos = controllerInputNormalised + m_GameObject->m_Transform->m_Position;
 			}
 			else
 			{
-				returnAngle = NAN;
+				if (flipX)
+				{
+					returnAngle = 0;
+					crossHairPos = Vector2(-1.0f, 0.0f) + m_GameObject->m_Transform->m_Position;
+				}
+				else
+				{
+					returnAngle = 180;
+					crossHairPos = Vector2(1.0f, 0.0f) + m_GameObject->m_Transform->m_Position;
+				}
 			}
-		
-			Vector2 controllerInputNormalised = glm::normalize(mousePoint);
-
-			crossHairPos = controllerInputNormalised + m_GameObject->m_Transform->m_Position;
-		
 		}
 
 		else

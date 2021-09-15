@@ -18,6 +18,22 @@ namespace Kross
 		}
 	}
 
+	void Input::OnUpdate()
+	{
+		for (int i = 0; i < MaxControllerSlots(); i++)
+		{
+			bool connected = ControllerConnected(i);
+
+			m_Instance->m_ControllerIDsConnected[i] = connected;
+
+			if (connected)
+			{
+				/* Ask for what it's state currently is. */
+				glfwGetGamepadState(i, m_Instance->m_GamepadStates[i]);
+			}
+		}
+	}
+
 	void Input::OnDestoy()
 	{
 		if (m_Instance)
@@ -234,12 +250,6 @@ namespace Kross
 		/* Ask if the Controller is Connected. */
 		if (ControllerConnected(controllerID))
 		{
-			/* Grab the Controller State. */
-			GLFWgamepadstate state;
-
-			/* Ask for what it's state currently is. */
-			glfwGetGamepadState(controllerID, &state);
-
 			/* Search the Axis Specified. */
 			switch (axis)
 			{
@@ -247,9 +257,9 @@ namespace Kross
 				case Controller::LeftStickHorizontal:
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
-					if (state.axes[(int)Controller::LeftStickHorizontal] >= deadZone || state.axes[(int)Controller::LeftStickHorizontal] <= -deadZone)
+					if (m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::LeftStickHorizontal] >= deadZone || m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::LeftStickHorizontal] <= -deadZone)
 					{
-						return state.axes[(int)Controller::LeftStickHorizontal];
+						return m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::LeftStickHorizontal];
 					}
 					return 0.0f;
 				}
@@ -257,9 +267,9 @@ namespace Kross
 				case Controller::LeftStickVertical:
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
-					if (state.axes[(int)Controller::LeftStickVertical] >= deadZone || state.axes[(int)Controller::LeftStickVertical] <= -deadZone)
+					if (m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::LeftStickVertical] >= deadZone || m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::LeftStickVertical] <= -deadZone)
 					{
-						return -state.axes[(int)Controller::LeftStickVertical];
+						return -m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::LeftStickVertical];
 					}
 					return 0.0f;
 				}
@@ -267,9 +277,9 @@ namespace Kross
 				case Controller::RightStickHorizontal:
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
-					if (state.axes[(int)Controller::RightStickHorizontal] >= deadZone || state.axes[(int)Controller::RightStickHorizontal] <= -deadZone)
+					if (m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::RightStickHorizontal] >= deadZone || m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::RightStickHorizontal] <= -deadZone)
 					{
-						return state.axes[(int)Controller::RightStickHorizontal];
+						return m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::RightStickHorizontal];
 					}
 					return 0.0f;
 				}
@@ -277,9 +287,9 @@ namespace Kross
 				case Controller::RightStickVertical:
 				{
 					/* If the Stick is moving outside of the Dead Zone return the value of the stick. */
-					if (state.axes[(int)Controller::RightStickVertical] >= deadZone || state.axes[(int)Controller::RightStickVertical] <= -deadZone)
+					if (m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::RightStickVertical] >= deadZone || m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::RightStickVertical] <= -deadZone)
 					{
-						return -state.axes[(int)Controller::RightStickVertical];
+						return -m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::RightStickVertical];
 					}
 					return 0.0f;
 				}
@@ -287,13 +297,13 @@ namespace Kross
 				case Controller::LeftTrigger:
 				{
 					/* Get how far pushing in the trigger is. */
-					return state.axes[(int)Controller::LeftTrigger];
+					return m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::LeftTrigger];
 				}
 				/* Right Trigger. */
 				case Controller::RightTrigger:
 				{
 					/* Get how far pushing in the trigger is. */
-					return state.axes[(int)Controller::RightTrigger];
+					return m_Instance->m_GamepadStates[controllerID]->axes[(int)Controller::RightTrigger];
 				}
 				/* Nothing. */
 				default:
@@ -309,26 +319,14 @@ namespace Kross
 
 	bool Input::GetControllerButtonDown(int controllerID, Controller button)
 	{
-		/* Grab the Controller State. */
-		GLFWgamepadstate state;
-
-		/* Ask for what it's state currently is. */
-		glfwGetGamepadState(controllerID, &state);
-
 		/* Check if the button is down or not. */
-		return (bool)state.buttons[(int)button];
+		return (bool)m_Instance->m_GamepadStates[controllerID]->buttons[(int)button];
 	}
 
 	bool Input::GetControllerButtonPressed(int controllerID, Controller button)
 	{
-		/* Grab the Controller State. */
-		GLFWgamepadstate state;
-
-		/* Ask for what it's state currently is. */
-		glfwGetGamepadState(controllerID, &state);
-
 		/* Get the Controller Button status. */
-		int buttonPress = state.buttons[(int)button];
+		int buttonPress = m_Instance->m_GamepadStates[controllerID]->buttons[(int)button];
 
 		/* Assume the Controller Button is not pressed. */
 		bool result = false;
@@ -348,14 +346,8 @@ namespace Kross
 
 	bool Input::GetControllerButtonReleased(int controllerID, Controller button)
 	{
-		/* Grab the Controller State. */
-		GLFWgamepadstate state;
-
-		/* Ask for what it's state currently is. */
-		glfwGetGamepadState(controllerID, &state);
-
 		/* Get the Controller Button status. */
-		int buttonRelease = state.buttons[(int)button];
+		int buttonRelease = m_Instance->m_GamepadStates[controllerID]->buttons[(int)button];
 
 		/* Assume the Controller Button is not Released. */
 		bool result = false;

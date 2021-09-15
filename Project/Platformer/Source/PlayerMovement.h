@@ -58,19 +58,21 @@ public:
 		m_Window = Application::GetWindow();
 
 		/* See if a Controller is Connected. */
-		m_ControllerID = Input::GetAvalibleController();
+		m_ControllerID = -1;//Input::GetAvalibleController();
 	}
 
 	void Update() override
 	{
 		/* Create a Base Input Variable. */
 		Vector2 input = Vector2(0.0f);
+		Vector2 jumpDir = Vector2(0.0f);
 
 		/* if the Controller is Connected. */
 		if (Input::ControllerConnected(m_ControllerID))
 		{
 			/* Grab it's Input. */
-			input = Vector2(Input::GetControllerAxis(m_ControllerID, Controller::LeftStickHorizontal, 0.2f), 0.0f);
+			input = Vector2(Input::GetControllerAxis(m_ControllerID, Controller::LeftStickHorizontal, 0.1f), 0.0f);
+			jumpDir = Vector2(0.0f, (float)Input::GetControllerButtonPressed(m_ControllerID, Controller::A));
 		}
 
 		/* Use Keyboard and Mouse instead. */
@@ -81,6 +83,7 @@ public:
 
 			/* Grab the Input needed. */
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), 0.0f);
+			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::UpArrow)));
 		}
 
 		/* If the Object isn't at the End of a Level. */
@@ -89,7 +92,6 @@ public:
 			/* Move the Player. */
 			VisualUpdate(input);
 			m_Controller->Move(input);
-			Vector2 jumpDir = Vector2(0.0f, (float)Input::GetKeyPressed(Key::Space));
 			m_Controller->Jump(jumpDir);
 		}
 
