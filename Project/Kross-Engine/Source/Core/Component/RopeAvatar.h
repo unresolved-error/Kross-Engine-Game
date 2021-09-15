@@ -90,7 +90,7 @@ namespace Kross
 			m_PhysicsScene				(nullptr),
 			m_DebugRenderer             (nullptr),
 			m_AttachmentPointOnStartObj (0,0),
-			m_AttachmentPointOnEndObj (0, 0)
+			m_AttachmentPointOnEndObj	(0,0)
 
 		{};
 		~RopeAvatar() {};

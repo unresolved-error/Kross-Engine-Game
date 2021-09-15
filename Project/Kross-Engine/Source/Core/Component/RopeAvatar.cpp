@@ -30,6 +30,8 @@ namespace Kross
 		for (int i = 0; i < m_Segments.size() - 1; i++)
 		{
 			m_DebugRenderer->DrawLineSegment(m_Segments[i]->GetPosition(), m_Segments[i + 1]->GetPosition(), Vector3(1.0f, 0.0f, 1.0f));
+			m_DebugRenderer->DrawRigidBody(m_Segments[i]->GetBody());
+
 		}
 #else
 		for (int i = 1; i < m_BasePositions.size(); i++)
@@ -139,8 +141,8 @@ namespace Kross
 			firstJointDef.bodyA = m_StartBodyConnectedBody->GetBody();
 			firstJointDef.bodyB = m_Segments[0]->GetBody();
 			//firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
-			firstJointDef.localAnchorA.Set(0.0f, -0.5f); /* See if this Explodes. */
-			firstJointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
+			firstJointDef.localAnchorA.Set(m_AttachmentPointOnStartObj.x, m_AttachmentPointOnStartObj.y); /* See if this Explodes. */
+			firstJointDef.localAnchorB.Set(0.0f, 0.0f);
 
 			m_StartWeld = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&firstJointDef);
 		}
@@ -151,7 +153,7 @@ namespace Kross
 			firstJointDef.bodyA = m_Segments[m_Segments.size() - 1]->GetBody(); 
 			firstJointDef.bodyB = m_EndBodyConnectedBody->GetBody();
 			firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
-			firstJointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
+			firstJointDef.localAnchorB.Set(m_AttachmentPointOnEndObj.x, m_AttachmentPointOnEndObj.y);
 
 			m_EndWeld = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&firstJointDef);
 		}
