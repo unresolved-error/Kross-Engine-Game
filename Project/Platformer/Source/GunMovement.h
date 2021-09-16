@@ -39,6 +39,10 @@ public:
 	bool m_Fired = false;
 	float m_RateOfFire = 0.1f;
 	float m_TimeElapsed = 0.0f;
+	float bulletStartForce = 0.09f;
+	float bulletMass = 0.005f;
+	float bulletFriction = 0.75f;
+	float bulletDecayThreshold = 0.005f;
 
 	bool flipX = false;
 	float angle = 0.0f;
@@ -70,6 +74,8 @@ public:
 
 	void Start() override
 	{
+
+
 
 		window =  Application::GetWindow();
 		renderer = GetComponent<SpriteRenderer>();
@@ -212,9 +218,9 @@ public:
 
 					OnCreateObject(bullet);
 
-					rigidbody->SetFriction(0.75f);
-					rigidbody->SetMass(0.005f);
-					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
+					rigidbody->SetFriction(bulletFriction);
+					rigidbody->SetMass(bulletMass);
+					rigidbody->OnApplyImpulse(toMouseNormd * bulletStartForce);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
@@ -259,9 +265,9 @@ public:
 
 					OnCreateObject(bullet);
 
-					rigidbody->SetFriction(0.75f);
-					rigidbody->SetMass(0.005f);
-					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
+					rigidbody->SetFriction(bulletFriction);
+					rigidbody->SetMass(bulletMass);
+					rigidbody->OnApplyImpulse(toMouseNormd * bulletStartForce);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
@@ -305,7 +311,7 @@ public:
 
 		for (int i = bullets.size() - 1; i >= 0; i--)
 		{
-			float threashold = 0.05f;
+			float threashold = bulletDecayThreshold;
 			Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
 			SpriteRenderer* rend = bullets[i]->GetComponent<SpriteRenderer>();
 
@@ -316,7 +322,7 @@ public:
 				if (rend->GetColour().a > 0.0f)
 				{
 					Colour colour = rend->GetColour();
-					colour.a -= 0.025f;
+					colour.a -= 0.0025f;
 					rend->SetColour(colour);
 				}
 				else
@@ -335,7 +341,7 @@ public:
 			Colour colour = rend->GetColour();
 			if (colour.a < 1.0f)
 			{
-				colour.a -= 0.025f;
+				colour.a -= 0.0025f;
 				rend->SetColour(colour);
 			}
 			else if (colour.a <= 0.0f)
