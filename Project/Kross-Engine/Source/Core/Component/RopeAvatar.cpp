@@ -86,7 +86,7 @@ namespace Kross
 				FixtureDef fixtureDef;
 				fixtureDef.shape = &circle;
 				fixtureDef.density = 1.0f;
-				//fixtureDef.filter.categoryBits = 
+				//fixtureDef.filter.categoryBits = NEED TO BE SET TO NOT INCLUDE PLAYERS.
 				//fixtureDef.filter.maskBits = 
 
 				body->CreateFixture(&fixtureDef);
@@ -101,7 +101,7 @@ namespace Kross
 		}
 
 		/* Generate a list of Revolute Joints. */
-		for (int i = 0; i < m_Segments.size() - 1; i++) /* See what happens. */
+		for (int i = 0; i < m_Segments.size() - 1; i++) 
 		{
 			b2RevoluteJointDef jointDef = b2RevoluteJointDef();
 
@@ -113,7 +113,7 @@ namespace Kross
 			Vector2 bodyAPos = m_Segments[i]->GetPosition();
 			Vector2 bodyBPos = m_Segments[nextOneAcross]->GetPosition();
 
-			jointDef.localAnchorA.Set( m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
+			jointDef.localAnchorA.Set( m_ChainLinkLength * 0.5f, 0.0f); 
 			jointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
 
 			m_RevolutionJoints.push_back((b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef));
@@ -140,8 +140,8 @@ namespace Kross
 			b2RevoluteJointDef firstJointDef = b2RevoluteJointDef();
 			firstJointDef.bodyA = m_StartBodyConnectedBody->GetBody();
 			firstJointDef.bodyB = m_Segments[0]->GetBody();
-			//firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
-			firstJointDef.localAnchorA.Set(m_AttachmentPointOnStartObj.x, m_AttachmentPointOnStartObj.y); /* See if this Explodes. */
+			
+			firstJointDef.localAnchorA.Set(m_AttachmentPointOnStartObj.x, m_AttachmentPointOnStartObj.y);
 			firstJointDef.localAnchorB.Set(0.0f, 0.0f);
 
 			m_StartWeld = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&firstJointDef);
@@ -152,7 +152,7 @@ namespace Kross
 			b2RevoluteJointDef firstJointDef = b2RevoluteJointDef();
 			firstJointDef.bodyA = m_Segments[m_Segments.size() - 1]->GetBody(); 
 			firstJointDef.bodyB = m_EndBodyConnectedBody->GetBody();
-			firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); /* See if this Explodes. */
+			firstJointDef.localAnchorA.Set(m_ChainLinkLength * 0.5f, 0.0f); 
 			firstJointDef.localAnchorB.Set(m_AttachmentPointOnEndObj.x, m_AttachmentPointOnEndObj.y);
 
 			m_EndWeld = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&firstJointDef);
