@@ -8,6 +8,8 @@
 
 #include "../Input.h"
 
+#include "../Serialiser/Serialiser.h"
+
 namespace Kross
 {
 	Editor* Editor::m_Instance = nullptr;
@@ -53,6 +55,17 @@ namespace Kross
 			m_Instance->m_EditorWindows[i]->OnStart();
 		}
 
+		Serialiser<SceneHierarchy> serialiser;
+		for (int i = 0; i, m_Instance->m_EditorWindows.size(); i++)
+		{
+			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
+			{
+				SceneHierarchy* hierarchy = (SceneHierarchy*)m_Instance->m_EditorWindows[i];
+				serialiser.Load("Editor/EditorObjectHierarchy.krs", hierarchy);
+				break;
+			}
+		}
+
 		/* Editor has Started. */
 		m_Instance->m_IsUpdating = true;
 	}
@@ -61,6 +74,8 @@ namespace Kross
 	{
 		/* Gets the Main Viewport. */
 		m_Instance->p_Viewport = ImGui::GetMainViewport();
+
+		//ImGui::ShowDemoWindow();
 
 		/* Attach all of the Editor Windows to the ImGui Render Queue. */
 		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
@@ -150,6 +165,16 @@ namespace Kross
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
+
+		Serialiser<SceneHierarchy> serialiser;
+		for (int i = 0; i, m_Instance->m_EditorWindows.size(); i++)
+		{
+			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
+			{
+				serialiser.Write("Editor/EditorObjectHierarchy.krs", (SceneHierarchy*)m_Instance->m_EditorWindows[i]);
+				break;
+			}
+		}
 	}
 
 	void Editor::StylePush()

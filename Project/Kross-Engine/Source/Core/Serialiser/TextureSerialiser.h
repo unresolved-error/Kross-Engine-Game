@@ -14,6 +14,7 @@
 #include "../Renderer/Image/Texture.h"
 
 #include "../File-IO/Manifest.h"
+#include "../File-IO/FileSystem.h"
 
 namespace Kross
 {

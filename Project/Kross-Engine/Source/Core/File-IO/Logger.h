@@ -17,6 +17,7 @@ namespace Kross
 
 	protected:
 		friend class Manifest;
+		template<typename Type> friend class Serialiser;
 
 		/*!
 			Writes all Log Lines to a Output File.

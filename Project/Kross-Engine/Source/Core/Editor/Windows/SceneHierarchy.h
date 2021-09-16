@@ -10,6 +10,7 @@
 
 #include "../EditorWindow.h"
 #include "../../Layer.h"
+#include "../Utility/Folder.h"
 
 namespace Kross
 {
@@ -17,9 +18,18 @@ namespace Kross
 	{
 	private:
 		Object* p_SelectedObject;
-		std::vector<bool> m_ViewLayer;
+		std::vector<Folder<Object>*> m_Folders;
+		std::vector<Object*> m_FolderlessObjects;
+
+		Folder<Object>* m_Folder = nullptr;
+		bool m_EditFolder = false;
+
+		Object* m_FolderObject = nullptr;
+		bool m_EditFolderObject = false;
 
 	protected:
+		template<typename Type> friend class Serialiser;
+
 		// Sets the Scene Hierarchy Window Flags.
 		void SetFlags() override;
 
@@ -32,7 +42,8 @@ namespace Kross
 	public:
 		SceneHierarchy() :
 			p_SelectedObject	(nullptr),
-			m_ViewLayer			(std::vector<bool>((int)Layer::Count))
+			m_Folders			(std::vector<Folder<Object>*>()),
+			m_FolderlessObjects	(std::vector<Object*>())
 		{};
 
 		~SceneHierarchy() {};
