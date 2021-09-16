@@ -47,22 +47,47 @@ namespace Kross
 					/* If we have a scene. (Should always exist) */
 					if (p_Scene)
 					{
-						for (int i = 0; i < p_Scene->m_ActualObjects.size(); i++)
+						for (int l = 0; l < (int)Layer::Count; l++)
 						{
-							Object* object = p_Scene->m_ActualObjects[i];
+							LayerName names = LayerName();
+							std::string label = "[" + names[l] + "]";
 
-							/* works. */
-							if (ImGui::MenuItem(object->GetName().c_str(), "", (object == p_SelectedObject), object->Enabled()));
+							std::vector<Object*> layerObjects;
+
+							for (int i = 0; i < p_Scene->m_ActualObjects.size(); i++)
 							{
-								if (ImGui::IsItemHovered() && Input::GetMouseButtonPressed(Mouse::Left))
+								Object* object = p_Scene->m_ActualObjects[i];
+
+								if (object->GetLayer() == (Layer)l)
 								{
-									if (object != p_SelectedObject)
+									layerObjects.push_back(object);
+								}
+							}
+
+							if (ImGui::TreeNodeEx(label.c_str(), (layerObjects.size() == 0) ? ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_None))
+							{
+								ImGui::Indent();
+								for(int i = 0; i < layerObjects.size(); i++)
+								{
+									Object* object = layerObjects[i];
+									/* works. */
+									if (ImGui::MenuItem(object->GetName().c_str(), "", (object == p_SelectedObject), object->Enabled()));
 									{
-										p_SelectedObject = object;
-										Editor::SetObjectEditorObject(p_SelectedObject);
-										Editor::SetMainMenuObject(p_SelectedObject);
+										if (ImGui::IsItemHovered() && Input::GetMouseButtonPressed(Mouse::Left))
+										{
+											if (object != p_SelectedObject)
+											{
+												p_SelectedObject = object;
+												Editor::SetObjectEditorObject(p_SelectedObject);
+												Editor::SetMainMenuObject(p_SelectedObject);
+											}
+										}
 									}
 								}
+								ImGui::Unindent();
+								ImGui::TreePop();
+								if(layerObjects.size() != 0)
+									ImGui::Spacing();
 							}
 						}
 					}
