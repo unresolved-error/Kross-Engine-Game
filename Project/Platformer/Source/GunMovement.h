@@ -3,6 +3,7 @@
 #include <Kross.h>
 
 #include "PlayerMovement.h"
+#include "HealthManager.h"
 
 using namespace Kross;
 
@@ -28,7 +29,11 @@ public:
 	Object* m_CrossHair = nullptr;
 
 	Object* player;
+	Object* level;
+
 	PlayerMovement* m_PlayerMovement = nullptr;
+	HealthManager* m_HealthManager = nullptr;
+
 	Camera* camera;
 	Window* window;
 	bool m_Fired = false;
@@ -37,6 +42,8 @@ public:
 
 	bool flipX = false;
 	float angle = 0.0f;
+	float damage = 0.75f;
+	int bulletCount = 0;
 		
 	Sprite* Degree0; //PURE RIGHT
 	Sprite* Degree22pt5;
@@ -59,6 +66,7 @@ public:
 	Vector2 toMouse;
 
 	std::vector<Object*> bullets;
+	std::vector<bool> bulletHits;
 
 	void Start() override
 	{
@@ -68,6 +76,9 @@ public:
 		camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
 		player = SceneManager::GetCurrentScene()->FindObject("Player");
 		m_PlayerMovement = player->GetComponent<PlayerMovement>();
+
+		level = SceneManager::GetCurrentScene()->FindObject("Level");
+		m_HealthManager = level->GetComponent<HealthManager>();
 
 		Degree0 = ResourceManager::GetResource<Sprite>("Gun1-1");
 		Degree22pt5 = ResourceManager::GetResource<Sprite>("Gun0-1");
@@ -83,7 +94,6 @@ public:
 
 
 		m_CrossHair = SceneManager::GetCurrentScene()->FindObject("CrossHair");
-
 	}
 
 	void Update() override 
@@ -142,7 +152,7 @@ public:
 			}
 			currentGunSprite = Degree0;
 		}
-		
+
 		if (angle != NAN)
 		{
 			renderer->SetFlipX(flipX);
@@ -152,10 +162,10 @@ public:
 		renderer->GetMaterial()->SetDiffuse(currentGunSprite);
 
 		toMouse = Vector2(crossHairPos.x - m_GameObject->m_Transform->m_Position.x, crossHairPos.y - m_GameObject->m_Transform->m_Position.y);
-		
+
 		Vector2 toMouseNormd = glm::normalize(toMouse);
 		Vector2 toCrosshair = toMouseNormd * 1.5f;
-		Vector2 toEndOfGun = toMouseNormd * 0.3f;
+		Vector2 toEndOfGun = toMouseNormd * 0.03f;
 
 
 		LineRenderer* endOfGunDebug = m_GameObject->GetDebugRenderer();
@@ -166,7 +176,7 @@ public:
 
 
 		//endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
-		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1,0,0));
+		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1, 0, 0));
 
 		if (!m_Fired)
 		{
@@ -251,14 +261,48 @@ public:
 					m_Fired = true;
 				}
 			}
-		}
+			rigidbody->SetFriction(0.75f);
+			rigidbody->SetMass(0.5f);
+			rigidbody->OnApplyImpulse(toMouseNormd * 5.0f);
+			sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
-		//for (int i = bullets.size() - 1; i >= 0; i--)
+			bullets.push_back(bullet);
+			bulletHits.push_back(false);
+			bulletCount++;
+		}
+		
+
 		for (int i = 0; i < bullets.size(); i++)
 		{
-			float threashold = 0.025f;
+			for (b2ContactEdge* contact = bullets[i]->GetComponent<Rigidbody2D>()->GetBody()->GetContactList(); contact; contact = contact->next)
+			{
+				Object* obj = (Object*)contact->other->GetUserData();
+
+				if (obj != player)
+				{
+					if (obj->GetLayer() == Layer::Player)
+					{
+						m_HealthManager->DoDamage(obj, damage);
+						Debug::LogLine(obj->GetName());
+
+						//bulletHits[i] = true;
+						SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+						bullets[i] = nullptr;
+						bullets.erase(bullets.begin() + i);
+
+						break;
+					}
+				}
+			}
+		}
+
+		for (int i = bullets.size() - 1; i >= 0; i--)
+		{
+			float threashold = 0.05f;
 			Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
 			SpriteRenderer* rend = bullets[i]->GetComponent<SpriteRenderer>();
+
+			/* Checks if the bullet is within a specific speed */
 			if (rb->GetBody()->GetLinearVelocity().x >= -threashold && rb->GetBody()->GetLinearVelocity().y >= -threashold &&
 				rb->GetBody()->GetLinearVelocity().x <= threashold && rb->GetBody()->GetLinearVelocity().y < threashold)
 			{
@@ -271,24 +315,33 @@ public:
 				else
 				{
 					SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+					bullets[i] = nullptr;
 					bullets.erase(bullets.begin() + i);
+					bulletCount--;
+
+					bulletHits[i] = false;
+					
 					continue;
 				}
 			}
-
+			
 			Colour colour = rend->GetColour();
 			if (colour.a < 1.0f)
 			{
 				colour.a -= 0.025f;
 				rend->SetColour(colour);
 			}
-			else if(colour.a <= 0.0f)
+			else if (colour.a <= 0.0f)
 			{
 				SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
 				bullets.erase(bullets.begin() + i);
+				bulletCount--;
+
+				bulletHits[i] = false;
 			}
 		}
 	}
+
 
 	Vector2 PlaceCrossHairOnInput(float &returnAngle)
 	{
@@ -336,7 +389,8 @@ public:
 		return crossHairPos;
 	}
 
-	void SetSpriteAngle(float angle, bool &flipX)
+
+	void SetSpriteAngle(float angle, bool& flipX)
 	{
 		if (angle > 360 - 12.25 || angle <= 12.25) //Case right
 		{
@@ -404,9 +458,9 @@ public:
 		else if (angle > 270 - 12.25 && angle <= 270 + 12.25)
 		{
 			currentGunSprite = Degree270; //UP
-			if (angle < 270) 
-			{ 
-				flipX = true; 
+			if (angle < 270)
+			{
+				flipX = true;
 			}
 		}
 		else if (angle > 292.5 - 12.25 && angle <= 292.5 + 12.25)

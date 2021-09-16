@@ -1699,7 +1699,6 @@ namespace Kross
 					}
 					else if (typeid(*comp) == typeid(Rigidbody2D))
 					{
-						
 					}
 					else if (typeid(*comp) == typeid(ParticleEmitter))
 					{
