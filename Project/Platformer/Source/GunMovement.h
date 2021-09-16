@@ -212,10 +212,16 @@ public:
 
 					OnCreateObject(bullet);
 
-					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
+					rigidbody->SetFriction(0.75f);
+					rigidbody->SetMass(0.5f);
+					rigidbody->OnApplyImpulse(toMouseNormd * 5.0f);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
+					bulletHits.push_back(false);
+					bulletCount++;
+
+					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					m_Fired = true;
 				}
@@ -253,22 +259,20 @@ public:
 
 					OnCreateObject(bullet);
 
-					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
+					rigidbody->SetFriction(0.75f);
+					rigidbody->SetMass(0.5f);
+					rigidbody->OnApplyImpulse(toMouseNormd * 5.0f);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
+					bulletHits.push_back(false);
+					bulletCount++;
+
+					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					m_Fired = true;
 				}
 			}
-			rigidbody->SetFriction(0.75f);
-			rigidbody->SetMass(0.5f);
-			rigidbody->OnApplyImpulse(toMouseNormd * 5.0f);
-			sprite->GetMaterial()->SetDiffuse(bulletSprite);
-
-			bullets.push_back(bullet);
-			bulletHits.push_back(false);
-			bulletCount++;
 		}
 		
 
