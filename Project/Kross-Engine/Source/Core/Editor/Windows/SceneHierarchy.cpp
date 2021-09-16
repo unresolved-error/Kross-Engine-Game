@@ -132,7 +132,14 @@ namespace Kross
 						{
 							if (ImGui::MenuItem(m_Folders[f]->m_Contents[c]->GetName().c_str(), "", p_SelectedObject == m_Folders[f]->m_Contents[c], m_Folders[f]->m_Contents[c]->Enabled()))
 							{
-
+							
+								if (m_Folders[f]->m_Contents[c] != p_SelectedObject)
+								{
+									p_SelectedObject = m_Folders[f]->m_Contents[c];
+									Editor::SetObjectEditorObject(p_SelectedObject);
+									Editor::SetMainMenuObject(p_SelectedObject);
+								}
+								
 							}
 						}
 						ImGui::Unindent();
@@ -196,7 +203,13 @@ namespace Kross
 				{
 					if (ImGui::MenuItem(m_FolderlessObjects[i]->GetName().c_str(), "", p_SelectedObject == m_FolderlessObjects[i], m_FolderlessObjects[i]->Enabled()))
 					{
-
+						if (m_FolderlessObjects[i] != p_SelectedObject)
+						{
+							p_SelectedObject = m_FolderlessObjects[i];
+							Editor::SetObjectEditorObject(p_SelectedObject);
+							Editor::SetMainMenuObject(p_SelectedObject);
+						}
+						
 					}
 
 					if (ImGui::IsItemHovered())
