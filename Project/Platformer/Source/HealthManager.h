@@ -30,13 +30,13 @@ public:
 
 	void Start() override
 	{
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Player")->AttachComponent<Health>());
+		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Player")->GetComponent<Health>());
 		m_Health[0]->SetHealth(2.5f);
 
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy1")->AttachComponent<Health>());
+		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy1")->GetComponent<Health>());
 		m_Health[1]->SetHealth(4.0f);
 
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy")->AttachComponent<Health>());
+		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy")->GetComponent<Health>());
 		m_Health[2]->SetHealth(4.0f);
 	}
 

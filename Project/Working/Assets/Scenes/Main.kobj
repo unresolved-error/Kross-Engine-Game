@@ -24,7 +24,6 @@ AUDIO-PLAYER->Bullet-Proof->1->1->1->0->
 PLAYER-CONTROLLER->[0,12,11]->1->3.75->4.75->0.4->
 SCRIPT->PlayerMovement->
 SCRIPT->Health->
-SCRIPT->Health->
 END->
 
 START->
@@ -79,7 +78,6 @@ RIGIDBODY2D->0->0.4->0.4->0.2->0.5->6->0->0->1->3->65511->
 ANIMATOR->DonutIdle->DonutWalk->
 SCRIPT->EnemyMovement->
 SCRIPT->Health->
-SCRIPT->Health->
 END->
 
 START->
@@ -101,7 +99,6 @@ SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 SCRIPT->EnemyMovement->
 ANIMATOR->DonutIdle->DonutWalk->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->6->0->0->1->3->65511->
-SCRIPT->Health->
 SCRIPT->Health->
 END->
 
