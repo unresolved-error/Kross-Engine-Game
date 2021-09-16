@@ -213,8 +213,8 @@ public:
 					OnCreateObject(bullet);
 
 					rigidbody->SetFriction(0.75f);
-					rigidbody->SetMass(0.5f);
-					rigidbody->OnApplyImpulse(toMouseNormd * 5.0f);
+					rigidbody->SetMass(0.005f);
+					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
@@ -260,8 +260,8 @@ public:
 					OnCreateObject(bullet);
 
 					rigidbody->SetFriction(0.75f);
-					rigidbody->SetMass(0.5f);
-					rigidbody->OnApplyImpulse(toMouseNormd * 5.0f);
+					rigidbody->SetMass(0.005f);
+					rigidbody->OnApplyImpulse(toMouseNormd * 0.05f);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
@@ -287,12 +287,15 @@ public:
 					if (obj->GetLayer() == Layer::Player)
 					{
 						m_HealthManager->DoDamage(obj, damage);
-						Debug::LogLine(obj->GetName());
+						
+						//Debug::LogLine(obj->GetName());
 
 						//bulletHits[i] = true;
-						SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
-						bullets[i] = nullptr;
-						bullets.erase(bullets.begin() + i);
+
+						//SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+
+						//bullets[i] = nullptr;
+						//bullets.erase(bullets.begin() + i);
 
 						break;
 					}
