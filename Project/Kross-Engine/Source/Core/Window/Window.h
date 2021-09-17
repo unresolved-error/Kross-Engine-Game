@@ -47,7 +47,7 @@ namespace Kross
 		void OnInitialise();
 
 		// Hides the Cursor.
-		void HideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); };
+		void HideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED); };
 
 		// UnHides the Cursor.
 		void UnHideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };

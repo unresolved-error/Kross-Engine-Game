@@ -116,6 +116,8 @@ namespace Kross
 			jointDef.localAnchorA.Set( m_ChainLinkLength * 0.5f, 0.0f); 
 			jointDef.localAnchorB.Set(-m_ChainLinkLength * 0.5f, 0.0f);
 
+			jointDef.collideConnected = false;
+
 			m_RevolutionJoints.push_back((b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef));
 
 			

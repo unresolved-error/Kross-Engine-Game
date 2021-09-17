@@ -57,6 +57,6 @@ void main()
 
 	}
 	//FragColour = vec4(0.5, coord.y * pixel_h ,coord.x * pixel_h, 1.0);
-	//FragColour = vec4(1.0, 1.0, 1.0, 1.0);
+	// For those that go looking. ^
 	FragColour = colour;
 }
