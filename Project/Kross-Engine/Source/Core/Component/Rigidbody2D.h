@@ -118,6 +118,7 @@ namespace Kross
             p_MassData->center = { 0, 0 };
             p_MassData->I = 0.0f;
 
+
             p_Body->SetMassData(p_MassData);
         }
         float GetMass() { return p_Body->GetMass(); }
