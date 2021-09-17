@@ -1,5 +1,9 @@
 EDITOROBJECTHIERARCHY:
 FOLDER-START->
-NAME->This Guy->
+NAME->Entities->
 OBJECT->Player->
+OBJECT->Enemy->
+OBJECT->Enemy1->
+OBJECT->Gun->
+OBJECT->CrossHair->
 FOLDER-END->

@@ -36,10 +36,10 @@ namespace Kross
 
 		void Push(Object* object)
 		{
-			//for (int i = 0; i < m_Contents.size(); i++)
+			for (int i = 0; i < m_Contents.size(); i++)
 			{
-				//if (m_Contents[i] == object)
-				//	return;
+				if (m_Contents[i] == object)
+					return;
 			}
 
 			m_Contents.push_back(object);
@@ -51,8 +51,6 @@ namespace Kross
 			{
 				if (m_Contents[i] == object)
 				{
-					Object::OnDestroy(object);
-
 					m_Contents[i] = nullptr;
 					m_Contents.erase(m_Contents.begin() + i);
 
@@ -65,8 +63,6 @@ namespace Kross
 		{
 			if (index < 0 || index >= m_Contents.size())
 				return;
-
-			Object::OnDestroy(m_Contents[index]);
 
 			m_Contents[index] = nullptr;
 			m_Contents.erase(m_Contents.begin() + index);

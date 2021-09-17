@@ -132,14 +132,61 @@ namespace Kross
 						{
 							if (ImGui::MenuItem(m_Folders[f]->m_Contents[c]->GetName().c_str(), "", p_SelectedObject == m_Folders[f]->m_Contents[c], m_Folders[f]->m_Contents[c]->Enabled()))
 							{
-							
 								if (m_Folders[f]->m_Contents[c] != p_SelectedObject)
 								{
 									p_SelectedObject = m_Folders[f]->m_Contents[c];
 									Editor::SetObjectEditorObject(p_SelectedObject);
 									Editor::SetMainMenuObject(p_SelectedObject);
 								}
-								
+							}
+							if (ImGui::IsItemHovered())
+							{
+								if (Input::GetMouseButtonPressed(Mouse::Right))
+								{
+									m_FolderObject = m_Folders[f]->m_Contents[c];
+									ImGui::OpenPopup(m_FolderObject->GetName().c_str());
+								}
+							}
+
+							if (m_FolderObject && m_FolderObject == m_Folders[f]->m_Contents[c] && ImGui::BeginPopup(m_FolderObject->GetName().c_str()))
+							{
+								ImGui::Text((m_FolderObject->GetName()).c_str());
+								ImGui::Separator();
+
+								if (!m_EditFolderObject)
+								{
+									ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
+									if (ImGui::MenuItem("Rename"))
+									{
+										m_EditFolderObject = true;
+									}
+									ImGui::PopItemFlag();
+								}
+								else
+								{
+									char buffer[64] = { '\0' };
+									for (int i = 0; i < m_FolderObject->GetName().length(); i++)
+									{
+										buffer[i] = m_FolderObject->GetName()[i];
+									}
+
+									if (ImGui::InputText("##FolderName", &buffer[0], 64, ImGuiInputTextFlags_EnterReturnsTrue))
+									{
+										m_FolderObject->SetName(buffer);
+										m_EditFolderObject = false;
+									}
+								}
+
+								if (ImGui::MenuItem("Remove from Folder"))
+								{
+									m_Folders[f]->Erase(m_FolderObject);
+									m_FolderObject = nullptr;
+								}
+								ImGui::EndPopup();
+							}
+							else if (!m_Folder)
+							{
+								m_EditFolder = false;
 							}
 						}
 						ImGui::Unindent();
