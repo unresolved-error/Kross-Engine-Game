@@ -115,7 +115,7 @@ namespace Kross
             /* A new mass data is created */
             /* The mass data variables are set */
             p_MassData->mass = mass;
-            p_MassData->center = { 0, 0 };
+            p_MassData->center = { 0,0 };
             p_MassData->I = 0.0f;
 
 
