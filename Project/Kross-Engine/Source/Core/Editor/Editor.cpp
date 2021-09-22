@@ -26,18 +26,12 @@ namespace Kross
 
 	void Editor::OnCreate()
 	{
-		if (!m_Instance)
-		{
-			m_Instance = KROSS_NEW Editor();
-		}
+		if (!m_Instance) m_Instance = KROSS_NEW Editor();
 	}
 
 	void Editor::OnDestroy()
 	{
-		if (m_Instance)
-		{
-			delete m_Instance;
-		}
+		if (m_Instance) delete m_Instance;
 	}
 
 	void Editor::OnStart(Window* window)
@@ -56,7 +50,7 @@ namespace Kross
 		}
 
 		Serialiser<SceneHierarchy> serialiser;
-		for (int i = 0; i, m_Instance->m_EditorWindows.size(); i++)
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
 		{
 			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
 			{
@@ -73,7 +67,7 @@ namespace Kross
 	void Editor::OnUpdate()
 	{
 		/* Gets the Main Viewport. */
-		m_Instance->p_Viewport = ImGui::GetMainViewport();
+		m_Instance->m_Viewport = ImGui::GetMainViewport();
 
 		//ImGui::ShowDemoWindow();
 
@@ -96,18 +90,10 @@ namespace Kross
 	{
 		m_Instance->m_EditorWindows.push_back(window);
 
-		if (typeid(*window) == typeid(ObjectEditor))
-		{
-			m_Instance->p_ObjectEditor = (ObjectEditor*)window;
-		}
-		if (typeid(*window) == typeid(MainMenu))
-		{
-			m_Instance->p_MainMenu = (MainMenu*)window;
-		}
-		if (typeid(*window) == typeid(AssetPanel))
-		{
-			m_Instance->p_AssetPanel = (AssetPanel*)window;
-		}
+		if (typeid(*window) == typeid(ObjectEditor)) m_Instance->m_ObjectEditor = (ObjectEditor*)window;
+		if (typeid(*window) == typeid(MainMenu)) m_Instance->m_MainMenu = (MainMenu*)window;
+		if (typeid(*window) == typeid(AssetPanel)) m_Instance->m_AssetPanel = (AssetPanel*)window;
+
 		if (m_Instance->m_IsUpdating)
 		{
 			window->OnStart();
@@ -128,20 +114,20 @@ namespace Kross
 
 	Vector2 Editor::GetViewportPosition()
 	{
-		if (m_Instance->p_Viewport)
+		if (m_Instance->m_Viewport)
 		{
-			return Vector2(m_Instance->p_Viewport->WorkPos.x, m_Instance->p_Viewport->WorkPos.y);
+			return Vector2(m_Instance->m_Viewport->WorkPos.x, m_Instance->m_Viewport->WorkPos.y);
 		}
-		return Vector2(0);
+		return Vector2(0.0f);
 	}
 
 	Vector2 Editor::GetViewportSize()
 	{
-		if (m_Instance->p_Viewport)
+		if (m_Instance->m_Viewport)
 		{
-			return Vector2(m_Instance->p_Viewport->WorkSize.x, m_Instance->p_Viewport->WorkSize.y);
+			return Vector2(m_Instance->m_Viewport->WorkSize.x, m_Instance->m_Viewport->WorkSize.y);
 		}
-		return Vector2(0);
+		return Vector2(0.0f);
 	}
 
 	void Editor::OnRender()
@@ -167,7 +153,7 @@ namespace Kross
 		ImGui::DestroyContext();
 
 		Serialiser<SceneHierarchy> serialiser;
-		for (int i = 0; i, m_Instance->m_EditorWindows.size(); i++)
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
 		{
 			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
 			{

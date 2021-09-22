@@ -156,7 +156,7 @@ namespace Kross
 		void DetachObject(int index);
 
 		// Gets the total Number of Objects in the Scene.
-		const int GetObjectCount() const { return m_Objects.size() + m_StaticObjects.size(); }
+		const int GetObjectCount() const { return static_cast<int>(m_Objects.size() + m_StaticObjects.size()); }
 
 		// Find a Object from the given name.
 		Object* FindObject(std::string name);
