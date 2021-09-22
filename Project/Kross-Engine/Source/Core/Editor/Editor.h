@@ -27,13 +27,9 @@ namespace Kross
 
 		ImGuiViewport* m_Viewport;
 
-		float m_ScrollSpeedMultiplier = 1.0f;
-		float m_ScrollSpeedMultiplierResetTimer = 0.0f;
-		float m_ScrollSpeedMultiplierResetTimerMax = 6.0f;
-
 		float m_CameraMoveSpeedMultiplier = 1.0f;
 		float m_CameraMoveSpeedMultiplierResetTimer = 0.0f;
-		float m_CameraMoveSpeedMultiplierResetTimerMax = 6.0f;
+		float m_CameraMoveSpeedMultiplierResetTimerMax = 3.0f;
 
 		Editor() :
 			m_EditorWindows	(std::vector<EditorWindow*>()),
@@ -61,7 +57,6 @@ namespace Kross
 		static void LoadEditorCamera(Object* editorCamera);
 		static void WriteEditorCamera(Object* editorCamera);
 
-		static void MoveEditorCamera(Object* editorCamera);
 
 		static void SetScene(Scene* scene);
 
@@ -78,6 +73,8 @@ namespace Kross
 		static void SetAssetPanelAssetType(AssetType type) { m_Instance->m_AssetPanel->SetAssetType(type); }
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
+
+		static void MoveEditorCamera(Object* editorCamera);
 
 		static bool AnyWindowIsHovered() { return ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow); };
 		static bool AnyWindowIsActive() { return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow); };

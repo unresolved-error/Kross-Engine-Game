@@ -92,23 +92,7 @@ namespace Kross
     void Scene::OnUpdate()
     {
         #ifdef KROSS_EDITOR
-        if (!Editor::AnyWindowIsActive())
-        {
-            float inputX = (float)((int)Input::GetKeyDown(Key::RightArrow) - (int)Input::GetKeyDown(Key::LeftArrow));
-            float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
-            Vector2 input = Vector2(inputX, inputY);
-
-            m_EditorCamera->m_Transform->m_Position += input * 3.0f * Time::GetDeltaTime();
-        }
-
-        if (!Editor::AnyWindowIsHovered())
-        {
-            Camera* editorCamera = m_EditorCamera->GetComponent<Camera>();
-
-            float size = glm::clamp(editorCamera->GetSize() + (-Input::GetMouseScroll() / 2.0f), 0.1f, 500.0f);
-            editorCamera->SetSize(size);
-        }
-
+        Editor::MoveEditorCamera(m_EditorCamera);
         m_EditorCamera->OnUpdate();
         #endif
 

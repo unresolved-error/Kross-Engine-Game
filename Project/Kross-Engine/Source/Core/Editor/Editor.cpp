@@ -10,6 +10,8 @@
 
 #include "../Serialiser/Serialiser.h"
 
+#include "../Manager/Time.h"
+
 namespace Kross
 {
 	Editor* Editor::m_Instance = nullptr;
@@ -151,6 +153,45 @@ namespace Kross
 
 	void Editor::MoveEditorCamera(Object* editorCamera)
 	{
+		if (!Editor::AnyWindowIsActive())
+		{
+			float inputX = (float)((int)Input::GetKeyDown(Key::RightArrow) - (int)Input::GetKeyDown(Key::LeftArrow));
+			float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
+			Vector2 input = Vector2(inputX, inputY);
+
+			if (input != Vector2(0.0f))
+			{
+				m_Instance->m_CameraMoveSpeedMultiplier *= 1.025f;
+			}
+
+			else
+			{
+				if (m_Instance->m_CameraMoveSpeedMultiplier > 1.0f)
+				{
+					if (m_Instance->m_CameraMoveSpeedMultiplierResetTimer < m_Instance->m_CameraMoveSpeedMultiplierResetTimerMax)
+					{
+						m_Instance->m_CameraMoveSpeedMultiplierResetTimer += Time::GetDeltaTime();
+					}
+					else
+					{
+						m_Instance->m_CameraMoveSpeedMultiplier = 1.0f;
+						m_Instance->m_CameraMoveSpeedMultiplierResetTimer = 0.0f;
+					}
+
+					m_Instance->m_CameraMoveSpeedMultiplier *= 0.975;
+				}
+			}
+
+			editorCamera->m_Transform->m_Position += input * m_Instance->m_CameraMoveSpeedMultiplier * Time::GetDeltaTime();
+		}
+
+		if (!Editor::AnyWindowIsHovered())
+		{
+			Camera* camera = editorCamera->GetComponent<Camera>();
+
+			float size = glm::clamp(camera->GetSize() + (-Input::GetMouseScroll() / 2.0f), 0.1f, 500.0f);
+			camera->SetSize(size);
+		}
 	}
 
 	void Editor::SetScene(Scene* scene)
