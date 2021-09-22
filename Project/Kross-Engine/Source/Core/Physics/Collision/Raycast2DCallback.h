@@ -9,7 +9,7 @@
 #include "../../Core.h"
 
 #include "../../Math/Math.h"
-#include "../Data/CollisionData.h"
+#include "../Collision/CollisionData.h"
 
 namespace Kross
 {
@@ -24,7 +24,7 @@ namespace Kross
         Raycast2DCallback() :
             p_CollisionData (KROSS_NEW CollisionData()),
             p_RayData       (KROSS_NEW RaycastData())
-        {};
+        {}
         ~Raycast2DCallback() 
         { 
             delete p_CollisionData;

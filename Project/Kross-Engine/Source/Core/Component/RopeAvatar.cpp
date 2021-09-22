@@ -86,8 +86,9 @@ namespace Kross
 				FixtureDef fixtureDef;
 				fixtureDef.shape = &circle;
 				fixtureDef.density = 1.0f;
-				//fixtureDef.filter.categoryBits = NEED TO BE SET TO NOT INCLUDE PLAYERS.
-				//fixtureDef.filter.maskBits = 
+				fixtureDef.filter.categoryBits = (uint16)ColliderFilters::Chain;
+				fixtureDef.filter.maskBits = (uint16)ColliderFilters::Chain | (uint16)ColliderFilters::Level |
+					(uint16)ColliderFilters::Fluid | (uint16)ColliderFilters::Weapon;
 
 				body->CreateFixture(&fixtureDef);
 

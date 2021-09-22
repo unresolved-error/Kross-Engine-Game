@@ -11,7 +11,7 @@
 #include "../Math/Math.h"
 #include "Box2D/Box2D.h"
 #include "../Renderer/LineRenderer.h"
-#include "Data/CollisionData.h"
+#include "Collision/CollisionData.h"
 #include "Collision/ContactFilter.h"
 #include "Collision/AABBCollisionCallbacks.h"
 #include "Collision/Raycast2DCallback.h"

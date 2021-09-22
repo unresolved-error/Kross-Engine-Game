@@ -39,9 +39,8 @@ public:
 	bool m_Fired = false;
 	float m_RateOfFire = 0.1f;
 	float m_TimeElapsed = 0.0f;
-	float bulletStartForce = 0.09f;
-	float bulletMass = 0.005f;
-	float bulletFriction = 0.75f;
+	float bulletStartForce = 0.025f;
+	float bulletFriction = 0.5f;
 	float bulletDecayThreshold = 0.005f;
 
 	bool flipX = false;
@@ -74,9 +73,6 @@ public:
 
 	void Start() override
 	{
-
-
-
 		window =  Application::GetWindow();
 		renderer = GetComponent<SpriteRenderer>();
 		camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
@@ -110,7 +106,7 @@ public:
 		//float aspectRatio = Application::GetWindow()->GetApsectRatio();
 		//Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
 		//Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
-		Vector2 crossHairPos;
+		Vector2 crossHairPos{};
 		
 		if (m_Fired)
 		{
@@ -200,8 +196,9 @@ public:
 					bullet->m_Transform->m_Rotation = angle;
 					bullet->SetLayer(Layer::Player);
 
-					collider->GetCollisionFilters()->categoryBits = (uint16)ColliderFilters::Environment;
-					collider->GetCollisionFilters()->maskBits = (uint16)ColliderFilters::Environment | (uint16)ColliderFilters::Fluid;// | ColliderFilters::Player;
+					collider->GetCollisionFilters()->categoryBits = (uint16)ColliderFilters::Weapon;
+					collider->GetCollisionFilters()->maskBits = (uint16)ColliderFilters::Environment | (uint16)ColliderFilters::Level |
+						(uint16)ColliderFilters::Fluid | (uint16)ColliderFilters::Chain | (uint16)ColliderFilters::Enemy;
 
 					collider->SetShapeType(ShapeType::Circle);
 
@@ -219,7 +216,6 @@ public:
 					OnCreateObject(bullet);
 
 					rigidbody->SetFriction(bulletFriction);
-					rigidbody->SetMass(bulletMass);
 					rigidbody->OnApplyImpulse(toMouseNormd * bulletStartForce);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
@@ -247,8 +243,9 @@ public:
 
 					bullet->SetLayer(Layer::Player);
 
-					collider->GetCollisionFilters()->categoryBits = (uint16)ColliderFilters::Environment;
-					collider->GetCollisionFilters()->maskBits = (uint16)ColliderFilters::Environment | (uint16)ColliderFilters::Fluid;// | ColliderFilters::Player;
+					collider->GetCollisionFilters()->categoryBits = (uint16)ColliderFilters::Weapon;
+					collider->GetCollisionFilters()->maskBits = (uint16)ColliderFilters::Environment | (uint16)ColliderFilters::Level |
+						(uint16)ColliderFilters::Fluid | (uint16)ColliderFilters::Chain | (uint16)ColliderFilters::Enemy;
 
 					collider->SetShapeType(ShapeType::Circle);
 
@@ -266,7 +263,6 @@ public:
 					OnCreateObject(bullet);
 
 					rigidbody->SetFriction(bulletFriction);
-					rigidbody->SetMass(bulletMass);
 					rigidbody->OnApplyImpulse(toMouseNormd * bulletStartForce);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
@@ -293,7 +289,7 @@ public:
 					if (obj->GetLayer() == Layer::Player)
 					{
 						m_HealthManager->DoDamage(obj, damage);
-						
+
 						//Debug::LogLine(obj->GetName());
 
 						//bulletHits[i] = true;

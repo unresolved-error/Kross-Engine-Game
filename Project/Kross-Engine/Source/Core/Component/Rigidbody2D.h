@@ -14,8 +14,7 @@
 
 #include "../Renderer/Shader/Shader.h"
 #include "../Renderer/LineRenderer.h"
-#include "../Physics/Data/CollisionData.h"
-#include "../Physics/Collision/ContactFilter.h"
+#include "../Physics/Physics.h"
 #include "../Physics/Shape/Shape.h"
 #include "../Renderer/Tilemap/Tile.h"
 #include "../Renderer/Tilemap/TileSet.h"
@@ -26,7 +25,6 @@ namespace Kross
     class KROSS_API Shape;
     class KROSS_API Object;
 
-
     class KROSS_API Rigidbody2D : public Renderer
     {
     private:
@@ -36,6 +34,7 @@ namespace Kross
         Capsule* p_Capsule;
         Circle* p_Circle;
         b2Filter* p_Filter;
+        b2RevoluteJoint* p_RevJoint;
 
         LineRenderer* p_DebugRenderer;
 
@@ -44,7 +43,6 @@ namespace Kross
         RigidbodyState m_RigidbodyState;
         ColliderFilters m_ColliderFilter;
 
-        b2MassData* p_MassData;
         RaycastData* p_RayData;
         AABBCollisionData* p_AABBCollisionData;
 
@@ -89,17 +87,7 @@ namespace Kross
         Rigidbody2D();
         ~Rigidbody2D();
 
-        /* Sets the mass and only the mass of the body */
-        void SetMass(float mass)
-        {
-            /* A new mass data is created */
-            /* The mass data variables are set */
-            p_MassData->mass = mass;
-            p_MassData->center = { 0, 0 };
-            p_MassData->I = 0.0f;
-
-            p_Body->SetMassData(p_MassData);
-        }
+        /* Gets the mass */
         float GetMass() { return p_Body->GetMass(); }
 
         /* Sets the Body for the RigidBody */
@@ -194,5 +182,12 @@ namespace Kross
         void SetColliderFilter(b2Filter* filter) { p_Filter = filter; }
         /* Gets the collider filters */
         b2Filter* GetColliderFilters() { return p_Filter; }
+
+        void ActivateMotor(float direction, float speed);
+        void DeactivateMotor() 
+        { 
+            p_RevJoint->SetMotorSpeed(0.0f);
+            p_RevJoint->EnableMotor(false); 
+        }
     };
 }

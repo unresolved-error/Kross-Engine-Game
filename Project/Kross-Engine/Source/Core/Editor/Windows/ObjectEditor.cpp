@@ -400,6 +400,10 @@ namespace Kross {
 								{
 									pp_CatBits ^= (uint16)ColliderFilters::Environment;
 								}
+								if (ImGui::MenuItem("Level", "", (pp_CatBits & (uint16)ColliderFilters::Level)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Level;
+								}
 								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & (uint16)ColliderFilters::Fluid)))
 								{
 									pp_CatBits ^= (uint16)ColliderFilters::Fluid;
@@ -411,6 +415,26 @@ namespace Kross {
 								if (ImGui::MenuItem("Player", "", (pp_CatBits & (uint16)ColliderFilters::Player)))
 								{
 									pp_CatBits ^= (uint16)ColliderFilters::Player;
+								}
+								if (ImGui::MenuItem("Enemy", "", (pp_CatBits & (uint16)ColliderFilters::Enemy)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Enemy;
+								}
+								if (ImGui::MenuItem("Weapon", "", (pp_CatBits & (uint16)ColliderFilters::Weapon)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Weapon;
+								}
+								if (ImGui::MenuItem("Chain", "", (pp_CatBits & (uint16)ColliderFilters::Chain)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Chain;
+								}
+								if (ImGui::MenuItem("Puzzle", "", (pp_CatBits & (uint16)ColliderFilters::Puzzle)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Puzzle;
+								}
+								if (ImGui::MenuItem("Empty", "", (pp_CatBits & (uint16)ColliderFilters::Empty)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Empty;
 								}
 								ImGui::Unindent();
 							}
@@ -426,6 +450,10 @@ namespace Kross {
 								{
 									pp_MaskBits ^= (uint16)ColliderFilters::Environment;
 								}
+								if (ImGui::MenuItem("Level", "", (pp_MaskBits & (uint16)ColliderFilters::Level)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Level;
+								}
 								if (ImGui::MenuItem("Fluid", "", (pp_MaskBits & (uint16)ColliderFilters::Fluid)))
 								{
 									pp_MaskBits ^= (uint16)ColliderFilters::Fluid;
@@ -437,6 +465,26 @@ namespace Kross {
 								if (ImGui::MenuItem("Player", "", (pp_MaskBits & (uint16)ColliderFilters::Player)))
 								{
 									pp_MaskBits ^= (uint16)ColliderFilters::Player;
+								}
+								if (ImGui::MenuItem("Enemy", "", (pp_MaskBits & (uint16)ColliderFilters::Enemy)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Enemy;
+								}
+								if (ImGui::MenuItem("Weapon", "", (pp_MaskBits & (uint16)ColliderFilters::Weapon)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Weapon;
+								}
+								if (ImGui::MenuItem("Chain", "", (pp_MaskBits & (uint16)ColliderFilters::Chain)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Chain;
+								}
+								if (ImGui::MenuItem("Puzzle", "", (pp_MaskBits & (uint16)ColliderFilters::Puzzle)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Puzzle;
+								}
+								if (ImGui::MenuItem("Empty", "", (pp_MaskBits & (uint16)ColliderFilters::Empty)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Empty;
 								}
 								ImGui::Unindent();
 							}
@@ -963,6 +1011,10 @@ namespace Kross {
 								{
 									pp_CatBits ^= (uint16)ColliderFilters::Environment;
 								}
+								if (ImGui::MenuItem("Level", "", (pp_CatBits & (uint16)ColliderFilters::Level)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Level;
+								}
 								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & (uint16)ColliderFilters::Fluid)))
 								{
 									pp_CatBits ^= (uint16)ColliderFilters::Fluid;
@@ -974,6 +1026,26 @@ namespace Kross {
 								if (ImGui::MenuItem("Player", "", (pp_CatBits & (uint16)ColliderFilters::Player)))
 								{
 									pp_CatBits ^= (uint16)ColliderFilters::Player;
+								}
+								if (ImGui::MenuItem("Enemy", "", (pp_CatBits & (uint16)ColliderFilters::Enemy)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Enemy;
+								}
+								if (ImGui::MenuItem("Weapon", "", (pp_CatBits & (uint16)ColliderFilters::Weapon)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Weapon;
+								}
+								if (ImGui::MenuItem("Chain", "", (pp_CatBits & (uint16)ColliderFilters::Chain)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Chain;
+								}
+								if (ImGui::MenuItem("Puzzle", "", (pp_CatBits & (uint16)ColliderFilters::Puzzle)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Puzzle;
+								}
+								if (ImGui::MenuItem("Empty", "", (pp_CatBits & (uint16)ColliderFilters::Empty)))
+								{
+									pp_CatBits ^= (uint16)ColliderFilters::Empty;
 								}
 								ImGui::Unindent();
 							}
@@ -989,6 +1061,10 @@ namespace Kross {
 								{
 									pp_MaskBits ^= (uint16)ColliderFilters::Environment;
 								}
+								if (ImGui::MenuItem("MaskLevel", "", (pp_MaskBits & (uint16)ColliderFilters::Level)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Level;
+								}
 								if (ImGui::MenuItem("MaskFluid", "", (pp_MaskBits & (uint16)ColliderFilters::Fluid)))
 								{
 									pp_MaskBits ^= (uint16)ColliderFilters::Fluid;
@@ -1000,6 +1076,26 @@ namespace Kross {
 								if (ImGui::MenuItem("MaskPlayer", "", (pp_MaskBits & (uint16)ColliderFilters::Player)))
 								{
 									pp_MaskBits ^= (uint16)ColliderFilters::Player;
+								}
+								if (ImGui::MenuItem("MaskEnemy", "", (pp_MaskBits & (uint16)ColliderFilters::Enemy)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Enemy;
+								}
+								if (ImGui::MenuItem("MaskWeapon", "", (pp_MaskBits & (uint16)ColliderFilters::Weapon)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Weapon;
+								}
+								if (ImGui::MenuItem("MaskChain", "", (pp_MaskBits & (uint16)ColliderFilters::Chain)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Chain;
+								}
+								if (ImGui::MenuItem("MaskPuzzle", "", (pp_MaskBits & (uint16)ColliderFilters::Puzzle)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Puzzle;
+								}
+								if (ImGui::MenuItem("MaskEmpty", "", (pp_MaskBits & (uint16)ColliderFilters::Empty)))
+								{
+									pp_MaskBits ^= (uint16)ColliderFilters::Empty;
 								}
 								ImGui::Unindent();
 							}

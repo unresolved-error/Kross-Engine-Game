@@ -44,7 +44,6 @@
 
 #include "../Core/Physics/Collision/ContactFilter.h"
 #include "../Core/Physics/Collision/Raycast2DCallback.h"
-#include "../Core/Physics/Data/CollisionData.h"
 
 #include "../Core/Physics/Particles/Particle.h"
 

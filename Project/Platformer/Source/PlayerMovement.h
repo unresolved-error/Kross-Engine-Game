@@ -58,7 +58,7 @@ public:
 		m_Window = Application::GetWindow();
 
 		/* See if a Controller is Connected. */
-		m_ControllerID = -1;//Input::GetAvalibleController();
+		m_ControllerID = -1; //Input::GetAvalibleController();
 	}
 
 	void Update() override
@@ -74,7 +74,6 @@ public:
 			input = Vector2(Input::GetControllerAxis(m_ControllerID, Controller::LeftStickHorizontal, 0.1f), 0.0f);
 			jumpDir = Vector2(0.0f, (float)Input::GetControllerButtonPressed(m_ControllerID, Controller::A));
 		}
-
 		/* Use Keyboard and Mouse instead. */
 		else
 		{
@@ -83,7 +82,7 @@ public:
 
 			/* Grab the Input needed. */
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), 0.0f);
-			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::UpArrow)));
+			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::W)));
 		}
 
 		/* If the Object isn't at the End of a Level. */
@@ -111,7 +110,6 @@ public:
 			m_TimeElapsed += Time::GetDeltaTime();
 			m_FrameCount++;
 		}
-
 		/* If it happens to be a second or a little more. */
 		else
 		{

@@ -73,11 +73,13 @@ namespace Kross
 				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_GroundSpeed &&
 				m_Rigidbody->GetBody()->GetLinearVelocity().y < m_GroundSpeed)
 			{
-				m_Rigidbody->OnApplyForce(moveDirection);
+				//m_Rigidbody->OnApplyForce(moveDirection);
+				m_Rigidbody->ActivateMotor(moveDirection.x, 40.0f);
 			}
 			else
 			{
-				m_Rigidbody->OnApplyForce(moveDirection * 0.1f);
+				//m_Rigidbody->OnApplyForce(moveDirection * 0.1f);
+				m_Rigidbody->ActivateMotor(moveDirection.x, 1.0f);
 			}
 		}
 		/* If we aren't. */
@@ -85,16 +87,17 @@ namespace Kross
 		{
 			/* Applys force while the player is in the air */
 			if (moveDirection != Vector2(0.0f) && m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_AirSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().x < m_AirSpeed && 
+				m_Rigidbody->GetBody()->GetLinearVelocity().x < m_AirSpeed &&
 				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_AirSpeed	&&
 				m_Rigidbody->GetBody()->GetLinearVelocity().y < m_AirSpeed)
 			{
-				m_Rigidbody->OnApplyForce(moveDirection * 0.65f);
+				m_Rigidbody->OnApplyForce(moveDirection * 0.35f);
 			}
 			else
 			{
-				m_Rigidbody->OnApplyForce(moveDirection * 0.1f);
+				m_Rigidbody->OnApplyForce(moveDirection * 0.01f);
 			}
+			m_Rigidbody->DeactivateMotor();
 		}
 	}
 

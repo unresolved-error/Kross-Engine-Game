@@ -48,8 +48,8 @@ namespace Kross
 			m_MaxJumpCount		(1),
 			m_JumpCount			(0),
 
-			m_GroundSpeed		(3.75f),
-			m_AirSpeed			(4.75f),
+			m_GroundSpeed		(4.0f),
+			m_AirSpeed			(4.0f),
 			m_JumpStrength		(0.4f)
 		{};
 		~PlayerController();

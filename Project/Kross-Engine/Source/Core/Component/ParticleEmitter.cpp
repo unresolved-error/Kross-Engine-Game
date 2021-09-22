@@ -18,7 +18,6 @@ namespace Kross
 		/* Vector3(13.0f / 255.0f, 176.0f / 255.0f, 255.0f / 255.0f) */
 
 		SpawnParticle(p_Particle->CreateParticleDef(properties), properties->GetRadius() * 2.0f, properties->GetMaxCount());
-
 	}
 
 	ParticleEmitter::~ParticleEmitter()

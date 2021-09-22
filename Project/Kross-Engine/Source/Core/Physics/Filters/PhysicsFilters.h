@@ -12,12 +12,18 @@ namespace Kross
     /* The Physical collider filters */
     enum class KROSS_API ColliderFilters
     {
-        Default = 0x0000,
-        Player = 0x0001,
-        Environment = 0x0002,
-        Fluid = 0x0004,
-        BackGround = 0x0008,
-        Light = 0x0010
+        Default = 0,
+        Player = 1 << 1,
+        Enemy = 1 << 2,
+        Level = 1 << 3,
+        Environment = 1 << 4,
+        Fluid = 1 << 5,
+        BackGround = 1 << 6,
+        Light = 1 << 7,
+        Weapon = 1 << 8,
+        Chain = 1 << 9,
+        Puzzle = 1 << 10,
+        Empty = 1 << 11
     };
 
 
@@ -69,6 +75,7 @@ namespace Kross
     /* The data from the raycast */
     struct KROSS_API RaycastData
     {
+        /* Sets the variables to their default values */
         bool hit = false;
         float closestFraction = 1.0f;
         float maxFraction = 1.0f;

@@ -255,7 +255,7 @@
     <ClInclude Include="Source\Core\Manager\ShaderManager.h" />
     <ClInclude Include="Source\Core\Math\Random.h" />
     <ClInclude Include="Source\Core\Object.h" />
-    <ClInclude Include="Source\Core\Physics\Data\CollisionData.h" />
+    <ClInclude Include="Source\Core\Physics\Collision\CollisionData.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Box.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Capsule.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />

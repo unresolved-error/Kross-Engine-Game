@@ -8,8 +8,8 @@
 
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
-#include "Rigidbody2D.h"
 #include "../Manager/Time.h"
+#include "Rigidbody2D.h"
 
 namespace Kross
 {
@@ -20,12 +20,12 @@ namespace Kross
         p_Capsule           (nullptr),
         p_Circle            (nullptr),
         p_DebugRenderer     (nullptr),
+        p_RevJoint          (nullptr),
         m_ShapeType         (ShapeType::Count),
         m_CollisionState    (CollisionState::None),
         m_RigidbodyState    (RigidbodyState::Idle),
         m_ColliderFilter    (ColliderFilters::Default),
         p_Filter            (KROSS_NEW b2Filter),
-        p_MassData          (KROSS_NEW b2MassData()),
         p_RayData           (KROSS_NEW RaycastData()),
         p_AABBCollisionData (KROSS_NEW AABBCollisionData())
     {}
@@ -48,8 +48,6 @@ namespace Kross
         delete p_Circle;
         delete p_Box;
         delete p_Capsule;
-        
-        delete p_MassData;
         
         delete p_Filter;
         delete p_AABBCollisionData;
@@ -82,8 +80,7 @@ namespace Kross
         fixtureDef.shape = &circleShape;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = m_Friction;
-        fixtureDef.filter.categoryBits = filter->categoryBits;
-        fixtureDef.filter.maskBits = filter->maskBits;
+        fixtureDef.filter = *filter;
         
         p_Body->CreateFixture(&fixtureDef);
         
@@ -119,8 +116,7 @@ namespace Kross
         fixtureDef.shape = &dynamicBox;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = m_Friction;
-        fixtureDef.filter.categoryBits = filter->categoryBits;
-        fixtureDef.filter.maskBits = filter->maskBits;
+        fixtureDef.filter = *filter;
 
         p_Body->CreateFixture(&fixtureDef);
         p_Body->SetFixedRotation(fixedRotation);
@@ -154,24 +150,9 @@ namespace Kross
         boxFixtureDef.shape = &dynamicBox;
         boxFixtureDef.density = 0.5f;
         boxFixtureDef.friction = m_Friction;
-        boxFixtureDef.filter.categoryBits = filter->categoryBits;
-        boxFixtureDef.filter.maskBits = filter->maskBits;
+        boxFixtureDef.filter = *filter;
 
         p_Body->CreateFixture(&boxFixtureDef);
-
-        /* bottom circle */
-        b2CircleShape circleShape;
-        circleShape.m_radius = dimensions.x * 0.5f;
-        circleShape.m_p.Set(0.0f, (-dimensions.y + dimensions.x) * 0.5f);
-
-        b2FixtureDef bottomFixtureDef;
-        bottomFixtureDef.shape = &circleShape;
-        bottomFixtureDef.density = 0.5f;
-        bottomFixtureDef.friction = m_Friction;
-        bottomFixtureDef.filter.categoryBits = filter->categoryBits;
-        bottomFixtureDef.filter.maskBits = filter->maskBits;
-
-        p_Body->CreateFixture(&bottomFixtureDef);
 
         /* Top circle */
         b2CircleShape topCircleShape;
@@ -182,16 +163,51 @@ namespace Kross
         topFixtureDef.shape = &topCircleShape;
         topFixtureDef.density = 0.5f;
         topFixtureDef.friction = m_Friction;
-        topFixtureDef.filter.categoryBits = filter->categoryBits;
-        topFixtureDef.filter.maskBits = filter->maskBits;
+        topFixtureDef.filter = *filter;
 
         p_Body->CreateFixture(&topFixtureDef);
-     
 
         p_Body->SetFixedRotation(fixedRotation);
 
         m_Bodies.push_back(p_Body);
         p_PhysicsScene->AttachBody(p_Body);
+
+
+        /* bottom circle */
+        b2BodyDef BottomCircleDef;
+        BottomCircleDef.type = b2_dynamicBody;
+        BottomCircleDef.position.Set(pos.x, (-dimensions.y + dimensions.x) * 0.5f);
+        BottomCircleDef.fixedRotation = true;
+
+        Body* bottomCircle = nullptr;
+        bottomCircle = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&BottomCircleDef);
+        bottomCircle->SetUserData(m_GameObject);
+
+        b2CircleShape circleShape;
+        circleShape.m_radius = dimensions.x * 0.5f;
+
+        b2FixtureDef bottomFixtureDef;
+        bottomFixtureDef.shape = &circleShape;
+        bottomFixtureDef.density = 0.5f;
+        bottomFixtureDef.friction = friction;
+        bottomFixtureDef.filter = *filter;
+
+        bottomCircle->CreateFixture(&bottomFixtureDef);
+
+        bottomCircle->SetFixedRotation(false);
+
+        m_Bodies.push_back(bottomCircle);
+        p_PhysicsScene->AttachBody(bottomCircle);
+
+        /* Creates the rev joint for the player */
+        b2RevoluteJointDef revJoint;
+        revJoint.bodyA = p_Body;
+        revJoint.bodyB = bottomCircle;
+        revJoint.collideConnected = false;
+
+        p_RevJoint = (b2RevoluteJoint*)p_PhysicsScene->GetPhysicsWorld()->CreateJoint(&revJoint);
+        p_RevJoint->SetMaxMotorTorque(5.0f);
+        p_RevJoint->EnableMotor(false);
 
         p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0), m_Fixtures);
     }
@@ -223,8 +239,7 @@ namespace Kross
             fixtureDef.shape = &circleShape;
             fixtureDef.density = 0.5f;
             fixtureDef.friction = m_Friction;
-            fixtureDef.filter.categoryBits = filter->categoryBits;
-            fixtureDef.filter.maskBits = filter->maskBits;
+            fixtureDef.filter = *filter;
 
             p_Body->CreateFixture(&fixtureDef);
 
@@ -258,8 +273,7 @@ namespace Kross
             tempFixture->shape = &circleShape;
             tempFixture->density = 0.5f;
             tempFixture->friction = m_Friction;
-            tempFixture->filter.categoryBits = filter->categoryBits;
-            tempFixture->filter.maskBits = filter->maskBits;
+            tempFixture->filter = *filter;
 
             tempBody->CreateFixture(tempFixture);
 
@@ -301,8 +315,7 @@ namespace Kross
             fixtureDef.shape = &dynamicBox;
             fixtureDef.density = 1.0f;
             fixtureDef.friction = m_Friction;
-            fixtureDef.filter.categoryBits = filter->categoryBits;
-            fixtureDef.filter.maskBits = filter->maskBits;
+            fixtureDef.filter = *filter;
 
             p_Body->CreateFixture(&fixtureDef);
 
@@ -337,8 +350,7 @@ namespace Kross
             tempFixture->shape = &dynamicBox;
             tempFixture->density = 1.0f;
             tempFixture->friction = m_Friction;
-            tempFixture->filter.categoryBits = filter->categoryBits;
-            tempFixture->filter.maskBits = filter->maskBits;
+            tempFixture->filter = *filter;
 
             tempBody->CreateFixture(tempFixture);
 
@@ -411,8 +423,10 @@ namespace Kross
         /* Gets the body */
         p_Body = GetBody();
 
-        if(p_Body)
+        if (p_Body)
+        {
             p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
+        }
 
         /* Gets the physics scene */
         p_PhysicsScene = GetPhysicsScene();
@@ -1037,8 +1051,11 @@ namespace Kross
                 {
                     SetCollisionState(CollisionState::None);
                 }
+
                 p_DebugRenderer->SetColour(Vector3(0.0f, 0.0f, 1.0f));
             }
+            //DeactivateMotor();
+            
             /* Visulisation is broken, only displays one intersection point at a time */
             p_DebugRenderer->DrawLineSegment(rightSideDown->pos, rightSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(rightSideDown->intersectionPoint, 0.1f, 8);
@@ -1062,6 +1079,24 @@ namespace Kross
         #else
         p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
         #endif
+    }
+
+    void Rigidbody2D::ActivateMotor(float direction, float speed)
+    {
+        if (direction > 0)
+        {
+            p_RevJoint->SetMotorSpeed(-speed);
+            p_RevJoint->EnableMotor(true);
+        }
+        else if (direction < 0)
+        {
+            p_RevJoint->SetMotorSpeed(speed);
+            p_RevJoint->EnableMotor(true);
+        }
+        else
+        {
+            DeactivateMotor();
+        }
     }
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)
