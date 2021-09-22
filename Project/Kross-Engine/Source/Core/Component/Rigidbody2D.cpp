@@ -633,7 +633,7 @@ namespace Kross
                 *(b2Shape*)shape, p_Body->GetTransform());
             p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
 
-            particleCount = p_AABBCollisionData->m_ParticleIndexs.size();
+            particleCount = static_cast<int>(p_AABBCollisionData->m_ParticleIndexs.size());
         }
 
         if (particleCount != 0)
@@ -754,16 +754,16 @@ namespace Kross
             /* Queries shape AABB */
             p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
                 box, body->GetTransform());
+
+            float points[10] = { body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+                            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+                            body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+                            body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+                            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
+            };
+
+            p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
         }
-
-        float points[10] = { body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
-                             body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
-                             body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
-                             body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
-                             body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
-        };
-
-        p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
 
         p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
 

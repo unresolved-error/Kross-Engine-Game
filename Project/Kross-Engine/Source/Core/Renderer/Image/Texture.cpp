@@ -216,7 +216,7 @@ namespace Kross
 		noise.SetFrequency(scale / 1000.0f);
 
 		noise.SetFractalType(FastNoiseLite::FractalType::FractalType_FBm);
-		noise.SetFractalOctaves((float)octaves);
+		noise.SetFractalOctaves(static_cast<int>(octaves));
 		noise.SetFractalLacunarity(lacunarity);
 		noise.SetFractalGain(0.5f);
 		noise.SetFractalWeightedStrength(0.0f);
@@ -230,7 +230,8 @@ namespace Kross
 		/* ------------------------------- */
 
 		/* Create new Texture Data. */
-		unsigned char* data = KROSS_NEW unsigned char[width * height * 4];
+		const int size = width * height * 4;
+		unsigned char* data = KROSS_NEW unsigned char[size];
 
 		/* Go through Texture Pixels. */
 		for (int y = 0; y < height; y++)

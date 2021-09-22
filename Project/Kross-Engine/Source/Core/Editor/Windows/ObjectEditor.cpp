@@ -45,6 +45,7 @@ namespace Kross {
 		ImGui::SetWindowSize(viewsize);
 		
 		ImGui::BeginTabBar("Object Tab Bar");
+
 		if (ImGui::BeginTabItem("Component Hierarchy"))
 		{
 			if (p_SelectedObject) 
@@ -1308,6 +1309,12 @@ namespace Kross {
 				}
 			}
 			ImGui::EndTabItem();
+		}
+
+		/* Gizmo Drawing. */
+		if (p_SelectedObject)
+		{
+			
 		}
 
 		ImGui::EndTabBar();

@@ -86,10 +86,12 @@ namespace Kross
 			Debug::LogLine("Kross Engine Running...");
 
 			SceneManager::OnStart();
+
 			Debug::Log("Starting Main Loop...");
 			Debug::EndLine();
 
 			#ifdef KROSS_EDITOR
+			Editor::LoadEditorCamera(SceneManager::GetCurrentScene()->GetCamera());
 			Editor::AttachEditorWindow(KROSS_NEW SceneHierarchy());
 			Editor::AttachEditorWindow(KROSS_NEW ObjectEditor());
 			Editor::AttachEditorWindow(KROSS_NEW MainMenu());
@@ -153,6 +155,7 @@ namespace Kross
 		#ifdef KROSS_EDITOR
 		if(Manifest::SuccessfulLoad())
 		{	
+			Editor::WriteEditorCamera(SceneManager::GetCurrentScene()->GetCamera());
 			Editor::OnShutdown();
 		}
 		#endif

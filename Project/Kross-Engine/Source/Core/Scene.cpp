@@ -92,23 +92,7 @@ namespace Kross
     void Scene::OnUpdate()
     {
         #ifdef KROSS_EDITOR
-        if (!Editor::AnyWindowIsActive())
-        {
-            float inputX = (float)((int)Input::GetKeyDown(Key::RightArrow) - (int)Input::GetKeyDown(Key::LeftArrow));
-            float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
-            Vector2 input = Vector2(inputX, inputY);
-
-            m_EditorCamera->m_Transform->m_Position += input * 3.0f * Time::GetDeltaTime();
-        }
-
-        if (!Editor::AnyWindowIsHovered())
-        {
-            Camera* editorCamera = m_EditorCamera->GetComponent<Camera>();
-
-            float size = glm::clamp(editorCamera->GetSize() + (-Input::GetMouseScroll() / 2.0f), 0.1f, 500.0f);
-            editorCamera->SetSize(size);
-        }
-
+        Editor::MoveEditorCamera(m_EditorCamera);
         m_EditorCamera->OnUpdate();
         #endif
 
@@ -122,9 +106,9 @@ namespace Kross
     void Scene::OnPhysicsUpdate()
     {
         int refreshRate = Application::GetWindow()->GetScreenRefreshRate();
-        int particleIterations = glm::ceil(2 * (60.0f / (float)refreshRate));
-        int positionIterations = glm::ceil(8 * (60.0f / (float)refreshRate));
-        int velocityIterations = glm::ceil(16 * (60.0f / (float)refreshRate));
+        int particleIterations = static_cast<int>(glm::ceil(2 * (60.0f / static_cast<float>(refreshRate))));
+        int positionIterations = static_cast<int>(glm::ceil(8 * (60.0f / static_cast<float>(refreshRate))));
+        int velocityIterations = static_cast<int>(glm::ceil(16 * (60.0f / static_cast<float>(refreshRate))));
 
         /* Update the physics step */
         if (Application::GetWindow()->GetVSync() == 1)
