@@ -54,8 +54,14 @@ namespace Kross
 		static void OnDestroy();
 
 		static void OnStart(Window* window);
+
 		static void OnUpdate();
 		static void OnRender();
+
+		static void LoadEditorCamera(Object* editorCamera);
+		static void WriteEditorCamera(Object* editorCamera);
+
+		static void MoveEditorCamera(Object* editorCamera);
 
 		static void SetScene(Scene* scene);
 
@@ -78,6 +84,5 @@ namespace Kross
 
 		static Vector2 GetViewportPosition();
 		static Vector2 GetViewportSize();
-		//static void DetachEditorWindow(EditorWindow* window) { m_Instance->m_EditorWindows.push_back(window); };
 	};
 }

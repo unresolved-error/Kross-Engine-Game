@@ -724,6 +724,7 @@
     <ClInclude Include="Source\Core\Physics\Cog\CogRotationPiece.h" />
     <ClInclude Include="Source\Core\Editor\Utility\Folder.h" />
     <ClInclude Include="Source\Core\Serialiser\SceneHierarchySerialiser.h" />
+    <ClInclude Include="Source\Core\Serialiser\EditorSerialiser.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

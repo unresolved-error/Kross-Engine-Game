@@ -19,4 +19,5 @@ namespace Kross
 #include "AudioSourceSerialiser.h"
 #include "TileSetSerialiser.h"
 #include "SceneHierarchySerialiser.h"
+#include "EditorSerialiser.h"
 //#include "ObjectSerialiser.h"

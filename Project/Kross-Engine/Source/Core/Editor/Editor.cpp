@@ -137,6 +137,22 @@ namespace Kross
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
+	void Editor::LoadEditorCamera(Object* editorCamera)
+	{
+		Serialiser<Editor> serialiser;
+		serialiser.Load("Editor/EditorBase.krs", editorCamera);
+	}
+
+	void Editor::WriteEditorCamera(Object* editorCamera)
+	{
+		Serialiser<Editor> serialiser;
+		serialiser.Write("Editor/EditorBase.krs", editorCamera);
+	}
+
+	void Editor::MoveEditorCamera(Object* editorCamera)
+	{
+	}
+
 	void Editor::SetScene(Scene* scene)
 	{
 		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
