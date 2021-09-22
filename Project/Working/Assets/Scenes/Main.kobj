@@ -38,17 +38,17 @@ SCRIPT->HealthManager->
 END->
 
 START->
-NAME->Puzzle2AllSort1->
+NAME->Puzzle3AllSort1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
 TRANSFORM2D->35.200001->-2.300000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Ground->0.999992->0.99999->1->1->0->0->0->
-RIGIDBODY2D->0->0.49->0.49->0.245->0.1->0.24->0->0->1->2->65511->
+RIGIDBODY2D->0->0.49->0.49->0.245->0.1->0.24->0->0->0->2->65511->
 END->
 
 START->
-NAME->Puzzle3AllSort2->
+NAME->Puzzle4AllSort2->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
@@ -58,7 +58,7 @@ RIGIDBODY2D->0->0.49->0.49->0.245->0.1->0.24->0->0->1->2->65511->
 END->
 
 START->
-NAME->Puzzle3AllSort1->
+NAME->Puzzle4AllSort1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
@@ -68,7 +68,7 @@ RIGIDBODY2D->0->0.49->0.49->0.245->0.1->0.24->0->0->0->2->65511->
 END->
 
 START->
-NAME->Enemy->
+NAME->Puzzle2Enemy1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
@@ -203,7 +203,7 @@ SPRITE-RENDERER->Crosshair->1->1->1->1->0->0->1->
 END->
 
 START->
-NAME->ppEmitter->
+NAME->Puzzle2PE1->
 STATIC->1->
 ENABLE->1->
 LAYER->13->
@@ -212,7 +212,7 @@ EMITTER->65536->6->23->0.015->10000->
 END->
 
 START->
-NAME->AllSortsFirstSwitch->
+NAME->Puzzle1AllSorts1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
@@ -222,7 +222,7 @@ RIGIDBODY2D->0->0.49->0.49->0.245->0.1->5->0->0->0->2->65511->
 END->
 
 START->
-NAME->Puzzle1Door2->
+NAME->Puzzle2Door1->
 STATIC->0->
 ENABLE->1->
 LAYER->11->
@@ -250,30 +250,12 @@ RIGIDBODY2D->0->1->1->0.5->0.5->1->1->0->0->16->65508->
 END->
 
 START->
-NAME->FirstPuzzleRope1->
-STATIC->0->
-ENABLE->1->
-LAYER->12->
-TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
-ROPE->0.1->0->0->2->[20.55,-2.6,22.3,-2.6]->Puzzle1Door2->Enemy->[0,-0.505]->[-0.125,0]->
-END->
-
-START->
 NAME->Puzzle2Rope1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
 TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
-ROPE->0.1->1->0->3->[35.2,-0.8,35,-1.65,35.2,-2.15]->*->Puzzle2AllSort1->[0,0]->[0,0.1]->
-END->
-
-START->
-NAME->Puzzle2PE1->
-STATIC->0->
-ENABLE->1->
-LAYER->13->
-TRANSFORM2D->35.400002->-2.000000->0.000000->1.000000->1.000000->
-EMITTER->0->1->65535->0.015->3500->
+ROPE->0.1->0->0->2->[20.55,-2.6,22.3,-2.6]->Puzzle2Door1->Puzzle2Enemy1->[0,-0.505]->[-0.125,0]->
 END->
 
 START->
@@ -282,20 +264,38 @@ STATIC->0->
 ENABLE->1->
 LAYER->12->
 TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
-ROPE->0.1->1->0->2->[85.6,1.7,85.6,-1.2]->*->Puzzle3AllSort1->[0,0]->[0,0]->
+ROPE->0.1->1->0->3->[35.2,-0.8,35,-1.65,35.2,-2.15]->*->Puzzle3AllSort1->[0,0]->[0,0.1]->
 END->
 
 START->
-NAME->Puzzle3Rope2->
+NAME->Puzzle3PE1->
+STATIC->0->
+ENABLE->1->
+LAYER->13->
+TRANSFORM2D->35.400002->-2.000000->0.000000->1.000000->1.000000->
+EMITTER->0->6->65535->0.015->3500->
+END->
+
+START->
+NAME->Puzzle4Rope1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
 TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
-ROPE->0.1->1->1->2->[86.4,1.7,86.4,-1.2]->*->Puzzle3AllSort2->[0,0]->[0,0]->
+ROPE->0.1->1->0->2->[85.6,1.7,85.6,-1.2]->*->Puzzle4AllSort1->[0,0]->[0,0]->
 END->
 
 START->
-NAME->Puzzle4AllSort1->
+NAME->Puzzle4Rope2->
+STATIC->0->
+ENABLE->1->
+LAYER->12->
+TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
+ROPE->0.1->1->1->2->[86.4,1.7,86.4,-1.2]->*->Puzzle4AllSort2->[0,0]->[0,0]->
+END->
+
+START->
+NAME->Puzzle5AllSort1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
@@ -305,7 +305,7 @@ SPRITE-RENDERER->Ground->1->1->1->1->0->0->0->
 END->
 
 START->
-NAME->Puzzle4AllSort2->
+NAME->Puzzle5AllSort2->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
@@ -315,7 +315,7 @@ SPRITE-RENDERER->Ground->1->1->1->1->0->0->0->
 END->
 
 START->
-NAME->Puzzle4AllSort3->
+NAME->Puzzle5AllSort3->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
@@ -325,7 +325,7 @@ SPRITE-RENDERER->Ground->1->1->1->1->0->0->0->
 END->
 
 START->
-NAME->Puzzle4Elevator->
+NAME->Puzzle5Elevator->
 STATIC->0->
 ENABLE->1->
 LAYER->11->
@@ -335,7 +335,7 @@ SPRITE-RENDERER->Ground->1->1->1->1->0->0->0->
 END->
 
 START->
-NAME->Door4->
+NAME->Puzzle5Door1->
 STATIC->0->
 ENABLE->1->
 LAYER->11->
@@ -345,11 +345,11 @@ SPRITE-RENDERER->Door->1->1->1->1->0->0->0->
 END->
 
 START->
-NAME->Puzzle4Rope1->
+NAME->Puzzle5Rope1->
 STATIC->0->
 ENABLE->1->
 LAYER->12->
 TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
-ROPE->0.1->0->0->5->[107.1,-0.9,107.1,2.6,108.6,2.6,108.6,2.3,108.63,-3.25]->Puzzle4Elevator->Door4->[0,0]->[0,0.5]->
+ROPE->0.1->0->0->5->[107.1,-0.9,107.1,2.6,108.6,2.6,108.6,2.3,108.63,-3.25]->Puzzle5Elevator->Puzzle5Door1->[0,0]->[0,0.5]->
 END->
 
