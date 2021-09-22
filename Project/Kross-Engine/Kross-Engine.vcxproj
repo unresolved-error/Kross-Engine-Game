@@ -226,16 +226,12 @@
     <ClInclude Include="Source\Core\Manager\ScriptRegistry.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
     <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h" />
-    <ClInclude Include="Source\Core\Physics\Filters\CollisionFilter.h" />
+    <ClInclude Include="Source\Core\Physics\Filters\PhysicsFilters.h" />
     <ClInclude Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.h" />
     <ClInclude Include="Source\Core\Physics\Collision\Raycast2DCallback.h" />
-    <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h" />
-    <ClInclude Include="Source\Core\Physics\Data\RaycastData.h" />
-    <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h" />
     <ClInclude Include="Source\Core\Physics\Particles\ColourMixingParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\ElasticParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
-    <ClInclude Include="Source\Core\Physics\Filters\ParticleType.h" />
     <ClInclude Include="Source\Core\Physics\Particles\PowderParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\ReactiveParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\RepulsiveParticle.h" />
@@ -260,7 +256,6 @@
     <ClInclude Include="Source\Core\Math\Random.h" />
     <ClInclude Include="Source\Core\Object.h" />
     <ClInclude Include="Source\Core\Physics\Data\CollisionData.h" />
-    <ClInclude Include="Source\Core\Physics\PlayerState.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Box.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Capsule.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Circle.h" />
@@ -735,7 +730,6 @@
     <ClCompile Include="Source\Core\Manager\ScriptRegistry.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
     <ClCompile Include="Source\Core\Math\Math.cpp" />
-    <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp" />
     <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />

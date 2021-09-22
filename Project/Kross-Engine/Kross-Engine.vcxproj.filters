@@ -11,7 +11,6 @@
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
     <ClCompile Include="Source\Core\Manager\AudioManager.cpp" />
     <ClCompile Include="Source\Core\Manager\Time.cpp" />
-    <ClCompile Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.cpp" />
     <ClCompile Include="Source\Core\Physics\Particles\Particle.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsScene.cpp" />
@@ -211,16 +210,12 @@
     <ClInclude Include="Source\Core\Manager\AudioManager.h" />
     <ClInclude Include="Source\Core\Manager\Time.h" />
     <ClInclude Include="Source\Core\Physics\Collision\ContactFilter.h" />
-    <ClInclude Include="Source\Core\Physics\Filters\CollisionFilter.h" />
+    <ClInclude Include="Source\Core\Physics\Filters\PhysicsFilters.h" />
     <ClInclude Include="Source\Core\Physics\Collision\AABBCollisionCallbacks.h" />
     <ClInclude Include="Source\Core\Physics\Collision\Raycast2DCallback.h" />
-    <ClInclude Include="Source\Core\Physics\Data\FluidCollisionData.h" />
-    <ClInclude Include="Source\Core\Physics\Data\RaycastData.h" />
-    <ClInclude Include="Source\Core\Physics\Filters\ShapeType.h" />
     <ClInclude Include="Source\Core\Physics\Particles\ColourMixingParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\ElasticParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\Particle.h" />
-    <ClInclude Include="Source\Core\Physics\Filters\ParticleType.h" />
     <ClInclude Include="Source\Core\Physics\Particles\PowderParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\ReactiveParticle.h" />
     <ClInclude Include="Source\Core\Physics\Particles\RepulsiveParticle.h" />
@@ -692,7 +687,6 @@
     <ClInclude Include="Source\Core\Editor\EditorWindow.h" />
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\Editor\Windows\ObjectEditor.h" />
-    <ClInclude Include="Source\Core\Physics\PlayerState.h" />
     <ClInclude Include="Source\Core\Physics\Shape\Capsule.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetPreview.h" />
     <ClInclude Include="Source\Core\Editor\Windows\AssetDirectory.h" />

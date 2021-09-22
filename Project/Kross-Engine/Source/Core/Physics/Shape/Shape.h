@@ -11,7 +11,6 @@
 
 #include "../../Math/Math.h"
 #include "../Physics.h"
-#include "../Filters/ShapeType.h"
 
 namespace Kross
 {

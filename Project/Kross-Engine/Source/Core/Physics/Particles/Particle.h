@@ -9,7 +9,6 @@
 #include "../../Core.h"
 
 #include "../../Math/Math.h"
-#include "../Filters/ParticleType.h"
 #include "../PhysicsScene.h"
 #include "../../Component/ParticleProperties.h"
 

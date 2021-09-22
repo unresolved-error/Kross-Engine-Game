@@ -16,12 +16,14 @@ namespace Kross
     {
         m_WindowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
     }
+
     void AssetDirectory::OnStart()
     {
         SetFlags();
 
         m_Title = "Asset Directory";
     }
+
     void AssetDirectory::Attach()
     {
 

@@ -51,6 +51,10 @@ namespace Kross
 
 
     public:
+        TileMapRenderer() :
+            p_TileMap   (nullptr),
+            p_TileSet   (nullptr)
+        {};
         ~TileMapRenderer();
 
         //Returns tileMap Pointer

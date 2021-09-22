@@ -17,34 +17,14 @@
 #include "../Physics/Data/CollisionData.h"
 #include "../Physics/Collision/ContactFilter.h"
 #include "../Physics/Shape/Shape.h"
-#include "../Physics/PlayerState.h"
 #include "../Renderer/Tilemap/Tile.h"
 #include "../Renderer/Tilemap/TileSet.h"
 #include "../Renderer/Tilemap/TileMap.h"
-#include "../Physics/Filters/CollisionFilter.h"
 
 namespace Kross
 {
     class KROSS_API Shape;
     class KROSS_API Object;
-
-    enum class KROSS_API CollisionState
-    {
-        None,
-        Enter,
-        Stay,
-        Exit,
-    };
-
-    enum KROSS_API ColliderFilters
-    {
-        Default = 0x0000,
-        Player = 0x0001,
-        Environment = 0x0002,
-        Fluid = 0x0004,
-        BackGround = 0x0008,
-        Light = 0x0010
-    };
 
 
     class KROSS_API Rigidbody2D : public Renderer

@@ -3,6 +3,7 @@
  *  Editors:
  *      - Chris Deitch.
  *		- Deklyn Palmer.
+ *		- Jake Warren.
  */
 #include "ObjectEditor.h"
 
@@ -391,25 +392,25 @@ namespace Kross {
 							if (ImGui::CollapsingHeader("Collider Mask", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 							{
 								ImGui::Indent();
-								if (ImGui::MenuItem("BackGround", "", (pp_CatBits & ColliderFilters::BackGround)))
+								if (ImGui::MenuItem("BackGround", "", (pp_CatBits & (uint16)ColliderFilters::BackGround)))
 								{
-									pp_CatBits ^= ColliderFilters::BackGround;
+									pp_CatBits ^= (uint16)ColliderFilters::BackGround;
 								}
-								if (ImGui::MenuItem("Environment", "", (pp_CatBits & ColliderFilters::Environment)))
+								if (ImGui::MenuItem("Environment", "", (pp_CatBits & (uint16)ColliderFilters::Environment)))
 								{
-									pp_CatBits ^= ColliderFilters::Environment;
+									pp_CatBits ^= (uint16)ColliderFilters::Environment;
 								}
-								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & ColliderFilters::Fluid)))
+								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & (uint16)ColliderFilters::Fluid)))
 								{
-									pp_CatBits ^= ColliderFilters::Fluid;
+									pp_CatBits ^= (uint16)ColliderFilters::Fluid;
 								}
-								if (ImGui::MenuItem("Light", "", (pp_CatBits & ColliderFilters::Light)))
+								if (ImGui::MenuItem("Light", "", (pp_CatBits & (uint16)ColliderFilters::Light)))
 								{
-									pp_CatBits ^= ColliderFilters::Light;
+									pp_CatBits ^= (uint16)ColliderFilters::Light;
 								}
-								if (ImGui::MenuItem("Player", "", (pp_CatBits & ColliderFilters::Player)))
+								if (ImGui::MenuItem("Player", "", (pp_CatBits & (uint16)ColliderFilters::Player)))
 								{
-									pp_CatBits ^= ColliderFilters::Player;
+									pp_CatBits ^= (uint16)ColliderFilters::Player;
 								}
 								ImGui::Unindent();
 							}
@@ -417,25 +418,25 @@ namespace Kross {
 							if (ImGui::CollapsingHeader("Collides With", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 							{
 								ImGui::Indent();
-								if (ImGui::MenuItem("BackGround", "", (pp_MaskBits & ColliderFilters::BackGround)))
+								if (ImGui::MenuItem("BackGround", "", (pp_MaskBits & (uint16)ColliderFilters::BackGround)))
 								{
-									pp_MaskBits ^= ColliderFilters::BackGround;
+									pp_MaskBits ^= (uint16)ColliderFilters::BackGround;
 								}
-								if (ImGui::MenuItem("Environment", "", (pp_MaskBits & ColliderFilters::Environment)))
+								if (ImGui::MenuItem("Environment", "", (pp_MaskBits & (uint16)ColliderFilters::Environment)))
 								{
-									pp_MaskBits ^= ColliderFilters::Environment;
+									pp_MaskBits ^= (uint16)ColliderFilters::Environment;
 								}
-								if (ImGui::MenuItem("Fluid", "", (pp_MaskBits & ColliderFilters::Fluid)))
+								if (ImGui::MenuItem("Fluid", "", (pp_MaskBits & (uint16)ColliderFilters::Fluid)))
 								{
-									pp_MaskBits ^= ColliderFilters::Fluid;
+									pp_MaskBits ^= (uint16)ColliderFilters::Fluid;
 								}
-								if (ImGui::MenuItem("Light", "", (pp_MaskBits & ColliderFilters::Light)))
+								if (ImGui::MenuItem("Light", "", (pp_MaskBits & (uint16)ColliderFilters::Light)))
 								{
-									pp_MaskBits ^= ColliderFilters::Light;
+									pp_MaskBits ^= (uint16)ColliderFilters::Light;
 								}
-								if (ImGui::MenuItem("Player", "", (pp_MaskBits & ColliderFilters::Player)))
+								if (ImGui::MenuItem("Player", "", (pp_MaskBits & (uint16)ColliderFilters::Player)))
 								{
-									pp_MaskBits ^= ColliderFilters::Player;
+									pp_MaskBits ^= (uint16)ColliderFilters::Player;
 								}
 								ImGui::Unindent();
 							}
@@ -954,25 +955,25 @@ namespace Kross {
 							if (ImGui::CollapsingHeader("Collider Mask", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 							{
 								ImGui::Indent();
-								if (ImGui::MenuItem("BackGround", "", (pp_CatBits & ColliderFilters::BackGround)))
+								if (ImGui::MenuItem("BackGround", "", (pp_CatBits & (uint16)ColliderFilters::BackGround)))
 								{
-									pp_CatBits ^= ColliderFilters::BackGround;
+									pp_CatBits ^= (uint16)ColliderFilters::BackGround;
 								}
-								if (ImGui::MenuItem("Environment", "", (pp_CatBits & ColliderFilters::Environment)))
+								if (ImGui::MenuItem("Environment", "", (pp_CatBits & (uint16)ColliderFilters::Environment)))
 								{
-									pp_CatBits ^= ColliderFilters::Environment;
+									pp_CatBits ^= (uint16)ColliderFilters::Environment;
 								}
-								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & ColliderFilters::Fluid)))
+								if (ImGui::MenuItem("Fluid", "", (pp_CatBits & (uint16)ColliderFilters::Fluid)))
 								{
-									pp_CatBits ^= ColliderFilters::Fluid;
+									pp_CatBits ^= (uint16)ColliderFilters::Fluid;
 								}
-								if (ImGui::MenuItem("Light", "", (pp_CatBits & ColliderFilters::Light)))
+								if (ImGui::MenuItem("Light", "", (pp_CatBits & (uint16)ColliderFilters::Light)))
 								{
-									pp_CatBits ^= ColliderFilters::Light;
+									pp_CatBits ^= (uint16)ColliderFilters::Light;
 								}
-								if (ImGui::MenuItem("Player", "", (pp_CatBits & ColliderFilters::Player)))
+								if (ImGui::MenuItem("Player", "", (pp_CatBits & (uint16)ColliderFilters::Player)))
 								{
-									pp_CatBits ^= ColliderFilters::Player;
+									pp_CatBits ^= (uint16)ColliderFilters::Player;
 								}
 								ImGui::Unindent();
 							}
@@ -980,25 +981,25 @@ namespace Kross {
 							if (ImGui::CollapsingHeader("Collides With", (bool*)false, ImGuiTreeNodeFlags_DefaultOpen))
 							{
 								ImGui::Indent();
-								if (ImGui::MenuItem("MaskBackGround", "", (pp_MaskBits & ColliderFilters::BackGround)))
+								if (ImGui::MenuItem("MaskBackGround", "", (pp_MaskBits & (uint16)ColliderFilters::BackGround)))
 								{
-									pp_MaskBits ^= ColliderFilters::BackGround;
+									pp_MaskBits ^= (uint16)ColliderFilters::BackGround;
 								}
-								if (ImGui::MenuItem("MaskEnvironment", "", (pp_MaskBits & ColliderFilters::Environment)))
+								if (ImGui::MenuItem("MaskEnvironment", "", (pp_MaskBits & (uint16)ColliderFilters::Environment)))
 								{
-									pp_MaskBits ^= ColliderFilters::Environment;
+									pp_MaskBits ^= (uint16)ColliderFilters::Environment;
 								}
-								if (ImGui::MenuItem("MaskFluid", "", (pp_MaskBits & ColliderFilters::Fluid)))
+								if (ImGui::MenuItem("MaskFluid", "", (pp_MaskBits & (uint16)ColliderFilters::Fluid)))
 								{
-									pp_MaskBits ^= ColliderFilters::Fluid;
+									pp_MaskBits ^= (uint16)ColliderFilters::Fluid;
 								}
-								if (ImGui::MenuItem("MaskLight", "", (pp_MaskBits & ColliderFilters::Light)))
+								if (ImGui::MenuItem("MaskLight", "", (pp_MaskBits & (uint16)ColliderFilters::Light)))
 								{
-									pp_MaskBits ^= ColliderFilters::Light;
+									pp_MaskBits ^= (uint16)ColliderFilters::Light;
 								}
-								if (ImGui::MenuItem("MaskPlayer", "", (pp_MaskBits & ColliderFilters::Player)))
+								if (ImGui::MenuItem("MaskPlayer", "", (pp_MaskBits & (uint16)ColliderFilters::Player)))
 								{
-									pp_MaskBits ^= ColliderFilters::Player;
+									pp_MaskBits ^= (uint16)ColliderFilters::Player;
 								}
 								ImGui::Unindent();
 							}

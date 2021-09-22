@@ -200,8 +200,8 @@ public:
 					bullet->m_Transform->m_Rotation = angle;
 					bullet->SetLayer(Layer::Player);
 
-					collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
-					collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
+					collider->GetCollisionFilters()->categoryBits = (uint16)ColliderFilters::Environment;
+					collider->GetCollisionFilters()->maskBits = (uint16)ColliderFilters::Environment | (uint16)ColliderFilters::Fluid;// | ColliderFilters::Player;
 
 					collider->SetShapeType(ShapeType::Circle);
 
@@ -247,8 +247,8 @@ public:
 
 					bullet->SetLayer(Layer::Player);
 
-					collider->GetCollisionFilters()->categoryBits = ColliderFilters::Environment;
-					collider->GetCollisionFilters()->maskBits = ColliderFilters::Environment | ColliderFilters::Fluid;// | ColliderFilters::Player;
+					collider->GetCollisionFilters()->categoryBits = (uint16)ColliderFilters::Environment;
+					collider->GetCollisionFilters()->maskBits = (uint16)ColliderFilters::Environment | (uint16)ColliderFilters::Fluid;// | ColliderFilters::Player;
 
 					collider->SetShapeType(ShapeType::Circle);
 

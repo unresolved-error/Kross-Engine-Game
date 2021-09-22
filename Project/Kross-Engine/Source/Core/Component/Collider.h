@@ -10,7 +10,6 @@
 #include "../Core.h"
 
 #include "Component.h"
-#include "../Physics/Filters/ShapeType.h"
 
 namespace Kross
 {

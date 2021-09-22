@@ -16,7 +16,6 @@ namespace Kross
     class KROSS_API ContactFilter : public b2ContactFilter
     {
     private:
-        //int count = 0;
 
     public:
         ContactFilter() {}
@@ -40,11 +39,6 @@ namespace Kross
                            b2ParticleSystem* particleSystem,
                            int32 particleIndex) override
         {
-            //if (fixture->GetBody()->GetType() == b2_dynamicBody)
-            //{
-            //    count++;
-            //}
-
             const b2Filter& filterA = fixture->GetFilterData();
             const b2Filter& filterB = *(b2Filter*)particleSystem->GetUserDataBuffer()[particleIndex];
 

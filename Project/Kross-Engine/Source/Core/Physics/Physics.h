@@ -15,6 +15,7 @@
 #include "Collision/ContactFilter.h"
 #include "Collision/AABBCollisionCallbacks.h"
 #include "Collision/Raycast2DCallback.h"
+#include "Filters/PhysicsFilters.h"
 
 namespace Kross
 {

@@ -10,7 +10,7 @@
 #include "../../Core.h"
 
 #include "../Collision/ContactFilter.h"
-#include "RaycastData.h"
+#include "../Filters/PhysicsFilters.h"
 
 namespace Kross
 {
