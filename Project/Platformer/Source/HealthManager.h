@@ -36,7 +36,7 @@ public:
 		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy1")->GetComponent<Health>());
 		m_Health[1]->SetHealth(4.0f);
 
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Puzzle2Enemy1")->GetComponent<Health>());
 		m_Health[2]->SetHealth(4.0f);
 	}
 

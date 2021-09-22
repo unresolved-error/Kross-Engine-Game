@@ -688,6 +688,12 @@ namespace Kross
 								/* Rotation Lock Setting. */
 								case 8:
 								{
+									if (value == "0") 
+									{
+										std::string boop = "ssss";
+										boop += "moo";
+									
+									}
 									collider->SetRotationLock((bool)std::stoi(value));
 									break;
 								}
