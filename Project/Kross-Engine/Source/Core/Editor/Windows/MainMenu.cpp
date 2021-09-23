@@ -132,7 +132,7 @@ namespace Kross
 				if (ImGui::MenuItem("Cog"))
 				{
 					Object* CogObj = Object::OnCreate("Cog");
-
+					CogObj->AttachComponent<Rigidbody2D>();
 					CogObj->AttachComponent<Cog>();
 
 					SceneManager::GetCurrentScene()->AttachObject(CogObj);

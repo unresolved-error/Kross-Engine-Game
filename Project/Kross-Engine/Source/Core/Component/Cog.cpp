@@ -34,14 +34,12 @@ namespace Kross
 
 	void Cog::SpawnCog()
     {
-        Object* cogAnchor = Object::OnCreate("cogAnchor");
-        m_StaticBody = cogAnchor->AttachComponent<Rigidbody2D>();
-        Collider* cogCollider = cogAnchor->GetComponent<Collider>();
+        
+        Collider* cogCollider = m_GameObject->GetComponent<Collider>();
         cogCollider->SetShapeType(ShapeType::Circle);
         cogCollider->SetRadius(0.1f);
         cogCollider->SetStatic(true);
-        SceneManager::GetCurrentScene()->AttachObject(cogAnchor, true);
-
+        
         //Anchor complete. Begin actual rotator:
         
         BodyDef bodyDef;
@@ -68,7 +66,7 @@ namespace Kross
 
         //Whew boy. Lotta garbage there. Connect the bits together now.
         b2RevoluteJointDef jointDef = b2RevoluteJointDef();
-        jointDef.bodyA = cogAnchor->GetComponent<Rigidbody2D>()->GetBody();
+        jointDef.bodyA = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
         jointDef.bodyB = newCogPiece->GetBody();
 
         jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
