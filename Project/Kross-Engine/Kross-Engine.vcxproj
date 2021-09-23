@@ -213,7 +213,6 @@
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
-    <ClInclude Include="Source\Core\Physics\Cog\CogRotationPiece.h" />
     <ClInclude Include="Source\Core\Physics\Rope\RopeSegment.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\PostProcessVertex.h" />
     <ClInclude Include="Source\Core\Serialiser\AudioSourceSerialiser.h" />

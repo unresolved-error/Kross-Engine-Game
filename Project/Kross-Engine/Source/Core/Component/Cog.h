@@ -7,7 +7,7 @@
 #pragma once
 
 #include "../Core.h"
-#include "../Physics/Cog/CogRotationPiece.h"
+
 #include "Renderer.h"
 
 namespace Kross
@@ -19,7 +19,6 @@ namespace Kross
         Rigidbody2D* m_StaticBody;
         Rigidbody2D* m_RotatingBody;
 
-        CogRotationPiece* m_RotationPiece;
 
         PhysicsScene* m_PhysicsScene;
 
@@ -52,8 +51,7 @@ namespace Kross
             m_PhysicsScene(nullptr),
             m_StaticBody(nullptr),
             m_RotatingBody(nullptr),
-            m_MotorJoint(nullptr),
-            m_RotationPiece(nullptr)
+            m_MotorJoint(nullptr)
         {};
         ~Cog() {};
 

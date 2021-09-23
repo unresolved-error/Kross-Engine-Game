@@ -13,8 +13,8 @@ namespace Kross
     void Cog::OnStart()
     {
 
-        SpawnCog();
-        m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
+       // SpawnCog();
+       // m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
 
     }
 
@@ -60,20 +60,20 @@ namespace Kross
 
         body->CreateFixture(&fixtureDef);
 
-        CogRotationPiece* newCogPiece = KROSS_NEW CogRotationPiece();
-        newCogPiece->SetBody(body);
-        m_PhysicsScene->AttachBody(body);
-
-        //Whew boy. Lotta garbage there. Connect the bits together now.
-        b2RevoluteJointDef jointDef = b2RevoluteJointDef();
-        jointDef.bodyA = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
-        jointDef.bodyB = newCogPiece->GetBody();
-
-        jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
-        jointDef.localAnchorB.Set(0.0f, 0.0f);
-        
-
-        m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
+        // CogRotationPiece* newCogPiece = KROSS_NEW CogRotationPiece();
+        // newCogPiece->SetBody(body);
+        // m_PhysicsScene->AttachBody(body);
+        // 
+        // //Whew boy. Lotta garbage there. Connect the bits together now.
+        // b2RevoluteJointDef jointDef = b2RevoluteJointDef();
+        // jointDef.bodyA = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
+        // jointDef.bodyB = newCogPiece->GetBody();
+        // 
+        // jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
+        // jointDef.localAnchorB.Set(0.0f, 0.0f);
+        // 
+        // 
+        // m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
         
         
     }

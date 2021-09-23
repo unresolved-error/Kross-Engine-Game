@@ -721,7 +721,6 @@
     <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserWrite.h" />
     <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserLoad.h" />
     <ClInclude Include="Source\Core\Component\Cog.h" />
-    <ClInclude Include="Source\Core\Physics\Cog\CogRotationPiece.h" />
     <ClInclude Include="Source\Core\Editor\Utility\Folder.h" />
     <ClInclude Include="Source\Core\Serialiser\SceneHierarchySerialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\EditorSerialiser.h" />
