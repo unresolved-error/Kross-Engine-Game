@@ -25,6 +25,9 @@ namespace Kross
 
         b2RevoluteJoint* m_MotorJoint;
 
+        float m_MaxMotorTorque = 0.0f;
+        float m_MotorSpeed = 0.0f;
+
     protected:
         friend class Object;
         friend class Scene;
@@ -54,6 +57,14 @@ namespace Kross
         {};
         ~Cog() {};
 
+        void SetMotorSpeed(float newSpeed);
+
+        void SetMaxMotorTorque(float newTorque);
+
+
+        float GetMotorSpeed() { return m_MotorSpeed; };
+
+        float GetMaxMotorTorque() { return m_MaxMotorTorque; };
 
 
         void SpawnCog();

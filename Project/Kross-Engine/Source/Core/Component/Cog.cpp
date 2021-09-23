@@ -12,14 +12,27 @@ namespace Kross
 {
     void Cog::OnStart()
     {
+
         SpawnCog();
+        m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
+
     }
 
     void Cog::OnUpdate()
     {
     }
 
-    void Cog::SpawnCog()
+	void Cog::SetMotorSpeed(float newSpeed)
+	{
+        m_MotorSpeed = newSpeed;
+	}
+
+	void Cog::SetMaxMotorTorque(float newTorque)
+	{
+        m_MaxMotorTorque = newTorque;
+	}
+
+	void Cog::SpawnCog()
     {
         Object* cogAnchor = Object::OnCreate("cogAnchor");
         m_StaticBody = cogAnchor->AttachComponent<Rigidbody2D>();
@@ -63,19 +76,21 @@ namespace Kross
         
 
         m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
-
+        
+        
     }
 
     void Cog::StartRotation()
     {
+        m_MotorJoint->SetMotorSpeed(m_MotorSpeed);
         m_MotorJoint->EnableMotor(true);
-        m_MotorJoint->SetMotorSpeed(2.0f);
+
+
         /*
             NOTE: I HAVE NO IDEA HOW TORQUE IS USED IN BOX2D AT TIME OF WRITING. 
             THIS MAY NEED TO BE LARGER, SMALLER, OR FINE AS IS.
             PLEASE TEST.
             THIS COULD BE IN WEIGHT LIFTED, OR AS A PERCENTAGE OF MAXIMUM FORCE.
         */
-        m_MotorJoint->SetMaxMotorTorque(1.0f);
     }
 }
