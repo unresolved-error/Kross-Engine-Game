@@ -419,6 +419,16 @@ namespace Kross
             body->AttachLineRenderer(m_DebugRenderer);
         }
 
+        Cog* cog = object->GetComponent<Cog>();
+        if (cog) 
+        {
+            cog->SetPhysicsScene(m_Physics);
+            
+            
+        }
+
+
+
         /* Check if the object is type Particle Emitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();
 

@@ -129,6 +129,17 @@ namespace Kross
 				}
 				ImGui::Separator();
 
+				if (ImGui::MenuItem("Cog"))
+				{
+					Object* CogObj = Object::OnCreate("Cog");
+
+					CogObj->AttachComponent<Cog>();
+
+					SceneManager::GetCurrentScene()->AttachObject(CogObj);
+				}
+				ImGui::Separator();
+
+
 				if (ImGui::MenuItem("Text"))
 				{
 					Object* text = Object::OnCreate("Text");
