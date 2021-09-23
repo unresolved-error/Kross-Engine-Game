@@ -49,6 +49,7 @@ namespace Kross
 
         #ifdef KROSS_EDITOR
         Object::OnDestroy(m_EditorCamera);
+        Object::OnDestroy(m_EditorObjectTool);
         #endif
 
         delete m_Physics;
@@ -83,6 +84,7 @@ namespace Kross
         #ifdef KROSS_EDITOR 
         // Start the Editor Camera
         m_EditorCamera->OnStart();
+        m_EditorObjectTool->OnStart();
         #endif
 
         /* Scene has Started. */
@@ -94,6 +96,7 @@ namespace Kross
         #ifdef KROSS_EDITOR
         Editor::MoveEditorCamera(m_EditorCamera);
         m_EditorCamera->OnUpdate();
+        m_EditorObjectTool->OnUpdate();
         #endif
 
         /* Update all Dynamic Objects. */

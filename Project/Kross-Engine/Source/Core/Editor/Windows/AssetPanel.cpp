@@ -54,16 +54,17 @@ namespace Kross
             int moveOverMax = (int)(size.x / (texture->GetWidth() * 1.5f)) - 2;
             for (int i = 0; i < ResourceManager::m_Instance->m_Sprites.size(); i++)
             {
-                ImGui::BeginChild(ResourceManager::m_Instance->m_Sprites[i]->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
+                Sprite* sprite = ResourceManager::m_Instance->m_Sprites[i];
+                ImGui::BeginChild(sprite->GetName().c_str(), ImVec2(texture->GetWidth() * 1.5f, texture->GetHeight() + 32.0f), false, ImGuiWindowFlags_ChildWindow);
                 
-                Vector2 uvOffset = ResourceManager::m_Instance->m_Sprites[i]->GetUVOffset();
-                Vector2 uvRatio = ResourceManager::m_Instance->m_Sprites[i]->GetUVRatio();
+                Vector2 uvOffset = sprite->GetUVOffset();
+                Vector2 uvRatio = sprite->GetUVRatio();
 
-                ImGui::ImageButton((void*)ResourceManager::m_Instance->m_Sprites[i]->GetTexture()->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), 
-                    ImVec2((0.0f * uvRatio.x) + uvOffset.x, (0.0f * uvRatio.y) + uvOffset.y), 
-                    ImVec2((1.0f * uvRatio.x) + uvOffset.x, (-1.0f * uvRatio.y) + uvOffset.y));
+                ImGui::ImageButton((void*)sprite->GetTexture()->GetTextureID(), ImVec2(texture->GetWidth(), texture->GetHeight()), 
+                    ImVec2((0.0f * uvRatio.x) + uvOffset.x, (1.0f * uvRatio.y) + uvOffset.y), 
+                    ImVec2((1.0f * uvRatio.x) + uvOffset.x, (0.0f * uvRatio.y) + uvOffset.y));
 
-                ImGui::Text(ResourceManager::m_Instance->m_Sprites[i]->GetName().c_str());
+                ImGui::Text(sprite->GetName().c_str());
                 ImGui::EndChild();
 
                 if (moveOver != moveOverMax)

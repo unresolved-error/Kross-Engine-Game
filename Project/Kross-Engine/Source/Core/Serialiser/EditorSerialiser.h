@@ -12,6 +12,8 @@
 
 #include "../File-IO/Manifest.h"
 
+#include "../Editor/Editor.h"
+
 namespace Kross
 {
 	template<>
@@ -19,7 +21,7 @@ namespace Kross
 	{
 	public:
 		/*!
-			Loads in a Shader from the Specified Directory.
+			Loads in a Editor from the Specified Directory.
 		*/
 		void Load(const std::string& filepath, Object* editorCamera)
 		{
@@ -107,6 +109,9 @@ namespace Kross
 			fileStream.close();
 		}
 
+		/*!
+			Writes the Editor to the Specified Directory.
+		*/
 		void Write(const std::string& filepath, Object* serialisable)
 		{
 			std::ofstream writer;

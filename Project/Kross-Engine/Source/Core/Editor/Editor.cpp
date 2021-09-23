@@ -161,7 +161,10 @@ namespace Kross
 
 			if (input != Vector2(0.0f))
 			{
-				m_Instance->m_CameraMoveSpeedMultiplier *= 1.025f;
+				if (m_Instance->m_CameraMoveSpeedMultiplier < m_Instance->m_CameraMoveSpeedMultiplierMax)
+				{
+					m_Instance->m_CameraMoveSpeedMultiplier *= 1.025f;
+				}
 			}
 
 			else
@@ -178,7 +181,7 @@ namespace Kross
 						m_Instance->m_CameraMoveSpeedMultiplierResetTimer = 0.0f;
 					}
 
-					m_Instance->m_CameraMoveSpeedMultiplier *= 0.975;
+					m_Instance->m_CameraMoveSpeedMultiplier *= 0.975f;
 				}
 			}
 

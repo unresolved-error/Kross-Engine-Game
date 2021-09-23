@@ -29,6 +29,7 @@ namespace Kross
 			m_DebugShader			(nullptr),
 			#ifdef KROSS_EDITOR
 			m_EditorCamera			(nullptr),
+			m_EditorObjectTool		(nullptr),
 			#endif
 			m_Camera				(nullptr), 
 			m_Physics				(KROSS_NEW PhysicsScene()), 
@@ -59,6 +60,9 @@ namespace Kross
 			m_EditorCamera->AttachComponent<Camera>();
 
 			m_Camera = m_EditorCamera;
+
+			m_EditorObjectTool = Object::OnCreate("EditorObjectTool");
+			m_EditorObjectTool->AttachComponent<SpriteRenderer>();
 			#endif
 
 		};
@@ -85,6 +89,7 @@ namespace Kross
 		Object* m_Camera;
 		#ifdef KROSS_EDITOR
 		Object* m_EditorCamera;
+		Object* m_EditorObjectTool;
 		#endif
 
 		PhysicsScene* m_Physics;

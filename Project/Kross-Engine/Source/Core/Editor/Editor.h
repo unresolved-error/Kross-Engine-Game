@@ -28,6 +28,7 @@ namespace Kross
 		ImGuiViewport* m_Viewport;
 
 		float m_CameraMoveSpeedMultiplier = 1.0f;
+		float m_CameraMoveSpeedMultiplierMax = 10.0f;
 		float m_CameraMoveSpeedMultiplierResetTimer = 0.0f;
 		float m_CameraMoveSpeedMultiplierResetTimerMax = 3.0f;
 
