@@ -463,6 +463,29 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<ParticleProperties>();
 						}
 					}
+
+					/* COG */
+					else if (typeid(*component) == typeid(Cog)) 
+					{
+						if (ImGui::CollapsingHeader("Cog", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							Cog* cog = (Cog*)component;
+							float cog_speed = cog->GetMotorSpeed();
+							float cog_torque = cog->GetMaxMotorTorque();
+
+							ImGui::Text("Cog Speed:");
+							ImGui::DragFloat("##cogSpeed", &cog_speed, 0.005f, 0.005f, 1.0f, "%.3fm");
+
+
+							ImGui::Text("Cog Max Torque:");
+							ImGui::DragFloat("##cogTorque", &cog_torque, 0.005f, 0.005f, 1.0f, "%.3fm");
+
+							cog->SetMotorSpeed(cog_speed);
+							cog->SetMaxMotorTorque(cog_torque);
+
+						}
+					}
+
 					/* RopeAvatar. (Work To Do) */
 					else if (typeid(*component) == typeid(RopeAvatar))
 					{
