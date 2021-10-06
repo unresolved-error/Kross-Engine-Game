@@ -480,9 +480,20 @@ namespace Kross {
 							ImGui::Text("Cog Max Torque:");
 							ImGui::DragFloat("##cogTorque", &cog_torque, 0.005f, 0.005f, 1.0f, "%.3fm");
 
+							char startNameBuffer[128] = { '/0' };
+							std::string startReserveNameString = cog->GetStartReserveName();
+							for (int i = 0; i < startReserveNameString.length(); i++)
+							{
+								startNameBuffer[i] = startReserveNameString[i];
+							}
+
+							ImGui::Text("Connected Start Object:");
+							ImGui::InputText("##StartReserveCog", &startNameBuffer[0], 128, ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue);
+
+
 							cog->SetMotorSpeed(cog_speed);
 							cog->SetMaxMotorTorque(cog_torque);
-
+							cog->SetStartReserveName(startNameBuffer);
 						}
 					}
 

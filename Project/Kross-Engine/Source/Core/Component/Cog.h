@@ -15,9 +15,13 @@ namespace Kross
     class KROSS_API Cog : public Renderer
     {
     private:
+        bool fullInit = false;
 
         Rigidbody2D* m_StaticBody;
         Rigidbody2D* m_RotatingBody;
+        
+        std::string m_nameOfStaticObjConnected = "*";
+        Rigidbody2D* m_StaticBodyConnectedBody = nullptr;
 
 
         PhysicsScene* m_PhysicsScene;
@@ -63,15 +67,17 @@ namespace Kross
         float GetMotorSpeed() { return m_MotorSpeed; };
 
         float GetMaxMotorTorque() { return m_MaxMotorTorque; };
-
+        
+        Rigidbody2D* GetRopeStartConnectedBody() const { return m_StaticBodyConnectedBody; };
 
         void SpawnCog();
 
         void StartRotation();
 
+        void ConnectStaticBody();
 
-
-
+        std::string GetStartReserveName();
+        void SetStartReserveName(std::string name);
 
     };
 }

@@ -5,6 +5,7 @@
  */
 
 #include "Cog.h"
+#include "../Object.h"
 #include "../Manager/SceneManager.h"
 
 
@@ -12,14 +13,55 @@ namespace Kross
 {
     void Cog::OnStart()
     {
+        ConnectStaticBody();
+        if (m_nameOfStaticObjConnected == "*") 
+        { return; }
+        SpawnCog();
 
-       // SpawnCog();
-       // m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
+
 
     }
 
+    void Cog::ConnectStaticBody()
+    {
+        Object* objToAttToStart = SceneManager::GetCurrentScene()->FindObject(m_nameOfStaticObjConnected);
+        if (objToAttToStart)
+        {
+            Rigidbody2D* rigidToAttToCog = objToAttToStart->GetComponent<Rigidbody2D>();
+
+            m_StaticBodyConnectedBody = rigidToAttToCog;
+        }
+    }
+
+    std::string Cog::GetStartReserveName()
+    {
+        return m_nameOfStaticObjConnected;
+    }
+
+    void Cog::SetStartReserveName(std::string name)
+    {
+       
+        m_nameOfStaticObjConnected = name;
+        
+    }
+
+
     void Cog::OnUpdate()
     {
+        if (!fullInit) 
+        {
+            
+            
+            
+            
+            
+            
+        
+            
+            
+            
+        }
+        
     }
 
 	void Cog::SetMotorSpeed(float newSpeed)
@@ -34,13 +76,12 @@ namespace Kross
 
 	void Cog::SpawnCog()
     {
+        //Begin Rotator
         
         Collider* cogCollider = m_GameObject->GetComponent<Collider>();
         cogCollider->SetShapeType(ShapeType::Circle);
         cogCollider->SetRadius(0.1f);
-        cogCollider->SetStatic(true);
-        
-        //Anchor complete. Begin actual rotator:
+        cogCollider->SetStatic(false);
         
         BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
@@ -60,23 +101,23 @@ namespace Kross
 
         body->CreateFixture(&fixtureDef);
 
-        // CogRotationPiece* newCogPiece = KROSS_NEW CogRotationPiece();
-        // newCogPiece->SetBody(body);
-        // m_PhysicsScene->AttachBody(body);
-        // 
-        // //Whew boy. Lotta garbage there. Connect the bits together now.
+        //NOW START STATIC COMPONENT.
+        if (m_nameOfStaticObjConnected == "*")
+        {
+            return;
+        }
         // b2RevoluteJointDef jointDef = b2RevoluteJointDef();
         // jointDef.bodyA = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
-        // jointDef.bodyB = newCogPiece->GetBody();
-        // 
+        // jointDef.bodyB = m_StaticBodyConnectedBody->GetBody();
         // jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
         // jointDef.localAnchorB.Set(0.0f, 0.0f);
         // 
-        // 
         // m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
-        
-        
+        // m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
+        // fullInit = true;
     }
+
+    
 
     void Cog::StartRotation()
     {

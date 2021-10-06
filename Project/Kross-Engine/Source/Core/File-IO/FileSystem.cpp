@@ -1276,6 +1276,11 @@ namespace Kross
 										cog->SetMaxMotorTorque(torque);
 										break;
 									}
+									case 2:
+									{
+										cog->SetStartReserveName(value);
+										break;
+									}
 								}
 								/* Erase the Data just Used. */
 								cogData[i].erase(0, searchPosition + lineSplitter.length());
@@ -1791,7 +1796,18 @@ namespace Kross
 						Cog* newCog = (Cog*)comp;
 						fileStream << "COG->";
 						fileStream << newCog->GetMotorSpeed() << "->";
-						fileStream << newCog->GetMaxMotorTorque() << "->\n";
+						fileStream << newCog->GetMaxMotorTorque() << "->";
+						if (newCog->GetStartReserveName() != "*")
+						{
+							fileStream << newCog->GetStartReserveName() << "->\n";
+						}
+						else
+						{
+							fileStream << "*->\n";
+						}
+
+
+
 
 					}
 					else
