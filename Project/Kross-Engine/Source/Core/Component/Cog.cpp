@@ -30,6 +30,8 @@ namespace Kross
             Rigidbody2D* rigidToAttToCog = objToAttToStart->GetComponent<Rigidbody2D>();
 
             m_StaticBodyConnectedBody = rigidToAttToCog;
+
+
         }
     }
 
@@ -50,14 +52,15 @@ namespace Kross
     {
         if (!fullInit) 
         {
+            b2RevoluteJointDef jointDef = b2RevoluteJointDef();
+            jointDef.bodyA = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
+            jointDef.bodyB = m_StaticBodyConnectedBody->GetBody();
+            jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
+            jointDef.localAnchorB.Set(0.0f, 0.0f);
             
-            
-            
-            
-            
-            
-        
-            
+            m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
+            m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
+            fullInit = true;
             
             
         }
@@ -106,15 +109,7 @@ namespace Kross
         {
             return;
         }
-        // b2RevoluteJointDef jointDef = b2RevoluteJointDef();
-        // jointDef.bodyA = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
-        // jointDef.bodyB = m_StaticBodyConnectedBody->GetBody();
-        // jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
-        // jointDef.localAnchorB.Set(0.0f, 0.0f);
-        // 
-        // m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
-        // m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
-        // fullInit = true;
+
     }
 
     
