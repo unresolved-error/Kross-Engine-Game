@@ -57,8 +57,7 @@ void AttachScripts()
 	#include <Windows.h>
 	
 	/* Run the program without the Debugging Console. */
-	int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)
-	{
+	int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)	{
 		Application::OnCreate();
 
 		AttachScripts();

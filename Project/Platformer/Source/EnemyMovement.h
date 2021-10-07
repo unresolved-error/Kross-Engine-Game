@@ -22,6 +22,8 @@ public:
 
 	Animator* animator;
 
+	Sprite* hitSprite;
+
 	Object* player;
 
 	float moveSpeed = 2.0f;
@@ -34,7 +36,11 @@ public:
 	float elapsedWaitingTime = 0.0f;
 	float maxWaitingTime = 3.0f;
 
+	float hitTimer = 0.1f;
+	float hitTimerMax = 0.1f;
+
 	bool grounded = true;
+	bool hit = false;
 
 	float m_MaxGroundSpeed = 1.5f;
 
@@ -54,6 +60,8 @@ public:
 		animator = GetComponent<Animator>();
 
 		player = SceneManager::GetCurrentScene()->FindObject("Player");
+
+		hitSprite = ResourceManager::GetResource<Sprite>("Donut0-1");
 	}
 
 	void Update() override
@@ -88,30 +96,87 @@ public:
 
 		previousY = m_GameObject->m_Transform->m_Position.y;
 
+		if (hit)
+		{
+			if (hitTimer > 0.0f)
+			{
+				hitTimer -= Time::GetDeltaTime();
+			}
+
+			if (hitTimer <= hitTimerMax / 2.0f)
+			{
+				hitTimer -= Time::GetDeltaTime();
+				hit = false;
+			}
+		}
+
+		
+
+		else
+		{
+			if (hitTimer <= hitTimerMax / 2.0f && hitTimer > 0.0f)
+			{
+				hitTimer -= Time::GetDeltaTime();
+				hit = false;
+			}
+			else
+			{
+				hitTimer = hitTimerMax;
+			}
+		}
 	}
 
 	void Move(Vector2 input)
 	{
 		Transform2D* playerTransform = player->m_Transform;
 
-		if (rigidBody->GetBody()->GetLinearVelocity().x <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().x >= -0.05f)
+		if (!hit)
 		{
-			animator->SetCurrentAnimation(0);
+			if (!animator->GetCurrentAnimation()->IsPlaying())
+			{
+				animator->Play();
+			}
+
+			if (rigidBody->GetBody()->GetLinearVelocity().x <= 0.05f && rigidBody->GetBody()->GetLinearVelocity().x >= -0.05f)
+			{
+				animator->SetCurrentAnimation(0);
+			}
+			else
+			{
+				animator->SetCurrentAnimation(1);
+			}
+
+			if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
+			{
+				rigidBody->OnApplyForce(input);
+			}
+
+			if (rigidBody->GetBody()->GetLinearVelocity() == b2Vec2(0.0f, 0.0f))
+			{
+				for (b2ContactEdge* contact = rigidBody->GetBody()->GetContactList(); contact; contact = contact->next)
+				{
+					if (contact->contact->IsTouching())
+					{
+						Body* currentBody = contact->other;
+						Body* gameObjectBody = rigidBody->GetBody();
+
+						if (contact->contact->GetFixtureA()->GetBody() == gameObjectBody)
+						{
+							/* This is the Enemy. */
+						}
+
+						else if (contact->contact->GetFixtureB()->GetBody() == gameObjectBody)
+						{
+							/* This is Not. */
+						}
+					}
+				}
+			}
 		}
 		else
 		{
-			animator->SetCurrentAnimation(1);
-		}
-
-		if (rigidBody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed && rigidBody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed)
-		{
-			rigidBody->OnApplyForce(input);
-		}
-
-		if ((rigidBody->GetBody()->GetLinearVelocity().x == 0.0f && rigidBody->GetBody()->GetLinearVelocity().y == 0.0f))
-		{
-			rigidBody->OnApplyImpulse(Vector2(0.0f, 0.75f));
-			grounded = false;
+			animator->Pause();
+			renderer->GetMaterial()->SetDiffuse(hitSprite);
 		}
 
 		if (input.x > 0)
