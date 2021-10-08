@@ -210,9 +210,11 @@ public:
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
 					Colour colour = Colour(1.0f);
+					#ifndef _DEBUG
 					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
+					#endif
 
 					sprite->SetColour(colour);
 
@@ -257,7 +259,7 @@ public:
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
 					Colour colour = Colour(1.0f);
-					#ifndef __Debug
+					#ifndef _DEBUG
 					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
