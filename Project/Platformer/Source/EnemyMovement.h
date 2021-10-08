@@ -160,14 +160,28 @@ public:
 						Body* currentBody = contact->other;
 						Body* gameObjectBody = rigidBody->GetBody();
 
+						Vector2 normal = Physics::GetCollisionNormal(contact->contact);
+
 						if (contact->contact->GetFixtureA()->GetBody() == gameObjectBody)
 						{
 							/* This is the Enemy. */
+							if (-normal.y > 0.9f)
+							{
+								Debug::LogLine((std::string)"Touching the Ground");
+								rigidBody->OnApplyImpulse(Vector2(0.0f, 0.7f));
+								break;
+							}
 						}
 
 						else if (contact->contact->GetFixtureB()->GetBody() == gameObjectBody)
 						{
 							/* This is Not. */
+							if (normal.y > 0.9f)
+							{
+								Debug::LogLine((std::string)"Touching the Ground");
+								rigidBody->OnApplyImpulse(Vector2(0.0f, 0.7f));
+								break;
+							}
 						}
 					}
 				}

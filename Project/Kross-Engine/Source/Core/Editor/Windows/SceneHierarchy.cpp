@@ -48,50 +48,6 @@ namespace Kross
 			/* If we have a scene. (Should always exist) */
 			if (p_Scene)
 			{
-				//for (int l = 0; l < (int)Layer::Count; l++)
-				//{
-				//	LayerName names = LayerName();
-				//	std::string label = "[" + names[l] + "]";
-				//
-				//	std::vector<Object*> layerObjects;
-				//
-				//	for (int i = 0; i < p_Scene->m_ActualObjects.size(); i++)
-				//	{
-				//		Object* object = p_Scene->m_ActualObjects[i];
-				//
-				//		if (object->GetLayer() == (Layer)l)
-				//		{
-				//			layerObjects.push_back(object);
-				//		}
-				//	}
-				//
-				//	if (ImGui::TreeNodeEx(label.c_str(), (layerObjects.size() == 0) ? ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_None))
-				//	{
-				//		ImGui::Indent();
-				//		for(int i = 0; i < layerObjects.size(); i++)
-				//		{
-				//			Object* object = layerObjects[i];
-				//			/* works. */
-				//			if (ImGui::MenuItem(object->GetName().c_str(), "", (object == p_SelectedObject), object->Enabled()));
-				//			{
-				//				if (ImGui::IsItemHovered() && Input::GetMouseButtonPressed(Mouse::Left))
-				//				{
-				//					if (object != p_SelectedObject)
-				//					{
-				//						p_SelectedObject = object;
-				//						Editor::SetObjectEditorObject(p_SelectedObject);
-				//						Editor::SetMainMenuObject(p_SelectedObject);
-				//					}
-				//				}
-				//			}
-				//		}
-				//		ImGui::Unindent();
-				//		ImGui::TreePop();
-				//
-				//		if(layerObjects.size() != 0)
-				//			ImGui::Spacing();
-				//	}
-				//}
 				ImGui::BeginChild("##ObjectHierarchyMenuBar", ImVec2(0.0f, 20.0f), false, ImGuiWindowFlags_ChildWindow | ImGuiWindowFlags_MenuBar);
 				if (ImGui::BeginMenuBar())
 				{
@@ -177,11 +133,29 @@ namespace Kross
 									}
 								}
 
+								if (ImGui::MenuItem("Delete"))
+								{
+									if (m_FolderObject)
+									{
+										if (p_Scene)
+										{
+											m_Folders[f]->Erase(m_FolderObject);
+											m_FolderObject = nullptr;
+
+											p_Scene->DetachObject(p_SelectedObject);
+											p_SelectedObject = nullptr;
+											Editor::SetObjectEditorObject(nullptr);
+										}
+									}
+								}
+
 								if (ImGui::MenuItem("Remove from Folder"))
 								{
 									m_Folders[f]->Erase(m_FolderObject);
 									m_FolderObject = nullptr;
 								}
+
+								
 								ImGui::EndPopup();
 							}
 							else if (!m_Folder)
@@ -297,6 +271,19 @@ namespace Kross
 							}
 						}
 
+						if (ImGui::MenuItem("Delete"))
+						{
+							if (p_SelectedObject)
+							{
+								if (p_Scene)
+								{
+									p_Scene->DetachObject(p_SelectedObject);
+									p_SelectedObject = nullptr;
+									Editor::SetObjectEditorObject(nullptr);
+								}
+							}
+						}
+
 						if (ImGui::BeginMenu("Place in Folder.."))
 						{
 							for (int f = 0; f < m_Folders.size(); f++)
@@ -370,16 +357,6 @@ namespace Kross
 			}
 
 			ImGui::EndTabItem();
-		}
-
-		if (p_SelectedObject && Input::GetKeyPressed(Key::Delete))
-		{
-			if (p_Scene)
-			{
-				p_Scene->DetachObject(p_SelectedObject);
-				p_SelectedObject = nullptr;
-				Editor::SetObjectEditorObject(nullptr);
-			}
 		}
 
 		ImGui::EndTabBar();
