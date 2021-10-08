@@ -77,4 +77,11 @@ namespace Kross
 
 		return m_Instance->p_RayData;
 	}
+	Vector2 Physics::GetCollisionNormal(b2Contact* contact)
+	{
+		b2WorldManifold manifold = b2WorldManifold();
+		contact->GetWorldManifold(&manifold);
+
+		return Vector2(manifold.normal.x ,manifold.normal.y);
+	}
 }

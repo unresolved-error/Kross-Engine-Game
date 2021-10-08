@@ -134,21 +134,54 @@ namespace Kross
                 {
                     if (body->GetRayCollisionBody())
                     {
-                        Object* other = (Object*)body->GetRayCollisionBody()->GetUserData();
+
+                        Object* other = static_cast<Object*>(body->GetRayCollisionBody()->GetUserData());
+
+                        __try
+                        {
+                            /* PIECE OF FUCKING SHIT JUST DIE */
+                            other->m_Transform->m_Position = other->m_Transform->m_Position;
+                        }
+                        __except (EXCEPTION_EXECUTE_HANDLER)
+                        {
+                            continue;
+                        }
+
                         if (body->GetCollisionState() == CollisionState::Enter)
                         {
-                            if (other && !other->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionEnter(other);
+                            __try
+                            {
+                                if (other && !other->ShouldBeRemoved())
+                                    m_ActualObjects[i]->OnCollisionEnter(other);
+                            }
+                            __except (GetExceptionCode())
+                            {
+                                continue;
+                            }
                         }
                         else if (body->GetCollisionState() == CollisionState::Stay)
                         {
-                            if (other && !other->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionStay(other);
+                            __try
+                            {
+                                if (other && !other->ShouldBeRemoved())
+                                    m_ActualObjects[i]->OnCollisionStay(other);
+                            }
+                            __except (GetExceptionCode())
+                            {
+                                continue;
+                            }
                         }
                         else if (body->GetCollisionState() == CollisionState::Exit)
                         {
-                            if (other && !other->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionExit(other);
+                            __try
+                            {
+                                if (other && !other->ShouldBeRemoved())
+                                    m_ActualObjects[i]->OnCollisionExit(other);
+                            }
+                            __except (GetExceptionCode())
+                            {
+                                continue;
+                            }
                         }
                     }
                 }
