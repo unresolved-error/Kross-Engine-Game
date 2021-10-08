@@ -46,7 +46,7 @@ public:
 
 	bool flipX = false;
 	float angle = 0.0f;
-	float damage = 0.75f;
+	float damage = 1.0f;
 	int bulletCount = 0;
 		
 	Sprite* Degree0; //PURE RIGHT
@@ -98,18 +98,11 @@ public:
 		currentGunSprite = Degree0;
 		bulletSprite = ResourceManager::GetResource<Sprite>("Bullet");
 
-
 		m_CrossHair = SceneManager::GetCurrentScene()->FindObject("CrossHair");
 	}
 
 	void Update() override 
 	{
-		//Vector2 mousePos;
-		//
-		//mousePos = Input::GetMousePosition();
-		//float aspectRatio = Application::GetWindow()->GetApsectRatio();
-		//Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
-		//Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
 		Vector2 crossHairPos;
 		
 		if (m_Fired)
@@ -117,12 +110,14 @@ public:
 			if (m_TimeElapsed < m_RateOfFire)
 			{
 				m_TimeElapsed += Time::GetDeltaTime();
+				m_PlayerMovement->m_ShakeCamera = true;
 			}
 
 			else
 			{
 				m_TimeElapsed = 0.0f;
 				m_Fired = false;
+				m_PlayerMovement->m_ShakeCamera = false;
 			}
 		}
 
@@ -140,7 +135,7 @@ public:
 		{
 			float velX = player->GetComponent<Rigidbody2D>()->GetBody()->GetLinearVelocity().x;
 
-			int value = glm::sign(velX);
+			int value = static_cast<int>(glm::sign(velX));
 
 			if (glm::abs(velX) < 0.01)
 			{
@@ -172,6 +167,11 @@ public:
 		Vector2 toMouseNormd = glm::normalize(toMouse);
 		Vector2 toCrosshair = toMouseNormd * 1.5f;
 		Vector2 toEndOfGun = toMouseNormd * 0.03f;
+
+		if (m_Fired)
+		{
+			m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd *0.2f);
+		}
 
 
 		LineRenderer* endOfGunDebug = m_GameObject->GetDebugRenderer();
@@ -292,16 +292,24 @@ public:
 				{
 					if (obj->GetLayer() == Layer::Player)
 					{
-						m_HealthManager->DoDamage(obj, damage);
-						
-						//Debug::LogLine(obj->GetName());
+						Health* health = obj->GetComponent<Health>();
+						EnemyMovement* em = obj->GetComponent<EnemyMovement>();
 
-						//bulletHits[i] = true;
+						if (health && em->hitTimer == em->hitTimerMax)
+						{
+							Debug::LogLine(health->GetHealth());
+							health->TakeDamage(damage);
 
-						//SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+							/* For Testing Effects For now. */
+							SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+							
+							bullets[i] = nullptr;
+							bullets.erase(bullets.begin() + i);
 
-						//bullets[i] = nullptr;
-						//bullets.erase(bullets.begin() + i);
+							em->hit = true;
+						}
+
+						bulletHits[i] = true;
 
 						break;
 					}

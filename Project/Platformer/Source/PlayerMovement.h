@@ -35,6 +35,13 @@ public:
 
 	float m_VelocityThreshold = 0.05f;
 
+	float m_CameraShakeMagnitudeMax = 0.025f;
+	float m_CameraShakeMagnitude = 0.0f;
+	float m_ShakeCoolDownTime = 0.1f;
+	float m_ShakeCoolDownTimeElapsed = 0.0f;
+
+	bool m_ShakeCamera = false;
+
 	Script* Duplicate() override
 	{
 		return KROSS_NEW PlayerMovement();
@@ -53,7 +60,7 @@ public:
 		m_TextRenderer = SceneManager::GetCurrentScene()->FindObject("Text")->GetComponent<TextRenderer>();
 		m_Gun = SceneManager::GetCurrentScene()->FindObject("Gun");
 		m_Camera = SceneManager::GetCurrentScene()->GetCamera();
-		
+
 		/* Grab the Window. */
 		m_Window = Application::GetWindow();
 
@@ -87,7 +94,7 @@ public:
 		}
 
 		/* If the Object isn't at the End of a Level. */
-		if (m_GameObject->m_Transform->m_Position.x < 217.0f) 
+		if (m_GameObject->m_Transform->m_Position.x < 217.0f)
 		{
 			/* Move the Player. */
 			VisualUpdate(input);
@@ -101,6 +108,35 @@ public:
 		/* Clamp the Camera Position. */
 		m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
 		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -2.0f, 1.5f);
+
+		/* Camera Shake. */
+
+		if (m_CameraShakeMagnitude > 0.0f)
+		{
+			m_Camera->m_Transform->m_Position.x += Random::GetRandomRange(-m_CameraShakeMagnitude, m_CameraShakeMagnitude);
+			m_Camera->m_Transform->m_Position.y += Random::GetRandomRange(-m_CameraShakeMagnitude, m_CameraShakeMagnitude);
+		}
+
+		if (m_ShakeCamera)
+		{
+			m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax;
+			m_ShakeCoolDownTimeElapsed = 0.0f;
+		}
+
+		else
+		{
+			if (m_ShakeCoolDownTimeElapsed < m_ShakeCoolDownTime && m_CameraShakeMagnitude > 0.0f)
+			{
+				m_ShakeCoolDownTimeElapsed += Time::GetDeltaTime();
+				m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax * (1.0 - (m_ShakeCoolDownTime / m_ShakeCoolDownTimeElapsed));
+			}
+
+			else if (m_CameraShakeMagnitude <= 0.0f)
+			{
+				m_ShakeCoolDownTimeElapsed = 0.0f;
+			}
+		}
+
 
 		/* --- FRAME COUNTER STUFF --- */
 
@@ -118,9 +154,9 @@ public:
 			/* Reset Everything. */
 			m_TimeElapsed = 0.0f;
 
-			/*	
-				Normally text would be changed here... 
-				Display the previous Frame Count before resetting... 
+			/*
+				Normally text would be changed here...
+				Display the previous Frame Count before resetting...
 			*/
 
 			m_FrameCount = 0;
@@ -144,7 +180,7 @@ public:
 			{
 				trueOffset = Vector2(1.0f, 1.0f);
 			}
-			
+
 			/* Set the Guns Position based on the true offset. */
 			m_Gun->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + (m_GunOffset * trueOffset);
 		}
@@ -222,7 +258,7 @@ public:
 			}
 
 			/* If moving downwards. */
-			else if(m_RigidBody->GetBody()->GetLinearVelocity().y <= -m_VelocityThreshold)
+			else if (m_RigidBody->GetBody()->GetLinearVelocity().y <= -m_VelocityThreshold)
 			{
 				/* Set to the Jump Down Animation. */
 				m_Animator->SetCurrentAnimation(3);
