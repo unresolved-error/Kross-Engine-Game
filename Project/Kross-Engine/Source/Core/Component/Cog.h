@@ -59,9 +59,9 @@ namespace Kross
         {};
         ~Cog() {};
 
-        void SetMotorSpeed(float newSpeed);
+        void UpdateMotorSpeed(float newSpeed);
 
-        void SetMaxMotorTorque(float newTorque);
+        void UpdateMaxMotorTorque(float newTorque);
 
 
         float GetMotorSpeed() { return m_MotorSpeed; };

@@ -491,8 +491,8 @@ namespace Kross {
 							ImGui::InputText("##StartReserveCog", &startNameBuffer[0], 128, ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue);
 
 
-							cog->SetMotorSpeed(cog_speed);
-							cog->SetMaxMotorTorque(cog_torque);
+							cog->UpdateMotorSpeed(cog_speed);
+							cog->UpdateMaxMotorTorque(cog_torque);
 							cog->SetStartReserveName(startNameBuffer);
 						}
 					}

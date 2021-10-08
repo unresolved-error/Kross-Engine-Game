@@ -43,6 +43,9 @@ FOLDER-END->
 FOLDER-START->
 NAME->Puzzle1->
 OBJECT->Puzzle1AllSorts1->
+OBJECT->Puzzle1Cog1->
+OBJECT->Puzzle1Cog1Static->
+OBJECT->Puzzle1Rope1->
 FOLDER-END->
 FOLDER-START->
 NAME->Puzzle5->

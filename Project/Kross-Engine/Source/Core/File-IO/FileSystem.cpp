@@ -1267,13 +1267,13 @@ namespace Kross
 									case 0:
 									{
 										float speed = stof(value);
-										cog->SetMotorSpeed(speed);
+										cog->UpdateMotorSpeed(speed);
 										break;
 									}
 									case 1:
 									{
 										float torque = stof(value);
-										cog->SetMaxMotorTorque(torque);
+										cog->UpdateMaxMotorTorque(torque);
 										break;
 									}
 									case 2:

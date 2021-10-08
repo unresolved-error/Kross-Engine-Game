@@ -17,9 +17,9 @@ namespace Kross
         if (m_nameOfStaticObjConnected == "*") 
         { return; }
         SpawnCog();
-
-
-
+        
+        UpdateMotorSpeed(-1.0f);
+        UpdateMaxMotorTorque(50.0f);
     }
 
     void Cog::ConnectStaticBody()
@@ -53,26 +53,31 @@ namespace Kross
         if (!fullInit) 
         {
             b2RevoluteJointDef jointDef = b2RevoluteJointDef();
-            jointDef.bodyA = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
-            jointDef.bodyB = m_StaticBodyConnectedBody->GetBody();
+            jointDef.bodyB = m_GameObject->GetComponent<Rigidbody2D>()->GetBody();
+            jointDef.bodyA = m_StaticBodyConnectedBody->GetBody();
             jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
             jointDef.localAnchorB.Set(0.0f, 0.0f);
             
             m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
             m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
             fullInit = true;
-            
+
+            m_MotorJoint->EnableMotor(true);
+          
             
         }
         
+        m_MotorJoint->SetMotorSpeed(m_MotorSpeed);
+        m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
+
     }
 
-	void Cog::SetMotorSpeed(float newSpeed)
+	void Cog::UpdateMotorSpeed(float newSpeed)
 	{
         m_MotorSpeed = newSpeed;
 	}
 
-	void Cog::SetMaxMotorTorque(float newTorque)
+	void Cog::UpdateMaxMotorTorque(float newTorque)
 	{
         m_MaxMotorTorque = newTorque;
 	}
@@ -83,7 +88,7 @@ namespace Kross
         
         Collider* cogCollider = m_GameObject->GetComponent<Collider>();
         cogCollider->SetShapeType(ShapeType::Circle);
-        cogCollider->SetRadius(0.1f);
+        cogCollider->SetRadius(0.5f);
         cogCollider->SetStatic(false);
         
         BodyDef bodyDef;
