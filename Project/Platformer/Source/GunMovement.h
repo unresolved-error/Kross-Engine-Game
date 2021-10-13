@@ -191,10 +191,10 @@ public:
 				if (Input::GetMouseButtonDown(Mouse::Right))
 				{
 					Object* bullet = Object::OnCreate("Bullet-Clone");
-
 					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
 					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
 					Collider* collider = bullet->GetComponent<Collider>();
+					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
 					bullet->m_Transform->m_Rotation = angle;
@@ -243,6 +243,7 @@ public:
 					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
 					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
 					Collider* collider = bullet->GetComponent<Collider>();
+					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
 					bullet->m_Transform->m_Rotation = angle;

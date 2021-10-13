@@ -167,7 +167,7 @@ public:
 							/* This is the Enemy. */
 							if (-normal.y > 0.9f)
 							{
-								Debug::LogLine((std::string)"Touching the Ground");
+								//Debug::LogLine((std::string)"Touching the Ground");
 								rigidBody->OnApplyImpulse(Vector2(0.0f, 0.7f));
 								break;
 							}
@@ -178,7 +178,7 @@ public:
 							/* This is Not. */
 							if (normal.y > 0.9f)
 							{
-								Debug::LogLine((std::string)"Touching the Ground");
+								//Debug::LogLine((std::string)"Touching the Ground");
 								rigidBody->OnApplyImpulse(Vector2(0.0f, 0.7f));
 								break;
 							}

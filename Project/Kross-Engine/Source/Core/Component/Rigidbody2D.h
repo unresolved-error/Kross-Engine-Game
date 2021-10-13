@@ -78,6 +78,8 @@ namespace Kross
 
         float m_Friction = 0.5f;
 
+        bool m_IsBullet = false;
+
     protected:
         friend class PhysicsScene;
         friend class Scene;
@@ -215,5 +217,8 @@ namespace Kross
         void SetColliderFilter(b2Filter* filter) { p_Filter = filter; }
         /* Gets the collider filters */
         b2Filter* GetColliderFilters() { return p_Filter; }
+
+        void SetContinuousCollision(bool isContinuous) { m_IsBullet = isContinuous; }
+
     };
 }

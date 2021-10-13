@@ -9,8 +9,10 @@ class TriggerLaser : public Script
 public:
 
 	SpriteRenderer* renderer = nullptr;
-	Cog* m_ObjectToTrigger = nullptr;
+	Object* m_ObjectToTrigger = nullptr;
 	Object* m_ObjectThatTriggers = nullptr;
+	RaycastData* m_RaycastData = nullptr;
+
 
 	TriggerLaser() :
 		renderer(nullptr),
@@ -34,20 +36,22 @@ public:
 		if (m_GameObject->GetName() == "Puzzle1Trigger1")
 		{
 			m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Puzzle1AllSorts1");
-			m_ObjectToTrigger = (Cog*)SceneManager::GetCurrentScene()->FindObject("Puzzle1Cog1");
+			m_ObjectToTrigger = SceneManager::GetCurrentScene()->FindObject("Puzzle1Cog1");			
 		}
 
 	}
 
 	void Update() override
 	{
-		if (m_GameObject->GetName() == "Puzzle1Trigger1") 
+		if (m_GameObject->GetName() == "Puzzle1Trigger1")
 		{
-			if (m_ObjectThatTriggers->m_Transform->m_Position.x <= m_GameObject->m_Transform->m_Position.x)
+			if (m_ObjectThatTriggers->m_Transform->m_Position.x < 11.5f)
 			{
-				m_ObjectToTrigger->TriggerMotor();
+				
+				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
 			}
 		}
 	}
+
 
 };

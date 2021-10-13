@@ -64,6 +64,7 @@ namespace Kross
         BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(pos.x, pos.y);
+        bodyDef.bullet = m_IsBullet;
         
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
@@ -1060,6 +1061,21 @@ namespace Kross
             delete rightSideDown;
             delete leftSideDown;
         }
+
+        //POISSIBLE LASER TRIGGER IMPLEMENTATION. RISKY. MAYBE BETTER SOLUTION?
+
+       /// if (m_GameObject->GetName() == "Puzzle1Trigger1")
+       /// {
+       ///     Object* m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Puzzle1AllSorts1");
+       ///     m_GameObject->GetComponent<Rigidbody2D>()->CalculateRayLength(1.0f, Vector2(0, -1), m_GameObject->m_Transform->m_Position);
+       ///     p_RayData = m_GameObject->GetComponent<Rigidbody2D>()->GetRaycastData();
+       ///     if ((Object*)p_RayData->body->GetUserData() == m_ObjectThatTriggers)
+       ///     {
+       ///         Cog* m_ObjectToTrigger = (Cog*)SceneManager::GetCurrentScene()->FindObject("Puzzle1Cog1");
+       ///         m_ObjectToTrigger->TriggerMotor();
+       ///     }
+       /// }
+
 
         #ifndef KROSS_EDITOR
         /* Gets the object position and updates it with the position of the body */
