@@ -197,6 +197,7 @@
     <ClInclude Include="Source\Health.h" />
     <ClInclude Include="Source\HealthManager.h" />
     <ClInclude Include="Source\PlayerMovement.h" />
+    <ClInclude Include="TriggerLaser.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kross-Engine\Kross-Engine.vcxproj">

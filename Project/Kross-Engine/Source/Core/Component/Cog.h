@@ -31,6 +31,8 @@ namespace Kross
         float m_MaxMotorTorque = 0.0f;
         float m_MotorSpeed = 0.0f;
 
+        bool m_MotorTrigger = false;
+
     protected:
         friend class Object;
         friend class Scene;
@@ -58,6 +60,8 @@ namespace Kross
             m_MotorJoint(nullptr)
         {};
         ~Cog() {};
+
+        void TriggerMotor();
 
         void UpdateMotorSpeed(float newSpeed);
 

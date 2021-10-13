@@ -53,5 +53,8 @@
     <ClInclude Include="Source\Health.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TriggerLaser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

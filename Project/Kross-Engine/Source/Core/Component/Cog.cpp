@@ -18,7 +18,7 @@ namespace Kross
         { return; }
         SpawnCog();
         
-        UpdateMotorSpeed(-1.0f);
+        UpdateMotorSpeed(0.0f);
         UpdateMaxMotorTorque(50.0f);
     }
 
@@ -67,6 +67,11 @@ namespace Kross
             
         }
         
+        if (m_MotorTrigger)
+        { 
+            UpdateMotorSpeed(-1.0f); 
+        }
+
         m_MotorJoint->SetMotorSpeed(m_MotorSpeed);
         m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
 
@@ -76,6 +81,11 @@ namespace Kross
 	{
         m_MotorSpeed = newSpeed;
 	}
+
+    void Cog::TriggerMotor() 
+    {
+        m_MotorTrigger = true;
+    }
 
 	void Cog::UpdateMaxMotorTorque(float newTorque)
 	{

@@ -47,6 +47,7 @@ OBJECT->Puzzle1Cog1->
 OBJECT->Puzzle1Cog1Static->
 OBJECT->Puzzle1Rope1->
 OBJECT->Puzzle1Door1->
+OBJECT->Puzzle1Trigger1->
 FOLDER-END->
 FOLDER-START->
 NAME->Puzzle5->
