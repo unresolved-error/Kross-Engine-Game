@@ -41,9 +41,12 @@ public:
 
 	void Update() override
 	{
-		if (m_ObjectThatTriggers->m_Transform->m_Position.x <= m_GameObject->m_Transform->m_Position.x)
+		if (m_GameObject->GetName() == "Puzzle1Trigger1") 
 		{
-			m_ObjectToTrigger->TriggerMotor();
+			if (m_ObjectThatTriggers->m_Transform->m_Position.x <= m_GameObject->m_Transform->m_Position.x)
+			{
+				m_ObjectToTrigger->TriggerMotor();
+			}
 		}
 	}
 
