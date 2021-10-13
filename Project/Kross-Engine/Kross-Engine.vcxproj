@@ -199,6 +199,7 @@
     <ClInclude Include="Source\Core\Component\Renderer.h" />
     <ClInclude Include="Source\Core\Component\RopeAvatar.h" />
     <ClInclude Include="Source\Core\Component\TileMapRenderer.h" />
+    <ClInclude Include="Source\Core\Component\UITransform.h" />
     <ClInclude Include="Source\Core\Debug.h" />
     <ClInclude Include="Source\Core\Editor\Editor.h" />
     <ClInclude Include="Source\Core\Editor\EditorWindow.h" />
@@ -721,6 +722,7 @@
     <ClCompile Include="Source\Core\Component\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Component\RopeAvatar.cpp" />
     <ClCompile Include="Source\Core\Component\TileMapRenderer.cpp" />
+    <ClCompile Include="Source\Core\Component\UITransform.cpp" />
     <ClCompile Include="Source\Core\Debug.cpp" />
     <ClCompile Include="Source\Core\Editor\Editor.cpp" />
     <ClCompile Include="Source\Core\Editor\Windows\AssetDirectory.cpp" />

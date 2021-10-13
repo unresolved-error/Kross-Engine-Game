@@ -124,69 +124,70 @@ namespace Kross
             m_Physics->GetPhysicsWorld()->Step(Time::GetDeltaTime(), 8, 3, 2); /* Not recommended. */
         }
         
+        /* NEEDS TO BE LOOKED AT. */
         /* Update all Dynamic Objects. */
-        for (int i = 0; i < m_ActualObjects.size(); i++)
-        {
-            if (!m_ActualObjects[i]->ShouldBeRemoved())
-            {
-                Rigidbody2D* body = m_ActualObjects[i]->GetComponent<Rigidbody2D>();
-                if (body)
-                {
-                    if (body->GetRayCollisionBody())
-                    {
-
-                        Object* other = static_cast<Object*>(body->GetRayCollisionBody()->GetUserData());
-
-                        __try
-                        {
-                            /* PIECE OF FUCKING SHIT JUST DIE */
-                            other->m_Transform->m_Position = other->m_Transform->m_Position;
-                        }
-                        __except (EXCEPTION_EXECUTE_HANDLER)
-                        {
-                            continue;
-                        }
-
-                        if (body->GetCollisionState() == CollisionState::Enter)
-                        {
-                            __try
-                            {
-                                if (other && !other->ShouldBeRemoved())
-                                    m_ActualObjects[i]->OnCollisionEnter(other);
-                            }
-                            __except (GetExceptionCode())
-                            {
-                                continue;
-                            }
-                        }
-                        else if (body->GetCollisionState() == CollisionState::Stay)
-                        {
-                            __try
-                            {
-                                if (other && !other->ShouldBeRemoved())
-                                    m_ActualObjects[i]->OnCollisionStay(other);
-                            }
-                            __except (GetExceptionCode())
-                            {
-                                continue;
-                            }
-                        }
-                        else if (body->GetCollisionState() == CollisionState::Exit)
-                        {
-                            __try
-                            {
-                                if (other && !other->ShouldBeRemoved())
-                                    m_ActualObjects[i]->OnCollisionExit(other);
-                            }
-                            __except (GetExceptionCode())
-                            {
-                                continue;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      //for (int i = 0; i < m_ActualObjects.size(); i++)
+      //{
+      //    if (!m_ActualObjects[i]->ShouldBeRemoved())
+      //    {
+      //        Rigidbody2D* body = m_ActualObjects[i]->GetComponent<Rigidbody2D>();
+      //        if (body)
+      //        {
+      //            if (body->GetRayCollisionBody())
+      //            {
+      //
+      //                //Object* other = static_cast<Object*>(body->GetRayCollisionBody()->GetUserData());
+      //                //
+      //                //__try
+      //                //{
+      //                //    /* PIECE OF FUCKING SHIT JUST DIE */
+      //                //    other->m_Transform->m_Position = other->m_Transform->m_Position;
+      //                //}
+      //                //__except (EXCEPTION_EXECUTE_HANDLER)
+      //                //{
+      //                //    continue;
+      //                //}
+      //                //
+      //                //if (body->GetCollisionState() == CollisionState::Enter)
+      //                //{
+      //                //    __try
+      //                //    {
+      //                //        if (other && !other->ShouldBeRemoved())
+      //                //            m_ActualObjects[i]->OnCollisionEnter(other);
+      //                //    }
+      //                //    __except (GetExceptionCode())
+      //                //    {
+      //                //        continue;
+      //                //    }
+      //                //}
+      //                //else if (body->GetCollisionState() == CollisionState::Stay)
+      //                //{
+      //                //    __try
+      //                //    {
+      //                //        if (other && !other->ShouldBeRemoved())
+      //                //            m_ActualObjects[i]->OnCollisionStay(other);
+      //                //    }
+      //                //    __except (GetExceptionCode())
+      //                //    {
+      //                //        continue;
+      //                //    }
+      //                //}
+      //                //else if (body->GetCollisionState() == CollisionState::Exit)
+      //                //{
+      //                //    __try
+      //                //    {
+      //                //        if (other && !other->ShouldBeRemoved())
+      //                //            m_ActualObjects[i]->OnCollisionExit(other);
+      //                //    }
+      //                //    __except (GetExceptionCode())
+      //                //    {
+      //                //        continue;
+      //                //    }
+      //                //}
+      //            }
+      //        }
+      //    }
+      //}
 
     }
 

@@ -194,6 +194,7 @@
     <ClCompile Include="Source\Core\Component\RopeAvatar.cpp" />
     <ClCompile Include="Source\Core\Component\PlayerController.cpp" />
     <ClCompile Include="Source\Core\Component\Cog.cpp" />
+    <ClCompile Include="Source\Core\Component\UITransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Animation\Animation.h" />
@@ -724,6 +725,7 @@
     <ClInclude Include="Source\Core\Editor\Utility\Folder.h" />
     <ClInclude Include="Source\Core\Serialiser\SceneHierarchySerialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\EditorSerialiser.h" />
+    <ClInclude Include="Source\Core\Component\UITransform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\include\glm\detail\func_common.inl" />

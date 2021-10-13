@@ -26,7 +26,7 @@
     <ClInclude Include="Source\PlayerMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EnemyMovement.h">
+    <ClInclude Include="Source\DonutMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\BackgroundManager.h">

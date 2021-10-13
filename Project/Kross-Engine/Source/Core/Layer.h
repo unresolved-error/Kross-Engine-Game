@@ -17,6 +17,7 @@ namespace Kross
 		Default,
 		Light,
 		Environment,
+
 		/*THE HIGHER THE BACKGROUND LAYER, THE CLOSER IT IS.*/
 		FurthestBackground,
 		SecondFurthestBackground,
@@ -33,6 +34,7 @@ namespace Kross
 		Fluids,
 		ForeGround,
 		UI,
+		UISprites,
 
 		/* MUST BE LAST! */
 		#ifdef KROSS_EDITOR /* If the Editor Layer Should Exist. */
@@ -72,6 +74,7 @@ namespace Kross
 			m_Names.push_back("Foreground");
 			
 			m_Names.push_back("UI");
+			m_Names.push_back("UISprites");
 
 			m_Names.push_back("None");
 		}
