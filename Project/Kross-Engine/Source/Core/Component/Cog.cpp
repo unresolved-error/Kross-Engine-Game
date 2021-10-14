@@ -101,23 +101,25 @@ namespace Kross
         cogCollider->SetRadius(0.5f);
         cogCollider->SetStatic(false);
         
-        BodyDef bodyDef;
-        bodyDef.type = b2_dynamicBody;
-        bodyDef.fixedRotation = false;
-        bodyDef.userData = m_GameObject;
+        /* Excuse me! */
 
-        Body* body = m_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
-
-        CircleShape circle;
-        circle.m_radius = 0.1f;
-
-        FixtureDef fixtureDef;
-        fixtureDef.shape = &circle;
-        fixtureDef.density = 1.0f;
-        //fixtureDef.filter.categoryBits = 
-        //fixtureDef.filter.maskBits = 
-
-        body->CreateFixture(&fixtureDef);
+        //BodyDef bodyDef;
+        //bodyDef.type = b2_dynamicBody;
+        //bodyDef.fixedRotation = false;
+        //bodyDef.userData = m_GameObject;
+        //
+        //Body* body = m_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
+        //
+        //CircleShape circle;
+        //circle.m_radius = 0.1f;
+        //
+        //FixtureDef fixtureDef;
+        //fixtureDef.shape = &circle;
+        //fixtureDef.density = 1.0f;
+        ////fixtureDef.filter.categoryBits = 
+        ////fixtureDef.filter.maskBits = 
+        //
+        //body->CreateFixture(&fixtureDef);
 
         //NOW START STATIC COMPONENT.
         if (m_nameOfStaticObjConnected == "*")

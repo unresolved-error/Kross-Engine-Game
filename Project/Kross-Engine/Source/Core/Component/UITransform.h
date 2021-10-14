@@ -16,7 +16,7 @@ namespace Kross
 	class KROSS_API UITransform : public Component
 	{
 	private:
-		Vector2 m_Offset;
+		Vector2 m_Ratio;
 
 	protected:
 		/*!
@@ -29,13 +29,13 @@ namespace Kross
 		~UITransform();
 
 		/*!
-			Get's the Offset from the Main Camera.
+			Get's the Ratio.
 		*/
-		const Vector2 GetOffset() const;
+		const Vector2 GetRatio() const;
 
 		/*!
-			Set's the Offset from the Main Camera.
+			Set's the Ratio.
 		*/
-		void SetOffset(Vector2 offset);
+		void SetRatio(Vector2 offset);
 	};
 }

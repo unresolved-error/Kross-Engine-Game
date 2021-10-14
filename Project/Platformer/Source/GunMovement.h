@@ -318,7 +318,7 @@ public:
 						if (obj->GetLayer() == Layer::Player)
 						{
 							Health* health = obj->GetComponent<Health>();
-							EnemyMovement* em = obj->GetComponent<EnemyMovement>();
+							DonutMovement* em = obj->GetComponent<DonutMovement>();
 
 							if (health && em->hitTimer == em->hitTimerMax)
 							{

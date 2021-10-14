@@ -1289,6 +1289,30 @@ namespace Kross {
 							p_SelectedObject->DetachComponent<PlayerController>();
 						}
 					}
+
+					else if (typeid(*component) == typeid(UITransform))
+					{
+						UITransform* transform = (UITransform*)component;
+						if (ImGui::CollapsingHeader("UI Transform", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							/* Gather Data. */
+							Vector2 actualRatio = transform->GetRatio();
+							float ratio[2] = { actualRatio.x, actualRatio.y };
+
+							ImGui::Text("NOTE: 0,0 is Top Left. 1,1 is Bottom Right.");
+
+							ImGui::Text("Screen Ratio Positioning: ");
+							ImGui::SameLine();
+							ImGui::DragFloat2("##ratio", &ratio[0], 0.01f, 0.0f, 1.0f, "0.01f%");
+
+							transform->SetRatio(Vector2(ratio[0], ratio[1]));
+						}
+
+						if (!isOpen)
+						{
+							p_SelectedObject->DetachComponent<UITransform>();
+						}
+					}
 					else
 					{
 						ImGui::CollapsingHeader(((Script*)component)->GetName().c_str(), &isOpen, ImGuiTreeNodeFlags_Leaf);
@@ -1318,6 +1342,14 @@ namespace Kross {
 					if (ImGui::MenuItem("Camera"))
 					{
 						p_SelectedObject->AttachComponent<Camera>();
+					}
+
+					if (ImGui::BeginMenu("UI"))
+					{
+						if (ImGui::MenuItem("UI Transform"))
+						{
+							p_SelectedObject->AttachComponent<UITransform>();
+						}
 					}
 
 					if (ImGui::BeginMenu("Physics"))

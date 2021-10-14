@@ -319,6 +319,7 @@ namespace Kross
 		std::vector<std::string> playerControllerData;
 		std::vector<std::string> ropeData;
 		std::vector<std::string> cogData;
+		std::vector<std::string> uiTransformData;
 
 		std::vector<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
@@ -717,7 +718,6 @@ namespace Kross
 						// Rigidbody2D* rb = currentObject->GetComponent<Rigidbody2D>();
 						// rb->GetBody()->SetTransform(Getb2Vec2(currentObject->m_Transform->m_Position), glm::radians(currentObject->m_Transform->m_Rotation));
 					}
-
 
 					/* Go through the Sprite Renderer Data. */
 					if (spriteRendererData.size() > 0)
@@ -1291,6 +1291,53 @@ namespace Kross
 						}
 					}
 
+					if (uiTransformData.size() > 0)
+					{
+						/* Get the Rope Avatar on the object */
+						UITransform* uiTransform = currentObject->GetComponent<UITransform>();
+
+						/*go through data... Messy*/
+						for (int i = 0; i < uiTransformData.size(); i++)
+						{
+							/* Quick Variables. */
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int numberOfPositions = 0;
+
+							/* Keep Searching till we reach the end of the Line.*/
+							while ((searchPosition = uiTransformData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Data Value. */
+								std::string value = uiTransformData[i].substr(0, searchPosition);
+
+								//ENTIRE ARRAY OF BASE POSITIONS
+								std::string data = value;
+								data.erase(remove(data.begin(), data.end(), '['), data.end());
+								data.erase(remove(data.begin(), data.end(), ']'), data.end());
+
+								Vector2 ratio = Vector2(0.0f);
+
+								size_t searchPositionData = 0;
+								std::string divider = ",";
+
+								while ((searchPositionData = data.find(divider)) != std::string::npos)
+								{
+									std::string dataValue = data.substr(0, searchPositionData);
+									ratio.x = std::stof(dataValue);
+
+									data.erase(0, searchPositionData + divider.length());
+								}
+
+								ratio.y = std::stof(data);
+
+
+								/* Erase the Data just Used. */
+								uiTransformData[i].erase(0, searchPosition + lineSplitter.length());
+							}
+
+						}
+					}
+
 					if (playerControllerData.size() > 0)
 					{
 						/* Get the Player Controller on the Object. */
@@ -1379,6 +1426,7 @@ namespace Kross
 					}
 
 					cogData.clear();
+					uiTransformData.clear();
 					ropeData.clear();
 					animatorData.clear();
 					audioPlayerData.clear();
@@ -1489,6 +1537,11 @@ namespace Kross
 							currentObject->AttachComponent<Cog>();
 							cogData.push_back(line);
 
+						}
+						else if (objProperty == "UITRANSFORM")
+						{
+							currentObject->AttachComponent<UITransform>();
+							uiTransformData.push_back(line);
 						}
 						else if (objProperty == "SCRIPT")
 						{
@@ -1826,7 +1879,7 @@ namespace Kross
 					else if (typeid(*comp) == typeid(UITransform))
 					{
 						UITransform* uiTransform = (UITransform*)comp;
-						fileStream << "UITRANSFORM->[" << uiTransform->GetOffset().x << "," << uiTransform->GetOffset().y << "]->\n";
+						fileStream << "UITRANSFORM->[" << uiTransform->GetRatio().x << "," << uiTransform->GetRatio().y << "]->\n";
 					}
 					else
 					{
