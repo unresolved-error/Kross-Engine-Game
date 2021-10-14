@@ -61,6 +61,19 @@ public:
 	{
 		for (int i = 0; i < m_Health.size(); i++)
 		{
+
+			
+			if (!CheckAlive(m_Health[i]))
+			{
+				SceneManager::GetCurrentScene()->DetachObject(m_Health[i]->m_GameObject);
+
+				m_Health[i] = nullptr;
+				m_Health.erase(m_Health.begin() + i);
+
+				continue;
+			}
+		
+
 			// if (!CheckAlive(m_Health[i]))
 			// {
 			// 	//SceneManager::GetCurrentScene()->DetachObject(m_Health[i]->m_GameObject);

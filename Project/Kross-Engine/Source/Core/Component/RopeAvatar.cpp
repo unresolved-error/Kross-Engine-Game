@@ -87,8 +87,19 @@ namespace Kross
 				fixtureDef.shape = &circle;
 				fixtureDef.density = 1.0f;
 				fixtureDef.filter.categoryBits = (uint16)ColliderFilters::Chain;
-				fixtureDef.filter.maskBits = (uint16)ColliderFilters::Chain | (uint16)ColliderFilters::Level |
-					(uint16)ColliderFilters::Fluid | (uint16)ColliderFilters::Weapon;
+
+				if (m_IsBreakable) {
+
+					fixtureDef.filter.maskBits = (uint16)ColliderFilters::Chain | (uint16)ColliderFilters::Level |
+						(uint16)ColliderFilters::Fluid | (uint16)ColliderFilters::Weapon | (uint16)ColliderFilters::Environment |
+						(uint16)ColliderFilters::Puzzle;
+				}
+				else 
+				{
+					fixtureDef.filter.maskBits = (uint16)ColliderFilters::Chain | (uint16)ColliderFilters::Level |
+						(uint16)ColliderFilters::Fluid | (uint16)ColliderFilters::Environment |
+						(uint16)ColliderFilters::Puzzle;
+				}
 
 				body->CreateFixture(&fixtureDef);
 

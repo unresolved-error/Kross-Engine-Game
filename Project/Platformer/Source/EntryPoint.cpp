@@ -24,7 +24,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW HealthManager());
 	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
-	ScriptRegistry::Attach(KROSS_NEW EnvironmentalDamage());
+	ScriptRegistry::Attach(KROSS_NEW EnvironmentalDamage());   //REMOVED TO PREVENT INSTANT DEATH AT THE MOMENT.
 	ScriptRegistry::Attach(KROSS_NEW TriggerLaser());
 }
 
