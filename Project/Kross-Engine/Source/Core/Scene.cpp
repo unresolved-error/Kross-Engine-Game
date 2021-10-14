@@ -139,7 +139,7 @@ namespace Kross
 
                         __try
                         {
-                            /* PIECE OF FUCKING SHIT JUST DIE */
+                            /* Need to get Deklyn's fix. */
                             other->m_Transform->m_Position = other->m_Transform->m_Position;
                         }
                         __except (EXCEPTION_EXECUTE_HANDLER)

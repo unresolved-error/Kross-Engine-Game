@@ -35,7 +35,7 @@ public:
 
 		if (m_GameObject->GetName() == "Puzzle1Trigger1")
 		{
-			m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Puzzle1AllSorts1");
+			m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Puzzle1AllSort1");
 			m_ObjectToTrigger = SceneManager::GetCurrentScene()->FindObject("Puzzle1Cog1");			
 		}
 

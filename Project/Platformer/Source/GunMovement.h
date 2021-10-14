@@ -197,6 +197,7 @@ public:
 					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
 					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
 					Collider* collider = bullet->GetComponent<Collider>();
+					
 					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
@@ -225,6 +226,7 @@ public:
 					OnCreateObject(bullet);
 
 					rigidbody->SetFriction(bulletFriction);
+
 					
 					rigidbody->OnApplyImpulse(toMouseNormd * bulletStartForce);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
@@ -299,6 +301,11 @@ public:
 				{
 
 					Object* obj = (Object*)contact->other->GetUserData();
+					
+					///   Debug::LogLine((uint16)obj->GetComponent<Rigidbody2D>()->GetColliderFilters()->categoryBits);
+
+					/// bitwise & this with (uint16)colliderfilter::puzzle to see it hits a puzzle block.
+
 
 					if (obj != player)
 					{
@@ -309,7 +316,7 @@ public:
 
 							if (health && em->hitTimer == em->hitTimerMax)
 							{
-								Debug::LogLine(health->GetHealth());
+								// Debug::LogLine(health->GetHealth());
 								health->TakeDamage(damage);
 
 								/* For Testing Effects For now. */

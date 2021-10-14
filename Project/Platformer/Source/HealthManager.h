@@ -101,7 +101,7 @@ public:
 			{
 				m_Health[i]->TakeDamage(damage);
 
-				Debug::LogLine(i);
+			//	Debug::LogLine(i);
 			}
 		}
 	}

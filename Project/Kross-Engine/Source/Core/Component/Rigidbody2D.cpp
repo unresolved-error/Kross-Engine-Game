@@ -1100,9 +1100,9 @@ namespace Kross
             p_DebugRenderer->DrawLineSegment(leftSideDown->pos, leftSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(leftSideDown->intersectionPoint, 0.1f, 8);
             
-            if (leftSideDown->body != nullptr) {
-                Debug::LogLine(((Object*)leftSideDown->body->GetUserData())->GetName());
-            }
+           // if (leftSideDown->body != nullptr) {
+           //     Debug::LogLine(((Object*)leftSideDown->body->GetUserData())->GetName());
+           // }
 
             rightSideDown = nullptr;
             leftSideDown = nullptr;
