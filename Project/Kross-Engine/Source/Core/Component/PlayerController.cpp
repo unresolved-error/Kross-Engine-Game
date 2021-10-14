@@ -62,42 +62,67 @@ namespace Kross
 		m_JumpResetLayers.erase(m_JumpResetLayers.begin() + index);
 	}
 
+	void PlayerController::ActivateMotor(Vector2 moveDirection, float speed)
+	{
+		if (moveDirection.x > 0)
+		{
+			m_Rigidbody->GetRevJoint()->SetMotorSpeed(-speed);
+			m_Rigidbody->GetRevJoint()->EnableMotor(true);
+		}
+		else if (moveDirection.x < 0)
+		{
+			m_Rigidbody->GetRevJoint()->SetMotorSpeed(speed);
+			m_Rigidbody->GetRevJoint()->EnableMotor(true);
+		}
+		else
+		{
+			m_Rigidbody->GetRevJoint()->SetMotorSpeed(0.0f);
+		}
+	}
+
 	void PlayerController::Move(Vector2 moveDirection)
 	{
+		//Debug::LogLine(std::to_string((char)m_Rigidbody->GetRigidbodyState()));
+
 		/* If we are on the Ground. */
-		if (m_JumpCount == 0)
+		if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Idle ||
+			m_Rigidbody->GetRigidbodyState() == RigidbodyState::Walking || m_Rigidbody->GetRigidbodyState() == RigidbodyState::Running)
 		{
 			/* Applys force while the player is on the ground. */
-			if (moveDirection != Vector2(0.0f) && m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_GroundSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().x < m_GroundSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_GroundSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().y < m_GroundSpeed)
+			if (moveDirection != Vector2(0.0f) &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_GroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_GroundSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_GroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_GroundSpeed)
 			{
-				//m_Rigidbody->OnApplyForce(moveDirection);
-				m_Rigidbody->ActivateMotor(moveDirection.x, 40.0f);
+				ActivateMotor(moveDirection, 40.0f);
 			}
 			else
 			{
-				//m_Rigidbody->OnApplyForce(moveDirection * 0.1f);
-				m_Rigidbody->ActivateMotor(moveDirection.x, 1.0f);
+				ActivateMotor(moveDirection, 1.0f);
 			}
 		}
 		/* If we aren't. */
-		else
+		else if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Jumping ||	m_Rigidbody->GetRigidbodyState() == RigidbodyState::Falling)
 		{
 			/* Applys force while the player is in the air */
-			if (moveDirection != Vector2(0.0f) && m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_AirSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().x < m_AirSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_AirSpeed	&&
-				m_Rigidbody->GetBody()->GetLinearVelocity().y < m_AirSpeed)
+			if (moveDirection != Vector2(0.0f) &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_AirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_AirSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_AirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_AirSpeed)
 			{
-				m_Rigidbody->OnApplyForce(moveDirection * 0.35f);
+				m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * 0.35f, 0.0f));
 			}
 			else
 			{
-				m_Rigidbody->OnApplyForce(moveDirection * 0.01f);
+				m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * 0.01f, 0.0f));
 			}
-			m_Rigidbody->DeactivateMotor();
+		}
+		else if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Swimming)
+		{
+			m_Rigidbody->OnApplyForce(moveDirection * 0.5f);
+		}
+
+		if (moveDirection.x == 0.0f)
+		{
+			ActivateMotor(moveDirection);
 		}
 	}
 
@@ -119,7 +144,7 @@ namespace Kross
 			/* Reset the Jump Count. */
 			for (int i = 0; i < m_JumpResetLayers.size(); i++)
 			{
- 				if (other && other->GetLayer() == m_JumpResetLayers[i])
+				if (other && other->GetLayer() == m_JumpResetLayers[i])
 				{
 					m_JumpCount = 0;
 				}

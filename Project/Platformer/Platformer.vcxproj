@@ -190,6 +190,7 @@
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\DoorFunny.h" />
     <ClInclude Include="Source\EndLevel.h" />
+    <ClInclude Include="Source\EnvironmentalDamage.h" />
     <ClInclude Include="Source\GunMovement.h" />
     <ClInclude Include="Source\BackgroundManager.h" />
     <ClInclude Include="Source\CameraLock.h" />

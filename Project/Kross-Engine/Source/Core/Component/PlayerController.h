@@ -75,5 +75,7 @@ namespace Kross
 		void AttachJumpResetLayer(Layer layer);
 		void DetachJumpResetLayer(int index);
 
+
+		void ActivateMotor(Vector2 moveDirection, float speed = 0.0f);
 	};
 }

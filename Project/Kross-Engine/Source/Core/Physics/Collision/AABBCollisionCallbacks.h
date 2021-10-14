@@ -21,8 +21,7 @@ namespace Kross
     public:
         AABBCollisionCallback() :
             p_Data(nullptr)
-        {};
-
+        {}
         ~AABBCollisionCallback()
         {
             delete p_Data;
@@ -42,8 +41,8 @@ namespace Kross
         bool ReportParticle(const b2ParticleSystem* particleSystem,
             int32 index) override
         {
-            p_Data->p_ParticleSystem = particleSystem;
-            p_Data->m_ParticleIndexs.push_back(index);
+            p_Data->p_ParticleSystems.push_back((b2ParticleSystem*)particleSystem);
+            p_Data->m_ParticleIndexs.push_back(Vector2(p_Data->p_ParticleSystems.size(), index));
             return true;
         }
 
@@ -53,7 +52,7 @@ namespace Kross
         /// or false to cull particleSystem from the AABB query.
         bool ShouldQueryParticleSystem(const b2ParticleSystem* particleSystem) override
         {
-            p_Data->p_ParticleSystem = particleSystem;
+            p_Data->p_ParticleSystems.push_back((b2ParticleSystem*)particleSystem);
             return true;
         }
 

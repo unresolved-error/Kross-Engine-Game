@@ -201,13 +201,18 @@ namespace Kross
 
         /* Creates the rev joint for the player */
         b2RevoluteJointDef revJoint;
+
         revJoint.bodyA = p_Body;
+        revJoint.localAnchorA.Set(0.0f,0.0f);
+
         revJoint.bodyB = bottomCircle;
+        revJoint.localAnchorB.Set(0.0f, 0.0f);
+
         revJoint.collideConnected = false;
 
-        p_RevJoint = (b2RevoluteJoint*)p_PhysicsScene->GetPhysicsWorld()->CreateJoint(&revJoint);
-        p_RevJoint->SetMaxMotorTorque(5.0f);
-        p_RevJoint->EnableMotor(false);
+        CreateRevJoint(revJoint);
+        p_RevJoint->SetMaxMotorTorque(1.0f);
+        p_RevJoint->EnableMotor(true);
 
         p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0), m_Fixtures);
     }
@@ -453,7 +458,10 @@ namespace Kross
         {
             if (m_ShapeType == ShapeType::Capsule)
             {
-                p_DebugRenderer->DrawCapsule(p_Body, Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 16);
+                for (int i = 0; i < m_Bodies.size(); i++)
+                {
+                    p_DebugRenderer->DrawCapsule(m_Bodies[i], Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 16);
+                }
             }
             else
             {
@@ -545,9 +553,17 @@ namespace Kross
 
     void Rigidbody2D::OnUpdate()
     {
-        m_AABBCollisions.clear();
-        m_CloseObjects.clear();
-        m_Fixtures.clear();
+        p_AABBCollisionData->m_Fixture.clear();
+        p_AABBCollisionData->m_ParticleIndexs.clear();
+
+        ClearCloseObjects();
+        ClearCloseParticles();
+
+        //for (int i = GetCloseParticles().size() - 1; i >= 0; i--)
+        //{
+        //    GetCloseParticles().erase(GetCloseParticles().begin() + i);
+        //}
+
 
         if (p_Box != nullptr || p_Circle != nullptr || p_Capsule != nullptr)
         {
@@ -649,14 +665,16 @@ namespace Kross
             averageVelocity = Vector2(0, 0);
             totalVelocity = Vector2(0, 0);
 
-            for (int j = 0; j < p_AABBCollisionData->m_ParticleIndexs.size(); j++)
+            for (int i = 0; i < p_AABBCollisionData->p_ParticleSystems.size(); i++)
             {
-                Vector2 particleVelocity = Vector2(p_AABBCollisionData->p_ParticleSystem->GetVelocityBuffer()[p_AABBCollisionData->m_ParticleIndexs[j]].x,
-                    p_AABBCollisionData->p_ParticleSystem->GetVelocityBuffer()[p_AABBCollisionData->m_ParticleIndexs[j]].y);
+                for (int j = 0; j < p_AABBCollisionData->m_ParticleIndexs.size(); j++)
+                {
+                    Vector2 particleVelocity = Vector2(p_AABBCollisionData->p_ParticleSystems[i]->GetVelocityBuffer()[(int)p_AABBCollisionData->m_ParticleIndexs[j].y].x,
+                        p_AABBCollisionData->p_ParticleSystems[i]->GetVelocityBuffer()[(int)p_AABBCollisionData->m_ParticleIndexs[j].y].y);
 
-                totalVelocity += particleVelocity;
+                    totalVelocity += particleVelocity;
+                }
             }
-
             p_AABBCollisionData->m_ParticleIndexs.clear();
             averageVelocity = glm::normalize(Vector2(totalVelocity.x / particleCount, totalVelocity.y / particleCount));
             particleCount = 0;
@@ -694,16 +712,16 @@ namespace Kross
         GetSurroundingObjects(1.0f, p_Body);
 
 
-        for (int i = 0; i < m_CloseObjects.size(); i++)
+        for (int i = 0; i < GetCloseObjects().size(); i++)
         {
-            if (m_CloseObjects[i] != p_Body)
+            if (GetCloseObjects()[i] != p_Body)
             {
                 p_RayData = Physics::OnCircleCast(p_RayData->pos, p_RayData->direction,
                     p_Body, p_RayData->maxFraction, circleCastRadius);
 
                 if (p_RayData->hit == true)
                 {
-                    p_RayData->body = m_CloseObjects[i];
+                    p_RayData->body = GetCloseObjects()[i];
                 }
             }
         }
@@ -719,11 +737,11 @@ namespace Kross
         Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
 
-        for (int i = 0; i < m_CloseObjects.size(); i++)
+        for (int i = 0; i < GetCloseObjects().size(); i++)
         {
-            m_CloseObjects[i] = nullptr;
+            GetCloseObjects()[i] = nullptr;
         }
-        m_CloseObjects.clear();
+        ClearCloseObjects();
 
         /* Checks if it is a circle */
         if (p_Circle != nullptr)
@@ -748,33 +766,27 @@ namespace Kross
         else if (p_Capsule != nullptr)
         {
             PolygonShape box = PolygonShape();
-
-            for (b2Fixture* thisFixture = body->GetFixtureList(); thisFixture; thisFixture = thisFixture->GetNext())
-            {
-                if (thisFixture->GetShape()->m_type == b2Shape::Type::e_polygon)
-                {
-                    box.SetAsBox((p_Capsule->GetWidth() + size) * 0.5f, (p_Capsule->GetHeight() + size) * 0.5f);
-                }
-            }
+            box.SetAsBox((p_Capsule->GetWidth() + size) * 0.5f, (p_Capsule->GetHeight() + size) * 0.5f);
 
             /* Queries shape AABB */
             p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
                 box, body->GetTransform());
         }
 
-        //float points[10] = { body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
-        //                     body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
-        //                     body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
-        //                     body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
-        //                     body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
-        //};
+        float points[10] = 
+        { 
+            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+            body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+            body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
+        };
 
-        //p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
+        p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
 
         p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
 
         m_AABBCollisions.push_back(p_AABBCollisionData);
-
 
         /* Goes through all of the fixtures and pushes them into a list */
         for (int i = 0; i < m_AABBCollisions.size(); i++)
@@ -784,19 +796,26 @@ namespace Kross
                 /* Checks if the current fixture body is the same as the current body */
                 if (m_AABBCollisions[i]->m_Fixture[j]->GetBody() != p_Body)
                 {
-                    m_CloseObjects.push_back(m_AABBCollisions[i]->m_Fixture[j]->GetBody());
+                    AddCloseObject(m_AABBCollisions[i]->m_Fixture[j]->GetBody());
                 }
             }
         }
 
-        //for (int i = 0; i < m_CloseObjects.size(); i++)
-        //{
-        //    std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() << std::endl;
-        //}
+        /* Goes through the particles */
+        for (int i = 0; i < m_AABBCollisions.size(); i++)
+        {
+            for (int j = 0; j < m_AABBCollisions[i]->m_ParticleIndexs.size(); j++)
+            {
+                /* Gets the positions of all the particles within the AABB */
+                AddCloseParticle(Vector2(m_AABBCollisions[i]->m_ParticleIndexs[j]));
+            }
+        }
 
-        p_AABBCollisionData->m_Fixture.clear();
+        //std::cout << "Close object count: " + std::to_string(GetCloseObjects().size()) << std::endl;
+        //std::cout << "Close particle count: " + std::to_string(GetCloseParticles().size()) << std::endl;
+        
 
-        return m_CloseObjects;
+        return GetCloseObjects();
     }
 
     void Rigidbody2D::GetObjectsInDirection(float length, Body* body, Vector2 direction)
@@ -805,11 +824,11 @@ namespace Kross
 
         Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
-        for (int i = 0; i < m_CloseObjects.size(); i++)
+        for (int i = 0; i < GetCloseObjects().size(); i++)
         {
-            m_CloseObjects[i] = nullptr;
+            GetCloseObjects()[i] = nullptr;
         }
-        m_CloseObjects.clear();
+        ClearCloseObjects();
         m_Fixtures.clear();
 
         /* Checks if it is a circle */
@@ -952,7 +971,7 @@ namespace Kross
                 /* Checks if the current fixture body is the same as the current body */
                 if (m_AABBCollisions[i]->m_Fixture[j]->GetBody() != p_Body)
                 {
-                    m_CloseObjects.push_back(m_AABBCollisions[i]->m_Fixture[j]->GetBody());
+                    AddCloseObject(m_AABBCollisions[i]->m_Fixture[j]->GetBody());
                 }
             }
         }
@@ -971,31 +990,37 @@ namespace Kross
 
     void Rigidbody2D::UpdateRigidbodyState()
     {
-        int time = 0;
-
-        if (p_AABBCollisionData->m_ParticleIndexs.size() > 10)
+        if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
         {
-            SetRigidbodyState(RigidbodyState::Swimming);
+            if (p_AABBCollisionData->m_ParticleIndexs.size() > 50)
+            {
+                SetRigidbodyState(RigidbodyState::Swimming);
+                Debug::LogLine("We are swimming :)");
+            }
+            else if (p_Body->GetLinearVelocity().y > 0.0f)
+            {
+                SetRigidbodyState(RigidbodyState::Jumping);
+            }
+            else if (p_Body->GetLinearVelocity().y < -0.05f)
+            {
+                SetRigidbodyState(RigidbodyState::Falling);
+            }
         }
-        else if (p_Body->GetLinearVelocity().x == 0.0f && p_Body->GetLinearVelocity().y == 0.0f)
+        else
         {
+            if (p_Body->GetLinearVelocity().x <= 0.2f && p_Body->GetLinearVelocity().x >= -0.2f 
+             && p_Body->GetLinearVelocity().y <= 0.2f && p_Body->GetLinearVelocity().y >= -0.2f)
+            {
             SetRigidbodyState(RigidbodyState::Idle);
-        }
-        else if (p_Body->GetLinearVelocity().y < -0.05f)
-        {
-            SetRigidbodyState(RigidbodyState::Falling);
-        }
-        else if (p_Body->GetLinearVelocity().y > 0.0f)
-        {
-            SetRigidbodyState(RigidbodyState::Jumping);
-        }
-        else if (p_Body->GetLinearVelocity().x <= 2.0f && p_Body->GetLinearVelocity().x >= -2.0f)
-        {
-            SetRigidbodyState(RigidbodyState::Walking);
-        }
-        else if (p_Body->GetLinearVelocity().x > 2.0f || p_Body->GetLinearVelocity().x < -2.0f)
-        {
-            SetRigidbodyState(RigidbodyState::Running);
+            }
+            else if (p_Body->GetLinearVelocity().x > 2.0f || p_Body->GetLinearVelocity().x < -2.0f)
+            {
+                SetRigidbodyState(RigidbodyState::Running);
+            }
+            else if (p_Body->GetLinearVelocity().x <= 2.0f && p_Body->GetLinearVelocity().x >= -2.0f)
+            {
+                SetRigidbodyState(RigidbodyState::Walking);
+            }
         }
     }
 
@@ -1003,8 +1028,11 @@ namespace Kross
     {
         //Vector2 particleForce = CollideParticles();
         //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
+
         if (p_Box == nullptr && p_Circle == nullptr)
         {
+            GetSurroundingObjects(0.25f, p_Body);
+
             RaycastData* rightSideDown = KROSS_NEW RaycastData();
             RaycastData* leftSideDown = KROSS_NEW RaycastData();
 
@@ -1054,7 +1082,6 @@ namespace Kross
 
                 p_DebugRenderer->SetColour(Vector3(0.0f, 0.0f, 1.0f));
             }
-            //DeactivateMotor();
             
             /* Visulisation is broken, only displays one intersection point at a time */
             p_DebugRenderer->DrawLineSegment(rightSideDown->pos, rightSideDown->intersectionPoint);
@@ -1070,6 +1097,10 @@ namespace Kross
             delete leftSideDown;
         }
 
+
+        //std::cout << "Close object count: " + std::to_string(GetCloseObjects().size()) << std::endl;
+        //std::cout << "Close particle count: " + std::to_string(GetCloseParticles().size()) << std::endl;
+
         #ifndef KROSS_EDITOR
         /* Gets the object position and updates it with the position of the body */
         m_GameObject->m_Transform->m_Position = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y);
@@ -1079,24 +1110,6 @@ namespace Kross
         #else
         p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
         #endif
-    }
-
-    void Rigidbody2D::ActivateMotor(float direction, float speed)
-    {
-        if (direction > 0)
-        {
-            p_RevJoint->SetMotorSpeed(-speed);
-            p_RevJoint->EnableMotor(true);
-        }
-        else if (direction < 0)
-        {
-            p_RevJoint->SetMotorSpeed(speed);
-            p_RevJoint->EnableMotor(true);
-        }
-        else
-        {
-            DeactivateMotor();
-        }
     }
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)

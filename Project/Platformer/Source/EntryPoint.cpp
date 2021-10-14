@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "DoorFunny.h"
 #include "HealthManager.h"
+#include "EnvironmentalDamage.h"
 
 
 using namespace Kross;
@@ -23,6 +24,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW HealthManager());
 	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
+	ScriptRegistry::Attach(KROSS_NEW EnvironmentalDamage());
 }
 
 #ifndef KROSS_RELEASE

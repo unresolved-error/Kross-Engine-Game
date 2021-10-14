@@ -46,20 +46,16 @@ public:
 		{
 			if (!CheckAlive(m_Health[i]))
 			{
-				SceneManager::GetCurrentScene()->DetachObject(m_Health[i]->m_GameObject);
+				//SceneManager::GetCurrentScene()->DetachObject(m_Health[i]->m_GameObject);
 
-				m_Health[i] = nullptr;
-				m_Health.erase(m_Health.begin() + i);
+				RespawnPlayer(i);
+				
+
+				m_Health[i]->SetHealth(3.0f);
 
 				continue;
 			}
 		}
-
-		//if (m_Health[2] != nullptr)
-		//{
-		//	m_Health[2]->TakeDamage(1.0f * Time::GetDeltaTime());
-		//	Debug::LogLine(m_Health[2]->GetHealth());
-		//}
 	}
 
 	bool CheckAlive(Health* health)
@@ -74,7 +70,30 @@ public:
 			if (m_Health[i]->m_GameObject == object)
 			{
 				m_Health[i]->TakeDamage(damage);
+
+				Debug::LogLine(i);
 			}
+		}
+	}
+
+	void RespawnPlayer(int index)
+	{
+		Vector2 respawnPoint(1.0f, 1.0f);
+		Vector2 resetVelocity(0.0f, 0.0f);
+		if (index == 0)
+		{
+			SceneManager::GetCurrentScene()->FindObject("Player")->GetComponent<Rigidbody2D>()->SetBodyPos(respawnPoint);
+			SceneManager::GetCurrentScene()->FindObject("Player")->GetComponent<Rigidbody2D>()->SetBodyVelocity(resetVelocity);
+		}
+		else if (index == 1)
+		{
+			SceneManager::GetCurrentScene()->FindObject("Enemy1")->GetComponent<Rigidbody2D>()->SetBodyPos(respawnPoint);
+			SceneManager::GetCurrentScene()->FindObject("Enemy1")->GetComponent<Rigidbody2D>()->SetBodyVelocity(resetVelocity);
+		}
+		else if (index == 2)
+		{
+			SceneManager::GetCurrentScene()->FindObject("Enemy")->GetComponent<Rigidbody2D>()->SetBodyPos(respawnPoint);
+			SceneManager::GetCurrentScene()->FindObject("Enemy")->GetComponent<Rigidbody2D>()->SetBodyVelocity(resetVelocity);
 		}
 	}
 

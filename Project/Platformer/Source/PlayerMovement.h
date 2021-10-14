@@ -71,7 +71,7 @@ public:
 		if (Input::ControllerConnected(m_ControllerID))
 		{
 			/* Grab it's Input. */
-			input = Vector2(Input::GetControllerAxis(m_ControllerID, Controller::LeftStickHorizontal, 0.1f), 0.0f);
+			input = Vector2(Input::GetControllerAxis(m_ControllerID, Controller::LeftStickHorizontal, 0.1f), Input::GetControllerAxis(m_ControllerID, Controller::LeftStickVertical, 0.1f));
 			jumpDir = Vector2(0.0f, (float)Input::GetControllerButtonPressed(m_ControllerID, Controller::A));
 		}
 		/* Use Keyboard and Mouse instead. */
@@ -81,7 +81,7 @@ public:
 			m_ControllerID = Input::GetAvalibleController();
 
 			/* Grab the Input needed. */
-			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), 0.0f);
+			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
 			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::W)));
 		}
 

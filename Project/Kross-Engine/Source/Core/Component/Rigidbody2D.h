@@ -35,7 +35,7 @@ namespace Kross
         Circle* p_Circle;
         b2Filter* p_Filter;
         b2RevoluteJoint* p_RevJoint;
-
+        
         LineRenderer* p_DebugRenderer;
 
         ShapeType m_ShapeType;
@@ -53,6 +53,7 @@ namespace Kross
         std::vector<Circle*> m_TileCornerShapes;
         std::vector<FixtureDef*> m_Fixtures;
         std::vector<Body*> m_Bodies;
+        std::vector<Vector2> m_CloseParticles;
 
         float m_Friction = 0.5f;
 
@@ -129,7 +130,7 @@ namespace Kross
         CollisionState GetCollisionState() { return m_CollisionState; }
 
         void SetRigidbodyState(RigidbodyState state) { m_RigidbodyState = state; }
-        RigidbodyState GetRigidbodyState() { return m_RigidbodyState; }
+        RigidbodyState GetRigidbodyState() { return (RigidbodyState)m_RigidbodyState; }
 
         /* Calculates the spring under the player */
         Vector2 SpringCalculation(Body* body1, Body* body2, float distance);
@@ -183,11 +184,33 @@ namespace Kross
         /* Gets the collider filters */
         b2Filter* GetColliderFilters() { return p_Filter; }
 
-        void ActivateMotor(float direction, float speed);
-        void DeactivateMotor() 
-        { 
-            p_RevJoint->SetMotorSpeed(0.0f);
-            p_RevJoint->EnableMotor(false); 
+        /* Takes a rev joint definition and creates a revolute joint */
+        void CreateRevJoint(b2RevoluteJointDef revJointDef) { p_RevJoint = (b2RevoluteJoint*)p_PhysicsScene->GetPhysicsWorld()->CreateJoint(&revJointDef); }
+        /* Gets the revolute joint */
+        b2RevoluteJoint* GetRevJoint() { return p_RevJoint; }
+
+        void AddCloseObject(Body* body) { m_CloseObjects.push_back(body); }
+        void ClearCloseObjects() { m_CloseObjects.clear(); }
+        std::vector<Body*> GetCloseObjects() { return m_CloseObjects; }
+
+        void AddCloseParticle(Vector2 pos) { m_CloseParticles.push_back(pos); }
+        void ClearCloseParticles() { m_CloseParticles.clear(); }
+        std::vector<Vector2> GetCloseParticles() { return m_CloseParticles; }
+
+        void SetBodyPos(Vector2 pos)
+        {
+            for (int i = 0; i < m_Bodies.size(); i++)
+            {
+                m_Bodies[i]->SetTransform(Getb2Vec2(pos), 0.0f);
+            }
+        }
+
+        void SetBodyVelocity(Vector2 velocity)
+        {
+            for (int i = 0; i < m_Bodies.size(); i++)
+            {
+                m_Bodies[i]->SetLinearVelocity(Getb2Vec2(velocity));
+            }
         }
     };
 }

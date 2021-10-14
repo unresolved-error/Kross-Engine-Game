@@ -290,6 +290,7 @@ public:
 					{
 						m_HealthManager->DoDamage(obj, damage);
 
+
 						//Debug::LogLine(obj->GetName());
 
 						//bulletHits[i] = true;

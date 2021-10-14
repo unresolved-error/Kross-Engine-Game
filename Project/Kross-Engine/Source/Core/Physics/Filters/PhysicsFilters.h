@@ -52,7 +52,6 @@ namespace Kross
     enum class KROSS_API RigidbodyState
     {
         Idle,
-        Grounded,
         Walking,
         Running,
         Jumping,
@@ -66,8 +65,9 @@ namespace Kross
     struct KROSS_API AABBCollisionData
     {
         std::vector<b2Fixture*> m_Fixture;
-        const b2ParticleSystem* p_ParticleSystem = nullptr;
-        std::vector<int> m_ParticleIndexs;
+        std::vector<b2ParticleSystem*> p_ParticleSystems;
+        /* The first variable in the vec2 is the particle system that the index corrasponds with */
+        std::vector<Vector2> m_ParticleIndexs;
         bool m_Collision = false;
     };
 
