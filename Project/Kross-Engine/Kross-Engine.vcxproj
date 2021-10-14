@@ -102,7 +102,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; KROSS_DEBUG;; WITH_WINMM;;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;$(ProjectDir)Vendor\imgui\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4251; 4275</DisableSpecificWarnings>
     </ClCompile>
@@ -122,7 +122,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS; KROSS_RELEASE;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;$(ProjectDir)Vendor\imgui\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251; 4275</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -144,7 +144,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;$(ProjectDir)Vendor\imgui\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251; 4275</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -166,7 +166,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions) KROSS_PLATFORM_WINDOWS; KROSS_ENGINE; WITH_WINMM;_CRT_SECURE_NO_WARNINGS; KROSS_EDITOR; KROSS_DEBUG;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\; $(ProjectDir)Vendor\imgui\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Vendor\glew\include\;$(ProjectDir)Vendor\glfw\include\;$(ProjectDir)Vendor\glm\include\;$(ProjectDir)Vendor\stb_image\include\;$(ProjectDir)Vendor\fnl\include\;$(ProjectDir)Vendor\liquidfun\Box2D\;$(ProjectDir)Vendor\soloud\include\;$(ProjectDir)Vendor\imgui\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251; 4275</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -213,10 +213,10 @@
     <ClInclude Include="Source\Core\Editor\Windows\SceneHierarchy.h" />
     <ClInclude Include="Source\Core\File-IO\Logger.h" />
     <ClInclude Include="Source\Core\File-IO\Manifest.h" />
-    <ClInclude Include="Source\Core\Physics\Cog\CogRotationPiece.h" />
     <ClInclude Include="Source\Core\Physics\Rope\RopeSegment.h" />
     <ClInclude Include="Source\Core\Renderer\Vertex\PostProcessVertex.h" />
     <ClInclude Include="Source\Core\Serialiser\AudioSourceSerialiser.h" />
+    <ClInclude Include="Source\Core\Serialiser\EditorSerialiser.h" />
     <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserLoad.h" />
     <ClInclude Include="Source\Core\Serialiser\Object\ObjectSerialiserWrite.h" />
     <ClInclude Include="Source\Core\Serialiser\SceneHierarchySerialiser.h" />

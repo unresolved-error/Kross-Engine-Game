@@ -15,14 +15,6 @@ TEXTURE->Assets/Textures/KrossFont.krs->
 TEXTURE->Assets/Textures/Particle.krs->
 TEXTURE->Assets/Textures/Marshall-Mellow.krs->
 TEXTURE->Assets/Textures/Tilemap.krs->
-TEXTURE->Assets/Textures/icoAnimation.krs->
-TEXTURE->Assets/Textures/icoAudio.krs->
-TEXTURE->Assets/Textures/icoFont.krs->
-TEXTURE->Assets/Textures/icoMaterial.krs->
-TEXTURE->Assets/Textures/icoSprite.krs->
-TEXTURE->Assets/Textures/icoTexture.krs->
-TEXTURE->Assets/Textures/icoTile-Map.krs->
-TEXTURE->Assets/Textures/icoTile-Set.krs->
 TEXTURE->Assets/Textures/AllSorts.krs->
 TEXTURE->Assets/Textures/Donut.krs->
 TEXTURE->Assets/Textures/BackgroundSky.krs->
@@ -33,8 +25,20 @@ TEXTURE->Assets/Textures/LollipopBlue.krs->
 TEXTURE->Assets/Textures/Gun.krs->
 TEXTURE->Assets/Textures/CrossHair.krs->
 TEXTURE->Assets/Textures/Door.krs->
+TEXTURE->Assets/Textures/Laser.krs->
 TEXTURE->Assets/Textures/Bullet.krs->
 TEXTURE->Assets/Textures/Chain.krs->
+
+// Editor
+TEXTURE->Assets/Textures/icoAnimation.krs->
+TEXTURE->Assets/Textures/icoAudio.krs->
+TEXTURE->Assets/Textures/icoFont.krs->
+TEXTURE->Assets/Textures/icoMaterial.krs->
+TEXTURE->Assets/Textures/icoSprite.krs->
+TEXTURE->Assets/Textures/icoTexture.krs->
+TEXTURE->Assets/Textures/icoTile-Map.krs->
+TEXTURE->Assets/Textures/icoTile-Set.krs->
+TEXTURE->Assets/Textures/toolTranslate.krs->
 
 // Load Sprites. (Make sure Sprites are loaded before Materials and Animations!)
 SPRITE->Assets/Sprites/sprDiffuse.krs->
@@ -53,8 +57,12 @@ SPRITE->Assets/Sprites/sprForegroundCandy.krs->
 SPRITE->Assets/Sprites/sprLollipopBlue.krs->
 SPRITE->Assets/Sprites/sprCrossHair.krs->
 SPRITE->Assets/Sprites/sprDoor.krs->
+SPRITE->Assets/Sprites/sprLaser.krs->
 SPRITE->Assets/Sprites/sprBullet.krs->
 SPRITE->Assets/Sprites/sprChain.krs->
+
+// Editor
+SPRITE->Assets/Sprites/toolTranslate.krs->
 
 // Load Animations.
 ANIMATION->Assets/Animations/animMarshalIdle.krs->
@@ -80,6 +88,7 @@ MATERIAL->Assets/Materials/matLollipopBlue.krs->
 MATERIAL->Assets/Materials/matGun.krs->
 MATERIAL->Assets/Materials/matCrossHair.krs->
 MATERIAL->Assets/Materials/matDoor.krs->
+MATERIAL->Assets/Materials/matLaser.krs->
 MATERIAL->Assets/Materials/matBullet.krs->
 
 // Load Audio Assets.

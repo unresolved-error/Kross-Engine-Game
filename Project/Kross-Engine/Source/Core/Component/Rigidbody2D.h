@@ -57,6 +57,8 @@ namespace Kross
 
         float m_Friction = 0.5f;
 
+        bool m_IsBullet = false;
+
     protected:
         friend class PhysicsScene;
         friend class Scene;
@@ -212,5 +214,8 @@ namespace Kross
                 m_Bodies[i]->SetLinearVelocity(Getb2Vec2(velocity));
             }
         }
+
+        void SetContinuousCollision(bool isContinuous) { m_IsBullet = isContinuous; }
+
     };
 }

@@ -7,8 +7,8 @@
 #include "Button.h"
 #include "DoorFunny.h"
 #include "HealthManager.h"
+#include "TriggerLaser.h"
 #include "EnvironmentalDamage.h"
-
 
 using namespace Kross;
 
@@ -25,6 +25,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
 	ScriptRegistry::Attach(KROSS_NEW EnvironmentalDamage());
+	ScriptRegistry::Attach(KROSS_NEW TriggerLaser());
 }
 
 #ifndef KROSS_RELEASE
@@ -59,8 +60,7 @@ void AttachScripts()
 	#include <Windows.h>
 	
 	/* Run the program without the Debugging Console. */
-	int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)
-	{
+	int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)	{
 		Application::OnCreate();
 
 		AttachScripts();

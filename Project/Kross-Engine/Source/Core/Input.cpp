@@ -167,14 +167,7 @@ namespace Kross
 		/* Obtain the GLFW Window. */
 		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
-		/* If the Mouse specified isn't none. */
-		if (mouse != Mouse::None)
-		{
-			return (bool)glfwGetMouseButton(window, (int)mouse); /* Get if the Mouse is down. */
-		}
-
-		/* If nothing specified return false. */
-		return false;
+		return (bool)glfwGetMouseButton(window, (int)mouse); /* Get if the Mouse is down. */
 	}
 
 	bool Input::GetMouseButtonPressed(Mouse mouse)

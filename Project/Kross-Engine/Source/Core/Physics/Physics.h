@@ -81,5 +81,7 @@ namespace Kross
 
         // Gets the Fluid Collision Callback.
         static AABBCollisionCallback* GetAABBCollisionCallback() { return m_Instance->p_AABBCollisionCallback; };
+
+        static Vector2 GetCollisionNormal(b2Contact* contact);
     };
 }

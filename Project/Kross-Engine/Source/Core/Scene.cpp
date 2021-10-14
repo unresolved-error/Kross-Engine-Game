@@ -49,6 +49,7 @@ namespace Kross
 
         #ifdef KROSS_EDITOR
         Object::OnDestroy(m_EditorCamera);
+        Object::OnDestroy(m_EditorObjectTool);
         #endif
 
         delete m_Physics;
@@ -83,6 +84,7 @@ namespace Kross
         #ifdef KROSS_EDITOR 
         // Start the Editor Camera
         m_EditorCamera->OnStart();
+        m_EditorObjectTool->OnStart();
         #endif
 
         /* Scene has Started. */
@@ -92,24 +94,9 @@ namespace Kross
     void Scene::OnUpdate()
     {
         #ifdef KROSS_EDITOR
-        if (!Editor::AnyWindowIsActive())
-        {
-            float inputX = (float)((int)Input::GetKeyDown(Key::RightArrow) - (int)Input::GetKeyDown(Key::LeftArrow));
-            float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
-            Vector2 input = Vector2(inputX, inputY);
-
-            m_EditorCamera->m_Transform->m_Position += input * 3.0f * Time::GetDeltaTime();
-        }
-
-        if (!Editor::AnyWindowIsHovered())
-        {
-            Camera* editorCamera = m_EditorCamera->GetComponent<Camera>();
-
-            float size = glm::clamp(editorCamera->GetSize() + (-Input::GetMouseScroll() / 2.0f), 0.1f, 500.0f);
-            editorCamera->SetSize(size);
-        }
-
+        Editor::MoveEditorCamera(m_EditorCamera);
         m_EditorCamera->OnUpdate();
+        m_EditorObjectTool->OnUpdate();
         #endif
 
         /* Update all Dynamic Objects. */
@@ -121,10 +108,10 @@ namespace Kross
 
     void Scene::OnPhysicsUpdate()
     {
-        int refreshRate = 144;// Application::GetWindow()->GetScreenRefreshRate();
-        int particleIterations = glm::ceil(2 * (60.0f / (float)refreshRate));
-        int positionIterations = glm::ceil(8 * (60.0f / (float)refreshRate));
-        int velocityIterations = glm::ceil(16 * (60.0f / (float)refreshRate));
+        int refreshRate = Application::GetWindow()->GetScreenRefreshRate();
+        int particleIterations = static_cast<int>(glm::ceil(2 * (60.0f / static_cast<float>(refreshRate))));
+        int positionIterations = static_cast<int>(glm::ceil(8 * (60.0f / static_cast<float>(refreshRate))));
+        int velocityIterations = static_cast<int>(glm::ceil(16 * (60.0f / static_cast<float>(refreshRate))));
 
         /* Update the physics step */
         if (Application::GetWindow()->GetVSync() == 1)
@@ -147,21 +134,54 @@ namespace Kross
                 {
                     if (body->GetRayCollisionBody())
                     {
-                        Object* other = (Object*)body->GetRayCollisionBody()->GetUserData();
+
+                        Object* other = static_cast<Object*>(body->GetRayCollisionBody()->GetUserData());
+
+                        __try
+                        {
+                            /* PIECE OF FUCKING SHIT JUST DIE */
+                            other->m_Transform->m_Position = other->m_Transform->m_Position;
+                        }
+                        __except (EXCEPTION_EXECUTE_HANDLER)
+                        {
+                            continue;
+                        }
+
                         if (body->GetCollisionState() == CollisionState::Enter)
                         {
-                            if (other && !other->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionEnter(other);
+                            __try
+                            {
+                                if (other && !other->ShouldBeRemoved())
+                                    m_ActualObjects[i]->OnCollisionEnter(other);
+                            }
+                            __except (GetExceptionCode())
+                            {
+                                continue;
+                            }
                         }
                         else if (body->GetCollisionState() == CollisionState::Stay)
                         {
-                            if (other && !other->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionStay(other);
+                            __try
+                            {
+                                if (other && !other->ShouldBeRemoved())
+                                    m_ActualObjects[i]->OnCollisionStay(other);
+                            }
+                            __except (GetExceptionCode())
+                            {
+                                continue;
+                            }
                         }
                         else if (body->GetCollisionState() == CollisionState::Exit)
                         {
-                            if (other && !other->ShouldBeRemoved())
-                                m_ActualObjects[i]->OnCollisionExit(other);
+                            __try
+                            {
+                                if (other && !other->ShouldBeRemoved())
+                                    m_ActualObjects[i]->OnCollisionExit(other);
+                            }
+                            __except (GetExceptionCode())
+                            {
+                                continue;
+                            }
                         }
                     }
                 }
@@ -434,6 +454,16 @@ namespace Kross
             body->SetPhysicsScene(m_Physics);
             body->AttachLineRenderer(m_DebugRenderer);
         }
+
+        Cog* cog = object->GetComponent<Cog>();
+        if (cog) 
+        {
+            cog->SetPhysicsScene(m_Physics);
+            
+            
+        }
+
+
 
         /* Check if the object is type Particle Emitter */
         ParticleEmitter* emitter = object->GetComponent<ParticleEmitter>();

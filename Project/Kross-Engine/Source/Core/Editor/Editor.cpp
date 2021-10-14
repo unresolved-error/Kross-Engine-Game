@@ -10,6 +10,8 @@
 
 #include "../Serialiser/Serialiser.h"
 
+#include "../Manager/Time.h"
+
 namespace Kross
 {
 	Editor* Editor::m_Instance = nullptr;
@@ -26,18 +28,12 @@ namespace Kross
 
 	void Editor::OnCreate()
 	{
-		if (!m_Instance)
-		{
-			m_Instance = KROSS_NEW Editor();
-		}
+		if (!m_Instance) m_Instance = KROSS_NEW Editor();
 	}
 
 	void Editor::OnDestroy()
 	{
-		if (m_Instance)
-		{
-			delete m_Instance;
-		}
+		if (m_Instance) delete m_Instance;
 	}
 
 	void Editor::OnStart(Window* window)
@@ -56,7 +52,7 @@ namespace Kross
 		}
 
 		Serialiser<SceneHierarchy> serialiser;
-		for (int i = 0; i, m_Instance->m_EditorWindows.size(); i++)
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
 		{
 			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
 			{
@@ -73,7 +69,7 @@ namespace Kross
 	void Editor::OnUpdate()
 	{
 		/* Gets the Main Viewport. */
-		m_Instance->p_Viewport = ImGui::GetMainViewport();
+		m_Instance->m_Viewport = ImGui::GetMainViewport();
 
 		//ImGui::ShowDemoWindow();
 
@@ -96,18 +92,10 @@ namespace Kross
 	{
 		m_Instance->m_EditorWindows.push_back(window);
 
-		if (typeid(*window) == typeid(ObjectEditor))
-		{
-			m_Instance->p_ObjectEditor = (ObjectEditor*)window;
-		}
-		if (typeid(*window) == typeid(MainMenu))
-		{
-			m_Instance->p_MainMenu = (MainMenu*)window;
-		}
-		if (typeid(*window) == typeid(AssetPanel))
-		{
-			m_Instance->p_AssetPanel = (AssetPanel*)window;
-		}
+		if (typeid(*window) == typeid(ObjectEditor)) m_Instance->m_ObjectEditor = (ObjectEditor*)window;
+		if (typeid(*window) == typeid(MainMenu)) m_Instance->m_MainMenu = (MainMenu*)window;
+		if (typeid(*window) == typeid(AssetPanel)) m_Instance->m_AssetPanel = (AssetPanel*)window;
+
 		if (m_Instance->m_IsUpdating)
 		{
 			window->OnStart();
@@ -128,20 +116,20 @@ namespace Kross
 
 	Vector2 Editor::GetViewportPosition()
 	{
-		if (m_Instance->p_Viewport)
+		if (m_Instance->m_Viewport)
 		{
-			return Vector2(m_Instance->p_Viewport->WorkPos.x, m_Instance->p_Viewport->WorkPos.y);
+			return Vector2(m_Instance->m_Viewport->WorkPos.x, m_Instance->m_Viewport->WorkPos.y);
 		}
-		return Vector2(0);
+		return Vector2(0.0f);
 	}
 
 	Vector2 Editor::GetViewportSize()
 	{
-		if (m_Instance->p_Viewport)
+		if (m_Instance->m_Viewport)
 		{
-			return Vector2(m_Instance->p_Viewport->WorkSize.x, m_Instance->p_Viewport->WorkSize.y);
+			return Vector2(m_Instance->m_Viewport->WorkSize.x, m_Instance->m_Viewport->WorkSize.y);
 		}
-		return Vector2(0);
+		return Vector2(0.0f);
 	}
 
 	void Editor::OnRender()
@@ -149,6 +137,64 @@ namespace Kross
 		/* Render the Editor. */
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
+
+	void Editor::LoadEditorCamera(Object* editorCamera)
+	{
+		Serialiser<Editor> serialiser;
+		serialiser.Load("Editor/EditorBase.krs", editorCamera);
+	}
+
+	void Editor::WriteEditorCamera(Object* editorCamera)
+	{
+		Serialiser<Editor> serialiser;
+		serialiser.Write("Editor/EditorBase.krs", editorCamera);
+	}
+
+	void Editor::MoveEditorCamera(Object* editorCamera)
+	{
+		if (!Editor::AnyWindowIsActive())
+		{
+			float inputX = (float)((int)Input::GetKeyDown(Key::RightArrow) - (int)Input::GetKeyDown(Key::LeftArrow));
+			float inputY = (float)((int)Input::GetKeyDown(Key::UpArrow) - (int)Input::GetKeyDown(Key::DownArrow));
+			Vector2 input = Vector2(inputX, inputY);
+
+			if (input != Vector2(0.0f))
+			{
+				if (m_Instance->m_CameraMoveSpeedMultiplier < m_Instance->m_CameraMoveSpeedMultiplierMax)
+				{
+					m_Instance->m_CameraMoveSpeedMultiplier *= 1.025f;
+				}
+			}
+
+			else
+			{
+				if (m_Instance->m_CameraMoveSpeedMultiplier > 1.0f)
+				{
+					if (m_Instance->m_CameraMoveSpeedMultiplierResetTimer < m_Instance->m_CameraMoveSpeedMultiplierResetTimerMax)
+					{
+						m_Instance->m_CameraMoveSpeedMultiplierResetTimer += Time::GetDeltaTime();
+					}
+					else
+					{
+						m_Instance->m_CameraMoveSpeedMultiplier = 1.0f;
+						m_Instance->m_CameraMoveSpeedMultiplierResetTimer = 0.0f;
+					}
+
+					m_Instance->m_CameraMoveSpeedMultiplier *= 0.975f;
+				}
+			}
+
+			editorCamera->m_Transform->m_Position += input * m_Instance->m_CameraMoveSpeedMultiplier * Time::GetDeltaTime();
+		}
+
+		if (!Editor::AnyWindowIsHovered())
+		{
+			Camera* camera = editorCamera->GetComponent<Camera>();
+
+			float size = glm::clamp(camera->GetSize() + (-Input::GetMouseScroll() / 2.0f), 0.1f, 500.0f);
+			camera->SetSize(size);
+		}
 	}
 
 	void Editor::SetScene(Scene* scene)
@@ -167,7 +213,7 @@ namespace Kross
 		ImGui::DestroyContext();
 
 		Serialiser<SceneHierarchy> serialiser;
-		for (int i = 0; i, m_Instance->m_EditorWindows.size(); i++)
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
 		{
 			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
 			{

@@ -45,7 +45,7 @@ public:
 
 	bool flipX = false;
 	float angle = 0.0f;
-	float damage = 0.75f;
+	float damage = 1.0f;
 	int bulletCount = 0;
 		
 	Sprite* Degree0; //PURE RIGHT
@@ -94,7 +94,6 @@ public:
 		currentGunSprite = Degree0;
 		bulletSprite = ResourceManager::GetResource<Sprite>("Bullet");
 
-
 		m_CrossHair = SceneManager::GetCurrentScene()->FindObject("CrossHair");
 	}
 
@@ -113,12 +112,14 @@ public:
 			if (m_TimeElapsed < m_RateOfFire)
 			{
 				m_TimeElapsed += Time::GetDeltaTime();
+				m_PlayerMovement->m_ShakeCamera = true;
 			}
 
 			else
 			{
 				m_TimeElapsed = 0.0f;
 				m_Fired = false;
+				m_PlayerMovement->m_ShakeCamera = false;
 			}
 		}
 
@@ -136,7 +137,7 @@ public:
 		{
 			float velX = player->GetComponent<Rigidbody2D>()->GetBody()->GetLinearVelocity().x;
 
-			int value = glm::sign(velX);
+			int value = static_cast<int>(glm::sign(velX));
 
 			if (glm::abs(velX) < 0.01)
 			{
@@ -169,6 +170,11 @@ public:
 		Vector2 toCrosshair = toMouseNormd * 1.5f;
 		Vector2 toEndOfGun = toMouseNormd * 0.03f;
 
+		if (m_Fired)
+		{
+			m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd *0.2f);
+		}
+
 
 		LineRenderer* endOfGunDebug = m_GameObject->GetDebugRenderer();
 		Vector2 crossHairLocation = Vector2(toCrosshair + m_GameObject->m_Transform->m_Position);
@@ -187,10 +193,10 @@ public:
 				if (Input::GetMouseButtonDown(Mouse::Right))
 				{
 					Object* bullet = Object::OnCreate("Bullet-Clone");
-
 					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
 					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
 					Collider* collider = bullet->GetComponent<Collider>();
+					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
 					bullet->m_Transform->m_Rotation = angle;
@@ -207,9 +213,11 @@ public:
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
 					Colour colour = Colour(1.0f);
+					#ifndef _DEBUG
 					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
+					#endif
 
 					sprite->SetColour(colour);
 
@@ -237,6 +245,7 @@ public:
 					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
 					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
 					Collider* collider = bullet->GetComponent<Collider>();
+					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
 					bullet->m_Transform->m_Rotation = angle;
@@ -254,9 +263,11 @@ public:
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
 					Colour colour = Colour(1.0f);
+					#ifndef _DEBUG
 					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
+					#endif
 
 					sprite->SetColour(colour);
 
@@ -282,25 +293,36 @@ public:
 		{
 			for (b2ContactEdge* contact = bullets[i]->GetComponent<Rigidbody2D>()->GetBody()->GetContactList(); contact; contact = contact->next)
 			{
-				Object* obj = (Object*)contact->other->GetUserData();
-
-				if (obj != player)
+				if (contact->contact->IsTouching())
 				{
-					if (obj->GetLayer() == Layer::Player)
+
+					Object* obj = (Object*)contact->other->GetUserData();
+
+					if (obj != player)
 					{
-						m_HealthManager->DoDamage(obj, damage);
+						if (obj->GetLayer() == Layer::Player)
+						{
+							Health* health = obj->GetComponent<Health>();
+							EnemyMovement* em = obj->GetComponent<EnemyMovement>();
 
+							if (health && em->hitTimer == em->hitTimerMax)
+							{
+								Debug::LogLine(health->GetHealth());
+								health->TakeDamage(damage);
 
-						//Debug::LogLine(obj->GetName());
+								/* For Testing Effects For now. */
+								SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
 
-						//bulletHits[i] = true;
+								bullets[i] = nullptr;
+								bullets.erase(bullets.begin() + i);
 
-						//SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+								em->hit = true;
+							}
 
-						//bullets[i] = nullptr;
-						//bullets.erase(bullets.begin() + i);
+							bulletHits[i] = true;
 
-						break;
+							break;
+						}
 					}
 				}
 			}

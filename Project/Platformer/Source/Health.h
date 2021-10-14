@@ -32,10 +32,6 @@ public:
 		m_MaxHealth = m_Health;
 	}
 
-	void Update() override
-	{
-	}
-
 	void SetHealth(float health) 
 	{ 
 		m_Health = health;
@@ -50,20 +46,11 @@ public:
 
 	void Heal(float heal)
 	{
-		if (m_Health == m_MaxHealth)
+		m_Health += heal;
+
+		if (m_Health > m_MaxHealth)
 		{
-			// Do nothing
-		}
-		else if (m_Health += heal <= m_MaxHealth)
-		{
-			m_Health += heal;
-		}
-		else
-		{
-			float temp = m_Health + heal;
-			temp = temp - m_MaxHealth;
-			heal -= temp;
-			m_Health += heal;
+			m_Health = m_MaxHealth;
 		}
 	}
 };

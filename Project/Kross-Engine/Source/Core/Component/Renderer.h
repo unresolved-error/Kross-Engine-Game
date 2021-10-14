@@ -45,3 +45,4 @@ namespace Kross
 #include "ParticleEmitter.h"
 #include "TileMapRenderer.h"
 #include "RopeAvatar.h"
+#include "Cog.h"

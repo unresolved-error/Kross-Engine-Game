@@ -63,6 +63,7 @@ namespace Kross
         BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(pos.x, pos.y);
+        bodyDef.bullet = m_IsBullet;
         
         /* Creates the body and assigns it to the pointer */
         p_Body = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&bodyDef);
@@ -377,8 +378,12 @@ namespace Kross
         //TODO: Add Collider Filter Data to Collider.
         SetColliderFilter(collider->GetCollisionFilters());
 
+        
+
         if (!collider->IsTileMapCollider())
         {
+           
+
             switch (collider->GetShapeType())
             {
             case Kross::ShapeType::Box:
@@ -387,11 +392,13 @@ namespace Kross
                 {
                     CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position,
                         GetColliderFilters(), collider->GetFriction());
+                   //SetMass(collider->GetMass());
                 }
                 else
                 {
                     CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                         GetColliderFilters(), collider->GetFriction());
+                   //SetMass(collider->GetMass());
                 }
                 break;
             }
@@ -400,11 +407,13 @@ namespace Kross
                 if (collider->IsStatic())
                 {
                     CreateWorldCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, GetColliderFilters(), collider->GetFriction());
+                  //SetMass(collider->GetMass());
                 }
                 else
                 {
                     CreateDynamicCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                         GetColliderFilters(), collider->GetFriction());
+                  //SetMass(collider->GetMass());
                 }
                 break;
             }
@@ -412,6 +421,7 @@ namespace Kross
             {
                 CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                     GetColliderFilters(), collider->GetFriction());
+                //SetMass(collider->GetMass());
                 break;
             }
             }
@@ -655,7 +665,7 @@ namespace Kross
                 *(b2Shape*)shape, p_Body->GetTransform());
             p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
 
-            particleCount = p_AABBCollisionData->m_ParticleIndexs.size();
+            particleCount = static_cast<int>(p_AABBCollisionData->m_ParticleIndexs.size());
         }
 
         if (particleCount != 0)
@@ -771,7 +781,6 @@ namespace Kross
             /* Queries shape AABB */
             p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
                 box, body->GetTransform());
-        }
 
         float points[10] = 
         { 
@@ -782,7 +791,8 @@ namespace Kross
             body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
         };
 
-        p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
+            p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
+        }
 
         p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
 
@@ -1089,6 +1099,10 @@ namespace Kross
             
             p_DebugRenderer->DrawLineSegment(leftSideDown->pos, leftSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(leftSideDown->intersectionPoint, 0.1f, 8);
+            
+            if (leftSideDown->body != nullptr) {
+                Debug::LogLine(((Object*)leftSideDown->body->GetUserData())->GetName());
+            }
 
             rightSideDown = nullptr;
             leftSideDown = nullptr;
@@ -1096,6 +1110,21 @@ namespace Kross
             delete rightSideDown;
             delete leftSideDown;
         }
+
+        //POISSIBLE LASER TRIGGER IMPLEMENTATION. RISKY. MAYBE BETTER SOLUTION?
+
+       /// if (m_GameObject->GetName() == "Puzzle1Trigger1")
+       /// {
+       ///     Object* m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Puzzle1AllSorts1");
+       ///     m_GameObject->GetComponent<Rigidbody2D>()->CalculateRayLength(1.0f, Vector2(0, -1), m_GameObject->m_Transform->m_Position);
+       ///     p_RayData = m_GameObject->GetComponent<Rigidbody2D>()->GetRaycastData();
+       ///     if ((Object*)p_RayData->body->GetUserData() == m_ObjectThatTriggers)
+       ///     {
+       ///         Cog* m_ObjectToTrigger = (Cog*)SceneManager::GetCurrentScene()->FindObject("Puzzle1Cog1");
+       ///         m_ObjectToTrigger->TriggerMotor();
+       ///     }
+       /// }
+
 
 
         //std::cout << "Close object count: " + std::to_string(GetCloseObjects().size()) << std::endl;

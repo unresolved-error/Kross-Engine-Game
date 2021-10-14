@@ -34,6 +34,11 @@ namespace Kross
 		ForeGround,
 		UI,
 
+		/* MUST BE LAST! */
+		#ifdef KROSS_EDITOR /* If the Editor Layer Should Exist. */
+		Editor,
+		#endif
+
 		/* Layer Count. */
 		Count,
 

@@ -318,6 +318,7 @@ namespace Kross
 		std::vector<std::string> particleEmitterData;
 		std::vector<std::string> playerControllerData;
 		std::vector<std::string> ropeData;
+		std::vector<std::string> cogData;
 
 		std::vector<Object*> readInObjects;
 		Object* currentObject = Object::OnCreate();
@@ -688,6 +689,7 @@ namespace Kross
 								/* Rotation Lock Setting. */
 								case 8:
 								{
+									
 									collider->SetRotationLock((bool)std::stoi(value));
 									break;
 								}
@@ -1245,6 +1247,50 @@ namespace Kross
 
 					}
 
+					if (cogData.size() > 0)
+					{
+						/*Get the cog on the object.*/
+						Cog* cog = currentObject->GetComponent<Cog>();
+						for (int i = 0; i < cogData.size(); i++)
+						{
+							size_t searchPosition = 0;
+							std::string lineSplitter = "->";
+							int varSwitch = 0;
+
+							while ((searchPosition = cogData[i].find(lineSplitter)) != std::string::npos)
+							{
+								/* Get the Data Value. */
+								std::string value = cogData[i].substr(0, searchPosition);
+
+								switch (varSwitch)
+								{
+									case 0:
+									{
+										float speed = stof(value);
+										cog->UpdateMotorSpeed(speed);
+										break;
+									}
+									case 1:
+									{
+										float torque = stof(value);
+										cog->UpdateMaxMotorTorque(torque);
+										break;
+									}
+									case 2:
+									{
+										cog->SetStartReserveName(value);
+										break;
+									}
+								}
+								/* Erase the Data just Used. */
+								cogData[i].erase(0, searchPosition + lineSplitter.length());
+
+								/* Up the Var Switch. */
+								varSwitch++;
+							}
+						}
+					}
+
 					if (playerControllerData.size() > 0)
 					{
 						/* Get the Player Controller on the Object. */
@@ -1332,6 +1378,7 @@ namespace Kross
 						}
 					}
 
+					cogData.clear();
 					ropeData.clear();
 					animatorData.clear();
 					audioPlayerData.clear();
@@ -1437,7 +1484,12 @@ namespace Kross
 							ropeData.push_back(line);
 							
 						}
+						else if (objProperty == "COG") 
+						{
+							currentObject->AttachComponent<Cog>();
+							cogData.push_back(line);
 
+						}
 						else if (objProperty == "SCRIPT")
 						{
 							Script* script = ScriptRegistry::GetScript(line.substr(0, line.size() - 2));
@@ -1699,6 +1751,8 @@ namespace Kross
 					}
 					else if (typeid(*comp) == typeid(Rigidbody2D))
 					{
+						/*INTENTIONALLY LEFT BLANK. RIGID BODIES ARE ##NOT## USED TO WRITE BOX2D INFORMATION*/
+						/*SEE ELSEWHERE FOR Collider PROPERTIES.*/
 					}
 					else if (typeid(*comp) == typeid(ParticleEmitter))
 					{
@@ -1736,6 +1790,25 @@ namespace Kross
 						fileStream << controller->m_GroundSpeed << "->";
 						fileStream << controller->m_AirSpeed << "->";
 						fileStream << controller->m_JumpStrength << "->\n";
+					}
+					else if (typeid(*comp) == typeid(Cog))
+					{
+						Cog* newCog = (Cog*)comp;
+						fileStream << "COG->";
+						fileStream << newCog->GetMotorSpeed() << "->";
+						fileStream << newCog->GetMaxMotorTorque() << "->";
+						if (newCog->GetStartReserveName() != "*")
+						{
+							fileStream << newCog->GetStartReserveName() << "->\n";
+						}
+						else
+						{
+							fileStream << "*->\n";
+						}
+
+
+
+
 					}
 					else
 					{

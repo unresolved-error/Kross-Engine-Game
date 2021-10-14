@@ -19,29 +19,26 @@ namespace Kross
 	private:
 		static Editor* m_Instance;
 		std::vector<EditorWindow*> m_EditorWindows;
-		ObjectEditor* p_ObjectEditor;
-		MainMenu* p_MainMenu;
-		AssetPanel* p_AssetPanel;
+		ObjectEditor* m_ObjectEditor;
+		MainMenu* m_MainMenu;
+		AssetPanel* m_AssetPanel;
 
 		bool m_IsUpdating;
 
-		ImGuiViewport* p_Viewport;
-
-		float m_ScrollSpeedMultiplier = 1.0f;
-		float m_ScrollSpeedMultiplierResetTimer = 0.0f;
-		float m_ScrollSpeedMultiplierResetTimerMax = 6.0f;
+		ImGuiViewport* m_Viewport;
 
 		float m_CameraMoveSpeedMultiplier = 1.0f;
+		float m_CameraMoveSpeedMultiplierMax = 10.0f;
 		float m_CameraMoveSpeedMultiplierResetTimer = 0.0f;
-		float m_CameraMoveSpeedMultiplierResetTimerMax = 6.0f;
+		float m_CameraMoveSpeedMultiplierResetTimerMax = 3.0f;
 
 		Editor() :
 			m_EditorWindows	(std::vector<EditorWindow*>()),
-			p_ObjectEditor	(nullptr),
-			p_MainMenu		(nullptr),
-			p_AssetPanel	(nullptr),
+			m_ObjectEditor	(nullptr),
+			m_MainMenu		(nullptr),
+			m_AssetPanel	(nullptr),
 			m_IsUpdating	(false),
-			p_Viewport		(nullptr)
+			m_Viewport		(nullptr)
 		{};
 
 		~Editor();
@@ -54,8 +51,13 @@ namespace Kross
 		static void OnDestroy();
 
 		static void OnStart(Window* window);
+
 		static void OnUpdate();
 		static void OnRender();
+
+		static void LoadEditorCamera(Object* editorCamera);
+		static void WriteEditorCamera(Object* editorCamera);
+
 
 		static void SetScene(Scene* scene);
 
@@ -67,17 +69,18 @@ namespace Kross
 		static void NewFrame();
 
 	public:
-		static void SetObjectEditorObject(Object* object) { m_Instance->p_ObjectEditor->p_SelectedObject = object; };
-		static void SetMainMenuObject(Object* object) { m_Instance->p_MainMenu->SetSelectedObject(object); };
-		static void SetAssetPanelAssetType(AssetType type) { m_Instance->p_AssetPanel->SetAssetType(type); }
+		static void SetObjectEditorObject(Object* object) { m_Instance->m_ObjectEditor->p_SelectedObject = object; };
+		static void SetMainMenuObject(Object* object) { m_Instance->m_MainMenu->SetSelectedObject(object); };
+		static void SetAssetPanelAssetType(AssetType type) { m_Instance->m_AssetPanel->SetAssetType(type); }
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
+
+		static void MoveEditorCamera(Object* editorCamera);
 
 		static bool AnyWindowIsHovered() { return ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow); };
 		static bool AnyWindowIsActive() { return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow); };
 
 		static Vector2 GetViewportPosition();
 		static Vector2 GetViewportSize();
-		//static void DetachEditorWindow(EditorWindow* window) { m_Instance->m_EditorWindows.push_back(window); };
 	};
 }

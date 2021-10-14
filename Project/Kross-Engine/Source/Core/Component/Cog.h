@@ -7,7 +7,7 @@
 #pragma once
 
 #include "../Core.h"
-#include "../Physics/Cog/CogRotationPiece.h"
+
 #include "Renderer.h"
 
 namespace Kross
@@ -15,15 +15,23 @@ namespace Kross
     class KROSS_API Cog : public Renderer
     {
     private:
+        bool fullInit = false;
 
         Rigidbody2D* m_StaticBody;
         Rigidbody2D* m_RotatingBody;
+        
+        std::string m_nameOfStaticObjConnected = "*";
+        Rigidbody2D* m_StaticBodyConnectedBody = nullptr;
 
-        CogRotationPiece* m_RotationPiece;
 
         PhysicsScene* m_PhysicsScene;
 
         b2RevoluteJoint* m_MotorJoint;
+
+        float m_MaxMotorTorque = 0.0f;
+        float m_MotorSpeed = 0.0f;
+
+        bool m_MotorTrigger = false;
 
     protected:
         friend class Object;
@@ -49,20 +57,31 @@ namespace Kross
             m_PhysicsScene(nullptr),
             m_StaticBody(nullptr),
             m_RotatingBody(nullptr),
-            m_MotorJoint(nullptr),
-            m_RotationPiece(nullptr)
+            m_MotorJoint(nullptr)
         {};
         ~Cog() {};
 
+        void TriggerMotor();
 
+        void UpdateMotorSpeed(float newSpeed);
+
+        void UpdateMaxMotorTorque(float newTorque);
+
+
+        float GetMotorSpeed() { return m_MotorSpeed; };
+
+        float GetMaxMotorTorque() { return m_MaxMotorTorque; };
+        
+        Rigidbody2D* GetRopeStartConnectedBody() const { return m_StaticBodyConnectedBody; };
 
         void SpawnCog();
 
         void StartRotation();
 
+        void ConnectStaticBody();
 
-
-
+        std::string GetStartReserveName();
+        void SetStartReserveName(std::string name);
 
     };
 }
