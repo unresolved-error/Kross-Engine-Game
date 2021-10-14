@@ -112,5 +112,6 @@ namespace Kross
 #include "Animator.h"
 #include "AudioPlayer.h"
 #include "ButtonProperties.h"
+#include "UITransform.h"
 
 #include "Renderer.h"
