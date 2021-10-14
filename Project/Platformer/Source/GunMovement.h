@@ -40,7 +40,8 @@ public:
 	float m_RateOfFire = 0.1f;
 	float m_TimeElapsed = 0.0f;
 	float bulletStartForce = 0.025f;
-	float bulletFriction = 0.5f;
+	float bulletMass = 0.005f;
+	float bulletFriction = 0.75f;
 	float bulletDecayThreshold = 0.005f;
 
 	bool flipX = false;
@@ -224,6 +225,7 @@ public:
 					OnCreateObject(bullet);
 
 					rigidbody->SetFriction(bulletFriction);
+					
 					rigidbody->OnApplyImpulse(toMouseNormd * bulletStartForce);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
