@@ -11,5 +11,4 @@ void main()
 {
 	vec4 texColour = texture(u_Atlas, vec2(o_UVs.x, (1.0 - o_UVs.y) + (2.0 / 8192)));
 	a_FragColour = o_Colour * texColour; 
-	//a_FragColour = vec4(1,0, 0, 1);//o_Colour * texColour; 
 }

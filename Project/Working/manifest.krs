@@ -28,6 +28,8 @@ TEXTURE->Assets/Textures/Door.krs->
 TEXTURE->Assets/Textures/Laser.krs->
 TEXTURE->Assets/Textures/Bullet.krs->
 TEXTURE->Assets/Textures/Chain.krs->
+TEXTURE->Assets/Textures/Choco.krs->
+TEXTURE->Assets/Textures/UI.krs->
 
 // Editor
 TEXTURE->Assets/Textures/icoAnimation.krs->
@@ -50,6 +52,7 @@ SPRITE->Assets/Sprites/sprSheetGun.krs->
 SPRITE->Assets/Sprites/sprSheetDirtTileMap.krs->
 SPRITE->Assets/Sprites/sprAllSorts.krs->
 SPRITE->Assets/Sprites/sprSheetDonut.krs->
+SPRITE->Assets/Sprites/sprSheetChoco.krs->
 SPRITE->Assets/Sprites/sprBackgroundSky.krs->
 SPRITE->Assets/Sprites/sprMountains.krs->
 SPRITE->Assets/Sprites/sprMountains1.krs->
@@ -60,6 +63,7 @@ SPRITE->Assets/Sprites/sprDoor.krs->
 SPRITE->Assets/Sprites/sprLaser.krs->
 SPRITE->Assets/Sprites/sprBullet.krs->
 SPRITE->Assets/Sprites/sprChain.krs->
+SPRITE->Assets/Sprites/sprSheetUI.krs->
 
 // Editor
 SPRITE->Assets/Sprites/toolTranslate.krs->
@@ -90,6 +94,7 @@ MATERIAL->Assets/Materials/matCrossHair.krs->
 MATERIAL->Assets/Materials/matDoor.krs->
 MATERIAL->Assets/Materials/matLaser.krs->
 MATERIAL->Assets/Materials/matBullet.krs->
+MATERIAL->Assets/Materials/matUI.krs->
 
 // Load Audio Assets.
 AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->

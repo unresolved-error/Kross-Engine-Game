@@ -23,6 +23,14 @@ namespace Kross
 		m_Rigidbody = GetComponent<Rigidbody2D>();
 	}
 
+	void PlayerController::OnUpdate()
+	{
+		CollisionState state = m_Rigidbody->GetCollisionState();
+		if (state == CollisionState::Enter) m_JumpCount = 0;
+		else if (state == CollisionState::Stay) m_JumpCount = 0;
+		else if (state == CollisionState::Exit) m_JumpCount = 0;
+	}
+
 	Layer PlayerController::GetJumpResetLayer(int index) const
 	{
 		/* If the index is outside the bounds of the array, early out. */
@@ -137,48 +145,48 @@ namespace Kross
 		}
 	}
 
-	void PlayerController::OnCollisionEnter(Object* other)
-	{
-		if (other != nullptr)
-		{
-			/* Reset the Jump Count. */
-			for (int i = 0; i < m_JumpResetLayers.size(); i++)
-			{
-				if (other && other->GetLayer() == m_JumpResetLayers[i])
-				{
-					m_JumpCount = 0;
-				}
-			}
-		}
-	}
-
-	void PlayerController::OnCollisionStay(Object* other)
-	{
-		if (other != nullptr)
-		{
-			/* Reset the Jump Count. */
-			for (int i = 0; i < m_JumpResetLayers.size(); i++)
-			{
-				if (other->GetLayer() == m_JumpResetLayers[i])
-				{
-					m_JumpCount = 0;
-				}
-			}
-		}
-	}
-
-	void PlayerController::OnCollisionExit(Object* other)
-	{
-		if (other != nullptr)
-		{
-			/* Reset the Jump Count. */
-			for (int i = 0; i < m_JumpResetLayers.size(); i++)
-			{
-				if (other->GetLayer() == m_JumpResetLayers[i])
-				{
-					m_JumpCount = 0;
-				}
-			}
-		}
-	}
+	//void PlayerController::OnCollisionEnter(Object* other)
+	//{
+	//	if (other != nullptr)
+	//	{
+	//		/* Reset the Jump Count. */
+	//		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+	//		{
+ 	//			if (other && other->GetLayer() == m_JumpResetLayers[i])
+	//			{
+	//				m_JumpCount = 0;
+	//			}
+	//		}
+	//	}
+	//}
+	//
+	//void PlayerController::OnCollisionStay(Object* other)
+	//{
+	//	if (other != nullptr)
+	//	{
+	//		/* Reset the Jump Count. */
+	//		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+	//		{
+	//			if (other->GetLayer() == m_JumpResetLayers[i])
+	//			{
+	//				m_JumpCount = 0;
+	//			}
+	//		}
+	//	}
+	//}
+	//
+	//void PlayerController::OnCollisionExit(Object* other)
+	//{
+	//	if (other != nullptr)
+	//	{
+	//		/* Reset the Jump Count. */
+	//		for (int i = 0; i < m_JumpResetLayers.size(); i++)
+	//		{
+	//			if (other->GetLayer() == m_JumpResetLayers[i])
+	//			{
+	//				m_JumpCount = 0;
+	//			}
+	//		}
+	//	}
+	//{
 }

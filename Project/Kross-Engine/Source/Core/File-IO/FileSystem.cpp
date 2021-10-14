@@ -1609,6 +1609,7 @@ namespace Kross
 						}
 						fileStream << "\n";
 					}
+
 					else if (typeid(*comp) == typeid(Camera))
 					{
 						Camera* cam = (Camera*)comp;
@@ -1677,6 +1678,7 @@ namespace Kross
 						fileStream << "\n";
 
 					}
+
 					else if (typeid(*comp) == typeid(AudioPlayer))
 					{
 						AudioPlayer* aud = (AudioPlayer*)comp;
@@ -1688,6 +1690,7 @@ namespace Kross
 						fileStream << aud->GetProperties()->GetPan() << "->";
 						fileStream << "\n";
 					}
+
 					else if (typeid(*comp) == typeid(Collider))
 					{
 						Collider* rig = (Collider*)comp;
@@ -1705,6 +1708,7 @@ namespace Kross
 						fileStream << rig->GetCollisionFilters()->maskBits << "->";
 						fileStream << "\n";
 					}
+
 					else if (typeid(*comp) == typeid(SpriteRenderer))
 					{
 						SpriteRenderer* sprR = (SpriteRenderer*)comp;
@@ -1719,6 +1723,7 @@ namespace Kross
 						fileStream << (int)sprR->GetDepth() << "->";
 						fileStream << "\n";
 					}
+
 					else if (typeid(*comp) == typeid(TextRenderer))
 					{
 						TextRenderer* tr = (TextRenderer*)comp;
@@ -1737,6 +1742,7 @@ namespace Kross
 						fileStream << tr->GetTextSize() << "->";
 						fileStream << "\n";
 					}
+
 					else if (typeid(*comp) == typeid(TileMapRenderer))
 					{
 						TileMapRenderer* tmr = (TileMapRenderer*)comp;
@@ -1746,19 +1752,23 @@ namespace Kross
 						fileStream << tmr->GetTileMap()->GetName() << "->";
 						fileStream << "\n";
 					}
+
 					else if (typeid(*comp) == typeid(Transform2D))
 					{
 					}
+
 					else if (typeid(*comp) == typeid(Rigidbody2D))
 					{
 						/*INTENTIONALLY LEFT BLANK. RIGID BODIES ARE ##NOT## USED TO WRITE BOX2D INFORMATION*/
 						/*SEE ELSEWHERE FOR Collider PROPERTIES.*/
 					}
+
 					else if (typeid(*comp) == typeid(ParticleEmitter))
 					{
 						/*INTENTIONALLY LEFT BLANK. EMITTERS ARE ##NOT## USED TO WRITE PARTICLE INFORMATION*/
 						/*SEE BELOW FOR PARTICLE PROPERTIES.*/
 					}
+
 					else if (typeid(*comp) == typeid(ParticleProperties)) 
 					{
 						ParticleProperties* pep = (ParticleProperties*)comp;
@@ -1771,6 +1781,7 @@ namespace Kross
 						fileStream << pep->GetMaxCount() << "->\n";
 
 					}
+
 					else if (typeid(*comp) == typeid(PlayerController))
 					{
 						PlayerController* controller = (PlayerController*)comp;
@@ -1791,6 +1802,7 @@ namespace Kross
 						fileStream << controller->m_AirSpeed << "->";
 						fileStream << controller->m_JumpStrength << "->\n";
 					}
+
 					else if (typeid(*comp) == typeid(Cog))
 					{
 						Cog* newCog = (Cog*)comp;
@@ -1809,6 +1821,12 @@ namespace Kross
 
 
 
+					}
+
+					else if (typeid(*comp) == typeid(UITransform))
+					{
+						UITransform* uiTransform = (UITransform*)comp;
+						fileStream << "UITRANSFORM->[" << uiTransform->GetOffset().x << "," << uiTransform->GetOffset().y << "]->\n";
 					}
 					else
 					{

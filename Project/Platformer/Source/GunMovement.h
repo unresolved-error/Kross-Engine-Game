@@ -299,8 +299,14 @@ public:
 			{
 				if (contact->contact->IsTouching())
 				{
-
 					Object* obj = (Object*)contact->other->GetUserData();
+					
+					if (obj->GetLayer() == Layer::Player)
+					{
+						Health* health = obj->GetComponent<Health>();
+						DonutMovement* em = obj->GetComponent<DonutMovement>();
+					}
+
 					
 					///   Debug::LogLine((uint16)obj->GetComponent<Rigidbody2D>()->GetColliderFilters()->categoryBits);
 

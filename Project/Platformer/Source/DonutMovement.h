@@ -4,18 +4,18 @@
 
 using namespace Kross;
 
-class EnemyMovement : public Script
+class DonutMovement : public Script
 {
 public:
-	EnemyMovement() :
+	DonutMovement() :
 		renderer(nullptr),
 		rigidBody(nullptr),
 		animator(nullptr)
 	{
 		/* Every Script Must do this! */
-		m_Name = "EnemyMovement";
+		m_Name = "DonutMovement";
 	};
-	~EnemyMovement() {};
+	~DonutMovement() {};
 
 	SpriteRenderer* renderer;
 	Rigidbody2D* rigidBody;
@@ -48,7 +48,7 @@ public:
 
 	Script* Duplicate() override
 	{
-		return KROSS_NEW EnemyMovement();
+		return KROSS_NEW DonutMovement();
 	}
 
 	void Start() override

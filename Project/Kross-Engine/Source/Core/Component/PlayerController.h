@@ -34,11 +34,13 @@ namespace Kross
 
 		void OnStart() override;
 
-		void OnCollisionEnter(Object* other) override;
+		void OnUpdate() override;
 
-		void OnCollisionStay(Object* other) override;
-
-		void OnCollisionExit(Object* other) override;
+		//void OnCollisionEnter(Object* other) override;
+		//
+		//void OnCollisionStay(Object* other) override;
+		//
+		//void OnCollisionExit(Object* other) override;
 
 	public:
 		PlayerController() :

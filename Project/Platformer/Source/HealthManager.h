@@ -30,9 +30,6 @@ public:
 
 	void Start() override
 	{
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Puzzle2Enemy1")->GetComponent<Health>());
-		m_Health[0]->SetHealth(800000.0f);
-
 		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Player")->GetComponent<Health>());
 		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy1")->GetComponent<Health>());
 		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy2")->GetComponent<Health>());

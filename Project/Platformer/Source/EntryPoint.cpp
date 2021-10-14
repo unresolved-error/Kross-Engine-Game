@@ -1,6 +1,6 @@
 #include <Kross.h>
 #include "PlayerMovement.h"
-#include "EnemyMovement.h"
+#include "DonutMovement.h"
 #include "BackgroundManager.h"
 #include "CameraLock.h"
 #include "GunMovement.h"
@@ -20,7 +20,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW DoorFunny());
 	ScriptRegistry::Attach(KROSS_NEW CameraLock());
 	ScriptRegistry::Attach(KROSS_NEW GunMovement());
-	ScriptRegistry::Attach(KROSS_NEW EnemyMovement());
+	ScriptRegistry::Attach(KROSS_NEW DonutMovement());
 	ScriptRegistry::Attach(KROSS_NEW HealthManager());
 	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
