@@ -291,32 +291,36 @@ public:
 		{
 			for (b2ContactEdge* contact = bullets[i]->GetComponent<Rigidbody2D>()->GetBody()->GetContactList(); contact; contact = contact->next)
 			{
-				Object* obj = (Object*)contact->other->GetUserData();
-
-				if (obj != player)
+				if (contact->contact->IsTouching())
 				{
-					if (obj->GetLayer() == Layer::Player)
+
+					Object* obj = (Object*)contact->other->GetUserData();
+
+					if (obj != player)
 					{
-						Health* health = obj->GetComponent<Health>();
-						EnemyMovement* em = obj->GetComponent<EnemyMovement>();
-
-						if (health && em->hitTimer == em->hitTimerMax)
+						if (obj->GetLayer() == Layer::Player)
 						{
-							Debug::LogLine(health->GetHealth());
-							health->TakeDamage(damage);
+							Health* health = obj->GetComponent<Health>();
+							EnemyMovement* em = obj->GetComponent<EnemyMovement>();
 
-							/* For Testing Effects For now. */
-							SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
-							
-							bullets[i] = nullptr;
-							bullets.erase(bullets.begin() + i);
+							if (health && em->hitTimer == em->hitTimerMax)
+							{
+								Debug::LogLine(health->GetHealth());
+								health->TakeDamage(damage);
 
-							em->hit = true;
+								/* For Testing Effects For now. */
+								SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+
+								bullets[i] = nullptr;
+								bullets.erase(bullets.begin() + i);
+
+								em->hit = true;
+							}
+
+							bulletHits[i] = true;
+
+							break;
 						}
-
-						bulletHits[i] = true;
-
-						break;
 					}
 				}
 			}
