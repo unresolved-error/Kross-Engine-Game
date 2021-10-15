@@ -53,7 +53,7 @@ namespace Kross
         delete p_AABBCollisionData;
     }
 
-    void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction)
+    void Rigidbody2D::CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction, float density)
     {
         SetFriction(friction);
         /* Sets the shape type */
@@ -79,7 +79,7 @@ namespace Kross
         /* Creates a fixtureDef and assigns the variables */
         FixtureDef fixtureDef;
         fixtureDef.shape = &circleShape;
-        fixtureDef.density = 0.5f;
+        fixtureDef.density = density;
         fixtureDef.friction = m_Friction;
         fixtureDef.filter = *filter;
         
@@ -412,7 +412,7 @@ namespace Kross
                 else
                 {
                     CreateDynamicCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
-                        GetColliderFilters(), collider->GetFriction());
+                        GetColliderFilters(), collider->GetFriction(), collider->GetDensity());
                   //SetMass(collider->GetMass());
                 }
                 break;

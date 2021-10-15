@@ -672,7 +672,7 @@ namespace Kross
 								/* Mass Setting. */
 								case 5:
 								{
-									collider->SetMass(std::stof(value));
+									collider->SetDensity(std::stof(value));
 									break;
 								}
 								/* Static Setting. */
@@ -1753,7 +1753,7 @@ namespace Kross
 						fileStream << rig->GetHeight() << "->";
 						fileStream << rig->GetRadius() << "->";
 						fileStream << rig->GetFriction() << "->";
-						fileStream << rig->GetMass() << "->";
+						fileStream << rig->GetDensity() << "->";
 						fileStream << (int)rig->IsStatic() << "->";
 						fileStream << (int)rig->IsTileMapCollider() << "->";
 						fileStream << (int)rig->IsRotationLocked() << "->";

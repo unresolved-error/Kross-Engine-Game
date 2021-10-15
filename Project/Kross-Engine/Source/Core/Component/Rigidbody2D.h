@@ -108,7 +108,7 @@ namespace Kross
 
 
         /* Creates a new dynamic circle */
-        void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction = 0.5f);
+        void CreateDynamicCircle(float radius, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction = 0.5f, float density = 0.5f);
 
         /* Creates a new dynamic box */
         void CreateDynamicBox(Vector2 dimensions, Vector2 pos, bool fixedRotation, b2Filter* filter, float friction);

@@ -39,7 +39,7 @@ public:
 	bool m_Fired = false;
 	float m_RateOfFire = 0.1f;
 	float m_TimeElapsed = 0.0f;
-	float bulletStartForce = 0.025f;
+	float bulletStartForce = 0.25f;
 	float bulletMass = 0.005f;
 	float bulletFriction = 0.75f;
 	float bulletDecayThreshold = 0.005f;
@@ -211,6 +211,7 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
+					collider->SetDensity(5.0f);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
@@ -263,6 +264,7 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
+					collider->SetDensity(5.0f);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 

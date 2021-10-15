@@ -17,7 +17,7 @@ namespace Kross
 	{
 	private:
 		ShapeType m_Type;
-		float m_Width, m_Height, m_Radius, m_Friction, m_Mass;
+		float m_Width, m_Height, m_Radius, m_Friction, m_Density;
 
 		bool m_IsStatic, m_FixedRotation, m_IsTileMap;
 
@@ -33,7 +33,7 @@ namespace Kross
 			m_Height			(1.0f),
 			m_Radius			(0.5f),
 			m_Friction			(0.5f),
-			m_Mass				(1.0f),
+			m_Density			(1.0f),
 			m_IsStatic			(false),
 			m_FixedRotation		(false),
 			m_IsTileMap			(false),
@@ -58,7 +58,7 @@ namespace Kross
 		float GetFriction() const { return m_Friction; };
 
 		// Gets the Mass of the Collider.
-		float GetMass() const { return m_Mass; };
+		float GetDensity() const { return m_Density; };
 
 		// Gets if the Collider is Static.
 		bool IsStatic() const { return m_IsStatic; };
@@ -85,7 +85,7 @@ namespace Kross
 		void SetFriction(float friction) { m_Friction = friction; };
 
 		// Sets the Mass of the Collider.
-		void SetMass(float mass) { m_Mass = mass; };
+		void SetDensity(float mass) { m_Density = mass; };
 
 		// Sets if the Collider is Static.
 		void SetStatic(bool value) { m_IsStatic = value; };
