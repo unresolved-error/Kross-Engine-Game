@@ -971,7 +971,7 @@ namespace Kross {
 							float c_Height = col->GetHeight();
 							float c_Radius = col->GetRadius();
 							float c_Frict = col->GetFriction();
-							float c_Mass = col->GetMass();
+							float c_Mass = col->GetDensity();
 							bool c_IsStatic = col->IsStatic();
 							bool c_FixedRot = col->IsRotationLocked();
 							bool c_IsTileMap = col->IsTileMapCollider();
@@ -1170,7 +1170,7 @@ namespace Kross {
 							col->SetStatic(c_IsStatic);
 							col->SetRotationLock(c_FixedRot);
 							col->SetTileMapCollider(c_IsTileMap);
-							col->SetMass(c_Mass);
+							col->SetDensity(c_Mass);
 							b2Filter* tempFilter = KROSS_NEW b2Filter();
 							tempFilter->categoryBits = pp_CatBits;
 							tempFilter->maskBits = pp_MaskBits;
