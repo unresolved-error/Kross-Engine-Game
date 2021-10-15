@@ -29,6 +29,7 @@ TEXTURE->Assets/Textures/Laser.krs->
 TEXTURE->Assets/Textures/Bullet.krs->
 TEXTURE->Assets/Textures/Chain.krs->
 TEXTURE->Assets/Textures/Choco.krs->
+TEXTURE->Assets/Textures/Cog.krs->
 TEXTURE->Assets/Textures/UI.krs->
 
 // Editor
@@ -64,6 +65,8 @@ SPRITE->Assets/Sprites/sprLaser.krs->
 SPRITE->Assets/Sprites/sprBullet.krs->
 SPRITE->Assets/Sprites/sprChain.krs->
 SPRITE->Assets/Sprites/sprSheetUI.krs->
+SPRITE->Assets/Sprites/sprCog.krs->
+
 
 // Editor
 SPRITE->Assets/Sprites/toolTranslate.krs->
@@ -95,6 +98,7 @@ MATERIAL->Assets/Materials/matDoor.krs->
 MATERIAL->Assets/Materials/matLaser.krs->
 MATERIAL->Assets/Materials/matBullet.krs->
 MATERIAL->Assets/Materials/matUI.krs->
+MATERIAL->Assets/Materials/matCog.krs->
 
 // Load Audio Assets.
 AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->
