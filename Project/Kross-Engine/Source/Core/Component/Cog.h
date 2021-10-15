@@ -32,6 +32,7 @@ namespace Kross
         float m_MotorSpeed = 0.0f;
 
         bool m_MotorTrigger = false;
+        bool m_RotationComplete = false;
 
     protected:
         friend class Object;

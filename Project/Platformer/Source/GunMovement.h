@@ -334,6 +334,13 @@ public:
 								em->hit = true;
 							}
 
+							//KROSS TODO:
+
+							//IF BULLET COLLIDES WITH A ROPE SEGMENT
+
+							//CALL THE SEGMENT DESTRUCT HERE.
+
+
 							bulletHits[i] = true;
 
 							break;

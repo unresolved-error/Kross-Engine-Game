@@ -19,7 +19,7 @@ namespace Kross
         SpawnCog();
         
         UpdateMotorSpeed(0.0f);
-        UpdateMaxMotorTorque(50.0f);
+        UpdateMaxMotorTorque(1000.0f);
     }
 
     void Cog::ConnectStaticBody()
@@ -57,6 +57,9 @@ namespace Kross
             jointDef.bodyA = m_StaticBodyConnectedBody->GetBody();
             jointDef.localAnchorA.Set(0.0f, 0.0f); //Dead center of both.
             jointDef.localAnchorB.Set(0.0f, 0.0f);
+            // jointDef.enableLimit = true;
+            // jointDef.lowerAngle = -4.71239; //LOCKS AT 270 degrees as limit. Will only rotate 270 either direction.
+            // jointDef.upperAngle = 4.71239;
             
             m_MotorJoint = (b2RevoluteJoint*)m_PhysicsScene->GetPhysicsWorld()->CreateJoint(&jointDef);
             m_MotorJoint->SetMaxMotorTorque(m_MaxMotorTorque);
@@ -67,7 +70,17 @@ namespace Kross
             
         }
         
-        if (m_MotorTrigger)
+        if (m_MotorJoint->GetJointAngle() > 4.71239 || m_MotorJoint->GetJointAngle() < -4.71239)
+        {
+            m_RotationComplete = true;
+
+            m_MotorJoint->EnableLimit(true);
+            float currentAngle = m_MotorJoint->GetJointAngle();
+            m_MotorJoint->SetLimits(currentAngle, currentAngle);
+            m_MotorJoint->EnableMotor(false);
+        }
+
+        if (!m_RotationComplete && m_MotorTrigger)
         { 
             UpdateMotorSpeed(-1.0f); 
         }
