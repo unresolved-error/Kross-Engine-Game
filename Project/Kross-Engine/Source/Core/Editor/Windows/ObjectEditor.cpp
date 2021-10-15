@@ -1301,9 +1301,9 @@ namespace Kross {
 
 							ImGui::Text("NOTE: 0,0 is Top Left. 1,1 is Bottom Right.");
 
-							ImGui::Text("Screen Ratio Positioning: ");
+							ImGui::Text("Ratio: ");
 							ImGui::SameLine();
-							ImGui::DragFloat2("##ratio", &ratio[0], 0.01f, 0.0f, 1.0f, "0.01f%");
+							ImGui::DragFloat2("##ratio", &ratio[0], 0.01f, 0.0f, 1.0f, "%.3f");
 
 							transform->SetRatio(Vector2(ratio[0], ratio[1]));
 						}
@@ -1350,6 +1350,7 @@ namespace Kross {
 						{
 							p_SelectedObject->AttachComponent<UITransform>();
 						}
+						ImGui::EndMenu();
 					}
 
 					if (ImGui::BeginMenu("Physics"))

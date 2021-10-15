@@ -1051,13 +1051,46 @@ namespace Kross
                 delete rightSideDown;
                 delete leftSideDown;
 
-                rightSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
-                leftSideDown = CalculateRayLength(0.3f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x - p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
+                rightSideDown = CalculateRayLength(0.15f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
+                leftSideDown = CalculateRayLength(0.15f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x - p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
             }
             UpdateRigidbodyState();
 
             if (rightSideDown->hit  || leftSideDown->hit)
             {
+                //if (rightSideDown->hit)
+                //{
+                //    Object* rightObject = (Object*)rightSideDown->body->GetUserData();
+                //    Rigidbody2D* rrb = rightObject->GetComponent<Rigidbody2D>();
+                //    if (rrb)
+                //    {
+                //        uint16 catBits = (uint16)rrb->GetColliderFilters()->categoryBits;
+                //        if (catBits & (static_cast<uint16>(ColliderFilters::Level) | static_cast<uint16>(ColliderFilters::Environment) | static_cast<uint16>(ColliderFilters::Enemy)))
+                //        {
+                //            if (PlayerController* controller = m_GameObject->GetComponent<PlayerController>())
+                //            {
+                //                controller->m_JumpCount = 0;
+                //            }
+                //        }
+                //    }
+                //}
+                //
+                //else if (leftSideDown->hit)
+                //{
+                //    Object* leftObject = (Object*)leftSideDown->body->GetUserData();
+                //    Rigidbody2D* lrb = leftObject->GetComponent<Rigidbody2D>();
+                //    if (lrb)
+                //    {
+                //        uint16 catBits = (uint16)lrb->GetColliderFilters()->categoryBits;
+                //        if (catBits & (static_cast<uint16>(ColliderFilters::Level) | static_cast<uint16>(ColliderFilters::Environment) | static_cast<uint16>(ColliderFilters::Enemy)))
+                //        {
+                //            if (PlayerController* controller = m_GameObject->GetComponent<PlayerController>())
+                //            {
+                //                controller->m_JumpCount = 0;
+                //            }
+                //        }
+                //    }
+                //}
                 /* Checks and sets the collision states for the rigidbody */
                 if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
                 {

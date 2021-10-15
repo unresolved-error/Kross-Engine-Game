@@ -1296,6 +1296,8 @@ namespace Kross
 						/* Get the Rope Avatar on the object */
 						UITransform* uiTransform = currentObject->GetComponent<UITransform>();
 
+						Vector2 ratio = Vector2(0.0f);
+
 						/*go through data... Messy*/
 						for (int i = 0; i < uiTransformData.size(); i++)
 						{
@@ -1314,8 +1316,6 @@ namespace Kross
 								std::string data = value;
 								data.erase(remove(data.begin(), data.end(), '['), data.end());
 								data.erase(remove(data.begin(), data.end(), ']'), data.end());
-
-								Vector2 ratio = Vector2(0.0f);
 
 								size_t searchPositionData = 0;
 								std::string divider = ",";
@@ -1336,6 +1336,8 @@ namespace Kross
 							}
 
 						}
+
+						uiTransform->SetRatio(ratio);
 					}
 
 					if (playerControllerData.size() > 0)

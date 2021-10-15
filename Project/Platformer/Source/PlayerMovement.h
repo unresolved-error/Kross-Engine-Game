@@ -2,6 +2,8 @@
 
 #include <Kross.h>
 
+#include "Health.h"
+
 using namespace Kross;
 
 class PlayerMovement : public Script
@@ -24,9 +26,13 @@ public:
 	Rigidbody2D* m_RigidBody = nullptr;
 	AudioPlayer* m_AudioPlayer = nullptr;
 	Animator* m_Animator = nullptr;
+	Health* m_Health = nullptr;
 
 	Vector2 m_GunOffset = Vector2(0.0f, -0.11f);
 	Vector2 m_TextRendererOffset = Vector2(0.0f, 1.5f);
+
+	std::vector<SpriteRenderer*> m_HealthRenderers = std::vector<SpriteRenderer*>();
+	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>();
 
 	int m_ControllerID = 0;
 	int m_FrameCount = 0;
@@ -40,7 +46,11 @@ public:
 	float m_ShakeCoolDownTime = 0.1f;
 	float m_ShakeCoolDownTimeElapsed = 0.0f;
 
+	float m_GracePeriodTime = 0.5f;
+	float m_GracePeriodTimeElapsed = 0.0f;
+
 	bool m_ShakeCamera = false;
+	bool m_IsHurt = false;
 
 	Script* Duplicate() override
 	{
@@ -55,11 +65,23 @@ public:
 		m_Animator = GetComponent<Animator>();
 		m_AudioPlayer = GetComponent<AudioPlayer>();
 		m_Controller = GetComponent<PlayerController>();
+		m_Health = GetComponent<Health>();
 
 		/* Grab External Object Related things. */
 		m_TextRenderer = SceneManager::GetCurrentScene()->FindObject("Text")->GetComponent<TextRenderer>();
 		m_Gun = SceneManager::GetCurrentScene()->FindObject("Gun");
 		m_Camera = SceneManager::GetCurrentScene()->GetCamera();
+
+		/* Get the Health Renderers. */
+		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-0")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-1")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-2")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-3")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-4")->GetComponent<SpriteRenderer>());
+
+		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI0-0"));
+		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI1-1"));
+		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI2-0"));
 
 		/* Grab the Window. */
 		m_Window = Application::GetWindow();
@@ -220,6 +242,71 @@ public:
 
 		}
 		/* --------------------------- */
+
+		/* --------- HEALTH ---------- */
+
+		if (m_Health)
+		{
+			float health = m_Health->GetHealth();
+
+			if (health >= 10.0f)		m_HealthRenderers[4]->GetMaterial()->SetDiffuse(m_HealthSprites[0]);
+			else if (health >= 9.0f)	m_HealthRenderers[4]->GetMaterial()->SetDiffuse(m_HealthSprites[1]);
+			else if (health <= 8.0f)	m_HealthRenderers[4]->GetMaterial()->SetDiffuse(m_HealthSprites[2]);
+
+			if (health >= 8.0f)			m_HealthRenderers[3]->GetMaterial()->SetDiffuse(m_HealthSprites[0]);
+			else if (health >= 7.0f)	m_HealthRenderers[3]->GetMaterial()->SetDiffuse(m_HealthSprites[1]);
+			else if (health <= 6.0f)	m_HealthRenderers[3]->GetMaterial()->SetDiffuse(m_HealthSprites[2]);
+
+			if (health >= 6.0f)			m_HealthRenderers[2]->GetMaterial()->SetDiffuse(m_HealthSprites[0]);
+			else if (health >= 5.0f)	m_HealthRenderers[2]->GetMaterial()->SetDiffuse(m_HealthSprites[1]);
+			else if (health <= 4.0f)	m_HealthRenderers[2]->GetMaterial()->SetDiffuse(m_HealthSprites[2]);
+
+			if (health >= 4.0f)			m_HealthRenderers[1]->GetMaterial()->SetDiffuse(m_HealthSprites[0]);
+			else if (health >= 3.0f)	m_HealthRenderers[1]->GetMaterial()->SetDiffuse(m_HealthSprites[1]);
+			else if (health <= 2.0f)	m_HealthRenderers[1]->GetMaterial()->SetDiffuse(m_HealthSprites[2]);
+
+			if (health >= 2.0f)			m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[0]);
+			else if (health >= 1.0f)	m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[1]);
+			else if (health <= 0.0f)	m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[2]);
+		}
+
+		/* --------------------------- */
+
+		if (Input::GetKeyPressed(Key::Backspace)) m_Health->TakeDamage(1.0f);
+		if (Input::GetKeyPressed(Key::H)) m_Health->Heal(1.0f);
+
+		if (!m_IsHurt)
+		{
+			for (b2ContactEdge* contact = m_RigidBody->GetBody()->GetContactList(); contact; contact = contact->next)
+			{
+				if (contact->contact->IsTouching())
+				{
+					Object* obj = (Object*)contact->other->GetUserData();
+
+					if (obj != m_GameObject)
+					{
+						if (obj->GetName().find("Enemy") != std::string::npos)
+						{
+							m_Health->TakeDamage(1.0f);
+
+							m_IsHurt = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		else
+		{
+			if (m_GracePeriodTimeElapsed < m_GracePeriodTime) m_GracePeriodTimeElapsed += Time::GetDeltaTime();
+
+			else
+			{
+				m_GracePeriodTimeElapsed = 0.0f;
+				m_IsHurt = false;
+			}
+		}
 	}
 
 	/*! 

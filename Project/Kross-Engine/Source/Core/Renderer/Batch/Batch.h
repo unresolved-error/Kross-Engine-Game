@@ -80,6 +80,11 @@ namespace Kross
                 return; /* Early out. */
             }
 
+            if (UITransform* uiT = renderer->m_GameObject->GetComponent<UITransform>())
+            {
+                uiT->OnUpdate();
+            }
+
             /* Get all Material Sprites. */
             Sprite* diffuseSprite = renderer->GetMaterial()->GetDiffuse();
             Sprite* normalSprite = renderer->GetMaterial()->GetNormal();

@@ -19,6 +19,9 @@ namespace Kross
 		Vector2 m_Ratio;
 
 	protected:
+		/* Friend classing Batch. */
+		template<typename Type> friend class Batch;
+
 		/*!
 			Update Method.
 		*/

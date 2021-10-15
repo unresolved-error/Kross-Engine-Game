@@ -32,12 +32,9 @@ namespace Kross
 	{
 		Window* window = Application::GetWindow();
 		Camera* camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
-
 		float aspectRatio = window->GetApsectRatio();
-		float screenPixelPositionWidth = m_Ratio.x * window->GetWidth();
-		float screenPixelPositionHeight = m_Ratio.y * window->GetHeight();
 
-		Vector2 screenPosition = Vector2(((screenPixelPositionWidth / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((screenPixelPositionHeight / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
+		Vector2 screenPosition = Vector2((m_Ratio.x - 0.5f) * aspectRatio, -(m_Ratio.y - 0.5f)) * camera->GetSize();
 		Vector2 cameraPosition = camera->m_GameObject->m_Transform->m_Position;
 
 		m_GameObject->m_Transform->m_Position = cameraPosition + screenPosition;

@@ -27,6 +27,9 @@ namespace Kross
 		float m_AirSpeed;
 		float m_JumpStrength;
 
+		float m_CoolDownTimer = 0.05f;
+		float m_CoolDownElapsed = 0.0f;
+
 
 	protected:
 		friend class Rigidbody2D;

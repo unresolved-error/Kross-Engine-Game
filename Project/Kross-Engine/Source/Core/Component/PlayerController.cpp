@@ -26,6 +26,7 @@ namespace Kross
 	void PlayerController::OnUpdate()
 	{
 		CollisionState state = m_Rigidbody->GetCollisionState();
+
 		if (state == CollisionState::Enter) m_JumpCount = 0;
 		else if (state == CollisionState::Stay) m_JumpCount = 0;
 		else if (state == CollisionState::Exit) m_JumpCount = 0;
@@ -136,11 +137,21 @@ namespace Kross
 
 	void PlayerController::Jump(Vector2 jumpDirection)
 	{
-		/* Checks the Rigidbody State and if the Controller hasn't hit max jump count.  */
-		if (m_Rigidbody->GetRigidbodyState() != RigidbodyState::Falling && m_JumpCount < m_MaxJumpCount)
+		/* Bail out if the Jump count exceeds the max. */
+		if (m_JumpCount >= m_MaxJumpCount)
+		{
+			return;
+		}
+
+		/* Checks the Rigidbody State. */
+		if (m_Rigidbody->GetRigidbodyState() != RigidbodyState::Jumping && m_Rigidbody->GetRigidbodyState() != RigidbodyState::Falling)
 		{
 			/* Applys a jump impulse */
-			m_Rigidbody->OnApplyImpulse(jumpDirection * m_JumpStrength);
+			if (m_Rigidbody->GetBody()->GetLinearVelocity().y <= 0.01f)
+			{
+				m_Rigidbody->OnApplyImpulse(jumpDirection * m_JumpStrength);
+			}
+			m_Rigidbody->SetRigidbodyState(RigidbodyState::Jumping);
 			m_JumpCount++;
 		}
 	}
