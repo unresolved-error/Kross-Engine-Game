@@ -346,3 +346,4 @@ MigrationBackup/
 .ionide/
 
 Project/Working/imgui.ini
+Project/Working/Editor/EditorBase.krs
