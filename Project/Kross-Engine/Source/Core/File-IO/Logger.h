@@ -2,11 +2,14 @@
  *  Author: Deklyn Palmer.
  *  Editors:
  *      - Deklyn Palmer.
+ *      - Chris Deitch.
  */
 
 #pragma once
 
 #include "../Core.h"
+
+//   #include <sysinfoapi.h> NO target arcitecture error on include. Why?
 
 namespace Kross
 {
@@ -59,5 +62,13 @@ namespace Kross
 			Adds Spacing to the Logger to Output.
 		*/
 		void WriteSpace() { m_LogLines.push_back(""); };
+
+
+		/*!
+			Adds system info to the logger to output.
+		*/
+		void WriteSystemInfo();
+
+
 	};
 }
