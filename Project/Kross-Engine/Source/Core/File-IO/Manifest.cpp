@@ -156,7 +156,8 @@ namespace Kross
 				}
 			}
 		}
-
+		
+		
 		/* Close the stream. */
 		fileStream.close();
 
@@ -173,9 +174,9 @@ namespace Kross
 			m_Instance->m_Logger->WriteError("Reading Manifest File: [" + filepath + "] Failed!");
 		}
 
-
 		/*Include system information*/
 		m_Instance->m_Logger->WriteSystemInfo();
+		
 
 		/* Dump the Logger Report. */
 		m_Instance->m_Logger->Dump("Kross Manifest Log", "manifest-log.txt");
