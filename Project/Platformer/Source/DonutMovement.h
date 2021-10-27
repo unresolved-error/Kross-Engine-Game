@@ -61,6 +61,11 @@ public:
 
 		player = SceneManager::GetCurrentScene()->FindObject("Player");
 
+		if (m_GameObject->GetName() == "Puzzle2Enemy1")
+		{
+			moveSpeed = 3.0f;
+		}
+
 		hitSprite = ResourceManager::GetResource<Sprite>("Donut0-1");
 	}
 

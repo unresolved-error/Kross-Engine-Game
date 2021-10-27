@@ -114,7 +114,7 @@ namespace Kross
         int velocityIterations = static_cast<int>(glm::ceil(16 * (60.0f / static_cast<float>(refreshRate))));
 
         /* Update the physics step */
-        if (Application::GetWindow()->GetVSync() == 1)
+        if (Application::GetWindow()->GetVSync())
         {
             /* TO DO */
             m_Physics->GetPhysicsWorld()->Step(1.0f / (float)refreshRate, velocityIterations, positionIterations, particleIterations);

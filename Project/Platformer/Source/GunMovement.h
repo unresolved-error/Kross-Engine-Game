@@ -39,7 +39,8 @@ public:
 	bool m_Fired = false;
 	float m_RateOfFire = 0.1f;
 	float m_TimeElapsed = 0.0f;
-	float bulletStartForce = 0.25f;
+	//float bulletStartForce = 0.15f;
+	float bulletStartForce = 0.5f;
 	float bulletMass = 0.005f;
 	float bulletFriction = 0.75f;
 	float bulletDecayThreshold = 0.005f;
@@ -173,7 +174,7 @@ public:
 
 		if (m_Fired)
 		{
-			m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd *0.2f);
+			m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd * 0.4f);
 		}
 
 
@@ -211,7 +212,8 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
-					collider->SetDensity(5.0f);
+					//collider->SetDensity(2.5f);
+					collider->SetDensity(7.5f);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
@@ -264,7 +266,8 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
-					collider->SetDensity(5.0f);
+					//collider->SetDensity(2.5f);
+					collider->SetDensity(7.5f);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
