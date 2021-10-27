@@ -23,33 +23,33 @@ void main()
 	vec4 v_ColourAbove = texture(u_Texture, vec2(coord.x, coord.y - (1.0 / 720.0)));
 	vec4 v_ColourBellow = texture(u_Texture, vec2(coord.x, coord.y + (1.0 / 720.0)));
 
-	if(v_Colour.a < 0.025)
+	if(v_Colour.a < 0.005)
 	{
 		discard;
 	}
 
 	vec4 colour = vec4(0.15, 0.08, 0.05, 1.0);
 	//vec3 colour = vec3(1.0, 1.0, 1.0);
-	if(v_ColourBellow.a >= 0.08)
+	if(v_ColourBellow.a >= 0.02)
 	{
 		// Accepted to be a middle Colour.
 
-		if(v_Colour.b >= 0.3 && v_Colour.b < 0.8)
+		if(v_Colour.b >= 0.05 && v_Colour.b < 0.2)
 		{
 			colour = vec4(0.56, 0.31, 0.20, 0.8);
 		}
 
-		else if(v_Colour.b >= 0.8 && v_Colour.b < 0.9)
+		else if(v_Colour.b >= 0.2 && v_Colour.b < 0.3)
 		{
 			colour = vec4(0.52, 0.28, 0.18, 0.85);
 		}
 
-		else if(v_Colour.b >= 0.9 && v_Colour.b < 0.95)
+		else if(v_Colour.b >= 0.3 && v_Colour.b < 0.6)
 		{
 			colour = vec4(0.48, 0.26, 0.17, 0.9);
 		}
 
-		else if(v_Colour.b >= 0.95 && v_Colour.b < 1.0)
+		else if(v_Colour.b >= 0.6 && v_Colour.b < 1.0)
 		{
 			colour = vec4(0.44, 0.24, 0.15, 0.95);
 		}
