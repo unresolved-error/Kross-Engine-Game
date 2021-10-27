@@ -1005,7 +1005,7 @@ namespace Kross
             if (p_AABBCollisionData->m_ParticleIndexs.size() > 50)
             {
                 SetRigidbodyState(RigidbodyState::Swimming);
-                Debug::LogLine("We are swimming :)");
+                //Debug::LogLine("We are swimming :)");
             }
             else if (p_Body->GetLinearVelocity().y > 0.0f)
             {

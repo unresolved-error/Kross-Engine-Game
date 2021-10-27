@@ -10,16 +10,17 @@ FOLDER-START->
 NAME->Puzzle2->
 OBJECT->FluidControl->
 OBJECT->fluidControlLeft->
-OBJECT->Puzzle2Enemy1->
 OBJECT->Puzzle2Door1->
 OBJECT->Puzzle2Rope1->
 OBJECT->Puzzle2PE1->
+OBJECT->Puzzle2Trigger1->
+OBJECT->Puzzle2Cog1->
+OBJECT->Puzzle2Cog1Static->
 FOLDER-END->
 FOLDER-START->
 NAME->Puuzzle3->
 OBJECT->Puzzle3AllSort1->
 OBJECT->Puzzle3Rope1->
-OBJECT->Puzzle3PE1->
 FOLDER-END->
 FOLDER-START->
 NAME->BackgroundManagement->
@@ -42,7 +43,6 @@ OBJECT->Puzzle4AllSort2->
 FOLDER-END->
 FOLDER-START->
 NAME->Puzzle1->
-OBJECT->Puzzle1AllSort1->
 OBJECT->Puzzle1Cog1->
 OBJECT->Puzzle1Cog1Static->
 OBJECT->Puzzle1Rope1->
