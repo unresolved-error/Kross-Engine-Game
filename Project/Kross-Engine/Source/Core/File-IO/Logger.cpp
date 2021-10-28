@@ -139,7 +139,6 @@ namespace Kross
 		const GLubyte* version = glGetString(GL_VERSION);
 
 		m_LogLines.push_back("[GRAPHICS CARD INFORMATION]");
-
 		m_LogLines.push_back(" -> Vendor: " + std::string(reinterpret_cast<const char*>(vendor)));
 		m_LogLines.push_back(" -> Model: " + std::string(reinterpret_cast<const char*>(renderer)));
 		m_LogLines.push_back(" -> Application Version / Driver Version: " + std::string(reinterpret_cast<const char*>(version)));
