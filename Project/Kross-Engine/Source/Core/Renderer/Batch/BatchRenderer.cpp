@@ -245,7 +245,7 @@ namespace Kross
                     m_FrameBuffer->ClearBuffer();
 
                     /* Set Shader Values. */
-                    m_Shader->SetUniform("u_HalfSize", 0.015f);
+                    m_Shader->SetUniform("u_HalfSize", 0.02f);
                     m_Shader->SetUniform("u_InverseAspect", 1.0f / Application::GetWindow()->GetApsectRatio());
                     m_Shader->SetUniform("u_Colour", Colour(0.28f, 0.71f, 0.91f, 1.0f));
 
