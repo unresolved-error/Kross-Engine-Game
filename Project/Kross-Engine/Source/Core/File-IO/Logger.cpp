@@ -17,10 +17,10 @@ namespace Kross
 		outputStream.open(filepath.c_str());
 
 		/* Start the Dump. */
-		outputStream << "==================================\n";
+		outputStream << "========================================================================\n";
 		outputStream << "Log Start: [" << title << "]\n";
 		outputStream << "Log Dump File Created: " << GetLogTime() << "\n";
-		outputStream << "==================================\n\n";
+		outputStream << "========================================================================\n\n";
 
 		/* Go through all Logger Lines and Write them. */
 		for (int i = 0; i < m_LogLines.size(); i++)
@@ -36,9 +36,9 @@ namespace Kross
 		}
 
 		/* End the Dump. */
-		outputStream << "\n\n==================================\n";
+		outputStream << "\n\n========================================================================\n";
 		outputStream << "Log End: [" << title << "]\n";
-		outputStream << "==================================";
+		outputStream << "========================================================================";
 
 		/* Close the stream. */
 		outputStream.close();
