@@ -174,8 +174,10 @@ namespace Kross
 			m_Instance->m_Logger->WriteError("Reading Manifest File: [" + filepath + "] Failed!");
 		}
 
-		/*Include system information*/
-		m_Instance->m_Logger->WriteSystemInfo();
+		/* Include system information */
+		Kross::Logger systemLogger = Kross::Logger();
+		systemLogger.WriteSystemInfo();
+		systemLogger.Dump("System Log", "system-log.txt");
 		
 
 		/* Dump the Logger Report. */

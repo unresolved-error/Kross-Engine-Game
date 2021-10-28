@@ -22,12 +22,10 @@ public:
 	{
 		return KROSS_NEW GunMovement();
 	}
-	
-	
+
 	SpriteRenderer* renderer;
 
 	Object* m_CrossHair = nullptr;
-
 	Object* player;
 	Object* level;
 
@@ -56,7 +54,6 @@ public:
 	Sprite* Degree67pt5;
 
 	Sprite* Degree90; //DOWN
-	
 
 	Sprite* Degree270; //UP
 	Sprite* Degree292pt5;
@@ -64,7 +61,6 @@ public:
 	Sprite* Degree337pt5;
 
 	Sprite* currentGunSprite;
-
 
 	Sprite* bulletSprite;
 

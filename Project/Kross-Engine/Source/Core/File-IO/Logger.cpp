@@ -80,55 +80,68 @@ namespace Kross
 		SYSTEM_INFO siSysInfo;
 		GetSystemInfo(&siSysInfo);
 	
-		m_LogLines.push_back("[SYSTEM INFO LOG] Retrieved at " + GetLogTime() + " ");
-		m_LogLines.push_back("Hardware information: ");
-		m_LogLines.push_back("OEM ID: ");
-		m_LogLines.push_back(std::to_string(siSysInfo.dwOemId));
-		m_LogLines.push_back("Number of processors: ");
-		m_LogLines.push_back(std::to_string(siSysInfo.dwNumberOfProcessors));
+		m_LogLines.push_back("[HARDWARE INFORMATION]");
+
+		std::string proccessorArchitecture = "";
+		std::string OEMID = std::to_string(siSysInfo.dwOemId);
+
+		if (OEMID == "9")		proccessorArchitecture = "x64 AMD/Intel";
+		else if(OEMID == "5")	proccessorArchitecture = "ARM";
+		else if(OEMID == "12")	proccessorArchitecture = "ARM64";
+		else if(OEMID == "6")	proccessorArchitecture = "Intel Itanium-based";
+		else if(OEMID == "0")	proccessorArchitecture = "x86 Intel";
+		else                    proccessorArchitecture = "Unknown Chip Architecture";
+
+		m_LogLines.push_back(" -> Processor Architecture: " + proccessorArchitecture);
+		m_LogLines.push_back(" -> Processor Count: " + std::to_string(siSysInfo.dwNumberOfProcessors));
+
+		std::string proccessorType = "";
+		std::string prTy = std::to_string(siSysInfo.dwProcessorType);
+
+		if (prTy == "386")			proccessorType = "Intel 386";
+		else if (prTy == "486")		proccessorType = "Intel 486";
+		else if (prTy == "586")		proccessorType = "Intel Pentium";
+		else if (prTy == "2200")	proccessorType = "Intel IA64";
+		else if (prTy == "8664")	proccessorType = "AMD/Intel X8664";
+		else						proccessorType = "ARM";
 		
-		m_LogLines.push_back("Processor type: ");
-		m_LogLines.push_back(std::to_string(siSysInfo.dwProcessorType));
-		m_LogLines.push_back("Processor Revision: ");
-		m_LogLines.push_back(std::to_string(siSysInfo.wProcessorRevision));
-		m_LogLines.push_back("Refer to docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info  for translations on some of this. \n");
-		
+		m_LogLines.push_back(" -> Processor Type: " + proccessorType);
+		m_LogLines.push_back("------------------------------------------------------------------------");
+		m_LogLines.push_back(" -> Processor Revision: " + std::to_string(siSysInfo.wProcessorRevision));
+		m_LogLines.push_back("NOTE: Refer to \"docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info\" for translations on some of this.");
+		m_LogLines.push_back("------------------------------------------------------------------------");
+		m_LogLines.push_back("");
+
 		unsigned long long physicalMemory = 0;
 		GetPhysicallyInstalledSystemMemory(&physicalMemory);
-	
-		m_LogLines.push_back("Ram in KB:");
-		m_LogLines.push_back(std::to_string(physicalMemory));
+		long double memory = static_cast<long double>(physicalMemory) / 1000.0;
+		memory /= 1000.0;
+
+		physicalMemory /= 1000;
+		physicalMemory /= 1000;
+		
+		m_LogLines.push_back("[RAM]");
+		m_LogLines.push_back(std::to_string(physicalMemory) + "GB");
+		m_LogLines.push_back("");
 
 		GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
 		const GLFWvidmode* defaultVideoMode = glfwGetVideoMode(primaryMonitor);
 		int refreshRateGuess;
 		refreshRateGuess = defaultVideoMode->refreshRate;
 	
-		
-		m_LogLines.push_back("Refresh Rate Estimate:" );
-		m_LogLines.push_back(std::to_string(refreshRateGuess));
-
-		m_LogLines.push_back("Screen resolution:");
-		m_LogLines.push_back("" + std::to_string(defaultVideoMode->width) + "/" + std::to_string(defaultVideoMode->height));
-
+		m_LogLines.push_back("[MONITOR INFORMATION]");
+		m_LogLines.push_back(" -> Refresh Rate: " + std::to_string(refreshRateGuess));
+		m_LogLines.push_back(" -> Screen resolution: " + std::to_string(defaultVideoMode->width) + " / " + std::to_string(defaultVideoMode->height));
+		m_LogLines.push_back("");
 		
 		const GLubyte* vendor = glGetString(GL_VENDOR); // Returns the vendor
 		const GLubyte* renderer = glGetString(GL_RENDERER); // Returns a hint to the model
 		const GLubyte* version = glGetString(GL_VERSION);
 
-		
+		m_LogLines.push_back("[GRAPHICS CARD INFORMATION]");
 
-		m_LogLines.push_back("Graphics card vendor:");
-		m_LogLines.push_back(std::string(reinterpret_cast<const char*>(vendor)));
-
-		m_LogLines.push_back("Graphics card Model Hint (renderer):");
-		m_LogLines.push_back(std::string(reinterpret_cast<const char*>(renderer)));
-
-		m_LogLines.push_back("Graphics card driver and version:");
-		m_LogLines.push_back(std::string(reinterpret_cast<const char*>(version)));
-
-
-		m_LogLines.push_back("END SYSTEM INFO LOG");
-	
+		m_LogLines.push_back(" -> Vendor: " + std::string(reinterpret_cast<const char*>(vendor)));
+		m_LogLines.push_back(" -> Model: " + std::string(reinterpret_cast<const char*>(renderer)));
+		m_LogLines.push_back(" -> Application Version / Driver Version: " + std::string(reinterpret_cast<const char*>(version)));
 	}
 }
