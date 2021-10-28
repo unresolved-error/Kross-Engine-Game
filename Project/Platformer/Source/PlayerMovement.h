@@ -32,7 +32,9 @@ public:
 	Vector2 m_TextRendererOffset = Vector2(0.0f, 1.5f);
 
 	std::vector<SpriteRenderer*> m_HealthRenderers = std::vector<SpriteRenderer*>();
-	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>();
+	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>(); 
+
+
 
 	int m_ControllerID = 0;
 	int m_FrameCount = 0;
@@ -296,7 +298,6 @@ public:
 				}
 			}
 		}
-
 		else
 		{
 			if (m_GracePeriodTimeElapsed < m_GracePeriodTime) m_GracePeriodTimeElapsed += Time::GetDeltaTime();
@@ -307,6 +308,56 @@ public:
 				m_IsHurt = false;
 			}
 		}
+
+#ifdef KROSS_DEBUG
+		std::vector<Object*> contacts;
+		for (b2ContactEdge* contact = m_RigidBody->GetBody()->GetContactList(); contact; contact = contact->next)
+		{
+			if (contact->contact->IsTouching())
+			{
+				contacts.push_back((Object*)contact->other->GetUserData());
+			}
+		}
+
+		int listSize = contacts.size();
+		for (int i = 0; i < listSize; i++)
+		{
+			if (listSize == 1)
+			{
+				Debug::LogLine("Current Contacts: " + contacts[0]->GetName());
+			}
+			else if (listSize == 2)
+			{
+				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName());
+			}
+			else if (listSize == 3)
+			{
+				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
+					", " + contacts[2]->GetName());
+			}
+			else if (listSize == 4)
+			{
+				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
+					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName());
+			}
+			else if (listSize == 5)
+			{
+				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
+					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName() + ", " + contacts[4]->GetName());
+			}
+			else if (listSize == 6)
+			{
+				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
+					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName() + ", " + contacts[4]->GetName() + ", " + contacts[5]->GetName());
+			}
+			else
+			{
+				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
+					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName() + ", " + contacts[4]->GetName() + ", " + contacts[5]->GetName());
+			}
+		}
+#endif // KROSS_DEBUG
+
 	}
 
 	/*! 

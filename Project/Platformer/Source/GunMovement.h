@@ -262,7 +262,6 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
-					//collider->SetDensity(2.5f);
 					collider->SetDensity(7.5f);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));

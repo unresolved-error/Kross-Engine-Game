@@ -1005,7 +1005,7 @@ namespace Kross
             if (p_AABBCollisionData->m_ParticleIndexs.size() > 50)
             {
                 SetRigidbodyState(RigidbodyState::Swimming);
-                //Debug::LogLine("We are swimming :)");
+                Debug::LogLine("We are swimming :)");
             }
             else if (p_Body->GetLinearVelocity().y > 0.0f)
             {
@@ -1018,10 +1018,10 @@ namespace Kross
         }
         else
         {
-            if (p_Body->GetLinearVelocity().x <= 0.2f && p_Body->GetLinearVelocity().x >= -0.2f 
-             && p_Body->GetLinearVelocity().y <= 0.2f && p_Body->GetLinearVelocity().y >= -0.2f)
+            if (p_Body->GetLinearVelocity().x <= 0.2f && p_Body->GetLinearVelocity().x >= -0.2f && 
+                p_Body->GetLinearVelocity().y <= 0.2f && p_Body->GetLinearVelocity().y >= -0.2f)
             {
-            SetRigidbodyState(RigidbodyState::Idle);
+                SetRigidbodyState(RigidbodyState::Idle);
             }
             else if (p_Body->GetLinearVelocity().x > 2.0f || p_Body->GetLinearVelocity().x < -2.0f)
             {
@@ -1058,39 +1058,6 @@ namespace Kross
 
             if (rightSideDown->hit  || leftSideDown->hit)
             {
-                //if (rightSideDown->hit)
-                //{
-                //    Object* rightObject = (Object*)rightSideDown->body->GetUserData();
-                //    Rigidbody2D* rrb = rightObject->GetComponent<Rigidbody2D>();
-                //    if (rrb)
-                //    {
-                //        uint16 catBits = (uint16)rrb->GetColliderFilters()->categoryBits;
-                //        if (catBits & (static_cast<uint16>(ColliderFilters::Level) | static_cast<uint16>(ColliderFilters::Environment) | static_cast<uint16>(ColliderFilters::Enemy)))
-                //        {
-                //            if (PlayerController* controller = m_GameObject->GetComponent<PlayerController>())
-                //            {
-                //                controller->m_JumpCount = 0;
-                //            }
-                //        }
-                //    }
-                //}
-                //
-                //else if (leftSideDown->hit)
-                //{
-                //    Object* leftObject = (Object*)leftSideDown->body->GetUserData();
-                //    Rigidbody2D* lrb = leftObject->GetComponent<Rigidbody2D>();
-                //    if (lrb)
-                //    {
-                //        uint16 catBits = (uint16)lrb->GetColliderFilters()->categoryBits;
-                //        if (catBits & (static_cast<uint16>(ColliderFilters::Level) | static_cast<uint16>(ColliderFilters::Environment) | static_cast<uint16>(ColliderFilters::Enemy)))
-                //        {
-                //            if (PlayerController* controller = m_GameObject->GetComponent<PlayerController>())
-                //            {
-                //                controller->m_JumpCount = 0;
-                //            }
-                //        }
-                //    }
-                //}
                 /* Checks and sets the collision states for the rigidbody */
                 if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
                 {
