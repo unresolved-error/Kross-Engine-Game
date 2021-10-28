@@ -17,10 +17,10 @@ namespace Kross
 		outputStream.open(filepath.c_str());
 
 		/* Start the Dump. */
-		outputStream << "==================================\n";
+		outputStream << "========================================================================\n";
 		outputStream << "Log Start: [" << title << "]\n";
 		outputStream << "Log Dump File Created: " << GetLogTime() << "\n";
-		outputStream << "==================================\n\n";
+		outputStream << "========================================================================\n\n";
 
 		/* Go through all Logger Lines and Write them. */
 		for (int i = 0; i < m_LogLines.size(); i++)
@@ -36,9 +36,9 @@ namespace Kross
 		}
 
 		/* End the Dump. */
-		outputStream << "\n\n==================================\n";
+		outputStream << "\n\n========================================================================\n";
 		outputStream << "Log End: [" << title << "]\n";
-		outputStream << "==================================";
+		outputStream << "========================================================================";
 
 		/* Close the stream. */
 		outputStream.close();
@@ -139,7 +139,6 @@ namespace Kross
 		const GLubyte* version = glGetString(GL_VERSION);
 
 		m_LogLines.push_back("[GRAPHICS CARD INFORMATION]");
-
 		m_LogLines.push_back(" -> Vendor: " + std::string(reinterpret_cast<const char*>(vendor)));
 		m_LogLines.push_back(" -> Model: " + std::string(reinterpret_cast<const char*>(renderer)));
 		m_LogLines.push_back(" -> Application Version / Driver Version: " + std::string(reinterpret_cast<const char*>(version)));
