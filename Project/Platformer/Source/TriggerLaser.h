@@ -45,6 +45,11 @@ public:
 			m_ObjectToTrigger = SceneManager::GetCurrentScene()->FindObject("Puzzle2Cog1");
 		}
 
+		if (m_GameObject->GetName() == "Puzzle4Trigger1")
+		{
+			m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Player");
+			m_ObjectToTrigger = SceneManager::GetCurrentScene()->FindObject("Puzzle4Cog1");
+		}
 
 
 	}
@@ -62,6 +67,15 @@ public:
 		if (m_GameObject->GetName() == "Puzzle2Trigger1")
 		{
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 26.4f && m_ObjectThatTriggers->m_Transform->m_Position.y > 0.0f)
+			{
+				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
+			}
+		}
+
+
+		if (m_GameObject->GetName() == "Puzzle4Trigger1")
+		{
+			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 105.50 && m_ObjectThatTriggers->m_Transform->m_Position.y > -2.0f && m_ObjectThatTriggers->m_Transform->m_Position.y < -0.5f)
 			{
 				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
 			}
