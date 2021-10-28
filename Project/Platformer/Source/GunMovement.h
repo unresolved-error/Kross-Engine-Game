@@ -188,7 +188,7 @@ public:
 		{
 			if (m_PlayerMovement->m_ControllerID == -1)
 			{
-				if (Input::GetMouseButtonDown(Mouse::Right))
+				if (Input::GetMouseButtonDown(Mouse::Left))
 				{
 					Object* bullet = Object::OnCreate("Bullet-Clone");
 					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();

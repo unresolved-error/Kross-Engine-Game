@@ -6,6 +6,7 @@
 
 #include "Window.h"
 
+#include "../Manager/SceneManager.h"
 #include "../Manager/ShaderManager.h"
 
 namespace Kross
@@ -87,6 +88,9 @@ namespace Kross
 
 	void Window::OnPollEvents()
 	{
+		/* Gets the Camera. */
+		Camera* camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
+
 		/* Get the Current Width and Height of the Window */
 		int Width, Height;
 		glfwGetWindowSize(m_GLFWWindow, &Width, &Height);
