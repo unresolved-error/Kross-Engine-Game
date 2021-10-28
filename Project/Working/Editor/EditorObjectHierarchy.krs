@@ -20,7 +20,6 @@ FOLDER-END->
 FOLDER-START->
 NAME->Puuzzle3->
 OBJECT->Puzzle3AllSort1->
-OBJECT->Puzzle3Rope1->
 FOLDER-END->
 FOLDER-START->
 NAME->BackgroundManagement->
@@ -38,8 +37,9 @@ FOLDER-START->
 NAME->Puzzle4->
 OBJECT->Puzzle4AllSort1->
 OBJECT->Puzzle4Rope1->
-OBJECT->Puzzle4Rope2->
-OBJECT->Puzzle4AllSort2->
+OBJECT->Puzzle4Cog1->
+OBJECT->Puzzle4Cog1Static->
+OBJECT->Puzzle4Trigger1->
 FOLDER-END->
 FOLDER-START->
 NAME->Puzzle1->
