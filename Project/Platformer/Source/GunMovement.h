@@ -182,7 +182,7 @@ public:
 
 
 		//endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
-		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1, 0, 0));
+		//endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1, 0, 0));
 
 		if (!m_Fired)
 		{

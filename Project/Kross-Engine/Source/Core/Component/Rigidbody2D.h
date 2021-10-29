@@ -56,6 +56,8 @@ namespace Kross
         std::vector<Vector2> m_CloseParticles;
 
         float m_Friction = 0.5f;
+        b2Rot m_BottomWheelRotation;
+
 
         bool m_IsBullet = false;
 

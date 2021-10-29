@@ -178,7 +178,7 @@ namespace Kross
         b2BodyDef BottomCircleDef;
         BottomCircleDef.type = b2_dynamicBody;
         BottomCircleDef.position.Set(pos.x, (-dimensions.y + dimensions.x) * 0.5f);
-        BottomCircleDef.fixedRotation = true;
+        BottomCircleDef.fixedRotation = false;
 
         Body* bottomCircle = nullptr;
         bottomCircle = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&BottomCircleDef);
@@ -214,6 +214,47 @@ namespace Kross
         CreateRevJoint(revJoint);
         p_RevJoint->SetMaxMotorTorque(1.0f);
         p_RevJoint->EnableMotor(true);
+
+
+        /* This is for display purposes */
+        /* Start of Jakes BS */
+        b2BodyDef RotationDisplay;
+        RotationDisplay.type = b2_dynamicBody;
+        RotationDisplay.position.Set(circleShape.m_p.x + circleShape.m_radius, circleShape.m_p.y);
+        RotationDisplay.fixedRotation = false;
+
+        Body* bottomCircleDisplay = nullptr;
+        bottomCircleDisplay = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&RotationDisplay);
+        bottomCircleDisplay->SetUserData(m_GameObject);
+
+        b2CircleShape circleShape2;
+        circleShape2.m_radius = dimensions.x * 0.25f;
+
+        b2FixtureDef bottomFixtureDef2;
+        bottomFixtureDef2.shape = &circleShape2;
+        bottomFixtureDef2.density = 0.01f;
+        bottomFixtureDef2.friction = 0.01f;
+        bottomFixtureDef2.filter.categoryBits = (uint16)ColliderFilters::Empty;
+        bottomFixtureDef2.filter.maskBits = (uint16)ColliderFilters::Empty;
+
+        bottomCircleDisplay->CreateFixture(&bottomFixtureDef2);
+
+        bottomCircleDisplay->SetFixedRotation(false);
+
+        m_Bodies.push_back(bottomCircleDisplay);
+        p_PhysicsScene->AttachBody(bottomCircleDisplay);
+
+        b2WeldJointDef weldJointDef;
+        weldJointDef.bodyA = bottomCircleDisplay;
+        weldJointDef.localAnchorA.Set(0.0f, 0.0f);
+
+        weldJointDef.bodyB = bottomCircle;
+        weldJointDef.localAnchorB.Set(0.5f, 0.0f);
+
+        weldJointDef.collideConnected = false;
+
+        p_PhysicsScene->GetPhysicsWorld()->CreateJoint(&weldJointDef);
+        /* End of Jakes BS */
 
         p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0), m_Fixtures);
     }
@@ -463,6 +504,7 @@ namespace Kross
     void Rigidbody2D::OnUpdateDrawInformation()
     {
         Collider* colliderData = GetComponent<Collider>();
+
         #ifndef KROSS_EDITOR
         if (!colliderData->IsTileMapCollider())
         {
@@ -470,7 +512,7 @@ namespace Kross
             {
                 for (int i = 0; i < m_Bodies.size(); i++)
                 {
-                    p_DebugRenderer->DrawCapsule(m_Bodies[i], Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 16);
+                    p_DebugRenderer->DrawCapsule(m_Bodies[i], Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 0.2f, 4);
                 }
             }
             else
@@ -565,6 +607,7 @@ namespace Kross
     {
         p_AABBCollisionData->m_Fixture.clear();
         p_AABBCollisionData->m_ParticleIndexs.clear();
+        p_AABBCollisionData->p_ParticleSystems.clear();
 
         ClearCloseObjects();
         ClearCloseParticles();
@@ -736,7 +779,6 @@ namespace Kross
             }
         }
         
-        //closestFraction = p_RayData->closestFraction;
         p_AABBCollisionData->m_Fixture.clear();
         
         return closestFraction;
@@ -744,7 +786,8 @@ namespace Kross
 
     std::vector<Body*> Rigidbody2D::GetSurroundingObjects(float size, Body* body)
     {
-        Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
+        AABBCollisionData* collisionData = KROSS_NEW AABBCollisionData;
+        Physics::GetAABBCollisionCallback()->SetAABBCollisionData(collisionData);
         b2Shape* shape = body->GetFixtureList()->GetShape();
 
         for (int i = 0; i < GetCloseObjects().size(); i++)
@@ -752,6 +795,7 @@ namespace Kross
             GetCloseObjects()[i] = nullptr;
         }
         ClearCloseObjects();
+        ClearCloseParticles();
 
         /* Checks if it is a circle */
         if (p_Circle != nullptr)
@@ -782,49 +826,43 @@ namespace Kross
             p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
                 box, body->GetTransform());
 
-        float points[10] = 
-        { 
-            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
-            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
-            body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
-            body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
-            body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
-        };
-
+            float points[10] = 
+            { 
+                body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+                body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+                body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y - (p_Capsule->GetHeight() + size) * 0.5f,
+                body->GetTransform().p.x - (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f,
+                body->GetTransform().p.x + (p_Capsule->GetWidth() + size) * 0.5f, body->GetTransform().p.y + (p_Capsule->GetHeight() + size) * 0.5f
+            };
             p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
         }
 
-        p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
-
-        m_AABBCollisions.push_back(p_AABBCollisionData);
+        collisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
 
         /* Goes through all of the fixtures and pushes them into a list */
-        for (int i = 0; i < m_AABBCollisions.size(); i++)
+        for (int j = 0; j < collisionData->m_Fixture.size(); j++)
         {
-            for (int j = 0; j < m_AABBCollisions[i]->m_Fixture.size(); j++)
+            /* Checks if the current fixture body is the same as the current body */
+            if (collisionData->m_Fixture[j]->GetBody() != p_Body)
             {
-                /* Checks if the current fixture body is the same as the current body */
-                if (m_AABBCollisions[i]->m_Fixture[j]->GetBody() != p_Body)
-                {
-                    AddCloseObject(m_AABBCollisions[i]->m_Fixture[j]->GetBody());
-                }
+                AddCloseObject(collisionData->m_Fixture[j]->GetBody());
             }
         }
 
         /* Goes through the particles */
-        for (int i = 0; i < m_AABBCollisions.size(); i++)
+        for (int j = 0; j < collisionData->m_ParticleIndexs.size(); j++)
         {
-            for (int j = 0; j < m_AABBCollisions[i]->m_ParticleIndexs.size(); j++)
-            {
-                /* Gets the positions of all the particles within the AABB */
-                AddCloseParticle(Vector2(m_AABBCollisions[i]->m_ParticleIndexs[j]));
-            }
+            /* Gets the positions of all the particles within the AABB */
+                AddCloseParticle(Vector2(collisionData->m_ParticleIndexs[j]));
         }
+        collisionData->m_ParticleIndexs.clear();
+        
 
         //std::cout << "Close object count: " + std::to_string(GetCloseObjects().size()) << std::endl;
         //std::cout << "Close particle count: " + std::to_string(GetCloseParticles().size()) << std::endl;
         
 
+        delete collisionData;
         return GetCloseObjects();
     }
 
@@ -839,6 +877,7 @@ namespace Kross
             GetCloseObjects()[i] = nullptr;
         }
         ClearCloseObjects();
+        ClearCloseParticles();
         m_Fixtures.clear();
 
         /* Checks if it is a circle */
@@ -1002,7 +1041,7 @@ namespace Kross
     {
         if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
         {
-            if (p_AABBCollisionData->m_ParticleIndexs.size() > 50)
+            if (GetCloseParticles().size() > 50)
             {
                 SetRigidbodyState(RigidbodyState::Swimming);
                 Debug::LogLine("We are swimming :)");
@@ -1041,7 +1080,6 @@ namespace Kross
 
         if (p_Box == nullptr && p_Circle == nullptr)
         {
-            GetSurroundingObjects(0.25f, p_Body);
 
             RaycastData* rightSideDown = KROSS_NEW RaycastData();
             RaycastData* leftSideDown = KROSS_NEW RaycastData();
@@ -1053,7 +1091,11 @@ namespace Kross
 
                 rightSideDown = CalculateRayLength(0.15f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x + p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
                 leftSideDown = CalculateRayLength(0.15f, Vector2(0.0f, -1.0f), Vector2(p_Body->GetPosition().x - p_Capsule->GetWidth() * 0.5f, p_Body->GetPosition().y - 0.05f));
+
+                m_BottomWheelRotation = m_Bodies[1]->GetTransform().q;
             }
+
+            GetSurroundingObjects(0.065f, p_Body);
             UpdateRigidbodyState();
 
             if (rightSideDown->hit  || leftSideDown->hit)
@@ -1100,7 +1142,8 @@ namespace Kross
             p_DebugRenderer->DrawLineSegment(leftSideDown->pos, leftSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(leftSideDown->intersectionPoint, 0.1f, 8);
             
-           // if (leftSideDown->body != nullptr) {
+           // if (leftSideDown->body != nullptr) 
+           // {
            //     Debug::LogLine(((Object*)leftSideDown->body->GetUserData())->GetName());
            // }
 
@@ -1111,24 +1154,10 @@ namespace Kross
             delete leftSideDown;
         }
 
-        //POISSIBLE LASER TRIGGER IMPLEMENTATION. RISKY. MAYBE BETTER SOLUTION?
-
-       /// if (m_GameObject->GetName() == "Puzzle1Trigger1")
-       /// {
-       ///     Object* m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Puzzle1AllSorts1");
-       ///     m_GameObject->GetComponent<Rigidbody2D>()->CalculateRayLength(1.0f, Vector2(0, -1), m_GameObject->m_Transform->m_Position);
-       ///     p_RayData = m_GameObject->GetComponent<Rigidbody2D>()->GetRaycastData();
-       ///     if ((Object*)p_RayData->body->GetUserData() == m_ObjectThatTriggers)
-       ///     {
-       ///         Cog* m_ObjectToTrigger = (Cog*)SceneManager::GetCurrentScene()->FindObject("Puzzle1Cog1");
-       ///         m_ObjectToTrigger->TriggerMotor();
-       ///     }
-       /// }
-
-
-
-        //std::cout << "Close object count: " + std::to_string(GetCloseObjects().size()) << std::endl;
-        //std::cout << "Close particle count: " + std::to_string(GetCloseParticles().size()) << std::endl;
+        if (GetCloseParticles().size() != 0)
+        {
+            std::cout << "Close object count: " + std::to_string(GetCloseParticles().size()) << std::endl;
+        }
 
         #ifndef KROSS_EDITOR
         /* Gets the object position and updates it with the position of the body */
@@ -1139,6 +1168,9 @@ namespace Kross
         #else
         p_Body->SetTransform(Getb2Vec2(m_GameObject->m_Transform->m_Position), glm::radians(m_GameObject->m_Transform->m_Rotation));
         #endif
+
+        ClearCloseObjects();
+        ClearCloseParticles();
     }
 
     void Rigidbody2D::CreateTileMapColliders(TileMap* tileMap, Tile* tile, float friction)

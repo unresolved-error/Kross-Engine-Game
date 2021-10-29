@@ -92,11 +92,12 @@ namespace Kross
 	void PlayerController::Move(Vector2 moveDirection)
 	{
 		//Debug::LogLine(std::to_string((char)m_Rigidbody->GetRigidbodyState()));
-
+		m_Rigidbody->GetRevJoint()->EnableMotor(true);
 		/* If we are on the Ground. */
 		if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Idle ||
 			m_Rigidbody->GetRigidbodyState() == RigidbodyState::Walking || m_Rigidbody->GetRigidbodyState() == RigidbodyState::Running)
 		{
+			m_Rigidbody->GetRevJoint()->EnableMotor(true);
 			/* Applys force while the player is on the ground. */
 			if (moveDirection != Vector2(0.0f) &&
 				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_GroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_GroundSpeed &&
@@ -112,6 +113,7 @@ namespace Kross
 		/* If we aren't. */
 		else if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Jumping ||	m_Rigidbody->GetRigidbodyState() == RigidbodyState::Falling)
 		{
+			m_Rigidbody->GetRevJoint()->EnableMotor(true);
 			/* Applys force while the player is in the air */
 			if (moveDirection != Vector2(0.0f) &&
 				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_AirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_AirSpeed &&
@@ -133,6 +135,8 @@ namespace Kross
 		{
 			ActivateMotor(moveDirection);
 		}
+		
+		Debug::LogLine("Wheel speed: " + std::to_string(m_Rigidbody->GetRevJoint()->GetJointSpeed()));
 	}
 
 	void PlayerController::Jump(Vector2 jumpDirection)
