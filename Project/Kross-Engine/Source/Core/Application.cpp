@@ -91,7 +91,7 @@ namespace Kross
 			Debug::EndLine();
 
 			#ifdef KROSS_EDITOR
-			Editor::LoadEditorCamera(SceneManager::GetCurrentScene()->GetCamera());
+			Editor::LoadEditorCamera(SceneManager::GetScene()->GetCamera());
 			Editor::AttachEditorWindow(KROSS_NEW SceneHierarchy());
 			Editor::AttachEditorWindow(KROSS_NEW ObjectEditor());
 			Editor::AttachEditorWindow(KROSS_NEW MainMenu());
@@ -120,7 +120,7 @@ namespace Kross
 				SceneManager::OnRender();
 
 				#ifdef KROSS_EDITOR
-				Editor::SetScene(SceneManager::GetCurrentScene());
+				Editor::SetScene(SceneManager::GetScene());
 
 				Editor::NewFrame();
 
@@ -154,7 +154,7 @@ namespace Kross
 		#ifdef KROSS_EDITOR
 		if(Manifest::SuccessfulLoad())
 		{	
-			Editor::WriteEditorCamera(SceneManager::GetCurrentScene()->GetCamera());
+			Editor::WriteEditorCamera(SceneManager::GetScene()->GetCamera());
 			Editor::OnShutdown();
 		}
 		#endif

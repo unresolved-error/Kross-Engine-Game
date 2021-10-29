@@ -25,7 +25,7 @@ TEXTURE->Assets/Textures/LollipopBlue.krs->
 TEXTURE->Assets/Textures/Gun.krs->
 TEXTURE->Assets/Textures/CrossHair.krs->
 TEXTURE->Assets/Textures/Door.krs->
-TEXTURE->Assets/Textures/Laser.krs->
+TEXTURE->Assets/Textures/Lasers.krs->
 TEXTURE->Assets/Textures/Bullet.krs->
 TEXTURE->Assets/Textures/Chain.krs->
 TEXTURE->Assets/Textures/Choco.krs->
@@ -62,7 +62,7 @@ SPRITE->Assets/Sprites/sprForegroundCandy.krs->
 SPRITE->Assets/Sprites/sprLollipopBlue.krs->
 SPRITE->Assets/Sprites/sprCrossHair.krs->
 SPRITE->Assets/Sprites/sprDoor.krs->
-SPRITE->Assets/Sprites/sprLaser.krs->
+SPRITE->Assets/Sprites/sprSheetLaser.krs->
 SPRITE->Assets/Sprites/sprBullet.krs->
 SPRITE->Assets/Sprites/sprChain.krs->
 SPRITE->Assets/Sprites/sprSheetUI.krs->
