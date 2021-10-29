@@ -89,7 +89,7 @@ namespace Kross
 	void Window::OnPollEvents()
 	{
 		/* Gets the Camera. */
-		Camera* camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
+		Camera* camera = SceneManager::GetScene()->GetCamera()->GetComponent<Camera>();
 
 		/* Get the Current Width and Height of the Window */
 		int Width, Height;
@@ -145,6 +145,7 @@ namespace Kross
 
 		/* VSync Switch */
 		glfwSwapInterval(m_Properties->GetVSync());
+		
 	}
 
 	void Window::OnShutdown()

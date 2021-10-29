@@ -32,16 +32,16 @@ namespace Kross
 
 			if (ImGui::MenuItem("Save", "  Crtl + S")) 
 			{	
-				FileSystem::OnWriteScene(SceneManager::GetCurrentScene());
+				FileSystem::OnWriteScene(SceneManager::GetScene());
 				m_SavedScene = true;
 			}
 			if (ImGui::MenuItem("Save As"))	{}
 			if (ImGui::MenuItem("Save All", "  Ctrl + Shift + S"))
 			{
-				for (int i = 0; i < SceneManager::m_Instance->m_Scenes.size(); i++)
-				{
-					FileSystem::OnWriteScene(SceneManager::m_Instance->m_Scenes[i]);
-				}
+				//for (int i = 0; i < SceneManager::m_Instance->m_Scenes.size(); i++)
+				//{
+				//	FileSystem::OnWriteScene(SceneManager::m_Instance->m_Scenes[i]);
+				//}
 			}
 			ImGui::Separator();
 
@@ -95,13 +95,13 @@ namespace Kross
 				if (ImGui::MenuItem("Empty"))
 				{
 					Object* object = Object::OnCreate();
-					SceneManager::GetCurrentScene()->AttachObject(object);
+					SceneManager::GetScene()->AttachObject(object);
 				}
 				if (ImGui::MenuItem("Rigidbody 2D"))
 				{
 					Object* rigidbody = Object::OnCreate("Rigidbody");
 					rigidbody->AttachComponent<Rigidbody2D>();
-					SceneManager::GetCurrentScene()->AttachObject(rigidbody);
+					SceneManager::GetScene()->AttachObject(rigidbody);
 				}
 				ImGui::Separator();
 
@@ -109,7 +109,7 @@ namespace Kross
 				{
 					Object* camera = Object::OnCreate("Camera");
 					camera->AttachComponent<Camera>();
-					SceneManager::GetCurrentScene()->AttachObject(camera);
+					SceneManager::GetScene()->AttachObject(camera);
 				}
 				if (ImGui::MenuItem("Particle Emitter"))
 				{
@@ -117,7 +117,7 @@ namespace Kross
 					particleEmitter->SetLayer(Layer::Fluids);
 					particleEmitter->AttachComponent<ParticleEmitter>();
 					
-					SceneManager::GetCurrentScene()->AttachObject(particleEmitter);
+					SceneManager::GetScene()->AttachObject(particleEmitter);
 				}
 				if (ImGui::MenuItem("Rope"))
 				{
@@ -125,7 +125,7 @@ namespace Kross
 
 					ropeAvatar->AttachComponent<RopeAvatar>();
 
-					SceneManager::GetCurrentScene()->AttachObject(ropeAvatar);
+					SceneManager::GetScene()->AttachObject(ropeAvatar);
 				}
 				ImGui::Separator();
 
@@ -135,7 +135,7 @@ namespace Kross
 					CogObj->AttachComponent<Rigidbody2D>();
 					CogObj->AttachComponent<Cog>();
 
-					SceneManager::GetCurrentScene()->AttachObject(CogObj);
+					SceneManager::GetScene()->AttachObject(CogObj);
 				}
 				ImGui::Separator();
 
@@ -145,19 +145,19 @@ namespace Kross
 					Object* text = Object::OnCreate("Text");
 					text->SetLayer(Layer::UI);
 					text->AttachComponent<TextRenderer>();
-					SceneManager::GetCurrentScene()->AttachObject(text);
+					SceneManager::GetScene()->AttachObject(text);
 				}
 				if (ImGui::MenuItem("Sprite"))
 				{
 					Object* sprite = Object::OnCreate("Sprite");
 					sprite->AttachComponent<SpriteRenderer>();
-					SceneManager::GetCurrentScene()->AttachObject(sprite);
+					SceneManager::GetScene()->AttachObject(sprite);
 				}
 				if (ImGui::MenuItem("Tile Map"))
 				{
 					Object* tileMap = Object::OnCreate("Tile Map");
 					tileMap->AttachComponent<TileMapRenderer>();
-					SceneManager::GetCurrentScene()->AttachObject(tileMap);
+					SceneManager::GetScene()->AttachObject(tileMap);
 				}
 				ImGui::Separator();
 
@@ -165,7 +165,7 @@ namespace Kross
 				{
 					Object* audioPlayer = Object::OnCreate("Audio player");
 					audioPlayer->AttachComponent<AudioPlayer>();
-					SceneManager::GetCurrentScene()->AttachObject(audioPlayer);
+					SceneManager::GetScene()->AttachObject(audioPlayer);
 				}
 
 				ImGui::Separator();

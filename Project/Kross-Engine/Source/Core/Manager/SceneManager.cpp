@@ -5,6 +5,7 @@
  */
 
 #include "SceneManager.h"
+#include "../File-IO/FileSystem.h"
 
 namespace Kross
 {
@@ -12,16 +13,8 @@ namespace Kross
 
 	SceneManager::~SceneManager()
 	{
-		/* Destroy all the Scenes. */
-		for (int i = 0; i < m_Instance->m_Scenes.size(); i++)
-		{
-			Scene::OnDestroy(m_Instance->m_Scenes[i]);
-			m_Instance->m_Scenes[i] = nullptr;
-		}
-
-		/* Clean up Memory. */
-		m_Instance->m_Scenes.clear();
-		m_Instance->m_Scenes.~vector();
+		Scene::OnDestroy(m_Instance->m_Scene);
+		m_Instance->m_Scene = nullptr;
 	}
 
 	void SceneManager::OnCreate()
@@ -42,107 +35,75 @@ namespace Kross
 
 	void SceneManager::OnStart()
 	{
-		/* Go through all Scenes and Start them. */
-		for (int i = 0; i < m_Instance->m_Scenes.size(); i++)
+		if (m_Instance->m_ApplicationStart)
 		{
-			m_Instance->m_Scenes[i]->OnStart();
+			m_Instance->m_Scene = FileSystem::OnReadScene(m_Instance->m_Filepath);
+			m_Instance->m_Scene->OnStart();
+			m_Instance->m_ApplicationStart = false;		/* ----------------- */
+			m_Instance->m_Transition = false;			/*       Reset       */
+			m_Instance->m_KeepOther = false;			/*     Everything    */
+			m_Instance->m_Filepath = "";				/* ----------------- */
+		}
+		else
+		{
+			if (m_Instance->m_Transition)
+			{
+				if (!m_Instance->m_KeepOther)
+				{
+					Scene::OnDestroy(m_Instance->m_Scene);
+				}
+
+				m_Instance->m_Scene = FileSystem::OnReadScene(m_Instance->m_Filepath);
+				m_Instance->m_Scene->OnStart();
+
+				m_Instance->m_Transition = false;
+			}
+
+			else return;
 		}
 	}
 
 	void SceneManager::OnUpdate()
 	{
 		/* If no current scene set, early out. */
-		if (!m_Instance->m_CurrentScene)
-		{
-			return;
-		}
+		if (!m_Instance->m_Scene) return;
+
 		/* if we do have a Current Scene. Update it. */
-		m_Instance->m_CurrentScene->OnUpdate();
+		m_Instance->m_Scene->OnUpdate();
 
 	}
 
 	void SceneManager::OnPhysicsUpdate()
 	{
 		/* If no current scene set, early out. */
-		if (!m_Instance->m_CurrentScene)
-		{
-			return;
-		}
+		if (!m_Instance->m_Scene) return;
+
 		/* if we do have a Current Scene. Do a physics update on it. */
-		m_Instance->m_CurrentScene->OnPhysicsUpdate();
+		m_Instance->m_Scene->OnPhysicsUpdate();
 	}
 
 	void SceneManager::OnRender()
 	{
 		/* If no current scene set, early out. */
-		if (!m_Instance->m_CurrentScene)
-		{
-			return;
-		}
+		if (!m_Instance->m_Scene) return;
+
 		/* if we do have a Current Scene. Render it. */
-		m_Instance->m_CurrentScene->OnRender();
+		m_Instance->m_Scene->OnRender();
 	}
 
 	void SceneManager::OnUpdateSceneCameraAspectRatio(float aspectRatio)
 	{
 		/* If no current scene set, early out. */
-		if (!m_Instance->m_CurrentScene)
-		{
-			return;
-		}
+		if (!m_Instance->m_Scene) return;
+
 		/* Update the Camera Aspect Ratio. */
-		m_Instance->m_CurrentScene->OnUpdateCameraAspectRatio(aspectRatio);
-	}
-	
-	void SceneManager::SetCurrentScene(const std::string& name)
-	{
-		/* If the name of the Scene already matches the current. Early out. */
-		if (m_Instance->m_CurrentScene->GetName() == name)
-		{
-			return;
-		}
-		/* Search through the list of Scenes added. */
-		for (int i = 0; i < m_Instance->m_Scenes.size(); i++)
-		{
-			Scene* scene = m_Instance->m_Scenes[i];
-
-			/* If the scene currently being looked at is the one we are looking for, set it as current. */
-			if (scene->GetName() == name)
-			{
-				m_Instance->m_CurrentScene = scene;
-				return;
-			}
-		}
-
-		/* If we get here the scene was never found. */
-		return;
+		m_Instance->m_Scene->OnUpdateCameraAspectRatio(aspectRatio);
 	}
 
-	void SceneManager::SetCurrentScene(int index)
+	void SceneManager::SetScene(const std::string& filepath, bool keepOther)
 	{
-		/* Check if the index is outside the bounds of the Scenes array, early out. */
-		if (index < 0 && index >= m_Instance->m_Scenes.size())
-		{
-			return;
-		}
-
-		/* Other wise set the scene. */
-		m_Instance->m_CurrentScene = m_Instance->m_Scenes[index];
-	}
-
-	void SceneManager::AttachScene(Scene* scene)
-	{
-		/* Add a Scene. */
-		for (int i = 0; i < m_Instance->m_Scenes.size(); i++)
-		{
-			/* Check for Duplicate. */
-			if (m_Instance->m_Scenes[i] == scene)
-			{
-				return; /* if a duplicate was found don't add it. */
-			}
-		}
-
-		/* If no duplicate was found, add it. */
-		m_Instance->m_Scenes.push_back(scene);
+		m_Instance->m_Filepath = filepath;
+		m_Instance->m_KeepOther = keepOther;
+		m_Instance->m_Transition = true;
 	}
 }

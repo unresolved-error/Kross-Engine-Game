@@ -175,7 +175,7 @@ namespace Kross
 		return "YEW";
 	}
 
-	void FileSystem::OnReadScene(const std::string& filepath)
+	Scene* FileSystem::OnReadScene(const std::string& filepath)
 	{
 		/* Display what we are loading. */
 		std::cout << "Loading Scene from " << filepath << "..." << std::endl;
@@ -184,7 +184,7 @@ namespace Kross
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
 
-		Scene* newScene = Scene::OnCreate("CHANGE ME");
+		Scene* newScene = Scene::OnCreate("New Scene");
 		
 		std::string nameOfScene;
 		std::string gravity;
@@ -280,19 +280,18 @@ namespace Kross
 			fileStream.close(); 
 		}
 
-		//NOW LOAD OBJECTS. THIS WILL BE ROUGH.
+		// NOW LOAD OBJECTS. THIS WILL BE ROUGH.
 		std::vector<Object*> readObj = OnReadObjects(kObjFilepath);
 
-		//__debugbreak();
+		// __debugbreak();
 
 		for (int i = 0; i < readObj.size(); i++)
 		{
 			newScene->AttachObject(readObj[i]);
 		}
 		
-		/* Got I hope this works. */
-		SceneManager::AttachScene(newScene);
-		SceneManager::SetCurrentScene(0);
+		/* God I hope this works. */
+		return newScene;
 	}
 
 	std::vector<Object*> FileSystem::OnReadObjects(const std::string& filepath)

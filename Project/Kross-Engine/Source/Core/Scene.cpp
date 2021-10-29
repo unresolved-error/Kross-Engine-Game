@@ -61,6 +61,8 @@ namespace Kross
 
     void Scene::OnStart()
     {
+        if (m_Started) return;
+
         for (int i = 0; i < m_BatchRenderers.size(); i++)
         {
             m_BatchRenderers[i]->OnStart();

@@ -98,7 +98,7 @@ namespace Kross
 		{
 			SetDepth(-2);
 		};
-		~RopeAvatar() {};
+		~RopeAvatar();
 
 		/*!
 			Spawns the Rope.

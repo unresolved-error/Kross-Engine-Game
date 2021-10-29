@@ -36,8 +36,8 @@ public:
 
 	void Start() override
 	{
-		level = SceneManager::GetCurrentScene()->FindObject("Level");
-		player = SceneManager::GetCurrentScene()->FindObject("Player");
+		level = SceneManager::GetScene()->FindObject("Level");
+		player = SceneManager::GetScene()->FindObject("Player");
 
 		healthManager = level->GetComponent<HealthManager>();
 		rigidbody = player->GetComponent<Rigidbody2D>();

@@ -31,7 +31,7 @@ namespace Kross
 	void UITransform::OnUpdate()
 	{
 		Window* window = Application::GetWindow();
-		Camera* camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
+		Camera* camera = SceneManager::GetScene()->GetCamera()->GetComponent<Camera>();
 		float aspectRatio = window->GetApsectRatio();
 
 		Vector2 screenPosition = Vector2((m_Ratio.x - 0.5f) * aspectRatio, -(m_Ratio.y - 0.5f)) * camera->GetSize();

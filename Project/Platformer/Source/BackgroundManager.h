@@ -110,40 +110,40 @@ public:
 
 	void Start() override
 	{
-		sceneCam = SceneManager::GetCurrentScene()->GetCamera();
+		sceneCam = SceneManager::GetScene()->GetCamera();
 
-		furthestPrimary = SceneManager::GetCurrentScene()->FindObject("Furthest-A");
-		furthestSecondary = SceneManager::GetCurrentScene()->FindObject("Furthest-B");
+		furthestPrimary = SceneManager::GetScene()->FindObject("Furthest-A");
+		furthestSecondary = SceneManager::GetScene()->FindObject("Furthest-B");
 		/*Add scenery Search and pushback on this line.*/
 		
-		secondFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("SecondFurthest-A");
-		secondFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("SecondFurthest-B");
+		secondFurthestPrimary = SceneManager::GetScene()->FindObject("SecondFurthest-A");
+		secondFurthestSecondary = SceneManager::GetScene()->FindObject("SecondFurthest-B");
 		/*Add scenery Search and pushback on this line.*/
 
-		thirdFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("ThirdFurthest-A");
-		thirdFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("ThirdFurthest-B");
+		thirdFurthestPrimary = SceneManager::GetScene()->FindObject("ThirdFurthest-A");
+		thirdFurthestSecondary = SceneManager::GetScene()->FindObject("ThirdFurthest-B");
 		/*Add scenery check on this line.*/
 
 
-		fourthFurthestPrimary = SceneManager::GetCurrentScene()->FindObject("FourthFurthest-A");
-		fourthFurthestSecondary = SceneManager::GetCurrentScene()->FindObject("FourthFurthest-B");
+		fourthFurthestPrimary = SceneManager::GetScene()->FindObject("FourthFurthest-A");
+		fourthFurthestSecondary = SceneManager::GetScene()->FindObject("FourthFurthest-B");
 		 /*FIX scenery Search and pushback on this line.*/
-		fourthFurthestScenery.push_back(SceneManager::GetCurrentScene()->FindObject("BluePop"));
+		fourthFurthestScenery.push_back(SceneManager::GetScene()->FindObject("BluePop"));
 
-		thirdClosePrimary = SceneManager::GetCurrentScene()->FindObject("ThirdClose-A");
-		thirdCloseSecondary = SceneManager::GetCurrentScene()->FindObject("ThirdClose-B");
+		thirdClosePrimary = SceneManager::GetScene()->FindObject("ThirdClose-A");
+		thirdCloseSecondary = SceneManager::GetScene()->FindObject("ThirdClose-B");
 		/*Add scenery check on this line.*/
 
-		secondClosePrimary = SceneManager::GetCurrentScene()->FindObject("SecondClose-A");
-		secondCloseSecondary = SceneManager::GetCurrentScene()->FindObject("SecondClose-B");
+		secondClosePrimary = SceneManager::GetScene()->FindObject("SecondClose-A");
+		secondCloseSecondary = SceneManager::GetScene()->FindObject("SecondClose-B");
 		/*Add scenery check on this line.*/
 
-		closePrimary = SceneManager::GetCurrentScene()->FindObject("Close-A");
-		closeSecondary = SceneManager::GetCurrentScene()->FindObject("Close-B");
+		closePrimary = SceneManager::GetScene()->FindObject("Close-A");
+		closeSecondary = SceneManager::GetScene()->FindObject("Close-B");
 		/*Add scenery check on this line.*/
 
-		foreGroundPrimary = SceneManager::GetCurrentScene()->FindObject("Foreground-A");
-		foreGroundSecondary = SceneManager::GetCurrentScene()->FindObject("Foreground-B");
+		foreGroundPrimary = SceneManager::GetScene()->FindObject("Foreground-A");
+		foreGroundSecondary = SceneManager::GetScene()->FindObject("Foreground-B");
 		/*Add scenery check on this line.*/
 
 		/*POPULATE THE INIT X POS*/

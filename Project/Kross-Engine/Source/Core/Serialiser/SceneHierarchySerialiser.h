@@ -127,7 +127,7 @@ namespace Kross
 							}
 							else if (editorProperty == "OBJECT") /* Extract the Object. */
 							{
-								Object* object = SceneManager::GetCurrentScene()->FindObject(line.substr(0, searchPosition));
+								Object* object = SceneManager::GetScene()->FindObject(line.substr(0, searchPosition));
 								folder->Push(object);
 							}
 						}
