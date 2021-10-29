@@ -1,0 +1,5 @@
+MATERIAL:
+NAME->Elevator->
+DIFFUSE->Elevator->
+NORMAL->*->
+SPECULAR->*->

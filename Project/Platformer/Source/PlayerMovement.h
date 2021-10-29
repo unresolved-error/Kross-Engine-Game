@@ -116,7 +116,7 @@ public:
 		}
 
 		/* If the Object isn't at the End of a Level. */
-		if (m_GameObject->m_Transform->m_Position.x < 217.0f)
+		if (m_GameObject->m_Transform->m_Position.x < 155.0f)
 		{
 			/* Move the Player. */
 			VisualUpdate(input);
@@ -214,7 +214,7 @@ public:
 		if (m_TextRenderer)
 		{
 			/* If the Object less than 188 on the x. */
-			if (m_GameObject->m_Transform->m_Position.x < 188)
+			if (m_GameObject->m_Transform->m_Position.x < 140)
 			{
 				/* Grab the Colour and Extract it's alpha. */
 				Colour textcol = m_TextRenderer->GetColour();
@@ -223,11 +223,11 @@ public:
 				/* Set its Colour. */
 				m_TextRenderer->SetColour(textcol);
 			}
-			/* If the Object is Less than 217 on the x but larger than 188. */
-			else if (m_GameObject->m_Transform->m_Position.x < 216.9)
+			/* If the Object is Less than 155 on the x but larger than 140. */
+			else if (m_GameObject->m_Transform->m_Position.x < 155)
 			{
 				/* Calculate its Alpha Value. */
-				float alph = (m_GameObject->m_Transform->m_Position.x - 188.0f) / 10.0f;
+				float alph = (m_GameObject->m_Transform->m_Position.x - 140.0f) / 10.0f;
 
 				/* Grab the Colour and Extract it's alpha. */
 				Colour textcol = m_TextRenderer->GetColour();
