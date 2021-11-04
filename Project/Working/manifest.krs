@@ -32,6 +32,9 @@ TEXTURE->Assets/Textures/Choco.krs->
 TEXTURE->Assets/Textures/Cog.krs->
 TEXTURE->Assets/Textures/Elevator.krs->
 TEXTURE->Assets/Textures/UI.krs->
+TEXTURE->Assets/Textures/Logo.krs->
+TEXTURE->Assets/Textures/Start-Button.krs->
+TEXTURE->Assets/Textures/Exit-Button.krs->
 
 // Editor
 TEXTURE->Assets/Textures/icoAnimation.krs->
@@ -68,7 +71,9 @@ SPRITE->Assets/Sprites/sprChain.krs->
 SPRITE->Assets/Sprites/sprSheetUI.krs->
 SPRITE->Assets/Sprites/sprCog.krs->
 SPRITE->Assets/Sprites/sprElevator.krs->
-
+SPRITE->Assets/Sprites/sprLogo.krs->
+SPRITE->Assets/Sprites/sprStart-Button.krs->
+SPRITE->Assets/Sprites/sprExit-Button.krs->
 
 // Editor
 SPRITE->Assets/Sprites/toolTranslate.krs->
@@ -102,6 +107,9 @@ MATERIAL->Assets/Materials/matBullet.krs->
 MATERIAL->Assets/Materials/matUI.krs->
 MATERIAL->Assets/Materials/matCog.krs->
 MATERIAL->Assets/Materials/matElevator.krs->
+MATERIAL->Assets/Materials/matLogo.krs->
+MATERIAL->Assets/Materials/matStart-Button.krs->
+MATERIAL->Assets/Materials/matExit-Button.krs->
 
 // Load Audio Assets.
 AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->
@@ -120,4 +128,4 @@ ATLAS->Assets/Atlas/Atlas.krs->
 PREFAB->Assets/Prefabs/Player.krs->
 
 // Lastly Scenes.
-SCENE->Assets/Scenes/Main.kscn->
+SCENE->Assets/Scenes/Menu.kscn->

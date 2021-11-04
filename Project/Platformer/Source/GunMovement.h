@@ -93,6 +93,8 @@ public:
 		bulletSprite = ResourceManager::GetResource<Sprite>("Bullet");
 
 		m_CrossHair = SceneManager::GetScene()->FindObject("CrossHair");
+
+		Application::GetWindow()->HideCursor();
 	}
 
 	void Update() override 

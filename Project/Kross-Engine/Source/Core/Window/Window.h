@@ -46,12 +46,6 @@ namespace Kross
 		// The Initialise of the window. For creating OpenGL Contexts.
 		void OnInitialise();
 
-		// Hides the Cursor.
-		void HideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED); };
-
-		// UnHides the Cursor.
-		void UnHideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };
-
 		// Start of the Window.
 		void OnStart(float r = 0.5f, float g = 0.5f, float b = 0.5f, float a = 0.5f);
 
@@ -85,6 +79,12 @@ namespace Kross
 
 		// Gets the Aspect Ratio of the Window.
 		float GetApsectRatio() const { return (float)m_Properties->GetWidth() / (float)m_Properties->GetHeight(); };
+
+		// Hides the Cursor.
+		void HideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); };
+
+		// UnHides the Cursor.
+		void UnHideCursor() { glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };
 		
 		// Gets the Refresh Rate of the Screen.
 		const int GetScreenRefreshRate() const;

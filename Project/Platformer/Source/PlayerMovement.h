@@ -115,7 +115,7 @@ public:
 
 			if (Input::GetKeyPressed(Key::R))
 			{
-				SceneManager::SetScene("Assets/Scenes/Main.kscn");
+				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
 			}
 		}
 
@@ -276,7 +276,7 @@ public:
 
 			if (health <= 0.0f)
 			{
-				SceneManager::SetScene("Assets/Scenes/Main.kscn");
+				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
 			}
 		}
 

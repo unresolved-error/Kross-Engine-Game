@@ -104,6 +104,12 @@ namespace Kross
 			SetHeight(Height);
 		}
 
+		/* !FIX THIS! */
+		//float cameraHeight = (Height / 64) * 0.25f;
+		//float cameraHeight = (BASE_SPRITE_WIDTH_AND_HEIGHT * 5.0f) * Height;
+		//float cameraHeight = (Height / BASE_SPRITE_WIDTH_AND_HEIGHT) / ((BASE_SPRITE_WIDTH_AND_HEIGHT * 32.0f) / Height);
+		//SceneManager::GetScene()->GetCamera()->GetComponent<Camera>()->SetSize(cameraHeight);
+
 		/* Retrieves the Primary Monitor */
 		GLFWmonitor* mainMonitor = glfwGetPrimaryMonitor();
 
