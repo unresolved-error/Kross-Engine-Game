@@ -59,6 +59,7 @@ namespace Kross
 
 	void Application::OnStart()
 	{
+		m_Instance->m_Window->m_Properties->SetVSync(1);
 		m_Instance->m_Window->OnInitialise();
 		ShaderManager::OnCreate();
 		ResourceManager::OnCreate();
@@ -84,14 +85,13 @@ namespace Kross
 		if (m_Instance->m_Window->Initialised() && Manifest::SuccessfulLoad())
 		{
 			Debug::LogLine("Kross Engine Running...");
-
 			SceneManager::OnStart();
 
 			Debug::Log("Starting Main Loop...");
 			Debug::EndLine();
 
 			#ifdef KROSS_EDITOR
-			Editor::LoadEditorCamera(SceneManager::GetCurrentScene()->GetCamera());
+			Editor::LoadEditorCamera(SceneManager::GetScene()->GetCamera());
 			Editor::AttachEditorWindow(KROSS_NEW SceneHierarchy());
 			Editor::AttachEditorWindow(KROSS_NEW ObjectEditor());
 			Editor::AttachEditorWindow(KROSS_NEW MainMenu());
@@ -105,23 +105,22 @@ namespace Kross
 			while (!m_Instance->m_Window->Closed())
 			{
 				m_Instance->m_Window->OnStart();
-
 				Time::OnUpdateDeltaTime();
-
-				SceneManager::OnUpdateSceneCameraAspectRatio(m_Instance->m_Window->GetApsectRatio());
-
 				Input::OnUpdate();
 
+				SceneManager::OnStart();
 				SceneManager::OnUpdate(); /* Got to be looked at. */
 
 				#ifndef KROSS_EDITOR
 				SceneManager::OnPhysicsUpdate();
 				#endif
+
+				SceneManager::OnUpdateSceneCameraAspectRatio(m_Instance->m_Window->GetApsectRatio());
 				
 				SceneManager::OnRender();
 
 				#ifdef KROSS_EDITOR
-				Editor::SetScene(SceneManager::GetCurrentScene());
+				Editor::SetScene(SceneManager::GetScene());
 
 				Editor::NewFrame();
 
@@ -132,7 +131,7 @@ namespace Kross
 				Editor::OnRender();
 				#endif
 
-				SceneManager::GetCurrentScene()->OnRemoveObjects();
+				if(Scene* scn = SceneManager::GetScene()) scn->OnRemoveObjects();
 
 				Input::SetScrollValue(0.0f);
 				m_Instance->m_Window->OnPollEvents();
@@ -155,7 +154,7 @@ namespace Kross
 		#ifdef KROSS_EDITOR
 		if(Manifest::SuccessfulLoad())
 		{	
-			Editor::WriteEditorCamera(SceneManager::GetCurrentScene()->GetCamera());
+			Editor::WriteEditorCamera(SceneManager::GetScene()->GetCamera());
 			Editor::OnShutdown();
 		}
 		#endif

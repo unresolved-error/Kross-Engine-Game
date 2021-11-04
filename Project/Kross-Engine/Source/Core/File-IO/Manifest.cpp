@@ -52,6 +52,8 @@ namespace Kross
 		std::fstream fileStream;
 		fileStream.open(filepath.c_str());
 
+		bool firstScene = true;
+
 		if (fileStream.is_open())
 		{
 			/* Variables for opening and reading the file. */
@@ -145,7 +147,10 @@ namespace Kross
 				}
 				else if (assetType == "SCENE")
 				{
-					FileSystem::OnReadScene(assetFilepath);
+					if (firstScene)
+					{
+						SceneManager::SetScene(assetFilepath);
+					}
 				}
 				else
 				{

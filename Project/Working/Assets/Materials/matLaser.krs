@@ -1,5 +1,5 @@
 MATERIAL:
 NAME->Laser->
-DIFFUSE->Laser->
+DIFFUSE->Laser0-0->
 NORMAL->*->
 SPECULAR->*->

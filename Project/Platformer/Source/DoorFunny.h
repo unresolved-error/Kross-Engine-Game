@@ -26,7 +26,7 @@ public:
 	void Start() override
 	{
 		m_Rigidbody = GetComponent<Rigidbody2D>();
-		m_Player = SceneManager::GetCurrentScene()->FindObject("Player");
+		m_Player = SceneManager::GetScene()->FindObject("Player");
 	}
 
 	void Update() override

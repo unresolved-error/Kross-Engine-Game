@@ -35,20 +35,20 @@ public:
 
 		if (m_GameObject->GetName() == "Puzzle1Trigger1")
 		{
-			m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Player");
-			m_ObjectToTrigger = SceneManager::GetCurrentScene()->FindObject("Puzzle1Cog1");			
+			m_ObjectThatTriggers = SceneManager::GetScene()->FindObject("Player");
+			m_ObjectToTrigger = SceneManager::GetScene()->FindObject("Puzzle1Cog1");
 		}
 
 		if (m_GameObject->GetName() == "Puzzle2Trigger1")
 		{
-			m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Player");
-			m_ObjectToTrigger = SceneManager::GetCurrentScene()->FindObject("Puzzle2Cog1");
+			m_ObjectThatTriggers = SceneManager::GetScene()->FindObject("Player");
+			m_ObjectToTrigger = SceneManager::GetScene()->FindObject("Puzzle2Cog1");
 		}
 
 		if (m_GameObject->GetName() == "Puzzle4Trigger1")
 		{
-			m_ObjectThatTriggers = SceneManager::GetCurrentScene()->FindObject("Player");
-			m_ObjectToTrigger = SceneManager::GetCurrentScene()->FindObject("Puzzle4Cog1");
+			m_ObjectThatTriggers = SceneManager::GetScene()->FindObject("Player");
+			m_ObjectToTrigger = SceneManager::GetScene()->FindObject("Puzzle4Cog1");
 		}
 
 

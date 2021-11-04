@@ -31,27 +31,27 @@ public:
 	void Start() override
 	{
 		//m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Player")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy1")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy2")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy3")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy4")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy5")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy6")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy7")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy8")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy9")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy10")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy1")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy2")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy3")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy4")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy5")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy6")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy7")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy8")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy9")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy10")->GetComponent<Health>());
 
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy11")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy12")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy13")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy14")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy15")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy16")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy17")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy18")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy19")->GetComponent<Health>());
-		m_Health.push_back(SceneManager::GetCurrentScene()->FindObject("Enemy20")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy11")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy12")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy13")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy14")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy15")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy16")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy17")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy18")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy19")->GetComponent<Health>());
+		m_Health.push_back(SceneManager::GetScene()->FindObject("Enemy20")->GetComponent<Health>());
 	}
 
 	void Update() override
@@ -62,7 +62,7 @@ public:
 			
 			if (!CheckAlive(m_Health[i]))
 			{
-				SceneManager::GetCurrentScene()->DetachObject(m_Health[i]->m_GameObject);
+				SceneManager::GetScene()->DetachObject(m_Health[i]->m_GameObject);
 
 				m_Health[i] = nullptr;
 				m_Health.erase(m_Health.begin() + i);

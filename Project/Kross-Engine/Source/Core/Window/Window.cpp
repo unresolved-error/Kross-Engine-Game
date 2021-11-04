@@ -89,7 +89,7 @@ namespace Kross
 	void Window::OnPollEvents()
 	{
 		/* Gets the Camera. */
-		Camera* camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
+		Camera* camera = SceneManager::GetScene()->GetCamera()->GetComponent<Camera>();
 
 		/* Get the Current Width and Height of the Window */
 		int Width, Height;
@@ -103,6 +103,12 @@ namespace Kross
 			SetWidth(Width);
 			SetHeight(Height);
 		}
+
+		/* !FIX THIS! */
+		//float cameraHeight = (Height / 64) * 0.25f;
+		//float cameraHeight = (BASE_SPRITE_WIDTH_AND_HEIGHT * 5.0f) * Height;
+		//float cameraHeight = (Height / BASE_SPRITE_WIDTH_AND_HEIGHT) / ((BASE_SPRITE_WIDTH_AND_HEIGHT * 32.0f) / Height);
+		//SceneManager::GetScene()->GetCamera()->GetComponent<Camera>()->SetSize(cameraHeight);
 
 		/* Retrieves the Primary Monitor */
 		GLFWmonitor* mainMonitor = glfwGetPrimaryMonitor();
@@ -145,6 +151,7 @@ namespace Kross
 
 		/* VSync Switch */
 		glfwSwapInterval(m_Properties->GetVSync());
+		
 	}
 
 	void Window::OnShutdown()

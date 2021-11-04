@@ -73,11 +73,11 @@ public:
 	{
 		window =  Application::GetWindow();
 		renderer = GetComponent<SpriteRenderer>();
-		camera = SceneManager::GetCurrentScene()->GetCamera()->GetComponent<Camera>();
-		player = SceneManager::GetCurrentScene()->FindObject("Player");
+		camera = SceneManager::GetScene()->GetCamera()->GetComponent<Camera>();
+		player = SceneManager::GetScene()->FindObject("Player");
 		m_PlayerMovement = player->GetComponent<PlayerMovement>();
 
-		level = SceneManager::GetCurrentScene()->FindObject("Level");
+		level = SceneManager::GetScene()->FindObject("Level");
 		m_HealthManager = level->GetComponent<HealthManager>();
 
 		Degree0 = ResourceManager::GetResource<Sprite>("Gun1-1");
@@ -92,7 +92,9 @@ public:
 		currentGunSprite = Degree0;
 		bulletSprite = ResourceManager::GetResource<Sprite>("Bullet");
 
-		m_CrossHair = SceneManager::GetCurrentScene()->FindObject("CrossHair");
+		m_CrossHair = SceneManager::GetScene()->FindObject("CrossHair");
+
+		Application::GetWindow()->HideCursor();
 	}
 
 	void Update() override 
@@ -323,7 +325,7 @@ public:
 								health->TakeDamage(damage);
 
 								/* For Testing Effects For now. */
-								SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+								SceneManager::GetScene()->DetachObject(bullets[i]);
 
 								bullets[i] = nullptr;
 								bullets.erase(bullets.begin() + i);
@@ -365,7 +367,7 @@ public:
 				}
 				else
 				{
-					SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+					SceneManager::GetScene()->DetachObject(bullets[i]);
 					bullets[i] = nullptr;
 					bullets.erase(bullets.begin() + i);
 					bulletCount--;
@@ -384,7 +386,7 @@ public:
 			}
 			else if (colour.a <= 0.0f)
 			{
-				SceneManager::GetCurrentScene()->DetachObject(bullets[i]);
+				SceneManager::GetScene()->DetachObject(bullets[i]);
 				bullets.erase(bullets.begin() + i);
 				bulletCount--;
 

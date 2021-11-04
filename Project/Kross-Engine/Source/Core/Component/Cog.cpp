@@ -25,7 +25,7 @@ namespace Kross
 
     void Cog::ConnectStaticBody()
     {
-        Object* objToAttToStart = SceneManager::GetCurrentScene()->FindObject(m_nameOfStaticObjConnected);
+        Object* objToAttToStart = SceneManager::GetScene()->FindObject(m_nameOfStaticObjConnected);
         if (objToAttToStart)
         {
             Rigidbody2D* rigidToAttToCog = objToAttToStart->GetComponent<Rigidbody2D>();

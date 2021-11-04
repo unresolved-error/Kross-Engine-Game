@@ -59,7 +59,7 @@ public:
 
 		animator = GetComponent<Animator>();
 
-		player = SceneManager::GetCurrentScene()->FindObject("Player");
+		player = SceneManager::GetScene()->FindObject("Player");
 
 		if (m_GameObject->GetName() == "Puzzle2Enemy1")
 		{

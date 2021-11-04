@@ -11,7 +11,9 @@ namespace Kross
     void Script::OnStart()
     {
         /* Call Start Method. */
+        #ifndef KROSS_EDITOR
         Start();
+        #endif
     }
 
     void Script::OnUpdate()

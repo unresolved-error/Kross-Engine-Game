@@ -9,6 +9,8 @@
 #include "HealthManager.h"
 #include "TriggerLaser.h"
 #include "EnvironmentalDamage.h"
+#include "Start-Button.h"
+#include "Exit-Button.h"
 
 using namespace Kross;
 
@@ -26,6 +28,8 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
 	ScriptRegistry::Attach(KROSS_NEW EnvironmentalDamage());   //REMOVED TO PREVENT INSTANT DEATH AT THE MOMENT.
 	ScriptRegistry::Attach(KROSS_NEW TriggerLaser());
+	ScriptRegistry::Attach(KROSS_NEW StartButton());
+	ScriptRegistry::Attach(KROSS_NEW ExitButton());
 }
 
 #ifndef KROSS_RELEASE
@@ -36,9 +40,11 @@ void AttachScripts()
 	int main(int argc, char** argv)
 	{
 		MemoryState* memState = KROSS_NEW MemoryState();
-	
-		Application::OnCreate();
-		
+		#ifdef KROSS_EDITOR
+		Application::OnCreate("Kross Engine Editor");
+		#else
+		Application::OnCreate("Sweet Dreams of Destruction");
+		#endif
 		AttachScripts();
 
 		Application::OnStart();
@@ -61,7 +67,7 @@ void AttachScripts()
 	
 	/* Run the program without the Debugging Console. */
 	int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show)	{
-		Application::OnCreate();
+		Application::OnCreate("Sweet Dreams of Destruction");
 
 		AttachScripts();
 

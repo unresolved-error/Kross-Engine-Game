@@ -68,16 +68,16 @@ public:
 		m_SpriteRenderer = GetComponent<SpriteRenderer>();
 
 		/* Grab External Object Related things. */
-		m_TextRenderer = SceneManager::GetCurrentScene()->FindObject("Text")->GetComponent<TextRenderer>();
-		m_Gun = SceneManager::GetCurrentScene()->FindObject("Gun");
-		m_Camera = SceneManager::GetCurrentScene()->GetCamera();
+		m_TextRenderer = SceneManager::GetScene()->FindObject("Text")->GetComponent<TextRenderer>();
+		m_Gun = SceneManager::GetScene()->FindObject("Gun");
+		m_Camera = SceneManager::GetScene()->GetCamera();
 
 		/* Get the Health Renderers. */
-		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-0")->GetComponent<SpriteRenderer>());
-		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-1")->GetComponent<SpriteRenderer>());
-		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-2")->GetComponent<SpriteRenderer>());
-		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-3")->GetComponent<SpriteRenderer>());
-		m_HealthRenderers.push_back(SceneManager::GetCurrentScene()->FindObject("UIHealth-4")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetScene()->FindObject("UIHealth-0")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetScene()->FindObject("UIHealth-1")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetScene()->FindObject("UIHealth-2")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetScene()->FindObject("UIHealth-3")->GetComponent<SpriteRenderer>());
+		m_HealthRenderers.push_back(SceneManager::GetScene()->FindObject("UIHealth-4")->GetComponent<SpriteRenderer>());
 
 		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI0-0"));
 		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI1-1"));
@@ -112,6 +112,11 @@ public:
 			/* Grab the Input needed. */
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
 			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::W)));
+
+			if (Input::GetKeyPressed(Key::R))
+			{
+				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
+			}
 		}
 
 		/* If the Object isn't at the End of a Level. */
@@ -266,6 +271,11 @@ public:
 			if (health >= 2.0f)			m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[0]);
 			else if (health >= 1.0f)	m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[1]);
 			else if (health <= 0.0f)	m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[2]);
+
+			if (health <= 0.0f)
+			{
+				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
+			}
 		}
 
 		/* --------------------------- */

@@ -17,15 +17,19 @@ namespace Kross
     {
     private:
         SceneManager() :
-            m_Scenes        (std::vector<Scene*>()),
-            m_CurrentScene  (nullptr)
+            m_Scene             (nullptr),
+            m_Transition        (false),
+            m_KeepOther         (false),
+            m_ApplicationStart  (true),
+            m_Filepath          ("")
         {};
         ~SceneManager();
 
         static SceneManager* m_Instance;
+        Scene* m_Scene;
 
-        std::vector<Scene*> m_Scenes;
-        Scene* m_CurrentScene;
+        bool m_Transition, m_KeepOther, m_ApplicationStart;
+        std::string m_Filepath;
 
     protected:
         friend class Application;
@@ -54,15 +58,9 @@ namespace Kross
 
     public:
         // Get's the Current Selected Scene.
-        static Scene* GetCurrentScene() { return m_Instance->m_CurrentScene; };
+        static Scene* GetScene() { return m_Instance->m_Scene; };
 
-        // Sets the Current Scene. (BY NAME)
-        static void SetCurrentScene(const std::string& name);
-
-        // Sets the Current Scene. (BY INDEX)
-        static void SetCurrentScene(int index);
-
-        // Adds a Scene to the Scene Manager.void
-        static void AttachScene(Scene* scene);
+        // Sets the Current Scene. (Will Delete the Old Scene).
+        static void SetScene(const std::string& filepath, bool keepOther = false);
     };
 }

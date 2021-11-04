@@ -59,5 +59,11 @@
     <ClInclude Include="Source\EnvironmentalDamage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Start-Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Exit-Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
