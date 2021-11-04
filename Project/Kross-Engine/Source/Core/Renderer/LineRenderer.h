@@ -64,8 +64,8 @@ namespace Kross
 		void DrawCircle(glm::vec2 centre, float size, int segmentCount = 64);
 		void DrawCircle(glm::vec2 centre, float size, glm::vec3 colour, int segmentCount = 64);
 
-		void DrawCapsule(b2Body* body, glm::vec2 dimensions, float32 rot, int segmentCount = 64);
-		void DrawCapsule(b2Body* body, glm::vec2 dimensions, float32 rot, glm::vec3 colour, int segmentCount = 64);
+		void DrawCapsule(b2Body* body, glm::vec2 dimensions, int segmentCount = 64);
+		void DrawCapsule(b2Body* body, glm::vec2 dimensions, glm::vec3 colour, int segmentCount = 64);
 
 		//This takes a pointer to what is presumed to be an array of pairs of floats, and draws a shape.
 		//Might be useful for debug drawing if you integrate certain third party engines HINT HINT

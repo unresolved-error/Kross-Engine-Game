@@ -1853,8 +1853,8 @@ namespace Kross
 						}
 						fileStream << "]->";
 						fileStream << controller->m_MaxJumpCount << "->";
-						fileStream << controller->m_GroundSpeed << "->";
-						fileStream << controller->m_AirSpeed << "->";
+						fileStream << controller->m_MaxGroundSpeed << "->";
+						fileStream << controller->m_MaxAirSpeed << "->";
 						fileStream << controller->m_JumpStrength << "->\n";
 					}
 

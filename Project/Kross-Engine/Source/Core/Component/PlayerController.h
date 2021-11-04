@@ -23,8 +23,15 @@ namespace Kross
 		int m_MaxJumpCount;
 		int m_JumpCount;
 
-		float m_GroundSpeed;
+		float m_WheelSpeed;
+		float m_MaxGroundSpeed;
+
 		float m_AirSpeed;
+		float m_MaxAirSpeed;
+
+		float m_SwimSpeed;
+		float m_MaxSwimSpeed;
+
 		float m_JumpStrength;
 
 		float m_CoolDownTimer = 0.05f;
@@ -39,12 +46,6 @@ namespace Kross
 
 		void OnUpdate() override;
 
-		//void OnCollisionEnter(Object* other) override;
-		//
-		//void OnCollisionStay(Object* other) override;
-		//
-		//void OnCollisionExit(Object* other) override;
-
 	public:
 		PlayerController() :
 			m_Rigidbody			(nullptr),
@@ -53,9 +54,16 @@ namespace Kross
 			m_MaxJumpCount		(1),
 			m_JumpCount			(0),
 
-			m_GroundSpeed		(4.0f),
-			m_AirSpeed			(4.0f),
-			m_JumpStrength		(0.4f)
+			m_WheelSpeed		(25.0f),
+			m_MaxGroundSpeed	(2.5f),
+
+			m_AirSpeed			(0.2f),
+			m_MaxAirSpeed		(1.25f),
+
+			m_SwimSpeed			(0.75f),
+			m_MaxSwimSpeed		(1.25f),
+
+			m_JumpStrength		(0.35f)
 		{};
 		~PlayerController();
 
@@ -65,16 +73,16 @@ namespace Kross
 
 		const int GetMaxJumpCount() const { return m_MaxJumpCount; };
 		const int GetJumpCount() const { return m_JumpCount; };
-		const float GetGroundSpeed() const { return m_GroundSpeed; };
-		const float GetAirSpeed() const { return m_AirSpeed; };
+		const float GetGroundSpeed() const { return m_MaxGroundSpeed; };
+		const float GetAirSpeed() const { return m_MaxAirSpeed; };
 		const float GetJumpStrength() const { return m_JumpStrength; };
 
 		std::vector<Layer> GetJumpResetLayers() const { return m_JumpResetLayers; };
 		Layer GetJumpResetLayer(int index) const;
 
 		void SetMaxJumpCount(int value) { m_MaxJumpCount = value; };
-		void SetGroundSpeed(float value) { m_GroundSpeed = value; };
-		void SetAirSpeed(float value) { m_AirSpeed = value; };
+		void SetGroundSpeed(float value) { m_MaxGroundSpeed = value; };
+		void SetAirSpeed(float value) { m_MaxAirSpeed = value; };
 		void SetJumpStrength(float value) { m_JumpStrength = value; };
 
 		void AttachJumpResetLayer(Layer layer);

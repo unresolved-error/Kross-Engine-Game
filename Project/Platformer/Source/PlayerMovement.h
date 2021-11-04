@@ -16,17 +16,16 @@ public:
 	};
 	~PlayerMovement() {};
 
-	Object* m_Camera = nullptr;
 	Object* m_Gun = nullptr;
-
+	Window* m_Window = nullptr;
+	Health* m_Health = nullptr;
+	Object* m_Camera = nullptr;
+	Animator* m_Animator = nullptr;
+	Rigidbody2D* m_RigidBody = nullptr;
+	AudioPlayer* m_AudioPlayer = nullptr;
 	TextRenderer* m_TextRenderer = nullptr;
 	PlayerController* m_Controller = nullptr;
 	SpriteRenderer* m_SpriteRenderer = nullptr;
-	Window* m_Window = nullptr;
-	Rigidbody2D* m_RigidBody = nullptr;
-	AudioPlayer* m_AudioPlayer = nullptr;
-	Animator* m_Animator = nullptr;
-	Health* m_Health = nullptr;
 
 	Vector2 m_GunOffset = Vector2(0.0f, -0.11f);
 	Vector2 m_TextRendererOffset = Vector2(0.0f, 1.5f);
@@ -61,12 +60,12 @@ public:
 	void Start() override
 	{
 		/* Grab All of the Local Components. */
-		m_SpriteRenderer = GetComponent<SpriteRenderer>();
-		m_RigidBody = GetComponent<Rigidbody2D>();
+		m_Health = GetComponent<Health>();
 		m_Animator = GetComponent<Animator>();
+		m_RigidBody = GetComponent<Rigidbody2D>();
 		m_AudioPlayer = GetComponent<AudioPlayer>();
 		m_Controller = GetComponent<PlayerController>();
-		m_Health = GetComponent<Health>();
+		m_SpriteRenderer = GetComponent<SpriteRenderer>();
 
 		/* Grab External Object Related things. */
 		m_TextRenderer = SceneManager::GetCurrentScene()->FindObject("Text")->GetComponent<TextRenderer>();
@@ -132,7 +131,6 @@ public:
 		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -2.0f, 1.5f);
 
 		/* Camera Shake. */
-
 		if (m_CameraShakeMagnitude > 0.0f)
 		{
 			m_Camera->m_Transform->m_Position.x += Random::GetRandomRange(-m_CameraShakeMagnitude, m_CameraShakeMagnitude);
@@ -144,7 +142,6 @@ public:
 			m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax;
 			m_ShakeCoolDownTimeElapsed = 0.0f;
 		}
-
 		else
 		{
 			if (m_ShakeCoolDownTimeElapsed < m_ShakeCoolDownTime && m_CameraShakeMagnitude > 0.0f)
@@ -307,56 +304,6 @@ public:
 				m_IsHurt = false;
 			}
 		}
-
-//#ifdef KROSS_DEBUG
-//		std::vector<Object*> contacts;
-//		for (b2ContactEdge* contact = m_RigidBody->GetBody()->GetContactList(); contact; contact = contact->next)
-//		{
-//			if (contact->contact->IsTouching())
-//			{
-//				contacts.push_back((Object*)contact->other->GetUserData());
-//			}
-//		}
-//
-//		int listSize = contacts.size();
-//		for (int i = 0; i < listSize; i++)
-//		{
-//			if (listSize == 1)
-//			{
-//				Debug::LogLine("Current Contacts: " + contacts[0]->GetName());
-//			}
-//			else if (listSize == 2)
-//			{
-//				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName());
-//			}
-//			else if (listSize == 3)
-//			{
-//				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
-//					", " + contacts[2]->GetName());
-//			}
-//			else if (listSize == 4)
-//			{
-//				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
-//					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName());
-//			}
-//			else if (listSize == 5)
-//			{
-//				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
-//					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName() + ", " + contacts[4]->GetName());
-//			}
-//			else if (listSize == 6)
-//			{
-//				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
-//					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName() + ", " + contacts[4]->GetName() + ", " + contacts[5]->GetName());
-//			}
-//			else
-//			{
-//				Debug::LogLine("Current Contacts: " + contacts[0]->GetName() + ", " + contacts[1]->GetName() +
-//					", " + contacts[2]->GetName() + ", " + contacts[3]->GetName() + ", " + contacts[4]->GetName() + ", " + contacts[5]->GetName());
-//			}
-//		}
-//#endif // KROSS_DEBUG
-
 	}
 
 	/*! 

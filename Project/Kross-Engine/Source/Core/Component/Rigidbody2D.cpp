@@ -190,7 +190,7 @@ namespace Kross
         b2FixtureDef bottomFixtureDef;
         bottomFixtureDef.shape = &circleShape;
         bottomFixtureDef.density = 0.5f;
-        bottomFixtureDef.friction = friction;
+        bottomFixtureDef.friction = 5.0f;
         bottomFixtureDef.filter = *filter;
 
         bottomCircle->CreateFixture(&bottomFixtureDef);
@@ -212,8 +212,9 @@ namespace Kross
         revJoint.collideConnected = false;
 
         CreateRevJoint(revJoint);
-        p_RevJoint->SetMaxMotorTorque(1.0f);
+        p_RevJoint->SetMaxMotorTorque(0.075f);
         p_RevJoint->EnableMotor(true);
+        p_RevJoint->EnableLimit(false);
 
 
         /* This is for display purposes */
@@ -233,7 +234,6 @@ namespace Kross
         b2FixtureDef bottomFixtureDef2;
         bottomFixtureDef2.shape = &circleShape2;
         bottomFixtureDef2.density = 0.01f;
-        bottomFixtureDef2.friction = 0.01f;
         bottomFixtureDef2.filter.categoryBits = (uint16)ColliderFilters::Empty;
         bottomFixtureDef2.filter.maskBits = (uint16)ColliderFilters::Empty;
 
@@ -512,7 +512,7 @@ namespace Kross
             {
                 for (int i = 0; i < m_Bodies.size(); i++)
                 {
-                    p_DebugRenderer->DrawCapsule(m_Bodies[i], Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()), 0.2f, 4);
+                    p_DebugRenderer->DrawCapsule(m_Bodies[i], Vector2(p_Capsule->GetWidth(), p_Capsule->GetHeight()));
                 }
             }
             else
@@ -605,18 +605,7 @@ namespace Kross
 
     void Rigidbody2D::OnUpdate()
     {
-        p_AABBCollisionData->m_Fixture.clear();
-        p_AABBCollisionData->m_ParticleIndexs.clear();
-        p_AABBCollisionData->p_ParticleSystems.clear();
-
         ClearCloseObjects();
-        ClearCloseParticles();
-
-        //for (int i = GetCloseParticles().size() - 1; i >= 0; i--)
-        //{
-        //    GetCloseParticles().erase(GetCloseParticles().begin() + i);
-        //}
-
 
         if (p_Box != nullptr || p_Circle != nullptr || p_Capsule != nullptr)
         {
@@ -752,38 +741,6 @@ namespace Kross
         return p_RayData;
     }
 
-    float Rigidbody2D::CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos)
-    {
-        float closestFraction = maxFraction;
-
-        p_RayData->maxFraction = maxFraction;
-
-        p_RayData->pos = Vector2(p_Body->GetPosition().x, p_Body->GetPosition().y - (p_Capsule->GetHeight() * 0.5f));
-        p_RayData->direction = direction;
-        p_RayData->intersectionPoint = p_RayData->pos + maxFraction * direction;
-
-        GetSurroundingObjects(1.0f, p_Body);
-
-
-        for (int i = 0; i < GetCloseObjects().size(); i++)
-        {
-            if (GetCloseObjects()[i] != p_Body)
-            {
-                p_RayData = Physics::OnCircleCast(p_RayData->pos, p_RayData->direction,
-                    p_Body, p_RayData->maxFraction, circleCastRadius);
-
-                if (p_RayData->hit == true)
-                {
-                    p_RayData->body = GetCloseObjects()[i];
-                }
-            }
-        }
-        
-        p_AABBCollisionData->m_Fixture.clear();
-        
-        return closestFraction;
-    }
-
     std::vector<Body*> Rigidbody2D::GetSurroundingObjects(float size, Body* body)
     {
         AABBCollisionData* collisionData = KROSS_NEW AABBCollisionData;
@@ -795,7 +752,6 @@ namespace Kross
             GetCloseObjects()[i] = nullptr;
         }
         ClearCloseObjects();
-        ClearCloseParticles();
 
         /* Checks if it is a circle */
         if (p_Circle != nullptr)
@@ -866,187 +822,24 @@ namespace Kross
         return GetCloseObjects();
     }
 
-    void Rigidbody2D::GetObjectsInDirection(float length, Body* body, Vector2 direction)
-    {
-        direction = glm::normalize(direction);
-
-        Physics::GetAABBCollisionCallback()->SetAABBCollisionData(p_AABBCollisionData);
-        b2Shape* shape = body->GetFixtureList()->GetShape();
-        for (int i = 0; i < GetCloseObjects().size(); i++)
-        {
-            GetCloseObjects()[i] = nullptr;
-        }
-        ClearCloseObjects();
-        ClearCloseParticles();
-        m_Fixtures.clear();
-
-        /* Checks if it is a circle */
-        if (p_Circle != nullptr)
-        {
-            CircleShape circle = CircleShape();
-
-            if (length < p_Circle->GetRadius())
-            {
-                circle.m_p = body->GetTransform().p + length * Getb2Vec2(direction);
-                circle.m_radius = shape->m_radius;
-            }
-            else
-            {
-                circle.m_p = body->GetTransform().p + shape->m_radius * Getb2Vec2(direction);
-                circle.m_radius = shape->m_radius;
-            }
-
-            /* Queries shape AABB */
-            p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
-                circle, body->GetTransform());
-
-        }
-        /* Checks if it is a poly */
-        else if (p_Box != nullptr)
-        {
-            b2Transform transform = body->GetTransform();
-            PolygonShape box = PolygonShape();
-
-            /* checks for the direction for the box */
-            if (direction.x != 0 && direction.y == 0)
-            {
-                /* Sets left or right */
-                box.SetAsBox((p_Box->GetWidth() + length) * 0.5f, (p_Box->GetHeight()) * 0.4f);
-
-                transform.p.x = transform.p.x + (length * 0.55f) * direction.x;
-
-
-                float points[10] = { transform.p.x + (p_Box->GetWidth() + length) * 0.5f, transform.p.y + p_Box->GetHeight() * 0.4f,
-                    transform.p.x + (p_Box->GetWidth() + length) * 0.5f, transform.p.y - p_Box->GetHeight() * 0.4f,
-                    transform.p.x - (p_Box->GetWidth() + length) * 0.5f, transform.p.y - p_Box->GetHeight() * 0.4f,
-                    transform.p.x - (p_Box->GetWidth() + length) * 0.5f, transform.p.y + p_Box->GetHeight() * 0.4f,
-                    transform.p.x + (p_Box->GetWidth() + length) * 0.5f, transform.p.y + p_Box->GetHeight() * 0.4f
-                };
-
-                p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
-            }
-            else if (direction.y != 0 && direction.x == 0)
-            {
-                /* Sets up or down */
-                box.SetAsBox((p_Box->GetWidth()) * 0.3f, (p_Box->GetHeight() + length) * 0.5f);
-
-                transform.p.y = transform.p.y + (length * 0.55f) * direction.y;
-
-                float points[10] = { transform.p.x + p_Box->GetWidth() * 0.3f, transform.p.y + (p_Box->GetHeight() + length) * 0.5f,
-                    transform.p.x + p_Box->GetWidth() * 0.3f, transform.p.y - (p_Box->GetHeight() + length) * 0.5f,
-                    transform.p.x - p_Box->GetWidth() * 0.3f, transform.p.y - (p_Box->GetHeight() + length) * 0.5f,
-                    transform.p.x - p_Box->GetWidth() * 0.3f, transform.p.y + (p_Box->GetHeight() + length) * 0.5f,
-                    transform.p.x + p_Box->GetWidth() * 0.3f, transform.p.y + (p_Box->GetHeight() + length) * 0.5f
-                };
-
-                p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
-                p_DebugRenderer->FinishLineLoop();
-            }
-            else
-            {
-                /* Sets a full box */
-                box.SetAsBox((p_Box->GetWidth() + length) * 0.5f, (p_Box->GetHeight() + length) * 0.5f);
-            }
-
-            /* Queries shape AABB */
-            p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
-                box, transform);
-        }
-        else if (p_Capsule != nullptr)
-        {
-            b2Transform transform = body->GetTransform();
-            PolygonShape capsule = PolygonShape();
-
-            /* checks for the direction for the box */
-            if (direction.x != 0 && direction.y == 0)
-            {
-                /* Sets left or right */
-                capsule.SetAsBox((p_Capsule->GetWidth() + length) * 0.5f, (p_Capsule->GetHeight()) * 0.4f);
-
-                transform.p.x = transform.p.x + (length * 0.55f) * direction.x;
-
-
-                float points[10] = { transform.p.x + (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y + p_Capsule->GetHeight() * 0.4f,
-                    transform.p.x + (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y - p_Capsule->GetHeight() * 0.4f,
-                    transform.p.x - (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y - p_Capsule->GetHeight() * 0.4f,
-                    transform.p.x - (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y + p_Capsule->GetHeight() * 0.4f,
-                    transform.p.x + (p_Capsule->GetWidth() + length) * 0.5f, transform.p.y + p_Capsule->GetHeight() * 0.4f
-                };
-
-                p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
-            }
-            else if (direction.y != 0 && direction.x == 0)
-            {
-                /* Sets up or down */
-                capsule.SetAsBox((p_Capsule->GetWidth()) * 0.3f, (p_Capsule->GetHeight() + length) * 0.5f);
-
-                transform.p.y = transform.p.y + (length * 0.55f) * direction.y;
-
-                float points[10] = { transform.p.x + p_Capsule->GetWidth() * 0.3f, transform.p.y + (p_Capsule->GetHeight() + length) * 0.5f,
-                    transform.p.x + p_Capsule->GetWidth() * 0.3f, transform.p.y - (p_Capsule->GetHeight() + length) * 0.5f,
-                    transform.p.x - p_Capsule->GetWidth() * 0.3f, transform.p.y - (p_Capsule->GetHeight() + length) * 0.5f,
-                    transform.p.x - p_Capsule->GetWidth() * 0.3f, transform.p.y + (p_Capsule->GetHeight() + length) * 0.5f,
-                    transform.p.x + p_Capsule->GetWidth() * 0.3f, transform.p.y + (p_Capsule->GetHeight() + length) * 0.5f
-                };
-
-                p_DebugRenderer->DrawRawShape(points, 5, Vector3(1.0f, 0.0f, 0.0f));
-                p_DebugRenderer->FinishLineLoop();
-            }
-            else
-            {
-                /* Sets a full box */
-                capsule.SetAsBox((p_Capsule->GetWidth() + length) * 0.5f, (p_Capsule->GetHeight() + length) * 0.5f);
-            }
-
-            /* Queries shape AABB */
-            p_PhysicsScene->GetPhysicsWorld()->QueryShapeAABB(Physics::GetAABBCollisionCallback(),
-                capsule, transform);
-        }
-
-
-
-
-
-        p_AABBCollisionData = Physics::GetAABBCollisionCallback()->GetAABBCollisionData();
-
-        m_AABBCollisions.push_back(p_AABBCollisionData);
-
-
-        /* Goes through all of the fixtures and pushes them into a list */
-        for (int i = 0; i < m_AABBCollisions.size(); i++)
-        {
-            for (int j = 0; j < m_AABBCollisions[i]->m_Fixture.size(); j++)
-            {
-                /* Checks if the current fixture body is the same as the current body */
-                if (m_AABBCollisions[i]->m_Fixture[j]->GetBody() != p_Body)
-                {
-                    AddCloseObject(m_AABBCollisions[i]->m_Fixture[j]->GetBody());
-                }
-            }
-        }
-
-
-        //for (int i = 0; i < m_CloseObjects.size(); i++)
-        //{
-        //    std::cout << ((Object*)m_CloseObjects[i]->GetUserData())->GetName() << 
-        //        " Pos X: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.x) << 
-        //        " Pos Y: " << std::to_string(((Object*)m_CloseObjects[i]->GetUserData())->GetTransform()->m_Position.y) << 
-        //        std::endl;
-        //}
-
-        p_AABBCollisionData->m_Fixture.clear();
-    }
-
     void Rigidbody2D::UpdateRigidbodyState()
     {
-        if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
+        if (GetCloseParticles().size() > 20)
         {
-            if (GetCloseParticles().size() > 50)
+            if (GetCloseParticles().size() > 80)
             {
-                SetRigidbodyState(RigidbodyState::Swimming);
-                Debug::LogLine("We are swimming :)");
+                SetRigidbodyState(RigidbodyState::Underwater);
+                Debug::LogLine("We are underwater");
             }
-            else if (p_Body->GetLinearVelocity().y > 0.0f)
+            else
+            {
+                SetRigidbodyState(RigidbodyState::Floating);
+                Debug::LogLine("We are floating");
+            }
+        }
+        else if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
+        {
+            if (p_Body->GetLinearVelocity().y > 0.0f)
             {
                 SetRigidbodyState(RigidbodyState::Jumping);
             }
@@ -1075,12 +868,9 @@ namespace Kross
 
     void Rigidbody2D::CollisionUpdate()
     {
-        //Vector2 particleForce = CollideParticles();
-        //OnApplyForce(particleForce * (p_Body->GetMass() * 5.0f));
-
         if (p_Box == nullptr && p_Circle == nullptr)
         {
-
+            SetRigidbodyState(GetRigidbodyState());
             RaycastData* rightSideDown = KROSS_NEW RaycastData();
             RaycastData* leftSideDown = KROSS_NEW RaycastData();
 
@@ -1115,6 +905,17 @@ namespace Kross
                 rightSideDown->hit = false;
                 leftSideDown->hit = false;
             }
+            else if (GetRigidbodyState() == RigidbodyState::Floating || GetRigidbodyState() == RigidbodyState::Underwater)
+            {
+                if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
+                {
+                    SetCollisionState(CollisionState::Enter);
+                }
+                else if (GetCollisionState() == CollisionState::Enter)
+                {
+                    SetCollisionState(CollisionState::Stay);
+                }
+            }
             else
             {
                 if (p_Capsule != nullptr)
@@ -1134,18 +935,13 @@ namespace Kross
 
                 p_DebugRenderer->SetColour(Vector3(0.0f, 0.0f, 1.0f));
             }
-            
+
             /* Visulisation is broken, only displays one intersection point at a time */
             p_DebugRenderer->DrawLineSegment(rightSideDown->pos, rightSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(rightSideDown->intersectionPoint, 0.1f, 8);
             
             p_DebugRenderer->DrawLineSegment(leftSideDown->pos, leftSideDown->intersectionPoint);
             p_DebugRenderer->DrawCircle(leftSideDown->intersectionPoint, 0.1f, 8);
-            
-           // if (leftSideDown->body != nullptr) 
-           // {
-           //     Debug::LogLine(((Object*)leftSideDown->body->GetUserData())->GetName());
-           // }
 
             rightSideDown = nullptr;
             leftSideDown = nullptr;
@@ -1154,10 +950,10 @@ namespace Kross
             delete leftSideDown;
         }
 
-        if (GetCloseParticles().size() != 0)
-        {
-            std::cout << "Close object count: " + std::to_string(GetCloseParticles().size()) << std::endl;
-        }
+        //if (GetCloseParticles().size() != 0)
+        //{
+        //    std::cout << "Close Particle count: " + std::to_string(GetCloseParticles().size()) << std::endl;
+        //}
 
         #ifndef KROSS_EDITOR
         /* Gets the object position and updates it with the position of the body */

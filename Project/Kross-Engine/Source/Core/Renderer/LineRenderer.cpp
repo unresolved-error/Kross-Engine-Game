@@ -125,12 +125,12 @@ namespace Kross
 		}
 	}
 
-	void LineRenderer::DrawCapsule(Body* body, glm::vec2 dimensions, float32 rot, int segmentCount)
+	void LineRenderer::DrawCapsule(Body* body, glm::vec2 dimensions, int segmentCount)
 	{
-		DrawCapsule(body, dimensions, rot, currentColour, segmentCount);
+		DrawCapsule(body, dimensions, currentColour, segmentCount);
 	}
 
-	void LineRenderer::DrawCapsule(Body* body, glm::vec2 dimensions, float32 rot, glm::vec3 colour, int segmentCount)
+	void LineRenderer::DrawCapsule(Body* body, glm::vec2 dimensions, glm::vec3 colour, int segmentCount)
 	{
 		int side = 0;
 		b2Transform bodyTransform = body->GetTransform();
@@ -153,13 +153,13 @@ namespace Kross
 							(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) + (dimensions.y - dimensions.x) }, theCircle->m_radius);
 					
 			
-					//if (body->GetType() != b2BodyType::b2_staticBody)
-					//{
+					if (body->GetType() != b2BodyType::b2_staticBody)
+					{
 						glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y + theCircle->m_p.y };
 						b2Vec2 offset = { theCircle->m_radius, 0 };
 						offset = b2Mul(bodyTransform, offset);
 						DrawLineSegment(centre, { centre.x + theCircle->m_radius, centre.y });
-					//}
+					}
 				}
 			}
 
