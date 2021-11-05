@@ -296,7 +296,9 @@ namespace Kross
                 /* Get UVs for Sprite. */
                 std::vector<Vector2> uvs = std::vector<Vector2>(4);
 
-                float thisThing = (0.1f / 4096.0f);
+                float thisThing = (0.125f / 4096.0f);
+
+                float verticalOffset = 0.125f / 4096.0f;
 
                 /* Diffuse UVs. */
                 uvs[0].x = ((1.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x) - thisThing;
@@ -304,7 +306,7 @@ namespace Kross
                 uvs[2].x = ((0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x) + thisThing;
                 uvs[3].x = ((0.0f * spriteData.m_Ratio.x) + spriteData.m_Offset.x) + thisThing;
 
-                /* Diffuse UVs. */
+                /*aaaa a Diffuse UVs. */
                 uvs[0].y = ((1.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y) - thisThing;
                 uvs[1].y = ((0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y) + thisThing;
                 uvs[2].y = ((0.0f * spriteData.m_Ratio.y) + spriteData.m_Offset.y) + thisThing;

@@ -197,6 +197,7 @@ namespace Kross
 
 	void Sprite::SetGeometryData()
 	{
+	
 		/* Get the name of the Geometry. */
 		std::string name = std::to_string(m_Width) + "x" + std::to_string(m_Height);
 

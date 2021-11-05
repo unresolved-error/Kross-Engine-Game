@@ -134,11 +134,11 @@ namespace Kross
 
 			if (i != atlas->m_AttachedSprites.size() - 1)
 			{
-				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << std::to_string(data.m_Offset.x) << "->" << std::to_string(data.m_Offset.y) << "->" << std::to_string(data.m_Ratio.x) << "->" << std::to_string(data.m_Ratio.y) << "->\n";
+				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << data.m_Offset.x << "->" << data.m_Offset.y << "->" << data.m_Ratio.x << "->" << data.m_Ratio.y << "->\n";
 			}
 			else
 			{
-				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << std::to_string(data.m_Offset.x) << "->" << std::to_string(data.m_Offset.y) << "->" << std::to_string(data.m_Ratio.x) << "->" << std::to_string(data.m_Ratio.y) << "->";
+				atlasSpriteWriter << "DATA->" << sprite->GetName() << "->" << data.m_Offset.x << "->" << data.m_Offset.y << "->" << data.m_Ratio.x << "->" << data.m_Ratio.y << "->";
 			}
 		}
 
