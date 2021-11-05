@@ -98,6 +98,8 @@ namespace Kross
 			Editor::AttachEditorWindow(KROSS_NEW AssetDirectory());
 			Editor::AttachEditorWindow(KROSS_NEW AssetPanel());
 
+			Editor::SetScene(SceneManager::GetScene());
+
 			Editor::OnStart(m_Instance->m_Window);
 			#endif
 

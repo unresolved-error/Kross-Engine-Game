@@ -51,13 +51,16 @@ namespace Kross
 			m_Instance->m_EditorWindows[i]->OnStart();
 		}
 
-		Serialiser<SceneHierarchy> serialiser;
 		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
 		{
 			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
 			{
 				SceneHierarchy* hierarchy = (SceneHierarchy*)m_Instance->m_EditorWindows[i];
-				serialiser.Load("Editor/EditorObjectHierarchy.krs", hierarchy);
+				if (Scene* scene = m_Instance->m_EditorWindows[i]->p_Scene)
+				{
+					Serialiser<SceneHierarchy> serialiser;
+					serialiser.Load("Editor/" + scene->GetName() + ".ksff", hierarchy);
+				}
 				break;
 			}
 		}
@@ -217,7 +220,7 @@ namespace Kross
 		{
 			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
 			{
-				serialiser.Write("Editor/EditorObjectHierarchy.krs", (SceneHierarchy*)m_Instance->m_EditorWindows[i]);
+				serialiser.Write("Editor/" + m_Instance->m_EditorWindows[i]->p_Scene->GetName() + ".ksff", (SceneHierarchy*)m_Instance->m_EditorWindows[i]);
 				break;
 			}
 		}
