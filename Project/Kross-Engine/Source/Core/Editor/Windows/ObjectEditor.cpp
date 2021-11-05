@@ -64,6 +64,8 @@ namespace Kross {
 
 				for (int i = 0; i < p_SelectedObject->m_Components.size(); i++)
 				{
+
+					ImGui::PushID(i);
 					/* Create a Local instance of the Component we are looking at. */
 					Component* component = p_SelectedObject->m_Components[i];
 
@@ -1391,6 +1393,8 @@ namespace Kross {
 							p_SelectedObject->m_Components.erase(p_SelectedObject->m_Components.begin() + i);
 						}
 					}
+
+					ImGui::PopID();
 
 					ImGui::Separator();
 				}
