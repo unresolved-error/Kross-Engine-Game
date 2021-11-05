@@ -3,6 +3,7 @@
 #include <Kross.h>
 
 #include "Health.h"
+#include "bgAudioManager.h"
 
 using namespace Kross;
 
@@ -115,6 +116,7 @@ public:
 
 			if (Input::GetKeyPressed(Key::R))
 			{
+				leaveLevel = true;
 				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
 			}
 		}
@@ -276,6 +278,7 @@ public:
 
 			if (health <= 0.0f)
 			{
+				leaveLevel = true;
 				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
 			}
 		}
