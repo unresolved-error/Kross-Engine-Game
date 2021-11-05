@@ -10,8 +10,13 @@
 #include "../Manager/Time.h"
 #include "../Application.h"
 
+
+
 namespace Kross
 {
+
+
+
 	PlayerController::~PlayerController()
 	{
 		m_Rigidbody = nullptr;
@@ -143,6 +148,8 @@ namespace Kross
 			return;
 		}
 
+
+
 		/* Checks the Rigidbody State. */
 		if (m_Rigidbody->GetRigidbodyState() != RigidbodyState::Jumping && m_Rigidbody->GetRigidbodyState() != RigidbodyState::Falling)
 		{
@@ -150,9 +157,12 @@ namespace Kross
 			if (m_Rigidbody->GetBody()->GetLinearVelocity().y <= 0.01f)
 			{
 				m_Rigidbody->OnApplyImpulse(jumpDirection * m_JumpStrength);
+
 			}
 			m_Rigidbody->SetRigidbodyState(RigidbodyState::Jumping);
 			m_JumpCount++;
+
+
 		}
 	}
 

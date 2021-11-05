@@ -35,6 +35,10 @@ public:
 	std::vector<SpriteRenderer*> m_HealthRenderers = std::vector<SpriteRenderer*>();
 	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>();
 
+
+	std::vector<AudioPlayer*> audioPlayers;
+
+
 	int m_ControllerID = 0;
 	int m_FrameCount = 0;
 
@@ -84,6 +88,8 @@ public:
 		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI1-1"));
 		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI2-0"));
 
+		audioPlayers = GetComponents<AudioPlayer>();
+
 		/* Grab the Window. */
 		m_Window = Application::GetWindow();
 
@@ -120,6 +126,8 @@ public:
 				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
 			}
 		}
+		
+		
 
 		/* If the Object isn't at the End of a Level. */
 		if (m_GameObject->m_Transform->m_Position.x < 155.0f)
@@ -128,6 +136,18 @@ public:
 			VisualUpdate(input);
 			m_Controller->Move(input);
 			m_Controller->Jump(jumpDir);
+			RigidbodyState rbState = m_RigidBody->GetRigidbodyState();
+
+			if(m_RigidBody->GetBody()->GetLinearVelocity().y <= 0.01f || rbState != RigidbodyState::Jumping)
+			{
+				audioPlayers[0]->Stop();
+			}
+			else if(jumpDir != Vector2(0,0))
+			{
+				audioPlayers[0]->Play();
+				
+			}
+			
 		}
 
 		/* Lerp the Camera's Position to the Players. */

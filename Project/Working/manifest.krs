@@ -116,6 +116,12 @@ AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->
 AUDIOSOURCE->Assets/Audio/audBulletProof.krs->
 AUDIOSOURCE->Assets/Audio/audJerryFive.krs->
 
+AUDIOSOURCE->Assets/Audio/audJump.krs->
+AUDIOSOURCE->Assets/Audio/audShoot.krs->
+AUDIOSOURCE->Assets/Audio/audHurt_Player.krs->
+
+
+
 // Loads in Tile Maps.
 TILEMAP->Assets/Tiles/TileMaps/tmDirt.krs-> 
 
@@ -129,4 +135,4 @@ ATLAS->Assets/Atlas/Atlas.krs->
 PREFAB->Assets/Prefabs/Player.krs->
 
 // Lastly Scenes.
-SCENE->Assets/Scenes/Menu.kscn->
+SCENE->Assets/Scenes/Main.kscn->
