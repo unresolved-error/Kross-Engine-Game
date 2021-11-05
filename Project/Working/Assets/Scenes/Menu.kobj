@@ -92,3 +92,13 @@ SPRITE-RENDERER->Exit-Button->1->1->1->1->0->0->0->
 SCRIPT->ExitButton->
 END->
 
+START->
+NAME->bgAudioJerry->
+STATIC->0->
+ENABLE->1->
+LAYER->0->
+TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
+AUDIO-PLAYER->JerryFive->1->1->1->0->
+SCRIPT->bgAudioManager->
+END->
+

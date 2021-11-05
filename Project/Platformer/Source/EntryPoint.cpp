@@ -11,6 +11,7 @@
 #include "EnvironmentalDamage.h"
 #include "Start-Button.h"
 #include "Exit-Button.h"
+#include "bgAudioManager.h"
 
 using namespace Kross;
 
@@ -30,6 +31,8 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW TriggerLaser());
 	ScriptRegistry::Attach(KROSS_NEW StartButton());
 	ScriptRegistry::Attach(KROSS_NEW ExitButton());
+	ScriptRegistry::Attach(KROSS_NEW bgAudioManager());
+
 }
 
 #ifndef KROSS_RELEASE

@@ -187,6 +187,7 @@
     <ClCompile Include="Source\EntryPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\bgAudioManager.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\DoorFunny.h" />
     <ClInclude Include="Source\EndLevel.h" />

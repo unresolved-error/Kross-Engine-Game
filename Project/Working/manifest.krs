@@ -114,6 +114,7 @@ MATERIAL->Assets/Materials/matExit-Button.krs->
 // Load Audio Assets.
 AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->
 AUDIOSOURCE->Assets/Audio/audBulletProof.krs->
+AUDIOSOURCE->Assets/Audio/audJerryFive.krs->
 
 // Loads in Tile Maps.
 TILEMAP->Assets/Tiles/TileMaps/tmDirt.krs-> 

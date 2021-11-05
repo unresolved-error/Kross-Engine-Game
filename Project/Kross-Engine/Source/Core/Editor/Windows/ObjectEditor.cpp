@@ -268,6 +268,9 @@ namespace Kross {
 
 						if (ImGui::CollapsingHeader("AudioPlayer", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
+							/* Grab the Properties. */
+							AudioProperties* properties = aplayer->GetProperties();
+
 							ImGui::Text("Audio Source: ");
 							ImGui::SameLine();
 							if (ImGui::Button((aplayer->GetSource() ? aplayer->GetSource()->GetName().c_str() : "Not Set")))
@@ -290,6 +293,8 @@ namespace Kross {
 									p_PreviewPane->SetPosition((viewPos.x + (viewSize.x / 2.0f)) - (256.0f / 2.0f), (viewPos.y + (viewSize.y / 2.0f)) - (384.0f / 2.0f));
 									Editor::AttachEditorWindow(p_PreviewPane);
 								}
+								
+
 							}
 
 							if (p_PreviewPane && p_PreviewPane->GetAudioSource())
@@ -298,6 +303,42 @@ namespace Kross {
 								Editor::DetachEditorWindow(p_PreviewPane);
 								p_PreviewPane = nullptr;
 							}
+
+							if (ImGui::CollapsingHeader("AudioProperties", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
+							{
+								ImGui::Text("Volume");
+								float vol = properties->GetVolume();
+
+								ImGui::SameLine();
+								ImGui::DragFloat("##vol", &vol, 0.01f, 0, 1, "%.01fm");
+								properties->SetVolume(vol);
+
+								ImGui::Text("PlaySpeed");
+								float pspeed = properties->GetPlaySpeed();
+
+								ImGui::SameLine();
+								ImGui::DragFloat("##pspeed", &pspeed, 0.01f, 0, 5, "%.01fm");
+								properties->SetPlaySpeed(pspeed);
+
+
+								ImGui::Text("Pan");
+								float pan = properties->GetPan();
+
+								ImGui::SameLine();
+								ImGui::DragFloat("##pan", &pan, 0.01f, -1, 1, "%.01fm");
+								properties->SetPan(pan);
+
+
+								ImGui::Text("Loop");
+								bool loop = properties->GetLoop();
+
+								ImGui::SameLine();
+								ImGui::Checkbox("##loop", &loop);
+
+								properties->SetLoop(loop);
+
+							}
+
 						}
 
 						if (!isOpen)

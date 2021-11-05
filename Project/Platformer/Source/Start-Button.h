@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Kross.h>
+#include "bgAudioManager.h"
+
 
 using namespace Kross;
 
@@ -47,6 +49,7 @@ public:
 		{
 			if (Input::GetMouseButtonReleased(Mouse::Left))
 			{
+				leaveLevel = true;
 				SceneManager::SetScene("Assets/Scenes/Main.kscn");
 			}
 		}
