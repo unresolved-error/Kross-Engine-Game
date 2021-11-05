@@ -116,7 +116,7 @@ AUDIOSOURCE->Assets/Audio/audMario-Jump.krs->
 AUDIOSOURCE->Assets/Audio/audBulletProof.krs->
 
 // Loads in Tile Maps.
-TILEMAP->Assets/Tiles/TileMaps/0/tmDirt.krs-> 
+TILEMAP->Assets/Tiles/TileMaps/tmDirt.krs-> 
 
 // Loads in Tile Sets.
 TILESET->Assets/Tiles/TileSets/tsDirt.krs->
