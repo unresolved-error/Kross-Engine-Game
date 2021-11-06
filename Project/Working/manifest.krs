@@ -135,4 +135,4 @@ ATLAS->Assets/Atlas/Atlas.krs->
 PREFAB->Assets/Prefabs/Player.krs->
 
 // Lastly Scenes.
-SCENE->Assets/Scenes/Main.kscn->
+SCENE->Assets/Scenes/Menu.kscn->
