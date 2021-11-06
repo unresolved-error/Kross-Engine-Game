@@ -20,6 +20,8 @@ public:
 	SpriteRenderer* renderer;
 	Rigidbody2D* rigidBody;
 
+	AudioPlayer* audioPlayer = nullptr;
+
 	Animator* animator;
 
 	Sprite* hitSprite;
@@ -58,6 +60,8 @@ public:
 		rigidBody = GetComponent<Rigidbody2D>();
 
 		animator = GetComponent<Animator>();
+
+		audioPlayer = GetComponent<AudioPlayer>();
 
 		player = SceneManager::GetScene()->FindObject("Player");
 

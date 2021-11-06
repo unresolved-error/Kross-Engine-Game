@@ -77,6 +77,7 @@ namespace Kross
 				/* Variables for opening and reading the file. */
 				std::string line = "";
 				Folder<Object>* folder = nullptr;
+				bool deployDump = false;
 
 				/* Read the file line by line. */
 				while (getline(fileStream, line))
@@ -122,19 +123,37 @@ namespace Kross
 						{
 							if (editorProperty == "NAME") /* Extract the Name. */
 							{
-								std::cout << "Name: |" << line.substr(0, searchPosition) << "|" << std::endl;
 								folder->m_Name = line.substr(0, searchPosition);
 							}
 							else if (editorProperty == "OBJECT") /* Extract the Object. */
 							{
-								Object* object = SceneManager::GetScene()->FindObject(line.substr(0, searchPosition));
-								folder->Push(object);
+								std::string name = line.substr(0, searchPosition);
+								Object* object = SceneManager::GetScene()->FindObject(name);
+								if (!object)
+								{
+									logger->WriteWarning("Loading Object From Scene Failed!");
+									logger->Write("--- Reasons:");
+									logger->Write("----- Name returned nullptr: [" + name + "]");
+
+									deployDump = true;
+								}
+								else
+								{
+									folder->Push(object);
+								}
 							}
 						}
 
 						/* Remove the Previous Data. */
 						line.erase(0, searchPosition + ((std::string)"->").length());
 					}
+				}
+
+				/* If an Error Loading Objects was detected, report it. */
+				if (deployDump)
+				{
+					logger->WriteSpace();
+					logger->Dump("Editor Object Hierarchy", "Editor-Hierarchy-Log.txt");
 				}
 			}
 

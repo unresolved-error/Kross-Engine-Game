@@ -238,6 +238,9 @@ public:
 
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
+					std::vector<AudioPlayer*> audioPlayers = m_PlayerMovement->m_GameObject->GetComponents<AudioPlayer>();
+					audioPlayers[1]->Play();
+
 					m_Fired = true;
 				}
 			}
@@ -334,6 +337,7 @@ public:
 								bullets[i] = nullptr;
 								bullets.erase(bullets.begin() + i);
 
+								em->audioPlayer->Play();
 								em->hit = true;
 							}
 

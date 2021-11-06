@@ -55,11 +55,39 @@ namespace Kross
 		/* If we already do that means a sound has been loaded to this Audio Player. */
 		else
 		{
-			/* Un Pause. */
-			AudioManager::AudioEngine()->setPause(m_AudioHandle, false);
+			if (!m_IsPlaying && !m_Stopped)
+			{
+				/* Un Pause. */
+				AudioManager::AudioEngine()->setPause(m_AudioHandle, false);
 
-			/* Loop the Sound if Properties Allow. */
-			AudioManager::AudioEngine()->setLooping(m_AudioHandle, p_AudioProperties->GetLoop());
+				/* Loop the Sound if Properties Allow. */
+				AudioManager::AudioEngine()->setLooping(m_AudioHandle, p_AudioProperties->GetLoop());
+			}
+			else
+			{
+				Stop();
+
+				/* If the Sound if Streamable. */
+				if (p_AudioSrc->IsStreamable())
+				{
+					//Set the handle that the audioPlayer owns to this source's newly generated handle.
+					m_AudioHandle = AudioManager::AudioEngine()->play(*p_AudioSrc->GetWavStream(), p_AudioProperties->GetVolume(), p_AudioProperties->GetPan());
+
+					//collect the handle and add to the audio source as well. This is so the player can recover handles.
+					p_AudioSrc->SetHandle(m_AudioHandle);
+				}
+
+				/* Play it standardly. */
+				else
+				{
+					//Set the handle that the audioPlayer owns to this source's newly generated handle.
+					m_AudioHandle = AudioManager::AudioEngine()->play(*p_AudioSrc->GetWav(), p_AudioProperties->GetVolume(), p_AudioProperties->GetPan());
+
+					//collect the handle and add to the audio source as well. This is so the player can recover handles.
+					p_AudioSrc->SetHandle(m_AudioHandle);
+
+				}
+			}
 		}
 
 		/* Sound is Playing. */

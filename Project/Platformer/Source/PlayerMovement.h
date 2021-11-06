@@ -35,6 +35,7 @@ public:
 	std::vector<SpriteRenderer*> m_HealthRenderers = std::vector<SpriteRenderer*>();
 	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>();
 
+	Sprite* m_HitSprite = nullptr;
 
 	std::vector<AudioPlayer*> audioPlayers;
 
@@ -56,6 +57,7 @@ public:
 
 	bool m_ShakeCamera = false;
 	bool m_IsHurt = false;
+	bool m_VisualHurt = false;
 
 	Script* Duplicate() override
 	{
@@ -76,6 +78,8 @@ public:
 		m_TextRenderer = SceneManager::GetScene()->FindObject("Text")->GetComponent<TextRenderer>();
 		m_Gun = SceneManager::GetScene()->FindObject("Gun");
 		m_Camera = SceneManager::GetScene()->GetCamera();
+
+		m_HitSprite = ResourceManager::GetResource<Sprite>("Marshall-Mellow3-2");
 
 		/* Get the Health Renderers. */
 		m_HealthRenderers.push_back(SceneManager::GetScene()->FindObject("UIHealth-0")->GetComponent<SpriteRenderer>());
@@ -135,18 +139,13 @@ public:
 			/* Move the Player. */
 			VisualUpdate(input);
 			m_Controller->Move(input);
-			m_Controller->Jump(jumpDir);
 			RigidbodyState rbState = m_RigidBody->GetRigidbodyState();
 
-			if(m_RigidBody->GetBody()->GetLinearVelocity().y <= 0.01f || rbState != RigidbodyState::Jumping)
-			{
-				audioPlayers[0]->Stop();
-			}
-			else if(jumpDir != Vector2(0,0))
+			if(rbState != RigidbodyState::Jumping && rbState != RigidbodyState::Falling && jumpDir != Vector2(0.0f))
 			{
 				audioPlayers[0]->Play();
-				
 			}
+			m_Controller->Jump(jumpDir);
 			
 		}
 
@@ -322,7 +321,12 @@ public:
 						{
 							m_Health->TakeDamage(1.0f);
 
+							Vector2 knockbackDirection = glm::normalize(m_GameObject->m_Transform->m_Position - obj->m_Transform->m_Position);
+							m_RigidBody->OnApplyImpulse(knockbackDirection * 0.35f);
+
+							audioPlayers[2]->Play();
 							m_IsHurt = true;
+							m_VisualHurt = true;
 							break;
 						}
 					}
@@ -332,6 +336,8 @@ public:
 
 		else
 		{
+			if (m_GracePeriodTimeElapsed >= m_GracePeriodTime * 0.25f) m_VisualHurt = false;
+
 			if (m_GracePeriodTimeElapsed < m_GracePeriodTime) m_GracePeriodTimeElapsed += Time::GetDeltaTime();
 
 			else
@@ -349,38 +355,51 @@ public:
 	{
 		/* Animation Setting.*/
 
-		/* If the Rigidbody's Velocity in the Vertical direction is inside of the threshold. */
-		if (m_RigidBody->GetBody()->GetLinearVelocity().y <= m_VelocityThreshold && m_RigidBody->GetBody()->GetLinearVelocity().y >= -m_VelocityThreshold)
+		if (!m_VisualHurt)
 		{
-			/* If the Rigidbody's Velocity in the Horizontal direction is inside of the threshold. */
-			if (m_RigidBody->GetBody()->GetLinearVelocity().x <= m_VelocityThreshold && m_RigidBody->GetBody()->GetLinearVelocity().x >= -m_VelocityThreshold)
+			if (!m_Animator->GetCurrentAnimation()->IsPlaying())
 			{
-				/* Set to the Idle Animation. */
-				m_Animator->SetCurrentAnimation(0);
-			}
-			/* If the Horizontal Velocity has breached the threshold. */
-			else
-			{
-				/* Set to the Walk Animation. */
-				m_Animator->SetCurrentAnimation(1);
-			}
-		}
-		/* If the Vertical Velocity has breached the threshold. */
-		else
-		{
-			/* If moving upwards. */
-			if (m_RigidBody->GetBody()->GetLinearVelocity().y >= m_VelocityThreshold)
-			{
-				/* Set to the Jump Up Animation. */
-				m_Animator->SetCurrentAnimation(2);
+				m_Animator->Play();
 			}
 
-			/* If moving downwards. */
-			else if (m_RigidBody->GetBody()->GetLinearVelocity().y <= -m_VelocityThreshold)
+			/* If the Rigidbody's Velocity in the Vertical direction is inside of the threshold. */
+			if (m_RigidBody->GetBody()->GetLinearVelocity().y <= m_VelocityThreshold && m_RigidBody->GetBody()->GetLinearVelocity().y >= -m_VelocityThreshold)
 			{
-				/* Set to the Jump Down Animation. */
-				m_Animator->SetCurrentAnimation(3);
+				/* If the Rigidbody's Velocity in the Horizontal direction is inside of the threshold. */
+				if (m_RigidBody->GetBody()->GetLinearVelocity().x <= m_VelocityThreshold && m_RigidBody->GetBody()->GetLinearVelocity().x >= -m_VelocityThreshold)
+				{
+					/* Set to the Idle Animation. */
+					m_Animator->SetCurrentAnimation(0);
+				}
+				/* If the Horizontal Velocity has breached the threshold. */
+				else
+				{
+					/* Set to the Walk Animation. */
+					m_Animator->SetCurrentAnimation(1);
+				}
 			}
+			/* If the Vertical Velocity has breached the threshold. */
+			else
+			{
+				/* If moving upwards. */
+				if (m_RigidBody->GetBody()->GetLinearVelocity().y >= m_VelocityThreshold)
+				{
+					/* Set to the Jump Up Animation. */
+					m_Animator->SetCurrentAnimation(2);
+				}
+
+				/* If moving downwards. */
+				else if (m_RigidBody->GetBody()->GetLinearVelocity().y <= -m_VelocityThreshold)
+				{
+					/* Set to the Jump Down Animation. */
+					m_Animator->SetCurrentAnimation(3);
+				}
+			}
+		}
+		else
+		{
+			m_Animator->Pause();
+			m_SpriteRenderer->GetMaterial()->SetDiffuse(m_HitSprite);
 		}
 
 		/* Flip Based on the Input x Value. */

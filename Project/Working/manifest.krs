@@ -119,7 +119,7 @@ AUDIOSOURCE->Assets/Audio/audJerryFive.krs->
 AUDIOSOURCE->Assets/Audio/audJump.krs->
 AUDIOSOURCE->Assets/Audio/audShoot.krs->
 AUDIOSOURCE->Assets/Audio/audHurt_Player.krs->
-
+AUDIOSOURCE->Assets/Audio/audHurt_Donut.krs->
 
 
 // Loads in Tile Maps.
@@ -135,4 +135,4 @@ ATLAS->Assets/Atlas/Atlas.krs->
 PREFAB->Assets/Prefabs/Player.krs->
 
 // Lastly Scenes.
-SCENE->Assets/Scenes/Menu.kscn->
+SCENE->Assets/Scenes/Main.kscn->
