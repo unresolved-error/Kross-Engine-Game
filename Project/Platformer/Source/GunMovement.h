@@ -307,8 +307,6 @@ public:
 
 			Vector2 velocity = GetVector2(bullet->GetLinearVelocity());
 
-			Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(velocity.x) + ". Y velocity: " + std::to_string(velocity.y));
-
 			for (b2ContactEdge* contact = bullet->GetContactList(); contact; contact = contact->next)
 			{
 				if (contact->contact->IsTouching())
@@ -331,12 +329,12 @@ public:
 
 							if (totalVelo < 1.5f || bulletHits[i] == true)
 							{
-								Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(lastFrameVelo[i].x) + ". Y velocity: " + std::to_string(lastFrameVelo[i].y) + " Total velocity on contact: " + std::to_string(totalVelo) + " No hit.");
+								//Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(lastFrameVelo[i].x) + ". Y velocity: " + std::to_string(lastFrameVelo[i].y) + " Total velocity on contact: " + std::to_string(totalVelo) + " No hit.");
 								bulletHits[i] = true;
 							}
 							else
 							{
-								Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(lastFrameVelo[i].x) + ". Y velocity: " + std::to_string(lastFrameVelo[i].y) + " Total velocity on contact: " + std::to_string(totalVelo) + " Hit.");
+								//Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(lastFrameVelo[i].x) + ". Y velocity: " + std::to_string(lastFrameVelo[i].y) + " Total velocity on contact: " + std::to_string(totalVelo) + " Hit.");
 
 								Health* health = obj->GetComponent<Health>();
 								DonutMovement* em = obj->GetComponent<DonutMovement>();
@@ -356,7 +354,7 @@ public:
 								bullets[i] = nullptr;
 								bullets.erase(bullets.begin() + i);
 
-								bulletHits[i] = false;
+								bulletHits[i] = true;
 								bulletHits.erase(bulletHits.begin() + i);
 
 								break;
@@ -405,6 +403,18 @@ public:
 				else if (colour.a <= 0.0f)
 				{
 					SceneManager::GetScene()->DetachObject(bullets[i]);
+					bullets[i] = nullptr;
+					bullets.erase(bullets.begin() + i);
+					bulletCount--;
+
+					bulletHits[i] = false;
+					bulletHits.erase(bulletHits.begin() + i);
+				}
+				
+				if (rb->GetBody()->GetPosition().x < -10.0f || rb->GetBody()->GetPosition().x > 175.0f || rb->GetBody()->GetPosition().y < -10.0f)
+				{
+					SceneManager::GetScene()->DetachObject(bullets[i]);
+					bullets[i] = nullptr;
 					bullets.erase(bullets.begin() + i);
 					bulletCount--;
 
