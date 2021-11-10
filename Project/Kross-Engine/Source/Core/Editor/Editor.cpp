@@ -117,6 +117,18 @@ namespace Kross
 		}
 	}
 
+	SceneHierarchy* Editor::GetSceneHierarchy()
+	{
+		for (int i = 0; i < m_Instance->m_EditorWindows.size(); i++)
+		{
+			if (typeid(*m_Instance->m_EditorWindows[i]) == typeid(SceneHierarchy))
+			{
+				SceneHierarchy* hierarchy = (SceneHierarchy*)m_Instance->m_EditorWindows[i];
+				return hierarchy;
+			}
+		}
+	}
+
 	Vector2 Editor::GetViewportPosition()
 	{
 		if (m_Instance->m_Viewport)

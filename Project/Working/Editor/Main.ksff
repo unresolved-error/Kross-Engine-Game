@@ -9,15 +9,6 @@ OBJECT->Furthest-B->
 OBJECT->Furthest-A->
 FOLDER-END->
 FOLDER-START->
-NAME->BackgroundManagement->
-OBJECT->SecondFurthest-A->
-OBJECT->SecondFurthest-B->
-OBJECT->FourthFurthest-A->
-OBJECT->FourthFurthest-B->
-OBJECT->Furthest-B->
-OBJECT->Furthest-A->
-FOLDER-END->
-FOLDER-START->
 NAME->Puzzle1->
 OBJECT->Puzzle1Cog1->
 OBJECT->Puzzle1Cog1Static->

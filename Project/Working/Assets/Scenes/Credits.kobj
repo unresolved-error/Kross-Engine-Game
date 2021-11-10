@@ -5,7 +5,7 @@ NAME->Camera->
 STATIC->0->
 ENABLE->1->
 LAYER->0->
-TRANSFORM2D->0.0->0.220000->0.000000->1.000000->1.000000->
+TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
 CAMERA->8->-1->1->
 END->
 
@@ -70,16 +70,7 @@ ENABLE->1->
 LAYER->14->
 TRANSFORM2D->0.000000->0.500000->0.000000->2.000000->2.000000->
 SPRITE-RENDERER->Logo->1->1->1->1->0->0->0->
-END->
-
-START->
-NAME->bgAudioJerry->
-STATIC->0->
-ENABLE->1->
-LAYER->0->
-TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
-AUDIO-PLAYER->JerryFive->1->1->1->0->
-SCRIPT->bgAudioManager->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -89,6 +80,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-0.500000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Credits->KrossFont->1->1->1->1->1->2->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -98,6 +90,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-1.750000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Main Game Music:->KrossFont->1->1->0.99999->0.99999->1->1->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -107,6 +100,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-2.150000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Bullet Proof - Soundroll->KrossFont->1->1->0.99999->0.99999->1->1->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -116,6 +110,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-3.450000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Main Menu/Credits Music:->KrossFont->1->1->0.99999->0.99999->1->1->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -125,6 +120,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-2.400000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Link: https://uppbeat.io/t/soundroll/bulletproof->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -134,6 +130,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-3.900000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Jerry Five - Kevin Macleod->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -143,6 +140,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-4.200000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Link: https://incompetech.filmmusic.io/song/3939-jerry-five->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -152,6 +150,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.100000->-5.500000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Team:->KrossFont->1->1->1->1->1->2->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -161,15 +160,17 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->-5.000000->-6.500000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Chris Deitch->KrossFont->1->1->1->1->1->1.25->
+SCRIPT->ScrollCredits->
 END->
 
 START->
 NAME->Developer-Chris->
 STATIC->0->
 ENABLE->1->
-LAYER->0->
+LAYER->14->
 TRANSFORM2D->-5.100000->-7.500000->0.000000->2.000000->2.000000->
 SPRITE-RENDERER->Developer->1->1->1->1->0->0->0->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -179,15 +180,17 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.000000->-6.500000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Deklyn Palmer->KrossFont->1->1->1->1->1->1.25->
+SCRIPT->ScrollCredits->
 END->
 
 START->
 NAME->Developer-Deklyn->
 STATIC->0->
 ENABLE->1->
-LAYER->0->
+LAYER->14->
 TRANSFORM2D->-0.100000->-7.500000->0.000000->2.000000->2.000000->
 SPRITE-RENDERER->Developer1->1->0.99999->0.99999->1->0->0->0->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -197,15 +200,17 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->5.000000->-6.500000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->Jake Warren->KrossFont->1->1->1->1->1->1.25->
+SCRIPT->ScrollCredits->
 END->
 
 START->
 NAME->Developer-Jake->
 STATIC->0->
 ENABLE->1->
-LAYER->0->
+LAYER->14->
 TRANSFORM2D->4.900000->-7.500000->0.000000->2.000000->2.000000->
 SPRITE-RENDERER->Developer2->1->0.99999->0.99999->1->0->0->0->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -215,6 +220,7 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->-0.100000->-2.700000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->License Code: 4ZPDGD7C1QF37YCN->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
 END->
 
 START->
@@ -224,5 +230,67 @@ ENABLE->1->
 LAYER->15->
 TRANSFORM2D->0.000000->-4.500000->0.000000->1.000000->1.000000->
 TEXT-RENDERER->License: https://filmmusic.io/standard-license->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
+END->
+
+START->
+NAME->Special-Thanks->
+STATIC->0->
+ENABLE->1->
+LAYER->15->
+TRANSFORM2D->0.000000->-9.500000->0.000000->1.000000->1.000000->
+TEXT-RENDERER->Special Thanks To:->KrossFont->1->1->1->1->1->2->
+SCRIPT->ScrollCredits->
+END->
+
+START->
+NAME->Finn-Morgan->
+STATIC->0->
+ENABLE->1->
+LAYER->15->
+TRANSFORM2D->0.000000->-10.000000->0.000000->1.000000->1.000000->
+TEXT-RENDERER->Finn Morgan - Technical Advisor->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
+END->
+
+START->
+NAME->Sam Mummery->
+STATIC->0->
+ENABLE->1->
+LAYER->15->
+TRANSFORM2D->0.000000->-10.500000->0.000000->1.000000->1.000000->
+TEXT-RENDERER->Sam Mummery - Artist Advisor->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
+END->
+
+START->
+NAME->Murray Lorden->
+STATIC->0->
+ENABLE->1->
+LAYER->15->
+TRANSFORM2D->0.000000->-11.000000->0.000000->1.000000->1.000000->
+TEXT-RENDERER->Murray Lorden - Design Advisor->KrossFont->1->1->1->1->1->1->
+SCRIPT->ScrollCredits->
+END->
+
+START->
+NAME->Play Testers->
+STATIC->0->
+ENABLE->1->
+LAYER->15->
+TRANSFORM2D->0.000000->-12.000000->0.000000->1.000000->1.000000->
+TEXT-RENDERER->..and all our Play Testers!->KrossFont->1->1->1->1->1->1.5->
+SCRIPT->ScrollCredits->
+END->
+
+START->
+NAME->Donut->
+STATIC->0->
+ENABLE->1->
+LAYER->14->
+TRANSFORM2D->0.000000->-14.000000->0.000000->3.000000->3.000000->
+SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
+SCRIPT->ScrollCredits->
+ANIMATOR->DonutIdle->DonutWalk->
 END->
 

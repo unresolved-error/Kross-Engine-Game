@@ -141,7 +141,7 @@ public:
 			m_Controller->Move(input);
 			RigidbodyState rbState = m_RigidBody->GetRigidbodyState();
 
-			if(rbState != RigidbodyState::Jumping && rbState != RigidbodyState::Falling && jumpDir != Vector2(0.0f))
+			if(rbState != RigidbodyState::Jumping && rbState != RigidbodyState::Falling && rbState != RigidbodyState::Underwater && jumpDir != Vector2(0.0f))
 			{
 				audioPlayers[0]->Play();
 			}

@@ -39,6 +39,20 @@ public:
 			m_ObjectToTrigger = SceneManager::GetScene()->FindObject("Puzzle1Cog1");
 		}
 
+		if (m_GameObject->GetName() == "TuteTrigger1")
+		{
+			m_ObjectThatTriggers = SceneManager::GetScene()->FindObject("Player");
+			m_ObjectToTrigger = SceneManager::GetScene()->FindObject("Puzzle1Cog1");
+		}
+
+		if (m_GameObject->GetName() == "EndLaser")
+		{
+			m_ObjectThatTriggers = SceneManager::GetScene()->FindObject("Player");
+			m_ObjectToTrigger = nullptr;
+		}
+
+
+
 		if (m_GameObject->GetName() == "Puzzle2Trigger1")
 		{
 			m_ObjectThatTriggers = SceneManager::GetScene()->FindObject("Player");
@@ -61,6 +75,22 @@ public:
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 13.5f && m_ObjectThatTriggers->m_Transform->m_Position.y < -3.0f)
 			{
 				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
+			}
+		}
+
+		if (m_GameObject->GetName() == "TuteTrigger1")
+		{
+			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 22.6 && m_ObjectThatTriggers->m_Transform->m_Position.y < -2.1f)
+			{
+				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
+			}
+		}
+
+		if (m_GameObject->GetName() == "EndLaser")
+		{
+			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 29.9)
+			{
+				SceneManager::SetScene("Assets/Scenes/Main.kscn");
 			}
 		}
 

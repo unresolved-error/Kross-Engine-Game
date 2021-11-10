@@ -31,6 +31,13 @@ namespace Kross
 			m_Name		("New Folder"),
 			m_Contents	(std::vector<Object*>())
 		{};
+		~Folder()
+		{
+			for (int i = 0; i < m_Contents.size(); i++)
+			{
+				m_Contents[i] = nullptr;
+			}
+		}
 		const std::string GetName() const { return m_Name; };
 		void SetName(const std::string& name) { m_Name = name; };
 
