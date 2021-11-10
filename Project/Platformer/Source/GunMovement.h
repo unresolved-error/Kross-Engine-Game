@@ -99,7 +99,7 @@ public:
 		Application::GetWindow()->HideCursor();
 	}
 
-	void Update() override 
+	void Update() override
 	{
 		//Vector2 mousePos;
 		//
@@ -108,7 +108,7 @@ public:
 		//Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
 		//Vector2 mousePosition = mousePoint + camera->c_Object->GetTransform()->m_Position;
 		Vector2 crossHairPos{};
-		
+
 		if (m_Fired)
 		{
 			if (m_TimeElapsed < m_RateOfFire)
@@ -199,7 +199,7 @@ public:
 					Rigidbody2D* rigidbody = bullet->AttachComponent<Rigidbody2D>();
 					SpriteRenderer* sprite = bullet->AttachComponent<SpriteRenderer>();
 					Collider* collider = bullet->GetComponent<Collider>();
-					
+
 					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
@@ -218,11 +218,11 @@ public:
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
 					Colour colour = Colour(1.0f);
-					#ifndef _DEBUG
+#ifndef _DEBUG
 					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
-					#endif
+#endif
 
 					sprite->SetColour(colour);
 
@@ -230,7 +230,7 @@ public:
 
 					rigidbody->SetFriction(bulletFriction);
 
-					
+
 					rigidbody->OnApplyImpulse(toMouseNormd * bulletStartForce);
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
@@ -274,11 +274,11 @@ public:
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
 					Colour colour = Colour(1.0f);
-					#ifndef _DEBUG
+#ifndef _DEBUG
 					colour.r = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.g = Random::GetRandomRange<float>(1.0f, 0.0f);
 					colour.b = Random::GetRandomRange<float>(1.0f, 0.0f);
-					#endif
+#endif
 
 					sprite->SetColour(colour);
 
@@ -298,18 +298,19 @@ public:
 				}
 			}
 		}
-		
+
+
 
 		for (int i = 0; i < bullets.size(); i++)
 		{
 			b2Body* bullet = bullets[i]->GetComponent<Rigidbody2D>()->GetBody();
-			
+
 			for (b2ContactEdge* contact = bullet->GetContactList(); contact; contact = contact->next)
 			{
 				if (contact->contact->IsTouching())
 				{
 					Object* obj = (Object*)contact->other->GetUserData();
-					
+
 
 					if (obj->GetLayer() == Layer::Player)
 					{
@@ -317,7 +318,7 @@ public:
 						DonutMovement* em = obj->GetComponent<DonutMovement>();
 					}
 
-					
+
 					//Debug::LogLine((uint16)obj->GetComponent<Rigidbody2D>()->GetColliderFilters()->categoryBits);
 
 					//bitwise & this with (uint16)colliderfilter::puzzle to see it hits a puzzle block.
@@ -345,204 +346,204 @@ public:
 
 									/* For Testing Effects For now. */
 
-								em->audioPlayer->Play();
-								em->hit = true;
-							}
-							SceneManager::GetScene()->DetachObject(bullets[i]);
+									em->audioPlayer->Play();
+									em->hit = true;
+								}
+								SceneManager::GetScene()->DetachObject(bullets[i]);
 
-							bullets[i] = nullptr;
-							bullets.erase(bullets.begin() + i);
-							
-							bulletHits[i] = true;
-							
-							break;
+								bullets[i] = nullptr;
+								bullets.erase(bullets.begin() + i);
+
+								bulletHits[i] = true;
+
+								break;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		for (int i = bullets.size() - 1; i >= 0; i--)
-		{
-			float threashold = bulletDecayThreshold;
-			Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
-			SpriteRenderer* rend = bullets[i]->GetComponent<SpriteRenderer>();
-
-			/* Checks if the bullet is within a specific speed */
-			if (rb->GetBody()->GetLinearVelocity().x >= -threashold && rb->GetBody()->GetLinearVelocity().y >= -threashold &&
-				rb->GetBody()->GetLinearVelocity().x <= threashold && rb->GetBody()->GetLinearVelocity().y < threashold)
+			for (int i = bullets.size() - 1; i >= 0; i--)
 			{
-				if (rend->GetColour().a > 0.0f)
+				float threashold = bulletDecayThreshold;
+				Rigidbody2D* rb = bullets[i]->GetComponent<Rigidbody2D>();
+				SpriteRenderer* rend = bullets[i]->GetComponent<SpriteRenderer>();
+
+				/* Checks if the bullet is within a specific speed */
+				if (rb->GetBody()->GetLinearVelocity().x >= -threashold && rb->GetBody()->GetLinearVelocity().y >= -threashold &&
+					rb->GetBody()->GetLinearVelocity().x <= threashold && rb->GetBody()->GetLinearVelocity().y < threashold)
 				{
-					Colour colour = rend->GetColour();
+					if (rend->GetColour().a > 0.0f)
+					{
+						Colour colour = rend->GetColour();
+						colour.a -= 0.0025f;
+						rend->SetColour(colour);
+					}
+					else
+					{
+						SceneManager::GetScene()->DetachObject(bullets[i]);
+						bullets[i] = nullptr;
+						bullets.erase(bullets.begin() + i);
+						bulletCount--;
+
+						bulletHits[i] = false;
+
+						continue;
+					}
+				}
+
+				Colour colour = rend->GetColour();
+				if (colour.a < 1.0f)
+				{
 					colour.a -= 0.0025f;
 					rend->SetColour(colour);
 				}
-				else
+				else if (colour.a <= 0.0f)
 				{
 					SceneManager::GetScene()->DetachObject(bullets[i]);
-					bullets[i] = nullptr;
 					bullets.erase(bullets.begin() + i);
 					bulletCount--;
 
 					bulletHits[i] = false;
-					
-					continue;
 				}
-			}
-			
-			Colour colour = rend->GetColour();
-			if (colour.a < 1.0f)
-			{
-				colour.a -= 0.0025f;
-				rend->SetColour(colour);
-			}
-			else if (colour.a <= 0.0f)
-			{
-				SceneManager::GetScene()->DetachObject(bullets[i]);
-				bullets.erase(bullets.begin() + i);
-				bulletCount--;
-
-				bulletHits[i] = false;
 			}
 		}
 	}
 
-
-	Vector2 PlaceCrossHairOnInput(float &returnAngle)
-	{
-		Vector2 crossHairPos = Vector2(0.0f);
-
-		Vector2 mousePos = Input::GetMousePosition();
-		float aspectRatio = Application::GetWindow()->GetApsectRatio();
-		
-		Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
-
-		if (m_PlayerMovement->m_ControllerID != -1)
+		Vector2 PlaceCrossHairOnInput(float& returnAngle)
 		{
-			mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickVertical, 0.2f));
-			crossHairPos = mousePoint + m_GameObject->m_Transform->m_Position;
+			Vector2 crossHairPos = Vector2(0.0f);
 
-			if (mousePoint != Vector2(0.0f))
-			{
-				returnAngle = glm::degrees(glm::atan(crossHairPos.y - m_GameObject->m_Transform->m_Position.y, -(crossHairPos.x - m_GameObject->m_Transform->m_Position.x)));
-				Vector2 controllerInputNormalised = glm::normalize(mousePoint);
+			Vector2 mousePos = Input::GetMousePosition();
+			float aspectRatio = Application::GetWindow()->GetApsectRatio();
 
-				crossHairPos = controllerInputNormalised + m_GameObject->m_Transform->m_Position;
-			}
-			else
+			Vector2 mousePoint = Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize();
+
+			if (m_PlayerMovement->m_ControllerID != -1)
 			{
-				if (flipX)
+				mousePoint = Vector2(Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickHorizontal, 0.2f), Input::GetControllerAxis(m_PlayerMovement->m_ControllerID, Controller::RightStickVertical, 0.2f));
+				crossHairPos = mousePoint + m_GameObject->m_Transform->m_Position;
+
+				if (mousePoint != Vector2(0.0f))
 				{
-					returnAngle = 0;
-					crossHairPos = Vector2(-1.0f, 0.0f) + m_GameObject->m_Transform->m_Position;
+					returnAngle = glm::degrees(glm::atan(crossHairPos.y - m_GameObject->m_Transform->m_Position.y, -(crossHairPos.x - m_GameObject->m_Transform->m_Position.x)));
+					Vector2 controllerInputNormalised = glm::normalize(mousePoint);
+
+					crossHairPos = controllerInputNormalised + m_GameObject->m_Transform->m_Position;
 				}
 				else
 				{
-					returnAngle = 180;
-					crossHairPos = Vector2(1.0f, 0.0f) + m_GameObject->m_Transform->m_Position;
+					if (flipX)
+					{
+						returnAngle = 0;
+						crossHairPos = Vector2(-1.0f, 0.0f) + m_GameObject->m_Transform->m_Position;
+					}
+					else
+					{
+						returnAngle = 180;
+						crossHairPos = Vector2(1.0f, 0.0f) + m_GameObject->m_Transform->m_Position;
+					}
 				}
 			}
-		}
 
-		else
-		{
-			crossHairPos = mousePoint + camera->m_GameObject->m_Transform->m_Position;
-
-			returnAngle = glm::degrees(std::atan2(crossHairPos.y - m_GameObject->m_Transform->m_Position.y, -(crossHairPos.x - m_GameObject->m_Transform->m_Position.x)));
-		}
-
-		return crossHairPos;
-	}
-
-
-	void SetSpriteAngle(float angle, bool& flipX)
-	{
-		if (angle > 360 - 12.25 || angle <= 12.25) //Case right
-		{
-			currentGunSprite = Degree0;
-			flipX = false;
-		}
-		else if (angle > 22.5 - 12.25 && angle <= 22.5 + 12.25) //case 22.5
-		{
-			currentGunSprite = Degree22pt5;
-			flipX = false;
-		}
-		else if (angle > 45 - 12.25 && angle <= 45 + 12.25)
-		{
-			currentGunSprite = Degree45; //RIGHT DOWN DIAG
-			flipX = false;
-		}
-		else if (angle > 67.5 - 12.25 && angle <= 67.5 + 12.25)
-		{
-			currentGunSprite = Degree67pt5;
-			flipX = false;
-		}
-		else if (angle > 90 - 12.25 && angle <= 90 + 12.25)
-		{
-			currentGunSprite = Degree90; //DOWN
-			if (angle > 90)
+			else
 			{
+				crossHairPos = mousePoint + camera->m_GameObject->m_Transform->m_Position;
+
+				returnAngle = glm::degrees(std::atan2(crossHairPos.y - m_GameObject->m_Transform->m_Position.y, -(crossHairPos.x - m_GameObject->m_Transform->m_Position.x)));
+			}
+
+			return crossHairPos;
+		}
+
+
+		void SetSpriteAngle(float angle, bool& flipX)
+		{
+			if (angle > 360 - 12.25 || angle <= 12.25) //Case right
+			{
+				currentGunSprite = Degree0;
+				flipX = false;
+			}
+			else if (angle > 22.5 - 12.25 && angle <= 22.5 + 12.25) //case 22.5
+			{
+				currentGunSprite = Degree22pt5;
+				flipX = false;
+			}
+			else if (angle > 45 - 12.25 && angle <= 45 + 12.25)
+			{
+				currentGunSprite = Degree45; //RIGHT DOWN DIAG
+				flipX = false;
+			}
+			else if (angle > 67.5 - 12.25 && angle <= 67.5 + 12.25)
+			{
+				currentGunSprite = Degree67pt5;
+				flipX = false;
+			}
+			else if (angle > 90 - 12.25 && angle <= 90 + 12.25)
+			{
+				currentGunSprite = Degree90; //DOWN
+				if (angle > 90)
+				{
+					flipX = true;
+				}
+			}
+			else if (angle > 112.5 - 12.25 && angle <= 112.5 + 12.25)
+			{
+				currentGunSprite = Degree67pt5;
 				flipX = true;
 			}
-		}
-		else if (angle > 112.5 - 12.25 && angle <= 112.5 + 12.25)
-		{
-			currentGunSprite = Degree67pt5;
-			flipX = true;
-		}
-		else if (angle > 135 - 12.25 && angle <= 135 + 12.25)
-		{
-			currentGunSprite = Degree45; //LEFT DOWN DIAG
-			flipX = true;
-		}
-		else if (angle > 157.5 - 12.25 && angle <= 157.5 + 12.25)
-		{
-			currentGunSprite = Degree22pt5;
-			flipX = true;
-		}
-		else if (angle > 180 - 12.25 && angle <= 180 + 12.25)
-		{
-			currentGunSprite = Degree0; //LEFT
-			flipX = true;
-		}
-		else if (angle > 202.5 - 12.25 && angle <= 202.5 + 12.25)
-		{
-			currentGunSprite = Degree337pt5;
-			flipX = true;
-		}
-		else if (angle > 225 - 12.25 && angle <= 225 + 12.25)
-		{
-			currentGunSprite = Degree315; //LEFT UP DIAG
-			flipX = true;
-		}
-		else if (angle > 247.5 - 12.25 && angle <= 247.5 + 12.25)
-		{
-			currentGunSprite = Degree292pt5;
-			flipX = true;
-		}
-		else if (angle > 270 - 12.25 && angle <= 270 + 12.25)
-		{
-			currentGunSprite = Degree270; //UP
-			if (angle < 270)
+			else if (angle > 135 - 12.25 && angle <= 135 + 12.25)
 			{
+				currentGunSprite = Degree45; //LEFT DOWN DIAG
 				flipX = true;
 			}
+			else if (angle > 157.5 - 12.25 && angle <= 157.5 + 12.25)
+			{
+				currentGunSprite = Degree22pt5;
+				flipX = true;
+			}
+			else if (angle > 180 - 12.25 && angle <= 180 + 12.25)
+			{
+				currentGunSprite = Degree0; //LEFT
+				flipX = true;
+			}
+			else if (angle > 202.5 - 12.25 && angle <= 202.5 + 12.25)
+			{
+				currentGunSprite = Degree337pt5;
+				flipX = true;
+			}
+			else if (angle > 225 - 12.25 && angle <= 225 + 12.25)
+			{
+				currentGunSprite = Degree315; //LEFT UP DIAG
+				flipX = true;
+			}
+			else if (angle > 247.5 - 12.25 && angle <= 247.5 + 12.25)
+			{
+				currentGunSprite = Degree292pt5;
+				flipX = true;
+			}
+			else if (angle > 270 - 12.25 && angle <= 270 + 12.25)
+			{
+				currentGunSprite = Degree270; //UP
+				if (angle < 270)
+				{
+					flipX = true;
+				}
+			}
+			else if (angle > 292.5 - 12.25 && angle <= 292.5 + 12.25)
+			{
+				currentGunSprite = Degree292pt5;
+				flipX = false;
+			}
+			else if (angle > 315 - 12.25 && angle <= 315 + 12.25)
+			{
+				currentGunSprite = Degree315; //UP RIGHT DIAG
+				flipX = false;
+			}
+			else if (angle > 337.5 - 12.25 && angle <= 337.5 + 12.25)
+			{
+				currentGunSprite = Degree337pt5;
+				flipX = false;
+			}
 		}
-		else if (angle > 292.5 - 12.25 && angle <= 292.5 + 12.25)
-		{
-			currentGunSprite = Degree292pt5;
-			flipX = false;
-		}
-		else if (angle > 315 - 12.25 && angle <= 315 + 12.25)
-		{
-			currentGunSprite = Degree315; //UP RIGHT DIAG
-			flipX = false;
-		}
-		else if (angle > 337.5 - 12.25 && angle <= 337.5 + 12.25)
-		{
-			currentGunSprite = Degree337pt5;
-			flipX = false;
-		}
-	}
 };
