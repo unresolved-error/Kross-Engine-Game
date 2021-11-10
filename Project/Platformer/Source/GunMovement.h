@@ -170,21 +170,19 @@ public:
 		Vector2 toCrosshair = toMouseNormd * 1.5f;
 		Vector2 toEndOfGun = toMouseNormd * 0.03f;
 
-		if (m_Fired)
-		{
-			m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd * 0.4f);
-		}
+		//if (m_Fired)
+		//{
+		//	m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd * 0.4f);
+		//}
 
 
 		LineRenderer* endOfGunDebug = m_GameObject->GetDebugRenderer();
 		Vector2 crossHairLocation = Vector2(toCrosshair + m_GameObject->m_Transform->m_Position);
 		Vector2 endOfGunLocation = Vector2(toEndOfGun + m_GameObject->m_Transform->m_Position);
 
-		m_CrossHair->m_Transform->m_Position = crossHairPos; //toCrosshair + c_Object->GetTransform()->m_Position;
+		m_CrossHair->m_Transform->m_Position = crossHairPos;
 
-
-		//endOfGunDebug->DrawCross(crossHairLocation, 0.3f);
-		endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1, 0, 0));
+		//endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1, 0, 0));
 
 		if (!m_Fired)
 		{
@@ -210,7 +208,6 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
-					//collider->SetDensity(2.5f);
 					collider->SetDensity(7.5f);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
@@ -267,7 +264,6 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
-					//collider->SetDensity(2.5f);
 					collider->SetDensity(7.5f);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
@@ -314,9 +310,9 @@ public:
 					}
 
 					
-					///   Debug::LogLine((uint16)obj->GetComponent<Rigidbody2D>()->GetColliderFilters()->categoryBits);
+					//Debug::LogLine((uint16)obj->GetComponent<Rigidbody2D>()->GetColliderFilters()->categoryBits);
 
-					/// bitwise & this with (uint16)colliderfilter::puzzle to see it hits a puzzle block.
+					//bitwise & this with (uint16)colliderfilter::puzzle to see it hits a puzzle block.
 
 
 					if (obj != player)

@@ -34,7 +34,7 @@ namespace Kross
 
 		if (state == CollisionState::Enter) m_JumpCount = 0;
 		else if (state == CollisionState::Stay) m_JumpCount = 0;
-		else if (state == CollisionState::Exit) m_JumpCount = 0;
+		else if (state == CollisionState::Exit) m_JumpCount = 1;
 	}
 
 	Layer PlayerController::GetJumpResetLayer(int index) const
@@ -96,48 +96,64 @@ namespace Kross
 
 	void PlayerController::Move(Vector2 moveDirection)
 	{
-		//Debug::LogLine(std::to_string((char)m_Rigidbody->GetRigidbodyState()));
-
 		/* If we are on the Ground. */
 		if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Idle ||
 			m_Rigidbody->GetRigidbodyState() == RigidbodyState::Walking || m_Rigidbody->GetRigidbodyState() == RigidbodyState::Running)
 		{
 			/* Applys force while the player is on the ground. */
 			if (moveDirection != Vector2(0.0f) &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_GroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_GroundSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_GroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_GroundSpeed)
+				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_MaxGroundSpeed)
 			{
-				ActivateMotor(moveDirection, 40.0f);
+				ActivateMotor(moveDirection, m_WheelSpeed);
+			}
+			else if (moveDirection != Vector2(0.0f) &&
+					 m_Rigidbody->GetBody()->GetLinearVelocity().x < -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x > m_MaxGroundSpeed &&
+					 m_Rigidbody->GetBody()->GetLinearVelocity().y < -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y > m_MaxGroundSpeed)
+			{
+				m_Rigidbody->GetRevJoint()->EnableMotor(false);
+				//ActivateMotor(moveDirection, m_WheelSpeed * 1 / m_WheelSpeed);
 			}
 			else
 			{
-				ActivateMotor(moveDirection, 1.0f);
+				m_Rigidbody->GetRevJoint()->EnableMotor(true);
 			}
 		}
 		/* If we aren't. */
-		else if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Jumping ||	m_Rigidbody->GetRigidbodyState() == RigidbodyState::Falling)
+		else if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Jumping || m_Rigidbody->GetRigidbodyState() == RigidbodyState::Falling)
 		{
 			/* Applys force while the player is in the air */
 			if (moveDirection != Vector2(0.0f) &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_AirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_AirSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_AirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_AirSpeed)
+				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed &&
+				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_MaxAirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_MaxAirSpeed)
 			{
-				m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * 0.35f, 0.0f));
+				m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * m_AirSpeed, 0.0f));
 			}
 			else
 			{
-				m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * 0.01f, 0.0f));
+				m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * 0.1f, 0.0f));
 			}
+			m_Rigidbody->GetRevJoint()->EnableMotor(false);
 		}
-		else if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Swimming)
+		else if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Floating || m_Rigidbody->GetRigidbodyState() == RigidbodyState::Underwater &&
+				 m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxSwimSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_MaxSwimSpeed &&
+				 m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_MaxSwimSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_MaxSwimSpeed)
 		{
-			m_Rigidbody->OnApplyForce(moveDirection * 0.5f);
+			if (m_Rigidbody->GetRigidbodyState() == RigidbodyState::Floating)
+			{
+				m_Rigidbody->OnApplyForce(moveDirection * m_SwimSpeed);
+			}
+			else
+			{
+				m_Rigidbody->OnApplyForce(moveDirection * m_SwimSpeed * 1.25f);
+			}
 		}
 
 		if (moveDirection.x == 0.0f)
 		{
 			ActivateMotor(moveDirection);
 		}
+
 	}
 
 	void PlayerController::Jump(Vector2 jumpDirection)
@@ -154,60 +170,17 @@ namespace Kross
 		if (m_Rigidbody->GetRigidbodyState() != RigidbodyState::Jumping && m_Rigidbody->GetRigidbodyState() != RigidbodyState::Falling)
 		{
 			/* Applys a jump impulse */
-			if (m_Rigidbody->GetBody()->GetLinearVelocity().y <= 0.01f)
+			if (m_Rigidbody->GetBody()->GetLinearVelocity().y <= 0.01f ||
+				m_Rigidbody->GetRigidbodyState() == RigidbodyState::Floating && m_Rigidbody->GetRigidbodyState() != RigidbodyState::Underwater)
 			{
-				m_Rigidbody->OnApplyImpulse(jumpDirection * m_JumpStrength);
-
+				if (jumpDirection != Vector2(0))
+				{
+					m_Rigidbody->OnApplyImpulse(jumpDirection * m_JumpStrength);
+					m_Rigidbody->SetRigidbodyState(RigidbodyState::Jumping);
+					m_JumpCount++;
+					Debug::LogLine("We Jumped!");
+				}
 			}
-			m_Rigidbody->SetRigidbodyState(RigidbodyState::Jumping);
-			m_JumpCount++;
-
-
 		}
 	}
-
-	//void PlayerController::OnCollisionEnter(Object* other)
-	//{
-	//	if (other != nullptr)
-	//	{
-	//		/* Reset the Jump Count. */
-	//		for (int i = 0; i < m_JumpResetLayers.size(); i++)
-	//		{
- 	//			if (other && other->GetLayer() == m_JumpResetLayers[i])
-	//			{
-	//				m_JumpCount = 0;
-	//			}
-	//		}
-	//	}
-	//}
-	//
-	//void PlayerController::OnCollisionStay(Object* other)
-	//{
-	//	if (other != nullptr)
-	//	{
-	//		/* Reset the Jump Count. */
-	//		for (int i = 0; i < m_JumpResetLayers.size(); i++)
-	//		{
-	//			if (other->GetLayer() == m_JumpResetLayers[i])
-	//			{
-	//				m_JumpCount = 0;
-	//			}
-	//		}
-	//	}
-	//}
-	//
-	//void PlayerController::OnCollisionExit(Object* other)
-	//{
-	//	if (other != nullptr)
-	//	{
-	//		/* Reset the Jump Count. */
-	//		for (int i = 0; i < m_JumpResetLayers.size(); i++)
-	//		{
-	//			if (other->GetLayer() == m_JumpResetLayers[i])
-	//			{
-	//				m_JumpCount = 0;
-	//			}
-	//		}
-	//	}
-	//{
 }
