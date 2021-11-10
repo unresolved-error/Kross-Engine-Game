@@ -130,6 +130,7 @@ AUDIOSOURCE->Assets/Audio/audHurt_Donut.krs->
 
 // Loads in Tile Maps.
 TILEMAP->Assets/Tiles/TileMaps/tmFirst.krs-> 
+TILEMAP->Assets/Tiles/TileMaps/tmTute.krs-> 
 
 // Loads in Tile Sets.
 TILESET->Assets/Tiles/TileSets/tsFirst.krs->
@@ -141,4 +142,4 @@ ATLAS->Assets/Atlas/Atlas.krs->
 PREFAB->Assets/Prefabs/Player.krs->
 
 // Lastly Scenes.
-SCENE->Assets/Scenes/Main.kscn->
+SCENE->Assets/Scenes/Tute.kscn->

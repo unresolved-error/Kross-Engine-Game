@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.5" tiledversion="2021.03.23" name="TilemapCandyOutline" tilewidth="16" tileheight="16" tilecount="54" columns="9">
- <image source="D:/tiled/examples/krossEngine/LEvels/first redo/source/TilemapCandyOutline.png" width="144" height="96"/>
+ <image source="TilemapCandyOutline.png" width="144" height="96"/>
  <tile id="11" probability="0.995"/>
  <tile id="52" probability="0.005"/>
  <wangsets>

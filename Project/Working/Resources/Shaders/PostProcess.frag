@@ -11,8 +11,8 @@ uniform float u_RenderTargetHeight = 720.0;
 
 void main()
 {
-	float pixel_w = 3;
-	float pixel_h = 3;
+	float pixel_w = 2;
+	float pixel_h = 2;
 
 	float dx = pixel_w * (1.0 / u_RenderTargetWidth);
     float dy = pixel_h * (1.0 / u_RenderTargetHeight);
