@@ -123,10 +123,10 @@ AUDIOSOURCE->Assets/Audio/audHurt_Donut.krs->
 
 
 // Loads in Tile Maps.
-TILEMAP->Assets/Tiles/TileMaps/tmDirt.krs-> 
+TILEMAP->Assets/Tiles/TileMaps/tmFirst.krs-> 
 
 // Loads in Tile Sets.
-TILESET->Assets/Tiles/TileSets/tsDirt.krs->
+TILESET->Assets/Tiles/TileSets/tsFirst.krs->
 
 // Third Last load in the Atlas.
 ATLAS->Assets/Atlas/Atlas.krs->
