@@ -15,6 +15,7 @@ OBJECT->Puzzle1Cog1Static->
 OBJECT->Puzzle1Door1->
 OBJECT->Puzzle1Rope1->
 OBJECT->Puzzle1Trigger1->
+OBJECT->Door1PlayerControl->
 FOLDER-END->
 FOLDER-START->
 NAME->Puzzle2->
@@ -51,4 +52,5 @@ OBJECT->Puzzle5AllSort3->
 OBJECT->Puzzle5Elevator->
 OBJECT->Puzzle5Door1->
 OBJECT->Puzzle5Rope1->
+OBJECT->Door2Fix->
 FOLDER-END->
