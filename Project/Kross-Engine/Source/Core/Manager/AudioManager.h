@@ -54,5 +54,8 @@ namespace Kross
 
         // Loads an Audio Source.
         static void LoadAudioSource(AudioSource* audioSource);
+
+        // Stops all playing sounds.
+        static void StopAllSounds();
     };
 }

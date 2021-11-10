@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="Source\bgAudioManager.h" />
     <ClInclude Include="Source\Button.h" />
+    <ClInclude Include="Source\Credits-Button.h" />
     <ClInclude Include="Source\DoorFunny.h" />
     <ClInclude Include="Source\EndLevel.h" />
     <ClInclude Include="Source\EnvironmentalDamage.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="Source\Health.h" />
     <ClInclude Include="Source\HealthManager.h" />
     <ClInclude Include="Source\PlayerMovement.h" />
+    <ClInclude Include="Source\ScrollCredits.h" />
     <ClInclude Include="Source\Start-Button.h" />
     <ClInclude Include="Source\TriggerLaser.h" />
   </ItemGroup>

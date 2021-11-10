@@ -12,6 +12,8 @@
 #include "../../Manager/SceneManager.h"
 #include "../../File-IO/FileSystem.h"
 
+#include "../../Serialiser/SceneHierarchySerialiser.h"
+
 #include "../Editor.h"
 
 namespace Kross
@@ -27,7 +29,10 @@ namespace Kross
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("New Scene", "  Crtl + N")) {}
-			if (ImGui::MenuItem("Open Scene", "  Crtl + O")) {}
+			if (ImGui::MenuItem("Open Scene", "  Crtl + O")) 
+			{
+				m_OpenScene = true;
+			}
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Save", "  Crtl + S")) 
@@ -314,6 +319,46 @@ namespace Kross
 				{
 					m_SavedScene = false;
 				}
+			}
+			ImGui::End();
+		}
+
+		if (m_OpenScene)
+		{
+			ImGui::Begin("Open Scene", &m_SavedScene, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+			Vector2 size = Editor::GetViewportSize() / 6.0f;
+			Vector2 position = Editor::GetViewportPosition() + Vector2(Editor::GetViewportSize().x / 2.0f, Editor::GetViewportSize().y * 0.345) - size / 2.0f;
+
+			ImGui::SetWindowPos(ImVec2(position.x, position.y));
+			ImGui::SetWindowSize(ImVec2(size.x, size.y));
+
+			ImGui::Text("Scene Name: ");
+			ImGui::SameLine();
+
+			char buffer[1024] = { '\0' };
+			if (ImGui::InputText("##OpenScene", &buffer[0], 1024, ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				std::string name = buffer;
+				Serialiser<SceneHierarchy> serialiser;
+				
+				if (p_Scene)
+				{
+					if (name == p_Scene->GetName())
+					{
+						m_OpenScene = false;
+						return;
+					}
+
+					serialiser.Write("Editor/" + p_Scene->GetName() + ".ksff", Editor::GetSceneHierarchy());
+				}
+
+				std::string filepath = "Assets/Scenes/" + name + ".kscn";
+
+				SceneManager::SetScene(filepath);
+				Editor::SetScene(SceneManager::GetScene());
+				serialiser.Load("Editor/" + name + ".ksff", Editor::GetSceneHierarchy());
+
+				m_OpenScene = false;
 			}
 			ImGui::End();
 		}

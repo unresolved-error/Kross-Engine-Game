@@ -11,7 +11,9 @@
 #include "EnvironmentalDamage.h"
 #include "Start-Button.h"
 #include "Exit-Button.h"
+#include "Credits-Button.h"
 #include "bgAudioManager.h"
+#include "ScrollCredits.h"
 
 using namespace Kross;
 
@@ -27,11 +29,12 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW HealthManager());
 	ScriptRegistry::Attach(KROSS_NEW PlayerMovement());
 	ScriptRegistry::Attach(KROSS_NEW BackgroundManager());
-	ScriptRegistry::Attach(KROSS_NEW EnvironmentalDamage());   //REMOVED TO PREVENT INSTANT DEATH AT THE MOMENT.
 	ScriptRegistry::Attach(KROSS_NEW TriggerLaser());
 	ScriptRegistry::Attach(KROSS_NEW StartButton());
 	ScriptRegistry::Attach(KROSS_NEW ExitButton());
+	ScriptRegistry::Attach(KROSS_NEW CreditsButton());
 	ScriptRegistry::Attach(KROSS_NEW bgAudioManager());
+	ScriptRegistry::Attach(KROSS_NEW ScrollCredits());
 
 }
 

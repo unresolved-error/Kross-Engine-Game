@@ -58,9 +58,6 @@ namespace Kross
 		static void LoadEditorCamera(Object* editorCamera);
 		static void WriteEditorCamera(Object* editorCamera);
 
-
-		static void SetScene(Scene* scene);
-
 		static void OnShutdown();
 
 		static void StylePush();
@@ -75,7 +72,11 @@ namespace Kross
 		static void AttachEditorWindow(EditorWindow* window); 
 		static void DetachEditorWindow(EditorWindow* window);
 
+		static SceneHierarchy* GetSceneHierarchy();
+
 		static void MoveEditorCamera(Object* editorCamera);
+
+		static void SetScene(Scene* scene);
 
 		static bool AnyWindowIsHovered() { return ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow); };
 		static bool AnyWindowIsActive() { return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow); };

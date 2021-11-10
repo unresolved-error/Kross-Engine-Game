@@ -74,6 +74,16 @@ namespace Kross
 
 			if (fileStream.is_open())
 			{
+				if (serialisable->m_Folders.size() > 0)
+				{
+					for (int i = 0; i < serialisable->m_Folders.size(); i++)
+					{
+						delete serialisable->m_Folders[i];
+						serialisable->m_Folders[i] = nullptr;
+					}
+
+					serialisable->m_Folders.clear();
+				}
 				/* Variables for opening and reading the file. */
 				std::string line = "";
 				Folder<Object>* folder = nullptr;

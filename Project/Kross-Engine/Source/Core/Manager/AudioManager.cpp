@@ -79,4 +79,8 @@ namespace Kross
             Debug::LogErrorLine("[" + std::to_string(result) + "] " + (std::string)errorMessage + "!");
         }
     }
+    void AudioManager::StopAllSounds()
+    {
+        m_Instance->m_SoloudEngine->stopAll();
+    }
 }

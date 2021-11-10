@@ -1,4 +1,5 @@
 SCENE:
 NAME->Menu->
-GRAVITY->9.810000->0.000000->-1.000000->
+GRAVITY->9.81->0->-1->
+COLOUR->[0.5,0.5,0.5,0.5]->
 OBJECTS->Assets/Scenes/Menu.kobj->

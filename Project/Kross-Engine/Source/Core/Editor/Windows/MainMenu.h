@@ -17,7 +17,8 @@ namespace Kross
 
 		MainMenu() :
 			p_SelectedObject	(nullptr),
-			m_SavedScene		(false)
+			m_SavedScene		(false),
+			m_OpenScene			(false)
 		{};
 
 		~MainMenu() {};
@@ -27,6 +28,7 @@ namespace Kross
 	private:
 		Object* p_SelectedObject;
 		bool m_SavedScene;
+		bool m_OpenScene;
 
 	protected:
 		friend class SceneHierarchy;

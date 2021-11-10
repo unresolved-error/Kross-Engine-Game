@@ -9,6 +9,7 @@
 using namespace Kross;
 
 static bool leaveLevel = false;
+static bool mainMenuMusicPlaying = false;
 
 class bgAudioManager : public Script
 {
@@ -30,9 +31,10 @@ public:
 	void Start() override
 	{
 		audioPlayer = GetComponent<AudioPlayer>();
-		if (audioPlayer) 
+		if (audioPlayer && !mainMenuMusicPlaying) 
 		{
 			audioPlayer->Play();
+			mainMenuMusicPlaying = true;
 		}
 	}
 
@@ -40,9 +42,9 @@ public:
 	{
 		if (leaveLevel) 
 		{
-			//audioPlayer->FadeVolume(0, 3);
-			audioPlayer->Stop();
+			AudioManager::StopAllSounds();
 			leaveLevel = false;
+			mainMenuMusicPlaying = false;
 		}
 		
 	}
