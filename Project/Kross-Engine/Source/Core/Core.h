@@ -23,6 +23,7 @@
 /* Memory Leak detection. */
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
+#include <stdio.h>  
 #include <crtdbg.h>
 typedef _CrtMemState MemoryState;
 

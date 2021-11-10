@@ -1,0 +1,5 @@
+SCENE:
+NAME->Credits->
+GRAVITY->9.81->0->-1->
+COLOUR->[0.835294,0.615686,0.521569,1]->
+OBJECTS->Assets/Scenes/Credits.kobj->

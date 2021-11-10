@@ -154,7 +154,7 @@ public:
 
 		/* Clamp the Camera Position. */
 		m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
-		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -2.0f, 1.5f);
+		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -1.75f, 1.55f);
 
 		/* Camera Shake. */
 
@@ -175,7 +175,7 @@ public:
 			if (m_ShakeCoolDownTimeElapsed < m_ShakeCoolDownTime && m_CameraShakeMagnitude > 0.0f)
 			{
 				m_ShakeCoolDownTimeElapsed += Time::GetDeltaTime();
-				m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax * (1.0 - (m_ShakeCoolDownTime / m_ShakeCoolDownTimeElapsed));
+				m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax * (1.0f - (m_ShakeCoolDownTime / m_ShakeCoolDownTimeElapsed));
 			}
 
 			else if (m_CameraShakeMagnitude <= 0.0f)

@@ -106,13 +106,13 @@ namespace Kross
 
 		/* !FIX THIS! */
 		#ifndef KROSS_EDITOR
-		float pPT = Height / (5.0f * BASE_SPRITE_WIDTH_AND_HEIGHT);
-		//pPT = glm::round(pPT);
-		pPT = glm::floor(pPT);
-		//pPT = glm::ceil(pPT);
-		float cameraHeight = Height / (BASE_SPRITE_WIDTH_AND_HEIGHT * pPT);
-
-		SceneManager::GetScene()->GetCamera()->GetComponent<Camera>()->SetSize(cameraHeight);
+		//float pPT = Height / (5.0f * BASE_SPRITE_WIDTH_AND_HEIGHT);
+		////pPT = glm::round(pPT);
+		//pPT = glm::floor(pPT);
+		////pPT = glm::ceil(pPT);
+		//float cameraHeight = Height / (BASE_SPRITE_WIDTH_AND_HEIGHT * pPT);
+		//
+		//SceneManager::GetScene()->GetCamera()->GetComponent<Camera>()->SetSize(cameraHeight);
 		#endif
 
 		/* Retrieves the Primary Monitor */

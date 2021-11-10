@@ -106,7 +106,8 @@ namespace Kross
 			/* While the window isn't closed */
 			while (!m_Instance->m_Window->Closed())
 			{
-				m_Instance->m_Window->OnStart();
+				Colour background = SceneManager::GetScene()->GetBackgroundColour();
+				m_Instance->m_Window->OnStart(background.r, background.g, background.b, background.a);
 				Time::OnUpdateDeltaTime();
 				Input::OnUpdate();
 
