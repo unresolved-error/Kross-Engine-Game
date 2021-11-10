@@ -48,6 +48,7 @@ public:
 	float angle = 0.0f;
 	float damage = 1.0f;
 	int bulletCount = 0;
+	int tempCount = 0;
 		
 	Sprite* Degree0; //PURE RIGHT
 	Sprite* Degree22pt5;
@@ -68,6 +69,7 @@ public:
 	Vector2 toMouse;
 
 	std::vector<Object*> bullets;
+	std::vector<Vector2> lastFrameVelo;
 	std::vector<bool> bulletHits;
 
 	void Start() override
@@ -128,8 +130,7 @@ public:
 		if (angle != NAN)
 		{
 			crossHairPos = PlaceCrossHairOnInput(angle);
-			//angle = glm::degrees(std::atan2(crossHairPos.y, -crossHairPos.x));
-			//float angle = glm::degrees(std::atan(mousePosition.y - c_Object->GetTransform()->m_Position.y, -(mousePosition.x - c_Object->GetTransform()->m_Position.x)));
+
 			angle += 180;
 			SetSpriteAngle(angle, flipX);
 
@@ -170,7 +171,7 @@ public:
 
 		Vector2 toMouseNormd = glm::normalize(toMouse);
 		Vector2 toCrosshair = toMouseNormd * 1.5f;
-		Vector2 toEndOfGun = toMouseNormd * 0.03f;
+		Vector2 toEndOfGun = toMouseNormd * 0.2f;
 
 		if (m_Fired)
 		{
@@ -185,8 +186,6 @@ public:
 		Vector2 endOfGunLocation = Vector2(toEndOfGun + m_GameObject->m_Transform->m_Position);
 
 		m_CrossHair->m_Transform->m_Position = crossHairPos;
-
-		//endOfGunDebug->DrawCross(endOfGunLocation, 0.1f, Vector3(1, 0, 0));
 
 		if (!m_Fired)
 		{
@@ -203,7 +202,7 @@ public:
 					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
-					bullet->m_Transform->m_Rotation = angle;
+					bullet->m_Transform->m_Rotation = 0.0f;
 					bullet->SetLayer(Layer::Player);
 
 					collider->GetCollisionFilters()->categoryBits = (uint16)ColliderFilters::Weapon;
@@ -235,6 +234,7 @@ public:
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
+					lastFrameVelo.push_back(GetVector2(bullet->GetComponent<Rigidbody2D>()->GetBody()->GetLinearVelocity()));
 					bulletHits.push_back(false);
 					bulletCount++;
 
@@ -258,7 +258,7 @@ public:
 					rigidbody->SetContinuousCollision(true);
 
 					bullet->m_Transform->m_Position = endOfGunLocation;
-					bullet->m_Transform->m_Rotation = angle;
+					bullet->m_Transform->m_Rotation = 0.0f;
 
 					bullet->SetLayer(Layer::Player);
 
@@ -289,6 +289,7 @@ public:
 					sprite->GetMaterial()->SetDiffuse(bulletSprite);
 
 					bullets.push_back(bullet);
+					lastFrameVelo.push_back(GetVector2(bullet->GetComponent<Rigidbody2D>()->GetBody()->GetLinearVelocity()));
 					bulletHits.push_back(false);
 					bulletCount++;
 
@@ -300,10 +301,13 @@ public:
 		}
 
 
-
 		for (int i = 0; i < bullets.size(); i++)
 		{
 			b2Body* bullet = bullets[i]->GetComponent<Rigidbody2D>()->GetBody();
+
+			Vector2 velocity = GetVector2(bullet->GetLinearVelocity());
+
+			Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(velocity.x) + ". Y velocity: " + std::to_string(velocity.y));
 
 			for (b2ContactEdge* contact = bullet->GetContactList(); contact; contact = contact->next)
 			{
@@ -319,23 +323,21 @@ public:
 					}
 
 
-					//Debug::LogLine((uint16)obj->GetComponent<Rigidbody2D>()->GetColliderFilters()->categoryBits);
-
-					//bitwise & this with (uint16)colliderfilter::puzzle to see it hits a puzzle block.
-
-
 					if (obj != player)
 					{
 						if (obj->GetLayer() == Layer::Player)
 						{
-							Vector2 velocity = GetVector2(bullet->GetLinearVelocity());
+							float totalVelo = fabs(lastFrameVelo[i].x) + fabs(lastFrameVelo[i].y);
 
-							if (velocity.x > -1.5f && velocity.x < 1.5f &&
-								velocity.y > -1.5f && velocity.y < 1.5f)
+							if (totalVelo < 1.5f || bulletHits[i] == true)
 							{
+								Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(lastFrameVelo[i].x) + ". Y velocity: " + std::to_string(lastFrameVelo[i].y) + " Total velocity on contact: " + std::to_string(totalVelo) + " No hit.");
+								bulletHits[i] = true;
 							}
 							else
 							{
+								Debug::LogLine("Bullet " + std::to_string(i) + " X velocity: " + std::to_string(lastFrameVelo[i].x) + ". Y velocity: " + std::to_string(lastFrameVelo[i].y) + " Total velocity on contact: " + std::to_string(totalVelo) + " Hit.");
+
 								Health* health = obj->GetComponent<Health>();
 								DonutMovement* em = obj->GetComponent<DonutMovement>();
 
@@ -354,7 +356,8 @@ public:
 								bullets[i] = nullptr;
 								bullets.erase(bullets.begin() + i);
 
-								bulletHits[i] = true;
+								bulletHits[i] = false;
+								bulletHits.erase(bulletHits.begin() + i);
 
 								break;
 							}
@@ -387,6 +390,7 @@ public:
 						bulletCount--;
 
 						bulletHits[i] = false;
+						bulletHits.erase(bulletHits.begin() + i);
 
 						continue;
 					}
@@ -405,8 +409,10 @@ public:
 					bulletCount--;
 
 					bulletHits[i] = false;
+					bulletHits.erase(bulletHits.begin() + i);
 				}
 			}
+			lastFrameVelo[i] = velocity;
 		}
 	}
 

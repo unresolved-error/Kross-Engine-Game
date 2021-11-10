@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream:Project/Working/Editor/Main.ksff
 EDITOROBJECTHIERARCHY:
 FOLDER-START->
 NAME->BackgroundManagement->
@@ -9,8 +8,6 @@ OBJECT->FourthFurthest-B->
 OBJECT->Furthest-B->
 OBJECT->Furthest-A->
 FOLDER-END->
-=======
-EDITOROBJECTHIERARCHY:
 FOLDER-START->
 NAME->BackgroundManagement->
 OBJECT->SecondFurthest-A->
@@ -64,4 +61,3 @@ OBJECT->Puzzle5Elevator->
 OBJECT->Puzzle5Door1->
 OBJECT->Puzzle5Rope1->
 FOLDER-END->
->>>>>>> Stashed changes:Project/Working/Editor/EditorObjectHierarchy.krs

@@ -433,13 +433,11 @@ namespace Kross
                 {
                     CreateWorldBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position,
                         GetColliderFilters(), collider->GetFriction());
-                   //SetMass(collider->GetMass());
                 }
                 else
                 {
                     CreateDynamicBox(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                         GetColliderFilters(), collider->GetFriction());
-                   //SetMass(collider->GetMass());
                 }
                 break;
             }
@@ -448,13 +446,11 @@ namespace Kross
                 if (collider->IsStatic())
                 {
                     CreateWorldCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, GetColliderFilters(), collider->GetFriction());
-                  //SetMass(collider->GetMass());
                 }
                 else
                 {
                     CreateDynamicCircle(collider->GetRadius(), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                         GetColliderFilters(), collider->GetFriction(), collider->GetDensity());
-                  //SetMass(collider->GetMass());
                 }
                 break;
             }
@@ -462,7 +458,6 @@ namespace Kross
             {
                 CreateDynamicCapsule(Vector2(collider->GetWidth(), collider->GetHeight()), m_GameObject->m_Transform->m_Position, collider->IsRotationLocked(),
                     GetColliderFilters(), collider->GetFriction());
-                //SetMass(collider->GetMass());
                 break;
             }
             }
