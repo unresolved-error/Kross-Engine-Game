@@ -185,7 +185,7 @@ namespace Kross
         bottomCircle->SetUserData(m_GameObject);
 
         b2CircleShape circleShape;
-        circleShape.m_radius = dimensions.x * 0.5f;
+        circleShape.m_radius = (dimensions.x * 0.5f) + 0.001f;
 
         b2FixtureDef bottomFixtureDef;
         bottomFixtureDef.shape = &circleShape;
@@ -217,44 +217,44 @@ namespace Kross
         p_RevJoint->EnableLimit(false);
 
 
-        /* This is for display purposes */
-        /* Start of Jakes BS */
-        b2BodyDef RotationDisplay;
-        RotationDisplay.type = b2_dynamicBody;
-        RotationDisplay.position.Set(circleShape.m_p.x + circleShape.m_radius, circleShape.m_p.y);
-        RotationDisplay.fixedRotation = false;
-
-        Body* bottomCircleDisplay = nullptr;
-        bottomCircleDisplay = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&RotationDisplay);
-        bottomCircleDisplay->SetUserData(m_GameObject);
-
-        b2CircleShape circleShape2;
-        circleShape2.m_radius = dimensions.x * 0.25f;
-
-        b2FixtureDef bottomFixtureDef2;
-        bottomFixtureDef2.shape = &circleShape2;
-        bottomFixtureDef2.density = 0.01f;
-        bottomFixtureDef2.filter.categoryBits = (uint16)ColliderFilters::Empty;
-        bottomFixtureDef2.filter.maskBits = (uint16)ColliderFilters::Empty;
-
-        bottomCircleDisplay->CreateFixture(&bottomFixtureDef2);
-
-        bottomCircleDisplay->SetFixedRotation(false);
-
-        m_Bodies.push_back(bottomCircleDisplay);
-        p_PhysicsScene->AttachBody(bottomCircleDisplay);
-
-        b2WeldJointDef weldJointDef;
-        weldJointDef.bodyA = bottomCircleDisplay;
-        weldJointDef.localAnchorA.Set(0.0f, 0.0f);
-
-        weldJointDef.bodyB = bottomCircle;
-        weldJointDef.localAnchorB.Set(0.5f, 0.0f);
-
-        weldJointDef.collideConnected = false;
-
-        p_PhysicsScene->GetPhysicsWorld()->CreateJoint(&weldJointDef);
-        /* End of Jakes BS */
+        ///* This is for display purposes */
+        ///* Start of Jakes BS */
+        //b2BodyDef RotationDisplay;
+        //RotationDisplay.type = b2_dynamicBody;
+        //RotationDisplay.position.Set(circleShape.m_p.x + circleShape.m_radius, circleShape.m_p.y);
+        //RotationDisplay.fixedRotation = false;
+        //
+        //Body* bottomCircleDisplay = nullptr;
+        //bottomCircleDisplay = p_PhysicsScene->GetPhysicsWorld()->CreateBody(&RotationDisplay);
+        //bottomCircleDisplay->SetUserData(m_GameObject);
+        //
+        //b2CircleShape circleShape2;
+        //circleShape2.m_radius = dimensions.x * 0.25f;
+        //
+        //b2FixtureDef bottomFixtureDef2;
+        //bottomFixtureDef2.shape = &circleShape2;
+        //bottomFixtureDef2.density = 0.01f;
+        //bottomFixtureDef2.filter.categoryBits = (uint16)ColliderFilters::Empty;
+        //bottomFixtureDef2.filter.maskBits = (uint16)ColliderFilters::Empty;
+        //
+        //bottomCircleDisplay->CreateFixture(&bottomFixtureDef2);
+        //
+        //bottomCircleDisplay->SetFixedRotation(false);
+        //
+        //m_Bodies.push_back(bottomCircleDisplay);
+        //p_PhysicsScene->AttachBody(bottomCircleDisplay);
+        //
+        //b2WeldJointDef weldJointDef;
+        //weldJointDef.bodyA = bottomCircleDisplay;
+        //weldJointDef.localAnchorA.Set(0.0f, 0.0f);
+        //
+        //weldJointDef.bodyB = bottomCircle;
+        //weldJointDef.localAnchorB.Set(0.5f, 0.0f);
+        //
+        //weldJointDef.collideConnected = false;
+        //
+        //p_PhysicsScene->GetPhysicsWorld()->CreateJoint(&weldJointDef);
+        ///* End of Jakes BS */
 
         p_Capsule = KROSS_NEW Capsule(dimensions, Vector2(0,0), m_Fixtures);
     }

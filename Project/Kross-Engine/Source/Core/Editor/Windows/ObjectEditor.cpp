@@ -1337,21 +1337,71 @@ namespace Kross {
 						PlayerController* controller = (PlayerController*)component;
 						if (ImGui::CollapsingHeader("Player Controller", &isOpen, ImGuiTreeNodeFlags_DefaultOpen))
 						{
-							ImGui::Text("Work on meee.....");
-							//std::vector<Layer> layers;
-							//LayerName names = LayerName();
-							//ImGui::Indent();
-							//for (int i = 0; i < layers.size(); i++)
-							//{
-							//	if (ImGui::MenuItem(names[(int)layers[i]].c_str()))
-							//	{
-							//		if (ImGui::IsItemHovered())
-							//		{
-							//			ImGui::
-							//		}
-							//	}
-							//}
-							//ImGui::Unindent();
+							float groundSpeed = controller->GetGroundSpeed();
+							float maxGroundSpeed = controller->GetMaxGroundSpeed();
+
+							float airSpeed = controller->GetAirSpeed();
+							float maxAirSpeed = controller->GetMaxAirSpeed();
+
+							float swimSpeed = controller->GetSwimSpeed();
+							float maxSwimSpeed = controller->GetMaxSwimSpeed();
+
+							float jumpStrength = controller->GetJumpStrength();
+							int maxJumps = controller->GetMaxJumpCount();
+
+							ImGui::Text("Speeds:");
+							ImGui::Separator();
+							ImGui::Indent();
+							ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+
+							ImGui::Text("Ground Speed: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##PlayerGroundSpeed", &groundSpeed, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetGroundSpeed(groundSpeed);
+
+							ImGui::Text("Max Ground Speed: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##PlayerMaxGroundSpeed", &maxGroundSpeed, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetMaxGroundSpeed(maxGroundSpeed);
+
+
+							ImGui::Text("Air Speed: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##PlayerAirSpeed", &airSpeed, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetAirSpeed(airSpeed);
+
+							ImGui::Text("Max Air Speed: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##PlayerMaxAirSpeed", &maxAirSpeed, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetMaxAirSpeed(maxAirSpeed);
+
+
+							ImGui::Text("Swim Speed: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##PlayerSwimSpeed", &swimSpeed, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetAirSpeed(swimSpeed);
+
+							ImGui::Text("Max Swim Speed: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##PlayerMaxSwimSpeed", &maxSwimSpeed, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetMaxSwimSpeed(maxSwimSpeed);
+							ImGui::Unindent();
+
+							ImGui::Text("Jumping:");
+							ImGui::Separator();
+
+							ImGui::Indent();
+							ImGui::Text("Max Jump Count: ");
+							ImGui::SameLine();
+							ImGui::DragInt("##PlayerMaxJumps", &maxJumps, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetMaxJumpCount(maxJumps);
+
+							ImGui::Text("Jump Strength: ");
+							ImGui::SameLine();
+							ImGui::DragFloat("##PlayerJumpHeight", &jumpStrength, 0.1f, -FLT_MAX, FLT_MAX, "%.2fm");
+							controller->SetJumpStrength(jumpStrength);
+
+							ImGui::Unindent();
 						}
 
 						if (!isOpen)

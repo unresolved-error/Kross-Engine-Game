@@ -141,4 +141,4 @@ ATLAS->Assets/Atlas/Atlas.krs->
 PREFAB->Assets/Prefabs/Player.krs->
 
 // Lastly Scenes.
-SCENE->Assets/Scenes/Credits.kscn->
+SCENE->Assets/Scenes/Main.kscn->

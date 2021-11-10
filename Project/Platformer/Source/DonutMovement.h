@@ -118,9 +118,6 @@ public:
 				hit = false;
 			}
 		}
-
-		
-
 		else
 		{
 			if (hitTimer <= hitTimerMax / 2.0f && hitTimer > 0.0f)

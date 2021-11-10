@@ -1422,7 +1422,6 @@ namespace Kross
 								/* CatBits read in. */
 								case 1:
 								{
-
 									int maxJumpCount = std::stoi(value);
 									controller->SetMaxJumpCount(maxJumpCount);
 									break;
@@ -1431,14 +1430,14 @@ namespace Kross
 								case 2:
 								{
 									float groundSpeed = std::stof(value);
-									controller->SetGroundSpeed(groundSpeed);
+									controller->SetMaxGroundSpeed(groundSpeed);
 									break;
 								}
 								/* Radius Setting. */
 								case 3:
 								{
 									float airSpeed = std::stof(value);
-									controller->SetAirSpeed(airSpeed);
+									controller->SetMaxAirSpeed(airSpeed);
 									break;
 								}
 								case 4:

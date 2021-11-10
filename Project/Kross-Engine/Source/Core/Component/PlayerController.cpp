@@ -80,13 +80,29 @@ namespace Kross
 	{
 		if (moveDirection.x > 0)
 		{
-			m_Rigidbody->GetRevJoint()->SetMotorSpeed(-speed);
-			m_Rigidbody->GetRevJoint()->EnableMotor(true);
+			if (GetFiring() == false)
+			{
+				m_Rigidbody->GetRevJoint()->SetMotorSpeed(-speed);
+				m_Rigidbody->GetRevJoint()->EnableMotor(true);
+			}
+			else
+			{
+				m_Rigidbody->GetRevJoint()->SetMotorSpeed(-speed * 0.5f);
+				m_Rigidbody->GetRevJoint()->EnableMotor(true);
+			}
 		}
 		else if (moveDirection.x < 0)
 		{
-			m_Rigidbody->GetRevJoint()->SetMotorSpeed(speed);
-			m_Rigidbody->GetRevJoint()->EnableMotor(true);
+			if (GetFiring() == false)
+			{
+				m_Rigidbody->GetRevJoint()->SetMotorSpeed(speed);
+				m_Rigidbody->GetRevJoint()->EnableMotor(true);
+			}
+			else
+			{
+				m_Rigidbody->GetRevJoint()->SetMotorSpeed(speed * 0.5f);
+				m_Rigidbody->GetRevJoint()->EnableMotor(true);
+			}
 		}
 		else
 		{
@@ -111,8 +127,18 @@ namespace Kross
 					 m_Rigidbody->GetBody()->GetLinearVelocity().x < -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x > m_MaxGroundSpeed &&
 					 m_Rigidbody->GetBody()->GetLinearVelocity().y < -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y > m_MaxGroundSpeed)
 			{
-				m_Rigidbody->GetRevJoint()->EnableMotor(false);
-				//ActivateMotor(moveDirection, m_WheelSpeed * 1 / m_WheelSpeed);
+				if (m_Rigidbody->GetBody()->GetLinearVelocity().x < -m_MaxGroundSpeed && moveDirection.x < 0.0f)
+				{
+					ActivateMotor(moveDirection, m_WheelSpeed);
+				}
+				else if (m_Rigidbody->GetBody()->GetLinearVelocity().x > m_MaxGroundSpeed&& moveDirection.x > 0.0f)
+				{
+					ActivateMotor(moveDirection, m_WheelSpeed);
+				}
+				else
+				{
+					m_Rigidbody->GetRevJoint()->EnableMotor(false);
+				}
 			}
 			else
 			{
@@ -127,7 +153,14 @@ namespace Kross
 				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxAirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_MaxAirSpeed &&
 				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_MaxAirSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_MaxAirSpeed)
 			{
-				m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * m_AirSpeed, 0.0f));
+				if (GetFiring() == false)
+				{
+					m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * m_AirSpeed, 0.0f));
+				}
+				else
+				{
+					m_Rigidbody->OnApplyForce(Vector2(moveDirection.x * m_AirSpeed * 0.5f, 0.0f));
+				}
 			}
 			else
 			{

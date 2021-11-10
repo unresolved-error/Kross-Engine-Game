@@ -124,9 +124,6 @@ namespace Kross
         /* Gets the Objects Position */
         Vector2 GetPosition() const;
 
-        /* Gets the Objects velocity */
-        Vector2 GetVelocity() const{ return Vector2(p_Body->GetLinearVelocity().x , p_Body->GetLinearVelocity().y); }
-
         /* Sets the collision state of the rigidbody */
         void SetCollisionState(CollisionState state) { m_CollisionState = state; }
         CollisionState GetCollisionState() { return m_CollisionState; }

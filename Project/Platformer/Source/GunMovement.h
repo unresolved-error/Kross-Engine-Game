@@ -5,6 +5,7 @@
 #include "PlayerMovement.h"
 #include "HealthManager.h"
 
+
 using namespace Kross;
 
 class GunMovement : public Script
@@ -31,15 +32,15 @@ public:
 
 	PlayerMovement* m_PlayerMovement = nullptr;
 	HealthManager* m_HealthManager = nullptr;
+	PlayerController* m_Controller = nullptr;
 
 	Camera* camera;
 	Window* window;
 	bool m_Fired = false;
 	float m_RateOfFire = 0.1f;
 	float m_TimeElapsed = 0.0f;
-	//float bulletStartForce = 0.15f;
-	float bulletStartForce = 0.5f;
-	float bulletMass = 0.005f;
+	float bulletStartForce = 0.3f;
+	float bulletDensity = 2.5f;
 	float bulletFriction = 0.75f;
 	float bulletDecayThreshold = 0.005f;
 
@@ -76,6 +77,7 @@ public:
 		camera = SceneManager::GetScene()->GetCamera()->GetComponent<Camera>();
 		player = SceneManager::GetScene()->FindObject("Player");
 		m_PlayerMovement = player->GetComponent<PlayerMovement>();
+		m_Controller = player->GetComponent<PlayerController>();
 
 		level = SceneManager::GetScene()->FindObject("Level");
 		m_HealthManager = level->GetComponent<HealthManager>();
@@ -170,10 +172,12 @@ public:
 		Vector2 toCrosshair = toMouseNormd * 1.5f;
 		Vector2 toEndOfGun = toMouseNormd * 0.03f;
 
-		//if (m_Fired)
-		//{
-		//	m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd * 0.4f);
-		//}
+		if (m_Fired)
+		{
+			float force = (1 - glm::dot(toMouseNormd, Vector2(0.0f, -1.0f))) * 0.1;
+			m_PlayerMovement->GetComponent<Rigidbody2D>()->OnApplyForce(-toMouseNormd * force);
+			m_Controller->SetFiring(true);
+		}
 
 
 		LineRenderer* endOfGunDebug = m_GameObject->GetDebugRenderer();
@@ -186,6 +190,7 @@ public:
 
 		if (!m_Fired)
 		{
+			m_Controller->SetFiring(false);
 			if (m_PlayerMovement->m_ControllerID == -1)
 			{
 				if (Input::GetMouseButtonDown(Mouse::Left))
@@ -208,7 +213,7 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
-					collider->SetDensity(7.5f);
+					collider->SetDensity(bulletDensity);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
@@ -264,7 +269,7 @@ public:
 					collider->SetShapeType(ShapeType::Circle);
 
 					collider->SetRadius(0.03125f);
-					collider->SetDensity(7.5f);
+					collider->SetDensity(bulletDensity);
 
 					sprite->SetMaterial(ResourceManager::GetResource<Material>("Bullet"));
 
@@ -297,12 +302,15 @@ public:
 
 		for (int i = 0; i < bullets.size(); i++)
 		{
-			for (b2ContactEdge* contact = bullets[i]->GetComponent<Rigidbody2D>()->GetBody()->GetContactList(); contact; contact = contact->next)
+			b2Body* bullet = bullets[i]->GetComponent<Rigidbody2D>()->GetBody();
+			
+			for (b2ContactEdge* contact = bullet->GetContactList(); contact; contact = contact->next)
 			{
 				if (contact->contact->IsTouching())
 				{
 					Object* obj = (Object*)contact->other->GetUserData();
 					
+
 					if (obj->GetLayer() == Layer::Player)
 					{
 						Health* health = obj->GetComponent<Health>();
@@ -319,33 +327,34 @@ public:
 					{
 						if (obj->GetLayer() == Layer::Player)
 						{
-							Health* health = obj->GetComponent<Health>();
-							DonutMovement* em = obj->GetComponent<DonutMovement>();
+							Vector2 velocity = GetVector2(bullet->GetLinearVelocity());
 
-							if (health && em->hitTimer == em->hitTimerMax)
+							if (velocity.x > -1.5f && velocity.x < 1.5f &&
+								velocity.y > -1.5f && velocity.y < 1.5f)
 							{
-								// Debug::LogLine(health->GetHealth());
-								health->TakeDamage(damage);
+							}
+							else
+							{
+								Health* health = obj->GetComponent<Health>();
+								DonutMovement* em = obj->GetComponent<DonutMovement>();
 
-								/* For Testing Effects For now. */
-								SceneManager::GetScene()->DetachObject(bullets[i]);
+								if (health && em->hitTimer == em->hitTimerMax)
+								{
+									// Debug::LogLine(health->GetHealth());
+									health->TakeDamage(damage);
 
-								bullets[i] = nullptr;
-								bullets.erase(bullets.begin() + i);
+									/* For Testing Effects For now. */
 
 								em->audioPlayer->Play();
 								em->hit = true;
 							}
+							SceneManager::GetScene()->DetachObject(bullets[i]);
 
-							//KROSS TODO:
-
-							//IF BULLET COLLIDES WITH A ROPE SEGMENT
-
-							//CALL THE SEGMENT DESTRUCT HERE.
-
-
+							bullets[i] = nullptr;
+							bullets.erase(bullets.begin() + i);
+							
 							bulletHits[i] = true;
-
+							
 							break;
 						}
 					}
