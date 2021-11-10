@@ -190,7 +190,7 @@ namespace Kross
 		std::string gravity;
 		std::string gravityDirX;
 		std::string kObjFilepath;
-
+		std::string colour;
 
 		if (fileStream.is_open()) 
 		{
@@ -264,6 +264,39 @@ namespace Kross
 						{
 							kObjFilepath = line.substr(0, searchPosition);
 						}
+						if (sceneProperty == "COLOUR")
+						{
+							colour = line.substr(0, searchPosition);
+							
+							std::string data = colour;
+							data.erase(remove(data.begin(), data.end(), '['), data.end());
+							data.erase(remove(data.begin(), data.end(), ']'), data.end());
+
+							std::vector<float> rawColourData;
+
+							size_t searchPositionData = 0;
+							std::string divider = ",";
+							while ((searchPositionData = data.find(divider)) != std::string::npos)
+							{
+								std::string dataValue = data.substr(0, searchPositionData);
+								rawColourData.push_back(std::stof(dataValue));
+
+								data.erase(0, searchPositionData + divider.length());
+							}
+
+							rawColourData.push_back(std::stof(data));
+
+							Colour sceneColour = Colour(1.0f);
+							if (rawColourData.size() == 4)
+							{
+								sceneColour.r = rawColourData[0];
+								sceneColour.g = rawColourData[1];
+								sceneColour.b = rawColourData[2];
+								sceneColour.a = rawColourData[3];
+							}
+
+							newScene->SetBackgroundColour(sceneColour);
+						}
 					}
 
 					line.erase(0, searchPosition + lineSplitter.length());
@@ -297,7 +330,7 @@ namespace Kross
 	std::vector<Object*> FileSystem::OnReadObjects(const std::string& filepath)
 	{
 		/* Open a Filestream. */
-		std::fstream fileStream;
+		std::ifstream fileStream;
 		fileStream.open(filepath.c_str());
 
 		/* Parameter variables. */
@@ -330,7 +363,6 @@ namespace Kross
 			std::string line;
 			bool ignoreFirstLine = true;
 
-
 			/* Read the file line by line. */
 			while (getline(fileStream, line))
 			{
@@ -342,7 +374,7 @@ namespace Kross
 				}
 
 				/* Ignore Comments. */
-				if (line.find("//") != std::string::npos)
+				if (line.substr(0, 2) == "//")
 					continue;
 
 				/* Quick Variables. */
@@ -1600,9 +1632,15 @@ namespace Kross
 		{
 			fileStream << "SCENE:\n";
 			fileStream << "NAME->" << sceneToSave->GetName() << "->\n";
-			fileStream << "GRAVITY->" << std::to_string(sceneToSave->GetGravityScalar()) << "->"
-				<< std::to_string(sceneToSave->GetGravityDirection().x) << "->" 
-				<< std::to_string(sceneToSave->GetGravityDirection().y) << "->\n";
+
+			fileStream << "GRAVITY->" << sceneToSave->GetGravityScalar() << "->"
+				<< sceneToSave->GetGravityDirection().x << "->" 
+				<< sceneToSave->GetGravityDirection().y << "->\n";
+
+			Colour sceneBackground = sceneToSave->GetBackgroundColour();
+			fileStream << "COLOUR->[" << sceneBackground.r << "," << sceneBackground.g
+				<< "," << sceneBackground.b << "," << sceneBackground.a << "]->\n";
+
 			fileStream << "OBJECTS->Assets/Scenes/" << sceneToSave->GetName() << ".kobj->";
 
 			fileStream.close();
@@ -1852,8 +1890,8 @@ namespace Kross
 						}
 						fileStream << "]->";
 						fileStream << controller->m_MaxJumpCount << "->";
-						fileStream << controller->m_GroundSpeed << "->";
-						fileStream << controller->m_AirSpeed << "->";
+						fileStream << controller->m_MaxGroundSpeed << "->";
+						fileStream << controller->m_MaxAirSpeed << "->";
 						fileStream << controller->m_JumpStrength << "->\n";
 					}
 

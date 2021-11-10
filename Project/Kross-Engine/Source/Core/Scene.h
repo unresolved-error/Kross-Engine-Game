@@ -32,6 +32,7 @@ namespace Kross
 			m_EditorObjectTool		(nullptr),
 			#endif
 			m_Camera				(nullptr), 
+			m_BackgroundColour		(Colour(0.5f)),
 			m_Physics				(KROSS_NEW PhysicsScene()), 
 			m_WorldFilter			(KROSS_NEW ContactFilter())
 		{
@@ -92,6 +93,8 @@ namespace Kross
 		Object* m_EditorObjectTool;
 		#endif
 
+		Colour m_BackgroundColour;
+
 		PhysicsScene* m_Physics;
 
 		ContactFilter* m_WorldFilter;
@@ -147,6 +150,15 @@ namespace Kross
 
 		// Gets the Scene Name.
 		const std::string GetName() const { return m_Name; };
+
+		// Gets the Scene Background Colour.
+		void SetBackgroundColour(Colour colour = Colour(1.0f)) { m_BackgroundColour = colour; };
+
+		// Gets the Scene Background Colour.
+		void SetBackgroundColour(float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f) { m_BackgroundColour = Colour(r,g,b,a); };
+
+		// Gets the Scene Background Colour.
+		Colour GetBackgroundColour() const { return m_BackgroundColour; };
 
 		// Adds a Object to the Scene.
 		void AttachObject(Object* object, bool startOverride = false);

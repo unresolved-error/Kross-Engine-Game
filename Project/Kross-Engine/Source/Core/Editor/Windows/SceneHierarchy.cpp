@@ -354,6 +354,15 @@ namespace Kross
 				direction.y = values[1];
 
 				p_Scene->SetGravity(gravity, direction);
+
+				ImGui::Spacing();
+
+				ImGui::Text("Background Colour:");
+				Colour scnbkgClr = p_Scene->GetBackgroundColour();
+				float colour[4] = { scnbkgClr.r, scnbkgClr.g, scnbkgClr.b, scnbkgClr.a };
+				ImGui::ColorPicker4("##BackgroundColour:", &colour[0]);
+				scnbkgClr = Colour(colour[0], colour[1], colour[2], colour[3]);
+				p_Scene->SetBackgroundColour(scnbkgClr);
 			}
 
 			ImGui::EndTabItem();

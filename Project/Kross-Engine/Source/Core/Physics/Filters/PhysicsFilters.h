@@ -56,7 +56,8 @@ namespace Kross
         Running,
         Jumping,
         Falling,
-        Swimming,
+        Floating,
+        Underwater,
         Count
     };
 

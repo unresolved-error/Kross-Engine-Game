@@ -46,7 +46,6 @@ namespace Kross
         RaycastData* p_RayData;
         AABBCollisionData* p_AABBCollisionData;
 
-        std::vector<AABBCollisionData*> m_AABBCollisions;
         std::vector<Body*> m_CloseObjects;
         std::vector<Body*> m_TileColliders;
         std::vector<Box*> m_TileShapes;
@@ -56,6 +55,7 @@ namespace Kross
         std::vector<Vector2> m_CloseParticles;
 
         float m_Friction = 0.5f;
+        b2Rot m_BottomWheelRotation;
 
         bool m_IsBullet = false;
 
@@ -150,10 +150,6 @@ namespace Kross
         /* Returning the distance to an object if there is a hit */
         RaycastData* CalculateRayLength(float maxFraction, Vector2 direction, Vector2 pos);
         
-        /* Creates a circle cast in a specified direction */
-        /* Returning the distance to an object if there is a hit */
-        float CalculateCircleCast(float circleCastRadius, float maxFraction, Vector2 direction, Vector2 pos);
-
         /* Checks a specified AABB for objects */
         std::vector<Body*> GetSurroundingObjects(float size, Body* body);
 
@@ -162,12 +158,6 @@ namespace Kross
 
         /* Deletes the tile map colliders */
         void DeleteTileMapColliders();
-
-        /* Gets whatever is bellow the body */
-        /* When calling on a circle the length must not be larger than the radius */
-        /* Otherwise the length will default to the radius */
-        /* When calling on a box direction must only be on one axis */
-        void GetObjectsInDirection(float length, Body* body, Vector2 direction);
 
         /* Checks for the players current state */
         void UpdateRigidbodyState();

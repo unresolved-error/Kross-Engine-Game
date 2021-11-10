@@ -17,23 +17,23 @@ public:
 	};
 	~PlayerMovement() {};
 
-	Object* m_Camera = nullptr;
 	Object* m_Gun = nullptr;
-
+	Window* m_Window = nullptr;
+	Health* m_Health = nullptr;
+	Object* m_Camera = nullptr;
+	Animator* m_Animator = nullptr;
+	Rigidbody2D* m_RigidBody = nullptr;
+	AudioPlayer* m_AudioPlayer = nullptr;
 	TextRenderer* m_TextRenderer = nullptr;
 	PlayerController* m_Controller = nullptr;
 	SpriteRenderer* m_SpriteRenderer = nullptr;
-	Window* m_Window = nullptr;
-	Rigidbody2D* m_RigidBody = nullptr;
-	AudioPlayer* m_AudioPlayer = nullptr;
-	Animator* m_Animator = nullptr;
-	Health* m_Health = nullptr;
 
 	Vector2 m_GunOffset = Vector2(0.0f, -0.11f);
 	Vector2 m_TextRendererOffset = Vector2(0.0f, 1.5f);
 
 	std::vector<SpriteRenderer*> m_HealthRenderers = std::vector<SpriteRenderer*>();
-	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>();
+	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>(); 
+
 
 	Sprite* m_HitSprite = nullptr;
 
@@ -67,12 +67,12 @@ public:
 	void Start() override
 	{
 		/* Grab All of the Local Components. */
-		m_SpriteRenderer = GetComponent<SpriteRenderer>();
-		m_RigidBody = GetComponent<Rigidbody2D>();
+		m_Health = GetComponent<Health>();
 		m_Animator = GetComponent<Animator>();
+		m_RigidBody = GetComponent<Rigidbody2D>();
 		m_AudioPlayer = GetComponent<AudioPlayer>();
 		m_Controller = GetComponent<PlayerController>();
-		m_Health = GetComponent<Health>();
+		m_SpriteRenderer = GetComponent<SpriteRenderer>();
 
 		/* Grab External Object Related things. */
 		m_TextRenderer = SceneManager::GetScene()->FindObject("Text")->GetComponent<TextRenderer>();
@@ -154,10 +154,9 @@ public:
 
 		/* Clamp the Camera Position. */
 		m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
-		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -2.0f, 1.5f);
+		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -1.75f, 1.55f);
 
 		/* Camera Shake. */
-
 		if (m_CameraShakeMagnitude > 0.0f)
 		{
 			m_Camera->m_Transform->m_Position.x += Random::GetRandomRange(-m_CameraShakeMagnitude, m_CameraShakeMagnitude);
@@ -169,13 +168,12 @@ public:
 			m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax;
 			m_ShakeCoolDownTimeElapsed = 0.0f;
 		}
-
 		else
 		{
 			if (m_ShakeCoolDownTimeElapsed < m_ShakeCoolDownTime && m_CameraShakeMagnitude > 0.0f)
 			{
 				m_ShakeCoolDownTimeElapsed += Time::GetDeltaTime();
-				m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax * (1.0 - (m_ShakeCoolDownTime / m_ShakeCoolDownTimeElapsed));
+				m_CameraShakeMagnitude = m_CameraShakeMagnitudeMax * (1.0f - (m_ShakeCoolDownTime / m_ShakeCoolDownTimeElapsed));
 			}
 
 			else if (m_CameraShakeMagnitude <= 0.0f)
@@ -333,7 +331,6 @@ public:
 				}
 			}
 		}
-
 		else
 		{
 			if (m_GracePeriodTimeElapsed >= m_GracePeriodTime * 0.25f) m_VisualHurt = false;
