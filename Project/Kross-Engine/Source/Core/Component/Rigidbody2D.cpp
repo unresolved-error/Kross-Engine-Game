@@ -824,12 +824,10 @@ namespace Kross
             if (GetCloseParticles().size() > 80)
             {
                 SetRigidbodyState(RigidbodyState::Underwater);
-                Debug::LogLine("We are underwater");
             }
             else
             {
                 SetRigidbodyState(RigidbodyState::Floating);
-                Debug::LogLine("We are floating");
             }
         }
         else if (GetCollisionState() == CollisionState::None || GetCollisionState() == CollisionState::Exit)
@@ -944,11 +942,6 @@ namespace Kross
             delete rightSideDown;
             delete leftSideDown;
         }
-
-        //if (GetCloseParticles().size() != 0)
-        //{
-        //    std::cout << "Close Particle count: " + std::to_string(GetCloseParticles().size()) << std::endl;
-        //}
 
         #ifndef KROSS_EDITOR
         /* Gets the object position and updates it with the position of the body */
