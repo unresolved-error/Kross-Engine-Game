@@ -17,4 +17,8 @@ namespace Kross
 	{
 		return Vector2(a.x + t * (b.x - a.x), a.y + t * (b.y - a.y));
 	}
+	Vector4 Math::Lerp(Vector4 a, Vector4 b, float t)
+	{
+		return Vector4(a.x + t * (b.x - a.x), a.y + t * (b.y - a.y), a.z + t * (b.z - a.z), a.w + t * (b.w - a.w));
+	}
 }

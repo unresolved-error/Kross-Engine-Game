@@ -89,6 +89,7 @@ ANIMATION->Assets/Animations/animMarshallJumpUp.krs->
 ANIMATION->Assets/Animations/animMarshallJumpDown.krs->
 ANIMATION->Assets/Animations/animDonutIdle.krs->
 ANIMATION->Assets/Animations/animDonutWalk.krs->
+ANIMATION->Assets/Animations/animDonutDeath.krs->
 
 // Load the Font.
 FONT->Assets/Fonts/fntKrossFont.krs->

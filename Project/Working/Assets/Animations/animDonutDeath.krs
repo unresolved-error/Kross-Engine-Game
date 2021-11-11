@@ -1,0 +1,17 @@
+ANIMATION:
+NAME->DonutDeath->
+DURATION->1.5->
+KEYFRAME->*->*->*->*->*->Donut0-2->
+KEYFRAME->*->*->*->*->*->Donut0-2->
+KEYFRAME->*->*->*->*->*->Donut0-2->
+KEYFRAME->*->*->*->*->*->Donut0-2->
+KEYFRAME->*->*->*->*->*->Donut0-2->
+KEYFRAME->*->*->*->*->*->Donut0-2->
+KEYFRAME->*->*->*->*->*->Donut0-2->
+KEYFRAME->*->*->*->*->*->Donut1-2->
+KEYFRAME->*->*->*->*->*->Donut1-2->
+KEYFRAME->*->*->*->*->*->Donut2-2->
+KEYFRAME->*->*->*->*->*->Donut2-2->
+KEYFRAME->*->*->*->*->*->Donut3-2->
+KEYFRAME->*->*->*->*->*->Donut3-2->
+KEYFRAME->*->*->*->*->*->Donut3-2->

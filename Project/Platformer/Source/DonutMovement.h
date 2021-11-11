@@ -22,6 +22,8 @@ public:
 
 	AudioPlayer* audioPlayer = nullptr;
 
+	Health* health = nullptr;
+
 	Animator* animator;
 
 	Sprite* hitSprite;
@@ -43,8 +45,10 @@ public:
 
 	bool grounded = true;
 	bool hit = false;
+	bool dead = false;
 
 	float m_MaxGroundSpeed = 1.5f;
+	float elapsedTime = 0.0f;
 
 	float m_Health = 5.0f;
 
@@ -62,6 +66,8 @@ public:
 		animator = GetComponent<Animator>();
 
 		audioPlayer = GetComponent<AudioPlayer>();
+		health = GetComponent<Health>();
+
 
 		player = SceneManager::GetScene()->FindObject("Player");
 
@@ -75,59 +81,82 @@ public:
 
 	void Update() override
 	{
-		Transform2D* playerTransform = player->m_Transform;
-
-		if (glm::length(m_GameObject->m_Transform->m_Position - playerTransform->m_Position) <= agroRange)
+		if (!dead)
 		{
-			if (playerTransform->m_Position.x > m_GameObject->m_Transform->m_Position.x)
+			Transform2D* playerTransform = player->m_Transform;
+
+			if (glm::length(m_GameObject->m_Transform->m_Position - playerTransform->m_Position) <= agroRange)
 			{
-				movementVector.x = moveSpeed;
+				if (playerTransform->m_Position.x > m_GameObject->m_Transform->m_Position.x)
+				{
+					movementVector.x = moveSpeed;
+				}
+				else
+				{
+					movementVector.x = -moveSpeed;
+				}
 			}
 			else
 			{
-				movementVector.x = -moveSpeed;
+				if (elapsedWaitingTime < maxWaitingTime)
+				{
+					elapsedWaitingTime += Time::GetDeltaTime();
+				}
+				else
+				{
+					elapsedWaitingTime = 0.0f;
+					movementVector.x = (float)Random::GetRandomRange<int>(-1, 1);
+				}
+			}
+
+			Move(movementVector);
+
+			previousY = m_GameObject->m_Transform->m_Position.y;
+
+			if (hit)
+			{
+				if (hitTimer > 0.0f)
+				{
+					hitTimer -= Time::GetDeltaTime();
+				}
+
+				if (hitTimer <= hitTimerMax / 2.0f)
+				{
+					hitTimer -= Time::GetDeltaTime();
+					hit = false;
+				}
+			}
+			else
+			{
+				if (hitTimer <= hitTimerMax / 2.0f && hitTimer > 0.0f)
+				{
+					hitTimer -= Time::GetDeltaTime();
+					hit = false;
+				}
+				else
+				{
+					hitTimer = hitTimerMax;
+				}
+			}
+
+			if (health->GetHealth() <= 0)
+			{
+				dead = true;
 			}
 		}
+		
 		else
 		{
-			if (elapsedWaitingTime < maxWaitingTime)
-			{
-				elapsedWaitingTime += Time::GetDeltaTime();
-			}
-			else
-			{
-				elapsedWaitingTime = 0.0f;
-				movementVector.x = (float)Random::GetRandomRange<int>(-1, 1);
-			}
-		}
+			if(Rigidbody2D* rb = GetComponent<Rigidbody2D>())	m_GameObject->DetachComponent<Rigidbody2D>();
+			if(Collider* col = GetComponent<Collider>())		m_GameObject->DetachComponent<Collider>();
 
-		Move(movementVector);
+			animator->SetCurrentAnimation(2);
+			animator->Play();
 
-		previousY = m_GameObject->m_Transform->m_Position.y;
-
-		if (hit)
-		{
-			if (hitTimer > 0.0f)
+			elapsedTime += Time::GetDeltaTime();
+			if (elapsedTime >= animator->GetCurrentAnimation()->GetDuration())
 			{
-				hitTimer -= Time::GetDeltaTime();
-			}
-
-			if (hitTimer <= hitTimerMax / 2.0f)
-			{
-				hitTimer -= Time::GetDeltaTime();
-				hit = false;
-			}
-		}
-		else
-		{
-			if (hitTimer <= hitTimerMax / 2.0f && hitTimer > 0.0f)
-			{
-				hitTimer -= Time::GetDeltaTime();
-				hit = false;
-			}
-			else
-			{
-				hitTimer = hitTimerMax;
+				SceneManager::GetScene()->DetachObject(m_GameObject);
 			}
 		}
 	}

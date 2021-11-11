@@ -1,5 +1,5 @@
 MATERIAL:
-NAME->Dirt->
-DIFFUSE->Dirt->
+NAME->Default->
+DIFFUSE->Diffuse->
 NORMAL->*->
 SPECULAR->*->

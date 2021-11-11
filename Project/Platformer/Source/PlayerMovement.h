@@ -4,6 +4,7 @@
 
 #include "Health.h"
 #include "bgAudioManager.h"
+#include "DonutMovement.h"
 
 using namespace Kross;
 
@@ -34,6 +35,8 @@ public:
 	std::vector<SpriteRenderer*> m_HealthRenderers = std::vector<SpriteRenderer*>();
 	std::vector<Sprite*> m_HealthSprites = std::vector<Sprite*>(); 
 
+	Object* m_TopBar = nullptr;
+	Object* m_BottomBar = nullptr;
 
 	Sprite* m_HitSprite = nullptr;
 
@@ -54,6 +57,9 @@ public:
 
 	float m_GracePeriodTime = 0.5f;
 	float m_GracePeriodTimeElapsed = 0.0f;
+
+	float m_EndGameTimer = 0.0f;
+	float m_EndGameTimerMax = 1.5f;
 
 	bool m_ShakeCamera = false;
 	bool m_IsHurt = false;
@@ -94,6 +100,10 @@ public:
 
 		audioPlayers = GetComponents<AudioPlayer>();
 
+		/* End Scene Stuff. */
+		m_TopBar = SceneManager::GetScene()->FindObject("Bar-Top");
+		m_BottomBar = SceneManager::GetScene()->FindObject("Bar-Bottom");
+
 		/* Grab the Window. */
 		m_Window = Application::GetWindow();
 
@@ -123,12 +133,6 @@ public:
 			/* Grab the Input needed. */
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
 			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::W)));
-
-			if (Input::GetKeyPressed(Key::R))
-			{
-				leaveLevel = true;
-				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
-			}
 		}
 		
 		
@@ -151,10 +155,6 @@ public:
 
 		/* Lerp the Camera's Position to the Players. */
 		m_Camera->m_Transform->m_Position = Math::Lerp(m_Camera->m_Transform->m_Position, m_GameObject->m_Transform->m_Position, Time::GetDeltaTime() * 4.0f);
-
-		/* Clamp the Camera Position. */
-		m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
-		m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -1.75f, 1.55f);
 
 		/* Camera Shake. */
 		if (m_CameraShakeMagnitude > 0.0f)
@@ -231,40 +231,42 @@ public:
 
 		/* -------------------------- */
 
-		/* --- TEXT RENDERER STUFF --- */
+		/* ----- END GAME STUFF ----- */
 
-		/* If we have found a Text Renderer*/
-		if (m_TextRenderer)
+		if (m_TopBar && m_BottomBar && m_TextRenderer)
 		{
-			/* If the Object less than 188 on the x. */
-			if (m_GameObject->m_Transform->m_Position.x < 140)
+			if (m_GameObject->m_Transform->m_Position.x > 154.0f)
 			{
-				/* Grab the Colour and Extract it's alpha. */
-				Colour textcol = m_TextRenderer->GetColour();
-				textcol.a = 0;
+				/* Something to move. */
+				if(m_TopBar->m_Transform->m_Position.x < 10.0f) m_TopBar->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.0f, 5.0f);
+				if(m_BottomBar->m_Transform->m_Position.x < 10.0f) m_BottomBar->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.0f, -5.0f);
 
-				/* Set its Colour. */
-				m_TextRenderer->SetColour(textcol);
+				float t = m_EndGameTimer / m_EndGameTimerMax;
+
+				if (m_EndGameTimer < m_EndGameTimerMax) m_EndGameTimer += Time::GetDeltaTime();
+
+				Camera* camera = m_Camera->GetComponent<Camera>();
+				camera->SetSize(Math::Lerp(camera->GetSize(), 3.0f, t));
+
+				Colour barColour = Math::Lerp(Vector4(0.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f), t);
+				m_TopBar->m_Transform->m_Position = Math::Lerp(m_TopBar->m_Transform->m_Position, m_Camera->m_Transform->m_Position + Vector2(0.0f, 1.25f), t);
+				m_BottomBar->m_Transform->m_Position = Math::Lerp(m_BottomBar->m_Transform->m_Position, m_Camera->m_Transform->m_Position + Vector2(0.0f, -1.25f), t);
+
+				m_BottomBar->GetComponent<SpriteRenderer>()->SetColour(barColour);
+				m_TopBar->GetComponent<SpriteRenderer>()->SetColour(barColour);
+
+				m_TextRenderer->m_GameObject->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.1f, 0.5f);
+				if (m_TextRenderer->GetText() != "Level Cleared") m_TextRenderer->SetText("Level Cleared!");
 			}
-			/* If the Object is Less than 155 on the x but larger than 140. */
-			else if (m_GameObject->m_Transform->m_Position.x < 155)
+			else
 			{
-				/* Calculate its Alpha Value. */
-				float alph = (m_GameObject->m_Transform->m_Position.x - 140.0f) / 10.0f;
-
-				/* Grab the Colour and Extract it's alpha. */
-				Colour textcol = m_TextRenderer->GetColour();
-				textcol.a = alph;
-
-				/* Set its Colour. */
-				m_TextRenderer->SetColour(textcol);
+				/* Clamp the Camera Position. */
+				m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
+				m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -1.75f, 1.55f);
 
 			}
-
-			/* Set the Text Renderer's Position. */
-			m_TextRenderer->m_GameObject->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + m_TextRendererOffset;
-
 		}
+
 		/* --------------------------- */
 
 		/* --------- HEALTH ---------- */
@@ -302,9 +304,6 @@ public:
 
 		/* --------------------------- */
 
-		if (Input::GetKeyPressed(Key::Backspace)) m_Health->TakeDamage(1.0f);
-		if (Input::GetKeyPressed(Key::H)) m_Health->Heal(1.0f);
-
 		if (!m_IsHurt)
 		{
 			for (b2ContactEdge* contact = m_RigidBody->GetBody()->GetContactList(); contact; contact = contact->next)
@@ -317,15 +316,21 @@ public:
 					{
 						if (obj->GetName().find("Enemy") != std::string::npos)
 						{
-							m_Health->TakeDamage(1.0f);
+							if (DonutMovement* dm = obj->GetComponent<DonutMovement>())
+							{
+								if (!dm->dead)
+								{
+									m_Health->TakeDamage(1.0f);
 
-							Vector2 knockbackDirection = glm::normalize(m_GameObject->m_Transform->m_Position - obj->m_Transform->m_Position);
-							m_RigidBody->OnApplyImpulse(knockbackDirection * 0.35f);
+									Vector2 knockbackDirection = glm::normalize(m_GameObject->m_Transform->m_Position - obj->m_Transform->m_Position);
+									m_RigidBody->OnApplyImpulse(knockbackDirection * 0.35f);
 
-							audioPlayers[2]->Play();
-							m_IsHurt = true;
-							m_VisualHurt = true;
-							break;
+									audioPlayers[2]->Play();
+									m_IsHurt = true;
+									m_VisualHurt = true;
+									break;
+								}
+							}
 						}
 					}
 				}

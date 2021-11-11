@@ -33,6 +33,8 @@ namespace Kross
 		static float Lerp(float a, float b, float t);
 
 		static Vector2 Lerp(Vector2 a, Vector2 b, float t);
+
+		static Vector4 Lerp(Vector4 a, Vector4 b, float t);
 	};
 }
 

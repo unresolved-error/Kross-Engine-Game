@@ -294,3 +294,13 @@ SCRIPT->ScrollCredits->
 ANIMATOR->DonutIdle->DonutWalk->
 END->
 
+START->
+NAME->Skip->
+STATIC->0->
+ENABLE->1->
+LAYER->15->
+TRANSFORM2D->-5.400000->3.500000->0.000000->1.000000->1.000000->
+TEXT-RENDERER->Press LMB To Skip...->KrossFont->1->1->1->1->0.501961->1->
+SCRIPT->SkipScene->
+END->
+

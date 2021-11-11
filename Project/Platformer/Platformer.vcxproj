@@ -202,6 +202,7 @@
     <ClInclude Include="Source\HealthManager.h" />
     <ClInclude Include="Source\PlayerMovement.h" />
     <ClInclude Include="Source\ScrollCredits.h" />
+    <ClInclude Include="Source\SkipScene.h" />
     <ClInclude Include="Source\Start-Button.h" />
     <ClInclude Include="Source\TriggerLaser.h" />
   </ItemGroup>

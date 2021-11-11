@@ -14,6 +14,7 @@
 #include "Credits-Button.h"
 #include "bgAudioManager.h"
 #include "ScrollCredits.h"
+#include "SkipScene.h"
 
 using namespace Kross;
 
@@ -34,6 +35,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW ExitButton());
 	ScriptRegistry::Attach(KROSS_NEW CreditsButton());
 	ScriptRegistry::Attach(KROSS_NEW bgAudioManager());
+	ScriptRegistry::Attach(KROSS_NEW SkipScene());
 	ScriptRegistry::Attach(KROSS_NEW ScrollCredits());
 
 }

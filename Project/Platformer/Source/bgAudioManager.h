@@ -10,6 +10,7 @@ using namespace Kross;
 
 static bool leaveLevel = false;
 static bool mainMenuMusicPlaying = false;
+static bool tutorialPlayed = false;
 
 class bgAudioManager : public Script
 {

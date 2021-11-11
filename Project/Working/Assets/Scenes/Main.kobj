@@ -6,7 +6,7 @@ STATIC->0->
 ENABLE->1->
 LAYER->0->
 TRANSFORM2D->7.400000->-2.400000->0.000000->1.000000->1.000000->
-CAMERA->5->-1->1->
+CAMERA->4.5->-1->1->
 SCRIPT->BackgroundManager->
 SCRIPT->CameraLock->
 END->
@@ -117,7 +117,7 @@ TRANSFORM2D->122.500000->-2.600000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -131,7 +131,7 @@ TRANSFORM2D->17.799999->-3.700000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -145,7 +145,7 @@ TRANSFORM2D->16.700001->-3.600000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -159,7 +159,7 @@ TRANSFORM2D->34.500000->-2.200000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -173,7 +173,7 @@ TRANSFORM2D->41.799999->-3.600000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -187,7 +187,7 @@ TRANSFORM2D->23.000000->-0.900000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -201,7 +201,7 @@ TRANSFORM2D->42.700001->-2.000000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -215,7 +215,7 @@ TRANSFORM2D->45.200001->-2.600000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -229,7 +229,7 @@ TRANSFORM2D->57.200001->-0.700000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -243,7 +243,7 @@ TRANSFORM2D->57.799999->-0.600000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -257,7 +257,7 @@ TRANSFORM2D->52.400002->-1.700000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -271,7 +271,7 @@ TRANSFORM2D->110.699997->-1.100000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -285,7 +285,7 @@ TRANSFORM2D->111.500000->-2.200000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -299,7 +299,7 @@ TRANSFORM2D->118.500000->-2.500000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -313,7 +313,7 @@ TRANSFORM2D->119.599998->-2.700000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -327,7 +327,7 @@ TRANSFORM2D->120.500000->-2.600000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -341,7 +341,7 @@ TRANSFORM2D->121.699997->-2.700000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -355,7 +355,7 @@ TRANSFORM2D->124.300003->-3.100000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -369,7 +369,7 @@ TRANSFORM2D->124.800003->-3.100000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -383,7 +383,7 @@ TRANSFORM2D->126.199997->-2.700000->0.000000->1.000000->1.000000->
 SPRITE-RENDERER->Donut->1->1->1->1->0->0->0->
 AUDIO-PLAYER->Hurt_Donut->0->1->0.2->0->
 SCRIPT->DonutMovement->
-ANIMATOR->DonutIdle->DonutWalk->
+ANIMATOR->DonutIdle->DonutWalk->DonutDeath->DonutDeath->DonutDeath->
 RIGIDBODY2D->0->0.4->0.4->0.2->0.5->0.24->0->0->1->5->62783->
 SCRIPT->Health->
 END->
@@ -797,5 +797,23 @@ ENABLE->1->
 LAYER->16->
 TRANSFORM2D->108.500000->-4.510000->0.000000->1.000000->1.000000->
 RIGIDBODY2D->0->1->1->0.5->0.5->1->1->0->0->2049->63491->
+END->
+
+START->
+NAME->Bar-Top->
+STATIC->0->
+ENABLE->1->
+LAYER->16->
+TRANSFORM2D->0.000000->0.000000->0.000000->1.000000->1.000000->
+SPRITE-RENDERER->Default->0->0->0->0->0->0->8->
+END->
+
+START->
+NAME->Bar-Bottom->
+STATIC->0->
+ENABLE->1->
+LAYER->16->
+TRANSFORM2D->0.000000->-3.400000->0.000000->1.000000->1.000000->
+SPRITE-RENDERER->Default->0->0->0->0->0->0->15->
 END->
 

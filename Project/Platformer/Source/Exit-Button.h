@@ -45,7 +45,7 @@ public:
 		if (mousePoint.x <= m_GameObject->m_Transform->m_Position.x + m_MaxX && mousePoint.x >= m_GameObject->m_Transform->m_Position.x + m_MinX &&
 			mousePoint.y >= m_GameObject->m_Transform->m_Position.y + m_MaxY && mousePoint.y <= m_GameObject->m_Transform->m_Position.y + m_MinY)
 		{
-			if (Input::GetMouseButtonReleased(Mouse::Left))
+			if (Input::GetMouseButtonPressed(Mouse::Left))
 			{
 				Application::GetWindow()->CloseWindow();
 			}

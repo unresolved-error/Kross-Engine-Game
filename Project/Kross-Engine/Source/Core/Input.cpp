@@ -110,8 +110,11 @@ namespace Kross
 		/* Obtain the GLFW Window. */
 		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
+		int result = glfwGetKey(window, (int)key);
+		m_Instance->m_KeyStateCache[key] = result;
+
 		/* Get whether or not the Key is down. */
-		return (bool)glfwGetKey(window, (int)key);
+		return (bool)result;
 	}
 
 	bool Input::GetKeyPressed(Key key)
@@ -167,7 +170,10 @@ namespace Kross
 		/* Obtain the GLFW Window. */
 		GLFWwindow* window = m_Instance->m_Window->GetGLFWWindow();
 
-		return (bool)glfwGetMouseButton(window, (int)mouse); /* Get if the Mouse is down. */
+		int result = glfwGetMouseButton(window, (int)mouse);
+		m_Instance->m_MouseStateCache[mouse] = result;
+
+		return (bool)result; /* Get if the Mouse is down. */
 	}
 
 	bool Input::GetMouseButtonPressed(Mouse mouse)

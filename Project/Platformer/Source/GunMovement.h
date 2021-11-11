@@ -349,10 +349,13 @@ public:
 									em->audioPlayer->Play();
 									em->hit = true;
 								}
-								SceneManager::GetScene()->DetachObject(bullets[i]);
+								
+								if (em && !em->dead)
+								{
+									SceneManager::GetScene()->DetachObject(bullets[i]);
 
-								bullets[i] = nullptr;
-								bullets.erase(bullets.begin() + i);
+									bullets[i] = nullptr;
+									bullets.erase(bullets.begin() + i);
 
 								bulletHits[i] = true;
 								bulletHits.erase(bulletHits.begin() + i);

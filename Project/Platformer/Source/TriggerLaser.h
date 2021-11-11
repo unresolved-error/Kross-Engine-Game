@@ -12,6 +12,7 @@ public:
 	Object* m_ObjectToTrigger = nullptr;
 	Object* m_ObjectThatTriggers = nullptr;
 	RaycastData* m_RaycastData = nullptr;
+	Sprite* m_Accepted = nullptr;
 
 
 	TriggerLaser() :
@@ -32,6 +33,8 @@ public:
 	void Start() override
 	{
 		renderer = GetComponent<SpriteRenderer>();
+
+		m_Accepted = ResourceManager::GetResource<Sprite>("Laser2-0");
 
 		if (m_GameObject->GetName() == "Puzzle1Trigger1")
 		{
@@ -70,11 +73,14 @@ public:
 
 	void Update() override
 	{
+		SpriteRenderer* renderer = GetComponent<SpriteRenderer>();
+
 		if (m_GameObject->GetName() == "Puzzle1Trigger1")
 		{
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 13.5f && m_ObjectThatTriggers->m_Transform->m_Position.y < -3.0f)
 			{
 				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
+				renderer->GetMaterial()->SetDiffuse(m_Accepted);
 			}
 		}
 
@@ -83,6 +89,7 @@ public:
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 22.6 && m_ObjectThatTriggers->m_Transform->m_Position.y < -2.1f)
 			{
 				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
+				renderer->GetMaterial()->SetDiffuse(m_Accepted);
 			}
 		}
 
@@ -90,6 +97,7 @@ public:
 		{
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 29.9)
 			{
+				renderer->GetMaterial()->SetDiffuse(m_Accepted);
 				SceneManager::SetScene("Assets/Scenes/Main.kscn");
 			}
 		}
@@ -99,6 +107,7 @@ public:
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 26.4f && m_ObjectThatTriggers->m_Transform->m_Position.y > 0.0f)
 			{
 				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
+				renderer->GetMaterial()->SetDiffuse(m_Accepted);
 			}
 		}
 
@@ -108,6 +117,7 @@ public:
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 105.50 && m_ObjectThatTriggers->m_Transform->m_Position.y > -2.0f && m_ObjectThatTriggers->m_Transform->m_Position.y < -0.5f)
 			{
 				m_ObjectToTrigger->GetComponent<Cog>()->TriggerMotor();
+				renderer->GetMaterial()->SetDiffuse(m_Accepted);
 			}
 		}
 
