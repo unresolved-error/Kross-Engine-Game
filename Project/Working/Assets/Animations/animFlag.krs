@@ -1,0 +1,7 @@
+ANIMATION:
+NAME->Flag->
+DURATION->0.5->
+KEYFRAME->*->*->*->*->*->Flag0-0->
+KEYFRAME->*->*->*->*->*->Flag1-0->
+KEYFRAME->*->*->*->*->*->Flag2-0->
+KEYFRAME->*->*->*->*->*->Flag3-0->

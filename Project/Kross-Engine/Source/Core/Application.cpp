@@ -77,6 +77,15 @@ namespace Kross
 
 		/* Reads the Manifest File. */
 		Manifest::Load("manifest.krs");
+
+		#ifndef KROSS_EDITOR
+		/* Set The Icon for GLFW Window. */
+		Texture* icon = ResourceManager::GetResource<Texture>("Icon");
+		if (icon)
+		{
+			m_Instance->m_Window->SetIcon(icon);
+		}
+		#endif
 	}
 
 	void Application::OnUpdate()

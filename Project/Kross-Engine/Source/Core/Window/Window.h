@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 
 #include "WindowProperties.h"
+#include "../Renderer/Image/Texture.h"
 
 namespace Kross
 {
@@ -48,6 +49,9 @@ namespace Kross
 
 		// Start of the Window.
 		void OnStart(float r = 0.5f, float g = 0.5f, float b = 0.5f, float a = 0.5f);
+
+		// Sets the Window Icon.
+		void SetIcon(Texture* texture);
 
 		// Polling Window Events.
 		void OnPollEvents();

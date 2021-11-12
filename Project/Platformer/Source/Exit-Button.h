@@ -34,6 +34,7 @@ public:
 
 	void Update() override
 	{
+		SpriteRenderer* renderer = GetComponent<SpriteRenderer>();
 		Vector2 mousePos = Input::GetMousePosition();
 		Window* window = Application::GetWindow();
 		float aspectRatio = window->GetApsectRatio();
@@ -45,10 +46,17 @@ public:
 		if (mousePoint.x <= m_GameObject->m_Transform->m_Position.x + m_MaxX && mousePoint.x >= m_GameObject->m_Transform->m_Position.x + m_MinX &&
 			mousePoint.y >= m_GameObject->m_Transform->m_Position.y + m_MaxY && mousePoint.y <= m_GameObject->m_Transform->m_Position.y + m_MinY)
 		{
+			renderer->SetColour(Colour(0.5f, 0.5f, 0.5f, 1.0f));
+
 			if (Input::GetMouseButtonPressed(Mouse::Left))
 			{
 				Application::GetWindow()->CloseWindow();
 			}
+		}
+
+		else
+		{
+			renderer->SetColour(Colour(1.0f));
 		}
 	}
 };

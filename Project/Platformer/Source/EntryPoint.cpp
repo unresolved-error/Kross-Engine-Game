@@ -12,6 +12,7 @@
 #include "Start-Button.h"
 #include "Exit-Button.h"
 #include "Credits-Button.h"
+#include "Tutorial-Button.h"
 #include "bgAudioManager.h"
 #include "ScrollCredits.h"
 #include "SkipScene.h"
@@ -34,6 +35,7 @@ void AttachScripts()
 	ScriptRegistry::Attach(KROSS_NEW StartButton());
 	ScriptRegistry::Attach(KROSS_NEW ExitButton());
 	ScriptRegistry::Attach(KROSS_NEW CreditsButton());
+	ScriptRegistry::Attach(KROSS_NEW TutorialButton());
 	ScriptRegistry::Attach(KROSS_NEW bgAudioManager());
 	ScriptRegistry::Attach(KROSS_NEW SkipScene());
 	ScriptRegistry::Attach(KROSS_NEW ScrollCredits());

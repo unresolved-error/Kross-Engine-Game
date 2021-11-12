@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)KROSS_PLATFORM_WINDOWS; KROSS_DEBUG; WITH_WINMM;; _CRT_SECURE_NO_WARNINGS; KROSS_RELEASE;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Kross-Engine\Vendor\glew\include\;$(SolutionDir)Kross-Engine\Vendor\glfw\include\;$(SolutionDir)Kross-Engine\Vendor\glm\include\;$(SolutionDir)Kross-Engine\Vendor\stb_image\include\;$(SolutionDir)Kross-Engine\Vendor\fnl\include\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\;%(AdditionalIncludeDirectories);$(SolutionDir)Kross-Engine\Vendor\soloud\include\;$(SolutionDir)Kross-Engine\Vendor\imgui\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Kross-Engine\Source\Include\;$(SolutionDir)Kross-Engine\Vendor\glew\include\;$(SolutionDir)Kross-Engine\Vendor\glfw\include\;$(SolutionDir)Kross-Engine\Vendor\glm\include\;$(SolutionDir)Kross-Engine\Vendor\stb_image\include\;$(SolutionDir)Kross-Engine\Vendor\fnl\include\;$(SolutionDir)Kross-Engine\Vendor\liquidfun\Box2D\;$(SolutionDir)Kross-Engine\Vendor\soloud\include\;$(SolutionDir)Kross-Engine\Vendor\imgui\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4251; 4275</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -205,6 +205,7 @@
     <ClInclude Include="Source\SkipScene.h" />
     <ClInclude Include="Source\Start-Button.h" />
     <ClInclude Include="Source\TriggerLaser.h" />
+    <ClInclude Include="Source\Tutorial-Button.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kross-Engine\Kross-Engine.vcxproj">

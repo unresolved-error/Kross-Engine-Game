@@ -35,8 +35,13 @@ TEXTURE->Assets/Textures/UI.krs->
 TEXTURE->Assets/Textures/Logo.krs->
 TEXTURE->Assets/Textures/Start-Button.krs->
 TEXTURE->Assets/Textures/Exit-Button.krs->
+TEXTURE->Assets/Textures/Tutorial-Button.krs->
 TEXTURE->Assets/Textures/Credits-Button.krs->
 TEXTURE->Assets/Textures/Developers.krs->
+TEXTURE->Assets/Textures/Flag.krs->
+
+// Game Window Icon
+TEXTURE->Assets/Textures/Icon.krs->
 
 // Editor
 TEXTURE->Assets/Textures/icoAnimation.krs->
@@ -76,8 +81,10 @@ SPRITE->Assets/Sprites/sprElevator.krs->
 SPRITE->Assets/Sprites/sprLogo.krs->
 SPRITE->Assets/Sprites/sprStart-Button.krs->
 SPRITE->Assets/Sprites/sprExit-Button.krs->
+SPRITE->Assets/Sprites/sprTutorial-Button.krs->
 SPRITE->Assets/Sprites/sprCredits-Button.krs->
 SPRITE->Assets/Sprites/sprSheetDevelopers.krs->
+SPRITE->Assets/Sprites/sprSheetFlags.krs->
 
 // Editor
 SPRITE->Assets/Sprites/toolTranslate.krs->
@@ -90,6 +97,7 @@ ANIMATION->Assets/Animations/animMarshallJumpDown.krs->
 ANIMATION->Assets/Animations/animDonutIdle.krs->
 ANIMATION->Assets/Animations/animDonutWalk.krs->
 ANIMATION->Assets/Animations/animDonutDeath.krs->
+ANIMATION->Assets/Animations/animFlag.krs->
 
 // Load the Font.
 FONT->Assets/Fonts/fntKrossFont.krs->
@@ -116,6 +124,8 @@ MATERIAL->Assets/Materials/matLogo.krs->
 MATERIAL->Assets/Materials/matStart-Button.krs->
 MATERIAL->Assets/Materials/matExit-Button.krs->
 MATERIAL->Assets/Materials/matCredits-Button.krs->
+MATERIAL->Assets/Materials/matTutorial-Button.krs->
+MATERIAL->Assets/Materials/matFlag.krs->
 
 MATERIAL->Assets/Materials/matDeveloper.krs->
 MATERIAL->Assets/Materials/matDeveloper1.krs->
@@ -146,4 +156,4 @@ ATLAS->Assets/Atlas/Atlas.krs->
 PREFAB->Assets/Prefabs/Player.krs->
 
 // Lastly Scenes.
-SCENE->Assets/Scenes/Main.kscn->
+SCENE->Assets/Scenes/Menu.kscn->

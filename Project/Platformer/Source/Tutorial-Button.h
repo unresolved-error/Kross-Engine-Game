@@ -6,21 +6,21 @@
 
 using namespace Kross;
 
-class StartButton : public Script
+class TutorialButton : public Script
 {
 public:
-	StartButton()
+	TutorialButton()
 	{
 		/* Every Script Must do this! */
-		m_Name = "StartButton";
+		m_Name = "TutorialButton";
 	};
-	~StartButton() {};
+	~TutorialButton() {};
 
 	float m_MinX, m_MinY, m_MaxX, m_MaxY;
 
 	Script* Duplicate() override
 	{
-		return KROSS_NEW StartButton();
+		return KROSS_NEW TutorialButton();
 	}
 
 	void Start() override
@@ -45,16 +45,15 @@ public:
 
 		Vector2 mousePoint = (Vector2(((mousePos.x / window->GetWidth()) * 1.0f - 0.5f) * aspectRatio, -(((mousePos.y / window->GetHeight()) * 1.0f) - 0.5f)) * camera->GetSize()) + camera->m_GameObject->m_Transform->m_Position;
 
-		if (mousePoint.x <= m_GameObject->m_Transform->m_Position.x + m_MaxX && mousePoint.x >= m_GameObject->m_Transform->m_Position.x + m_MinX && 
+		if (mousePoint.x <= m_GameObject->m_Transform->m_Position.x + m_MaxX && mousePoint.x >= m_GameObject->m_Transform->m_Position.x + m_MinX &&
 			mousePoint.y >= m_GameObject->m_Transform->m_Position.y + m_MaxY && mousePoint.y <= m_GameObject->m_Transform->m_Position.y + m_MinY)
 		{
 			renderer->SetColour(Colour(0.5f, 0.5f, 0.5f, 1.0f));
-
 			if (Input::GetMouseButtonPressed(Mouse::Left))
 			{
 				leaveLevel = true;
 				mainMenuMusicPlaying = false;
-				SceneManager::SetScene("Assets/Scenes/Main.kscn");
+				SceneManager::SetScene("Assets/Scenes/Tute.kscn");
 			}
 		}
 

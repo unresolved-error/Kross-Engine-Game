@@ -40,13 +40,10 @@ public:
 
 	Sprite* m_HitSprite = nullptr;
 
-	std::vector<AudioPlayer*> audioPlayers;
+	std::vector<AudioPlayer*> m_AudioPlayers;
 
 
 	int m_ControllerID = 0;
-	int m_FrameCount = 0;
-
-	float m_TimeElapsed = 0.0f;
 
 	float m_VelocityThreshold = 0.05f;
 
@@ -59,11 +56,17 @@ public:
 	float m_GracePeriodTimeElapsed = 0.0f;
 
 	float m_EndGameTimer = 0.0f;
-	float m_EndGameTimerMax = 1.5f;
+	float m_EndGameTimerMax = 5.0f;
+
+	float m_EndGameTransitionTimer = 0.0f;
+	float m_EndGameTransitionTimerMax = 1.5f;
 
 	bool m_ShakeCamera = false;
 	bool m_IsHurt = false;
 	bool m_VisualHurt = false;
+
+	bool m_MoveCinematicBars = false;
+	bool m_EndTriggered = false;
 
 	Script* Duplicate() override
 	{
@@ -98,7 +101,7 @@ public:
 		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI1-1"));
 		m_HealthSprites.push_back(ResourceManager::GetResource<Sprite>("UI2-0"));
 
-		audioPlayers = GetComponents<AudioPlayer>();
+		m_AudioPlayers = GetComponents<AudioPlayer>();
 
 		/* End Scene Stuff. */
 		m_TopBar = SceneManager::GetScene()->FindObject("Bar-Top");
@@ -135,10 +138,8 @@ public:
 			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::W)));
 		}
 		
-		
-
 		/* If the Object isn't at the End of a Level. */
-		if (m_GameObject->m_Transform->m_Position.x < 155.0f)
+		if (!m_EndTriggered)
 		{
 			/* Move the Player. */
 			VisualUpdate(input);
@@ -147,7 +148,7 @@ public:
 
 			if(rbState != RigidbodyState::Jumping && rbState != RigidbodyState::Falling && rbState != RigidbodyState::Underwater && jumpDir != Vector2(0.0f))
 			{
-				audioPlayers[0]->Play();
+				m_AudioPlayers[0]->Play();
 			}
 			m_Controller->Jump(jumpDir);
 			
@@ -155,6 +156,119 @@ public:
 
 		/* Lerp the Camera's Position to the Players. */
 		m_Camera->m_Transform->m_Position = Math::Lerp(m_Camera->m_Transform->m_Position, m_GameObject->m_Transform->m_Position, Time::GetDeltaTime() * 4.0f);
+
+		/* --- GUN RELATED THINGS --- */
+
+		/* If the Gun Obejct Exists. */
+		if (m_Gun)
+		{
+			/* Grab the True Offset. */
+			Vector2 trueOffset;
+
+			if (m_SpriteRenderer->GetFlipX())
+			{
+				trueOffset = Vector2(-1.0f, 1.0f);
+			}
+			else
+			{
+				trueOffset = Vector2(1.0f, 1.0f);
+			}
+
+			/* Set the Guns Position based on the true offset. */
+			m_Gun->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + (m_GunOffset * trueOffset);
+		}
+
+		/* -------------------------- */
+
+		/* ----- END GAME STUFF ----- */
+
+		if (!m_EndTriggered)
+		{
+			if (m_GameObject->m_Transform->m_Position.x > 154.0f && m_Health->GetHealth() > 0.0f)
+			{
+				m_TextRenderer->SetText("Level Cleared!");
+				m_MoveCinematicBars = true;
+				m_EndTriggered = true;
+			}
+
+			else if(m_Health->GetHealth() <= 0.0f)
+			{
+				m_TextRenderer->SetText("Game Over!");
+				m_MoveCinematicBars = true;
+				m_EndTriggered = true;
+			}
+
+			else if (SceneManager::GetScene()->GetName() == "Tute" && m_GameObject->m_Transform->m_Position.x > 29.9f)
+			{
+				m_TextRenderer->SetText("Tutorial Completed!");
+				m_MoveCinematicBars = true;
+				m_EndTriggered = true;
+			}
+
+			if (SceneManager::GetScene()->GetName() != "Tute")
+			{
+				/* Clamp the Camera Position. */
+				m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
+				m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -1.75f, 1.55f);
+			}
+			else
+			{
+				/* Clamp the Camera Position. */
+				m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 26.5f);
+				m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -1.75f, 1.55f);
+			}
+		}
+
+		else
+		{
+			/* End Game Timer. */
+			float t = m_EndGameTransitionTimer / m_EndGameTransitionTimerMax;
+			if (m_EndGameTimer < m_EndGameTimerMax) m_EndGameTimer += Time::GetDeltaTime();
+			if (m_EndGameTransitionTimer < m_EndGameTransitionTimerMax) m_EndGameTransitionTimer += Time::GetDeltaTime();
+
+			/* Move The Bars to the Camera's Position to move. */
+			if (m_MoveCinematicBars)
+			{
+				m_TopBar->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.0f, 5.0f);
+				m_BottomBar->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.0f, -5.0f);
+				m_MoveCinematicBars = false;
+			}
+
+			/* Zoom Camera. */
+			Camera* camera = m_Camera->GetComponent<Camera>();
+			camera->SetSize(Math::Lerp(camera->GetSize(), 3.0f, t));
+
+			/* Change the Bar Colour. */
+			Colour barColour = Math::Lerp(Vector4(0.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f), t);
+			m_TopBar->m_Transform->m_Position = Math::Lerp(m_TopBar->m_Transform->m_Position, m_Camera->m_Transform->m_Position + Vector2(0.0f, 1.25f), t);
+			m_BottomBar->m_Transform->m_Position = Math::Lerp(m_BottomBar->m_Transform->m_Position, m_Camera->m_Transform->m_Position + Vector2(0.0f, -1.25f), t);
+
+			m_BottomBar->GetComponent<SpriteRenderer>()->SetColour(barColour);
+			m_TopBar->GetComponent<SpriteRenderer>()->SetColour(barColour);
+
+			/* Move Text. */
+			m_TextRenderer->m_GameObject->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.1f, 0.5f);
+
+			/* Set Text Colour. */
+			Colour textColour = Math::Lerp(m_TextRenderer->GetColour(), Vector4(1.0f), t);
+			m_TextRenderer->SetColour(textColour);
+
+			/* End Level Transition. */
+			if (m_EndGameTimer >= m_EndGameTimerMax)
+			{
+				if (SceneManager::GetScene()->GetName() != "Tute")
+				{
+					leaveLevel = true;
+					SceneManager::SetScene("Assets/Scenes/Menu.kscn");
+				}
+				else
+				{
+					SceneManager::SetScene("Assets/Scenes/Main.kscn");
+				}
+			}
+		}
+
+		/* --------------------------- */
 
 		/* Camera Shake. */
 		if (m_CameraShakeMagnitude > 0.0f)
@@ -182,93 +296,6 @@ public:
 			}
 		}
 
-
-		/* --- FRAME COUNTER STUFF --- */
-
-		/* If the Elapsed Time hasn't hit a second yet. */
-		if (m_TimeElapsed < 1.0f)
-		{
-			/* Keep tickign up, add one to the Frame Counter. */
-			m_TimeElapsed += Time::GetDeltaTime();
-			m_FrameCount++;
-		}
-		/* If it happens to be a second or a little more. */
-		else
-		{
-			/* Reset Everything. */
-			m_TimeElapsed = 0.0f;
-
-			/*
-				Normally text would be changed here...
-				Display the previous Frame Count before resetting...
-			*/
-
-			m_FrameCount = 0;
-		}
-
-		/* --------------------------- */
-
-		/* --- GUN RELATED THINGS --- */
-
-		/* If the Gun Obejct Exists. */
-		if (m_Gun)
-		{
-			/* Grab the True Offset. */
-			Vector2 trueOffset;
-
-			if (m_SpriteRenderer->GetFlipX())
-			{
-				trueOffset = Vector2(-1.0f, 1.0f);
-			}
-			else
-			{
-				trueOffset = Vector2(1.0f, 1.0f);
-			}
-
-			/* Set the Guns Position based on the true offset. */
-			m_Gun->m_Transform->m_Position = m_GameObject->m_Transform->m_Position + (m_GunOffset * trueOffset);
-		}
-
-		/* -------------------------- */
-
-		/* ----- END GAME STUFF ----- */
-
-		if (m_TopBar && m_BottomBar && m_TextRenderer)
-		{
-			if (m_GameObject->m_Transform->m_Position.x > 154.0f)
-			{
-				/* Something to move. */
-				if(m_TopBar->m_Transform->m_Position.x < 10.0f) m_TopBar->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.0f, 5.0f);
-				if(m_BottomBar->m_Transform->m_Position.x < 10.0f) m_BottomBar->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.0f, -5.0f);
-
-				float t = m_EndGameTimer / m_EndGameTimerMax;
-
-				if (m_EndGameTimer < m_EndGameTimerMax) m_EndGameTimer += Time::GetDeltaTime();
-
-				Camera* camera = m_Camera->GetComponent<Camera>();
-				camera->SetSize(Math::Lerp(camera->GetSize(), 3.0f, t));
-
-				Colour barColour = Math::Lerp(Vector4(0.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f), t);
-				m_TopBar->m_Transform->m_Position = Math::Lerp(m_TopBar->m_Transform->m_Position, m_Camera->m_Transform->m_Position + Vector2(0.0f, 1.25f), t);
-				m_BottomBar->m_Transform->m_Position = Math::Lerp(m_BottomBar->m_Transform->m_Position, m_Camera->m_Transform->m_Position + Vector2(0.0f, -1.25f), t);
-
-				m_BottomBar->GetComponent<SpriteRenderer>()->SetColour(barColour);
-				m_TopBar->GetComponent<SpriteRenderer>()->SetColour(barColour);
-
-				m_TextRenderer->m_GameObject->m_Transform->m_Position = m_Camera->m_Transform->m_Position + Vector2(0.1f, 0.5f);
-				if (m_TextRenderer->GetText() != "Level Cleared") m_TextRenderer->SetText("Level Cleared!");
-			}
-			else
-			{
-				/* Clamp the Camera Position. */
-				m_Camera->m_Transform->m_Position.x = glm::clamp(m_Camera->m_Transform->m_Position.x, -1.25f, 215.75f);
-				m_Camera->m_Transform->m_Position.y = glm::clamp(m_Camera->m_Transform->m_Position.y, -1.75f, 1.55f);
-
-			}
-		}
-
-		/* --------------------------- */
-
 		/* --------- HEALTH ---------- */
 
 		if (m_Health)
@@ -294,12 +321,6 @@ public:
 			if (health >= 2.0f)			m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[0]);
 			else if (health >= 1.0f)	m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[1]);
 			else if (health <= 0.0f)	m_HealthRenderers[0]->GetMaterial()->SetDiffuse(m_HealthSprites[2]);
-
-			if (health <= 0.0f)
-			{
-				leaveLevel = true;
-				SceneManager::SetScene("Assets/Scenes/Menu.kscn");
-			}
 		}
 
 		/* --------------------------- */
@@ -312,24 +333,24 @@ public:
 				{
 					Object* obj = (Object*)contact->other->GetUserData();
 
-					if (obj != m_GameObject)
+					if (obj == m_GameObject) continue;
+					
+
+					if (obj->GetName().find("Enemy") != std::string::npos)
 					{
-						if (obj->GetName().find("Enemy") != std::string::npos)
+						if (DonutMovement* dm = obj->GetComponent<DonutMovement>())
 						{
-							if (DonutMovement* dm = obj->GetComponent<DonutMovement>())
+							if (!dm->dead && Physics::GetCollisionNormal(contact->contact) != Vector2(0.0f, 1.0f))
 							{
-								if (!dm->dead)
-								{
-									m_Health->TakeDamage(1.0f);
+								m_Health->TakeDamage(1.0f);
 
-									Vector2 knockbackDirection = glm::normalize(m_GameObject->m_Transform->m_Position - obj->m_Transform->m_Position);
-									m_RigidBody->OnApplyImpulse(knockbackDirection * 0.35f);
+								Vector2 knockbackDirection = glm::normalize(m_GameObject->m_Transform->m_Position - obj->m_Transform->m_Position);
+								m_RigidBody->OnApplyImpulse(knockbackDirection * 0.35f);
 
-									audioPlayers[2]->Play();
-									m_IsHurt = true;
-									m_VisualHurt = true;
-									break;
-								}
+								m_AudioPlayers[2]->Play();
+								m_IsHurt = true;
+								m_VisualHurt = true;
+								break;
 							}
 						}
 					}
@@ -339,7 +360,6 @@ public:
 		else
 		{
 			if (m_GracePeriodTimeElapsed >= m_GracePeriodTime * 0.25f) m_VisualHurt = false;
-
 			if (m_GracePeriodTimeElapsed < m_GracePeriodTime) m_GracePeriodTimeElapsed += Time::GetDeltaTime();
 
 			else

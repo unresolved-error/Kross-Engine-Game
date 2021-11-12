@@ -48,7 +48,7 @@ public:
 			m_ObjectToTrigger = SceneManager::GetScene()->FindObject("Puzzle1Cog1");
 		}
 
-		if (m_GameObject->GetName() == "EndLaser")
+		if (m_GameObject->GetName() == "EndFlag")
 		{
 			m_ObjectThatTriggers = SceneManager::GetScene()->FindObject("Player");
 			m_ObjectToTrigger = nullptr;
@@ -93,12 +93,10 @@ public:
 			}
 		}
 
-		if (m_GameObject->GetName() == "EndLaser")
+		if (m_GameObject->GetName() == "EndFlag")
 		{
 			if (m_ObjectThatTriggers->m_Transform->m_Position.x > 29.9)
 			{
-				renderer->GetMaterial()->SetDiffuse(m_Accepted);
-				SceneManager::SetScene("Assets/Scenes/Main.kscn");
 			}
 		}
 

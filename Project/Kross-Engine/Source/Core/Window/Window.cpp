@@ -38,6 +38,16 @@ namespace Kross
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
+	void Window::SetIcon(Texture* texture)
+	{
+		GLFWimage* icon = KROSS_NEW GLFWimage();
+		icon->width = texture->GetWidth();
+		icon->height = texture->GetHeight();
+		icon->pixels = texture->GetPixelData();
+
+		glfwSetWindowIcon(m_GLFWWindow, 1, icon);
+	}
+
 	void Window::OnInitialise()
 	{
 		/* Assume everything will be okay. */

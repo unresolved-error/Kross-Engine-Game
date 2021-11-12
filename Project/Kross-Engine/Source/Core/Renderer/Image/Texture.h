@@ -55,6 +55,7 @@ namespace Kross
 		friend class FrameBuffer;
 		friend class Atlas;
 		friend class FileSystem;
+		friend class Window;
 
 		/* Creates a Blank Texture. (ATLAS) */
 		static Texture* OnCreateAtlas();
