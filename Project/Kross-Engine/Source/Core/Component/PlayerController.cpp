@@ -14,9 +14,6 @@
 
 namespace Kross
 {
-
-
-
 	PlayerController::~PlayerController()
 	{
 		m_Rigidbody = nullptr;
@@ -117,21 +114,17 @@ namespace Kross
 			m_Rigidbody->GetRigidbodyState() == RigidbodyState::Walking || m_Rigidbody->GetRigidbodyState() == RigidbodyState::Running)
 		{
 			/* Applys force while the player is on the ground. */
-			if (moveDirection != Vector2(0.0f) &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed &&
-				m_Rigidbody->GetBody()->GetLinearVelocity().y > -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y < m_MaxGroundSpeed)
+			if (moveDirection.x != 0.0f && m_Rigidbody->GetBody()->GetLinearVelocity().x > -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x < m_MaxGroundSpeed)
 			{
 				ActivateMotor(moveDirection, m_WheelSpeed);
 			}
-			else if (moveDirection != Vector2(0.0f) &&
-					 m_Rigidbody->GetBody()->GetLinearVelocity().x < -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x > m_MaxGroundSpeed &&
-					 m_Rigidbody->GetBody()->GetLinearVelocity().y < -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().y > m_MaxGroundSpeed)
+			else if (moveDirection.x != 0.0f && m_Rigidbody->GetBody()->GetLinearVelocity().x < -m_MaxGroundSpeed && m_Rigidbody->GetBody()->GetLinearVelocity().x > m_MaxGroundSpeed)
 			{
-				if (m_Rigidbody->GetBody()->GetLinearVelocity().x < -m_MaxGroundSpeed && moveDirection.x < 0.0f)
+				if (m_Rigidbody->GetBody()->GetLinearVelocity().x < -m_MaxGroundSpeed && moveDirection.x > 0.0f)
 				{
 					ActivateMotor(moveDirection, m_WheelSpeed);
 				}
-				else if (m_Rigidbody->GetBody()->GetLinearVelocity().x > m_MaxGroundSpeed&& moveDirection.x > 0.0f)
+				else if (m_Rigidbody->GetBody()->GetLinearVelocity().x > m_MaxGroundSpeed&& moveDirection.x < 0.0f)
 				{
 					ActivateMotor(moveDirection, m_WheelSpeed);
 				}

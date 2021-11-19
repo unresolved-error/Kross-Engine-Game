@@ -157,7 +157,7 @@ namespace Kross
 
         /* Top circle */
         b2CircleShape topCircleShape;
-        topCircleShape.m_radius = dimensions.x * 0.5f;
+        topCircleShape.m_radius = (dimensions.x * 0.5f) + 0.005f;
         topCircleShape.m_p.Set(0.0f, (dimensions.y - dimensions.x) * 0.5f);
 
         b2FixtureDef topFixtureDef;
@@ -185,7 +185,7 @@ namespace Kross
         bottomCircle->SetUserData(m_GameObject);
 
         b2CircleShape circleShape;
-        circleShape.m_radius = (dimensions.x * 0.5f) + 0.001f;
+        circleShape.m_radius = (dimensions.x * 0.5f);
 
         b2FixtureDef bottomFixtureDef;
         bottomFixtureDef.shape = &circleShape;
@@ -212,7 +212,7 @@ namespace Kross
         revJoint.collideConnected = false;
 
         CreateRevJoint(revJoint);
-        p_RevJoint->SetMaxMotorTorque(0.075f);
+        p_RevJoint->SetMaxMotorTorque(0.1f);
         p_RevJoint->EnableMotor(true);
         p_RevJoint->EnableLimit(false);
 

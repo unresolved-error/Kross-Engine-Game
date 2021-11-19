@@ -58,7 +58,7 @@ namespace Kross
 			m_WheelSpeed		(25.0f),
 			m_MaxGroundSpeed	(2.5f),
 
-			m_AirSpeed			(0.2f),
+			m_AirSpeed			(0.4f),
 			m_MaxAirSpeed		(1.25f),
 
 			m_SwimSpeed			(0.75f),

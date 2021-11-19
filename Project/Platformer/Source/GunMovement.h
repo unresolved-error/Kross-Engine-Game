@@ -335,29 +335,10 @@ public:
 									Health* health = obj->GetComponent<Health>();
 									DonutMovement* em = obj->GetComponent<DonutMovement>();
 
-									if (health && em->hitTimer == em->hitTimerMax)
-									{
-										// Debug::LogLine(health->GetHealth());
-										health->TakeDamage(damage);
+									bulletHits[i] = true;
+									bulletHits.erase(bulletHits.begin() + i);
 
-										/* For Testing Effects For now. */
-
-										em->audioPlayer->Play();
-										em->hit = true;
-									}
-
-									if (em && !em->dead)
-									{
-										SceneManager::GetScene()->DetachObject(bullets[i]);
-
-										bullets[i] = nullptr;
-										bullets.erase(bullets.begin() + i);
-
-										bulletHits[i] = true;
-										bulletHits.erase(bulletHits.begin() + i);
-
-										break;
-									}
+									break;
 								}
 							}
 						}
