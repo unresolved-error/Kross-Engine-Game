@@ -167,7 +167,7 @@ public:
 
 			Vector2 toMouseNormd = glm::normalize(toMouse);
 			Vector2 toCrosshair = toMouseNormd * 1.5f;
-			Vector2 toEndOfGun = toMouseNormd * 0.2f;
+			Vector2 toEndOfGun = toMouseNormd * 0.15f;
 
 			if (m_Fired)
 			{
