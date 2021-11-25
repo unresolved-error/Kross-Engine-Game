@@ -9,7 +9,6 @@
 #include "LineRenderer.h"
 #include <iostream>
 
-//#include "../Physics/Physics.h"
 
 namespace Kross
 {
@@ -143,29 +142,30 @@ namespace Kross
 
 			this->SetColour((body->GetType() == b2BodyType::b2_staticBody) ? glm::vec3(1.0f, 0.0f, 0.0f) : glm::vec3(0.0f, 1.0f, 0.0f));
 
-			if (body->GetFixtureList()->GetNext() == nullptr)
-			{
-				if (theShapeType == b2Shape::Type::e_circle)
-				{
-					b2CircleShape* theCircle = (b2CircleShape*)theShape;
-			
-						this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f,
-							(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) + (dimensions.y - dimensions.x) }, theCircle->m_radius);
-					
-			
-					if (body->GetType() != b2BodyType::b2_staticBody)
-					{
-						glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y + theCircle->m_p.y };
-						b2Vec2 offset = { theCircle->m_radius, 0 };
-						offset = b2Mul(bodyTransform, offset);
-						DrawLineSegment(centre, { centre.x + theCircle->m_radius, centre.y });
-					}
-				}
-			}
+			//if (body->GetFixtureList()->GetNext() == nullptr)
+			//{
+			//	if (theShapeType == b2Shape::Type::e_circle)
+			//	{
+			//		b2CircleShape* theCircle = (b2CircleShape*)theShape;
+			//
+			//		this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f,
+			//				(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) + (dimensions.y - dimensions.x) }, theCircle->m_radius);
+			//		
+			//
+			//		if (body->GetType() != b2BodyType::b2_staticBody)
+			//		{
+			//			glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y + theCircle->m_p.y };
+			//			b2Vec2 offset = { theCircle->m_radius, 0 };
+			//			offset = b2Mul(bodyTransform, offset);
+			//			DrawLineSegment(centre, { centre.x + theCircle->m_radius, centre.y });
+			//		}
+			//	}
+			//}
 
 			if (theShapeType == b2Shape::Type::e_polygon)
 			{
 				b2PolygonShape* thePoly = (b2PolygonShape*)theShape;
+
 				for (int i = 0; i < thePoly->m_count; i++)
 				{
 					b2Vec2 thisPos = b2Mul(bodyTransform, thePoly->m_vertices[i]);
@@ -178,18 +178,17 @@ namespace Kross
 			{
 				b2CircleShape* theCircle = (b2CircleShape*)theShape;
 
+
 				if (side == 0)
 				{
-					this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f,
-						(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) }, theCircle->m_radius);
+					this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f,	(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) }, theCircle->m_radius);
 					side++;
 				}
 				else
 				{
-					this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f, 
-						(bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) + (dimensions.y - dimensions.x) }, theCircle->m_radius);
+					this->DrawCircle({ (bodyTransform.p.x - dimensions.x * 0.5f) + dimensions.x * 0.5f, (bodyTransform.p.y - (dimensions.y - dimensions.x) * 0.5f) + (dimensions.y - dimensions.x) }, theCircle->m_radius);
 				}
-
+				
 				if (body->GetType() != b2BodyType::b2_staticBody)
 				{
 					glm::vec2 centre = { bodyTransform.p.x, bodyTransform.p.y + theCircle->m_p.y };
