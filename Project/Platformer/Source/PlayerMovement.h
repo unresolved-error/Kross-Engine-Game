@@ -135,7 +135,7 @@ public:
 
 			/* Grab the Input needed. */
 			input = Vector2(Input::GetAxis(Axis::KeyboardHorizontal), Input::GetAxis(Axis::KeyboardVertical));
-			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::W)));
+			jumpDir = Vector2(0.0f, (float)glm::sign(Input::GetKeyPressed(Key::Space) + Input::GetKeyPressed(Key::W) + Input::GetKeyPressed(Key::UpArrow)));
 		}
 		
 		/* If the Object isn't at the End of a Level. */
